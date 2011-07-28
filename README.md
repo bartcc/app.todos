@@ -6,7 +6,7 @@ Both examples work in conjunction with CakePHP framework as the backend.
 
 #Live Demo
 
-Checkout the live [Backbone based demo](http://app.anito.de/index.php?/todos_app) and [Spine based demo](http://app.anito.de/index.php?/tasks_app)
+Checkout the live [Backbone based demo](http://app.anito.de/index.php?/todos_app) and [Spine based demo](http://app.anito.de/index.php?/todos_app_spine)
 
 #Features Spine Todos
 

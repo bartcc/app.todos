@@ -6,7 +6,7 @@ class TodosAppController extends AppController {
     
     function beforeFilter() {
         $this->autoRender = true;
-        $this->layout = 'todos_app_layout';
+        $this->layout = 'todos_layout';
     }
     
     function index() {}

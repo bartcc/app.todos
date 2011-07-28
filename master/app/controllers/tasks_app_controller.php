@@ -6,7 +6,7 @@ class TasksAppController extends AppController {
     
     function beforeFilter() {
         $this->autoRender = true;
-        $this->layout = 'tasks_app_layout';
+        $this->layout = 'tasks_layout';
     }
     
     function index() {}

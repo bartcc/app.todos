@@ -46,7 +46,7 @@
         
         echo $this->Html->script('backbone/lib/backbone-localstorage');
         
-        echo $this->Html->script('backbone/app/todos/app.todos');
+        echo $this->Html->script('backbone/app/todos/application');
         echo $this->Html->script('backbone/app/todos/app.intro');
         
         echo $html->scriptStart();

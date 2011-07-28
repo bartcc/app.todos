@@ -34,7 +34,5 @@ class AppController extends Controller {
     
     function beforeFilter() {
         $this->autoRender = FALSE;
-        //$this->layout = FALSE;
-        
     }
 }

@@ -1,12 +1,12 @@
 <?php
-class TodosAppSpineController extends AppController {
+class TasksAppController extends AppController {
 
-	var $name = 'TodosAppSpine';
+	var $name = 'TasksApp';
     var $uses = array();
     
     function beforeFilter() {
         $this->autoRender = true;
-        $this->layout = 'todos_app_spine_layout';
+        $this->layout = 'tasks_app_layout';
     }
     
     function index() {}

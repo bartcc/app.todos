@@ -8,17 +8,11 @@ Both examples work in conjunction with CakePHP framework as the backend.
 
 Checkout the live [Backbone based demo](http://app.anito.de/index.php?/todos_app) and [Spine based demo](http://app.anito.de/index.php?/todos_app_spine)
 
-#Features Spine Todos
+#Features
 
 * Todo CRUD
 * Server Storage persistens
-* Mark all Tasks done/undone in memory and sync later
-* Drag'n Drop to reorder Tasks
-
-#Features Backbone Todos
-
-* Todo CRUD
-* Toggle Local Storage <-> Server Storage persistens
+* Toggle Local Storage <-> Server Storage persistens (Backbone only)
 * Mark all Tasks done/undone in memory and sync later
 * Drag'n Drop to reorder Tasks
 

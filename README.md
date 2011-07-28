@@ -26,7 +26,7 @@ Checkout the live [Backbone based demo](http://app.anito.de/index.php?/todos_app
 
 1. Checkout the Git repository
 2. Setup MySql using *.sql files in root directory
-3. Check out js files under /app/webroot/js/spine/ respectively /app/webroot/js/backbone/
+3. Check out js files under /app/webroot/js/spine/app/todos respectively /app/webroot/js/backbone/app/todos
    to see how everything works
 
 #Screenshot

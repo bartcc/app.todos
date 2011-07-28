@@ -1,26 +1,34 @@
-#Spine Contacts
+#Modified Spine / Backbone Todos
 
-Spine Contacts is an example application for the [Spine](http://github.com/maccman/spine) JavaScript library.
+Summary of 2 Todo examples for the [Spine](http://github.com/maccman/spine) and [Backbone](http://documentcloud.github.com/backbone/) JavaScript libraries.
 
-The application's CSS is customized towards WebKit browsers (Safari/Chrome) and won't display properly on others. 
+Both examples work in conjunction with CakePHP framework as the backend. 
 
 #Live Demo
 
 [Checkout the live demo](http://maccman.github.com/spine.contacts/) in Safari/Chrome.
 
-#Features
+#Features Spine Todos
 
-* Contact CRUD
-* Local Storage persistence
-* Filtering contacts
-* Emailing contacts
+* Todo CRUD
+* Server Storage persistens
+* Mark all Tasks done/undone in memory and sync later
+* Drag'n Drop to reorder Tasks
+
+#Features Backbone Todos
+
+* Todo CRUD
+* Toggle Local Storage <-> Server Storage persistens
+* Mark all Tasks done/undone in memory and sync later
+* Drag'n Drop to reorder Tasks
 
 #Usage
 
-1. Checkout the Git repository 
-1. Open index.html in Safari/Chrome
-1. Check out app/controllers and app/models to see how everything works
+1. Checkout the Git repository
+2. Setup MySql using *.sql files in root directory
+3. Check out js files under /app/webroot/js/spine/ respectively /app/webroot/js/backbone/
+   to see how everything works
 
 #Screenshot
 
-![Spine Contacts](https://lh5.googleusercontent.com/_IH1OempnqUc/TZpgYfnlUBI/AAAAAAAABKg/UYLhdmoc15o/s800/contacts.png)
+![Todos](https://lh3.googleusercontent.com/-ryuRC4ZyLzQ/TjHpoxjakoI/AAAAAAAAAC8/gSzlyIbsTaE/s512/Bildschirmfoto%2525202011-07-29%252520um%25252000.58.06.png)

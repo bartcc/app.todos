@@ -6,7 +6,7 @@ Both examples work in conjunction with CakePHP framework as the backend.
 
 #Live Demo
 
-[Checkout the live demo](http://maccman.github.com/spine.contacts/) in Safari/Chrome.
+Checkout the live demo [here](http://app.anito.de/index.php?/todos_app) and [here](http://app.anito.de/index.php?/tasks_app)
 
 #Features Spine Todos
 

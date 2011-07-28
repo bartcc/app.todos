@@ -19,47 +19,45 @@
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php __('CakePHP: Evaluating Backbone.js:'); ?>
-		<?php echo $title_for_layout; ?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
+  <head>
+    <?php echo $this->Html->charset(); ?>
+    <title>
+      <?php __('CakePHP: Evaluating Backbone.js:'); ?>
+      <?php echo $title_for_layout; ?>
+    </title>
+    <?php
+    echo $this->Html->meta('icon');
 
-		//echo $this->Html->css('cake.generic');
-        
-		echo $this->Html->css('todos');
-        
-        echo $this->Html->script('lib/json2');
-        
-        echo $this->Html->script('lib/jquery-1.6.1');
-        echo $this->Html->script('lib/jquery.ui.core');
-        echo $this->Html->script('lib/jquery.ui.widget');
-        echo $this->Html->script('lib/jquery.ui.mouse');
-        echo $this->Html->script('lib/jquery.ui.sortable');
-        
-        echo $this->Html->script('lib/underscore.debug');
-        
-        echo $this->Html->script('backbone/lib/backbone.debug');
-        
-        echo $this->Html->script('backbone/lib/backbone-localstorage');
-        
-        echo $this->Html->script('backbone/app/todos/application');
-        echo $this->Html->script('backbone/app/todos/app.intro');
-        
-        echo $html->scriptStart();
-        ?>
-            var base_url = '<?php echo $html->url('/'); ?>';
-        <?php
-        echo $html->scriptEnd();
+    //echo $this->Html->css('cake.generic');
 
-		echo $scripts_for_layout;
-	?>
-</head>
-<body>
-	<?php echo $content_for_layout; ?>
-	<?php echo $this->element('sql_dump'); ?>
-</body>
+    echo $this->Html->css('backbone/application');
+
+    echo $this->Html->script('lib/json2');
+
+    echo $this->Html->script('lib/jquery-1.6.1');
+    echo $this->Html->script('lib/jquery.ui.core');
+    echo $this->Html->script('lib/jquery.ui.widget');
+    echo $this->Html->script('lib/jquery.ui.mouse');
+    echo $this->Html->script('lib/jquery.ui.sortable');
+
+    echo $this->Html->script('lib/underscore.debug');
+
+    echo $this->Html->script('backbone/lib/backbone.debug');
+    echo $this->Html->script('backbone/lib/backbone-localstorage');
+    echo $this->Html->script('backbone/app/todos/application');
+    echo $this->Html->script('backbone/app/todos/app.intro');
+
+    echo $html->scriptStart();
+    ?>
+    var base_url = '<?php echo $html->url('/'); ?>';
+    <?php
+    echo $html->scriptEnd();
+
+    echo $scripts_for_layout;
+    ?>
+  </head>
+  <body>
+    <?php echo $content_for_layout; ?>
+    <?php echo $this->element('sql_dump'); ?>
+  </body>
 </html>

@@ -10,4 +10,4 @@ nbproject
 !/app/tmp/tests/
 !/app/tmp/cache/persistent/
 !/app/tmp/cache/models/
-app/config/database.php
+/app/config/database.php

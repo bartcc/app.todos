@@ -27,4 +27,4 @@ Checkout the live [Backbone based demo](http://app.anito.de/index.php?/todos_app
 
 #Screenshot
 
-![Todos](https://lh3.googleusercontent.com/-ryuRC4ZyLzQ/TjHpoxjakoI/AAAAAAAAAC8/gSzlyIbsTaE/s512/Bildschirmfoto%2525202011-07-29%252520um%25252000.58.06.png)
+![Todos](https://lh4.googleusercontent.com/-XRqHsuCyAms/TjIcXRRoskI/AAAAAAAAADU/Fbwze8uPokU/s576/Bildschirmfoto%2525202011-07-29%252520um%25252004.30.24.png)

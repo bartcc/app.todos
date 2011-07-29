@@ -1,6 +1,6 @@
 #Modified Spine / Backbone Todos
 
-Summary of 2 Todo examples based on [Spine](http://github.com/maccman/spine) and [Backbone](http://documentcloud.github.com/backbone/) JavaScript libraries.
+Summary of 2 Todo examples based on [Spine](http://maccman.github.com/spine/) and [Backbone](http://documentcloud.github.com/backbone/) JavaScript libraries.
 
 Both examples work in conjunction with CakePHP framework as the backend. 
 

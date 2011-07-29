@@ -1,31 +1,31 @@
 <?php
 
-class TasksController extends AppController {
+class ContactsController extends AppController {
 
-  var $name = 'Tasks';
-  var $helpers = array('Ajax', 'Js', 'Session');
+  var $name = 'Contacts';
+  var $helpers = array('Ajax', 'Js');
   var $components = array('RequestHandler');
 
   function index() {
-    $this->Task->recursive = 0;
-    $json = $this->Task->find('all', array('fields' => array('id', 'done', 'name', 'order'), 'order' => array('order')));
+    $this->Contact->recursive = 0;
+    $json = $this->Contact->find('all', array('fields' => array('id', 'first_name', 'last_name', 'email', 'mobile', 'work', 'address', 'notes')));
     $this->set('json', $json);
     $this->render(SIMPLE_JSON, 'ajax');
   }
 
   function view($id = null) {
     if (!$id) {
-      $this->Session->setFlash(__('Invalid todo', true));
+      $this->Session->setFlash(__('Invalid contact', true));
       $this->redirect(array('action' => 'index'));
     }
-    $this->set('json', $this->Task->read(null, $id));
+    $this->set('json', $this->Contact->read(null, $id));
     $this->render(SIMPLE_JSON, 'ajax');
   }
 
   function add() {
     $payload = $this->getPayLoad();
     // validate the record to make sure we have all the data
-    if (!isset($payload->name)) {
+    if (!isset($payload->id)) {
       // we got bad data so set up an error response and exit
       header('HTTP/1.1 400 Bad Request');
       header('X-Reason: Received an array of records when ' .
@@ -34,12 +34,26 @@ class TasksController extends AppController {
     }
 
     $id = $this->cleanValue($payload->id);
-    $name = $this->cleanValue($payload->name);
-    $done = $payload->done;
-    $order = $payload->order;
-    $this->data = array('name' => $name, 'done' => $done, 'id' => $id, 'order' => $order);
-    $this->Task->create();
-    $this->Task->save($this->data);
+    $first_name = $this->cleanValue($payload->first_name);
+    $last_name = $this->cleanValue($payload->last_name);
+    $email = $this->cleanValue($payload->email);
+    $mobile = $this->cleanValue($payload->mobile);
+    $work = $this->cleanValue($payload->work);
+    $address = $this->cleanValue($payload->address);
+    $notes = $this->cleanValue($payload->notes);
+    $this->data = array(
+        'id' => $id,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'email' => $email,
+        'mobile' => $mobile,
+        'work' => $work,
+        'address' => $address,
+        'notes' => $notes
+    );
+    $this->Contact->create();
+//        $this->data = array('id' => $this->Contact->id);
+    $this->Contact->save($this->data);
     $this->set('json', $this->data);
     $this->render(SIMPLE_JSON, 'ajax');
 //        header('HTTP/1.1 204 No Content');
@@ -53,11 +67,25 @@ class TasksController extends AppController {
     }
 
     $payload = $this->getPayLoad();
-    $name = $this->cleanValue($payload->name);
-    $done = $payload->done;
-    $order = $payload->order;
-    $this->data = array('id' => $id, 'name' => $name, 'done' => $done, 'order' => $order);
-    if ($this->Task->save($this->data)) {
+    $id = $this->cleanValue($payload->id);
+    $first_name = $this->cleanValue($payload->first_name);
+    $last_name = $this->cleanValue($payload->last_name);
+    $email = $this->cleanValue($payload->email);
+    $mobile = $this->cleanValue($payload->mobile);
+    $work = $this->cleanValue($payload->work);
+    $address = $this->cleanValue($payload->address);
+    $notes = $this->cleanValue($payload->notes);
+    $this->data = array(
+        'id' => $id,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+        'email' => $email,
+        'mobile' => $mobile,
+        'work' => $work,
+        'address' => $address,
+        'notes' => $notes
+    );
+    if ($this->Contact->save($this->data)) {
       $this->set('json', $this->data);
       $this->render(SIMPLE_JSON, 'ajax');
     }
@@ -68,7 +96,7 @@ class TasksController extends AppController {
     if (!$id) {
       exit;
     }
-    $this->Task->delete($id);
+    $this->Contact->delete($id);
   }
 
   private function getPayLoad() {
@@ -109,8 +137,8 @@ class TasksController extends AppController {
     $out = array();
     debug($arr);
     foreach ($arr as $key => $val) {
-      $val['Task']['done'] = $val['Task']['done'] == 1;
-      array_push($out, $val['Task']);
+      $val['Contact']['done'] = $val['Contact']['done'] == 1;
+      array_push($out, $val['Contact']);
     }
     return $out;
   }

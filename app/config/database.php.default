@@ -100,4 +100,13 @@ class DATABASE_CONFIG {
 		'password' => '',
 		'database' => 'todos_spine',
 	);
+ 
+	var $contacts_spine = array(
+		'driver' => 'mysql',
+		'persistent' => false,
+		'host' => 'localhost',
+		'login' => '',
+		'password' => '',
+		'database' => 'contacts_spine',
+	);
 }

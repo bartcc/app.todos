@@ -35,5 +35,5 @@
 
   Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-  Router::mapResources(array('todos', 'tasks', 'contacts', 'images', 'albums'));
+  Router::mapResources(array('todos', 'tasks', 'contacts'));
   //Router::parseExtensions();

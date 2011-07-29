@@ -19,8 +19,10 @@ Checkout the live [Backbone based demo](http://app.anito.de/index.php?/todos_app
 #Usage
 
 1. Checkout the Git repository
-2. Setup MySql using *.sql files in root directory
-3. Check out js files under /app/webroot/js/spine/app/todos respectively /app/webroot/js/backbone/app/todos
+2. Create MySql Databases todos_backbone and/or todos_spine
+3. Save database.php.default as database.php, fill in your login and password values
+4. Setup your MySql server using *.sql files located in root directory
+5. Check out js files under /app/webroot/js/spine/app/todos respectively /app/webroot/js/backbone/app/todos
    to see how everything works
 
 #Screenshot

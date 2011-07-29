@@ -1,7 +1,7 @@
 /nbproject/private/
 <<<<<<< HEAD
 /nbproject
-database.php
+/app/config/database.php
 =======
 nbproject
 /app/tmp/cache/models/*

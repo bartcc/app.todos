@@ -77,8 +77,8 @@ class DATABASE_CONFIG {
 		'driver' => 'mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => '',
-		'password' => '',
+		'login' => 'axel',
+		'password' => 'kakadax',
 		'database' => 'todos_backbone',
 		'prefix' => '',
 	);
@@ -87,8 +87,8 @@ class DATABASE_CONFIG {
 		'driver' => 'mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => '',
-		'password' => '',
+		'login' => 'axel',
+		'password' => 'kakadax',
 		'database' => 'todos_backbone',
 	);
     
@@ -96,8 +96,8 @@ class DATABASE_CONFIG {
 		'driver' => 'mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => '',
-		'password' => '',
+		'login' => 'axel',
+		'password' => 'kakadax',
 		'database' => 'todos_spine',
 	);
  
@@ -105,8 +105,8 @@ class DATABASE_CONFIG {
 		'driver' => 'mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => '',
-		'password' => '',
+		'login' => 'axel',
+		'password' => 'kakadax',
 		'database' => 'contacts_spine',
 	);
 }

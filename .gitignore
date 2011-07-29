@@ -14,5 +14,5 @@ nbproject
 /app/tmp/cache/models/*
 /app/tmp/cache/persistent/*
 >>>>>>> cd
-
+app/tmp_1
 app/config/database.php

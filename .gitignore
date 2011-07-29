@@ -6,7 +6,7 @@ nbproject
 /app/tmp/cache/views/*
 /app/tmp/sessions/*
 /app/tmp/tests/*
-
+/app/tmp/logs/*
 /app/tmp/cache/models/*
 /app/tmp/cache/persistent/*
 >>>>>>> cd

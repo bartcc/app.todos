@@ -45,7 +45,7 @@
 </script>
 <div id="views">
   <div id="tasks">
-    <h1>Tasks GitHub</h1>
+    <h1>Tasks Git</h1>
 
     <form id="create-todo">
       <input id="new-todo" type="text" placeholder="What needs to be done?">

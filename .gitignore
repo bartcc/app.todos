@@ -12,3 +12,4 @@ nbproject
 /app/tmp/cache/persistent/*
 >>>>>>> cd
 app/config/database.php
+/github.php

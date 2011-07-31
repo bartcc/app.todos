@@ -1,11 +1,13 @@
 /nbproject/private/
+<<<<<<< HEAD
+/nbproject
+=======
 nbproject
-/app/tmp/cache/models/*
-/app/tmp/cache/persistent/*
 /app/tmp/cache/views/*
 /app/tmp/sessions/*
 /app/tmp/tests/*
 /app/tmp/logs/*
-/app/config/database.php
 /app/tmp/cache/models/*
 /app/tmp/cache/persistent/*
+>>>>>>> cd
+app/config/database.php

@@ -7,7 +7,6 @@ class TodosController extends AppController {
   var $components = array('RequestHandler');
 
   function index() {
-    $this->log('Index received', LOG_DEBUG);
     $this->Todo->recursive = 0;
     $json = $this->Todo->find('all', array('fields' => array('id', 'done', 'order', 'content')));
     $this->set('json', $json);
@@ -68,7 +67,6 @@ class TodosController extends AppController {
   }
 
   function delete($id = null) {
-    $this->log('Delete received', LOG_DEBUG);
     if (!$id) {
       exit;
     }

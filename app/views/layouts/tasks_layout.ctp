@@ -19,15 +19,16 @@
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php __('CakePHP: Evaluating Spine.Js:'); ?>
-		<?php echo $title_for_layout; ?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
+  <head>
+    <?php echo $this->Html->charset(); ?>
+    <title>
+      <?php __('CakePHP: Evaluating Spine.Js:'); ?>
+      <?php echo $title_for_layout; ?>
+    </title>
+    <?php
+    echo $this->Html->meta('icon');
 
+<<<<<<< HEAD
 		//echo $this->Html->css('cake.generic');
         
 		echo $this->Html->css('spine/application');
@@ -58,12 +59,40 @@
             var base_url = '<?php echo $html->url('/'); ?>';
         <?php
         echo $html->scriptEnd();
+=======
+    //echo $this->Html->css('cake.generic');
+>>>>>>> master
 
-		echo $scripts_for_layout;
-	?>
-</head>
-<body>
-	<?php echo $content_for_layout; ?>
-	<?php echo $this->element('sql_dump'); ?>
-</body>
+    echo $this->Html->css('spine/application');
+
+    echo $this->Html->script('lib/json2');
+
+    echo $this->Html->script('lib/underscore.debug');
+
+    echo $this->Html->script('lib/jquery-1.6.1');
+    echo $this->Html->script('lib/jquery.tmpl');
+    echo $this->Html->script('lib/jquery.ui.core');
+    echo $this->Html->script('lib/jquery.ui.widget');
+    echo $this->Html->script('lib/jquery.ui.mouse');
+    echo $this->Html->script('lib/jquery.ui.sortable');
+
+    echo $this->Html->script('spine/lib/spine');
+    echo $this->Html->script('spine/lib/spine.local');
+    echo $this->Html->script('spine/lib/spine.ajax');
+    echo $this->Html->script('spine/app/todos/models/task');
+    echo $this->Html->script('spine/app/todos/application');
+
+    echo $html->scriptStart();
+    ?>
+    var base_url = '<?php echo $html->url('/'); ?>';
+    <?php
+    echo $html->scriptEnd();
+
+    echo $scripts_for_layout;
+    ?>
+  </head>
+  <body>
+    <?php echo $content_for_layout; ?>
+    <?php echo $this->element('sql_dump'); ?>
+  </body>
 </html>

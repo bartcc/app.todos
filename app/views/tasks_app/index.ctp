@@ -44,33 +44,8 @@
   <button title="Reloads a fresh set from server" class="primary_lg {{if busy}} disabled {{/if}}" type="button" {{if busy}} disabled {{/if}}>${value}</button>
 </script>
 <div id="views">
-<<<<<<< HEAD
-    <div id="tasks">
-        <h1>Life Tasks</h1>
-
-        <form id="create-todo">
-            <input id="new-todo" type="text" placeholder="What needs to be done?">
-            <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
-        </form>
-        <div>
-            <div id="todo-controls">
-                <fieldset>
-                    <legend>Client only settings</legend>
-                    <span id="button-checkall"></span>
-                    <span id="button-uncheckall"></span>
-                </fieldset>
-                <fieldset>
-                    <legend>Synchronize</legend>
-                    <span id="button-unsaved"></span>
-                    <span id="button-refresh"></span>
-                </fieldset>
-            </div>
-        </div>
-        <div class="items"></div>
-=======
   <div id="tasks">
-    <h1>Todos</h1>
->>>>>>> master
+    <h1>Life Tasks</h1>
 
     <form id="create-todo">
       <input id="new-todo" type="text" placeholder="What needs to be done?">

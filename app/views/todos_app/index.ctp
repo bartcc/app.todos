@@ -1,7 +1,7 @@
 <div id="todoapp">
 
   <div class="title" style="text-align: center; margin-bottom: 30px;">
-    <h1 style="display: inline;">Todos (Backbone)</h1>
+    <h1 style="display: inline;">Todos (Backbone) master branch</h1>
     <div id="storage-mode"></div>
   </div>
 

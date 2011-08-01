@@ -53,9 +53,12 @@ if (!defined('SIMPLE_JSON')) {
 }
 define('OS_MS', 'Microsoft');
 define('OS_UX', 'Unix');
-if(preg_match('/Microsoft/i', $_SERVER['SERVER_SOFTWARE'])) {
+define('OS_NO', '');
+$sw = $_SERVER['SERVER_SOFTWARE'];
+if(preg_match('/Microsoft/i', $sw)) {
   define('OS', OS_MS);
-} elseif (preg_match('/Unix/i', $_SERVER['SERVER_SOFTWARE'])) {
+} elseif (preg_match('/Unix/i', $sw)) {
   define('OS', OS_UX);
-  
+} else {
+  define('OS', OS_NO);
 }

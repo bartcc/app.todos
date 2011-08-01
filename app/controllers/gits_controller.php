@@ -27,8 +27,8 @@ class GitsController extends AppController {
   }
   
   function run_git($branch) {
-    if(!defined ('OS')) {
-      //die( );
+    if(OS === OS_NO) {
+      die( );
     } 
     if (OS === OS_MS) {
       $p = 'Windows  ';

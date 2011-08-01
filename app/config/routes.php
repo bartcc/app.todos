@@ -27,8 +27,9 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-  Router::connect('/git/*', array('controller' => 'gits', 'action' => 'exec'));
   Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+  Router::connectNamed(array('passed'));
+  Router::connect('/git/*', array('controller' => 'gits', 'action' => 'exec'));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.

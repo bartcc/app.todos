@@ -24,7 +24,6 @@ class GitsController extends AppController {
     } else {
       $this->redirect('/');
     }
-    die( );
   }
   
   function run_git($branch) {

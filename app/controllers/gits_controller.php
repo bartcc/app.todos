@@ -39,7 +39,6 @@ class GitsController extends AppController {
         $op = `git status 2>&1`;
       }
       
-      $this->log($_SERVER['SERVER_SOFTWARE'], LOG_DEBUG);
       return $op;
     } else {
       die( );

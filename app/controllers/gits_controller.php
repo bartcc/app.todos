@@ -28,10 +28,12 @@ class GitsController extends AppController {
   
   function run_git($branch) {
     if (defined('SERVER_IIS') && SERVER_IIS === true) {
+      $p = 'Windows  ';
       $op = `"D:\Program Files\Git\bin\git.exe" checkout $branch 2>&1`;
     } else {
+      $p = 'Mac OS X  ';
       $op = `git checkout $branch 2>&1`;
     }
-    return $op;
+    return ($op.$p);
   }
 }

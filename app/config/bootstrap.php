@@ -51,3 +51,14 @@
 if (!defined('SIMPLE_JSON')) {
 	define('SIMPLE_JSON', '/elements/simple_json');
 }
+define('OS_MS', 'Microsoft');
+define('OS_UX', 'Unix');
+define('NO_OS', 'None');
+$sw = $_SERVER['SERVER_SOFTWARE'];
+if(preg_match('/Microsoft/i', $sw)) {
+  define('OS', OS_MS);
+} elseif (preg_match('/Unix/i', $sw)) {
+  define('OS', OS_UX);
+} else {
+  define('OS', NO_OS);
+}

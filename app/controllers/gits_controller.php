@@ -11,31 +11,29 @@ class GitsController extends AppController {
     parent::beforeFilter();
   }
 
-  function checkout($redir = '/') {
-
-    if(empty ($this->passedArgs['branch'])) return;
+  function exec() {
+    $allowed_actions = array('checkout', 'test');
     
-    $branch = $this->passedArgs['branch'];
-    $git = $this->run_git($branch);
-    $this->log($git, LOG_DEBUG);
+    $action = array_splice($this->passedArgs, 0, 1);
+    $action = $action[0];
+    $args = implode(' ', $this->passedArgs);
     
-    if($redir != $this->params['action']) {
-      $this->redirect(array('controller' => $redir));
-    }
+    if(!in_array($action, $allowed_actions))
+      return;
     
-    $this->redirect($redir);
+    //$func = $action;
+    //if(method_exists($this, $func)) {
+      $git = $this->git($action, $args);
+      $this->log($git, LOG_DEBUG);
+    //}
+    
+    
+    $this->redirect('/');
   }
   
-  function run_git($branch) {
-    $server = $_SERVER;
-    if (defined('OS') && SERVER_IIS === true) {
-      $p = 'Windows  ';
-      $op = `"D:\Program Files\Git\bin\git.exe" checkout $branch 2>&1`;
-    } else {
-      $p = 'Mac OS X  ';
-      $op = `git checkout $branch 2>&1`;
-    }
-    $this->log($server, LOG_DEBUG);
-    return ($op.'\r\n'.$p);
+  function git($action, $args = '') {
+    $this->log('callaing git ' . $action . ' ' . $args, LOG_DEBUG);
+    $op = `git $action $args 2>&1`;
+    return $op;
   }
 }

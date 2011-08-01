@@ -28,7 +28,7 @@ class GitsController extends AppController {
     //}
     
     
-    $this->redirect('/');
+    echo $git;
   }
   
   function git($action, $args = '') {

@@ -51,3 +51,5 @@
 if (!defined('SIMPLE_JSON')) {
 	define('SIMPLE_JSON', '/elements/simple_json');
 }
+$base = Configure::read('App.baseUrl');
+define("OS", $base);

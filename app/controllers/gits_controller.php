@@ -19,7 +19,7 @@ class GitsController extends AppController {
     $git = $this->run_git($branch);
     $this->log($git, LOG_DEBUG);
     
-    if(isset ($redir) && $redir != $this->params['action']) {
+    if($redir != $this->params['action']) {
       $this->redirect(array('controller' => $redir));
     }
     

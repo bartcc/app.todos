@@ -24,7 +24,7 @@ class GitsController extends AppController {
     //$func = $action;
     //if(method_exists($this, $func)) {
       $git = $this->git($action, $args);
-      $this->log($git, LOG_DEBUG);
+      //$this->log($git, LOG_DEBUG);
     //}
     
     
@@ -32,7 +32,7 @@ class GitsController extends AppController {
   }
   
   function git($action, $args = '') {
-    $this->log('callaing git ' . $action . ' ' . $args, LOG_DEBUG);
+    //$this->log('callaing git ' . $action . ' ' . $args, LOG_DEBUG);
     $op = `git $action $args 2>&1`;
     return $op;
   }

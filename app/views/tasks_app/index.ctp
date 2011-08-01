@@ -45,7 +45,7 @@
 </script>
 <div id="views">
   <div id="tasks">
-    <h1>Master Tasks</h1>
+    <h1>Tasks</h1>
 
     <form id="create-todo">
       <input id="new-todo" type="text" placeholder="What needs to be done?">

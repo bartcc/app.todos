@@ -12,7 +12,7 @@ class GitsController extends AppController {
   }
 
   function exec() {
-    $allowed_actions = array('checkout', 'test');
+    $allowed_actions = array('checkout', 'status', 'pull');
     
     $action = array_splice($this->passedArgs, 0, 1);
     $action = $action[0];

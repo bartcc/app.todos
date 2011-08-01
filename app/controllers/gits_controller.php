@@ -31,12 +31,12 @@ class GitsController extends AppController {
     if(OS !== NO_OS) {
       
       if (OS === OS_MS) {
-        $op = `"D:\Program Files\Git\bin\git.exe" checkout $branch 2>&1`;
+        $op = `git checkout $branch 2>&1`;
       }
       
       if (OS === OS_UX) {
-//        $op = `git checkout $branch 2>&1`;
-        $op = `git status 2>&1`;
+        $op = `git checkout $branch 2>&1`;
+//        $op = `git status 2>&1`;
       }
       
       return $op;

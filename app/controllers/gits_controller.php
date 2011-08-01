@@ -27,11 +27,11 @@ class GitsController extends AppController {
     die( );
   }
   
-  function run_git($brunch) {
+  function run_git($branch) {
     if (defined('SERVER_IIS') && SERVER_IIS === true) {
-      $op = `"D:\Program Files\Git\bin\git.exe" checkout $brunch 2>&1`;
+      $op = `"D:\Program Files\Git\bin\git.exe" checkout $branch 2>&1`;
     } else {
-      $op = `git checkout 2>&1`;
+      $op = `git checkout $branch 2>&1`;
     }
     return $op;
   }

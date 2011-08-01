@@ -27,8 +27,8 @@ class GitsController extends AppController {
   }
   
   function run_git($branch) {
-    if(!defined (OS)) {
-      die( );
+    if(!defined ('OS')) {
+      //die( );
     } 
     if (OS === OS_MS) {
       $p = 'Windows  ';
@@ -38,7 +38,7 @@ class GitsController extends AppController {
       $p = 'Mac OS X  ';
       $op = `git checkout $branch 2>&1`;
     }
-    $this->log($server, LOG_DEBUG);
+    $this->log($_SERVER['SERVER_SOFTWARE'], LOG_DEBUG);
     return ($op.'\r\n'.$p);
   }
 }

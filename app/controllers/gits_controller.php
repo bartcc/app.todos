@@ -11,13 +11,12 @@ class GitsController extends AppController {
     parent::beforeFilter();
   }
 
-  function checkout($redir = '/') {
+  function exec($redir = '/') {
 
     if(empty ($this->passedArgs['branch'])) return;
     
     $branch = $this->passedArgs['branch'];
     $git = $this->run_git($branch);
-    $this->log($git, LOG_DEBUG);
     
     if($redir != $this->params['action']) {
       $this->redirect(array('controller' => $redir));
@@ -27,21 +26,7 @@ class GitsController extends AppController {
   }
   
   function run_git($branch) {
-    $this->log($_SERVER, LOG_DEBUG);
-    if(OS !== NO_OS) {
-      
-      if (OS === OS_MS) {
-        $op = `git checkout $branch 2>&1`;
-      }
-      
-      if (OS === OS_UX) {
-        $op = `git checkout $branch 2>&1`;
-//        $op = `git status 2>&1`;
-      }
-      
-      return $op;
-    } else {
-      die( );
-    }
+    $op = `git checkout $branch 2>&1`;
+    return $op;
   }
 }

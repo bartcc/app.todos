@@ -51,5 +51,10 @@
 if (!defined('SIMPLE_JSON')) {
 	define('SIMPLE_JSON', '/elements/simple_json');
 }
-$base = Configure::read('App.baseUrl');
-define("OS", $base);
+define('OS_MS', 'Microsoft');
+define('OS_UX', 'Unix');
+if(preg_match('/Microsoft/', $_SERVER['SERVER_SOFTWARE'])) {
+  define('OS', OS_MS);
+} elseif (preg_match('/Unix/', $_SERVER['SERVER_SOFTWARE'])) {
+  define('OS', OS_UX);
+}

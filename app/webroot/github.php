@@ -1,2 +1,2 @@
 <?php `git pull`;
-echo exec("git --exec-path");
+echo exec("git --version");

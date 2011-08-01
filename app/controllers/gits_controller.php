@@ -11,7 +11,7 @@ class GitsController extends AppController {
     parent::beforeFilter();
   }
 
-  function checkout($redir) {
+  function checkout($redir = '/') {
 
     if(empty ($this->passedArgs['branch'])) return;
     
@@ -23,10 +23,11 @@ class GitsController extends AppController {
       $this->redirect(array('controller' => $redir));
     }
     
-    $this->redirect('/');
+    $this->redirect($redir);
   }
   
   function run_git($branch) {
+    $server = $_SERVER;
     if (defined('SERVER_IIS') && SERVER_IIS === true) {
       $p = 'Windows  ';
       $op = `"D:\Program Files\Git\bin\git.exe" checkout $branch 2>&1`;
@@ -34,6 +35,7 @@ class GitsController extends AppController {
       $p = 'Mac OS X  ';
       $op = `git checkout $branch 2>&1`;
     }
-    return ($op.$p);
+    $this->log($server, LOG_DEBUG);
+    return ($op.'\r\n'.$p);
   }
 }

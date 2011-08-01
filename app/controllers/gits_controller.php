@@ -30,7 +30,7 @@ class GitsController extends AppController {
     if (defined('SERVER_IIS') && SERVER_IIS === true) {
       $op = `"D:\Program Files\Git\bin\git.exe" checkout $brunch 2>&1`;
     } else {
-      $op = `git checkout 2>&1`;
+      $op = `git checkout $brunch 2>&1`;
     }
     return $op;
   }

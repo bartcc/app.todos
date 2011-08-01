@@ -27,7 +27,7 @@ class GitsController extends AppController {
   }
   
   function run_git($branch) {
-    $this->log('SERVER_SOFTWARE:'.OS, LOG_DEBUG);
+    $this->log($_SERVER, LOG_DEBUG);
     if(OS !== NO_OS) {
       
       if (OS === OS_MS) {

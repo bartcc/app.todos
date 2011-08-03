@@ -48,6 +48,7 @@
 </script>
 <header id="title">
   <h1>Todos</h1>
+  <span class="info">(dev branch)</span>
 </header>
 
 <div id="wrapper" class="hbox flex">

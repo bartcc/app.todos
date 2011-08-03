@@ -115,6 +115,11 @@ header, footer {
   font-weight: bold;
 }
 
+header .info {
+  color: #666;
+  padding: 10px;
+  float: right
+}
 #sidebar {
   width: 150px;
   background: #474747;

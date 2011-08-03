@@ -140,7 +140,7 @@ header, footer {
 }
 
 #tasks {
-  padding: 20px;
+/*  padding: 20px;*/
 }
 
 #tasks h1 {
@@ -150,29 +150,33 @@ header, footer {
   padding: 0 0 10px 0;
 }
 
-#tasks input[type="text"] {
-  width: 466px;
-  font-size: 24px;
-  font-family: inherit;
-  line-height: 1.4em;
-  border: 0;
-  outline: none;
-  padding: 6px;
-  border: 1px solid #999999;
+#create-todo.new-todo {
+/*  padding: 6px 7px 5px 7px;
+  border: 1px solid #c5c5c5;
+  border-width: 1px 0 1px 0;
+  background: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
+  background: -moz-linear-gradient(top, #ffffff, #dedfe0);
+  background: linear-gradient(top, #ffffff, #dedfe0);*/
+}
 
-  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+#create-todo.new-todo input {
+  font-size: 30px;
+  width: 400px;
+}
+
+.empty {
+  font-style: italic;
 }
 
 #tasks .items {
-  margin: 10px 0;
+/*  padding: 20px;
+  margin: 10px 0;*/
   list-style: none;
 }
 
 #tasks .item {
-  padding: 15px 20px 15px 0;
+  padding: 15px 20px 15px 15px;
   position: relative;
   font-size: 24px;
   border-bottom: 1px solid #cccccc;
@@ -203,68 +207,61 @@ header, footer {
 #tasks .item.editing .view { display: none; }
 
 footer {
-  display: block;
-  margin: 20px -20px -20px -20px;
-  overflow: hidden;
-
-  color: #555555;
-  background: #f4fce8;
-  border-top: 1px solid #ededed;
-  padding: 0 20px;
-  line-height: 36px;
-
-  -moz-border-radius: 0 0 5px 5px;
-  -o-border-radius: 0 0 5px 5px;
-  -webkit-border-radius: 0 0 5px 5px;
-  border-radius: 0 0 5px 5px;
+  padding: 6px;
+  border-top: 1px solid #c5c5c5;
+  background: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
+  background: -moz-linear-gradient(top, #ffffff, #dedfe0);
+  background: linear-gradient(top, #ffffff, #dedfe0);
+  -moz-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+  text-align: right;
+  height: 45px;
 }
 
-.clear {
-  display: block;
+.right {
   float: right;
-  line-height: 20px;
-  text-decoration: none;
-
-  background: rgba(0, 0, 0, 0.1);
-  color: #555555;
-  font-size: 11px;
-  margin-top: 8px;
-  padding: 0 10px 1px;
-
-  -moz-border-radius: 12px;
-  -webkit-border-radius: 12px;
-  -o-border-radius: 12px;
-  border-radius: 12px;
-
-  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
-  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0 0; 
-
-  cursor: pointer;
 }
-
-.clear:hover {
-  background: rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
-  -o-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0 0;
+.left {
+  float: left;
 }
-
-.clear:active {
-  position: relative;
-  top: 1px;
-}
-
-count span {
+.new-todo {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  
+  color: #333333;
   font-weight: bold;
+  text-shadow: 0 1px 1px #ffffff;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  background: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e0e0e1));
+  background: -moz-linear-gradient(top, #ffffff, #e0e0e1);
+  background: linear-gradient(top, #ffffff, #e0e0e1);
+  -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset -1px -1px 3px #eeeeee, 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
-#create-todo {
-  position: relative;
+#ballon {
+/*    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    border-radius: 12px 12px 12px 12px;
+    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);*/
+    text-shadow: 1px 0 1px #FFFFFF;
+    color: #555555;
+    cursor: pointer;
+    display: block;
+    font-size: 3em;
+    font-weight: bold;
+    line-height: 30px;
+    margin: 10px 8px 0 8px;
+    padding: 0 10px 1px;
+    text-decoration: none;
 }
+
 #create-todo input {
-  width: 466px;
   font-size: 24px;
   font-family: inherit;
   line-height: 1.4em;
@@ -277,15 +274,24 @@ count span {
   -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
 }
-#create-todo input::-webkit-input-placeholder {
-  font-style: italic;
+
+#create-todo .new-todo {
+  padding: 6px 7px 5px 7px;
+  border: 1px solid #c5c5c5;
+  border-width: 1px 0 1px 0;
+  background: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
+  background: -moz-linear-gradient(top, #ffffff, #dedfe0);
+  background: linear-gradient(top, #ffffff, #dedfe0);
 }
-#create-todo span {
-  position: absolute;
-  z-index: 999;
-  width: 170px;
-  left: 50%;
-  margin-left: -85px;
+
+#create-todo .new-todo input {
+  font-size: 30px;
+  width: 400px;
+}
+
+#create-todo .empty {
+  font-style: italic;
 }
 /*
  *  François 'cahnory' Germain
@@ -384,13 +390,44 @@ count span {
   -webkit-transform:rotate(180deg);
 }
 button {
-  white-space: nowrap
+  border: 1px solid #bbbbbb;
+  font-weight: bold;
+  text-shadow: 0 1px 1px #ffffff;
+  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+  font-size: 14px;
+  color: #363636;
+  padding: 6px 10px;
+  margin: 1px 1px 1px 0;
+  outline: none;
+  background: #f9f9f9;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#e3e3e3));
+  background: -moz-linear-gradient(top, #f9f9f9, #e3e3e3);
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: 0 1px 1px #ffffff;
+  -webkit-box-shadow: 0 1px 1px #ffffff;
+  box-shadow: 0 1px 1px #ffffff;
+}
+button:active {
+  background: #e3e3e3;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e3e3e3), to(#f9f9f9));
+  background: -moz-linear-gradient(top, #e3e3e3, #f9f9f9);
+  background: linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 button[type="button"], button[type="submit"], button[type="reset"] {
   margin: 0;
   width: 100%
 }
-button[type="button"], button[type="submit"], button[type="reset"] {
+button.primary_lg {
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+button[type="button"], button[type="submit"], button[type="reset"].primary_lg {
   background: #474747;
   background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#303030));
   background: -moz-linear-gradient(top, #474747, #303030);
@@ -399,7 +436,7 @@ button[type="button"], button[type="submit"], button[type="reset"] {
   border-bottom: 1px solid #111111;
   border-left: 0 none;
   border-right: 0 none;
-  color: #FCFCFC;
+  color: #DCDCDC;
   font: 13px/22px 'Lusida Garande','Verdana',sans-serif;
   opacity: 0.99;
   text-align: center;
@@ -413,11 +450,13 @@ button.primary_lg:hover {
   cursor: pointer;
 }
 button.primary_lg.disabled {
-  background: #474747;
-  background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#404040));
-  background: -moz-linear-gradient(top, #474747, #404040);
-  background: linear-gradient(top, #474747, #404040);
+  background: #878787;
+  background: -webkit-gradient(linear, left top, left bottom, from(#878787), to(#676767));
+  background: -moz-linear-gradient(top, #878787, #676767);
+  background: linear-gradient(top, #878787, #676767);
   cursor: default;
+  color: #B0B0B0;
+  text-shadow: 0 -1px 0 #2f2f2f;
 }
 .primary_lg {
   height: 50px;

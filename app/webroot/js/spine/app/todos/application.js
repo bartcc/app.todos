@@ -71,8 +71,8 @@ jQuery(function($){
     proxied: ['addOne', 'addAll', 'renderCount', 'renderControls', 'renderSaveState', 'refreshList'],
 
     events: {
-      'submit form'                                   :'create',
-      'click .clear'                                  :'clear',
+      'keypress #create-todo input'                   :'create',
+      'click footer .clear'                           :'clear',
       'click #button-checkall button'                 :'markAllDone',
       'click #button-uncheckall button'               :'markAllUndone',
       'click #todo-controls #button-refresh button'   :'refreshList',
@@ -82,10 +82,10 @@ jQuery(function($){
     },
 
     elements: {
-      ".items":     "items",
-      ".countVal":  "count",
-      ".clear":     "clear",
-      "form input": "input"
+      ".items"                  :"items",
+      "#create-todo .countVal"  :"count",
+      "footer .clear"           :"clear",
+      "#create-todo input"      :"input"
     },
         
     buttonCheckallTemplate:     $.template(null, $('#button-checkall-template').html()),
@@ -158,6 +158,7 @@ jQuery(function($){
       
       var inactive = Task.done().length;
       this.clear[inactive ? "show" : "hide"]();
+      console.log(inactive)
     },
         
     renderControls: function() {
@@ -239,7 +240,9 @@ jQuery(function($){
       return attr;
     },
         
-    create: function(){
+    create: function(e){
+      console.log(e.keyCode)
+      if (e.keyCode != 13) return;
       var task = Task.create(this.newAttributes());
       this.input.val("");
       return false;

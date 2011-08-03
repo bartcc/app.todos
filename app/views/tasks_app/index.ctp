@@ -43,33 +43,38 @@
 <script type="text/x-jquery-tmpl" id="button-refresh-template">
   <button title="Reloads a fresh set from server" class="primary_lg {{if busy}} disabled {{/if}}" type="button" {{if busy}} disabled {{/if}}>${value}</button>
 </script>
-<div id="views">
-  <div id="tasks">
-    <h1>Dev Tasks</h1>
+<header id="title">
+  <h1>Dev Tasks</h1>
+</header>
 
-    <form id="create-todo">
-      <input id="new-todo" type="text" placeholder="What needs to be done?">
-      <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
-    </form>
+<div id="wrapper" class="hbox flex">
+  <div id="sidebar" class="vbox">
     <div>
       <div id="todo-controls">
-        <fieldset>
-          <legend>Client only settings</legend>
-          <span id="button-checkall"></span>
-          <span id="button-uncheckall"></span>
-        </fieldset>
-        <fieldset>
-          <legend>Synchronize</legend>
-          <span id="button-unsaved"></span>
-          <span id="button-refresh"></span>
-        </fieldset>
+        <span id="button-checkall"></span>
+        <span id="button-uncheckall"></span>
+        <span id="button-unsaved"></span>
+        <span id="button-refresh"></span>
       </div>
     </div>
-    <div class="items"></div>
+  </div>
+  <div class="vdivide"></div>
+  <div id="views" class="vbox flex">
+    <div id="tasks">
+      <h1>Dev Tasks</h1>
 
-    <footer>
-      <a class="clear">Clear completed</a>
-      <div class="count"><span class="countVal"></span> left</div>
-    </footer>
+      <form id="create-todo">
+        <input id="new-todo" type="text" placeholder="What needs to be done?">
+        <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
+      </form>
+      
+      <div class="items"></div>
+
+      
+    </div>
   </div>
 </div>
+<footer>
+  <a class="clear">Clear completed</a>
+  <div class="count"><span class="countVal"></span> left</div>
+</footer>

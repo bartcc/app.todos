@@ -33,8 +33,6 @@ class GitsController extends AppController {
       $git = $this->git($action, $args);
       //$this->log($git, LOG_DEBUG);
     //}
-    echo $git;
-    die();
     
     if(isset ($redir)) {
       $this->redirect(array('controller' => 'tasks_app'));

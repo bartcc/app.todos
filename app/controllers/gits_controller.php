@@ -28,7 +28,12 @@ class GitsController extends AppController {
     //}
     
     
-    echo $git;
+    if($this->passedArgs['redir'] == 'true') {
+      $redir = $this->passedArgs['redir'];
+      $this->redirect(array('controller' => 'tasks_app'));
+    } else {
+      echo $git;
+    }
   }
   
   function git($action, $args = '') {

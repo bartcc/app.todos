@@ -15,6 +15,13 @@ class GitsController extends AppController {
     $allowed_actions = array('checkout', 'status', 'pull');
     
     $action = array_splice($this->passedArgs, 0, 1);
+    
+    // look for redir key
+    if(array_key_exists('redir', $this->passedArgs)) {
+      $redir = $this->passedArgs['redir'];
+      unset ($this->passedArgs['redir']);
+    }
+    
     $action = $action[0];
     $args = implode(' ', $this->passedArgs);
     
@@ -27,8 +34,11 @@ class GitsController extends AppController {
       //$this->log($git, LOG_DEBUG);
     //}
     
-    
-    echo $git;
+    if(isset ($redir)) {
+      $this->redirect(array('controller' => 'tasks_app'));
+    } else {
+      echo $git;
+    }
   }
   
   function git($action, $args = '') {

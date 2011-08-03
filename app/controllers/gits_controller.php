@@ -28,7 +28,7 @@ class GitsController extends AppController {
     //}
     
     
-    if($this->passedArgs['redir'] == 'true') {
+    if(isset ($this->passedArgs['redir']) && $this->passedArgs['redir'] == 'true') {
       $redir = $this->passedArgs['redir'];
       $this->redirect(array('controller' => 'tasks_app'));
     } else {

@@ -35,7 +35,7 @@ class GitsController extends AppController {
       //$this->log($git, LOG_DEBUG);
     //}
     
-    if(isset ($redir) && redir == TRUE) {
+    if(isset ($redir) && $redir == TRUE) {
       $this->redirect(array('controller' => 'tasks_app'));
     } else {
       echo $git;

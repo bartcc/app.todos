@@ -48,8 +48,8 @@
 </script>
 <header id="title">
   <h1>Todos</h1>
-  <span class="info"><a href="/git/checkout/a:dev/redir" title="branch dev">dev</a></span>
-  <span class="info"><a href="/git/checkout/a:master/redir" title="branch master">master</a></span>
+  <span class="info"><a href="/git/checkout/a:dev/redir:true" title="branch dev">dev</a></span>
+  <span class="info"><a href="/git/checkout/a:master/redir:true" title="branch master">master</a></span>
   <span class="info">switch branch: </span>
 </header>
 

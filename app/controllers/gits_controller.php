@@ -25,7 +25,6 @@ class GitsController extends AppController {
     $action = $action[0];
     $args = implode(' ', $this->passedArgs);
     
-    $this->log($args, LOG_DEBUG);
     if(!in_array($action, $allowed_actions))
       return;
     
@@ -35,7 +34,7 @@ class GitsController extends AppController {
       //$this->log($git, LOG_DEBUG);
     //}
     
-    if(isset ($redir) && redir == TRUE) {
+    if(isset ($redir) && $redir == TRUE) {
       $this->redirect(array('controller' => 'tasks_app'));
     } else {
       echo $git;

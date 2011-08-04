@@ -25,7 +25,6 @@ class GitsController extends AppController {
     $action = $action[0];
     $args = implode(' ', $this->passedArgs);
     
-    $this->log($args, LOG_DEBUG);
     if(!in_array($action, $allowed_actions))
       return;
     

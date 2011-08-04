@@ -18,7 +18,7 @@ class GitsController extends AppController {
     
     // look for redir key
     if(array_key_exists('redir', $this->passedArgs)) {
-      $redir = $this->passedArgs['redir'];
+      $redir = TRUE;
       unset ($this->passedArgs['redir']);
     }
     
@@ -34,7 +34,7 @@ class GitsController extends AppController {
       //$this->log($git, LOG_DEBUG);
     //}
     
-    if(isset ($redir)) {
+    if(isset ($redir) && redir == TRUE) {
       $this->redirect(array('controller' => 'tasks_app'));
     } else {
       echo $git;

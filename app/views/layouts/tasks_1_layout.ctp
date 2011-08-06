@@ -22,7 +22,7 @@
   <head>
     <?php echo $this->Html->charset(); ?>
     <title>
-      <?php __('CakePHP: Evaluating Spine.js:'); ?>
+      <?php __('CakePHP: Evaluating Spine.Js:'); ?>
       <?php echo $title_for_layout; ?>
     </title>
     <?php
@@ -30,36 +30,28 @@
 
     //echo $this->Html->css('cake.generic');
 
-    echo $this->Html->css('contacts/application');
+    echo $this->Html->css('spine/application');
 
     echo $this->Html->script('lib/json2');
 
-    echo $this->Html->script('lib/jquery-1.6.1');
-//    echo $this->Html->script('lib/jquery.ui.core');
-    echo $this->Html->script('lib/jquery.tmpl');
-//    echo $this->Html->script('lib/jquery.link');
-//    echo $this->Html->script('lib/jquery.ui.widget');
-//    echo $this->Html->script('lib/jquery.ui.mouse');
-//    echo $this->Html->script('lib/jquery.ui.sortable');
+    echo $this->Html->script('lib/underscore.debug');
 
+    echo $this->Html->script('lib/jquery-1.6.1');
+    echo $this->Html->script('lib/jquery.tmpl');
+    echo $this->Html->script('lib/jquery.ui.core');
+    echo $this->Html->script('lib/jquery.ui.widget');
+    echo $this->Html->script('lib/jquery.ui.mouse');
+    echo $this->Html->script('lib/jquery.ui.sortable');
 
     echo $this->Html->script('spine/lib/spine');
-    echo $this->Html->script('spine/lib/spine.list');
-    echo $this->Html->script('spine/lib/spine.model.local');
+    echo $this->Html->script('spine/lib/spine.local');
     echo $this->Html->script('spine/lib/spine.ajax');
-    echo $this->Html->script('spine/lib/spine.model.filter');
-    echo $this->Html->script('spine/lib/utils');
+    
+    echo $this->Html->script('spine/app/todos_1/controllers/sidebar');
+    echo $this->Html->script('spine/app/todos_1/controllers/tasks');
+    echo $this->Html->script('spine/app/todos_1/models/task');
+    echo $this->Html->script('spine/app/todos_1/application');
 
-//    echo $this->Html->script('lib/underscore.debug');
-
-    echo $this->Html->script('spine/app/contacts/models/contact');
-    echo $this->Html->script('spine/app/contacts/controllers/sidebar');
-    echo $this->Html->script('spine/app/contacts/controllers/contacts');
-    echo $this->Html->script('spine/app/contacts/controllers/tests');
-    echo $this->Html->script('spine/app/contacts/application');
-    ?>
-
-    <?php
     echo $html->scriptStart();
     ?>
     var base_url = '<?php echo $html->url('/'); ?>';

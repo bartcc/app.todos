@@ -1,17 +1,18 @@
 jQuery(function($){
+  
   window.Contacts = Spine.Controller.create({
     elements: {
-      ".show": "showEl",
-      ".edit": "editEl",
-      ".show .content": "showContent",
-      ".edit .content": "editContent"
+      ".show"               : "showEl",
+      ".edit"               : "editEl",
+      ".show .content"      : "showContent",
+      ".edit .content"      : "editContent"
     },
     
     events: {
-      "click .optEdit": "edit",
-      "click .optEmail": "email",
-      "click .optDestroy": "destroy",
-      "click .optSave": "save"
+      "click .optEdit"      : "edit",
+      "click .optEmail"     : "email",
+      "click .optDestroy"   : "destroy",
+      "click .optSave"      : "save"
     },
     
     proxied: ["render", "show", "edit"],
@@ -67,4 +68,5 @@ jQuery(function($){
       this.show();
     }
   });
+  
 })

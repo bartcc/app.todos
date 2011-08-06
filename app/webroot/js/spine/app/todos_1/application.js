@@ -3,16 +3,16 @@ jQuery(function($){
     el: $("body"),
     
     elements: {
-      "#sidebar": "sidebarEl",
-      "#contacts": "contactsEl"
+      "#sidebar"    : "sidebarEl",
+      "#tasks"      : "taskEl"
     },
     
     init: function(){
       this.sidebar = Sidebar.init({
         el: this.sidebarEl
       });
-      this.contact = Contacts.init({
-        el: this.contactsEl
+      this.task = Tasks.init({
+        el: this.taskEl
       });
       
       Contact.fetch();

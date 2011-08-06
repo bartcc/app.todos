@@ -65,7 +65,7 @@ jQuery(function($){
   
   var sortableTodos = $('.items').sortable();
     
-  window.TaskApp = Spine.Controller.create({
+  window.Tasks = Spine.Controller.create({
     el: $("#tasks"),
     
     proxied: ['addOne', 'addAll', 'renderCount', 'renderControls', 'renderSaveState', 'refreshList'],
@@ -141,7 +141,6 @@ jQuery(function($){
     },
         
     markAllUndone: function(ev) {
-      console.log(Task)
       Task.ajax.enabled = false;
       Task.each(function(task) {
         if(task.done) {

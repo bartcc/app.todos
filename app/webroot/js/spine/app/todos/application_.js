@@ -6,16 +6,16 @@ jQuery(function($){
     proxied: ["render", "remove"],
     
     events: {
-      "change   input[type=checkbox]" :"toggle",
-      "click    .destroy"             :"destroy",
-      "dblclick .view"                :"edit",
-      "keypress input[type=text]"     :"blurOnEnter",
-      "blur     input[type=text]"     :"close"
+      "change   input[type=checkbox]": "toggle",
+      "click    .destroy":             "destroy",
+      "dblclick .view":                "edit",
+      "keypress input[type=text]":     "blurOnEnter",
+      "blur     input[type=text]":     "close"
     },
     
     elements: {
-      "input[type=text]"              :"input",
-      ".item"                         :"wrapper"
+      "input[type=text]": "input",
+      ".item": "wrapper"
     },
         
     init: function(){
@@ -141,7 +141,6 @@ jQuery(function($){
     },
         
     markAllUndone: function(ev) {
-      console.log(Task)
       Task.ajax.enabled = false;
       Task.each(function(task) {
         if(task.done) {
@@ -242,6 +241,7 @@ jQuery(function($){
     },
         
     create: function(e){
+      console.log(e.keyCode)
       if (e.keyCode != 13) return;
       var task = Task.create(this.newAttributes());
       this.input.val("");

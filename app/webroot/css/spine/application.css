@@ -293,6 +293,14 @@ footer {
 #create-todo .empty {
   font-style: italic;
 }
+
+.ui-tooltip-top {
+    left: 50%;
+    margin-left: -270px;
+    position: absolute;
+    width: 170px;
+    z-index: 999;
+}
 /*
  *  François 'cahnory' Germain
 */
@@ -301,10 +309,9 @@ footer {
   cursor:normal;
   display:-moz-inline-stack;
   display:inline-block;
-  font-size:12px;
   font-family:arial;
+  font-size: 12px;
   padding:.5em 1em;
-  position:relative;
   text-align:center;
   text-shadow:0 -1px 1px #111111;
   -webkit-border-top-left-radius:4px ;

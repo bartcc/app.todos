@@ -141,6 +141,7 @@ jQuery(function($){
     },
         
     markAllUndone: function(ev) {
+      console.log(Task)
       Task.ajax.enabled = false;
       Task.each(function(task) {
         if(task.done) {

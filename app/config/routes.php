@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes Configuration
  *
@@ -21,21 +22,20 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-  Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-  Router::connectNamed(array('passed'));
-  Router::connect('/git/*', array('controller' => 'gits', 'action' => 'exec'));
+Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+Router::connectNamed(array('passed'));
+Router::connect('/git/*', array('controller' => 'gits', 'action' => 'exec'));
+Router::connect('/mysql/*', array('controller' => 'mysql', 'action' => 'exec'));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.
  */
+Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-  Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
-
-  Router::mapResources(array('todos', 'tasks', 'contacts'));
-  //Router::parseExtensions();
+Router::mapResources(array('todos', 'tasks', 'contacts'));
+//Router::parseExtensions();

@@ -44,12 +44,12 @@ jQuery(function() {
         this.input    = this.$("#new-todo");
         this.sortableTodos = this.$('#todo-list');
 
-        this.Todos.bind('add',     this.addOne);
-        this.Todos.bind('reset', this.addAll);
-        this.Todos.bind('all',     this.render);
-        this.Todos.bind('refresh:list', this.refreshList);
+        App.Collections.Todos.bind('add',     this.addOne);
+        App.Collections.Todos.bind('reset', this.addAll);
+        App.Collections.Todos.bind('all',     this.render);
+        App.Collections.Todos.bind('refresh:list', this.refreshList);
         // custom event for changes on a model
-        this.Todos.bind('change:unsaved', this.renderSaveButton);
+        App.Collections.Todos.bind('change:unsaved', this.renderSaveButton);
         this.sortableTodos.sortable();
         this.renderStorage();
       },
@@ -58,7 +58,7 @@ jQuery(function() {
         // disable refresh button
         this.renderRefreshState(true);
         var that = this;
-        this.Todos.fetch({
+        App.Collections.Todos.fetch({
           success: function() {
             that.buffer = $();
           }
@@ -88,9 +88,9 @@ jQuery(function() {
       // of the app doesn't change.
       render: function() {
         this.$('#todo-stats').html(this.statsTemplate({
-          total:      this.Todos.length,
-          done:       this.Todos.done().length,
-          remaining:  this.Todos.remaining().length
+          total:      App.Collections.Todos.length,
+          done:       App.Collections.Todos.done().length,
+          remaining:  App.Collections.Todos.remaining().length
         }));
         this.$('#todo-controls #button-checkall').html(this.buttonCheckallTemplate({
           value:      'Mark all Done',
@@ -111,7 +111,7 @@ jQuery(function() {
       },
 
       renderSaveButton: function() {
-        var unsaved = this.Todos.filterUnsaved();
+        var unsaved = App.Collections.Todos.filterUnsaved();
         var value = function() {
           var val = '';
           switch (unsaved.length) {
@@ -133,7 +133,7 @@ jQuery(function() {
       },
 
       renderStorage: function() {
-        var value = this.Todos.toggleStorageMode();
+        var value = App.Collections.Todos.toggleStorageMode();
         this.$('#todo-controls #button-storage').html(this.buttonStorageTemplate({
           value:    value.button
         }));
@@ -163,9 +163,9 @@ jQuery(function() {
       // Add all items in the **Todos** collection at once.
       addAll: function() {
         // render save button
-        this.Todos.trigger('change:unsaved');
+        App.Collections.Todos.trigger('change:unsaved');
         // buffer all View in the list
-        this.Todos.each(this.addToBuffer);
+        App.Collections.Todos.each(this.addToBuffer);
         // send buffer to view
         $('#todo-list').html(this.buffer);
         // clear buffer
@@ -175,7 +175,7 @@ jQuery(function() {
       },
 
       markAllDone: function(ev) {
-        this.Todos.each(function(todo) {
+        App.Collections.Todos.each(function(todo) {
           todo.set({
             done: true
           }, {
@@ -187,19 +187,19 @@ jQuery(function() {
       },
 
       markAllUndone: function(ev) {
-        this.Todos.each(function(todo) {
+        App.Collections.Todos.each(function(todo) {
           todo.set({
             done: false
           }, {
             silent: false
           });
         })
-        this.Todos.trigger('change:unsaved');
+        App.Collections.Todos.trigger('change:unsaved');
 
       },
 
       saveUnsaved: function() {
-        this.UnsavedTodos.save();
+        App.Collections.UnsavedTodos.save();
       },
 
       // Generate the attributes for a new Todo item.
@@ -225,7 +225,7 @@ jQuery(function() {
 
       // Clear all done todo items, destroying their models.
       clearCompleted: function() {
-        _.each(this.Todos.done(), function(todo){
+        _.each(App.Collections.Todos.done(), function(todo){
           todo.clear();
         });
         return false;

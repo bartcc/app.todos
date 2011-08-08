@@ -4,7 +4,6 @@ jQuery(function() {
     
     var SidebarView = Backbone.View;
 
-      
     return SidebarView;
     
   })()

@@ -6,10 +6,10 @@ jQuery(function() {
       el: 'body',
       
       initialize: function() {
-        NS.Main = new App.Views.MainView({
+        NS.Main = new NS.MainView({
           el: $("#todoapp")
         });
-        NS.Sidebar = new App.Views.SidebarView({
+        NS.Sidebar = new NS.SidebarView({
           el:  "#sidebar"
         });
       }

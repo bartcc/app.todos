@@ -52,7 +52,7 @@
 <ul id="instructions">
   <li>Double-click to edit a todo.</li>
   <li>Click, hold and drag to reorder your todos.</li>
-  <li>Yellow background indicates unsaved todos.</li>
+  <li>Blue background indicates unsynced todos.</li>
 </ul>
 
 <div id="credits">

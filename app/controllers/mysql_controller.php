@@ -44,8 +44,6 @@ class MysqlController extends AppController {
     
     
     $cmd = sprintf('%1s -uaxel -pkakadax -h 192.168.1.16 todos_backbone %2s E:/Sites/php/mysql_backup/file.sql 2>&1', $postfix, $io);
-//    $cmd = sprintf('%1s -uaxel -pkakadax -h 192.168.1.11 todos_backbone %2s /Users/axel/file.sql', $postfix, $io);
-    $this->log($cmd, LOG_DEBUG);
     $op = `$cmd`;
     return $op;
   }

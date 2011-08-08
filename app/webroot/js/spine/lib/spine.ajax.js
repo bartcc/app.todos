@@ -120,7 +120,7 @@
             this.fetch(this.proxy(function(params){
                 Ajax.ajaxSync(this, "read", params);
             }));
-            this.getAjax(function(){
+            this.ajax(function(){
                 return Ajax;
             });
         }
@@ -133,7 +133,7 @@
             return base_url + this.name.toLowerCase() + "s"
         },
         
-        getAjax: function(fn) {
+        ajax: function(fn) {
             this.ajax = fn.call(fn);
         }
     });

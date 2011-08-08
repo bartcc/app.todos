@@ -3,10 +3,8 @@
   <div class="title" style="text-align: center; margin-bottom: 30px;">
     <h1 style="display: inline;">Todos Dev</h1>
     <div id="storage-mode"></div>
-    <div id="sidebar"></div>
   </div>
-  
-  
+
   <div class="content">
     
     <div id="create-todo">

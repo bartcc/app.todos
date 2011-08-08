@@ -1,4 +1,5 @@
 jQuery(function($){
+  
   window.App = Spine.Controller.create({
     el: $("body"),
     
@@ -18,4 +19,5 @@ jQuery(function($){
       Contact.fetch();
     }
   }).init();
+  
 });

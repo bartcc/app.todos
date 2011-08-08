@@ -1,0 +1,1 @@
+App.NS('Models').UnsavedTodo = Backbone.Model;

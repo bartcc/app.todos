@@ -31,10 +31,10 @@ class MysqlController extends AppController {
   
   function mysql($action, $args = '') {
     if($action == 'dump') {
-      $postfix = 'dump';
+      $postfix = 'mysqldump';
       $io = '>';
     } elseif ($action == 'restore') {
-      $postfix = ' ';
+      $postfix = 'mysql';
       $io = '<';
     } elseif (isempty($action)) {
       $cmd = 'mysql connect 192.168.1.16 2>&1';
@@ -43,8 +43,8 @@ class MysqlController extends AppController {
     }
     
     
-    $cmd = sprintf('mysql%1s -uaxel -pkakadax -h 192.168.1.16 todos_backbone %2s Z:/mysql_backup/file.sql', $postfix, $io);
-//    $cmd = sprintf('mysql%1s -uaxel -pkakadax -h 192.168.1.11 todos_backbone %2s /Users/axel/file.sql', $postfix, $io);
+//    $cmd = sprintf('%1s -uaxel -pkakadax -h 192.168.1.16 todos_backbone %2s Z:/mysql_backup/file.sql', $postfix, $io);
+    $cmd = sprintf('%1s -uaxel -pkakadax -h 192.168.1.11 todos_backbone %2s /Users/axel/file.sql', $postfix, $io);
     $this->log($cmd, LOG_DEBUG);
     $op = `$cmd`;
     return $op;

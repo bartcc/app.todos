@@ -1,21 +1,64 @@
 jQuery(function() {
   
-  App.Views.AppView = (function(NS) {
-    var AppView = Backbone.View.extend({
+  exports.NS('App.Views').App = (function(NS) {
+    
+    var App = Backbone.View.extend({
       
       el: 'body',
       
       initialize: function() {
-        NS.Main = new NS.MainView({
-          el: $("#todoapp")
+        
+        this.Main = new NS.MainView({
+          el: $("#main")
         });
-        NS.Sidebar = new NS.SidebarView({
+        this.Sidebar = new NS.SidebarView({
           el:  "#sidebar"
         });
+        
+      }
+    },
+    {
+      parent: function() {
+        return this;
       }
     })
     
-    return new AppView;
+    return new App;
     
-  })(App.NS('Views'))
+  })(exports.NS('App.Views'))
+  
 })
+
+
+
+
+
+
+
+//jQuery(function() {
+//  
+//  exports.NS('_').App = (function(NS) {
+//    var App = Backbone.View.extend({
+//      
+//      el: 'body',
+//      
+//      initialize: function() {
+//        console.log('inititalize App ')
+//        this.main = new NS.MainView({
+//          el: $("#main")
+//        });
+//        this.sidebar = new NS.SidebarView({
+//          el:  "#sidebar"
+//        });
+//      }
+//    },
+//    {
+//      parent: function() {
+//        return this;
+//      }
+//    })
+//    
+//    return new App;
+//    
+//  })(exports.NS('App.Views'))
+//})

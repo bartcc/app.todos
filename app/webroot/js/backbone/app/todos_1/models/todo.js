@@ -1,4 +1,4 @@
-App.NS('Models').Todo = (function() {
+exports.NS('App.Models').Todo = (function() {
     
   // Todo Model
   // ----------
@@ -37,7 +37,7 @@ App.NS('Models').Todo = (function() {
       var options = {
         success: function(model, response) {
           that.saveModelState();
-          App.Collections.Todos.trigger('change:unsaved');
+          App.Views.App.Sidebar.trigger('change:unsaved');
         }
       }
       options = _.extend(options, opts);
@@ -58,6 +58,7 @@ App.NS('Models').Todo = (function() {
 
     // Remove this Todo from *localStorage* and delete its view.
     clear: function() {
+      
       var that = this;
       this.destroy({
         success: function() {
@@ -66,7 +67,7 @@ App.NS('Models').Todo = (function() {
           // remove from view
           that.view.remove();
           // update unsaved count
-          App.Collections.Todos.trigger('change:unsaved');
+          App.Views.App.Sidebar.trigger('change:unsaved');
         }
       });
     },

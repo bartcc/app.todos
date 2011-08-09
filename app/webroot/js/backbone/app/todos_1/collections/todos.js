@@ -1,4 +1,4 @@
-App.NS('Collections').Todos = (function() {
+exports.NS('App.Collections').Todos = (function() {
   
   var TodosList = Backbone.Collection.extend({
 
@@ -13,18 +13,21 @@ App.NS('Collections').Todos = (function() {
     },
 
     toggleStorageMode: function(mode) {
+      
       var mapMode = {
         'local':    {
-          button: 'Switch to Server Storage', 
+          button: 'Server', 
           header: 'Local Mode'
         },
         'server':   {
-          button: 'Switch to Local Storage', 
+          button: 'Local', 
           header: 'Server Mode'
         }
       },
+      
       local = this.persistModes.local,
       server = this.persistModes.server,
+      
       useMode = _.bind(function() {
         switch (mode){
           case local:
@@ -40,10 +43,11 @@ App.NS('Collections').Todos = (function() {
             Backbone.sync = Backbone.serverSync;
             break;
         }
-  //        window.UnsavedTodos = new UnsavedList;
+        
         App.Collections.UnsavedTodos.reset();
+        
         this.storageMode = mode;
-        this.trigger('refresh:list');
+//        this.trigger('refresh:list', mode);
       }, this)
 
       var mode = mode ? mode : this.storageMode ? this.storageMode == local ? server : local : this.defaultMode;

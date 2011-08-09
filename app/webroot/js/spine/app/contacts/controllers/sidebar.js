@@ -11,7 +11,8 @@ jQuery(function($){
   
     // Attach event delegation
     events: {
-      "click button": "create",
+      "dblclick button": "create",
+      "click button": "test",
       "keyup input":  "filter",
       "click input":  "filter"
     },
@@ -24,7 +25,11 @@ jQuery(function($){
     template: function(items){
       return($("#contactsTemplate").tmpl(items));
     },
-  
+    
+    test: function() {
+      console.log(this)
+    },
+    
     init: function(){
       
       this.list = Spine.List.init({

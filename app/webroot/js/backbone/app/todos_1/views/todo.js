@@ -1,6 +1,6 @@
 jQuery(function() {
 
-  App.NS('Views').TodoView = (function() {
+  exports.NS('App.Views').TodoView = (function() {
     
     var TodoView = Backbone.View.extend({
 
@@ -13,17 +13,24 @@ jQuery(function() {
       // The DOM events specific to an item.
       events: {
         "click .check"              : "toggleDone",
-        "dblclick div.todo-content" : "edit",
-        "click span.todo-destroy"   : "clear",
-        "keypress .todo-input"      : "updateOnEnter"
+        "dblclick .display"         : "edit",
+        "click .display"            : "check",
+        "click a.destroy"           : "clear",
+        "blur input[type=text]"     : "close",
+        "keypress input[type=text]" : "updateOnEnter"
       },
-
+      
+      check: function() {
+        console.log(TodoView.test)
+      },
+      
       // The TodoView listens for changes to its model, re-rendering. Since there's
       // a one-to-one correspondence between a **Todo** and a **TodoView** in this
       // app, we set a direct reference on the model for convenience.
       initialize: function() {
         _.bindAll(this, 'render', 'close');
-
+        
+        this.input = this.$('.todo-input');
         this.model.bind('change', this.render);
         this.model.view = this;
       },
@@ -42,9 +49,7 @@ jQuery(function() {
       setContent: function() {
         var content = this.model.get('content');
         this.$('.todo-content').text(content);
-        this.input = this.$('.todo-input');
-        this.input.bind('blur', this.close);
-        this.input.val(content);
+        this.$('.todo-input').val(content);
       },
 
       // Toggle the `"done"` state of the model.
@@ -54,16 +59,16 @@ jQuery(function() {
 
       // Switch this view into `"editing"` mode, displaying the input field.
       edit: function() {
-        $(this.el).addClass("editing");
-        this.input.focus();
+        this.$('.item').addClass("editing");
+        this.$('input[type=text]').focus();
       },
 
       // Close the `"editing"` mode, saving changes to the todo.
       close: function() {
         this.model.save({
-          content: this.input.val()
+          content:  this.$('input[type=text]').val()
         });
-        $(this.el).removeClass("editing");
+        this.$('.item').removeClass("editing");
       },
 
       // If you hit `enter`, we're through editing the item.
@@ -79,6 +84,12 @@ jQuery(function() {
       // Remove the item, destroy the model.
       clear: function() {
         this.model.clear();
+      }
+    },
+    {
+      test: function() {
+        var t = {todo: 'Todo'};
+        return t.todo;
       }
     })
     

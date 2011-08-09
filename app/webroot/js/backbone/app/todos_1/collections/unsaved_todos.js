@@ -1,4 +1,4 @@
-App.NS('Collections').UnsavedTodos = (function() {
+exports.NS('App.Collections').UnsavedTodos = (function() {
   
   var UnsavedList = Backbone.Collection.extend({
 
@@ -33,7 +33,7 @@ App.NS('Collections').UnsavedTodos = (function() {
         }
       })
       App.Collections.Todos.unflag();
-      App.Collections.Todos.trigger('change:unsaved');
+      App.Views.Sidebar.trigger('change:unsaved');
     }
   },
   {

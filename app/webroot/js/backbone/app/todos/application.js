@@ -478,7 +478,7 @@ $(function(){
         value:    value.header
       }));
     },
-        
+    
     // buffers a TodoView
     addToBuffer: function(todo) {
       var view = new TodoView({

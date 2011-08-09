@@ -52,7 +52,7 @@ jQuery(function($){
     },
         
     close: function(){
-      this.wrapper.removeClass("editing");
+      //this.wrapper.removeClass("editing");
       this.item.updateAttributes({
         name: this.input.val()
       });

@@ -12,8 +12,8 @@ jQuery(function($){
     "mobile", "work", "address"],
 
     nameSort: function(a, b){
-      var aa = a.first_name.toLowerCase();
-      var bb = b.first_name.toLowerCase();
+      var aa = (a || '').first_name.toLowerCase();
+      var bb = (b || '').first_name.toLowerCase();
       if(aa == bb) {
         return 0;
       } else {

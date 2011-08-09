@@ -90,7 +90,7 @@ $(function(){
         // Reference to this collection's model.
         model: Todo,
         
-        defaultMode: 'local',
+        defaultMode: 'server',
         
         persistModes: {local: 'local', server: 'server'},
         

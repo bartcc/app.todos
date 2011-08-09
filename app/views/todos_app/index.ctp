@@ -1,8 +1,9 @@
 <div id="todoapp">
 
-  <div class="title" style="text-align: center; margin-bottom: 30px;">
+  <div class="title" style="text-align: center; margin-bottom: 30px; position: relative;">
     <h1 style="display: inline;">Todos</h1>
     <div id="storage-mode"></div>
+    <span id="play" style=" position: absolute; top: 20px; right: 0;"><a href="#" onclick="play(); return false;"><img src="img/play.png"></img></a></span>
   </div>
 
   <div class="content">
@@ -17,20 +18,20 @@
         <div id="todo-controls" class="showhide" style="display: none;">
           <fieldset>
             <legend class="showhide-controls" style="cursor: pointer"><span class="ui-icon ui-icon-triangle"></span><span class="legend" id="storage-box">Storage Mode</span></legend>
-            <div class="showhide" style="display: none;">
+            <div class="showhide" style="">
               <span id="button-storage"></span>
             </div>
           </fieldset>
           <fieldset>
             <legend class="showhide-controls" style="cursor: pointer"><span class="ui-icon ui-icon-triangle"></span><span class="legend" id="client-box">Client only settings</span></legend>
-            <div class="showhide" style="display: none;">
+            <div class="showhide" style="">
               <span id="button-checkall"></span>
               <span id="button-uncheckall"></span>
             </div>
           </fieldset>
           <fieldset>
             <legend class="showhide-controls" style="cursor: pointer"><span class="ui-icon ui-icon-triangle"></span><span class="legend" id="sync-box">Synchronize</span></legend>
-            <div class="showhide" style="display: none;">
+            <div class="showhide" style="">
               <span id="button-unsaved"></span>
               <span id="button-refresh"></span>
             </div>

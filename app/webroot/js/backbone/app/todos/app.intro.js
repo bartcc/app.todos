@@ -1,4 +1,5 @@
 $(function() {
+  return;
     setTimeout(function(){
         App.showhideControls('#main-box', 200);
         setTimeout(function() {

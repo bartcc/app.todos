@@ -9,7 +9,7 @@ jQuery(function($){
       "change   input[type=checkbox]": "toggle",
       "click    .destroy":             "destroy",
       "dblclick .view":                "edit",
-      "keypress input[type=text]":     "blurOnEnter",
+      "keypress input[type=text]":     "blurOnEnter"
       "blur     input[type=text]":     "close"
     },
     

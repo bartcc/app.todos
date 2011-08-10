@@ -14,14 +14,9 @@ jQuery(function() {
       events: {
         "click .check"              : "toggleDone",
         "dblclick .display"         : "edit",
-        "click .display"            : "check",
         "click a.destroy"           : "clear",
         "blur input[type=text]"     : "close",
         "keypress input[type=text]" : "updateOnEnter"
-      },
-      
-      check: function() {
-//        console.log(TodoView.test)
       },
       
       // The TodoView listens for changes to its model, re-rendering. Since there's
@@ -84,12 +79,6 @@ jQuery(function() {
       // Remove the item, destroy the model.
       clear: function() {
         this.model.clear();
-      }
-    },
-    {
-      test: function() {
-        var t = {todo: 'Todo'};
-        return t.todo;
       }
     })
     

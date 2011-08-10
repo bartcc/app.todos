@@ -35,7 +35,6 @@ jQuery(function() {
         Todos.Collections.Todos.bind('add',     this.addOne);
         Todos.Collections.Todos.bind('reset',   this.addAll);
         Todos.Collections.Todos.bind('all',     this.render);
-        
         Todos.bind('change:background', this.renderBackground);
         
         this.sortableTodos.sortable();
@@ -146,7 +145,7 @@ jQuery(function() {
 
     },
     {
-      test: {main: 'Main'}
+      // Static
     })
     
     return MainView;

@@ -17,9 +17,7 @@ jQuery(function() {
       }
     },
     {
-      parent: function() {
-        return this;
-      }
+      // Class
     })
     
     return new App;
@@ -27,37 +25,3 @@ jQuery(function() {
   })(exports.NS('Todos.Views'))
   
 })
-
-
-
-
-
-
-
-//jQuery(function() {
-//  
-//  exports.NS('_').App = (function(NS) {
-//    var App = Backbone.View.extend({
-//      
-//      el: 'body',
-//      
-//      initialize: function() {
-//        console.log('inititalize App ')
-//        this.main = new NS.MainView({
-//          el: $("#main")
-//        });
-//        this.sidebar = new NS.SidebarView({
-//          el:  "#sidebar"
-//        });
-//      }
-//    },
-//    {
-//      parent: function() {
-//        return this;
-//      }
-//    })
-//    
-//    return new App;
-//    
-//  })(exports.NS('Todos.Views'))
-//})

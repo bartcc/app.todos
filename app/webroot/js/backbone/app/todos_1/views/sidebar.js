@@ -139,7 +139,7 @@ jQuery(function() {
 
     },
     {
-      test: {sidebar: 'Sidebar'}
+      //Static
     })
 
     return SidebarView;

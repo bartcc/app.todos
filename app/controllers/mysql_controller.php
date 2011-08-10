@@ -13,21 +13,21 @@ class MysqlController extends AppController {
   }
 
   function exec() {
-    App::import('Helper', 'Html');
     $allowed_actions = array('dump', 'restore', 'connect');
-    $this->log($this->params, LOG_DEBUG);
-    die();
+    $this->log(BASE_URL, LOG_DEBUG);
+    $this->log(WEB_URL, LOG_DEBUG);
+    
     $action = array_splice($this->passedArgs, 0, 1);
     $action = $action[0];
     $args = implode(' ', $this->passedArgs);
     
     if(!in_array($action, $allowed_actions)) {
       echo 'command not in list of allowed commands';
-      die(' ');
+      header("Location: http://".$_SERVER['HTTP_HOST']. BASE_URL . 'todos_app');
     }
     
     $mysql = $this->mysql($action, $args);
-    header("Location: http://".$_SERVER['HTTP_HOST'].'/todos_app/');
+    header("Location: http://".$_SERVER['HTTP_HOST']. BASE_URL . 'todos_app');
   }
   
   function mysql($action, $args = '') {

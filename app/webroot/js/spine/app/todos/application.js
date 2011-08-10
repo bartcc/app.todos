@@ -6,19 +6,11 @@ jQuery(function($){
     proxied: ["render", "remove"],
     
     events: {
-<<<<<<< HEAD
-      "change   input[type=checkbox]": "toggle",
-      "click    .destroy":             "destroy",
-      "dblclick .view":                "edit",
-      "keypress input[type=text]":     "blurOnEnter"
-      "blur     input[type=text]":     "close"
-=======
       "change   input[type=checkbox]" :"toggle",
       "click    .destroy"             :"destroy",
       "dblclick .view"                :"edit",
       "keypress input[type=text]"     :"blurOnEnter",
       "blur     input[type=text]"     :"close"
->>>>>>> dev
     },
     
     elements: {

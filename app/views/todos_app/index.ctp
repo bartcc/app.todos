@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-<div id="todoapp">
-
-  <div class="title" style="text-align: center; margin-bottom: 30px; position: relative;">
-    <h1 style="display: inline;">Todos</h1>
-    <div id="storage-mode"></div>
-    <span id="play" style=" position: absolute; top: 20px; right: 0;"><a href="#" onclick="play(); return false;"><img src="img/play.png"></img></a></span>
-=======
 <header id="title">
   <h1>Todos</h1>
 </header>
@@ -25,7 +17,6 @@
         </footer>
       </div>
     </div>
->>>>>>> dev
   </div>
   <div class="vdivide"></div>
   <div id="main" class="vbox flex">
@@ -40,41 +31,10 @@
 
       <div id="todo-list" class="items vbox flex autoflow"></div>
 
-<<<<<<< HEAD
-    <div id="create-todo">
-      <input id="new-todo" placeholder="What needs to be done?" type="text" />
-      <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
-    </div>
-    <div>
-      <fieldset style="padding-bottom: 10px;">
-        <legend class="showhide-controls" style="cursor: pointer"><span class="ui-icon ui-icon-triangle"></span><span class="legend" id="main-box">Show/Hide Options</span></legend>
-        <div id="todo-controls" class="showhide" style="display: none;">
-          <fieldset>
-            <legend class="showhide-controls" style="cursor: pointer"><span class="ui-icon ui-icon-triangle"></span><span class="legend" id="storage-box">Storage Mode</span></legend>
-            <div class="showhide" style="">
-              <span id="button-storage"></span>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="showhide-controls" style="cursor: pointer"><span class="ui-icon ui-icon-triangle"></span><span class="legend" id="client-box">Client only settings</span></legend>
-            <div class="showhide" style="">
-              <span id="button-checkall"></span>
-              <span id="button-uncheckall"></span>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="showhide-controls" style="cursor: pointer"><span class="ui-icon ui-icon-triangle"></span><span class="legend" id="sync-box">Synchronize</span></legend>
-            <div class="showhide" style="">
-              <span id="button-unsaved"></span>
-              <span id="button-refresh"></span>
-            </div>
-          </fieldset>
-=======
       <footer class="hbox">
         <div id="storage-mode"><span>aslkjdlaksdjlaksdjalskd</span></div>
         <div class="flex">
           <button class="clear">Clear completed</button>
->>>>>>> dev
         </div>
       </footer>
     </div>

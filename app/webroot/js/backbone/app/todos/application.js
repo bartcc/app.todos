@@ -107,40 +107,6 @@ $(function(){
           button: 'Switch to Local Storage', 
           header: 'Server Mode'
         }
-<<<<<<< HEAD
-    });
-
-    // Todo Collection
-    // ---------------
-
-    // The collection of todos is backed by *localStorage* instead of a remote
-    // server.
-    window.TodoList = Backbone.Collection.extend({
-
-        // Reference to this collection's model.
-        model: Todo,
-        
-        defaultMode: 'server',
-        
-        persistModes: {local: 'local', server: 'server'},
-        
-        toggleStorageMode: function(mode) {
-            var mapMode = {
-                'local':    {button: 'Switch to Server Storage', header: 'Local Mode'},
-                'server':   {button: 'Switch to Local Storage', header: 'Server Mode'}
-            },
-                local = this.persistModes.local,
-                server = this.persistModes.server,
-                useMode = _.bind(function() {
-                switch (mode){
-                    case local:
-                        Backbone.sync = Backbone.localSync;
-                        _.extend(this, {
-                            // Save all of the todo items under the `"todos"` namespace.
-                            localStorage: new Store("todos")
-                        })
-                    break;
-=======
       },
       local = this.persistModes.local,
       server = this.persistModes.server,
@@ -153,7 +119,6 @@ $(function(){
               localStorage: new Store("todos")
             })
             break;
->>>>>>> dev
                     
           case server:
             delete this.localStorage;

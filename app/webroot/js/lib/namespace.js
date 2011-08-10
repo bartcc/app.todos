@@ -1,12 +1,10 @@
 (function() {
   
   var exports = this;
-  var v = { Version: '0.0.1' };
-//  var v = function() { Version: '0.0.1' };
+  var ctor = { Version: '0.0.1' };
+  _.extend(ctor, Backbone.Events);
   
-  
-  var _ = Object.create(v);
-  exports.prototype = _;
+  exports.prototype = ctor;
   
   exports.NS = function(ns) {
     if(typeof ns !== 'string') return;
@@ -14,7 +12,7 @@
 
     packages = ns.match(/([\w-]+)(?=[\.,\b]*)/g); // converts to array
     helper = function(child) {
-      return parent[child] = (parent[child] || Object.create(_))
+      return parent[child] = (parent[child] || Object.create(ctor));
     };
 
     for(i in packages) {

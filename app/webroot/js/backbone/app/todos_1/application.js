@@ -7,7 +7,6 @@ jQuery(function() {
       el: 'body',
       
       initialize: function() {
-        
         this.Main = new NS.MainView({
           el: $("#main")
         });

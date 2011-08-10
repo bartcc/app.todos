@@ -26,8 +26,7 @@ jQuery(function() {
       // collection, when items are added or changed. Kick things off by
       // loading any preexisting todos that might be saved in *localStorage*.
       initialize: function() {
-        console.log('inititalize Main ')
-        _.bindAll(this, 'render', 'addOne', 'addAll', 'addToBuffer', 'sortupdate');
+        _.bindAll(this, 'render', 'addOne', 'addAll', 'addToBuffer', 'sortupdate', 'renderBackground');
 
         this.buffer = $();
         this.input    = this.$("#new-todo input");
@@ -37,7 +36,7 @@ jQuery(function() {
         App.Collections.Todos.bind('reset',   this.addAll);
         App.Collections.Todos.bind('all',     this.render);
         
-        //App.Views.App.bind('change:background', this.renderBackground);
+        App.bind('change:background', this.renderBackground);
         
         this.sortableTodos.sortable();
       },
@@ -63,11 +62,12 @@ jQuery(function() {
         
       },
       
-      renderBackground: function(mode) {
+      renderBackground: function(pers) {
+        var mode = pers.mode;
         if(mode == 'server') {
-          this.$('create-todo').addClass("cloud");
+          this.$('#todo-list').addClass("cloud");
         } else if(mode == 'local') {
-          this.$('create-todo').removeClass("cloud");
+          this.$('#todo-list').removeClass("cloud");
         }
       },
       

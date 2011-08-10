@@ -14,11 +14,11 @@ jQuery(function() {
       },
       
       initialize: function() {
-        console.log('inititalize Sidebar')
         _.bindAll(this, 'render', 'refreshList', 'renderRefreshState', 'renderSaveButton', 'renderStorageButton')
         
         this.bind('refresh:list', this.refreshList);
         this.bind('change:unsaved', this.renderSaveButton);
+        App.Collections.Todos.bind('all',     this.render);
         
         this.renderStorageButton();
       },
@@ -63,18 +63,17 @@ jQuery(function() {
           success: function() {
             that.buffer = $();
             that.renderRefreshState();
-            App.Views.App.trigger('change:background', mode)
+            App.trigger('change:background', mode)
           },
           error: function(e, ev) {
             alert('Can not connect to server !')
-            console.log(ev)
           }
         });
       },
       
       renderRefreshState: function(isBusy) {
         this.$('#button-refresh').html(this.buttonRefreshTemplate({
-          value:      'Refresh',
+          value:      'Reset',
           busy:       isBusy
         }));
       },
@@ -85,13 +84,13 @@ jQuery(function() {
           var val = '';
           switch (unsaved.length) {
             case 0:
-              val = 'Server is up to date';
+              val = 'Up-To-Date';
               break;
             case 1:
-              val = 'Save ' + unsaved.length + ' local change';
+              val = 'Commit ' + unsaved.length + ' change';
               break;
             default:
-              val = 'Save ' + unsaved.length + ' local changes'
+              val = 'Commit ' + unsaved.length + ' changes'
           }
           return val;
         }

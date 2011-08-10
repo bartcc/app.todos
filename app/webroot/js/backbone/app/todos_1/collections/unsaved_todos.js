@@ -33,7 +33,7 @@ exports.NS('App.Collections').UnsavedTodos = (function() {
         }
       })
       App.Collections.Todos.unflag();
-      App.Views.Sidebar.trigger('change:unsaved');
+      App.Views.App.Sidebar.trigger('change:unsaved');
     }
   },
   {

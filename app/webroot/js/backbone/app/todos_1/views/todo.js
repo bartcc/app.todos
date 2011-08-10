@@ -21,7 +21,7 @@ jQuery(function() {
       },
       
       check: function() {
-        console.log(TodoView.test)
+//        console.log(TodoView.test)
       },
       
       // The TodoView listens for changes to its model, re-rendering. Since there's

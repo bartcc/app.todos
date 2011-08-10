@@ -67,7 +67,7 @@
 </script>
 
 <script type="text/template" id="button-unsaved-template">
-  <button title="Save all local changes" class="primary_lg <%=unsaved==0 ? 'disabled' : '' %>" type="button" <%=unsaved==0 ? 'disabled' : '' %>><%=value%></button>
+  <button title="Save all local changes" class="primary_lg <%=unsaved==0 ? 'disabled' : 'alert' %>" type="button" <%=unsaved==0 ? 'disabled' : '' %>><%=value%></button>
 </script>
 
 <script type="text/template" id="button-refresh-template">

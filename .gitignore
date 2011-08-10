@@ -1,5 +1,4 @@
 /nbproject/private/
-<<<<<<< HEAD
 /nbproject
 =======
 nbproject
@@ -10,6 +9,5 @@ nbproject
 /app/tmp/logs/debug.log
 /app/tmp/cache/models/*
 /app/tmp/cache/persistent/*
->>>>>>> cd
-app/config/database.php
+/app/config/database.php
 

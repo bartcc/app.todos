@@ -47,10 +47,10 @@
     echo $this->Html->script('spine/lib/spine.local');
     echo $this->Html->script('spine/lib/spine.ajax');
     
-    echo $this->Html->script('spine/app/todos_1/controllers/sidebar');
-    echo $this->Html->script('spine/app/todos_1/controllers/tasks');
-    echo $this->Html->script('spine/app/todos_1/models/task');
-    echo $this->Html->script('spine/app/todos_1/application');
+    echo $this->Html->script('spine/app/todos/controllers/sidebar');
+    echo $this->Html->script('spine/app/todos/controllers/tasks');
+    echo $this->Html->script('spine/app/todos/models/task');
+    echo $this->Html->script('spine/app/todos/application');
 
     echo $html->scriptStart();
     ?>

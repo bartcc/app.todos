@@ -48,15 +48,15 @@
     echo $this->Html->script('backbone/lib/backbone-localstorage');
     echo $this->Html->script('lib/namespace');
     
-    echo $this->Html->script('backbone/app/todos_1/app.intro');
-    echo $this->Html->script('backbone/app/todos_1/models/todo');
-    echo $this->Html->script('backbone/app/todos_1/models/unsaved_todo');
-    echo $this->Html->script('backbone/app/todos_1/collections/todos');
-    echo $this->Html->script('backbone/app/todos_1/collections/unsaved_todos');
-    echo $this->Html->script('backbone/app/todos_1/views/todo');
-    echo $this->Html->script('backbone/app/todos_1/views/sidebar');
-    echo $this->Html->script('backbone/app/todos_1/views/main');
-    echo $this->Html->script('backbone/app/todos_1/application');
+    echo $this->Html->script('backbone/app/todos/app.intro');
+    echo $this->Html->script('backbone/app/todos/models/todo');
+    echo $this->Html->script('backbone/app/todos/models/unsaved_todo');
+    echo $this->Html->script('backbone/app/todos/collections/todos');
+    echo $this->Html->script('backbone/app/todos/collections/unsaved_todos');
+    echo $this->Html->script('backbone/app/todos/views/todo');
+    echo $this->Html->script('backbone/app/todos/views/sidebar');
+    echo $this->Html->script('backbone/app/todos/views/main');
+    echo $this->Html->script('backbone/app/todos/application');
 
     echo $html->scriptStart();
     ?>

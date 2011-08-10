@@ -1,6 +1,6 @@
 jQuery(function($){
   
-  window.Tasks = Spine.Controller.create({
+  window.TasksItem = Spine.Controller.create({
     el: "li",
     
     proxied: ["render", "remove"],

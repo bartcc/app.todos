@@ -9,5 +9,5 @@ nbproject
 /app/tmp/logs/debug.log
 /app/tmp/cache/models/*
 /app/tmp/cache/persistent/*
-app/config/database.php
+/app/config/database.php
 

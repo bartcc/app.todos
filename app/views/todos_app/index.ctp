@@ -32,7 +32,7 @@
       <div id="todo-list" class="items vbox flex autoflow"></div>
 
       <footer class="hbox">
-        <div id="storage-mode"><span>aslkjdlaksdjlaksdjalskd</span></div>
+        <div id="storage-mode"><span></span></div>
         <div class="flex">
           <button class="clear">Clear completed</button>
         </div>

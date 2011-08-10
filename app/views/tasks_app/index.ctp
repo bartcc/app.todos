@@ -2,7 +2,7 @@
   <div class="item {{if done}}done{{/if}}">
     <div class="view" title="Double click to edit...">
       <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
-      <span>${name}</span> <a class="destroy"></a>
+             <span>${name}</span> <a class="destroy"></a>
     </div>
 
     <div class="edit">

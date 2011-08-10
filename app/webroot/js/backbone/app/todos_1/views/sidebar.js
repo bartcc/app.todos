@@ -9,18 +9,18 @@ jQuery(function() {
         'click #todo-controls #button-uncheckall button':'markAllUndone',
         'click #todo-controls #button-unsaved button'   :'saveUnsaved',
         'click #todo-controls #button-refresh button'   :'refreshList',
-        'click #todo-controls #button-storage button'   :'renderStorageButton',
+        'click #todo-controls #button-storage button'   :'renderStorageChangedButton',
         'click .showhide-controls'                      :'showhideControls'
       },
       
       initialize: function() {
-        _.bindAll(this, 'render', 'refreshList', 'renderRefreshState', 'renderSaveButton', 'renderStorageButton')
+        _.bindAll(this, 'render', 'refreshList', 'renderRefreshState', 'renderSaveButton', 'renderStorageChangedButton')
         
-        this.bind('refresh:list', this.refreshList);
-        this.bind('change:unsaved', this.renderSaveButton);
+        this.bind('refresh:list',               this.refreshList);
+        this.bind('change:unsaved',             this.renderSaveButton);
         Todos.Collections.Todos.bind('all',     this.render);
         
-        this.renderStorageButton();
+        this.renderStorageChangedButton();
       },
       
       buttonCheckallTemplate:     _.template($('#button-checkall-template').html()),
@@ -28,17 +28,15 @@ jQuery(function() {
       buttonUnsavedTemplate:      _.template($('#button-unsaved-template').html()),
       buttonRefreshTemplate:      _.template($('#button-refresh-template').html()),
       buttonStorageTemplate:      _.template($('#button-storage-template').html()),
-      storageHeaderTemplate:      _.template($('#storage-header-template').html()),
       
-      renderStorageButton: function() {
+      renderStorageChangedButton: function() {
         var value = Todos.Collections.Todos.toggleStorageMode();
         this.trigger('refresh:list', value);
+        
         this.$('span#button-storage').html(this.buttonStorageTemplate({
           value:    value.button
         }));
-        this.$('div #storage-mode').html(this.storageHeaderTemplate({
-          value:    value.header
-        }));
+        
       },
       
       render: function() {
@@ -62,27 +60,13 @@ jQuery(function() {
         Todos.Collections.Todos.fetch({
           success: function() {
             that.buffer = $();
+            // ensable refresh button
             that.renderRefreshState();
-            Todos.trigger('change:background', mode)
+            if(mode && mode.statustext) Todos.trigger('render:storagestatus', mode)
           },
           error: function(e, ev) {
-            alert('Can not connect to server !')
-          }
-        });
-      },
-      
-      refreshList: function(mode) {
-        //...
-        // disable refresh button
-        this.renderRefreshState(true);
-        var that = this;
-        Todos.Collections.Todos.fetch({
-          success: function() {
-            that.buffer = $();
+            // ensable refresh button
             that.renderRefreshState();
-            Todos.trigger('change:background', mode)
-          },
-          error: function(e, ev) {
             alert('Can not connect to server !')
           }
         });

@@ -10,6 +10,7 @@ jQuery(function() {
 
       // Our template for the line of statistics at the bottom of the Todos.
       statsTemplate:              _.template($('#stats-template').html()),
+      storageStatusTemplate:      _.template($('#storage-status-template').html()),
 
       Todos:                      Todos.Collections.Todos,
       UnsavedTodos:               Todos.Collections.UnsavedTodos,
@@ -26,7 +27,7 @@ jQuery(function() {
       // collection, when items are added or changed. Kick things off by
       // loading any preexisting todos that might be saved in *localStorage*.
       initialize: function() {
-        _.bindAll(this, 'render', 'addOne', 'addAll', 'addToBuffer', 'sortupdate', 'renderBackground');
+        _.bindAll(this, 'render', 'addOne', 'addAll', 'addToBuffer', 'sortupdate', 'renderStorageMode');
 
         this.buffer = $();
         this.input    = this.$("#new-todo input");
@@ -36,7 +37,7 @@ jQuery(function() {
         Todos.Collections.Todos.bind('add',     this.addOne);
         Todos.Collections.Todos.bind('reset',   this.addAll);
         Todos.Collections.Todos.bind('all',     this.render);
-        Todos.bind('change:background', this.renderBackground);
+        Todos.bind('render:storagestatus',      this.renderStorageMode);
       },
 
       sortupdate: function(e, ui) {
@@ -60,13 +61,14 @@ jQuery(function() {
         
       },
       
-      renderBackground: function(pers) {
-        var mode = pers.mode;
-        if(mode == 'server') {
-          this.$('#todo-list').addClass("cloud");
-        } else if(mode == 'local') {
-          this.$('#todo-list').removeClass("cloud");
-        }
+      renderStorageMode: function(persistmode) {
+        var mode        = persistmode.mode;
+        var statustext  = persistmode.statustext;
+        this.$('#tasks').toggleClass("cloud", mode === 'server');
+        
+        this.$('div#storage-mode').html(this.storageStatusTemplate({
+          value:    statustext
+        }));
       },
       
       // buffers a TodoView

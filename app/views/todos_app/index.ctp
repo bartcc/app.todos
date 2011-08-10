@@ -31,8 +31,11 @@
 
       <div id="todo-list" class="items vbox flex autoflow"></div>
 
-      <footer>
-        <button class="clear right">Clear completed</button>
+      <footer class="hbox">
+        <div id="storage-mode"><span>aslkjdlaksdjlaksdjalskd</span></div>
+        <div class="flex">
+          <button class="clear">Clear completed</button>
+        </div>
       </footer>
     </div>
   </div>
@@ -83,8 +86,8 @@
   <button title="Toggle Storage" class="primary_lg" type="button" style=""><%=value%></button>
 </script>
 
-<script type="text/template" id="storage-header-template">
-  <span style="color: #999; font-weight: bold; color: #FF0000"><%=value%></span>
+<script type="text/template" id="storage-status-template">
+  <span><%=value%></span>
 </script>
 
 <script type="text/template" id="dialog-template">

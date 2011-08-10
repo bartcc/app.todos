@@ -33,7 +33,7 @@ jQuery(function() {
       // Re-render the contents of the todo item.
       render: function() {
         var isEqual = _.isEqual(this.model.savedAttributes, this.model.attributes);
-        $(this.el).html(this.template(this.model.toJSON())).toggleClass('unsaved', !isEqual);
+        $(this.el).html(this.template(this.model.toJSON())).toggleClass('orphan', !isEqual);
         $(this.el).prop('id', 'todo-'+this.model.get('id')).addClass('hover');
         this.setContent();
         return this;

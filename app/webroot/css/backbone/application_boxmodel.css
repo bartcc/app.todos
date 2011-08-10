@@ -125,12 +125,14 @@ header .info {
 }
 #sidebar {
   width: 150px;
-  background: #474747;
   background: -webkit-gradient(linear, left top, left right, from(#303030), to(#474747));
   background: -moz-linear-gradient(left, #303030, #474747);
   background: linear-gradient(left, #303030, #474747);
 }
 
+#todo-list {
+  background: url('img/spine.png') no-repeat -40px 0;
+}
 .vdivide {
   width: 6px;
   border: 1px solid #c5c5c5;
@@ -231,51 +233,62 @@ footer {
   text-align: right;
 }
 
+footer div#storage-mode span {
+  font-size: 1.7em;
+  color: #C0C0C0;
+  text-shadow: 0 -1px 0 #FDFDFD;
+  bottom: -7px;
+  left: 10px;
+  position: relative;
+}
 .right {
   float: right;
-}
-
-.tright {
-  text-align: right
 }
 
 .left {
   float: left;
 }
 
-.new-todo {
+.tright {
+  text-align: right
+}
+
+#todo-stats {
+  text-shadow: 1px 0 1px #FFFFFF;
+  color: #555555;
+  display: block;
+  font-size: 3em;
+  font-weight: bold;
+  line-height: 30px;
+  margin: 10px 8px 0 8px;
+  padding: 0 10px 1px;
+  text-decoration: none;
+  white-space: nowrap
+}
+
+#create-todo .new-todo {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  
   color: #333333;
   font-weight: bold;
   text-shadow: 0 1px 1px #ffffff;
   font-size: 14px;
+  padding: 6px 7px 5px 7px;
+  border: 1px solid #c5c5c5;
+  border-width: 1px 0 1px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   background: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e0e0e1));
-  background: -moz-linear-gradient(top, #ffffff, #e0e0e1);
-  background: linear-gradient(top, #ffffff, #e0e0e1);
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
+  background: -moz-linear-gradient(top, #ffffff, #dedfe0);
+  background: linear-gradient(top, #ffffff, #dedfe0);
   -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset -1px -1px 3px #eeeeee, 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
-#todo-stats {
-    text-shadow: 1px 0 1px #FFFFFF;
-    color: #555555;
-    display: block;
-    font-size: 3em;
-    font-weight: bold;
-    line-height: 30px;
-    margin: 10px 8px 0 8px;
-    padding: 0 10px 1px;
-    text-decoration: none;
-    white-space: nowrap
-}
 
-#create-todo input {
+#create-todo input[type=text] {
   font-size: 30px;
   font-family: inherit;
   line-height: 1.4em;
@@ -283,30 +296,12 @@ footer {
   border: 0;
   outline: none;
   padding: 6px;
+  padding-left: 6px;
   border: 1px solid #999999;
   -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-}
-
-#create-todo .new-todo {
-  padding: 6px 7px 5px 7px;
-  border: 1px solid #c5c5c5;
-  border-width: 1px 0 1px 0;
-  background: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
-  background: -moz-linear-gradient(top, #ffffff, #dedfe0);
-  background: linear-gradient(top, #ffffff, #dedfe0);
-}
-
-#create-todo .new-todo input {
-  font-size: 30px;
-  width: 400px;
-}
-
-#create-todo .empty {
-  font-style: italic;
 }
 
 .ui-tooltip-top {
@@ -513,9 +508,18 @@ fieldset {
   padding: 0 10px;
   border: 1px solid #CCCCCC;
 }
+#tasks li {
+  margin-top: 2px
+}
+#tasks li {
+  background: url("img/task-item.png") repeat-x  0 0;
+}
+#tasks.cloud li {
+  background: url("img/task-item.png") repeat-x  0 -90px;
+}
+#tasks.cloud li.orphan, #tasks li.orphan {
+  background: url("img/task-item.png") repeat-x  0 -180px;
+}
 li.hover {
   cursor: move
-}
-li.unsaved {
-  background-color: #E4C9C9
 }

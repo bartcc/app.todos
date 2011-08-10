@@ -16,14 +16,14 @@ exports.NS('Todos.Collections').Todos = (function() {
       
       var mapMode = {
         'local':    {
-          button: 'To Server', 
-          header: 'Local Mode',
-          mode:   'local'
+          button      : 'To Server', 
+          statustext  : 'local mode',
+          mode        : 'local'
         },
         'server':   {
-          button: 'To Local', 
-          header: 'Server Mode',
-          mode:   'server'
+          button      : 'To Local', 
+          statustext  : 'server mode',
+          mode        : 'server'
         }
       },
       

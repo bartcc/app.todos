@@ -14,8 +14,7 @@ class MysqlController extends AppController {
 
   function exec() {
     $allowed_actions = array('dump', 'restore', 'connect');
-    $this->log(BASE_URL, LOG_DEBUG);
-    $this->log(WEB_URL, LOG_DEBUG);
+    $this->log($_SERVER['HTTP_HOST'].BASE_URL.'/todos_app', LOG_DEBUG);
     
     $action = array_splice($this->passedArgs, 0, 1);
     $action = $action[0];
@@ -23,11 +22,11 @@ class MysqlController extends AppController {
     
     if(!in_array($action, $allowed_actions)) {
       echo 'command not in list of allowed commands';
-      header("Location: http://".$_SERVER['HTTP_HOST'].'/'.BASE_URL.'/todos_app');
+      header("Location: http://".$_SERVER['HTTP_HOST'].BASE_URL.'/todos_app');
     }
     
     $mysql = $this->mysql($action, $args);
-    header("Location: http://".$_SERVER['HTTP_HOST'].'/'.BASE_URL.'/todos_app');
+    header("Location: http://".$_SERVER['HTTP_HOST'].BASE_URL.'/todos_app');
   }
   
   function mysql($action, $args = '') {

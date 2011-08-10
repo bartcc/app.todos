@@ -50,7 +50,7 @@
  */
 $urlparts = explode('/', Configure::read('App.baseUrl'));
 $urlpart = $urlparts[count($urlparts)-1];
-define('BASE_URL', str_replace('//', '/', $urlpart));
+define('BASE_URL',  $urlpart);
 define('WEB_URL', '/' . APP_DIR . '/' . WEBROOT_DIR);
 if (!defined('SIMPLE_JSON')) {
 	define('SIMPLE_JSON', '/elements/simple_json');

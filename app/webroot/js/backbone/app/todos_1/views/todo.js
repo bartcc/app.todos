@@ -1,6 +1,6 @@
 jQuery(function() {
 
-  exports.NS('App.Views').TodoView = (function() {
+  exports.NS('Todos.Views').TodoView = (function() {
     
     var TodoView = Backbone.View.extend({
 

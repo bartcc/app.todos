@@ -1,6 +1,6 @@
 jQuery(function() {
   
-  exports.NS('App.Views').SidebarView = (function() {
+  exports.NS('Todos.Views').SidebarView = (function() {
     
     var SidebarView = Backbone.View.extend({
       
@@ -18,7 +18,7 @@ jQuery(function() {
         
         this.bind('refresh:list', this.refreshList);
         this.bind('change:unsaved', this.renderSaveButton);
-        App.Collections.Todos.bind('all',     this.render);
+        Todos.Collections.Todos.bind('all',     this.render);
         
         this.renderStorageButton();
       },
@@ -31,7 +31,7 @@ jQuery(function() {
       storageHeaderTemplate:      _.template($('#storage-header-template').html()),
       
       renderStorageButton: function() {
-        var value = App.Collections.Todos.toggleStorageMode();
+        var value = Todos.Collections.Todos.toggleStorageMode();
         this.trigger('refresh:list', value);
         this.$('span#button-storage').html(this.buttonStorageTemplate({
           value:    value.button
@@ -45,11 +45,11 @@ jQuery(function() {
         
         this.$('#button-checkall').html(this.buttonCheckallTemplate({
           value:      'Mark all Done',
-          remaining:  App.Collections.Todos.remaining().length
+          remaining:  Todos.Collections.Todos.remaining().length
         }));
         this.$('#button-uncheckall').html(this.buttonUncheckallTemplate({
           value:      'Mark all Undone',
-          done:       App.Collections.Todos.done().length
+          done:       Todos.Collections.Todos.done().length
         }));
         
       },
@@ -59,11 +59,11 @@ jQuery(function() {
         // disable refresh button
         this.renderRefreshState(true);
         var that = this;
-        App.Collections.Todos.fetch({
+        Todos.Collections.Todos.fetch({
           success: function() {
             that.buffer = $();
             that.renderRefreshState();
-            App.trigger('change:background', mode)
+            Todos.trigger('change:background', mode)
           },
           error: function(e, ev) {
             alert('Can not connect to server !')
@@ -79,7 +79,7 @@ jQuery(function() {
       },
       
       renderSaveButton: function() {
-        var unsaved = App.Collections.Todos.filterUnsaved();
+        var unsaved = Todos.Collections.Todos.filterUnsaved();
         var value = function() {
           var val = '';
           switch (unsaved.length) {
@@ -101,7 +101,7 @@ jQuery(function() {
       },
 
       markAllDone: function(ev) {
-        App.Collections.Todos.each(function(todo) {
+        Todos.Collections.Todos.each(function(todo) {
           todo.set({
             done: true
           }, {
@@ -113,7 +113,7 @@ jQuery(function() {
       },
 
       markAllUndone: function(ev) {
-        App.Collections.Todos.each(function(todo) {
+        Todos.Collections.Todos.each(function(todo) {
           todo.set({
             done: false
           }, {
@@ -125,7 +125,7 @@ jQuery(function() {
       },
 
       saveUnsaved: function() {
-        App.Collections.UnsavedTodos.save();
+        Todos.Collections.UnsavedTodos.save();
       },
       
       showhideControls: function(ev, dur) {

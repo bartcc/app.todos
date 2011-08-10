@@ -1,1 +1,1 @@
-exports.NS('App.Models').UnsavedTodo = Backbone.Model;
+exports.NS('Todos.Models').UnsavedTodo = Backbone.Model;

@@ -1,9 +1,9 @@
-exports.NS('App.Collections').Todos = (function() {
+exports.NS('Todos.Collections').Todos = (function() {
   
   var TodosList = Backbone.Collection.extend({
 
     // Reference to this collection's model.
-    model: App.Models.Todo,
+    model: Todos.Models.Todo,
 
     defaultMode: 'server',
 
@@ -46,7 +46,7 @@ exports.NS('App.Collections').Todos = (function() {
             break;
         }
         
-        App.Collections.UnsavedTodos.reset();
+        Todos.Collections.UnsavedTodos.reset();
         
         this.storageMode = mode;
 //        this.trigger('refresh:list', mode);
@@ -88,24 +88,24 @@ exports.NS('App.Collections').Todos = (function() {
       return this.filter(function(todo) {
         var isEqual = _.isEqual(todo.savedAttributes, todo.attributes);
         if(!todo.isScheduledForSave) {
-          !isEqual ? App.Collections.UnsavedTodos.addUnsaved(todo) : App.Collections.UnsavedTodos.removeUnsaved(todo);
+          !isEqual ? Todos.Collections.UnsavedTodos.addUnsaved(todo) : Todos.Collections.UnsavedTodos.removeUnsaved(todo);
         }
         return !isEqual;
       })
     },
 
     flag: function(id) {
-      var saved = App.Collections.Todos.get(id);
+      var saved = Todos.Collections.Todos.get(id);
       if(saved) saved.isScheduledForSave = true;
     },
 
     unflag: function(id) {
       if(id) {
-        var saved = App.Collections.Todos.get(id);
+        var saved = Todos.Collections.Todos.get(id);
         if(saved) saved.isScheduledForSave = false;
       } else {
-        App.Collections.UnsavedTodos.each(function(unsaved) {
-          var saved = App.Collections.Todos.get(unsaved.get('id'));
+        Todos.Collections.UnsavedTodos.each(function(unsaved) {
+          var saved = Todos.Collections.Todos.get(unsaved.get('id'));
           if(saved) saved.isScheduledForSave = false;
         })
       }

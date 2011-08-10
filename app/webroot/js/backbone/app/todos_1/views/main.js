@@ -1,6 +1,6 @@
 jQuery(function() {
   
-  exports.NS('App.Views').MainView = (function() {
+  exports.NS('Todos.Views').MainView = (function() {
     
     var MainView = Backbone.View.extend({
 
@@ -8,11 +8,11 @@ jQuery(function() {
       // the App already present in the HTML.
       el: $("#wrapper"),
 
-      // Our template for the line of statistics at the bottom of the app.
+      // Our template for the line of statistics at the bottom of the Todos.
       statsTemplate:              _.template($('#stats-template').html()),
 
-      Todos:                      App.Collections.Todos,
-      UnsavedTodos:               App.Collections.UnsavedTodos,
+      Todos:                      Todos.Collections.Todos,
+      UnsavedTodos:               Todos.Collections.UnsavedTodos,
 
       // Delegated events for creating new items, and clearing completed ones.
       events: {
@@ -32,11 +32,11 @@ jQuery(function() {
         this.input    = this.$("#new-todo input");
         this.sortableTodos = this.$('#todo-list');
 
-        App.Collections.Todos.bind('add',     this.addOne);
-        App.Collections.Todos.bind('reset',   this.addAll);
-        App.Collections.Todos.bind('all',     this.render);
+        Todos.Collections.Todos.bind('add',     this.addOne);
+        Todos.Collections.Todos.bind('reset',   this.addAll);
+        Todos.Collections.Todos.bind('all',     this.render);
         
-        App.bind('change:background', this.renderBackground);
+        Todos.bind('change:background', this.renderBackground);
         
         this.sortableTodos.sortable();
       },
@@ -44,7 +44,7 @@ jQuery(function() {
       sortupdate: function(e, ui) {
         var todo;
         this.sortableTodos.children('li').each(function(index) {
-          todo = App.Collections.Todos.get($(this).attr('id').replace("todo-", ""));
+          todo = Todos.Collections.Todos.get($(this).attr('id').replace("todo-", ""));
           if(todo.get('order') != index) todo.save({
             order: index
           });
@@ -55,9 +55,9 @@ jQuery(function() {
       // of the app doesn't change.
       render: function() {
         this.$('#todo-stats').html(this.statsTemplate({
-          total:      App.Collections.Todos.length,
-          done:       App.Collections.Todos.done().length,
-          remaining:  App.Collections.Todos.remaining().length
+          total:      Todos.Collections.Todos.length,
+          done:       Todos.Collections.Todos.done().length,
+          remaining:  Todos.Collections.Todos.remaining().length
         }));
         
       },
@@ -73,7 +73,7 @@ jQuery(function() {
       
       // buffers a TodoView
       addToBuffer: function(todo) {
-        var view = new App.Views.TodoView({
+        var view = new Todos.Views.TodoView({
           model: todo
         });
         this.buffer = this.buffer.add(view.render().el);
@@ -83,7 +83,7 @@ jQuery(function() {
       // Add a single todo item to the list by creating a view for it, and
       // appending its element to the `<ul>`.
       addOne: function(todo) {
-        var view = new App.Views.TodoView({
+        var view = new Todos.Views.TodoView({
           model: todo
         });
         this.$("#todo-list.items").append(view.render().el);
@@ -92,9 +92,9 @@ jQuery(function() {
       // Add all items in the **Todos** collection at once.
       addAll: function() {
         // render save button
-        App.Views.App.Sidebar.trigger('change:unsaved');
+        Todos.Views.App.Sidebar.trigger('change:unsaved');
         // buffer all View in the list
-        App.Collections.Todos.each(this.addToBuffer);
+        Todos.Collections.Todos.each(this.addToBuffer);
         // send buffer to view
         $('#todo-list').html(this.buffer);
         // clear buffer
@@ -105,7 +105,7 @@ jQuery(function() {
       newAttributes: function() {
         return {
           content: this.input.val() || undefined,
-          order:   this.Todos.nextOrder()
+          order:   this.App.nextOrder()
         };
       },
 
@@ -118,13 +118,13 @@ jQuery(function() {
             model.saveModelState();
           }
         }
-        this.Todos.create(this.newAttributes(), options);
+        this.App.create(this.newAttributes(), options);
         this.input.val('');
       },
 
       // Clear all done todo items, destroying their models.
       clearCompleted: function() {
-        _.each(App.Collections.Todos.done(), function(todo){
+        _.each(Todos.Collections.Todos.done(), function(todo){
           todo.clear();
         });
         return false;

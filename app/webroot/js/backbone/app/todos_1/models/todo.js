@@ -1,4 +1,4 @@
-exports.NS('App.Models').Todo = (function() {
+exports.NS('Todos.Models').Todo = (function() {
     
   // Todo Model
   // ----------
@@ -37,7 +37,7 @@ exports.NS('App.Models').Todo = (function() {
       var options = {
         success: function(model, response) {
           that.saveModelState();
-          App.Views.App.Sidebar.trigger('change:unsaved');
+          Todos.Views.App.Sidebar.trigger('change:unsaved');
         }
       }
       options = _.extend(options, opts);
@@ -63,11 +63,11 @@ exports.NS('App.Models').Todo = (function() {
       this.destroy({
         success: function() {
           // remove from UnsavedList
-          App.Collections.UnsavedTodos.removeUnsaved(that.get('id'));
+          Todos.Collections.UnsavedTodos.removeUnsaved(that.get('id'));
           // remove from view
           that.view.remove();
           // update unsaved count
-          App.Views.App.Sidebar.trigger('change:unsaved');
+          Todos.Views.App.Sidebar.trigger('change:unsaved');
         }
       });
     },

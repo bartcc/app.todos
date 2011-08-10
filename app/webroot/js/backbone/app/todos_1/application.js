@@ -1,6 +1,6 @@
 jQuery(function() {
   
-  exports.NS('App.Views').App = (function(NS) {
+  exports.NS('Todos.Views').App = (function(NS) {
     
     var App = Backbone.View.extend({
       
@@ -24,7 +24,7 @@ jQuery(function() {
     
     return new App;
     
-  })(exports.NS('App.Views'))
+  })(exports.NS('Todos.Views'))
   
 })
 
@@ -59,5 +59,5 @@ jQuery(function() {
 //    
 //    return new App;
 //    
-//  })(exports.NS('App.Views'))
+//  })(exports.NS('Todos.Views'))
 //})

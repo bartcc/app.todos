@@ -1,25 +1,25 @@
 $(function() {
   return;
     setTimeout(function(){
-        App.showhideControls('#main-box', 200);
+        Todos.showhideControls('#main-box', 200);
         setTimeout(function() {
-            App.showhideControls('#sync-box', 200);
+            Todos.showhideControls('#sync-box', 200);
             setTimeout(function() {
-                App.showhideControls('#sync-box', 200);
+                Todos.showhideControls('#sync-box', 200);
                 setTimeout(function() {
-                    App.showhideControls('#client-box', 200);
+                    Todos.showhideControls('#client-box', 200);
                     setTimeout(function() {
-                        App.showhideControls('#client-box', 200);
+                        Todos.showhideControls('#client-box', 200);
                         setTimeout(function() {
-                            App.showhideControls('#storage-box', 200);
+                            Todos.showhideControls('#storage-box', 200);
                             setTimeout(function() {
-                                App.renderStorage();
+                                Todos.renderStorage();
                                 setTimeout(function() {
-                                    App.renderStorage();
+                                    Todos.renderStorage();
                                     setTimeout(function() {
-                                        App.showhideControls('#storage-box', 200);
+                                        Todos.showhideControls('#storage-box', 200);
                                         setTimeout(function() {
-                                            App.showhideControls('#main-box', 200);
+                                            Todos.showhideControls('#main-box', 200);
                                         }, 500)
                                     }, 1000)
                                 }, 2000)

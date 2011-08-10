@@ -1,8 +1,8 @@
-exports.NS('App.Collections').UnsavedTodos = (function() {
+exports.NS('Todos.Collections').UnsavedTodos = (function() {
   
   var UnsavedList = Backbone.Collection.extend({
 
-    model: App.Models.UnsavedTodo,
+    model: Todos.Models.UnsavedTodo,
 
     initialize: function() {
       _.bindAll(this, 'removeUnsaved');
@@ -24,16 +24,16 @@ exports.NS('App.Collections').UnsavedTodos = (function() {
     // save each todo who's id is in the list
     save: function() {
       this.each(function(unsaved) {
-        var saved = App.Collections.Todos.find(function(saved) {
+        var saved = Todos.Collections.Todos.find(function(saved) {
           return saved.get('id') == unsaved.get('id');
         })
         if(saved) {
-          App.Collections.Todos.flag(unsaved.get('id'));
+          Todos.Collections.Todos.flag(unsaved.get('id'));
           saved.save();
         }
       })
-      App.Collections.Todos.unflag();
-      App.Views.App.Sidebar.trigger('change:unsaved');
+      Todos.Collections.Todos.unflag();
+      Todos.Views.App.Sidebar.trigger('change:unsaved');
     }
   },
   {

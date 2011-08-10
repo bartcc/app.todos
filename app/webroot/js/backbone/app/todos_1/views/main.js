@@ -31,13 +31,12 @@ jQuery(function() {
         this.buffer = $();
         this.input    = this.$("#new-todo input");
         this.sortableTodos = this.$('#todo-list');
+        this.sortableTodos.sortable();
 
         Todos.Collections.Todos.bind('add',     this.addOne);
         Todos.Collections.Todos.bind('reset',   this.addAll);
         Todos.Collections.Todos.bind('all',     this.render);
         Todos.bind('change:background', this.renderBackground);
-        
-        this.sortableTodos.sortable();
       },
 
       sortupdate: function(e, ui) {

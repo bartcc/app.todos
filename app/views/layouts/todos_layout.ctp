@@ -30,22 +30,33 @@
 
     //echo $this->Html->css('cake.generic');
 
-    echo $this->Html->css('backbone/application');
+    echo $this->Html->css('backbone/application_boxmodel');
+    echo $this->Html->css('themes/jquery-ui/ui-darkness/jquery.ui.custom.css');
 
     echo $this->Html->script('lib/json2');
 
-    echo $this->Html->script('lib/jquery-1.6.1');
-    echo $this->Html->script('lib/jquery.ui.core');
-    echo $this->Html->script('lib/jquery.ui.widget');
-    echo $this->Html->script('lib/jquery.ui.mouse');
-    echo $this->Html->script('lib/jquery.ui.sortable');
+    echo $this->Html->script('lib/jquery/jquery-1.6.2');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.widget');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.mouse');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.dialog');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
 
-    echo $this->Html->script('lib/underscore.debug');
+    echo $this->Html->script('lib/underscore');
 
     echo $this->Html->script('backbone/lib/backbone');
     echo $this->Html->script('backbone/lib/backbone-localstorage');
-    echo $this->Html->script('backbone/app/todos/application');
+    echo $this->Html->script('lib/namespace');
+    
     echo $this->Html->script('backbone/app/todos/app.intro');
+    echo $this->Html->script('backbone/app/todos/models/todo');
+    echo $this->Html->script('backbone/app/todos/models/unsaved_todo');
+    echo $this->Html->script('backbone/app/todos/collections/todos');
+    echo $this->Html->script('backbone/app/todos/collections/unsaved_todos');
+    echo $this->Html->script('backbone/app/todos/views/todo');
+    echo $this->Html->script('backbone/app/todos/views/sidebar');
+    echo $this->Html->script('backbone/app/todos/views/main');
+    echo $this->Html->script('backbone/app/todos/application');
 
     echo $html->scriptStart();
     ?>

@@ -187,7 +187,8 @@ header .info {
 }
 
 #tasks .item.done span {
-  color: #777777;
+  color: #888888;
+  font-style: italic;
   text-decoration: line-through;
 }
 
@@ -410,6 +411,12 @@ footer {
   -khtml-transform:rotate(180deg);
   -webkit-transform:rotate(180deg);
 }
+button.clear {
+  margin: 0 10px 0 0
+}
+button.clear {
+  margin: 0 10px 0 0
+}
 button {
   border: 1px solid #bbbbbb;
   font-weight: bold;
@@ -418,7 +425,6 @@ button {
   font-size: 14px;
   color: #363636;
   padding: 6px 10px;
-  margin: 1px 1px 1px 0;
   outline: none;
   background: #f9f9f9;
   background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#e3e3e3));
@@ -430,6 +436,7 @@ button {
   -moz-box-shadow: 0 1px 1px #ffffff;
   -webkit-box-shadow: 0 1px 1px #ffffff;
   box-shadow: 0 1px 1px #ffffff;
+  height: 32px;
 }
 button:active {
   background: #e3e3e3;

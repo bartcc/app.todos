@@ -71,6 +71,23 @@ jQuery(function() {
         });
       },
       
+      refreshList: function(mode) {
+        //...
+        // disable refresh button
+        this.renderRefreshState(true);
+        var that = this;
+        Todos.Collections.Todos.fetch({
+          success: function() {
+            that.buffer = $();
+            that.renderRefreshState();
+            Todos.trigger('change:background', mode)
+          },
+          error: function(e, ev) {
+            alert('Can not connect to server !')
+          }
+        });
+      },
+      
       renderRefreshState: function(isBusy) {
         this.$('#button-refresh').html(this.buttonRefreshTemplate({
           value:      'Reset',

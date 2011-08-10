@@ -3,13 +3,18 @@
 </header>
 <div id="wrapper" class="hbox flex">
   <div id="sidebar" class="vbox">
-    <div>
-      <div id="todo-controls">
+    <div class="vbox flex">
+      <div id="todo-controls" class="vbox flex">
         <span id="button-storage"></span>
         <span id="button-checkall"></span>
         <span id="button-uncheckall"></span>
         <span id="button-unsaved"></span>
         <span id="button-refresh"></span>
+      </div>
+      <div class="hbox">
+        <footer class="vbox flex">
+          <button id="refresh-db" style="font-size: 0.8em;" onclick="window.location.href='/mysql/restore'">Rebuild Database</button>
+        </footer>
       </div>
     </div>
   </div>

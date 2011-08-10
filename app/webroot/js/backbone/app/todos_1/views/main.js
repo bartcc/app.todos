@@ -104,7 +104,7 @@ jQuery(function() {
       newAttributes: function() {
         return {
           content: this.input.val() || undefined,
-          order:   this.App.nextOrder()
+          order:   Todos.Collections.Todos.nextOrder()
         };
       },
 
@@ -117,7 +117,7 @@ jQuery(function() {
             model.saveModelState();
           }
         }
-        this.App.create(this.newAttributes(), options);
+        Todos.Collections.Todos.create(this.newAttributes(), options);
         this.input.val('');
       },
 

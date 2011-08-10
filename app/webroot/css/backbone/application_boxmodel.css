@@ -18,7 +18,7 @@ html, body {
 
   margin: 0;
   padding: 0;
-  
+
   overflow: hidden
 }
 
@@ -125,6 +125,7 @@ header .info {
 }
 #sidebar {
   width: 150px;
+  background: #474747;
   background: -webkit-gradient(linear, left top, left right, from(#303030), to(#474747));
   background: -moz-linear-gradient(left, #303030, #474747);
   background: linear-gradient(left, #303030, #474747);
@@ -149,7 +150,7 @@ header .info {
 }
 
 #tasks {
-/*  padding: 20px;*/
+  /*  padding: 20px;*/
 }
 
 #tasks h1 {
@@ -160,19 +161,17 @@ header .info {
 }
 
 #tasks input[type="text"] {
-    border: 1px solid #999999;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2) inset;
-    font-family: inherit;
-    font-size: 24px;
-    line-height: 1.4em;
-    outline: medium none;
-    padding-left: 25px;
-    width: 100%
+  border: 1px solid #999999;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2) inset;
+  font-family: inherit;
+  font-size: 24px;
+  line-height: 1.4em;
+  outline: medium none;
+  padding-left: 25px;
+  width: 100%
 }
 
 #tasks .items {
-/*  padding: 20px;
-  margin: 10px 0;*/
   list-style: none;
 }
 
@@ -305,10 +304,10 @@ footer div#storage-mode span {
 }
 
 .ui-tooltip-top {
-    left: 270px;
-    top: 112px;
-    position: absolute;
-    z-index: 999;
+  left: 270px;
+  top: 112px;
+  position: absolute;
+  z-index: 999;
 }
 /*
  *  François 'cahnory' Germain

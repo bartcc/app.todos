@@ -1,33 +1,33 @@
 $(function() {
   return;
-  setTimeout(function(){
-    App.showhideControls('#main-box', 200);
-    setTimeout(function() {
-      App.showhideControls('#sync-box', 200);
-      setTimeout(function() {
-        App.showhideControls('#sync-box', 200);
+    setTimeout(function(){
+        Todos.showhideControls('#main-box', 200);
         setTimeout(function() {
-          App.showhideControls('#client-box', 200);
-          setTimeout(function() {
-            App.showhideControls('#client-box', 200);
+            Todos.showhideControls('#sync-box', 200);
             setTimeout(function() {
-              App.showhideControls('#storage-box', 200);
-              setTimeout(function() {
-                App.renderStorage();
+                Todos.showhideControls('#sync-box', 200);
                 setTimeout(function() {
-                  App.renderStorage();
-                  setTimeout(function() {
-                    App.showhideControls('#storage-box', 200);
+                    Todos.showhideControls('#client-box', 200);
                     setTimeout(function() {
-                      App.showhideControls('#main-box', 200);
+                        Todos.showhideControls('#client-box', 200);
+                        setTimeout(function() {
+                            Todos.showhideControls('#storage-box', 200);
+                            setTimeout(function() {
+                                Todos.renderStorage();
+                                setTimeout(function() {
+                                    Todos.renderStorage();
+                                    setTimeout(function() {
+                                        Todos.showhideControls('#storage-box', 200);
+                                        setTimeout(function() {
+                                            Todos.showhideControls('#main-box', 200);
+                                        }, 500)
+                                    }, 1000)
+                                }, 2000)
+                            }, 500)
+                        }, 500)
                     }, 500)
-                  }, 1000)
-                }, 2000)
-              }, 500)
+                }, 500)
             }, 500)
-          }, 500)
         }, 500)
-      }, 500)
-    }, 500)
-  }, 500);
+    }, 500);
 })

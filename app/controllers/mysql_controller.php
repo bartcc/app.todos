@@ -25,8 +25,7 @@ class MysqlController extends AppController {
     }
     
     $mysql = $this->mysql($action, $args);
-    echo $mysql;
-    die(' ');
+    header("Location: http://".$_SERVER['HTTP_HOST'].'/todos_app/');
   }
   
   function mysql($action, $args = '') {

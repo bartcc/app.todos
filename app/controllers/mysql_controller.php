@@ -15,6 +15,7 @@ class MysqlController extends AppController {
   function exec() {
     $allowed_actions = array('dump', 'restore', 'connect');
     $this->log($_SERVER['HTTP_HOST'].BASE_URL.'/todos_app', LOG_DEBUG);
+    $this->log($_SERVER['HTTP_REFERRER'].BASE_URL.'/todos_app', LOG_DEBUG);
     
     $action = array_splice($this->passedArgs, 0, 1);
     $action = $action[0];

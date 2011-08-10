@@ -2,7 +2,7 @@
   <div class="item {{if done}}done{{/if}}">
     <div class="view" title="Double click to edit...">
       <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
-             <span>${name}</span> <a class="destroy"></a>
+      <span>${name}</span> <a class="destroy"></a>
     </div>
 
     <div class="edit">
@@ -15,17 +15,20 @@
   {{if total}}
   <span class="todo-count">
     <span class="number">{ remaining }</span>
-    <span class="word">{{if remaining == 1 ? 'item' : 'items' }}</span> left.
+    <span class="word">{{if remaining == 1 ? 'item' : 'items' }}</span> lefft.
   </span>
   {{/if}}
-  {{ if done }}
   <span class="todo-clear">
     <a href="#">
-      Clear <span class="number-done">{ done }</span>
+    {{ if done }}
+      All <span class="number-done">{ done }</span>
       completed <span class="word-done">{{ done == 1 ? 'item' : 'items' }}</span>
+    {{ else }}
+      Clear <span class="number-done"></span>
+      completed <span class="word-done"></span>
+    {{/if}}
     </a>
   </span>
-  {{/if}}
 </script>
 
 <script type="text/x-jquery-tmpl" id="button-checkall-template">
@@ -43,33 +46,37 @@
 <script type="text/x-jquery-tmpl" id="button-refresh-template">
   <button title="Reloads a fresh set from server" class="primary_lg {{if busy}} disabled {{/if}}" type="button" {{if busy}} disabled {{/if}}>${value}</button>
 </script>
-<div id="views">
-  <div id="tasks">
-    <h1>Tasks</h1>
+<header id="title">
+  <h1>Todos</h1>
+</header>
 
-    <form id="create-todo">
-      <input id="new-todo" type="text" placeholder="What needs to be done?">
-      <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
-    </form>
+<div id="wrapper" class="hbox flex">
+  <div id="sidebar" class="vbox">
     <div>
       <div id="todo-controls">
-        <fieldset>
-          <legend>Client only settings</legend>
-          <span id="button-checkall"></span>
-          <span id="button-uncheckall"></span>
-        </fieldset>
-        <fieldset>
-          <legend>Synchronize</legend>
-          <span id="button-unsaved"></span>
-          <span id="button-refresh"></span>
-        </fieldset>
+        <span id="button-checkall"></span>
+        <span id="button-uncheckall"></span>
+        <span id="button-unsaved"></span>
+        <span id="button-refresh"></span>
       </div>
     </div>
-    <div class="items"></div>
-
-    <footer>
-      <a class="clear">Clear completed</a>
-      <div class="count"><span class="countVal"></span> left</div>
-    </footer>
+  </div>
+  <div class="vdivide"></div>
+  <div id="views" class="vbox flex">
+    <div id="tasks" class="vbox flex">
+      <div id="create-todo">
+        <div class="new-todo" id="new-todo">
+          <input type="text" placeholder="What needs to be done?">
+          <span class="ui-tooltip-top" style="display:none;">Press Enter to save this task</span>
+          <div id="ballon" class="count right"><span class="countVal"></span></div>
+        </div>
+      </div>
+      
+      <div class="items vbox flex autoflow"></div>
+      
+      <footer>
+        <button class="clear right">Clear completed</button>
+      </footer>
+    </div>
   </div>
 </div>

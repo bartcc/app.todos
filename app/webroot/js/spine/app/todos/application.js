@@ -6,16 +6,24 @@ jQuery(function($){
     proxied: ["render", "remove"],
     
     events: {
+<<<<<<< HEAD
       "change   input[type=checkbox]": "toggle",
       "click    .destroy":             "destroy",
       "dblclick .view":                "edit",
       "keypress input[type=text]":     "blurOnEnter"
       "blur     input[type=text]":     "close"
+=======
+      "change   input[type=checkbox]" :"toggle",
+      "click    .destroy"             :"destroy",
+      "dblclick .view"                :"edit",
+      "keypress input[type=text]"     :"blurOnEnter",
+      "blur     input[type=text]"     :"close"
+>>>>>>> dev
     },
     
     elements: {
-      "input[type=text]": "input",
-      ".item": "wrapper"
+      "input[type=text]"              :"input",
+      ".item"                         :"wrapper"
     },
         
     init: function(){
@@ -52,7 +60,7 @@ jQuery(function($){
     },
         
     close: function(){
-      this.wrapper.removeClass("editing");
+      //this.wrapper.removeClass("editing");
       this.item.updateAttributes({
         name: this.input.val()
       });
@@ -71,8 +79,8 @@ jQuery(function($){
     proxied: ['addOne', 'addAll', 'renderCount', 'renderControls', 'renderSaveState', 'refreshList'],
 
     events: {
-      'submit form'                                   :'create',
-      'click .clear'                                  :'clear',
+      'keypress #create-todo input'                   :'create',
+      'click footer .clear'                           :'clear',
       'click #button-checkall button'                 :'markAllDone',
       'click #button-uncheckall button'               :'markAllUndone',
       'click #todo-controls #button-refresh button'   :'refreshList',
@@ -82,10 +90,10 @@ jQuery(function($){
     },
 
     elements: {
-      ".items":     "items",
-      ".countVal":  "count",
-      ".clear":     "clear",
-      "form input": "input"
+      ".items"                  :"items",
+      "#create-todo .countVal"  :"count",
+      "footer .clear"           :"clear",
+      "#create-todo input"      :"input"
     },
         
     buttonCheckallTemplate:     $.template(null, $('#button-checkall-template').html()),
@@ -159,6 +167,7 @@ jQuery(function($){
       
       var inactive = Task.done().length;
       this.clear[inactive ? "show" : "hide"]();
+      console.log(inactive)
     },
         
     renderControls: function() {
@@ -240,7 +249,8 @@ jQuery(function($){
       return attr;
     },
         
-    create: function(){
+    create: function(e){
+      if (e.keyCode != 13) return;
       var task = Task.create(this.newAttributes());
       this.input.val("");
       return false;

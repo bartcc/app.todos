@@ -47,16 +47,9 @@ _.extend(Store.prototype, {
   find: function(model) {
     return this.data[model.id];
   },
-  
-  // All touched models are saved as models in this.data and won't therefor be re-initialized
-  // To avoid the above:
-  // JSON.stringify all items to preserve model.attributes on models
-  // in order to extend them later to Backbone.model again,
-  // so we can use things that we do in model::initialize
-  // Then parse it back to JSON objects
-  // Return the array
+
+  // Return the array of all models currently in storage.
   findAll: function() {
-    this.data = JSON.parse(JSON.stringify(this.data));
     return _.values(this.data);
   },
 
@@ -69,27 +62,29 @@ _.extend(Store.prototype, {
 
 });
 
+
 // keep a copy of Backbones' original sync
 _.extend(Backbone, {serverSync: Backbone.sync});
 
 // Override `Backbone.sync` to use delegate to the model or collection's
 // *localStorage* property, which should be an instance of `Store`.
-Backbone.sync = function(method, model, success, error) {
+Backbone.sync = function(method, model, options) {
 
   var resp;
   var store = model.localStorage || model.collection.localStorage;
 
   switch (method) {
-    case "read":resp = model.id ? store.find(model) : store.findAll();  break;
-    case "create":resp = store.create(model);                           break;
-    case "update":resp = store.update(model);                           break;
-    case "delete":resp = store.destroy(model);                          break;
+    case "read":    resp = model.id ? store.find(model) : store.findAll(); break;
+    case "create":  resp = store.create(model);                            break;
+    case "update":  resp = store.update(model);                            break;
+    case "delete":  resp = store.destroy(model);                           break;
   }
 
   if (resp) {
-    success(resp);
+    options.success(resp);
   } else {
-    error("Record not found");
+    options.error("Record not found");
   }
 };
+
 _.extend(Backbone, {localSync: Backbone.sync});

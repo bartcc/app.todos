@@ -42,7 +42,7 @@
 
     echo $this->Html->script('lib/underscore.debug');
 
-    echo $this->Html->script('backbone/lib/backbone.debug');
+    echo $this->Html->script('backbone/lib/backbone');
     echo $this->Html->script('backbone/lib/backbone-localstorage');
     echo $this->Html->script('backbone/app/todos/application');
     echo $this->Html->script('backbone/app/todos/app.intro');

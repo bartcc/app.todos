@@ -13,8 +13,10 @@ class MysqlController extends AppController {
   }
 
   function exec() {
+    App::import('Helper', 'Html');
     $allowed_actions = array('dump', 'restore', 'connect');
-    
+    $this->log($this->params, LOG_DEBUG);
+    die();
     $action = array_splice($this->passedArgs, 0, 1);
     $action = $action[0];
     $args = implode(' ', $this->passedArgs);

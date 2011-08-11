@@ -33,8 +33,10 @@ jQuery(function() {
         var value = Todos.Collections.Todos.toggleStorageMode();
         this.trigger('refresh:list', value);
         
+        // renders storage mode button
+        this.$('span#button-storage').toggleClass('server', value.mode !== 'local');
         this.$('span#button-storage').html(this.buttonStorageTemplate({
-          value:    value.button
+          value:    ''//value.button
         }));
         
       },
@@ -60,7 +62,7 @@ jQuery(function() {
         Todos.Collections.Todos.fetch({
           success: function() {
             that.buffer = $();
-            // ensable refresh button
+            // enable refresh button
             that.renderRefreshState();
             if(mode && mode.statustext) Todos.trigger('render:storagestatus', mode)
           },

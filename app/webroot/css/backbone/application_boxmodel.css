@@ -519,7 +519,7 @@ li.hover {
   cursor: move
 }
 #todo-controls span#button-storage {
-  border-bottom: 50px solid #333333;
+  border-bottom: 50px solid #3d3d3d;
 }
 #todo-controls span#button-storage button {
   border: 0 none;

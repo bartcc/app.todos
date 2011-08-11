@@ -518,6 +518,9 @@ fieldset {
 li.hover {
   cursor: move
 }
+#todo-controls span#button-storage {
+  border-bottom: 50px solid #333333;
+}
 #todo-controls span#button-storage button {
   border: 0 none;
   height: 50px;

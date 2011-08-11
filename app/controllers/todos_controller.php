@@ -33,7 +33,7 @@ class TodosController extends AppController {
       exit;
     }
 
-    $content = $this->cleanValue($payload->content);
+    $content = $payload->content;
     $order = $payload->order;
     $done = $payload->done ? 1 : 0;
     $this->data = array('content' => $content, 'done' => $done, 'order' => $order);
@@ -56,7 +56,7 @@ class TodosController extends AppController {
     }
 
     $payload = $this->getPayLoad();
-    $content = $this->cleanValue($payload->content);
+    $content = $payload->content;
     $done = $payload->done;
     $order = $payload->order;
     $this->data = array('id' => (string) $id, 'content' => $content, 'done' => $done, 'order' => $order);

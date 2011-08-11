@@ -518,3 +518,14 @@ fieldset {
 li.hover {
   cursor: move
 }
+#todo-controls span#button-storage button {
+  border: 0 none;
+  height: 50px;
+  margin: 20px 0;
+}
+#button-storage button {
+  background: url('img/mode.png') no-repeat center 0px transparent;
+}
+#button-storage.server button {
+  background: url('img/mode.png') no-repeat center -50px transparent;
+}

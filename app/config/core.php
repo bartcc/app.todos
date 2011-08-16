@@ -33,7 +33,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 2);
+	Configure::write('debug', 0);
 
 /**
  * CakePHP Log Level:
@@ -202,7 +202,7 @@
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'b7f6611dad61f2c971ba608a7664b75a4755d6ef');
+	Configure::write('Security.salt', 'f7e4a948ff5120cd1989f01812ce6ccc5b37bd64');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.

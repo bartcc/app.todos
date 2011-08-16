@@ -67,7 +67,7 @@
                 </div>
                 <div class="left">
                   <label>Password</label>
-                  <input class="password" type="text">
+                  <input class="password" type="password">
                 </div>
               </fieldset>
             </div>

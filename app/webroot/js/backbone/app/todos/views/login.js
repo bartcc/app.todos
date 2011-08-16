@@ -5,7 +5,6 @@ jQuery(function() {
     var Login = Backbone.View.extend({
     
       initialize: function() {
-        console.log('Login initialized')
         _.bindAll(this, 'login', 'onCancel', 'newAttributes');
         
         this.username = $('.username');

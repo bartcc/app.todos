@@ -7,7 +7,6 @@ jQuery(function() {
       template: _.template($('#button-logout-template').html()),
       
       initialize: function() {
-        console.log('Logout initialized')
         _.bindAll(this, 'logout', 'newAttributes', 'render', 'template');
         
         this.button = this.$('button._logout');
@@ -41,7 +40,6 @@ jQuery(function() {
       },
       
       logout: function() {
-        console.log('logout')
         this.model.save(this.newAttributes(), {
           success: function() {
             Todos.Views.App.Sidebar.trigger('fetch', Todos.Collections.Todos.storageMode || Todos.Collections.Todos.defaultMode);

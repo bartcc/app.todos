@@ -7,7 +7,6 @@ jQuery(function() {
       el: 'body',
       
       initialize: function() {
-        console.log('App initialized')
         this.Main = new NS.MainView({
           el: $("#main")
         });

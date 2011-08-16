@@ -457,7 +457,7 @@ button.dark:active {
 button.clear {
   margin: 0 10px 0 0
 }
-button.alert {
+button.primary_lg.alert {
   background: #963030;
   background: -webkit-gradient(linear, left top, left bottom, from(#963030), to(#7B3030));
   background: -moz-linear-gradient(top, #963030, #7B3030);

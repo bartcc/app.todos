@@ -48,7 +48,7 @@
         <div class="bg verticaltop" id="draggable-messenger-wrap">
           <header>
             <fieldset class="right">
-              <button class="light window input _close">x</button>
+              <button class="_close light window input">x</button>
             </fieldset>
           </header>
           <div class="dialogue-inner-wrap">
@@ -75,8 +75,8 @@
           <footer>
             <span>
               <fieldset>
-                <button class="light _cancel">Cancel</button>
-                <button class="light _login">Login</button>
+                <button class="_local light">Local Storage</button>
+                <button class="_login light">Login</button>
               </fieldset>
             </span>
           </footer>

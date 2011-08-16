@@ -8,7 +8,7 @@ jQuery(function() {
         'click #todo-controls #button-checkall button'  :'markAllDone',
         'click #todo-controls #button-uncheckall button':'markAllUndone',
         'click #todo-controls #button-unsaved button'   :'saveUnsaved',
-        'click #todo-controls #button-refresh button'   :'refreshList',
+        'click #todo-controls #button-refresh button'   :'refresh',
         'click #todo-controls #button-storage button'   :'start',
         'click .showhide-controls'                      :'showhideControls'
       },
@@ -58,6 +58,10 @@ jQuery(function() {
         
       },
       
+      refresh : function() {
+        this.trigger('refresh:list');
+      },
+      
       refreshList: function(mode) {
         //...
         // disable refresh button
@@ -69,7 +73,7 @@ jQuery(function() {
             that.buffer = $();
             // enable refresh button
             that.renderRefreshState();
-            if(mode && mode.statustext) Todos.trigger('render:storagestatus', mode);
+            if(mode) Todos.trigger('render:storagestatus', mode);
           },
           error: function(e, xhr) {
             // ensable refresh button
@@ -79,7 +83,7 @@ jQuery(function() {
             }
           }
         });
-        Todos.trigger('mode', mode);
+        Todos.trigger('mode');
       },
       
       renderRefreshState: function(isBusy) {

@@ -24,11 +24,11 @@ class UsersController extends AppController {
   function login() {
     $user = $this->Auth->user();
     if ($user) {
-      $merged = array_merge($this->response['User'], array('session' => $this->Session->id()));
+      $merged = array_merge($this->response['User'], array('password' => '', 'session' => $this->Session->id(), 'name' => $this->Auth->user('name')));
       $json = $merged;
       $this->set(compact('json'));
       $this->render(SIMPLE_JSON);
-    } else {
+    } elseif (isset($this->response)) {
       $json = $this->response['User'];
       $this->set(compact('json'));
       $this->header("HTTP/1.1 403 Forbidden");
@@ -40,8 +40,8 @@ class UsersController extends AppController {
     if ($this->params['isAjax']) {
       $this->Auth->logout();
     }
-    $merged = array_merge($this->response['User'], array('session' => ''));
-    $json = $this->response['User'];
+    $merged = array_merge($this->response['User'], array('username' => '', 'name' => '', 'password' => '', 'session' => ''));
+    $json = $merged;
     $this->set(compact('json'));
     $this->render(SIMPLE_JSON);
   }

@@ -5,14 +5,17 @@ jQuery(function() {
     var Login = Backbone.View.extend({
     
       initialize: function() {
-        _.bindAll(this, 'login', 'onCancel', 'newAttributes');
-        
-        this.username = $('.username');
-        this.password = $('.password');
+        console.log('login initialized')
+        _.bindAll(this, 'login', 'close', 'newAttributes');
         
         this.bind('error:auth', this.show);
-        this.model = new Todos.Models.User();
-        this.model.action = 'login';
+        
+        this.username = this.$('.username');
+        this.password = this.$('.password');
+        this.closeButton = this.$('._close');
+        this.localButton = this.$('._local');
+        
+        this.model = Todos.Models.User;
         this.model.bind('change', this.login);
 
       },
@@ -21,8 +24,8 @@ jQuery(function() {
         
         'click footer ._login'    : 'login',
         'keypress #login input'   : 'login',
-        'click footer ._cancel'   : 'onCancel',
-        'click header ._close'    : 'onCancel'
+        'click footer ._local'    : 'close',
+        'click header ._close'    : 'close'
 
       },
 
@@ -33,21 +36,18 @@ jQuery(function() {
         }
       },
       
-      onCancel: function() {
-        this.close();
-        Todos.Views.App.Sidebar.trigger('fetch', Todos.Collections.Todos.storageMode || Todos.Collections.Todos.defaultMode);
-      },
-      
       login: function(e) {
         if(e.keyCode != 13 && e.type != 'click') return;
+        
         var that = this;
+        this.model.action('login');
         this.model.save(this.newAttributes(), {
           success: function() {
-            Todos.Views.App.Sidebar.trigger('fetch', Todos.Collections.Todos.storageMode || Todos.Collections.Todos.defaultMode);
+            Todos.Views.App.Sidebar.trigger('fetch', 'server');
             that.close();
           },
           error: function() {
-            Todos.Views.App.Sidebar.trigger('fetch', Todos.Collections.Todos.storageMode || Todos.Collections.Todos.defaultMode);
+            Todos.Views.App.Sidebar.trigger('fetch', 'server');
           }
         });
         this.username.val('');
@@ -56,15 +56,19 @@ jQuery(function() {
       
       show: function() {
         $(this.el).show();
+        
         this.username.val('');
         this.password.val('') ;
         this.username.focus();
       },
       
-      close: function() {
-//        this.unbind();
+      close: function(e) {
+        var mode;
+        if(e) {
+          mode = $(e.currentTarget).hasClass('_local') ? 'local' : 'server' 
+          Todos.Views.App.Sidebar.trigger('fetch', mode);
+        }
         $(this.el).hide();
-//        this.remove();
       }
 
     })

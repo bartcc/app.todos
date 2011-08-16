@@ -10,10 +10,9 @@ jQuery(function() {
         _.bindAll(this, 'logout', 'newAttributes', 'render', 'template');
         
         this.button = this.$('button._logout');
-        this.model = new Todos.Models.User();
-        this.model.action = 'logout';
+        this.model = Todos.Models.User;
         
-        this.model.bind('change', this.logout);
+        //this.model.bind('change', this.logout);
         Todos.bind('mode', this.render);
 
       },
@@ -40,6 +39,7 @@ jQuery(function() {
       },
       
       logout: function() {
+        this.model.action('logout');
         this.model.save(this.newAttributes(), {
           success: function() {
             Todos.Views.App.Sidebar.trigger('fetch', Todos.Collections.Todos.storageMode || Todos.Collections.Todos.defaultMode);

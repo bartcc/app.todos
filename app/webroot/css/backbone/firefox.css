@@ -1,0 +1,17 @@
+div.cbb>.module-head {
+	-moz-border-radius-topleft:6px;
+	-moz-border-radius-topright:6px;
+}
+
+div.cbb .module-footer {
+	-moz-border-radius-bottomleft:6px;
+	-moz-border-radius-bottomright:6px;
+}
+div.dialogue-content div.bg {
+  -moz-border-radius: 6px 6px 6px 6px;
+  -moz-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+}
+div#messenger-alert div.dialogue-content div.bg {
+  -moz-border-radius: 0;
+  -moz-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+}

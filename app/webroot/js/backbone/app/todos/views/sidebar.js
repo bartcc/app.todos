@@ -9,18 +9,18 @@ jQuery(function() {
         'click #todo-controls #button-uncheckall button':'markAllUndone',
         'click #todo-controls #button-unsaved button'   :'saveUnsaved',
         'click #todo-controls #button-refresh button'   :'refreshList',
-        'click #todo-controls #button-storage button'   :'renderStorageChangedButton',
+        'click #todo-controls #button-storage button'   :'start',
         'click .showhide-controls'                      :'showhideControls'
       },
       
       initialize: function() {
-        _.bindAll(this, 'render', 'refreshList', 'renderRefreshState', 'renderSaveButton', 'renderStorageChangedButton')
-        
+        _.bindAll(this, 'fetch', 'start', 'render', 'refreshList', 'renderRefreshState', 'renderSaveButton')
+        this.bind('fetch',                      this.fetch);
         this.bind('refresh:list',               this.refreshList);
         this.bind('change:unsaved',             this.renderSaveButton);
         Todos.Collections.Todos.bind('all',     this.render);
         
-        this.renderStorageChangedButton();
+        //this.fetch();
       },
       
       buttonCheckallTemplate:     _.template($('#button-checkall-template').html()),
@@ -29,8 +29,12 @@ jQuery(function() {
       buttonRefreshTemplate:      _.template($('#button-refresh-template').html()),
       buttonStorageTemplate:      _.template($('#button-storage-template').html()),
       
-      renderStorageChangedButton: function() {
-        var value = Todos.Collections.Todos.toggleStorageMode();
+      start: function() {
+        this.trigger('fetch');
+      },
+      
+      fetch: function(mode) {
+        var value = Todos.Collections.Todos.toggleStorageMode(mode);
         this.trigger('refresh:list', value);
         
         // renders storage mode button
@@ -58,20 +62,24 @@ jQuery(function() {
         //...
         // disable refresh button
         this.renderRefreshState(true);
+        var loginView;
         var that = this;
         Todos.Collections.Todos.fetch({
           success: function() {
             that.buffer = $();
             // enable refresh button
             that.renderRefreshState();
-            if(mode && mode.statustext) Todos.trigger('render:storagestatus', mode)
+            if(mode && mode.statustext) Todos.trigger('render:storagestatus', mode);
           },
-          error: function(e, ev) {
+          error: function(e, xhr) {
             // ensable refresh button
             that.renderRefreshState();
-            alert('Can not connect to server !')
+            if(xhr.status >= 400) {
+              Todos.Views.App.Login.trigger('error:auth');
+            }
           }
         });
+        Todos.trigger('mode', mode);
       },
       
       renderRefreshState: function(isBusy) {

@@ -7,13 +7,21 @@ jQuery(function() {
       el: 'body',
       
       initialize: function() {
+        console.log('App initialized')
         this.Main = new NS.MainView({
           el: $("#main")
+        });
+        this.Login = new NS.LoginView({
+          el:  "#login"
+        });
+        this.Logout = new NS.LogoutView({
+          el:  "#logout"
         });
         this.Sidebar = new NS.SidebarView({
           el:  "#sidebar"
         });
         
+        this.Sidebar.trigger('fetch');
       }
     },
     {

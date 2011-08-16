@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application level Controller
  *
@@ -31,8 +32,19 @@
  * @subpackage    cake.app
  */
 class AppController extends Controller {
-    
-    function beforeFilter() {
-        $this->autoRender = FALSE;
-    }
+
+  var $helpers = array('Session', 'Html', 'Js');
+  var $components = array('RequestHandler', 'Session', 'Auth', 'Cookie');
+  
+  function beforeFilter() {
+    $this->autoRender = FALSE;
+    $this->Auth->autoRedirect = FALSE;
+
+  }
+
+  function beforeRender() {
+    if ($this->RequestHandler->isAjax())
+      $this->layout = 'ajax';
+  }
+
 }

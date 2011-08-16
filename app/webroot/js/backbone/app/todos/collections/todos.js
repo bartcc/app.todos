@@ -11,7 +11,16 @@ exports.NS('Todos.Collections').Todos = (function() {
       local: 'local', 
       server: 'server'
     },
-
+    
+    setStorageMode: function(mode) {
+      for(var key in this.persistModes) {
+        if(mode === this.persistModes[key]) {
+          this.storageMode = mode;
+          return this.storageMode;
+        }
+      }
+    },
+    
     toggleStorageMode: function(mode) {
       
       var mapMode = {
@@ -48,10 +57,9 @@ exports.NS('Todos.Collections').Todos = (function() {
         
         Todos.Collections.UnsavedTodos.reset();
         
-        this.storageMode = mode;
+        this.setStorageMode(mode);
 //        this.trigger('refresh:list', mode);
       }, this)
-
       var mode = mode ? mode : this.storageMode ? this.storageMode == local ? server : local : this.defaultMode;
       useMode();
       return mapMode[mode];
@@ -121,6 +129,10 @@ exports.NS('Todos.Collections').Todos = (function() {
     // Todos are sorted by their original insertion order.
     comparator: function(todo) {
       return todo.get('order');
+    },
+    
+    empty: function() {
+      this.reset();
     }
 
   },

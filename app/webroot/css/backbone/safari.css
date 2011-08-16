@@ -1,0 +1,16 @@
+div.cbb>.module-head {
+	-webkit-border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+}
+div.cbb .module-footer {
+	-webkit-border-bottom-left-radius:6px;
+	-webkit-border-bottom-right-radius:6px;
+}
+div.dialogue-content div.bg {
+  -webkit-border-radius: 6px;
+  -webkit-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+}
+div#messenger-alert div.dialogue-content div.bg {
+  -webkit-border-radius: 0;
+  -webkit-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+}

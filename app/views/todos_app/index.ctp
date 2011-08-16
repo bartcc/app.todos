@@ -1,5 +1,6 @@
-<header id="title">
+<header id="title" class="hbox">
   <h1>Todos</h1>
+  <div id="logout" class="flex tright" style="margin-top: 8px;"></div>
 </header>
 <div id="wrapper" class="hbox flex">
   <div id="sidebar" class="vbox">
@@ -13,7 +14,7 @@
       </div>
       <div class="hbox">
         <footer class="vbox flex">
-          <button id="refresh-db" style="font-size: 0.8em; width: 100%" onclick="window.location.href=base_url+'mysql/restore'">Rebuild Database</button>
+          <button id="refresh-db" class="light" style="font-size: 0.8em; width: 100%" onclick="window.location.href=base_url+'mysql/restore'">Rebuild Database</button>
         </footer>
       </div>
     </div>
@@ -34,12 +35,55 @@
       <footer class="hbox">
         <div id="storage-mode"><span></span></div>
         <div class="flex">
-          <button class="clear">Clear completed</button>
+          <button class="light clear">Clear completed</button>
         </div>
       </footer>
     </div>
   </div>
-
+</div>
+<div id="login" style="display: none">
+  <div class="dialogue-wrap transparent" id="messenger">
+    <div class="dialogue">
+      <div style="width:520px; min-width:500px;" class="morph dialogue-content" id="morph_messenger-wrap">
+        <div class="bg verticaltop" id="draggable-messenger-wrap">
+          <header>
+            <fieldset class="right">
+              <button class="light window input _close">x</button>
+            </fieldset>
+          </header>
+          <div class="dialogue-inner-wrap">
+            <div class="drag-handle">
+              <div>
+                <h1>Login</h1>
+                <p>Enter username and password</p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="dialogue-scroll">
+              <fieldset>
+                <div class="left">
+                  <label>User</label>
+                  <input class="username" type="text">
+                </div>
+                <div class="left">
+                  <label>Password</label>
+                  <input class="password" type="text">
+                </div>
+              </fieldset>
+            </div>
+          </div>
+          <footer>
+            <span>
+              <fieldset>
+                <button class="light _cancel">Cancel</button>
+                <button class="light _login">Login</button>
+              </fieldset>
+            </span>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -67,27 +111,31 @@
 </script>
 
 <script type="text/template" id="button-checkall-template">
-  <button title="Check all Todos" class="primary_lg <%=remaining==0 ? 'disabled' : '' %>" type="button" <%=remaining==0 ? 'disabled' : '' %>><%=value%></button>
+  <button title="Check all Todos" class="primary_lg <%=remaining==0 ? 'disabled' : '' %>" <%=remaining==0 ? 'disabled' : '' %>><%=value%></button>
 </script>
 
 <script type="text/template" id="button-uncheckall-template">
-  <button title="Uncheck all Todos" class="primary_lg <%=done==0 ? 'disabled' : '' %>" type="button" <%=done==0 ? 'disabled' : '' %>><%=value%></button>
+  <button title="Uncheck all Todos" class="primary_lg <%=done==0 ? 'disabled' : '' %>" <%=done==0 ? 'disabled' : '' %>><%=value%></button>
 </script>
 
 <script type="text/template" id="button-unsaved-template">
-  <button title="Save all local changes" class="primary_lg <%=unsaved==0 ? 'disabled' : 'alert' %>" type="button" <%=unsaved==0 ? 'disabled' : '' %>><%=value%></button>
+  <button title="Save all local changes" class="primary_lg <%=unsaved==0 ? 'disabled' : 'alert' %>" <%=unsaved==0 ? 'disabled' : '' %>><%=value%></button>
 </script>
 
 <script type="text/template" id="button-refresh-template">
-  <button title="Reloads a fresh set from server" class="primary_lg <%=busy ? 'disabled' : '' %>" type="button" <%=busy ? 'disabled' : '' %>><%=value%></button>
+  <button title="Reloads a fresh set from server" class="primary_lg <%=busy ? 'disabled' : '' %>" <%=busy ? 'disabled' : '' %>><%=value%></button>
 </script>
 
 <script type="text/template" id="button-storage-template">
-  <button title="Toggle Storage" class="primary_lg" type="button" style=""><%=value%></button>
+  <button title="Toggle Storage" class="primary_lg" style=""><%=value%></button>
 </script>
 
 <script type="text/template" id="storage-status-template">
   <span><%=value%></span>
+</script>
+
+<script type="text/template" id="button-logout-template">
+  <button class="dark clear _logout">Logout</button>
 </script>
 
 <script type="text/template" id="dialog-template">

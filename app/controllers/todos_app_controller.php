@@ -8,6 +8,8 @@ class TodosAppController extends AppController {
   function beforeFilter() {
     $this->autoRender = true;
     $this->layout = 'todos_layout';
+    
+    $this->Auth->allowedActions = array('index');
   }
 
   function index() {

@@ -49,10 +49,13 @@
     echo $this->Html->script('lib/namespace');
     
     echo $this->Html->script('backbone/app/todos/app.intro');
+    echo $this->Html->script('backbone/app/todos/models/user');
     echo $this->Html->script('backbone/app/todos/models/todo');
     echo $this->Html->script('backbone/app/todos/models/unsaved_todo');
     echo $this->Html->script('backbone/app/todos/collections/todos');
     echo $this->Html->script('backbone/app/todos/collections/unsaved_todos');
+    echo $this->Html->script('backbone/app/todos/views/login');
+    echo $this->Html->script('backbone/app/todos/views/logout');
     echo $this->Html->script('backbone/app/todos/views/todo');
     echo $this->Html->script('backbone/app/todos/views/sidebar');
     echo $this->Html->script('backbone/app/todos/views/main');

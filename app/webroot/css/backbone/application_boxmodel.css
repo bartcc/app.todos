@@ -463,7 +463,7 @@ button.primary_lg.alert {
   background: -moz-linear-gradient(top, #963030, #7B3030);
   background: linear-gradient(top, #963030, #7B3030);
 }
-button.alert:hover {
+button.primary_lg.alert:hover {
   background: #963030;
   background: -webkit-gradient(linear, left top, left bottom, from(#963030), to(#8B4040));
   background: -moz-linear-gradient(top, #963030, #8B4040);

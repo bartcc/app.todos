@@ -24,8 +24,8 @@ jQuery(function() {
 
       },
       
-      render: function(m) {
-        if(m.mode === 'server') {
+      render: function() {
+        if(Todos.Collections.Todos.storageMode === 'server') {
           $(this.el).html(this.template());
         } else {
           $(this.el).empty();

@@ -55,7 +55,7 @@
             <div class="drag-handle">
               <div>
                 <h1>Login</h1>
-                <p>Enter username (guest) and password (guest)</p>
+                <p>Enter username (<strong>guest</strong>) and password (<strong>guest</strong>)</p>
               </div>
               <div class="clearfix"></div>
             </div>

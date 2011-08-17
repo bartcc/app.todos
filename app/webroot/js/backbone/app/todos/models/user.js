@@ -19,7 +19,6 @@ jQuery(function() {
       
       // Ensure that each todo created has `content`.
       initialize: function() {
-        console.log('user initialized')
         _.bindAll(this, 'action', 'url');
       },
 

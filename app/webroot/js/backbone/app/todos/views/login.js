@@ -5,7 +5,6 @@ jQuery(function() {
     var Login = Backbone.View.extend({
     
       initialize: function() {
-        console.log('login initialized')
         _.bindAll(this, 'login', 'close', 'newAttributes', 'updateAuth');
         
         this.bind('error:auth', this.show);

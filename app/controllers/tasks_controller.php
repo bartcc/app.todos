@@ -6,6 +6,11 @@ class TasksController extends AppController {
   var $helpers = array('Ajax', 'Js', 'Session');
   var $components = array('RequestHandler');
 
+  function beforeFilter() {
+    $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
+    parent::beforeFilter();
+  }
+  
   function index() {
     $this->Task->recursive = 0;
     $json = $this->Task->find('all', array('fields' => array('id', 'done', 'name', 'order'), 'order' => array('order')));

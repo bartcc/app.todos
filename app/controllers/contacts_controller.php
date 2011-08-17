@@ -7,7 +7,7 @@ class ContactsController extends AppController {
   var $components = array('RequestHandler');
 
   function beforeFilter() {
-    $this->Auth->allowedActions = array('index', 'view', 'add', 'edit');
+    $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
     parent::beforeFilter();
   }
   function index() {

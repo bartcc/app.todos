@@ -34,14 +34,15 @@
 
     echo $this->Html->script('lib/json2');
 
-    echo $this->Html->script('lib/underscore.debug');
+    echo $this->Html->script('lib/underscore');
 
-    echo $this->Html->script('lib/jquery-1.6.1');
-    echo $this->Html->script('lib/jquery.tmpl');
-    echo $this->Html->script('lib/jquery.ui.core');
-    echo $this->Html->script('lib/jquery.ui.widget');
-    echo $this->Html->script('lib/jquery.ui.mouse');
-    echo $this->Html->script('lib/jquery.ui.sortable');
+    echo $this->Html->script('lib/jquery/jquery-1.6.2');
+    echo $this->Html->script('lib/jquery/jquery.tmpl');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.widget');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.mouse');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.dialog');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
 
     echo $this->Html->script('spine/lib/spine');
     echo $this->Html->script('spine/lib/spine.local');

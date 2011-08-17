@@ -17,7 +17,6 @@ jQuery(function() {
         this.localButton = this.$('._local');
         
         this.model = Todos.Models.User;
-        this.model.bind('change', this.login);
 
       },
 
@@ -56,7 +55,7 @@ jQuery(function() {
       },
       
       updateAuth: function() {
-        if(!this.model.get('username') === '') return;
+        if(this.model.get('username') !== '') return;
         this.model.action('login');
         this.model.save();
       },

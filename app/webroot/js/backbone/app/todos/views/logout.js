@@ -14,7 +14,7 @@ jQuery(function() {
         
         //this.model.bind('change', this.logout);
         Todos.bind('mode', this.render);
-        //this.model.bind('change', this.render);
+        this.model.bind('change', this.render);
 
       },
 

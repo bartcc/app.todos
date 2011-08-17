@@ -5,11 +5,6 @@ class TasksController extends AppController {
   var $name = 'Tasks';
   var $helpers = array('Ajax', 'Js', 'Session');
   var $components = array('RequestHandler');
-
-  function beforeFilter() {
-    $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
-    parent::beforeFilter();
-  }
   
   function index() {
     $this->Task->recursive = 0;

@@ -1,4 +1,4 @@
-jQuery(function() {
+jQuery(function($) {
   
   window.Tasks = Spine.Controller.create({
     el: $("#tasks"),
@@ -48,7 +48,7 @@ jQuery(function() {
 
     sortupdate: function(e, ui) {
       var task;
-      $(sortableTodos).children('li').each(function(index) {
+      this.items.children('li').each(function(index) {
         task = Task.find($(this).attr('id').replace("todo-", ""));
         if(task && task.order != index) {
           task.order = index;

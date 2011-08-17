@@ -142,8 +142,9 @@ jQuery(function($) {
         item: task
       });
       var el = view.render().el;
-      if($('#'+$(el).attr('id')).replaceWith($(el)).length) return;
-      $(this.items).append(view.render().el);
+      console.log(el)
+      //if($('#'+$(el).attr('id')).replaceWith($(el)).length) return;
+      $(this.items).append(el);
     },
 
     addAll: function() {

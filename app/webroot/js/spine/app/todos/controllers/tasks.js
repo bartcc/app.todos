@@ -28,7 +28,6 @@ jQuery(function($){
       this.item.reload();
       var isEqual = _.isEqual(this.item.savedAttributes, this.item.attributes());
       var element = $("#taskTemplate").tmpl(this.item);
-      console.log(element)
       this.el.html(element).toggleClass('unsaved', !isEqual);
       this.el.prop('id', 'todo-'+this.item.id).addClass('hover');
       this.refreshElements();

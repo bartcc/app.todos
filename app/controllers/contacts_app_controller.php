@@ -8,6 +8,7 @@ class ContactsAppController extends AppController {
   function beforeFilter() {
     $this->autoRender = true;
     $this->layout = 'contacts_layout';
+    $this->Auth->allowedActions = array('index');
   }
 
   function index() {}

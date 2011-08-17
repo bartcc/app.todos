@@ -10,6 +10,7 @@ class ContactsController extends AppController {
     $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
     parent::beforeFilter();
   }
+  
   function index() {
     $this->Contact->recursive = 0;
     $json = $this->Contact->find('all', array('fields' => array('id', 'first_name', 'last_name', 'email', 'mobile', 'work', 'address', 'notes')));

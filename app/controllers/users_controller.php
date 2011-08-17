@@ -5,7 +5,7 @@ class UsersController extends AppController {
 
  function beforeFilter() {
     $this->disableCache();
-    $this->Auth->allowedActions = array('login', 'logout');
+    $this->Auth->allowedActions = array('login', 'logout', 'auth');
     
     $this->payload = $this->getPayLoad();
     
@@ -24,7 +24,7 @@ class UsersController extends AppController {
   function login() {
     $user = $this->Auth->user();
     if ($user) {
-      $merged = array_merge($this->response['User'], array('password' => '', 'session' => $this->Session->id(), 'name' => $this->Auth->user('name')));
+      $merged = array_merge($this->response['User'], array('password' => '', 'session' => $this->Session->id(), 'name' => $this->Auth->user('name'), 'username' => $this->Auth->user('username')));
       $json = $merged;
       $this->set(compact('json'));
       $this->render(SIMPLE_JSON);
@@ -42,6 +42,18 @@ class UsersController extends AppController {
     }
     $merged = array_merge($this->response['User'], array('username' => '', 'name' => '', 'password' => '', 'session' => ''));
     $json = $merged;
+    $this->set(compact('json'));
+    $this->render(SIMPLE_JSON);
+  }
+  
+  function auth() {
+    if ($this->params['isAjax'] && $this->Auth->user()) {
+      $user = $this->Auth->user();
+      $merged = array_merge($this->response['User'], $user['User']);
+      $json = $merged;
+    } elseif (isset($this->response)) {
+      $json = $this->response['User'];
+    }
     $this->set(compact('json'));
     $this->render(SIMPLE_JSON);
   }

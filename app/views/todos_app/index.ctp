@@ -127,7 +127,7 @@
 </script>
 
 <script type="text/template" id="button-storage-template">
-  <button title="Toggle Storage" class="primary_lg" style=""><%=value%></button>
+  <button title="<%=value%>" class="primary_lg" style=""></button>
 </script>
 
 <script type="text/template" id="storage-status-template">
@@ -135,7 +135,9 @@
 </script>
 
 <script type="text/template" id="button-logout-template">
-  <button class="dark clear _logout">Logout</button>
+  <% if (value) { %>
+  <button class="dark clear _logout">Logout <%=value%></button>
+  <% } %>
 </script>
 
 <script type="text/template" id="dialog-template">

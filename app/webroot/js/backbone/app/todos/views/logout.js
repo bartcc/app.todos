@@ -14,6 +14,7 @@ jQuery(function() {
         
         //this.model.bind('change', this.logout);
         Todos.bind('mode', this.render);
+        //this.model.bind('change', this.render);
 
       },
 
@@ -25,7 +26,9 @@ jQuery(function() {
       
       render: function() {
         if(Todos.Collections.Todos.storageMode === 'server') {
-          $(this.el).html(this.template());
+          $(this.el).html(this.template({
+            value: this.model.get('name')
+          }));
         } else {
           $(this.el).empty();
         }

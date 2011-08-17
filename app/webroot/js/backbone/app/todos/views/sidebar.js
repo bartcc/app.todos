@@ -40,7 +40,7 @@ jQuery(function() {
         // renders storage mode button
         this.$('span#button-storage').toggleClass('server', value.mode !== 'local');
         this.$('span#button-storage').html(this.buttonStorageTemplate({
-          value:    ''//value.button
+          value:    value.button
         }));
         
       },
@@ -66,14 +66,18 @@ jQuery(function() {
         //...
         // disable refresh button
         this.renderRefreshState(true);
-        var loginView;
         var that = this;
         Todos.Collections.Todos.fetch({
           success: function() {
             that.buffer = $();
             // enable refresh button
             that.renderRefreshState();
-            if(mode) Todos.trigger('render:storagestatus', mode);
+            if(Backbone.sync === Backbone.serverSync) {
+              Todos.trigger('update:auth');
+            }
+            if(mode) {
+              Todos.trigger('render:storagestatus', mode);
+            }
           },
           error: function(e, xhr) {
             // ensable refresh button

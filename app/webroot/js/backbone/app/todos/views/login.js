@@ -6,9 +6,10 @@ jQuery(function() {
     
       initialize: function() {
         console.log('login initialized')
-        _.bindAll(this, 'login', 'close', 'newAttributes');
+        _.bindAll(this, 'login', 'close', 'newAttributes', 'updateAuth');
         
         this.bind('error:auth', this.show);
+        Todos.bind('update:auth', this.updateAuth);
         
         this.username = this.$('.username');
         this.password = this.$('.password');
@@ -52,6 +53,12 @@ jQuery(function() {
         });
         this.username.val('');
         this.password.val('');
+      },
+      
+      updateAuth: function() {
+        if(!this.model.get('username') === '') return;
+        this.model.action('login');
+        this.model.save();
       },
       
       show: function() {

@@ -25,12 +25,12 @@ exports.NS('Todos.Collections').Todos = (function() {
       
       var mapMode = {
         'local':    {
-          button      : 'To Server', 
+          button      : 'Switch to server mode', 
           statustext  : 'local mode',
           mode        : 'local'
         },
         'server':   {
-          button      : 'To Local', 
+          button      : 'Switch to local mode', 
           statustext  : 'server mode',
           mode        : 'server'
         }

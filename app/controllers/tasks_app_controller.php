@@ -1,15 +1,22 @@
 <?php
+
 class TasksAppController extends AppController {
 
-	var $name = 'TasksApp';
-    var $uses = array();
+  var $name = 'TasksApp';
+  var $uses = array();
+
+  function beforeFilter() {
+    $this->autoRender = true;
+    $this->layout = 'tasks_layout';
+
+    $this->Auth->allowedActions = array('index');
+    parent::beforeFilter();
+  }
+
+  function index() {
     
-    function beforeFilter() {
-        $this->autoRender = true;
-        $this->layout = 'tasks_layout';
-    }
-    
-    function index() {}
+  }
 
 }
+
 ?>

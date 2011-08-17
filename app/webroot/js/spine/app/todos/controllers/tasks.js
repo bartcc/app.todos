@@ -1,6 +1,6 @@
 jQuery(function($){
   
-  window.TasksItem = Spine.Controller.create({
+  window.Tasks = Spine.Controller.create({
     el: "li",
     
     proxied: ["render", "remove"],
@@ -19,6 +19,7 @@ jQuery(function($){
     },
         
     init: function(){
+      this.item = Task.init();
       this.item.bind("update",  this.render);
       this.item.bind("destroy", this.remove);
     },
@@ -27,6 +28,7 @@ jQuery(function($){
       this.item.reload();
       var isEqual = _.isEqual(this.item.savedAttributes, this.item.attributes());
       var element = $("#taskTemplate").tmpl(this.item);
+      console.log(element)
       this.el.html(element).toggleClass('unsaved', !isEqual);
       this.el.prop('id', 'todo-'+this.item.id).addClass('hover');
       this.refreshElements();

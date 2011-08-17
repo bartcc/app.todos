@@ -15,7 +15,7 @@ jQuery(function($){
         el: this.taskEl
       });
       
-      Contact.fetch();
+      Task.fetch();
     }
   }).init();
 });

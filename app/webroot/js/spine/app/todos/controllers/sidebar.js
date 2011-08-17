@@ -1,6 +1,6 @@
 jQuery(function($) {
   
-  window.Tasks = Spine.Controller.create({
+  window.Sidebar = Spine.Controller.create({
     el: $("#tasks"),
 
     proxied: ['addOne', 'addAll', 'renderCount', 'renderControls', 'renderSaveState', 'refreshList'],

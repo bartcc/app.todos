@@ -84,6 +84,14 @@ jQuery(function() {
             that.renderRefreshState();
             if(xhr.status >= 400) {
               Todos.Views.App.Login.trigger('error:auth');
+              if(Backbone.sync === Backbone.serverSync) {
+                Todos.Models.User.set({
+                  sessionid : '',
+                  name      : '',
+                  username  : '',
+                  id        : ''
+                })
+              }
             }
           }
         });

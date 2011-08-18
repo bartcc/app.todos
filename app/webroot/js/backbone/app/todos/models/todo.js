@@ -8,8 +8,9 @@ exports.NS('Todos.Models').Todo = (function() {
 
     // If you don't provide a todo, one will be provided for you.
     defaults: {
-      content : 'Empty todo...',
-      done    : false
+      content   : 'Empty todo...',
+      done      : false,
+      sessionid : ''
     },
 
     // Ensure that each todo created has `content`.

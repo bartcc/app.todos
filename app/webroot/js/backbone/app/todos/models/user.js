@@ -9,10 +9,17 @@ jQuery(function() {
     var User = Backbone.Model.extend({
 
       defaults: {
-        name    : '',
-        username: '',
-        password: '',
-        session : ''
+        id        : '',
+        name      : '',
+        username  : '',
+        password  : '',
+        sessionid : ''
+      },
+      
+      validate: function(attrs) {
+        if(!attrs.username || !attrs.password) {
+          return false;
+        }
       },
       
       defaultAction: 'login',

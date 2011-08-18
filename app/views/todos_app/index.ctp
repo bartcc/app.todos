@@ -56,6 +56,7 @@
               <div>
                 <h1>Login</h1>
                 <p>Enter username (<strong>guest</strong>) and password (<strong>guest</strong>)</p>
+                <p class="_flash"></p>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -76,7 +77,7 @@
             <span>
               <fieldset>
                 <button class="_local light">Local Storage</button>
-                <button class="_login light">Login</button>
+                <button class="_login light disabled" disabled="">Login</button>
               </fieldset>
             </span>
           </footer>

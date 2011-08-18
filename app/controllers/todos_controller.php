@@ -9,6 +9,7 @@ class TodosController extends AppController {
   function index() {
     $this->Todo->recursive = 0;
     $json = $this->Todo->find('all', array('fields' => array('id', 'done', 'order', 'content')));
+    //$json = array_merge($json, array('sessionid' => $this->Session->id()));
     $this->set('json', $json);
     $this->render(SIMPLE_JSON, 'ajax');
   }

@@ -505,7 +505,13 @@ button.primary_lg:hover {
   background: linear-gradient(top, #474747, #404040);
   cursor: pointer;
 }
-button.primary_lg.disabled {
+button.light.disabled, button.light.disabled:active {
+  background: -webkit-gradient(linear, left top, left bottom, from(#F7F7F7), to(#C7C7C7));
+  background: -moz-linear-gradient(center top , #F7F7F7, #C7C7C7);
+  background: linear-gradient(top, #F7F7F7, #C7C7C7);
+  text-shadow: 0 1px 0 #FFFFFF;
+}
+button.disabled {
   background: #878787;
   background: -webkit-gradient(linear, left top, left bottom, from(#878787), to(#676767));
   background: -moz-linear-gradient(top, #878787, #676767);

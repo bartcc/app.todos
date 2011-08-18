@@ -86,10 +86,10 @@ jQuery(function() {
       },
       
       show: function() {
-        $(this.el).show();
-        
         this.username.val('');
         this.password.val('') ;
+        this.validateLogin();
+        $(this.el).show();
         this.username.focus();
       },
       

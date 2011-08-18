@@ -24,12 +24,12 @@ class UsersController extends AppController {
   function login() {
     $user = $this->Auth->user();
     if ($user) {
-      $merged = array_merge($this->response['User'], array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'flash' => '<b><em>You are logged in</em></b>'));
+      $merged = array_merge($this->response['User'], array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'flash' => 'You are logged in'));
       $json = $merged;
       $this->set(compact('json'));
       $this->render(SIMPLE_JSON);
     } elseif (isset($this->response)) {
-      $merged = array_merge($this->response['User'], array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => '', 'flash' => '<b><em>Login failed</em></b>'));
+      $merged = array_merge($this->response['User'], array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => '', 'flash' => 'Login failed'));
       $json = $merged;
       $this->set(compact('json'));
       $this->header("HTTP/1.1 403 Forbidden");

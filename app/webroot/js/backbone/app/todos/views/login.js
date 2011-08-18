@@ -15,7 +15,7 @@ jQuery(function() {
         this.closeButton = this.$('._close');
         this.localButton = this.$('._local');
         this.loginButton = this.$('._login');
-        this.flash = this.$('._flash');
+        this.flash = this.$('._flash span');
         
         this.model = Todos.Models.User;
         this.isValid = false;
@@ -40,12 +40,10 @@ jQuery(function() {
       },
       
       validateLogin: function() {
-        var funcValidate, funcAttr, username, password;
+        var funcValidate, that = this;
         funcValidate = function() {
-          username = this.username.val();
-          password = this.password.val();
-          return !username || !password;
-        }.bind(this)
+          return !that.username.val() || !that.password.val();
+        }
         
         this.loginButton.toggleClass(function(i, cl, sw) {
           sw ? $(this).attr('disabled') : $(this).removeAttr('disabled');

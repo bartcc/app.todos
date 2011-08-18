@@ -56,7 +56,7 @@
               <div>
                 <h1>Login</h1>
                 <p>Enter username (<strong>guest</strong>) and password (<strong>guest</strong>)</p>
-                <p class="_flash"></p>
+                <p class="_flash"><span></span></p>
               </div>
               <div class="clearfix"></div>
             </div>

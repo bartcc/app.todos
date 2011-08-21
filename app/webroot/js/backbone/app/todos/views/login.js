@@ -6,6 +6,8 @@ jQuery(function() {
       
       template: _.template($('#flash-template').html()),
       
+      loginText: 'Enter Username and Password',
+      
       initialize: function() {
         _.bindAll(this, 'login', 'close', 'newAttributes', 'validateLogin', 'updateAuth', 'renderFlash');
         
@@ -23,7 +25,7 @@ jQuery(function() {
         this.model = Todos.Models.User;
         this.isValid = false;
         
-        this.trigger('flash', 'Enter Username and Password');
+        this.trigger('flash', this.loginText);
 
       },
 
@@ -37,8 +39,13 @@ jQuery(function() {
 
       },
       
-      renderFlash: function(value) {
+      renderFlash: function(value, goBack) {
         this.flash.html(this.template({ value: value }));
+        if(goBack) {
+          setTimeout(function() {
+            this.trigger('flash', this.loginText);
+          }.bind(this), 3000)
+        }
         return this;
       },
       
@@ -71,7 +78,7 @@ jQuery(function() {
           success: function(a, json) {
             Todos.Views.App.Sidebar.trigger('fetch', 'server');
             flash = json.flash;
-            that.trigger('flash', flash);
+            that.trigger('flash', flash, true);
 //            that.flash.html(json.flash);
             that.username.val('');
             that.password.val('');
@@ -80,7 +87,7 @@ jQuery(function() {
           error: function(a, xhr) {
             //Todos.Views.App.Sidebar.trigger('fetch', 'server');
             flash = JSON.parse(xhr.responseText).flash;
-            that.trigger('flash', flash);
+            that.trigger('flash', flash, true);
             that.username.focus();
             that.password.val('');
             that.validateLogin();
@@ -111,7 +118,6 @@ jQuery(function() {
         }
         setTimeout(function(t) {
           $(that.el).hide();
-          that.trigger('flash', 'Enter Username and Password');
         }, t)
       }
 

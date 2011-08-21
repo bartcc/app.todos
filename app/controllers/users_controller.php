@@ -24,12 +24,12 @@ class UsersController extends AppController {
   function login() {
     $user = $this->Auth->user();
     if ($user) {
-      $merged = array_merge($this->response['User'], array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'flash' => '<strong>You are logged in</strong>'));
+      $merged = array_merge($this->response['User'], array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'flash' => '<strong style="color:green">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>'));
       $json = $merged;
       $this->set(compact('json'));
       $this->render(SIMPLE_JSON);
     } elseif (isset($this->response)) {
-      $merged = array_merge($this->response['User'], array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => '', 'flash' => '<strong>Login failed</strong>'));
+      $merged = array_merge($this->response['User'], array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => '', 'flash' => '<strong style="color:red">Login failed</strong>'));
       $json = $merged;
       $this->set(compact('json'));
       $this->header("HTTP/1.1 403 Forbidden");

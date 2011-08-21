@@ -55,8 +55,8 @@
             <div class="drag-handle">
               <div>
                 <h1>Login</h1>
-                <p>Enter username (<strong>guest</strong>) and password (<strong>guest</strong>)</p>
                 <p class="_flash"><span></span></p>
+                <p><span><small>(guest / guest) or (admin / admin)</small></span></p>
               </div>
               <div class="clearfix"></div>
             </div>
@@ -139,6 +139,10 @@
   <% if (value) { %>
   <button class="dark clear _logout">Logout <%=value%></button>
   <% } %>
+</script>
+
+<script type="text/template" id="flash-template">
+  <%=value %>
 </script>
 
 <script type="text/template" id="dialog-template">

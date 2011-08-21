@@ -3,11 +3,14 @@ jQuery(function() {
   exports.NS('Todos.Views').LoginView = (function() {
 
     var Login = Backbone.View.extend({
-    
+      
+      template: _.template($('#flash-template').html()),
+      
       initialize: function() {
-        _.bindAll(this, 'login', 'close', 'newAttributes', 'validateLogin', 'updateAuth');
+        _.bindAll(this, 'login', 'close', 'newAttributes', 'validateLogin', 'updateAuth', 'renderFlash');
         
         this.bind('error:auth', this.show);
+        this.bind('flash', this.renderFlash);
         Todos.bind('update:auth', this.updateAuth);
         
         this.username = this.$('.username');
@@ -19,6 +22,8 @@ jQuery(function() {
         
         this.model = Todos.Models.User;
         this.isValid = false;
+        
+        this.trigger('flash', 'Enter Username and Password');
 
       },
 
@@ -31,7 +36,12 @@ jQuery(function() {
         'click header ._close'    : 'close'
 
       },
-
+      
+      renderFlash: function(value) {
+        this.flash.html(this.template({ value: value }));
+        return this;
+      },
+      
       newAttributes: function() {
         return {
           username: this.username.val(),
@@ -55,21 +65,22 @@ jQuery(function() {
         if((e.keyCode != 13 && e.type != 'click') || this.loginButton.hasClass('disabled')) return;
         
         
-        var that = this, json;
+        var that = this, json, flash;
         this.model.action('login');
         this.model.save(this.newAttributes(), {
-          success: function(a, xhr) {
+          success: function(a, json) {
             Todos.Views.App.Sidebar.trigger('fetch', 'server');
-            json = xhr.responseText;
-            that.flash.html(xhr.flash);
+            flash = json.flash;
+            that.trigger('flash', flash);
+//            that.flash.html(json.flash);
             that.username.val('');
             that.password.val('');
             that.close();
           },
           error: function(a, xhr) {
             //Todos.Views.App.Sidebar.trigger('fetch', 'server');
-            json = xhr.responseText;
-            that.flash.html(JSON.parse(json).flash);
+            flash = JSON.parse(xhr.responseText).flash;
+            that.trigger('flash', flash);
             that.username.focus();
             that.password.val('');
             that.validateLogin();
@@ -100,7 +111,7 @@ jQuery(function() {
         }
         setTimeout(function(t) {
           $(that.el).hide();
-          that.flash.empty();
+          that.trigger('flash', 'Enter Username and Password');
         }, t)
       }
 

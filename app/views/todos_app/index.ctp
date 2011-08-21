@@ -44,7 +44,7 @@
 <div id="login" style="display: none">
   <div class="dialogue-wrap transparent" id="messenger">
     <div class="dialogue">
-      <div style="width:520px; min-width:500px;" class="morph dialogue-content" id="morph_messenger-wrap">
+      <div style="width:525px; min-width:500px;" class="morph dialogue-content" id="morph_messenger-wrap">
         <div class="bg verticaltop" id="draggable-messenger-wrap">
           <header>
             <fieldset class="right">

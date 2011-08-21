@@ -19,3 +19,51 @@ CREATE TABLE `todos` (
   `modified` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `groups`
+--
+
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Daten für Tabelle `groups`
+--
+
+INSERT INTO `groups` VALUES(1, 'Administrators');
+INSERT INTO `groups` VALUES(2, 'Managers');
+INSERT INTO `groups` VALUES(3, 'Users');
+INSERT INTO `groups` VALUES(4, 'Guests');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL auto_increment,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `created` datetime default NULL,
+  `modified` datetime default NULL,
+  `lastlogin` datetime default NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Daten für Tabelle `users`
+--
+
+INSERT INTO `users` VALUES(1, 'administrator', '91b972c041bd6aad069cbad924370370cf7b22ec', 'Administrator', '2011-01-04 11:10:55', '2011-02-01 05:39:32', '2011-02-01 05:39:32', 1, 1);
+INSERT INTO `users` VALUES(2, 'guest', '701f9f95b384efe29f5949d10aa2e0e875fc32e7', 'SampleGuest', '2011-01-04 12:01:48', '2011-08-08 07:38:44', '2011-08-08 07:38:44', 1, 4);

@@ -39,12 +39,12 @@ jQuery(function() {
 
       },
       
-      renderFlash: function(value, goBack) {
+      renderFlash: function(value, goBack, t) {
         this.flash.html(this.template({ value: value }));
         if(goBack) {
           setTimeout(function() {
             this.trigger('flash', this.loginText);
-          }.bind(this), 3000)
+          }.bind(this), t || 3000)
         }
         return this;
       },
@@ -72,13 +72,12 @@ jQuery(function() {
         if((e.keyCode != 13 && e.type != 'click') || this.loginButton.hasClass('disabled')) return;
         
         
-        var that = this, json, flash;
+        var that = this, json;
         this.model.action('login');
         this.model.save(this.newAttributes(), {
           success: function(a, json) {
             Todos.Views.App.Sidebar.trigger('fetch', 'server');
-            flash = json.flash;
-            that.trigger('flash', flash, true);
+            that.trigger('flash', json.flash, true);
 //            that.flash.html(json.flash);
             that.username.val('');
             that.password.val('');
@@ -86,8 +85,7 @@ jQuery(function() {
           },
           error: function(a, xhr) {
             //Todos.Views.App.Sidebar.trigger('fetch', 'server');
-            flash = JSON.parse(xhr.responseText).flash;
-            that.trigger('flash', flash, true);
+            that.trigger('flash', JSON.parse(xhr.responseText).flash, true);
             that.username.focus();
             that.password.val('');
             that.validateLogin();

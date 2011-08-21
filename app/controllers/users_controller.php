@@ -41,7 +41,7 @@ class UsersController extends AppController {
     if ($this->params['isAjax']) {
       $this->Auth->logout();
     }
-    $merged = array_merge($this->response['User'], array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => ''));
+    $merged = array_merge($this->response['User'], array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => '', 'flash' => '<strong>You\'re logged out successfully</strong>'));
     $json = $merged;
     $this->set(compact('json'));
     $this->render(SIMPLE_JSON);

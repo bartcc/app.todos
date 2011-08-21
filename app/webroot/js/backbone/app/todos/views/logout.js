@@ -44,8 +44,8 @@ jQuery(function() {
       logout: function() {
         this.model.action('logout');
         this.model.save(this.newAttributes(), {
-          success: function() {
-            Todos.Views.App.Sidebar.trigger('fetch', Todos.Collections.Todos.storageMode || Todos.Collections.Todos.defaultMode);
+          success: function(a, json) {
+            Todos.Views.App.Sidebar.trigger('fetch', 'server');
           }
         });
         Todos.Collections.Todos.empty();

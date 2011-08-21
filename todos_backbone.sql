@@ -59,7 +59,7 @@ CREATE TABLE `users` (
   `enabled` tinyint(1) NOT NULL,
   `group_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `users`

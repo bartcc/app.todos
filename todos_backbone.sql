@@ -65,5 +65,5 @@ CREATE TABLE `users` (
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` VALUES(1, 'administrator', '91b972c041bd6aad069cbad924370370cf7b22ec', 'Administrator', '2011-01-04 11:10:55', '2011-02-01 05:39:32', '2011-02-01 05:39:32', 1, 1);
+INSERT INTO `users` VALUES(1, 'admin', '8ca1564ac0cd14cf403c5cd2417a5a3e62ec3dbc', 'Administrator', '2011-01-04 11:10:55', '2011-02-01 05:39:32', '2011-02-01 05:39:32', 1, 1);
 INSERT INTO `users` VALUES(2, 'guest', '701f9f95b384efe29f5949d10aa2e0e875fc32e7', 'SampleGuest', '2011-01-04 12:01:48', '2011-08-08 07:38:44', '2011-08-08 07:38:44', 1, 4);

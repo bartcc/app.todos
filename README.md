@@ -11,6 +11,7 @@ Checkout the live [Backbone based demo](http://app.anito.de/index.php?/todos_app
 #Features
 
 * Todo CRUD
+* Login
 * Server Storage persistens
 * Toggle Local Storage <-> Server Storage persistens (Backbone only)
 * Mark all Tasks done/undone in memory and sync later

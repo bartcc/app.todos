@@ -40,11 +40,12 @@ jQuery(function() {
       },
       
       renderFlash: function(value, goBack, t) {
+        var that = this;
         this.flash.html(this.template({ value: value }));
         if(goBack) {
           setTimeout(function() {
-            this.trigger('flash', this.loginText);
-          }.bind(this), t || 3000)
+            that.trigger('flash', that.loginText);
+          }, t || 3000)
         }
         return this;
       },

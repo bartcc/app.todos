@@ -79,13 +79,11 @@ jQuery(function() {
           success: function(a, json) {
             Todos.Views.App.Sidebar.trigger('fetch', 'server');
             that.trigger('flash', json.flash, true);
-//            that.flash.html(json.flash);
             that.username.val('');
             that.password.val('');
             that.close();
           },
           error: function(a, xhr) {
-            //Todos.Views.App.Sidebar.trigger('fetch', 'server');
             that.trigger('flash', JSON.parse(xhr.responseText).flash, true);
             that.username.focus();
             that.password.val('');

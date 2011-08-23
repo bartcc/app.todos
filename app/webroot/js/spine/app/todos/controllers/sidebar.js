@@ -1,9 +1,8 @@
 jQuery(function($) {
   
   window.Sidebar = Spine.Controller.create({
-    el: $("#tasks"),
 
-    proxied: ['addOne', 'addAll', 'renderCount', 'renderControls', 'renderSaveState', 'refreshList'],
+    proxied: ['addOne', 'addAll', 'renderCount', 'renderControls', 'renderRefreshState', 'renderSaveState', 'refreshList'],
 
     events: {
       'keypress #create-todo input'                   :'create',
@@ -12,7 +11,6 @@ jQuery(function($) {
       'click #button-uncheckall button'               :'markAllUndone',
       'click #todo-controls #button-refresh button'   :'refreshList',
       'click #todo-controls #button-unsaved button'   :'saveUnsaved',
-      'sortupdate .items'                             :'sortupdate',
       'keyup #new-todo'                               :'showTooltip'
     },
 
@@ -29,15 +27,14 @@ jQuery(function($) {
     buttonRefreshTemplate:      $.template(null, $('#button-refresh-template').html()),
 
     init: function(){
-      Task.bind('create change refresh',  this.updateUnsaved);
-      Task.bind('create',  this.addOne);
-      Task.bind('refresh', this.addAll);
-      Task.bind('refresh change', this.renderControls);
-      Task.bind('ajaxSuccess', this.saveToLocal);
-      Task.bind('change:unsaved', this.renderSaveState);
-      Task.bind('refresh:list', this.refreshList);
+      Task.bind('create change refresh',  this.proxy(this.updateUnsaved));
+      Task.bind('create',  this.proxy(this.addOne));
+      Task.bind('refresh', this.proxy(this.addAll));
+      Task.bind('refresh change', this.proxy(this.renderControls));
+      Task.bind('change:unsaved', this.proxy(this.renderSaveState));
+      Task.bind('refresh:list', this.proxy(this.refreshList));
+      this.items.sortable();
       this.renderSaveState();
-      this.refreshList();
     },
 
     refreshList: function() {
@@ -46,25 +43,10 @@ jQuery(function($) {
       Task.fetch();
     },
 
-    sortupdate: function(e, ui) {
-      var task;
-      this.items.children('li').each(function(index) {
-        task = Task.find($(this).attr('id').replace("todo-", ""));
-        if(task && task.order != index) {
-          task.order = index;
-          task.save();
-        }
-      });
-    },
-
-    fetch: function(o) {
-      Task.trigger("fetch", o);
-    },
-
     saveToLocal: function(xhr) {},
 
     markAllDone: function(ev) {
-      Task.ajax.enabled = false;
+      Spine.Ajax.enabled = false;
       Task.each(function(task) {
         if(!task.done) {
           task.done = true;
@@ -72,11 +54,11 @@ jQuery(function($) {
           Task.trigger('change:unsaved', task);
         }
       })
-      Task.ajax.enabled = true;
+      Spine.Ajax.enabled = true;
     },
 
     markAllUndone: function(ev) {
-      Task.ajax.enabled = false;
+      Spine.Ajax.enabled = false;
       Task.each(function(task) {
         if(task.done) {
           task.done = false;
@@ -84,7 +66,7 @@ jQuery(function($) {
           Task.trigger('change:unsaved', task);
         }
       })
-      Task.ajax.enabled = true;
+      Spine.Ajax.enabled = true;
     },
 
     renderCount: function(){
@@ -93,7 +75,6 @@ jQuery(function($) {
 
       var inactive = Task.done().length;
       this.clear[inactive ? "show" : "hide"]();
-      console.log(inactive)
     },
 
     renderControls: function() {
@@ -142,18 +123,17 @@ jQuery(function($) {
         item: task
       });
       var el = view.render().el;
-      console.log(el)
-      //if($('#'+$(el).attr('id')).replaceWith($(el)).length) return;
-      $(this.items).append(el);
+      this.items.append(el);
     },
 
     addAll: function() {
-      Task.each(this.addOne);
+      this.items.empty();
+      Task.each(this.proxy(this.addOne));
       this.renderRefreshState(false);
     },
 
     updateUnsaved: function(task) {
-      if(!Task.ajax.enabled) return;
+      if(!Spine.Ajax.enabled) return;
       if(task && task.id) {
         Task.saveModelState(task.id);
       } else {
@@ -177,7 +157,6 @@ jQuery(function($) {
     },
 
     create: function(e){
-      console.log(e.keyCode)
       if (e.keyCode != 13) return;
       var task = Task.create(this.newAttributes());
       this.input.val("");

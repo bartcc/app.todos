@@ -3,19 +3,19 @@ jQuery(function($){
     el: $("body"),
     
     elements: {
-      "#sidebar"    : "sidebarEl",
-      "#tasks"      : "taskEl"
+      "#wrapper"    : "sidebarEl",
+      "#tasks"      : "tasksEl"
     },
     
     init: function(){
       this.sidebar = Sidebar.init({
         el: this.sidebarEl
       });
-      this.task = Tasks.init({
-        el: this.taskEl
+      this.tasks = Main.init({
+        el: this.tasksEl
       });
       
-      Task.fetch();
+      Task.trigger('refresh:list');
     }
   }).init();
 });

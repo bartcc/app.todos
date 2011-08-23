@@ -1,7 +1,7 @@
 // Create the Task model.
-var Task = Spine.Model.setup("Task", ["name", "done", 'order']);
+var Task = Spine.Model.setup("Task", "name", "done", 'order');
 
-var UnsavedTask = Spine.Model.setup("UnsavedTask", ["name", "done", 'order']);
+var UnsavedTask = Spine.Model.setup("UnsavedTask", "name", "done", 'order');
 
 UnsavedTask.extend({
   addUnsaved: function(saved) {
@@ -75,14 +75,16 @@ Task.extend({
   saveModelState: function(id) {
     if(!this.exists(id)) return;
     var model = this.find(id);
-    model.parent.records[id].savedAttributes = model.attributes();
+    model.constructor.records[id].savedAttributes = model.attributes();
     Task.trigger('change:unsaved');
   }
     
 });
 
 Task.include({
-  initialize: function() {},
+  initialize: function() {
+    
+  },
     
   remove: function() {
     this.destroy();

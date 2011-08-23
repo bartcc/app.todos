@@ -1,7 +1,7 @@
 jQuery(function($){
   
   window.Tasks = Spine.Controller.create({
-    el: "li",
+    tag: "li",
     
     proxied: ["render", "remove"],
     
@@ -19,17 +19,16 @@ jQuery(function($){
     },
         
     init: function(){
-      this.item = Task.init();
-      this.item.bind("update",  this.render);
-      this.item.bind("destroy", this.remove);
+      this.item.bind("update",  this.proxy(this.render));
+      this.item.bind("destroy", this.proxy(this.remove));
     },
         
     render: function(){
       this.item.reload();
       var isEqual = _.isEqual(this.item.savedAttributes, this.item.attributes());
       var element = $("#taskTemplate").tmpl(this.item);
-      this.el.html(element).toggleClass('unsaved', !isEqual);
       this.el.prop('id', 'todo-'+this.item.id).addClass('hover');
+      this.el.html(element).toggleClass('unsaved', !isEqual);
       this.refreshElements();
       return this;
     },
@@ -63,8 +62,6 @@ jQuery(function($){
       this.el.remove();
     }
   });
-  
-  var sortableTodos = $('.items').sortable();
     
   
 });

@@ -9,7 +9,6 @@ jQuery(function($){
     },
     
     init: function(){
-      console.log(window.App)
       this.sidebar = Sidebar.init({
         el: this.sidebarEl
       });

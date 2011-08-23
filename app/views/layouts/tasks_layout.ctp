@@ -45,13 +45,15 @@
     echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
 
     echo $this->Html->script('spine/lib/spine');
-    echo $this->Html->script('spine/lib/spine.local');
-    echo $this->Html->script('spine/lib/spine.ajax');
+    echo $this->Html->script('spine/lib/local');
+    echo $this->Html->script('spine/lib/ajax');
     
     echo $this->Html->script('spine/app/todos/controllers/sidebar');
+    echo $this->Html->script('spine/app/todos/controllers/main');
     echo $this->Html->script('spine/app/todos/controllers/tasks');
     echo $this->Html->script('spine/app/todos/models/task');
     echo $this->Html->script('spine/app/todos/application');
+    echo $this->Html->script('spine/app/todos/test');
 
     echo $html->scriptStart();
     ?>

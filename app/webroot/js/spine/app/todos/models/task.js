@@ -50,6 +50,10 @@ Task.extend({
     }));    
   },
   
+  url: function() {
+    return '' + base_url + (this.className.toLowerCase()) + 's';
+  },
+  
   // Clear all done tasks.
   destroyDone: function(){
     jQuery(this.done()).each(function(i, rec){

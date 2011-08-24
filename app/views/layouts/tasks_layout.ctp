@@ -53,7 +53,6 @@
     echo $this->Html->script('spine/app/todos/controllers/tasks');
     echo $this->Html->script('spine/app/todos/models/task');
     echo $this->Html->script('spine/app/todos/application');
-    echo $this->Html->script('spine/app/todos/test');
 
     echo $html->scriptStart();
     ?>

@@ -28,6 +28,9 @@ jQuery(function($){
     refreshList: function() {
       // disable refresh button
       Spine.App.trigger('render:refreshState', true);
+      Spine.Ajax.enabled = false;
+      Task.destroyAll();
+      Spine.Ajax.enabled = true;
       Task.fetch();
     },
 
@@ -67,7 +70,6 @@ jQuery(function($){
     },
 
     addAll: function() {
-      this.items.empty();
       Task.each(this.proxy(this.addOne));
       Spine.App.trigger('render:refreshState', false);
     },
@@ -86,7 +88,7 @@ jQuery(function($){
         Task.saveModelState(task.id);
       } else {
         Task.each(function(model) {
-          var saved = Task.saveModelState(model.id);
+          Task.saveModelState(model.id);
         })
       }
     },

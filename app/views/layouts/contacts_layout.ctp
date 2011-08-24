@@ -43,7 +43,7 @@
 //    echo $this->Html->script('lib/jquery.ui.sortable');
 
 
-    echo $this->Html->script('spine/lib/spine');
+    echo $this->Html->script('spine/lib/spine_js');
     echo $this->Html->script('spine/lib/spine.list');
     echo $this->Html->script('spine/lib/spine.model.local');
     echo $this->Html->script('spine/lib/spine.ajax');

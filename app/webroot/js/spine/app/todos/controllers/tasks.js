@@ -3,8 +3,6 @@ jQuery(function($){
   window.Tasks = Spine.Controller.create({
     tag: "li",
     
-    proxied: ["render", "remove"],
-    
     events: {
       "change   input[type=checkbox]" :"toggle",
       "click    .destroy"             :"destroy",

@@ -3,7 +3,7 @@ jQuery(function($){
     el: $("body"),
     
     elements: {
-      "#wrapper"    : "sidebarEl",
+      "#sidebar"    : "sidebarEl",
       "#tasks"      : "tasksEl"
     },
     

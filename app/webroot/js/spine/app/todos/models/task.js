@@ -4,14 +4,17 @@ var Task = Spine.Model.setup("Task", "name", "done", 'order');
 var UnsavedTask = Spine.Model.setup("UnsavedTask", "name", "done", 'order');
 
 UnsavedTask.extend({
+  
   addUnsaved: function(saved) {
-    if(!_.detect(this, function(unsaved) {
-      return unsaved.id === saved.id;
-    })) this.create(saved.clone().attributes());
+    if(!this.exists(saved.id)) {
+      this.create(saved.clone().attributes());
+    }
   },
     
   removeUnsaved: function(saved) {
-    if(this.exists(saved.id)) this.destroy(saved.id);
+    if(this.exists(saved.id)) {
+      this.destroy(saved.id);
+    }
   },
     
   // save each todo who's id is in the list
@@ -75,12 +78,21 @@ Task.extend({
       return !isEqual;
     })
   },
-    
+  
+  comparator: function() {
+    this.each(function(rec) {
+      console.log(rec.order)
+      return rec.order;
+      
+    })
+  },
+  
   saveModelState: function(id) {
     if(!this.exists(id)) return;
     var model = this.find(id);
-    model.constructor.records[id].savedAttributes = model.attributes();
+    var saved = model.constructor.records[id].savedAttributes = model.attributes();
     Task.trigger('change:unsaved');
+    return saved;
   }
     
 });

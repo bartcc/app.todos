@@ -218,6 +218,7 @@
       return this.include(Include);
     },
     url: function() {
+      console.log(Model.host)
       return "" + Model.host + "/" + (this.className.toLowerCase()) + "s";
     }
   };

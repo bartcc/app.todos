@@ -75,8 +75,8 @@ jQuery(function($){
     },
     
     renderCount: function(){
-      var active = Task.active().length;
-      this.count.text(active);
+      var active = Task.active().length, s;
+      this.count.text(active + ' item' + (s = active !== 1 ? 's' : '') + ' left');
 
       var inactive = Task.done().length;
       this.clear[inactive ? "show" : "hide"]();

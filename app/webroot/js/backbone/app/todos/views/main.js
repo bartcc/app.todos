@@ -57,7 +57,8 @@ jQuery(function() {
         var len, done, rem;
         len = Todos.Collections.Todos.length;
         done = Todos.Collections.Todos.done().length;
-        rem = Todos.Collections.Todos.length;
+        rem = Todos.Collections.Todos.remaining().length;
+        console.log(len.toString() + ' / ' + done.toString() + ' / ' + rem.toString())
         this.$('#todo-stats').html(this.statsTemplate({
           total:      len,
           done:       done,

@@ -204,7 +204,7 @@ footer {
   -webkit-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
   text-align: right;
-  height: 45px
+  min-height: 33px
 }
 footer div#storage-mode span {
   font-size: 1.7em;
@@ -423,7 +423,7 @@ button.dark:active {
   background: linear-gradient(top, #404040, #454545);
 }
 button.clear {
-  margin: 0 10px 0 0
+  margin-right: 10px
 }
 button.primary_lg.alert {
   background: #963030;

@@ -21,44 +21,36 @@ html, body {
 
   overflow: hidden
 }
-
 body {
   font-family: "Helvetica Neue", helvetica, arial, sans-serif;
   font-size: 14px;
   line-height: 1.4em;
   color: #333333;
 }
-
 h1, h2 {
   font-weight: bold;
   text-shadow: 0 1px 1px #ffffff;
 }
-
 h1 {
   font-size: 21pt;
   color: #404040;
 }
-
 h2 {
   font-size: 24pt;
   color: #404040;
   margin: 1em 0 0.7em 0;
 }
-
 header, footer {
   display: block;
 }
-
 .autoflow {
   overflow: auto;
 }
-
 .flex, flex1 {
   -moz-box-flex: 1;
   -webkit-box-flex: 1;
   box-flex: 1;
 }
-
 .hbox {
   display: -webkit-box;
   -webkit-box-align: stretch;
@@ -72,7 +64,6 @@ header, footer {
   box-align: stretch;
   box-orient: horizontal;
 }
-
 .vbox {
   display: -webkit-box;
   -webkit-box-align: stretch;
@@ -86,11 +77,9 @@ header, footer {
   box-align: stretch;
   box-orient: vertical;
 }
-
 .hbox span.flex {
   display: block
 }
-
 #title {
   overflow: hidden;
   height: 50px;
@@ -105,7 +94,6 @@ header, footer {
   background: -moz-linear-gradient(top, #474747, #303030);
   background: linear-gradient(top, #474747, #303030);
 }
-
 #title h1 {
   line-height: 50px;
   font-size: 2.5em;
@@ -121,7 +109,6 @@ header, footer {
   font-weight: bold;
   width: 200px
 }
-
 header .info {
   color: #666;
   padding: 10px;
@@ -134,7 +121,6 @@ header .info {
   background: -moz-linear-gradient(left, #303030, #474747);
   background: linear-gradient(left, #303030, #474747);
 }
-
 #todo-list {
   background: url('img/spine.png') no-repeat -40px 0;
 }
@@ -148,18 +134,15 @@ header .info {
   background: -moz-linear-gradient(left, #f9f9f9, #dfe0e1);
   background: linear-gradient(left, #f9f9f9, #dfe0e1);
 }
-
 .cloud {
   background-color: #E1EEF7
 }
-
 #tasks h1 {
   font-size: 36px;
   font-weight: bold;
   text-align: center;
   padding: 0 0 10px 0;
 }
-
 #tasks input[type="text"] {
   border: 1px solid #999999;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2) inset;
@@ -170,29 +153,24 @@ header .info {
   padding-left: 25px;
   width: 100%
 }
-
 #tasks .items {
   list-style: none;
 }
-
 #tasks .item {
   padding: 15px 20px 15px 15px;
   position: relative;
   font-size: 24px;
   border-bottom: 1px solid #cccccc;
 }
-
 #tasks .item.editing{
   padding-top: 10px;
   padding-bottom: 10px;
 }
-
 #tasks .item.done span {
   color: #888888;
   font-style: italic;
   text-decoration: line-through;
 }
-
 #tasks .item .destroy {
   position: absolute;
   right: 10px;
@@ -203,22 +181,18 @@ header .info {
   height: 20px;
   background: url(img/destroy.png) no-repeat center 0;
 }
-
 #tasks .item:hover .destroy {
   display: block;
 }
-
 #tasks .item .edit { display: none; }
 #tasks .item.editing .edit { 
   display: block;
   margin-right: 25px;
 }
 #tasks .item.editing .display { display: none; }
-
 .empty {
   font-style: italic;
 }
-
 footer {
   padding: 6px;
   border-top: 1px solid #c5c5c5;
@@ -230,8 +204,8 @@ footer {
   -webkit-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
   text-align: right;
+  height: 45px
 }
-
 footer div#storage-mode span {
   font-size: 1.7em;
   color: #C0C0C0;
@@ -243,15 +217,12 @@ footer div#storage-mode span {
 .right {
   float: right;
 }
-
 .left {
   float: left;
 }
-
 .tright {
   text-align: right
 }
-
 #todo-stats {
   text-shadow: 1px 0 1px #FFFFFF;
   color: #555555;
@@ -264,7 +235,6 @@ footer div#storage-mode span {
   text-decoration: none;
   white-space: nowrap
 }
-
 #create-todo .new-todo {
   margin: 0;
   padding: 0;
@@ -286,7 +256,6 @@ footer div#storage-mode span {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset -1px -1px 3px #eeeeee, 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
-
 #create-todo input[type=text] {
   font-size: 30px;
   font-family: inherit;
@@ -302,7 +271,6 @@ footer div#storage-mode span {
   -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
   box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
 }
-
 .ui-tooltip-top {
   left: 270px;
   top: 112px;
@@ -497,7 +465,6 @@ button.primary_lg {
   padding: 0 10px;
   margin: 0;
 }
-
 button.primary_lg:hover {
   background: #474747;
   background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#404040));
@@ -622,5 +589,5 @@ div.dialogue div.dialogue-scroll {
   padding: 2px 8px;
 }
 ._flash span {
-  font-size: 1em
+  font-size: 1em;
 }

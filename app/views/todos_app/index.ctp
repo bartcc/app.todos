@@ -14,7 +14,7 @@
       </div>
       <div class="hbox">
         <footer class="vbox flex">
-          <button id="refresh-db" class="light" style="font-size: 0.8em; width: 100%" onclick="window.location.href=base_url+'mysql/restore'">Rebuild Database</button>
+          <button id="refresh-db" class="light" style="font-size: 0.8em; width: 100%" onclick="window.location.href=base_url+'mysql/restore'">Restore DB</button>
         </footer>
       </div>
     </div>

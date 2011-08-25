@@ -27,7 +27,7 @@ jQuery(function() {
       // collection, when items are added or changed. Kick things off by
       // loading any preexisting todos that might be saved in *localStorage*.
       initialize: function() {
-        _.bindAll(this, 'render', 'addOne', 'addAll', 'addToBuffer', 'sortupdate', 'renderStorageMode');
+        _.bindAll(this, 'renderStats', 'addOne', 'addAll', 'addToBuffer', 'sortupdate', 'renderStorageMode');
 
         this.buffer = $();
         this.input    = this.$("#new-todo input");
@@ -37,7 +37,7 @@ jQuery(function() {
 
         Todos.Collections.Todos.bind('add',     this.addOne);
         Todos.Collections.Todos.bind('reset',   this.addAll);
-        Todos.Collections.Todos.bind('all',     this.render);
+        Todos.Collections.Todos.bind('all',     this.renderStats);
         Todos.bind('render:storagestatus',      this.renderStorageMode);
       },
 
@@ -53,7 +53,7 @@ jQuery(function() {
 
       // Re-rendering the App just means refreshing the statistics -- the rest
       // of the app doesn't change.
-      render: function() {
+      renderStats: function() {
         var len, done, rem;
         len = Todos.Collections.Todos.length;
         done = Todos.Collections.Todos.done().length;

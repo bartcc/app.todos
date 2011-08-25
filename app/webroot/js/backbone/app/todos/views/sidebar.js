@@ -37,9 +37,8 @@ jQuery(function() {
         var value = Todos.Collections.Todos.toggleStorageMode(mode);
         this.trigger('refresh:list', value);
         
-        // renders storage mode button
+        this.$('footer #refresh-db')[value.mode === 'server' ? 'show' : 'hide']();
         this.$('span#button-storage').toggleClass('server', value.mode !== 'local');
-        this.$('footer #refresh-db').toggleClass('hide', value.mode !== 'server');
         this.$('span#button-storage').html(this.buttonStorageTemplate({
           value:    value.button
         }));

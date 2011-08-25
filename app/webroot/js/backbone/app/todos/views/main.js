@@ -31,6 +31,7 @@ jQuery(function() {
 
         this.buffer = $();
         this.input    = this.$("#new-todo input");
+        this.clear    = this.$(".clear");
         this.sortableTodos = this.$('#todo-list');
         this.sortableTodos.sortable();
 
@@ -53,12 +54,16 @@ jQuery(function() {
       // Re-rendering the App just means refreshing the statistics -- the rest
       // of the app doesn't change.
       render: function() {
+        var len, done, rem;
+        len = Todos.Collections.Todos.length;
+        done = Todos.Collections.Todos.done().length;
+        rem = Todos.Collections.Todos.length;
         this.$('#todo-stats').html(this.statsTemplate({
-          total:      Todos.Collections.Todos.length,
-          done:       Todos.Collections.Todos.done().length,
-          remaining:  Todos.Collections.Todos.remaining().length
+          total:      len,
+          done:       done,
+          remaining:  rem
         }));
-        
+        this.clear[done ? "show" : "hide"]();
       },
       
       renderStorageMode: function(persistmode) {

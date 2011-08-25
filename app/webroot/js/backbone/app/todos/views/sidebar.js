@@ -39,6 +39,7 @@ jQuery(function() {
         
         // renders storage mode button
         this.$('span#button-storage').toggleClass('server', value.mode !== 'local');
+        this.$('footer #refresh-db').toggleClass('hide', value.mode !== 'server');
         this.$('span#button-storage').html(this.buttonStorageTemplate({
           value:    value.button
         }));

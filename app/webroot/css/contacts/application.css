@@ -313,7 +313,7 @@ textarea {
   white-space: nowrap;
 }
 
-#sidebar li.current {
+#sidebar li.active {
   color: #ffffff;
   text-shadow: 0 -1px 1px #46677f;
   background: #7bb5db;

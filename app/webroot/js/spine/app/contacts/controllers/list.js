@@ -31,6 +31,7 @@ Spine.List = (function() {
       return;
     }
     this.current = item;
+    console.log(this.current);
     this.children().removeClass("active");
     return this.children().forItem(this.current).addClass("active");
   };
@@ -41,7 +42,7 @@ Spine.List = (function() {
     this.html(this.template(this.items));
     this.change(this.current);
     if (this.selectFirst) {
-      if (!(this.children(".active").length || this.current)) {
+      if (!this.children(".active").length) {
         return this.children(":first").click();
       }
     }

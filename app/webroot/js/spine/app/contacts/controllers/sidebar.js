@@ -51,10 +51,7 @@ jQuery(function($){
     // Called when 'Create' button is clicked
     create: function(e){
       e.preventDefault();
-      var item = Contact.create({
-        first_name: 'Axel',
-        last_name: 'Nitzschner'
-      });
+      var item = Contact.create();
       Spine.App.trigger("edit:contact", item);
     }
   });

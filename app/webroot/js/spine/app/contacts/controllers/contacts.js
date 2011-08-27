@@ -15,14 +15,12 @@ jQuery(function($){
       "click .optSave"      : "save"
     },
     
-    proxied: ["render", "show", "edit"],
-    
     init: function(){
       this.editEl.hide();
 
-      Contact.bind("change", this.render);
-      this.App.bind("show:contact", this.show);
-      this.App.bind("edit:contact", this.edit);
+      Contact.bind("change", this.proxy(this.render));
+      Spine.App.bind("show:contact", this.proxy(this.show));
+      Spine.App.bind("edit:contact", this.proxy(this.edit));
     },
     
     change: function(item){
@@ -36,17 +34,14 @@ jQuery(function($){
     },
     
     show: function(item){
-      if (item && item.model) this.change(item);
-      
+      if (item) this.change(item);
+//      console.log(this.showEl)
       this.showEl.show();
       this.editEl.hide();
     },
     
-    edit: function(item){
-      if (item && item.model) this.change(item);
-      
-//      this.editEl.show();
-//      this.showEl.hide();
+    edit: function(){
+//      console.log(this.editEl)
       this.editEl.show(0, $.proxy(function() {
           this.showEl.hide();
       }, this));

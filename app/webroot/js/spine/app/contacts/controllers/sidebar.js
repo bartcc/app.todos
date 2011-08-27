@@ -1,33 +1,22 @@
 jQuery(function($){
 
   window.Sidebar = Spine.Controller.create({
-    // Create initance variables:
-    //  this.items //=> <ul></ul>
-    //  this.input //=> <input />
+
     elements: {
       ".items": "items",
       "input":  "input"
     },
-  
+    
     // Attach event delegation
     events: {
-      "dblclick button": "create",
-      "click button": "test",
+      "click button": "create",
       "keyup input":  "filter",
       "click input":  "filter"
     },
   
-    // Ensure these functions are called with the current
-    // scope as they're used in event callbacks
-    proxied: ["render"],
-  
     // Render template
     template: function(items){
       return($("#contactsTemplate").tmpl(items));
-    },
-    
-    test: function() {
-      console.log(this)
     },
     
     init: function(){
@@ -38,12 +27,12 @@ jQuery(function($){
       });
     
       this.list.bind("change", this.proxy(function(item){
-        this.App.trigger("show:contact", item);
+        Spine.App.trigger("show:contact", item);
       }));
-      this.App.bind("show:contact edit:contact", this.list.change);
+      Spine.App.bind("show:contact edit:contact", this.list.proxy(this.list.change));
     
       // Re-render whenever contacts are populated or changed
-      Contact.bind("refresh change", this.render);
+      Contact.bind("refresh change", this.proxy(this.render));
     },
 
     filter: function(){
@@ -63,9 +52,10 @@ jQuery(function($){
     create: function(e){
       e.preventDefault();
       var item = Contact.create({
-        id: Spine.guid()
+        first_name: 'Axel',
+        last_name: 'Nitzschner'
       });
-      this.App.trigger("edit:contact", item);
+      Spine.App.trigger("edit:contact", item);
     }
   });
   

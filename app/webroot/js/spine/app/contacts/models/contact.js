@@ -1,7 +1,7 @@
 jQuery(function($){
   
-  var Contact = Spine.Model.setup("Contact", ["first_name", "last_name", "email",
-    "mobile", "work", "address", "notes"]);
+  var Contact = Spine.Model.setup("Contact", "first_name", "last_name", "email",
+    "mobile", "work", "address", "notes");
 
   // Persist model between page reloads
   Contact.extend(Spine.Model.Ajax);
@@ -10,7 +10,16 @@ jQuery(function($){
   Contact.extend({
     selectAttributes: ["first_name", "last_name", "email", 
     "mobile", "work", "address"],
-
+    
+    defaults: {
+      first_name: 'Axel',
+      last_name:  'Nitzschner'
+    },
+    
+    url: function() {
+      return '' + base_url + (this.className.toLowerCase()) + 's';
+    },
+    
     nameSort: function(a, b){
       var aa = (a || '').first_name.toLowerCase();
       var bb = (b || '').first_name.toLowerCase();
@@ -25,8 +34,8 @@ jQuery(function($){
   Contact.include({
     selectAttributes: function(){
       var result = {};
-      for (var i=0; i < this.parent.selectAttributes.length; i++) {
-        var attr = this.parent.selectAttributes[i];
+      for (var i=0; i < this.constructor.selectAttributes.length; i++) {
+        var attr = this.constructor.selectAttributes[i];
         result[attr] = this[attr];
       }
       return result;

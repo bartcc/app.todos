@@ -21,8 +21,11 @@ jQuery(function($){
     },
     
     nameSort: function(a, b){
-      var aa = (a || '').first_name.toLowerCase();
-      var bb = (b || '').first_name.toLowerCase();
+      try{
+        var aa = (a || '').first_name.toLowerCase();
+        var bb = (b || '').first_name.toLowerCase();
+      }
+      catch(e) {}
       if(aa == bb) {
         return 0;
       } else {

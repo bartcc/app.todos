@@ -18,7 +18,7 @@ jQuery(function($){
     init: function(){
       this.editEl.hide();
 
-      Contact.bind("change", this.proxy(this.render));
+      Contact.bind("change", this.proxy(this.change));
       Spine.App.bind("show:contact", this.proxy(this.show));
       Spine.App.bind("edit:contact", this.proxy(this.edit));
     },
@@ -35,20 +35,18 @@ jQuery(function($){
     
     show: function(item){
       if (item) this.change(item);
-//      console.log(this.showEl)
       this.showEl.show();
       this.editEl.hide();
     },
     
     edit: function(){
-//      console.log(this.editEl)
       this.editEl.show(0, $.proxy(function() {
           this.showEl.hide();
       }, this));
     },
     
     destroy: function(){
-      if (confirm("Are you sure?"))
+      //if (confirm("Are you sure?"))
         this.current.destroy();
     },
     

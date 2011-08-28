@@ -45,6 +45,7 @@
   <li class="item">
     <img src="/img/missing.png" />
     {{if fullName()}}
+    <div style="font-size: 0.6em">ID: ${id}</div
     <span class="name">${fullName()}</span>
     {{else}}
     <span class="name empty">No Name</span>

@@ -24,8 +24,10 @@ jQuery(function($){
     },
     
     change: function(item){
-      this.current = item;
-      this.render();
+      if(!item.destroyed) {
+        this.current = item;
+        this.render();
+      }
     },
     
     render: function(){

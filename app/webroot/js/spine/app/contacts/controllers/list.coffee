@@ -16,7 +16,6 @@ class Spine.List extends Spine.Controller
   change: (item) =>
     return unless item
     @current = item
-    console.log @current
     @children().removeClass("active")
     @children().forItem(@current).addClass("active")
   

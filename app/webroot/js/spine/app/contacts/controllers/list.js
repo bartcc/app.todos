@@ -31,7 +31,6 @@ Spine.List = (function() {
       return;
     }
     this.current = item;
-    console.log(this.current);
     this.children().removeClass("active");
     return this.children().forItem(this.current).addClass("active");
   };

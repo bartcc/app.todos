@@ -48,10 +48,17 @@ jQuery(function($){
       this.list.render(items);
     },
     
+    newAttributes: function() {
+      return {
+        first_name: '',
+        last_name: ''
+      }
+    },
+    
     // Called when 'Create' button is clicked
     create: function(e){
       e.preventDefault();
-      var item = Contact.create(  );
+      var item = Contact.create(this.newAttributes());
       Spine.App.trigger("edit:contact", item);
     }
   });

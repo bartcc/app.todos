@@ -58,8 +58,14 @@ jQuery(function($){
     },
     
     save: function(){
-      var atts = this.editEl.serializeForm();
-      this.current.updateAttributes(atts);
+      var atts = this.editEl.serializeForm(),
+          currentAtts = this.current.attributes();
+      
+//      console.log(atts)
+//      console.log(_.isEqual(this.current.attributes(), atts))
+//      console.log(_.isEqual(currentAtts, atts))
+      if(!_.isEqual(currentAtts, atts))
+        this.current.updateAttributes(atts);
       this.show();
     }
   });

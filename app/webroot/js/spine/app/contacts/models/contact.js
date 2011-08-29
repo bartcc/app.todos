@@ -33,7 +33,7 @@ jQuery(function() {
       return result;
     },
     fullName: function() {
-      if (!(this.first_name && this.last_name)) {
+      if (!(this.first_name + this.last_name)) {
         return;
       }
       return this.first_name + ' ' + this.last_name;

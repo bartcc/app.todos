@@ -30,7 +30,7 @@
 
     //echo $this->Html->css('cake.generic');
 
-    echo $this->Html->css('backbone/application_boxmodel');
+    echo $this->Html->css('backbone/todos/application_boxmodel');
     echo $this->Html->css('themes/jquery-ui/ui-darkness/jquery.ui.custom.css');
 
     echo $this->Html->script('lib/json2');

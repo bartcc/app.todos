@@ -109,6 +109,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="editContactTemplate">
+  <input type="hidden" name="id" value="${id}" autofocus>
   <label>
     <span>First name</span>
     <input type="text" name="first_name" value="${first_name}" autofocus>

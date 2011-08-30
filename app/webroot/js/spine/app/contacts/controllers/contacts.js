@@ -61,8 +61,9 @@ jQuery(function($){
       var atts = this.editEl.serializeForm(),
           currentAtts = this.current.attributes();
       
-      if(!_.isEqual(currentAtts, atts))
+      if(!_.isEqual(currentAtts, atts)) {
         this.current.updateAttributes(atts);
+      }
       this.show();
     }
   });

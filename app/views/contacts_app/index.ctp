@@ -22,22 +22,22 @@
         <ul class="options">
           <li class="optEdit">Edit contact</li>
           <li class="optEmail">Email contact</li>
-          <li class="view showDetails">Details</li>
-          <li class="view showInfo">Info</li>
+          <li class="view showAlbum">Album</li>
+          <li class="view showUpload">Upload Photo</li>
+          <li class="view showGrid">Thumb Grid</li>
         </ul>
         <div class="content vbox flex autoflow"></div>
         <div id="views-wrapper" class="autoflow">
           <div id="views">
           <div class="hdivide"></div>
-            <div id="details" class="view" style="">
-              <div>Details</div>
+            <div id="album" class="view" style="">
+              <div>Album</div>
             </div>
-            <div id="info" class="view" style="">
-              <div>Info</div>
-              <div>Info</div>
-              <div>Info</div>
-              <div>Info</div>
-              <div>Info</div>
+            <div id="upload" class="view" style="">
+              <div>Upload</div>
+            </div>
+            <div id="grid" class="view" style="">
+              <div>Grid</div>
             </div>
           </div>
         </div>  

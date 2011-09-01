@@ -17,27 +17,39 @@
   </div>
 
   <div class="vdivide"></div>
-
-  <div id="contacts" class="vbox flex">
-    <div class="show vbox flex">
-      <ul class="options">
-        <li class="optEdit">Edit contact</li>
-        <li class="optEmail">Email contact</li>
-      </ul>
-      <div class="content vbox flex autoflow"></div>
-
+    <div id="contacts" class="vbox flex">
+      <div class="show vbox flex">
+        <ul class="options">
+          <li class="optEdit">Edit contact</li>
+          <li class="optEmail">Email contact</li>
+          <li class="view showDetails">Details</li>
+          <li class="view showInfo">Info</li>
+        </ul>
+        <div class="content vbox flex autoflow"></div>
+        <div id="views-wrapper" class="autoflow">
+          <div id="views">
+          <div class="hdivide"></div>
+            <div id="details" class="view" style="">
+              <div>Details</div>
+            </div>
+            <div id="info" class="view" style="">
+              <div>Info</div>
+              <div>Info</div>
+              <div>Info</div>
+              <div>Info</div>
+              <div>Info</div>
+            </div>
+          </div>
+        </div>  
+      </div>
+      <div class="edit vbox flex">
+        <ul class="options">
+          <li class="optSave default">Save contact</li>
+          <li class="optDestroy">Delete contact</li>
+        </ul>
+        <div class="content vbox flex autoflow"></div>
+      </div>
     </div>
-
-    <div class="edit vbox flex">
-      <ul class="options">
-        <li class="optSave default">Save contact</li>
-        <li class="optDestroy">Delete contact</li>
-      </ul>
-      <div class="content vbox flex autoflow"></div>
-
-    </div>
-
-  </div>
 
 </div>
 
@@ -53,6 +65,12 @@
     <span class="cta">&gt;</span>
   </li>
 </script>  
+
+<script type="text/x-jquery-tmpl" id="detailsViewTemplate">
+  <div>
+    Details
+  </div>
+</script>
 
 <script type="text/x-jquery-tmpl" id="contactTemplate">
   <label>
@@ -109,7 +127,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="editContactTemplate">
-  <input type="hidden" name="id" value="${id}" autofocus>
+  
   <label>
     <span>First name</span>
     <input type="text" name="first_name" value="${first_name}" autofocus>
@@ -144,4 +162,5 @@
     <span>Notes</span>
     <textarea name="notes">${notes}</textarea>
   </label>
+  <input type="hidden" name="id" value="${id}" autofocus>
 </script>  

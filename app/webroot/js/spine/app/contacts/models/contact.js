@@ -11,7 +11,7 @@ jQuery(function() {
     nameSort: function(a, b) {
       var aa, bb;
       aa = (a || '').first_name.toLowerCase();
-      bb = (b || '').last_name.toLowerCase();
+      bb = (b || '').first_name.toLowerCase();
       if (aa === bb) {
         return 0;
       } else if (aa < bb) {

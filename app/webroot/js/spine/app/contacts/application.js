@@ -4,17 +4,27 @@ jQuery(function($){
     el: $("body"),
     
     elements: {
-      "#sidebar": "sidebarEl",
-      "#contacts": "contactsEl"
+      "#sidebar"  : "sidebarEl",
+      "#contacts" : "contactsEl",
+      "#details"  : "detailsEl",
+      "#info"     : "infoEl"
     },
     
     init: function(){
       this.sidebar = Sidebar.init({
         el: this.sidebarEl
       });
-      this.contact = Contacts.init({
+      this.contacts = Contacts.init({
         el: this.contactsEl
       });
+      this.details = Details.init({
+        el: this.detailsEl
+      });
+      this.info = Info.init({
+        el: this.infoEl
+      });
+      
+      this.manager = new Spine.Manager(this.info, this.details);
       
       Contact.fetch();
     }

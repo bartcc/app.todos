@@ -14,7 +14,7 @@ jQuery ->
 
     nameSort: (a, b) ->
       aa = (a or '').first_name.toLowerCase()
-      bb = (b or '').last_name.toLowerCase()
+      bb = (b or '').first_name.toLowerCase()
       return if aa == bb then 0 else if aa < bb then -1 else 1
 
   Contact.include

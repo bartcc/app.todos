@@ -5,14 +5,18 @@ jQuery(function($){
       ".show"               : "showEl",
       ".edit"               : "editEl",
       ".show .content"      : "showContent",
-      ".edit .content"      : "editContent"
+      ".edit .content"      : "editContent",
+      '#views'              : 'views'
     },
     
     events: {
       "click .optEdit"      : "edit",
       "click .optEmail"     : "email",
+      "click .showDetails"  : "toggleDetails",
+      "click .showInfo"     : "toggleInfo",
       "click .optDestroy"   : "destroy",
-      "click .optSave"      : "save"
+      "click .optSave"      : "save",
+      'keydown'             : 'saveOnEnter'
     },
     
     init: function(){
@@ -21,6 +25,8 @@ jQuery(function($){
       Contact.bind("change", this.proxy(this.change));
       Spine.App.bind("show:contact", this.proxy(this.show));
       Spine.App.bind("edit:contact", this.proxy(this.edit));
+      this.bind('toggle:view', this.proxy(this.toggleView));
+      $(this.views).queue('fx');
     },
     
     change: function(item){
@@ -44,6 +50,7 @@ jQuery(function($){
     edit: function(){
       this.editEl.show(0, $.proxy(function() {
           this.showEl.hide();
+          this.$('input').first().focus().select();
       }, this));
     },
     
@@ -57,6 +64,58 @@ jQuery(function($){
       window.location = "mailto:" + this.current.email;
     },
     
+    renderViewControl: function(controller, controlEl) {
+      var active = controller.isActive();
+      
+      $('.options .view').each(function() {
+        if(this == controlEl) {
+//          $(this).hide('slide', { direction: 'up', duration: 1000 });
+          $(this).toggleClass('active', active);
+        } else {
+//          $(this).hide('slide', { direction: 'down', duration: 1000 });
+          $(this).removeClass('active');
+        }
+      })
+    },
+    
+    animateView: function() {
+      var hasActive = (function() {
+        var cont, _i, _len, _ref;
+        _ref = App.manager.controllers;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          cont = _ref[_i];
+          if(cont.isActive())
+            return true
+        }
+        return false;
+      })
+      
+      $(this.views).animate({height: hasActive() ? '300px' : '0px'}, 100);
+    },
+    
+    toggleDetails: function(e) {
+      this.trigger('toggle:view', App.details, e.target)
+    },
+    
+    toggleInfo: function(e) {
+      this.trigger('toggle:view', App.info, e.target)
+    },
+    
+    toggleView: function(controller, control) {
+      var isActive;
+      isActive = controller.isActive();
+      
+      if(isActive) {
+        App.manager.trigger('change', false);
+      } else {
+        App.manager.trigger('change', controller);
+      }
+      
+      
+      this.renderViewControl(controller, control);
+      this.animateView();
+    },
+    
     save: function(){
       var atts = this.editEl.serializeForm(),
           currentAtts = this.current.attributes();
@@ -65,6 +124,11 @@ jQuery(function($){
         this.current.updateAttributes(atts);
       }
       this.show();
+    },
+    
+    saveOnEnter: function(e) {
+      if(e.keyCode != 13) return;
+      this.save();
     }
   });
   

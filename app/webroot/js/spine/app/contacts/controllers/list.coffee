@@ -3,7 +3,8 @@ $      = Spine.$
 
 class Spine.List extends Spine.Controller
   events:
-    "click .item": "click"
+    "click .item": "click",
+    "dblclick .item": "edit"
     
   selectFirst: true
     
@@ -32,6 +33,11 @@ class Spine.List extends Spine.Controller
     
   click: (e) ->
     item = $(e.target).item()
-    @trigger("change", item)
+    @trigger "change", item
     
+  edit: (e) ->
+    item = $(e.target).item()
+    @trigger 'change', item
+    Spine.App.trigger 'edit:contact', item
+
 module?.exports = Spine.List

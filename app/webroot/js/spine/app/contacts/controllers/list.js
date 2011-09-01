@@ -16,7 +16,8 @@ $ = Spine.$;
 Spine.List = (function() {
   __extends(List, Spine.Controller);
   List.prototype.events = {
-    "click .item": "click"
+    "click .item": "click",
+    "dblclick .item": "edit"
   };
   List.prototype.selectFirst = true;
   function List() {
@@ -53,6 +54,12 @@ Spine.List = (function() {
     var item;
     item = $(e.target).item();
     return this.trigger("change", item);
+  };
+  List.prototype.edit = function(e) {
+    var item;
+    item = $(e.target).item();
+    this.trigger('change', item);
+    return Spine.App.trigger('edit:contact', item);
   };
   return List;
 })();

@@ -6,8 +6,9 @@ jQuery(function($){
     elements: {
       "#sidebar"  : "sidebarEl",
       "#contacts" : "contactsEl",
-      "#details"  : "detailsEl",
-      "#info"     : "infoEl"
+      "#album"    : "albumEl",
+      "#upload"   : "uploadEl",
+      "#grid"     : "gridEl"
     },
     
     init: function(){
@@ -17,14 +18,17 @@ jQuery(function($){
       this.contacts = Contacts.init({
         el: this.contactsEl
       });
-      this.details = Details.init({
-        el: this.detailsEl
+      this.album = Album.init({
+        el: this.albumEl
       });
-      this.info = Info.init({
-        el: this.infoEl
+      this.upload = Upload.init({
+        el: this.uploadEl
+      });
+      this.grid = Grid.init({
+        el: this.gridEl
       });
       
-      this.manager = new Spine.Manager(this.info, this.details);
+      this.manager = new Spine.Manager(this.album, this.upload, this.grid);
       
       Contact.fetch();
     }

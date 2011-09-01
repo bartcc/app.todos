@@ -130,7 +130,12 @@ button {
   -webkit-box-shadow: 0 1px 1px #ffffff;
   box-shadow: 0 1px 1px #ffffff;
 }
-
+.right {
+  float: right
+}
+.left {
+  float: left
+}
 div.content label div, #sidebar span.name {
     font-family: serif;
     font-style: italic
@@ -251,7 +256,6 @@ textarea {
   border-radius: 10px;
   height: 70px;
 }
-
 .vdivide {
   width: 6px;
   border: 1px solid #c5c5c5;
@@ -261,6 +265,16 @@ textarea {
   background: -webkit-gradient(linear, left top, right top, from(#f9f9f9), to(#dfe0e1));
   background: -moz-linear-gradient(left, #f9f9f9, #dfe0e1);
   background: linear-gradient(left, #f9f9f9, #dfe0e1);
+}
+.hdivide {
+  height: 6px;
+  border: 1px solid #c5c5c5;
+  border-width: 1px 0 1px 0;
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+  background: #f9f9f9;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#dfe0e1));
+  background: -moz-linear-gradient(top, #f9f9f9, #dfe0e1);
+  background: linear-gradient(top, #f9f9f9, #dfe0e1);
 }
 
 #title {
@@ -432,28 +446,20 @@ textarea {
   border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-#contacts .options li:active {
-  background: #dadada;
+#contacts .options li:active, #contacts .options li.active {
+  background: #FFB399;
   -moz-box-shadow: inset 0 0 10px #9c9c9c;
   -webkit-box-shadow: inset 0 0 10px #9c9c9c;
   box-shadow: inset 0 0 10px #9c9c9c;
 }
 
-#contacts .options li.default {
+#contacts .options li.default, #contacts .options li.active, #contacts .options li.default:active {
   color: #ffffff;
-  text-shadow: 0 -1px 1px #46677f;
-  background: #7bb5db;
-  background: -webkit-gradient(linear, left top, left bottom, from(#7bb5db), to(#4775b8));
-  background: -moz-linear-gradient(top, #7bb5db, #4775b8);
-  background: linear-gradient(top, #7bb5db, #4775b8);
-}
-
-#contacts .options li.default:active {
-  border-left-color: #a8a8a8;
-  background: #7bb5db;
-  -moz-box-shadow: inset 0 0 10px #4775b8;
-  -webkit-box-shadow: inset 0 0 10px #4775b8;
-  box-shadow: inset 0 0 10px #4775b8;
+  text-shadow: 0 -1px 1px #FFB399;
+  background: #882739;
+  background: -webkit-gradient(linear, left top, left bottom, from(#FFB399), to(#FF6633));
+  background: -moz-linear-gradient(top, #FFB399, #FF6633);
+  background: linear-gradient(top, #FFB399, #FF6633);
 }
 
 #contacts .content {
@@ -470,4 +476,17 @@ textarea {
 
 #contacts .empty {
   font-style: italic;
+}
+#views {
+  min-height:8px;
+  background: #EFEFEF;
+}
+#views .view {
+/*  
+  height: 300px;
+  */
+  padding: 20px;
+}
+#views > .view:not(.active) {
+  display: none !important;
 }

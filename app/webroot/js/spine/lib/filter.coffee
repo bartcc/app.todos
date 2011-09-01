@@ -1,6 +1,5 @@
 Spine ?= require("spine")
-Model = Spine.Model
-Model.Filter = (
+Spine.Model.Filter = (
   ->
     Extend =
       filter: (query) ->

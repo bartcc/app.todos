@@ -1,11 +1,9 @@
-var Model;
 if (typeof Spine !== "undefined" && Spine !== null) {
   Spine;
 } else {
   Spine = require("spine");
 };
-Model = Spine.Model;
-Model.Filter = (function() {
+Spine.Model.Filter = (function() {
   var Extend, Include;
   Extend = {
     filter: function(query) {

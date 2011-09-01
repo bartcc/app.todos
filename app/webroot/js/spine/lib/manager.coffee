@@ -33,7 +33,7 @@ class Spine.Manager extends Spine.Module
   add: (controllers...) ->
     @addOne(cont) for cont in controllers
     
-  addOne: (controller) ->    
+  addOne: (controller) ->
     controller.active (args...) =>
       @trigger("change", controller, args)
 

@@ -49,8 +49,9 @@
     echo $this->Html->script('spine/app/contacts/controllers/list');
     echo $this->Html->script('spine/app/contacts/controllers/sidebar');
     echo $this->Html->script('spine/app/contacts/controllers/contacts');
-    echo $this->Html->script('spine/app/contacts/controllers/details');
-    echo $this->Html->script('spine/app/contacts/controllers/info');
+    echo $this->Html->script('spine/app/contacts/controllers/album');
+    echo $this->Html->script('spine/app/contacts/controllers/upload');
+    echo $this->Html->script('spine/app/contacts/controllers/grid');
     echo $this->Html->script('spine/app/contacts/application');
     ?>
 

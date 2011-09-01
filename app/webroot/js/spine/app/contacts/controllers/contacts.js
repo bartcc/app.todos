@@ -12,8 +12,9 @@ jQuery(function($){
     events: {
       "click .optEdit"      : "edit",
       "click .optEmail"     : "email",
-      "click .showDetails"  : "toggleDetails",
-      "click .showInfo"     : "toggleInfo",
+      "click .showAlbum"    : "toggleAlbum",
+      "click .showUpload"   : "toggleUpload",
+      "click .showGrid"     : "toggleGrid",
       "click .optDestroy"   : "destroy",
       "click .optSave"      : "save",
       'keydown'             : 'saveOnEnter'
@@ -69,10 +70,8 @@ jQuery(function($){
       
       $('.options .view').each(function() {
         if(this == controlEl) {
-//          $(this).hide('slide', { direction: 'up', duration: 1000 });
           $(this).toggleClass('active', active);
         } else {
-//          $(this).hide('slide', { direction: 'down', duration: 1000 });
           $(this).removeClass('active');
         }
       })
@@ -90,15 +89,19 @@ jQuery(function($){
         return false;
       })
       
-      $(this.views).animate({height: hasActive() ? '300px' : '0px'}, 100);
+      $(this.views).animate({height: hasActive() ? '140px' : '0px'}, 100);
     },
     
-    toggleDetails: function(e) {
-      this.trigger('toggle:view', App.details, e.target)
+    toggleAlbum: function(e) {
+      this.trigger('toggle:view', App.album, e.target)
     },
     
-    toggleInfo: function(e) {
-      this.trigger('toggle:view', App.info, e.target)
+    toggleUpload: function(e) {
+      this.trigger('toggle:view', App.upload, e.target)
+    },
+    
+    toggleGrid: function(e) {
+      this.trigger('toggle:view', App.grid, e.target)
     },
     
     toggleView: function(controller, control) {

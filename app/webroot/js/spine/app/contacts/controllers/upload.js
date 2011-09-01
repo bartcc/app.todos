@@ -1,4 +1,4 @@
-var $, Details;
+var $, Upload;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -13,17 +13,17 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-Details = (function() {
-  __extends(Details, Spine.Controller);
-  Details.prototype.events = {
+Upload = (function() {
+  __extends(Upload, Spine.Controller);
+  Upload.prototype.events = {
     "click .item": "click"
   };
-  function Details() {
-    Details.__super__.constructor.apply(this, arguments);
+  function Upload() {
+    Upload.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
   }
-  return Details;
+  return Upload;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Details;
+  module.exports = Upload;
 }

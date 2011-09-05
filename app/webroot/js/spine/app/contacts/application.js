@@ -4,11 +4,13 @@ jQuery(function($){
     el: $("body"),
     
     elements: {
-      "#sidebar"  : "sidebarEl",
-      "#contacts" : "contactsEl",
-      "#album"    : "albumEl",
-      "#upload"   : "uploadEl",
-      "#grid"     : "gridEl"
+      "#sidebar"    : "sidebarEl",
+      "#contacts"   : "contactsEl",
+      "#album"      : "albumEl",
+      "#upload"     : "uploadEl",
+      "#grid"       : "gridEl",
+      '.hDragabble' : 'hDrag',
+      '.vDragabble' : 'vDrag'
     },
     
     init: function(){
@@ -29,6 +31,11 @@ jQuery(function($){
       });
       
       this.manager = new Spine.Manager(this.album, this.upload, this.grid);
+      this.manager.height(function() {
+        var ret = $(this.contacts.el).height()/2;
+        return ret;
+      }.bind(this))
+      this.manager.alive(this.hDrag, 'y');
       
       Contact.fetch();
     }

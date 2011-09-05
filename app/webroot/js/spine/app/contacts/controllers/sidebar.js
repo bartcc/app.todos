@@ -21,7 +21,7 @@ jQuery(function($){
     
     init: function(){
       
-      this.list = Spine.List.init({
+      Spine.App.list = this.list = Spine.List.init({
         el: this.items,
         template: this.template
       });
@@ -29,7 +29,7 @@ jQuery(function($){
       this.list.bind("change", this.proxy(function(item){
         Spine.App.trigger("show:contact", item);
       }));
-      Spine.App.bind("show:contact edit:contact", this.list.proxy(this.list.change));
+      Spine.App.bind("show:contact", this.list.proxy(this.list.change));
     
       // Re-render whenever contacts are populated or changed
       Contact.bind("refresh change", this.proxy(this.render));

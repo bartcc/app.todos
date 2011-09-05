@@ -6,7 +6,8 @@ jQuery(function($){
       ".edit"               : "editEl",
       ".show .content"      : "showContent",
       ".edit .content"      : "editContent",
-      '#views'              : 'views'
+      '#views'              : 'views',
+      '.draggable'          : 'draggable'
     },
     
     events: {
@@ -22,11 +23,11 @@ jQuery(function($){
     
     init: function(){
       this.editEl.hide();
-
       Contact.bind("change", this.proxy(this.change));
       Spine.App.bind("show:contact", this.proxy(this.show));
-      Spine.App.bind("edit:contact", this.proxy(this.edit));
+      Spine.App.bind("edit:contact", this.proxy(this.editContact));
       this.bind('toggle:view', this.proxy(this.toggleView));
+      
       $(this.views).queue('fx');
     },
     
@@ -48,7 +49,11 @@ jQuery(function($){
       this.editEl.hide();
     },
     
-    edit: function(){
+    edit: function() {
+      Spine.App.trigger('edit:contact')
+    },
+    
+    editContact: function(){
       this.editEl.show(0, $.proxy(function() {
           this.showEl.hide();
           this.$('input').first().focus().select();
@@ -78,18 +83,24 @@ jQuery(function($){
     },
     
     animateView: function() {
-      var hasActive = (function() {
+      var hasActive = function() {
         var cont, _i, _len, _ref;
         _ref = App.manager.controllers;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           cont = _ref[_i];
           if(cont.isActive())
-            return true
+            return (function() {
+              App.manager.sleep = false;
+              return true;
+            })()
         }
-        return false;
-      })
+        return (function() {
+          App.manager.sleep = true;
+          return false;
+        })()
+      }
       
-      $(this.views).animate({height: hasActive() ? '140px' : '0px'}, 100);
+      $(this.views).animate({height: hasActive() ? App.manager.currentHeight+'px' : '6px'}, 400);
     },
     
     toggleAlbum: function(e) {
@@ -108,15 +119,16 @@ jQuery(function($){
       var isActive;
       isActive = controller.isActive();
       
+      
       if(isActive) {
         App.manager.trigger('change', false);
       } else {
         App.manager.trigger('change', controller);
       }
       
-      
       this.renderViewControl(controller, control);
       this.animateView();
+      
     },
     
     save: function(){

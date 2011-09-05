@@ -18,10 +18,26 @@ Album = (function() {
   Album.prototype.events = {
     "click .item": "click"
   };
+  Album.prototype.template = function(item) {
+    return $('#editContactTemplate').tmpl(item);
+  };
   function Album() {
     Album.__super__.constructor.apply(this, arguments);
-    this.bind("change", this.change);
+    Spine.App.list.bind('change', this.proxy(function(item) {
+      return this.change(item);
+    }));
+    Contact.bind("change", this.proxy(function(item) {
+      return this.change(item);
+    }));
   }
+  Album.prototype.render = function() {
+    this.el.html(this.template(this.current));
+    return this;
+  };
+  Album.prototype.change = function(item) {
+    this.current = item;
+    return this.render();
+  };
   return Album;
 })();
 if (typeof module !== "undefined" && module !== null) {

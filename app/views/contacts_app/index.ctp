@@ -17,39 +17,39 @@
   </div>
 
   <div class="vdivide"></div>
-    <div id="contacts" class="vbox flex">
-      <div class="show vbox flex">
-        <ul class="options">
-          <li class="optEdit">Edit contact</li>
-          <li class="optEmail">Email contact</li>
-          <li class="view showAlbum">Album</li>
-          <li class="view showUpload">Upload Photo</li>
-          <li class="view showGrid">Thumb Grid</li>
-        </ul>
-        <div class="content vbox flex autoflow"></div>
-        <div id="views-wrapper" class="autoflow">
-          <div id="views">
-          <div class="hdivide"></div>
-            <div id="album" class="view" style="">
-              <div>Album</div>
-            </div>
-            <div id="upload" class="view" style="">
-              <div>Upload</div>
-            </div>
-            <div id="grid" class="view" style="">
-              <div>Grid</div>
-            </div>
+  <div id="contacts" class="vbox flex">
+    <div class="show vbox flex">
+      <ul class="options">
+        <li class="optEdit">Edit contact</li>
+        <li class="optEmail">Email contact</li>
+        <li class="view showAlbum">Album</li>
+        <li class="view showUpload">Upload Photo</li>
+        <li class="view showGrid">Thumb Grid</li>
+      </ul>
+      <div class="content vbox flex autoflow"></div>
+      <div id="views-wrapper" class="hbox autoflow">
+        <div id="views" class="vbox flex hDragabble">
+          <div class="hdivide draghandle"></div>
+          <div id="album" class="view flex autoflow" style="">
+            <div>Album</div>
           </div>
-        </div>  
-      </div>
-      <div class="edit vbox flex">
-        <ul class="options">
-          <li class="optSave default">Save contact</li>
-          <li class="optDestroy">Delete contact</li>
-        </ul>
-        <div class="content vbox flex autoflow"></div>
-      </div>
+          <div id="upload" class="view flex autoflow" style="">
+            <div>Upload</div>
+          </div>
+          <div id="grid" class="view flex autoflow" style="">
+            <div>Grid</div>
+          </div>
+        </div>
+      </div>  
     </div>
+    <div class="edit vbox flex">
+      <ul class="options">
+        <li class="optSave default">Save contact</li>
+        <li class="optDestroy">Delete contact</li>
+      </ul>
+      <div class="content vbox flex autoflow"></div>
+    </div>
+  </div>
 
 </div>
 

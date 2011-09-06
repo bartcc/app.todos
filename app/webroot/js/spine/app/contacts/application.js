@@ -31,11 +31,19 @@ jQuery(function($){
       });
       
       this.manager = new Spine.Manager(this.album, this.upload, this.grid);
-      this.manager.height(this.proxy(function() {
-        var ret = $(this.contacts.el).height()/2;
-        return ret;
-      }))
-      this.manager.alive(this.hDrag, 'y');
+//      this.manager.height_(this.proxy(function() {
+//        return $(this.contacts.el).height()/2;
+//      }))
+      this.manager.alive(this.hDrag, {
+        height: this.proxy(function() {
+          return $(this.contacts.el).height()/2;
+        }),
+        axis: 'y',
+        min: 50,
+        max: function() {
+          return 500;
+        }
+      });
       
       Contact.fetch();
     }

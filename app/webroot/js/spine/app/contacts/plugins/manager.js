@@ -7,45 +7,68 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 };
 $ = Spine.$;
 Spine.Manager.include({
-  sleep: true,
-  height: function(func) {
-    return this.currentHeight = func.call(this);
+  disableDrag: function() {
+    return this.el.draggable('disable');
   },
-  alive: function(el, axis) {
-    if (axis == null) {
-      axis = 'x';
-    }
+  enableDrag: function() {
+    return this.el.draggable('enable');
+  },
+  alive: function(el, opts) {
+    var defaults, dim, max, min, options, ori;
     if (!el) {
       return;
     }
     this.el = el;
-    this.axis = axis === 'y' ? 'top' : 'left';
-    return this.el.draggable({
-      axis: this.axis,
-      handle: '.draghandle',
+    defaults = {
+      height: function() {
+        return 500;
+      },
+      axis: 'x',
+      min: 200,
+      max: function() {
+        return 500;
+      },
+      handle: '.draghandle'
+    };
+    options = $.extend({}, defaults, opts);
+    ori = options.axis === 'y' ? 'top' : 'left';
+    dim = options.axis === 'y' ? 'height' : 'width';
+    max = options.max.call(this);
+    min = options.min;
+    return el.draggable({
+      create: __bind(function(e, ui) {
+        this.el.css({
+          position: 'inherit'
+        });
+        this.disableDrag();
+        return this.currentDim = options.height.call(this);
+      }, this),
+      axis: options.axis,
+      handle: options.handle,
       start: __bind(function(e, ui) {
-        if (this.sleep) {
-          return;
-        }
-        return this.currentHeight = $(ui.helper).height();
+        return this.currentDim = $(ui.helper)[dim]();
       }, this),
       drag: __bind(function(e, ui) {
         var _cur, _ori, _pos;
-        if (this.sleep) {
-          return;
-        }
-        _ori = ui.originalPosition[this.axis];
-        _pos = ui.position[this.axis];
-        _cur = this.currentHeight;
-        return $(ui.helper).height(function() {
-          return _cur - _pos + _ori;
+        _ori = ui.originalPosition[ori];
+        _pos = ui.position[ori];
+        _cur = this.currentDim;
+        return $(ui.helper)[dim](function() {
+          var h;
+          h = _cur - _pos + _ori;
+          if (h >= min && h <= max) {
+            return h;
+          }
+          if (h < min) {
+            return min;
+          }
+          if (h > max) {
+            return max;
+          }
         });
       }, this),
       stop: __bind(function(e, ui) {
-        if (this.sleep) {
-          return;
-        }
-        return this.currentHeight = $(ui.helper).height();
+        return this.currentDim = $(ui.helper)[dim]();
       }, this)
     });
   }

@@ -90,17 +90,17 @@ jQuery(function($){
           cont = _ref[_i];
           if(cont.isActive())
             return (function() {
-              App.manager.sleep = false;
+              App.manager.enableDrag();
               return true;
             })()
         }
         return (function() {
-          App.manager.sleep = true;
+          App.manager.disableDrag();
           return false;
         })()
       }
       
-      $(this.views).animate({height: hasActive() ? App.manager.currentHeight+'px' : '6px'}, 400);
+      $(this.views).animate({height: hasActive() ? App.manager.currentDim+'px' : '6px'}, 400);
     },
     
     toggleAlbum: function(e) {

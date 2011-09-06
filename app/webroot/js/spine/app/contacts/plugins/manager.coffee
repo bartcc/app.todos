@@ -10,21 +10,23 @@ Spine.Manager.include
     return unless el
     @el = el
     defaults =
-      height: -> 500
+      autodim: -> 500
+      disabled: true
       axis: 'x'
-      min: 200
+      min: 20
       max: -> 500
       handle: '.draghandle'
     options = $.extend({}, defaults, opts)
     ori = if options.axis is 'y' then 'top' else 'left'
     dim = if options.axis is 'y' then 'height' else 'width'
-    max = options.max.call @
-    min = options.min
+    rev = if options.axis is 'y' then 1 else -1
+    max = (options.max.call @)
+    min = (options.min)
     el.draggable
       create: (e, ui) =>
         @el.css({position: 'inherit'})
-        @disableDrag()
-        @currentDim = options.height.call @
+        @disableDrag() if options.disabled
+        @currentDim = options.autodim.call @
       axis: options.axis
       handle: options.handle
       start: (e, ui) =>
@@ -34,13 +36,14 @@ Spine.Manager.include
         _pos = ui.position[ori]
         _cur = @currentDim
         $(ui.helper)[dim] ->
-          h = _cur-_pos+_ori
-          if h >= min and h <= max
-            return h
-          if h < min
+          d = (_cur+_ori)-(_pos*rev)
+          if d >= min and d <= max
+            return d
+          if d < min
             return min
-          if h > max
+          if d > max
             return max
+          return d
       stop: (e, ui) =>
         @currentDim = $(ui.helper)[dim]()
 

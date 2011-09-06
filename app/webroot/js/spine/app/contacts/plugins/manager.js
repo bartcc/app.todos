@@ -14,17 +14,18 @@ Spine.Manager.include({
     return this.el.draggable('enable');
   },
   alive: function(el, opts) {
-    var defaults, dim, max, min, options, ori;
+    var defaults, dim, max, min, options, ori, rev;
     if (!el) {
       return;
     }
     this.el = el;
     defaults = {
-      height: function() {
+      autodim: function() {
         return 500;
       },
+      disabled: true,
       axis: 'x',
-      min: 200,
+      min: 20,
       max: function() {
         return 500;
       },
@@ -33,6 +34,7 @@ Spine.Manager.include({
     options = $.extend({}, defaults, opts);
     ori = options.axis === 'y' ? 'top' : 'left';
     dim = options.axis === 'y' ? 'height' : 'width';
+    rev = options.axis === 'y' ? 1 : -1;
     max = options.max.call(this);
     min = options.min;
     return el.draggable({
@@ -40,8 +42,10 @@ Spine.Manager.include({
         this.el.css({
           position: 'inherit'
         });
-        this.disableDrag();
-        return this.currentDim = options.height.call(this);
+        if (options.disabled) {
+          this.disableDrag();
+        }
+        return this.currentDim = options.autodim.call(this);
       }, this),
       axis: options.axis,
       handle: options.handle,
@@ -54,17 +58,18 @@ Spine.Manager.include({
         _pos = ui.position[ori];
         _cur = this.currentDim;
         return $(ui.helper)[dim](function() {
-          var h;
-          h = _cur - _pos + _ori;
-          if (h >= min && h <= max) {
-            return h;
+          var d;
+          d = (_cur + _ori) - (_pos * rev);
+          if (d >= min && d <= max) {
+            return d;
           }
-          if (h < min) {
+          if (d < min) {
             return min;
           }
-          if (h > max) {
+          if (d > max) {
             return max;
           }
+          return d;
         });
       }, this),
       stop: __bind(function(e, ui) {

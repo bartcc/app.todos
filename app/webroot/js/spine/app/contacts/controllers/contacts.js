@@ -85,22 +85,22 @@ jQuery(function($){
     animateView: function() {
       var hasActive = function() {
         var cont, _i, _len, _ref;
-        _ref = App.manager.controllers;
+        _ref = App.hmanager.controllers;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           cont = _ref[_i];
           if(cont.isActive())
             return (function() {
-              App.manager.enableDrag();
+              App.hmanager.enableDrag();
               return true;
             })()
         }
         return (function() {
-          App.manager.disableDrag();
+          App.hmanager.disableDrag();
           return false;
         })()
       }
       
-      $(this.views).animate({height: hasActive() ? App.manager.currentDim+'px' : '6px'}, 400);
+      $(this.views).animate({height: hasActive() ? App.hmanager.currentDim+'px' : '6px'}, 400);
     },
     
     toggleAlbum: function(e) {
@@ -121,9 +121,9 @@ jQuery(function($){
       
       
       if(isActive) {
-        App.manager.trigger('change', false);
+        App.hmanager.trigger('change', false);
       } else {
-        App.manager.trigger('change', controller);
+        App.hmanager.trigger('change', controller);
       }
       
       this.renderViewControl(controller, control);

@@ -3,20 +3,21 @@
 </header>
 
 <div id="wrapper" class="hbox flex">
+  <div id="sidebar-wrapper" class="hbox vDragabble">
+    <div id="sidebar" class="vbox flex">
+      <div class="search">
+        <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
+      </div>
 
-  <div id="sidebar" class="vbox">
-    <div class="search">
-      <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
+      <ul class="items vbox flex autoflow"></ul>
+
+      <footer>
+        <button>New contact</button>
+      </footer>
     </div>
 
-    <ul class="items vbox flex autoflow"></ul>
-
-    <footer>
-      <button>New contact</button>
-    </footer>
+    <div class="vdivide draghandle"></div>
   </div>
-
-  <div class="vdivide"></div>
   <div id="contacts" class="vbox flex">
     <div class="show vbox flex">
       <ul class="options">

@@ -31,10 +31,10 @@ jQuery(function($){
       });
       
       this.manager = new Spine.Manager(this.album, this.upload, this.grid);
-      this.manager.height(function() {
+      this.manager.height(this.proxy(function() {
         var ret = $(this.contacts.el).height()/2;
         return ret;
-      }.bind(this))
+      }))
       this.manager.alive(this.hDrag, 'y');
       
       Contact.fetch();

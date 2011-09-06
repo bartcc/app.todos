@@ -37,7 +37,7 @@ jQuery(function($){
         }),
         disabled: false,
         axis: 'x',
-        min: 50,
+        min: 100,
         max: function() {
           return 900;
         }

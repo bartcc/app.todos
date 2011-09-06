@@ -20,7 +20,6 @@ Spine.Manager.include
     ori = if options.axis is 'y' then 'top' else 'left'
     dim = if options.axis is 'y' then 'height' else 'width'
     rev = if options.axis is 'y' then 1 else -1
-    max = (options.max.call @)
     min = (options.min)
     el.draggable
       create: (e, ui) =>
@@ -35,14 +34,15 @@ Spine.Manager.include
         _ori = ui.originalPosition[ori]
         _pos = ui.position[ori]
         _cur = @currentDim
+        _max = options.max.call @
         $(ui.helper)[dim] ->
           d = (_cur+_ori)-(_pos*rev)
-          if d >= min and d <= max
+          if d >= min and d <= _max
             return d
           if d < min
             return min
-          if d > max
-            return max
+          if d > _max
+            return _max
           return d
       stop: (e, ui) =>
         @currentDim = $(ui.helper)[dim]()

@@ -37,10 +37,10 @@ jQuery(function($){
         }),
         disabled: false,
         axis: 'x',
-        min: 100,
-        max: function() {
-          return 900;
-        }
+        min: 250,
+        max: this.proxy(function() {
+          return $(this.el).width()/2;
+        })
       });
       this.hmanager = new Spine.Manager(this.album, this.upload, this.grid);
       this.hmanager.alive(this.hDrag, {
@@ -49,9 +49,9 @@ jQuery(function($){
         }),
         axis: 'y',
         min: 50,
-        max: function() {
-          return 500;
-        }
+        max: this.proxy(function() {
+          return $(this.contacts.el).height()/2;;
+        })
       });
       
       Contact.fetch();

@@ -14,7 +14,7 @@ Spine.Manager.include({
     return this.el.draggable('enable');
   },
   alive: function(el, opts) {
-    var defaults, dim, max, min, options, ori, rev;
+    var defaults, dim, min, options, ori, rev;
     if (!el) {
       return;
     }
@@ -35,7 +35,6 @@ Spine.Manager.include({
     ori = options.axis === 'y' ? 'top' : 'left';
     dim = options.axis === 'y' ? 'height' : 'width';
     rev = options.axis === 'y' ? 1 : -1;
-    max = options.max.call(this);
     min = options.min;
     return el.draggable({
       create: __bind(function(e, ui) {
@@ -53,21 +52,22 @@ Spine.Manager.include({
         return this.currentDim = $(ui.helper)[dim]();
       }, this),
       drag: __bind(function(e, ui) {
-        var _cur, _ori, _pos;
+        var _cur, _max, _ori, _pos;
         _ori = ui.originalPosition[ori];
         _pos = ui.position[ori];
         _cur = this.currentDim;
+        _max = options.max.call(this);
         return $(ui.helper)[dim](function() {
           var d;
           d = (_cur + _ori) - (_pos * rev);
-          if (d >= min && d <= max) {
+          if (d >= min && d <= _max) {
             return d;
           }
           if (d < min) {
             return min;
           }
-          if (d > max) {
-            return max;
+          if (d > _max) {
+            return _max;
           }
           return d;
         });

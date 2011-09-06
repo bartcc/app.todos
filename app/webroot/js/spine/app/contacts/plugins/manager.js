@@ -69,7 +69,6 @@ Spine.Manager.include({
           if (d > _max) {
             return _max;
           }
-          return d;
         });
       }, this),
       stop: __bind(function(e, ui) {

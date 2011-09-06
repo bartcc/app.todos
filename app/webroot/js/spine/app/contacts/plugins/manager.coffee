@@ -43,7 +43,6 @@ Spine.Manager.include
             return min
           if d > _max
             return _max
-          return d
       stop: (e, ui) =>
         @currentDim = $(ui.helper)[dim]()
 

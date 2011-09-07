@@ -100,7 +100,7 @@ jQuery(function($){
         })()
       }
       
-      $(this.views).animate({height: hasActive() ? App.hmanager.currentDim+'px' : '6px'}, 400);
+      $(this.views).animate({height: hasActive() ? App.hmanager.currentDim+'px' : '7px'}, 400);
     },
     
     toggleAlbum: function(e) {

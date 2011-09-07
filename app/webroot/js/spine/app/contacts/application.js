@@ -9,8 +9,8 @@ jQuery(function($){
       "#album"      : "albumEl",
       "#upload"     : "uploadEl",
       "#grid"       : "gridEl",
-      '.vDragabble' : 'vDrag',
-      '.hDragabble' : 'hDrag'
+      '.vdraggable' : 'vDrag',
+      '.hdraggable' : 'hDrag'
     },
     
     init: function(){

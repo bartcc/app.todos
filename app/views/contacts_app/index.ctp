@@ -3,7 +3,7 @@
 </header>
 
 <div id="wrapper" class="hbox flex">
-  <div id="sidebar-wrapper" class="hbox vDragabble">
+  <div id="sidebar-wrapper" class="hbox vdraggable">
     <div id="sidebar" class="vbox flex">
       <div class="search">
         <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
@@ -29,7 +29,7 @@
       </ul>
       <div class="content vbox flex autoflow"></div>
       <div id="views-wrapper" class="hbox autoflow">
-        <div id="views" class="vbox flex hDragabble">
+        <div id="views" class="vbox flex hdraggable">
           <div class="hdivide draghandle"></div>
           <div id="album" class="view flex autoflow" style="">
             <div>Album</div>

@@ -257,25 +257,31 @@ textarea {
   height: 70px;
 }
 .vdivide {
-  width: 6px;
+  width: 8px;
   border: 1px solid #c5c5c5;
   border-width: 0 1px 0 1px;
   border-right-color: rgba(0, 0, 0, 0.3);
   background: #f9f9f9;
-  background: -webkit-gradient(linear, left top, right top, from(#f9f9f9), to(#dfe0e1));
-  background: -moz-linear-gradient(left, #f9f9f9, #dfe0e1);
-  background: linear-gradient(left, #f9f9f9, #dfe0e1);
+  background: url(img/draghandle.png), -webkit-gradient(linear, left top, right top, from(#f9f9f9), to(#dfe0e1));
+  background: url(img/draghandle.png), -webkit-linear-gradient(left, #f9f9f9, #dfe0e1);
+  background: url(img/draghandle.png), -moz-linear-gradient(left, #f9f9f9, #dfe0e1);
+  background: url(img/draghandle.png), linear-gradient(left, #f9f9f9, #dfe0e1);
+  background-repeat: no-repeat;
+  background-position: center;
   cursor: e-resize
 }
 .hdivide {
-  height: 6px;
+  height: 8px;
   border: 1px solid #c5c5c5;
   border-width: 1px 0 1px 0;
   border-bottom-color: rgba(0, 0, 0, 0.3);
   background: #f9f9f9;
-  background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#dfe0e1));
-  background: -moz-linear-gradient(top, #f9f9f9, #dfe0e1);
-  background: linear-gradient(top, #f9f9f9, #dfe0e1);
+  background: url(img/draghandle.png), -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#dfe0e1));
+  background: url(img/draghandle.png), -webkit-linear-gradient(top #f9f9f9, #dfe0e1);
+  background: url(img/draghandle.png), -moz-linear-gradient(top, #f9f9f9, #dfe0e1);
+  background: url(img/draghandle.png), linear-gradient(top, #f9f9f9, #dfe0e1);
+  background-repeat: no-repeat;
+  background-position: center;
   cursor: n-resize
 }
 

@@ -6,11 +6,11 @@ Spine.Manager.include
     @el.draggable('disable')
   enableDrag: ->
     @el.draggable('enable')
-  alive: (el, opts) ->
+  startDrag: (el, opts) ->
     return unless el
     @el = el
     defaults =
-      autodim: -> 500
+      initSize: -> 500
       disabled: true
       axis: 'x'
       min: 20
@@ -25,7 +25,7 @@ Spine.Manager.include
       create: (e, ui) =>
         @el.css({position: 'inherit'})
         @disableDrag() if options.disabled
-        @currentDim = options.autodim.call @
+        @currentDim = options.initSize.call @
       axis: options.axis
       handle: options.handle
       start: (e, ui) =>

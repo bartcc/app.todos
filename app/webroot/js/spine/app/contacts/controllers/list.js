@@ -23,6 +23,7 @@ Spine.List = (function() {
   function List() {
     this.change = __bind(this.change, this);    List.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
+    Spine.App.bind("edit:contact", this.change);
   }
   List.prototype.template = function() {
     return arguments[0];
@@ -58,7 +59,6 @@ Spine.List = (function() {
   List.prototype.edit = function(e) {
     var item;
     item = $(e.target).item();
-    this.trigger('change', item);
     return Spine.App.trigger('edit:contact', item);
   };
   return List;

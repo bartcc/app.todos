@@ -1,13 +1,12 @@
-Spine ?= require("spine")
-Spine.Model.Filter = (
+Filter =
   ->
-    Extend =
+    extend =
       filter: (query) ->
         return @.all() unless query
         @.select (item) ->
           item.select query
 
-    Include =
+    include =
       select: (query) ->
         query = query.toLowerCase()
         atts = (@.selectAttributes or @.attributes).apply @
@@ -18,6 +17,8 @@ Spine.Model.Filter = (
         false
 
     extended: ->
-      @extend Extend
-      @include Include
-)()
+      @extend extend
+      @include include
+      return
+
+Spine.Model.Filter = Filter()

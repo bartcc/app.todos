@@ -1,11 +1,7 @@
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
-  Spine = require("spine");
-};
-Spine.Model.Filter = (function() {
-  var Extend, Include;
-  Extend = {
+var Filter;
+Filter = function() {
+  var extend, include;
+  extend = {
     filter: function(query) {
       if (!query) {
         return this.all();
@@ -15,7 +11,7 @@ Spine.Model.Filter = (function() {
       });
     }
   };
-  Include = {
+  include = {
     select: function(query) {
       var atts, key, value;
       query = query.toLowerCase();
@@ -32,8 +28,9 @@ Spine.Model.Filter = (function() {
   };
   return {
     extended: function() {
-      this.extend(Extend);
-      return this.include(Include);
+      this.extend(extend);
+      this.include(include);
     }
   };
-})();
+};
+Spine.Model.Filter = Filter();

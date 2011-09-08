@@ -13,14 +13,14 @@ Spine.Manager.include({
   enableDrag: function() {
     return this.el.draggable('enable');
   },
-  alive: function(el, opts) {
+  startDrag: function(el, opts) {
     var defaults, dim, min, options, ori, rev;
     if (!el) {
       return;
     }
     this.el = el;
     defaults = {
-      autodim: function() {
+      initSize: function() {
         return 500;
       },
       disabled: true,
@@ -44,7 +44,7 @@ Spine.Manager.include({
         if (options.disabled) {
           this.disableDrag();
         }
-        return this.currentDim = options.autodim.call(this);
+        return this.currentDim = options.initSize.call(this);
       }, this),
       axis: options.axis,
       handle: options.handle,

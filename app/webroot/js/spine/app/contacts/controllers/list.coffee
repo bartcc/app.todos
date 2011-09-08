@@ -11,6 +11,7 @@ class Spine.List extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
+    Spine.App.bind("edit:contact", @change)
     
   template: -> arguments[0]
   
@@ -37,7 +38,6 @@ class Spine.List extends Spine.Controller
     
   edit: (e) ->
     item = $(e.target).item()
-    @trigger 'change', item
     Spine.App.trigger 'edit:contact', item
 
 module?.exports = Spine.List

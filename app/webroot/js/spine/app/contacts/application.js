@@ -14,7 +14,7 @@ jQuery(function($){
     },
     
     init: function(){
-      this.sidebar = Sidebar.init({
+      this.sidebar = new Sidebar({
         el: this.sidebarEl
       });
       this.contacts = Contacts.init({
@@ -31,8 +31,8 @@ jQuery(function($){
       });
       
       this.vmanager = new Spine.Manager(this.sidebar);
-      this.vmanager.alive(this.vDrag, {
-        autodim: this.proxy(function() {
+      this.vmanager.startDrag(this.vDrag, {
+        initSize: this.proxy(function() {
           return $(this.sidebar.el).width()/2;
         }),
         disabled: false,
@@ -43,14 +43,14 @@ jQuery(function($){
         })
       });
       this.hmanager = new Spine.Manager(this.album, this.upload, this.grid);
-      this.hmanager.alive(this.hDrag, {
-        autodim: this.proxy(function() {
+      this.hmanager.startDrag(this.hDrag, {
+        initSize: this.proxy(function() {
           return $(this.contacts.el).height()/2;
         }),
         axis: 'y',
-        min: 50,
+        min: 0,
         max: this.proxy(function() {
-          return $(this.contacts.el).height()/2;;
+          return $(this.contacts.el).height()/2;
         })
       });
       

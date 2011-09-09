@@ -6,7 +6,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+};
 $ = jQuery;
 Contacts = (function() {
   __extends(Contacts, Spine.Controller);
@@ -58,10 +58,10 @@ Contacts = (function() {
     return Spine.App.trigger("edit:contact");
   };
   Contacts.prototype.editContact = function() {
-    return this.editEl.show(0, __bind(function() {
+    return this.editEl.show(0, this.proxy(function() {
       this.showEl.hide();
-      return this.$("input").first().focus().select();
-    }, this));
+      return $('input', this.editEl).first().focus().select();
+    }));
   };
   Contacts.prototype.destroy = function() {
     return this.current.destroy();

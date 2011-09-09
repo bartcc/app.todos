@@ -47,10 +47,10 @@ class Contacts extends Spine.Controller
     Spine.App.trigger("edit:contact")
 
   editContact: ->
-    @editEl.show(0, =>
+    @editEl.show 0, @proxy ->
       @showEl.hide()
-      @$("input").first().focus().select()
-    )
+      $('input', @editEl).first().focus().select()
+      
 
   destroy: ->
     #if (confirm("Are you sure?"))

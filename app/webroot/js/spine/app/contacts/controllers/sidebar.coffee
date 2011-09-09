@@ -38,6 +38,7 @@ class Sidebar extends Spine.Controller
     #Filter by first name
     items = items.sort Contact.nameSort
     @list.render items
+
   newAttributes: ->
       first_name: ''
       last_name: ''

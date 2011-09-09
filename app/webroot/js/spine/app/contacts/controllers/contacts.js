@@ -1,5 +1,5 @@
 var $, Contacts;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -29,13 +29,14 @@ Contacts = (function() {
     "keydown": "saveOnEnter"
   };
   function Contacts() {
-    Contacts.__super__.constructor.apply(this, arguments);
+    this.saveOnEnter = __bind(this.saveOnEnter, this);    Contacts.__super__.constructor.apply(this, arguments);
     this.editEl.hide();
     Contact.bind("update", this.proxy(this.change));
     Contact.bind("change", this.proxy(this.change));
     Spine.App.bind("show:contact", this.proxy(this.show));
     Spine.App.bind("edit:contact", this.proxy(this.edit));
-    this.bind("render", this.render);
+    Spine.App.bind('save', this.proxy(this.save));
+    Spine.App.bind("render", this.proxy(this.render));
     this.bind("toggle:view", this.proxy(this.toggleView));
     $(this.views).queue("fx");
   }
@@ -45,7 +46,7 @@ Contacts = (function() {
   Contacts.prototype.change = function(item, mode) {
     if (!item.destroyed) {
       this.current = item;
-      this.trigger('render');
+      Spine.App.trigger('render');
       if (mode === 'create') {
         return Spine.App.trigger('edit:contact');
       }
@@ -54,9 +55,17 @@ Contacts = (function() {
   Contacts.prototype.render = function() {
     this.showContent.html($("#contactTemplate").tmpl(this.current));
     this.editContent.html($("#editContactTemplate").tmpl(this.current));
-    if (this.editEl.is(':visible')) {
-      return $('input', this.editEl).first().focus().select();
+    this.focusFirstInput(this.editEl);
+    return this.el;
+  };
+  Contacts.prototype.focusFirstInput = function(el) {
+    if (!el) {
+      return;
     }
+    if (el.is(':visible')) {
+      $('input', el).first().focus().select();
+    }
+    return el;
   };
   Contacts.prototype.show = function(item) {
     if (item) {
@@ -69,7 +78,7 @@ Contacts = (function() {
   Contacts.prototype.edit = function() {
     return this.editEl.show(0, this.proxy(function() {
       this.showEl.hide();
-      return $('input', this.editEl).first().focus().select();
+      return this.focusFirstInput(this.editEl);
     }));
   };
   Contacts.prototype.destroy = function() {
@@ -136,9 +145,12 @@ Contacts = (function() {
     this.renderViewControl(controller, control);
     return this.animateView();
   };
-  Contacts.prototype.save = function() {
+  Contacts.prototype.save = function(el) {
     var atts;
-    atts = this.editEl.serializeForm();
+    atts = typeof el.serializeForm === "function" ? el.serializeForm() : void 0;
+    if (!atts) {
+      atts = this.editEl.serializeForm();
+    }
     this.current.updateChangedAttributes(atts);
     return this.show();
   };
@@ -146,7 +158,7 @@ Contacts = (function() {
     if (e.keyCode !== 13) {
       return;
     }
-    return this.save();
+    return Spine.App.trigger('save', this.editEl);
   };
   return Contacts;
 })();

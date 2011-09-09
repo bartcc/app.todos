@@ -26,7 +26,8 @@ class Contacts extends Spine.Controller
     Contact.bind("change", @proxy @change)
     Spine.App.bind("show:contact", @proxy @show)
     Spine.App.bind("edit:contact", @proxy @edit)
-    @bind("render", @render)
+    Spine.App.bind('save', @proxy @save)
+    Spine.App.bind("render", @proxy @render)
     @bind("toggle:view", @proxy @toggleView)
 
     $(@views).queue("fx")
@@ -37,13 +38,19 @@ class Contacts extends Spine.Controller
   change: (item, mode) ->
     if(!item.destroyed)
       @current = item
-      @trigger('render')
+      Spine.App.trigger('render')
       Spine.App.trigger('edit:contact') if mode is 'create'
   
   render: ->
     @showContent.html $("#contactTemplate").tmpl @current
     @editContent.html $("#editContactTemplate").tmpl @current
-    $('input', @editEl).first().focus().select() if @editEl.is(':visible')
+    @focusFirstInput(@editEl)
+    @el
+  
+  focusFirstInput: (el) ->
+    return unless el
+    $('input', el).first().focus().select() if el.is(':visible')
+    el
 
   show: (item) ->
     if (item) then @change item
@@ -53,7 +60,7 @@ class Contacts extends Spine.Controller
   edit: ->
     @editEl.show 0, @proxy ->
       @showEl.hide()
-      $('input', @editEl).first().focus().select()
+      @focusFirstInput(@editEl)
 
   destroy: ->
     #if (confirm("Are you sure?"))
@@ -106,11 +113,12 @@ class Contacts extends Spine.Controller
     @renderViewControl controller, control
     @animateView()
 
-  save: ->
-    atts = @editEl.serializeForm()
+  save: (el) ->
+    atts = el.serializeForm?()
+    atts = @editEl.serializeForm() unless atts
     @current.updateChangedAttributes(atts)
     @show()
 
-  saveOnEnter: (e) ->
+  saveOnEnter: (e) =>
     return if(e.keyCode != 13)
-    @save()
+    Spine.App.trigger('save', @editEl)

@@ -42,12 +42,12 @@ jQuery(function($){
           return $(this.el).width()/2;
         })
       });
-      this.hmanager = new Spine.Manager(this.album, this.upload, this.grid);
+      this.hmanager = new Spine.Manager(this.album, this.upload, this.album, this.grid);
       this.hmanager.startDrag(this.hDrag, {
         initSize: this.proxy(function() {
           return $(this.contacts.el).height()/2;
         }),
-        disabled: false,
+        disabled: true,
         axis: 'y',
         min: 0,
         max: this.proxy(function() {

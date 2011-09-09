@@ -38,7 +38,8 @@ Spine.List = (function() {
     }
     this.current = item;
     this.children().removeClass("active");
-    return this.children().forItem(this.current).addClass("active");
+    this.children().forItem(this.current).addClass("active");
+    return Spine.App.trigger('change', item);
   };
   List.prototype.render = function(items) {
     if (items) {

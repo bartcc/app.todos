@@ -84,22 +84,21 @@ Contacts = (function() {
     });
   };
   Contacts.prototype.animateView = function() {
-    var asset, hasActive;
+    var assert, hasActive;
     hasActive = function() {
       var controller, _i, _len, _ref;
       _ref = App.hmanager.controllers;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         controller = _ref[_i];
+        console.log(controller.el);
+        console.log(controller.isActive());
         if (controller.isActive()) {
-          App.hmanager.enableDrag();
-          return true;
-        } else {
-          App.hmanager.disableDrag();
-          return false;
+          return App.hmanager.enableDrag();
         }
       }
+      return App.hmanager.disableDrag();
     };
-    asset = function() {
+    assert = function() {
       if (hasActive()) {
         return App.hmanager.currentDim + "px";
       } else {
@@ -107,7 +106,7 @@ Contacts = (function() {
       }
     };
     return $(this.views).animate({
-      height: asset()
+      height: assert()
     }, 400);
   };
   Contacts.prototype.toggleAlbum = function(e) {
@@ -124,8 +123,10 @@ Contacts = (function() {
     isActive = controller.isActive();
     if (isActive) {
       App.hmanager.trigger("change", false);
+      console.log(controller.isActive());
     } else {
       App.hmanager.trigger("change", controller);
+      console.log(controller.isActive());
     }
     this.renderViewControl(controller, control);
     return this.animateView();

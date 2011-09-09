@@ -47,6 +47,7 @@ jQuery(function($){
         initSize: this.proxy(function() {
           return $(this.contacts.el).height()/2;
         }),
+        disabled: false,
         axis: 'y',
         min: 0,
         max: this.proxy(function() {

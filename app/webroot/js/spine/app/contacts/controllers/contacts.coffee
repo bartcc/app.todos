@@ -72,17 +72,17 @@ class Contacts extends Spine.Controller
   animateView: ->
     hasActive = ->
       for controller in App.hmanager.controllers
+        console.log controller.el
+        console.log controller.isActive()
         if controller.isActive()
-          App.hmanager.enableDrag()
-          return true
-        else
-          App.hmanager.disableDrag()
-          return false
-    asset = ->
+          return App.hmanager.enableDrag()
+      App.hmanager.disableDrag()
+
+    assert = ->
       if hasActive() then App.hmanager.currentDim+"px" else "7px"
 
     $(@views).animate
-      height: asset()
+      height: assert()
       400
 
   toggleAlbum: (e) ->
@@ -97,11 +97,12 @@ class Contacts extends Spine.Controller
   toggleView: (controller, control) ->
     isActive = controller.isActive()
 
-
     if(isActive)
       App.hmanager.trigger("change", false)
+      console.log controller.isActive()
     else
       App.hmanager.trigger("change", controller)
+      console.log controller.isActive()
 
     @renderViewControl controller, control
     @animateView()

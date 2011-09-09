@@ -21,12 +21,16 @@ Spine.List = (function() {
   };
   List.prototype.selectFirst = true;
   function List() {
-    this.change = __bind(this.change, this);    List.__super__.constructor.apply(this, arguments);
+    this.change = __bind(this.change, this);
+    this.test = __bind(this.test, this);    List.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
-    Spine.App.bind("edit:contact", this.change);
+    Contact.bind("create", this.change);
   }
   List.prototype.template = function() {
     return arguments[0];
+  };
+  List.prototype.test = function(item) {
+    return console.log(item);
   };
   List.prototype.change = function(item) {
     if (!item) {

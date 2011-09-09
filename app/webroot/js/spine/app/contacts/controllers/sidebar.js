@@ -53,8 +53,7 @@ Sidebar = (function() {
   Sidebar.prototype.create = function(e) {
     var item;
     e.preventDefault();
-    item = Contact.create(this.newAttributes());
-    return Spine.App.trigger("edit:contact", item);
+    return item = Contact.create(this.newAttributes());
   };
   return Sidebar;
 })();

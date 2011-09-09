@@ -22,35 +22,38 @@ class Contacts extends Spine.Controller
   constructor: ->
     super
     @editEl.hide()
+    Contact.bind("update", @proxy @change)
     Contact.bind("change", @proxy @change)
     Spine.App.bind("show:contact", @proxy @show)
-    Spine.App.bind("edit:contact", @proxy @editContact)
+    Spine.App.bind("edit:contact", @proxy @edit)
+    @bind("render", @render)
     @bind("toggle:view", @proxy @toggleView)
 
     $(@views).queue("fx")
+    
+  print: (item) ->
+    console.log item.isNew()
 
-  change: (item) ->
+  change: (item, mode) ->
     if(!item.destroyed)
       @current = item
-      @render()
-
+      @trigger('render')
+      Spine.App.trigger('edit:contact') if mode is 'create'
+  
   render: ->
     @showContent.html $("#contactTemplate").tmpl @current
     @editContent.html $("#editContactTemplate").tmpl @current
+    $('input', @editEl).first().focus().select() if @editEl.is(':visible')
 
   show: (item) ->
     if (item) then @change item
-    @showEl.show()
-    @editEl.hide()
+    @showEl.show 0, @proxy ->
+      @editEl.hide()
 
   edit: ->
-    Spine.App.trigger("edit:contact")
-
-  editContact: ->
     @editEl.show 0, @proxy ->
       @showEl.hide()
       $('input', @editEl).first().focus().select()
-      
 
   destroy: ->
     #if (confirm("Are you sure?"))
@@ -72,8 +75,6 @@ class Contacts extends Spine.Controller
   animateView: ->
     hasActive = ->
       for controller in App.hmanager.controllers
-        console.log controller.el
-        console.log controller.isActive()
         if controller.isActive()
           return App.hmanager.enableDrag()
       App.hmanager.disableDrag()
@@ -99,10 +100,8 @@ class Contacts extends Spine.Controller
 
     if(isActive)
       App.hmanager.trigger("change", false)
-      console.log controller.isActive()
     else
       App.hmanager.trigger("change", controller)
-      console.log controller.isActive()
 
     @renderViewControl controller, control
     @animateView()

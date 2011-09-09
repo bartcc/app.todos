@@ -31,33 +31,42 @@ Contacts = (function() {
   function Contacts() {
     Contacts.__super__.constructor.apply(this, arguments);
     this.editEl.hide();
+    Contact.bind("update", this.proxy(this.change));
     Contact.bind("change", this.proxy(this.change));
     Spine.App.bind("show:contact", this.proxy(this.show));
-    Spine.App.bind("edit:contact", this.proxy(this.editContact));
+    Spine.App.bind("edit:contact", this.proxy(this.edit));
+    this.bind("render", this.render);
     this.bind("toggle:view", this.proxy(this.toggleView));
     $(this.views).queue("fx");
   }
-  Contacts.prototype.change = function(item) {
+  Contacts.prototype.print = function(item) {
+    return console.log(item.isNew());
+  };
+  Contacts.prototype.change = function(item, mode) {
     if (!item.destroyed) {
       this.current = item;
-      return this.render();
+      this.trigger('render');
+      if (mode === 'create') {
+        return Spine.App.trigger('edit:contact');
+      }
     }
   };
   Contacts.prototype.render = function() {
     this.showContent.html($("#contactTemplate").tmpl(this.current));
-    return this.editContent.html($("#editContactTemplate").tmpl(this.current));
+    this.editContent.html($("#editContactTemplate").tmpl(this.current));
+    if (this.editEl.is(':visible')) {
+      return $('input', this.editEl).first().focus().select();
+    }
   };
   Contacts.prototype.show = function(item) {
     if (item) {
       this.change(item);
     }
-    this.showEl.show();
-    return this.editEl.hide();
+    return this.showEl.show(0, this.proxy(function() {
+      return this.editEl.hide();
+    }));
   };
   Contacts.prototype.edit = function() {
-    return Spine.App.trigger("edit:contact");
-  };
-  Contacts.prototype.editContact = function() {
     return this.editEl.show(0, this.proxy(function() {
       this.showEl.hide();
       return $('input', this.editEl).first().focus().select();
@@ -90,8 +99,6 @@ Contacts = (function() {
       _ref = App.hmanager.controllers;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         controller = _ref[_i];
-        console.log(controller.el);
-        console.log(controller.isActive());
         if (controller.isActive()) {
           return App.hmanager.enableDrag();
         }
@@ -123,10 +130,8 @@ Contacts = (function() {
     isActive = controller.isActive();
     if (isActive) {
       App.hmanager.trigger("change", false);
-      console.log(controller.isActive());
     } else {
       App.hmanager.trigger("change", controller);
-      console.log(controller.isActive());
     }
     this.renderViewControl(controller, control);
     return this.animateView();

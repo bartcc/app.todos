@@ -40,11 +40,10 @@ class Sidebar extends Spine.Controller
     @list.render items
 
   newAttributes: ->
-      first_name: ''
-      last_name: ''
+    first_name: ''
+    last_name: ''
 
   #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
-    item = Contact.create @newAttributes()
-    Spine.App.trigger "edit:contact", item
+    item = Contact.create @newAttributes()    

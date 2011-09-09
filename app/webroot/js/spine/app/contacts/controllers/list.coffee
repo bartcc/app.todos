@@ -11,9 +11,12 @@ class Spine.List extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-    Spine.App.bind("edit:contact", @change)
+    Contact.bind("create", @change)
     
   template: -> arguments[0]
+  
+  test: (item) =>
+    console.log item
   
   change: (item) =>
     return unless item

@@ -3,13 +3,11 @@ $      = Spine.$
 
 Spine.Manager.include
   disableDrag: ->
-    console.log 'disableDrag'
     @el.draggable('disable')
-    false
+    not @el.draggable("option", "disabled")
   enableDrag: ->
-    console.log 'enableDrag'
     @el.draggable('enable')
-    true
+    not @el.draggable("option", "disabled")
   startDrag: (el, opts) ->
     return unless el
     @el = el

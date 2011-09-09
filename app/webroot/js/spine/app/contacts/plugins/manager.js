@@ -8,14 +8,12 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 $ = Spine.$;
 Spine.Manager.include({
   disableDrag: function() {
-    console.log('disableDrag');
     this.el.draggable('disable');
-    return false;
+    return !this.el.draggable("option", "disabled");
   },
   enableDrag: function() {
-    console.log('enableDrag');
     this.el.draggable('enable');
-    return true;
+    return !this.el.draggable("option", "disabled");
   },
   startDrag: function(el, opts) {
     var defaults, dim, min, options, ori, rev;

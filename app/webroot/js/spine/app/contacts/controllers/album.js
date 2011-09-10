@@ -19,7 +19,6 @@ Album = (function() {
     '.editAlbum': 'editEl'
   };
   Album.prototype.events = {
-    "click .item": "click",
     "keydown": "save"
   };
   Album.prototype.template = function(item) {
@@ -30,10 +29,11 @@ Album = (function() {
     Spine.App.bind('change', this.proxy(this.change));
   }
   Album.prototype.render = function() {
-    if (!this.current.destroyed) {
+    var _base;
+    if (this.current && (typeof (_base = this.current).reload === "function" ? _base.reload() : void 0)) {
       this.current.reload();
       this.editEl.html(this.template(this.current));
-      return this.editEl;
+      return this;
     }
   };
   Album.prototype.change = function(item) {

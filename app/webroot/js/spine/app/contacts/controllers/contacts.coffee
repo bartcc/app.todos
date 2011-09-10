@@ -22,30 +22,25 @@ class Contacts extends Spine.Controller
   constructor: ->
     super
     @editEl.hide()
-    Contact.bind("update", @proxy @change)
     Contact.bind("change", @proxy @change)
-    Spine.App.bind("show:contact", @proxy @show)
-    Spine.App.bind("edit:contact", @proxy @edit)
     Spine.App.bind('save', @proxy @save)
-    Spine.App.bind("render", @proxy @render)
+    Spine.App.bind("change", @proxy @change)
     @bind("toggle:view", @proxy @toggleView)
+    @create = @edit
 
     $(@views).queue("fx")
     
-  print: (item) ->
-    console.log item.isNew()
-
   change: (item, mode) ->
     if(!item.destroyed)
       @current = item
-      Spine.App.trigger('render')
-      Spine.App.trigger('edit:contact') if mode is 'create'
-  
+      @render()
+      @[mode]?(item)
+
   render: ->
     @showContent.html $("#contactTemplate").tmpl @current
     @editContent.html $("#editContactTemplate").tmpl @current
     @focusFirstInput(@editEl)
-    @el
+    @
   
   focusFirstInput: (el) ->
     return unless el
@@ -53,17 +48,16 @@ class Contacts extends Spine.Controller
     el
 
   show: (item) ->
-    if (item) then @change item
     @showEl.show 0, @proxy ->
       @editEl.hide()
 
-  edit: ->
+  
+  edit: (item) ->
     @editEl.show 0, @proxy ->
       @showEl.hide()
       @focusFirstInput(@editEl)
 
   destroy: ->
-    #if (confirm("Are you sure?"))
     @current.destroy()
 
   email: ->

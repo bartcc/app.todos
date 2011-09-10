@@ -28,10 +28,6 @@ Sidebar = (function() {
       el: this.items,
       template: this.template
     });
-    this.list.bind("change", this.proxy(function(item) {
-      return Spine.App.trigger("show:contact", item);
-    }));
-    Spine.App.bind("show:contact", this.list.proxy(this.list.change));
     Contact.bind("refresh change", this.proxy(this.render));
   }
   Sidebar.prototype.filter = function() {

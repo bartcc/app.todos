@@ -11,19 +11,17 @@ class Spine.List extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-    Contact.bind("create", @change)
+    Contact.bind("change", @proxy @change)
     
   template: -> arguments[0]
   
-  test: (item) =>
-    console.log item
-  
-  change: (item) =>
-    return unless item
-    @current = item
-    @children().removeClass("active")
-    @children().forItem(@current).addClass("active")
-    Spine.App.trigger('change', item)
+  change: (item, mode) =>
+    if item and !item.destroyed
+      @current = item
+      @children().removeClass("active")
+      @children().forItem(@current).addClass("active")
+      
+      Spine.App.trigger('change', item, mode)
   
   render: (items) ->
     @items = items if items
@@ -38,10 +36,10 @@ class Spine.List extends Spine.Controller
     
   click: (e) ->
     item = $(e.target).item()
-    @trigger "change", item
+    @change item, 'show'
     
   edit: (e) ->
     item = $(e.target).item()
-    Spine.App.trigger 'edit:contact', item
+    @change item, 'edit'
 
 module?.exports = Spine.List

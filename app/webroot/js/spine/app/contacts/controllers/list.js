@@ -21,25 +21,20 @@ Spine.List = (function() {
   };
   List.prototype.selectFirst = true;
   function List() {
-    this.change = __bind(this.change, this);
-    this.test = __bind(this.test, this);    List.__super__.constructor.apply(this, arguments);
+    this.change = __bind(this.change, this);    List.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
-    Contact.bind("create", this.change);
+    Contact.bind("change", this.proxy(this.change));
   }
   List.prototype.template = function() {
     return arguments[0];
   };
-  List.prototype.test = function(item) {
-    return console.log(item);
-  };
-  List.prototype.change = function(item) {
-    if (!item) {
-      return;
+  List.prototype.change = function(item, mode) {
+    if (item && !item.destroyed) {
+      this.current = item;
+      this.children().removeClass("active");
+      this.children().forItem(this.current).addClass("active");
+      return Spine.App.trigger('change', item, mode);
     }
-    this.current = item;
-    this.children().removeClass("active");
-    this.children().forItem(this.current).addClass("active");
-    return Spine.App.trigger('change', item);
   };
   List.prototype.render = function(items) {
     if (items) {
@@ -59,12 +54,12 @@ Spine.List = (function() {
   List.prototype.click = function(e) {
     var item;
     item = $(e.target).item();
-    return this.trigger("change", item);
+    return this.change(item, 'show');
   };
   List.prototype.edit = function(e) {
     var item;
     item = $(e.target).item();
-    return Spine.App.trigger('edit:contact', item);
+    return this.change(item, 'edit');
   };
   return List;
 })();

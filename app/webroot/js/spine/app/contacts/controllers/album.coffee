@@ -7,7 +7,6 @@ class Album extends Spine.Controller
     '.editAlbum'  : 'editEl'
 
   events:
-    "click .item": "click"
     "keydown"    : "save"
     
   template: (item) ->
@@ -16,13 +15,13 @@ class Album extends Spine.Controller
   constructor: ->
     super
     Spine.App.bind('change', @proxy @change)
-    #Spine.App.bind('render', @proxy @render)
+#    Spine.App.bind('render', @proxy @render)
 
   render: ->
-    unless @current.destroyed
+    if @current and @current.reload?()
       @current.reload()
       @editEl.html @template @current
-      @editEl
+      @
 
   change: (item) ->
     @current = item

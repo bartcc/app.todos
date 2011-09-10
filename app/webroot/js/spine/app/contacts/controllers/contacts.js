@@ -31,32 +31,25 @@ Contacts = (function() {
   function Contacts() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    Contacts.__super__.constructor.apply(this, arguments);
     this.editEl.hide();
-    Contact.bind("update", this.proxy(this.change));
     Contact.bind("change", this.proxy(this.change));
-    Spine.App.bind("show:contact", this.proxy(this.show));
-    Spine.App.bind("edit:contact", this.proxy(this.edit));
     Spine.App.bind('save', this.proxy(this.save));
-    Spine.App.bind("render", this.proxy(this.render));
+    Spine.App.bind("change", this.proxy(this.change));
     this.bind("toggle:view", this.proxy(this.toggleView));
+    this.create = this.edit;
     $(this.views).queue("fx");
   }
-  Contacts.prototype.print = function(item) {
-    return console.log(item.isNew());
-  };
   Contacts.prototype.change = function(item, mode) {
     if (!item.destroyed) {
       this.current = item;
-      Spine.App.trigger('render');
-      if (mode === 'create') {
-        return Spine.App.trigger('edit:contact');
-      }
+      this.render();
+      return typeof this[mode] === "function" ? this[mode](item) : void 0;
     }
   };
   Contacts.prototype.render = function() {
     this.showContent.html($("#contactTemplate").tmpl(this.current));
     this.editContent.html($("#editContactTemplate").tmpl(this.current));
     this.focusFirstInput(this.editEl);
-    return this.el;
+    return this;
   };
   Contacts.prototype.focusFirstInput = function(el) {
     if (!el) {
@@ -68,14 +61,11 @@ Contacts = (function() {
     return el;
   };
   Contacts.prototype.show = function(item) {
-    if (item) {
-      this.change(item);
-    }
     return this.showEl.show(0, this.proxy(function() {
       return this.editEl.hide();
     }));
   };
-  Contacts.prototype.edit = function() {
+  Contacts.prototype.edit = function(item) {
     return this.editEl.show(0, this.proxy(function() {
       this.showEl.hide();
       return this.focusFirstInput(this.editEl);

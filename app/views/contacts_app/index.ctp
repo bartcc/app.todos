@@ -32,7 +32,7 @@
         <div id="views" class="vbox flex hdraggable">
           <div class="hdivide draghandle"></div>
           <div id="album" class="view flex autoflow" style="">
-            <div>Album</div>
+            <div class="editAlbum"></div>
           </div>
           <div id="upload" class="view flex autoflow" style="">
             <div>Upload</div>

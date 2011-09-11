@@ -270,6 +270,16 @@ textarea {
   background-position: center;
   cursor: e-resize
 }
+.options li.splitter {
+  background: -webkit-gradient(linear, left top, right top, from(#f9f9f9), to(#dfe0e1));
+  background: -webkit-linear-gradient(left, #f9f9f9, #dfe0e1);
+  background: -moz-linear-gradient(left, #f9f9f9, #dfe0e1);
+  background: linear-gradient(left, #f9f9f9, #dfe0e1);
+  border-left: 0 solid;
+  padding: 0;
+  width: 5px
+}
+
 .hdivide {
   height: 8px;
   border: 1px solid #c5c5c5;
@@ -445,7 +455,7 @@ textarea {
   -webkit-box-shadow: inset -1px -1px 3px #eeeeee, 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-#contacts .options li {
+.options li {
   float: left;
   line-height: 30px;
   height: 30px;
@@ -454,14 +464,14 @@ textarea {
   border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-#contacts .options li:active, #contacts .options li.active {
+.options li:active, #contacts .options li.active {
   background: #FFB399;
   -moz-box-shadow: inset 0 0 10px #9c9c9c;
   -webkit-box-shadow: inset 0 0 10px #9c9c9c;
   box-shadow: inset 0 0 10px #9c9c9c;
 }
 
-#contacts .options li.default, #contacts .options li.active, #contacts .options li.default:active {
+.options li.default, #contacts .options li.active, #contacts .options li.default:active {
   color: #ffffff;
   text-shadow: 0 -1px 1px #FFB399;
   background: #882739;
@@ -470,7 +480,7 @@ textarea {
   background: linear-gradient(top, #FFB399, #FF6633);
 }
 
-#contacts .content, #views .view {
+.content, #views .view {
   -moz-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
@@ -478,11 +488,11 @@ textarea {
   -webkit-user-select: text;
 }
 
-#contacts .content span {
+.content span {
   -webkit-user-select: none;
 }
 
-#contacts .empty {
+.empty {
   font-style: italic;
 }
 #views {

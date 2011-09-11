@@ -672,8 +672,11 @@ Module.create = Module.sub = Controller.create = Controller.sub = Model.sub = fu
   }
   return result;
 };
-Model.setup = function() {
+Model.setup = function(name, attributes) {
   var Instance;
+  if (attributes == null) {
+    attributes = [];
+  }
   Instance = (function() {
     __extends(Instance, this);
     function Instance() {
@@ -681,7 +684,7 @@ Model.setup = function() {
     }
     return Instance;
   }).call(this);
-  Instance.configure.apply(Instance, arguments);
+  Instance.configure.apply(Instance, [name].concat(__slice.call(attributes)));
   return Instance;
 };
 Module.init = Controller.init = Model.init = function(a1, a2, a3, a4, a5) {

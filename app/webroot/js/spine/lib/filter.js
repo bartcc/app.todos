@@ -29,7 +29,7 @@ Filter = function() {
   return {
     extended: function() {
       this.extend(extend);
-      this.include(include);
+      return this.include(include);
     }
   };
 };

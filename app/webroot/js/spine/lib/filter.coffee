@@ -19,6 +19,5 @@ Filter =
     extended: ->
       @extend extend
       @include include
-      return
 
 Spine.Model.Filter = Filter()

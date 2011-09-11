@@ -23,6 +23,8 @@
       <ul class="options">
         <li class="optEdit">Edit contact</li>
         <li class="optEmail">Email contact</li>
+        <li class="splitter"></li>
+        <li class="view showEditor">Editor</li>
         <li class="view showAlbum">Album</li>
         <li class="view showUpload">Upload Photo</li>
         <li class="view showGrid">Thumb Grid</li>
@@ -31,8 +33,11 @@
       <div id="views-wrapper" class="hbox autoflow">
         <div id="views" class="vbox flex hdraggable">
           <div class="hdivide draghandle"></div>
+          <div id="editor" class="view flex autoflow" style="">
+            <div class="editEditor"></div>
+          </div>
           <div id="album" class="view flex autoflow" style="">
-            <div class="editAlbum"></div>
+            <div class="editAlbum">Album</div>
           </div>
           <div id="upload" class="view flex autoflow" style="">
             <div>Upload</div>
@@ -55,7 +60,7 @@
 </div>
 
 <script type="text/x-jquery-tmpl" id="contactsTemplate">
-  <li class="item">
+  <li class="item" title="Doubleclick to edit / Save with Enter">
     <img src="/img/missing.png" />
     {{if fullName()}}
     <div style="font-size: 0.6em">ID: ${id}</div

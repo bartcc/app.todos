@@ -12,6 +12,7 @@ App = (function() {
   App.prototype.elements = {
     '#sidebar': 'sidebarEl',
     '#contacts': 'contactsEl',
+    '#editor': 'editorEl',
     '#album': 'albumEl',
     '#upload': 'uploadEl',
     '#grid': 'gridEl',
@@ -26,6 +27,9 @@ App = (function() {
     this.contacts = new Contacts({
       el: this.contactsEl
     });
+    this.editor = new Editor({
+      el: this.editorEl
+    });
     this.album = new Album({
       el: this.albumEl
     });
@@ -36,7 +40,7 @@ App = (function() {
       el: this.gridEl
     });
     this.vmanager = new Spine.Manager(this.sidebar);
-    this.vmanager.startDrag(this.vDrag, {
+    this.vmanager.initDrag(this.vDrag, {
       initSize: this.proxy(function() {
         return $(this.sidebar.el).width() / 2;
       }),
@@ -47,8 +51,8 @@ App = (function() {
         return $(this.el).width() / 2;
       })
     });
-    this.hmanager = new Spine.Manager(this.album, this.upload, this.album, this.grid);
-    this.hmanager.startDrag(this.hDrag, {
+    this.hmanager = new Spine.Manager(this.editor, this.album, this.upload, this.album, this.grid);
+    this.hmanager.initDrag(this.hDrag, {
       initSize: this.proxy(function() {
         return $(this.contacts.el).height() / 2;
       }),

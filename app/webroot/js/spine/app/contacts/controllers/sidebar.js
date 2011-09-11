@@ -47,9 +47,10 @@ Sidebar = (function() {
     };
   };
   Sidebar.prototype.create = function(e) {
-    var item;
+    var contact;
     e.preventDefault();
-    return item = Contact.create(this.newAttributes());
+    contact = new Contact(this.newAttributes());
+    return contact.save();
   };
   return Sidebar;
 })();

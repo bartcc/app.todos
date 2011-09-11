@@ -8,7 +8,7 @@ Spine.Manager.include
   enableDrag: ->
     @el.draggable('enable')
     not @el.draggable("option", "disabled")
-  startDrag: (el, opts) ->
+  initDrag: (el, opts) ->
     return unless el
     @el = el
     defaults =
@@ -49,5 +49,4 @@ Spine.Manager.include
         @currentDim = $(ui.helper)[dim]()
 
 Spine.Manager.extend
-  notify: (t) ->
-    #alert(t)
+  #static methods

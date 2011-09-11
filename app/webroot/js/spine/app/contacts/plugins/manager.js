@@ -15,7 +15,7 @@ Spine.Manager.include({
     this.el.draggable('enable');
     return !this.el.draggable("option", "disabled");
   },
-  startDrag: function(el, opts) {
+  initDrag: function(el, opts) {
     var defaults, dim, min, options, ori, rev;
     if (!el) {
       return;
@@ -79,6 +79,4 @@ Spine.Manager.include({
     });
   }
 });
-Spine.Manager.extend({
-  notify: function(t) {}
-});
+Spine.Manager.extend;

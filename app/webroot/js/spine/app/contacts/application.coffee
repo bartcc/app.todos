@@ -3,6 +3,7 @@ class App extends Spine.Controller
   elements:
     '#sidebar'    : 'sidebarEl'
     '#contacts'   : 'contactsEl'
+    '#editor'     : 'editorEl'
     '#album'      : 'albumEl'
     '#upload'     : 'uploadEl'
     '#grid'       : 'gridEl'
@@ -15,6 +16,8 @@ class App extends Spine.Controller
       el: @sidebarEl
     @contacts = new Contacts
       el: @contactsEl
+    @editor = new Editor
+      el: @editorEl
     @album = new Album
       el: @albumEl
     @upload = new Upload
@@ -23,7 +26,7 @@ class App extends Spine.Controller
       el: @gridEl
 
     @vmanager = new Spine.Manager(@sidebar)
-    @vmanager.startDrag @vDrag,
+    @vmanager.initDrag @vDrag,
       initSize: @proxy ->
         $(@sidebar.el).width()/2
       disabled: false
@@ -31,8 +34,9 @@ class App extends Spine.Controller
       min: 250
       max: @proxy ->
         $(@el).width()/2
-    @hmanager = new Spine.Manager(@album, @upload, @album, @grid)
-    @hmanager.startDrag @hDrag,
+
+    @hmanager = new Spine.Manager(@editor, @album, @upload, @album, @grid)
+    @hmanager.initDrag @hDrag,
       initSize: @proxy ->
         $(@contacts.el).height()/2
       disabled: true

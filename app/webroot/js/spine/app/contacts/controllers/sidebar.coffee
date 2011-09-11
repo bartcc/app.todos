@@ -20,12 +20,6 @@ class Sidebar extends Spine.Controller
     Spine.App.list = @list = new Spine.List
       el: @items,
       template: @template
-#
-#    @list.bind "change", @proxy (item) ->
-#      Spine.App.trigger("show:contact", item);
-#
-#    Spine.App.bind "show:contact", @list.proxy @list.change
-#    #Re-render whenever contacts are populated or changed
     Contact.bind "refresh change", @proxy @render
 
   filter: ->
@@ -33,9 +27,7 @@ class Sidebar extends Spine.Controller
     @render();
 
   render: ->
-    #Filter items by query
     items = Contact.filter @query
-    #Filter by first name
     items = items.sort Contact.nameSort
     @list.render items
 
@@ -46,4 +38,5 @@ class Sidebar extends Spine.Controller
   #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
-    item = Contact.create @newAttributes()  
+    contact = new Contact @newAttributes()
+    contact.save()

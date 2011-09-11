@@ -15,37 +15,13 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 $ = Spine.$;
 Album = (function() {
   __extends(Album, Spine.Controller);
-  Album.prototype.elements = {
-    '.editAlbum': 'editEl'
-  };
   Album.prototype.events = {
-    "keydown": "save"
-  };
-  Album.prototype.template = function(item) {
-    return $('#editContactTemplate').tmpl(item);
+    "click .item": "click"
   };
   function Album() {
     Album.__super__.constructor.apply(this, arguments);
-    Spine.App.bind('change', this.proxy(this.change));
+    this.bind("change", this.change);
   }
-  Album.prototype.render = function() {
-    var _base;
-    if (this.current && (typeof (_base = this.current).reload === "function" ? _base.reload() : void 0)) {
-      this.current.reload();
-      this.editEl.html(this.template(this.current));
-      return this;
-    }
-  };
-  Album.prototype.change = function(item) {
-    this.current = item;
-    return this.render();
-  };
-  Album.prototype.save = function(e) {
-    if (e.keyCode !== 13) {
-      return;
-    }
-    return Spine.App.trigger('save', this.editEl);
-  };
   return Album;
 })();
 if (typeof module !== "undefined" && module !== null) {

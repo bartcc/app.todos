@@ -21,9 +21,9 @@ Contact = (function() {
       return '' + base_url + this.className.toLowerCase() + 's';
     },
     nameSort: function(a, b) {
-      var aa, bb;
-      aa = (a || '').first_name.toLowerCase();
-      bb = (b || '').first_name.toLowerCase();
+      var aa, bb, _ref, _ref2;
+      aa = (_ref = (a || '').first_name) != null ? _ref.toLowerCase() : void 0;
+      bb = (_ref2 = (b || '').first_name) != null ? _ref2.toLowerCase() : void 0;
       if (aa === bb) {
         return 0;
       } else if (aa < bb) {
@@ -31,6 +31,12 @@ Contact = (function() {
       } else {
         return 1;
       }
+    },
+    fromJSON: function(objects) {
+      return this.__super__.constructor.fromJSON.call(this, objects.json);
+    },
+    test: function() {
+      return Contact.__super__.test.apply(this, arguments);
     }
   });
   Contact.include({

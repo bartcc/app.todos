@@ -21,6 +21,7 @@ Contacts = (function() {
   Contacts.prototype.events = {
     "click .optEdit": "edit",
     "click .optEmail": "email",
+    "click .showEditor": "toggleEditor",
     "click .showAlbum": "toggleAlbum",
     "click .showUpload": "toggleUpload",
     "click .showGrid": "toggleGrid",
@@ -115,6 +116,9 @@ Contacts = (function() {
       height: assert()
     }, 400);
   };
+  Contacts.prototype.toggleEditor = function(e) {
+    return this.trigger("toggle:view", App.editor, e.target);
+  };
   Contacts.prototype.toggleAlbum = function(e) {
     return this.trigger("toggle:view", App.album, e.target);
   };
@@ -137,10 +141,7 @@ Contacts = (function() {
   };
   Contacts.prototype.save = function(el) {
     var atts;
-    atts = typeof el.serializeForm === "function" ? el.serializeForm() : void 0;
-    if (!atts) {
-      atts = this.editEl.serializeForm();
-    }
+    atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
     this.current.updateChangedAttributes(atts);
     return this.show();
   };

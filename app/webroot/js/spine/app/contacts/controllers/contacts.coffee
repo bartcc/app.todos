@@ -12,6 +12,7 @@ class Contacts extends Spine.Controller
   events:
     "click .optEdit"      : "edit"
     "click .optEmail"     : "email"
+    "click .showEditor"    : "toggleEditor"
     "click .showAlbum"    : "toggleAlbum"
     "click .showUpload"   : "toggleUpload"
     "click .showGrid"     : "toggleGrid"
@@ -87,6 +88,9 @@ class Contacts extends Spine.Controller
       height: assert()
       400
 
+  toggleEditor: (e) ->
+    @trigger("toggle:view", App.editor, e.target)
+
   toggleAlbum: (e) ->
     @trigger("toggle:view", App.album, e.target)
 
@@ -108,8 +112,7 @@ class Contacts extends Spine.Controller
     @animateView()
 
   save: (el) ->
-    atts = el.serializeForm?()
-    atts = @editEl.serializeForm() unless atts
+    atts = el.serializeForm?() or @editEl.serializeForm()
     @current.updateChangedAttributes(atts)
     @show()
 

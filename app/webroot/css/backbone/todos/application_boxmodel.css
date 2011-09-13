@@ -431,12 +431,6 @@ button.primary_lg.alert {
   background: -moz-linear-gradient(top, #963030, #7B3030);
   background: linear-gradient(top, #963030, #7B3030);
 }
-button.primary_lg.alert:hover {
-  background: #963030;
-  background: -webkit-gradient(linear, left top, left bottom, from(#963030), to(#8B4040));
-  background: -moz-linear-gradient(top, #963030, #8B4040);
-  background: linear-gradient(top, #963030, #8B4040);
-}
 button.primary_lg {
   background: #474747;
   background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#303030));
@@ -471,6 +465,12 @@ button.primary_lg:hover:not(.disabled) {
   background: -moz-linear-gradient(top, #474747, #404040);
   background: linear-gradient(top, #474747, #404040);
   cursor: pointer;
+}
+button.primary_lg.alert:hover {
+  background: #963030;
+  background: -webkit-gradient(linear, left top, left bottom, from(#963030), to(#8B4040));
+  background: -moz-linear-gradient(top, #963030, #8B4040);
+  background: linear-gradient(top, #963030, #8B4040);
 }
 button.light.disabled, button.light.disabled:active {
   background: -webkit-gradient(linear, left top, left bottom, from(#F7F7F7), to(#C7C7C7));

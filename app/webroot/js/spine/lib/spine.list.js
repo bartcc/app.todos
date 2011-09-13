@@ -5,8 +5,10 @@
       "click .item": "click"
     },
     
+    proxied: ["change"],
+    
     init: function(){
-      this.bind("change", this.proxy(this.change));
+      this.bind("change", this.change);
     },
     
     template: function(){

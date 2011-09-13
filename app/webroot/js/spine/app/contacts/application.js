@@ -1,3 +1,27 @@
+<<<<<<< HEAD
+jQuery(function($){
+  
+  window.App = Spine.Controller.create({
+    el: $("body"),
+    
+    elements: {
+      "#sidebar": "sidebarEl",
+      "#contacts": "contactsEl"
+    },
+    
+    init: function(){
+      this.sidebar = Sidebar.init({
+        el: this.sidebarEl
+      });
+      this.contact = Contacts.init({
+        el: this.contactsEl
+      });
+      
+      Contact.fetch();
+    }
+  }).init();
+  
+=======
 var App;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
@@ -60,9 +84,10 @@ App = (function() {
       axis: 'y',
       min: 0,
       max: this.proxy(function() {
-        return this.contacts.el.height() * 2 / 3;
+        return this.contacts.el.height() / 2;
       })
     });
+    Contact.fetch();
   }
   return App;
 })();
@@ -70,6 +95,6 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  App.contacts.editorBtn.click();
-  return Contact.fetch();
+  return App.contacts.editorBtn.click();
+>>>>>>> parent of 08f6b6d... cs
 });

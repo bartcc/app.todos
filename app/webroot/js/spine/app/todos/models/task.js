@@ -81,7 +81,9 @@ Task.extend({
   
   comparator: function() {
     this.each(function(rec) {
+      console.log(rec.order)
       return rec.order;
+      
     })
   },
   

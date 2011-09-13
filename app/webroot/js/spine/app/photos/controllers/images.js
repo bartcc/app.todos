@@ -1,18 +1,17 @@
 jQuery(function($){
-  
-  window.Contacts = Spine.Controller.create({
+  window.Images = Spine.Controller.create({
     elements: {
-      ".show"               : "showEl",
-      ".edit"               : "editEl",
-      ".show .content"      : "showContent",
-      ".edit .content"      : "editContent"
+      ".show": "showEl",
+      ".edit": "editEl",
+      ".show .content": "showContent",
+      ".edit .content": "editContent"
     },
     
     events: {
-      "click .optEdit"      : "edit",
-      "click .optEmail"     : "email",
-      "click .optDestroy"   : "destroy",
-      "click .optSave"      : "save"
+      "click .optEdit": "edit",
+      "click .optEmail": "email",
+      "click .optDestroy": "destroy",
+      "click .optSave": "save"
     },
     
     proxied: ["render", "show", "edit"],
@@ -20,9 +19,9 @@ jQuery(function($){
     init: function(){
       this.editEl.hide();
 
-      Contact.bind("change", this.render);
-      this.App.bind("show:contact", this.show);
-      this.App.bind("edit:contact", this.edit);
+      Image.bind("change", this.render);
+      this.App.bind("show:images", this.show);
+      this.App.bind("edit:images", this.edit);
     },
     
     change: function(item){
@@ -31,8 +30,8 @@ jQuery(function($){
     },
     
     render: function(){
-      this.showContent.html($("#contactTemplate").tmpl(this.current));
-      this.editContent.html($("#editContactTemplate").tmpl(this.current));
+      this.showContent.html($("#imageTemplate").tmpl(this.current));
+      this.editContent.html($("#editImageTemplate").tmpl(this.current));
     },
     
     show: function(item){
@@ -45,8 +44,6 @@ jQuery(function($){
     edit: function(item){
       if (item && item.model) this.change(item);
       
-//      this.editEl.show();
-//      this.showEl.hide();
       this.editEl.show(0, $.proxy(function() {
           this.showEl.hide();
       }, this));
@@ -68,5 +65,4 @@ jQuery(function($){
       this.show();
     }
   });
-  
 })

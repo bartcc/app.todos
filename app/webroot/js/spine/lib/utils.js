@@ -2,6 +2,7 @@
 
     $.fn.item = function(){
         var ti = $(this).tmplItem();
+        //console.log(ti)
         var item = ti.data;
         return($.isFunction(item.reload) ? item.reload() : null);
     };

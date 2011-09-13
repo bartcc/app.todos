@@ -89,6 +89,7 @@
       if (typeof console == "undefined") return;
       var args = makeArray(arguments);
       if (this.logPrefix) args.unshift(this.logPrefix);
+      console.log.apply(console, args);
       return this;
     }
   };

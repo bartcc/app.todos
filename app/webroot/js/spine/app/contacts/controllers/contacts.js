@@ -16,7 +16,11 @@ Contacts = (function() {
     ".show .content": "showContent",
     ".edit .content": "editContent",
     "#views": "views",
-    ".draggable": "draggable"
+    ".draggable": "draggable",
+    '.showEditor': 'editorBtn',
+    '.showAlbum': 'albumBtn',
+    '.showUpload': 'uploadBtn',
+    '.showGrid': 'gridBtn'
   };
   Contacts.prototype.events = {
     "click .optEdit": "edit",

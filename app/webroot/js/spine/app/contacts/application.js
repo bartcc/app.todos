@@ -24,9 +24,6 @@ App = (function() {
     this.sidebar = new Sidebar({
       el: this.sidebarEl
     });
-    this.contacts = new Contacts({
-      el: this.contactsEl
-    });
     this.editor = new Editor({
       el: this.editorEl
     });
@@ -38,6 +35,9 @@ App = (function() {
     });
     this.grid = new Grid({
       el: this.gridEl
+    });
+    this.contacts = new Contacts({
+      el: this.contactsEl
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
@@ -56,7 +56,7 @@ App = (function() {
       initSize: this.proxy(function() {
         return $(this.contacts.el).height() / 2;
       }),
-      disabled: true,
+      disabled: false,
       axis: 'y',
       min: 0,
       max: this.proxy(function() {
@@ -68,7 +68,8 @@ App = (function() {
   return App;
 })();
 $(function() {
-  return window.App = new App({
+  window.App = new App({
     el: $('body')
   });
+  return App.contacts.editorBtn.click();
 });

@@ -34,9 +34,6 @@ Contact = (function() {
     },
     fromJSON: function(objects) {
       return this.__super__.constructor.fromJSON.call(this, objects.json);
-    },
-    test: function() {
-      return Contact.__super__.test.apply(this, arguments);
     }
   });
   Contact.include({

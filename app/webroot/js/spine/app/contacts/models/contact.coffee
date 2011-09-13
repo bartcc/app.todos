@@ -19,9 +19,6 @@ class Contact extends Spine.Model
       
     fromJSON: (objects) ->
       @__super__.constructor.fromJSON.call @, objects.json
-      
-    test: ->
-      super
 
   @include
     selectAttributes: ->

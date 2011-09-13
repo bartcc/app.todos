@@ -8,11 +8,15 @@ class Contacts extends Spine.Controller
     ".edit .content"      : "editContent"
     "#views"              : "views"
     ".draggable"          : "draggable"
+    '.showEditor'         : 'editorBtn'
+    '.showAlbum'          : 'albumBtn'
+    '.showUpload'         : 'uploadBtn'
+    '.showGrid'           : 'gridBtn'
     
   events:
     "click .optEdit"      : "edit"
     "click .optEmail"     : "email"
-    "click .showEditor"    : "toggleEditor"
+    "click .showEditor"   : "toggleEditor"
     "click .showAlbum"    : "toggleAlbum"
     "click .showUpload"   : "toggleUpload"
     "click .showGrid"     : "toggleGrid"

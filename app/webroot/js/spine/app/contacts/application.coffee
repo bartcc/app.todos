@@ -14,8 +14,6 @@ class App extends Spine.Controller
     super
     @sidebar = new Sidebar
       el: @sidebarEl
-    @contacts = new Contacts
-      el: @contactsEl
     @editor = new Editor
       el: @editorEl
     @album = new Album
@@ -24,6 +22,8 @@ class App extends Spine.Controller
       el: @uploadEl
     @grid = new Grid
       el: @gridEl
+    @contacts = new Contacts
+      el: @contactsEl
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
@@ -39,13 +39,14 @@ class App extends Spine.Controller
     @hmanager.initDrag @hDrag,
       initSize: @proxy ->
         $(@contacts.el).height()/2
-      disabled: true
+      disabled: false
       axis: 'y'
       min: 0
       max: @proxy ->
         (@contacts.el).height()/2
-
+    
     Contact.fetch()
 
 $ ->
   window.App = new App(el: $('body'))
+  App.contacts.editorBtn.click()

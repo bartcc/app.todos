@@ -73,18 +73,18 @@ jQuery(function() {
         if((e.keyCode != 13 && e.type != 'click') || this.loginButton.hasClass('disabled')) return;
         
         
-        var that = this, json;
+        var that = this;
         this.model.action('login');
         this.model.save(this.newAttributes(), {
-          success: function(a, json) {
+          success: function(a, responseText) {
             Todos.Views.App.Sidebar.trigger('fetch', 'server');
-            that.trigger('flash', json.flash, true);
+            that.trigger('flash', responseText.json.flash, true);
             that.username.val('');
             that.password.val('');
             that.close();
           },
           error: function(a, xhr) {
-            that.trigger('flash', JSON.parse(xhr.responseText).flash, true);
+            that.trigger('flash', JSON.parse(xhr.responseText).json.flash, true);
             that.username.focus();
             that.password.val('');
             that.validateLogin();

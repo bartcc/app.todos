@@ -16,10 +16,6 @@ exports.NS('Todos.Models').Todo = (function() {
     // Ensure that each todo created has `content`.
     initialize: function() {
       _.bindAll(this, 'defaults')
-      //            if (!this.get("content")) {
-      //                this.set({"content": this.EMPTY});
-      //            }
-
       this.isScheduledForSave = false;
       // create a savedAttributes property for all models
       this.saveModelState();
@@ -74,7 +70,7 @@ exports.NS('Todos.Models').Todo = (function() {
     },
 
     parse: function(data) {
-      return data.attributes || data;
+      return data.json.attributes || data.json;
     }
   },
   {

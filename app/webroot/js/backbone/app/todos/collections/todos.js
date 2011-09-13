@@ -75,7 +75,7 @@ exports.NS('Todos.Collections').Todos = (function() {
     },
 
     parse: function(data) {
-      return data;
+      return data.json;
     },
 
     // Filter down the list of all todo items that are finished.

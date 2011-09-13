@@ -1,27 +1,3 @@
-<<<<<<< HEAD
-jQuery(function($){
-  
-  window.App = Spine.Controller.create({
-    el: $("body"),
-    
-    elements: {
-      "#sidebar": "sidebarEl",
-      "#contacts": "contactsEl"
-    },
-    
-    init: function(){
-      this.sidebar = Sidebar.init({
-        el: this.sidebarEl
-      });
-      this.contact = Contacts.init({
-        el: this.contactsEl
-      });
-      
-      Contact.fetch();
-    }
-  }).init();
-  
-=======
 var App;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
@@ -96,5 +72,4 @@ $(function() {
     el: $('body')
   });
   return App.contacts.editorBtn.click();
->>>>>>> parent of 08f6b6d... cs
 });

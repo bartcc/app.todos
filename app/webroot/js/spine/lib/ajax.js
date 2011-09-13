@@ -8,7 +8,11 @@
     child.__super__ = parent.prototype;
     return child;
   };
-  if (typeof Spine === "undefined" || Spine === null) Spine = require("spine");
+    if (typeof Spine !== "undefined" && Spine !== null) {
+    Spine;
+  } else {
+    Spine = require("spine");
+  };
   $ = Spine.$;
   Model = Spine.Model;
   Ajax = {
@@ -37,17 +41,23 @@
       success = params.success;
       error = params.error;
       params.error = __bind(function() {
-        if (typeof error === "function") error.apply(null, arguments);
+        if (typeof error === "function") {
+          error.apply(null, arguments);
+        }
         return this.requestNext();
       }, this);
       params.success = __bind(function() {
-        if (typeof success === "function") success.apply(null, arguments);
+        if (typeof success === "function") {
+          success.apply(null, arguments);
+        }
         return this.requestNext();
       }, this);
       return $.ajax(params);
     },
     send: function() {
-      if (!this.enabled) return;
+      if (!this.enabled) {
+        return;
+      }
       if (this.pending) {
         return this.requests.push(arguments);
       } else {
@@ -102,7 +112,9 @@
     };
     Collection.prototype.errorResponse = function(params) {
       var error;
-      if (params == null) params = {};
+      if (params == null) {
+        params = {};
+      }
       error = params.error;
       return __bind(function(jqXHR, statusText, error) {
         this.model.trigger("ajaxError", null, jqXHR, statusText, error);
@@ -157,14 +169,20 @@
     };
     Singleton.prototype.recordResponse = function(params) {
       var success;
-      if (params == null) params = {};
+      if (params == null) {
+        params = {};
+      }
       success = params.success;
       return __bind(function(data, status, xhr) {
         this.record.trigger("ajaxSuccess", this.record, status, xhr);
-        if (!data || params.data === data) return;
+        if (!data || params.data === data) {
+          return;
+        }
         data = this.model.fromJSON(data);
         Ajax.disable(__bind(function() {
-          if (data.id && this.record.id !== data.id) this.record.changeID(data.id);
+          if (data.id && this.record.id !== data.id) {
+            this.record.changeID(data.id);
+          }
           return this.record.updateAttributes(data.attributes());
         }, this));
         return typeof success === "function" ? success(this.record) : void 0;
@@ -172,7 +190,9 @@
     };
     Singleton.prototype.blankResponse = function(params) {
       var success;
-      if (params == null) params = {};
+      if (params == null) {
+        params = {};
+      }
       success = params.success;
       return __bind(function(data, status, xhr) {
         this.record.trigger("ajaxSuccess", this.record, status, xhr);
@@ -181,7 +201,9 @@
     };
     Singleton.prototype.errorResponse = function(params) {
       var error;
-      if (params == null) params = {};
+      if (params == null) {
+        params = {};
+      }
       error = params.error;
       return __bind(function(jqXHR, statusText, error) {
         this.record.trigger("ajaxError", this.record, jqXHR, statusText, error);
@@ -198,7 +220,9 @@
     url: function() {
       var base;
       base = Ajax.getURL(this.constructor);
-      if (base.charAt(base.length - 1) !== "/") base += "/";
+      if (base.charAt(base.length - 1) !== "/") {
+        base += "/";
+      }
       base += encodeURIComponent(this.id);
       return base;
     }
@@ -218,10 +242,11 @@
       return this.include(Include);
     },
     url: function() {
-      console.log(Model.host)
       return "" + Model.host + "/" + (this.className.toLowerCase()) + "s";
     }
   };
   Spine.Ajax = Ajax;
-  if (typeof module !== "undefined" && module !== null) module.exports = Ajax;
+  if (typeof module !== "undefined" && module !== null) {
+    module.exports = Ajax;
+  }
 }).call(this);

@@ -20,14 +20,14 @@
   </div>
   <div id="contacts" class="vbox flex">
     <div class="show vbox flex">
-      <ul class="options">
-        <li class="optEdit">Edit contact</li>
-        <li class="optEmail">Email contact</li>
-        <li class="splitter"></li>
+      <ul class="options hbox">
         <li class="view showEditor">Editor</li>
         <li class="view showAlbum">Album</li>
         <li class="view showUpload">Upload Photo</li>
         <li class="view showGrid">Thumb Grid</li>
+        <li class="splitter flex"></li>
+        <li class="optEdit">Edit contact</li>
+        <li class="optEmail">Email contact</li>
       </ul>
       <div class="content vbox flex autoflow"></div>
       <div id="views-wrapper" class="hbox autoflow">
@@ -49,7 +49,8 @@
       </div>  
     </div>
     <div class="edit vbox flex">
-      <ul class="options">
+      <ul class="options hbox">
+        <li class="splitter flex"></li>
         <li class="optSave default">Save contact</li>
         <li class="optDestroy">Delete contact</li>
       </ul>

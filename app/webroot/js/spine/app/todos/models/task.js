@@ -38,7 +38,11 @@ Task.extend({
     name: 'Empty Todo...',
     done: false
   },
-    
+  
+  fromJSON: function(object) {
+	return this.__super__.constructor.fromJSON.call (this, object.json)
+  },
+  
   // Return all active tasks.
   active: function(){
     return(this.select(function(item){

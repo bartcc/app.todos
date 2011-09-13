@@ -53,11 +53,11 @@
     echo $this->Html->script('spine/app/contacts/models/contact');
     echo $this->Html->script('spine/app/contacts/controllers/list');
     echo $this->Html->script('spine/app/contacts/controllers/sidebar');
-    echo $this->Html->script('spine/app/contacts/controllers/contacts');
     echo $this->Html->script('spine/app/contacts/controllers/editor');
     echo $this->Html->script('spine/app/contacts/controllers/album');
     echo $this->Html->script('spine/app/contacts/controllers/upload');
     echo $this->Html->script('spine/app/contacts/controllers/grid');
+    echo $this->Html->script('spine/app/contacts/controllers/contacts');
     echo $this->Html->script('spine/app/contacts/application');
     ?>
 

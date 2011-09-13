@@ -43,10 +43,10 @@ class App extends Spine.Controller
       axis: 'y'
       min: 0
       max: @proxy ->
-        (@contacts.el).height()/2
+        (@contacts.el).height()*2/3
     
-    Contact.fetch()
 
 $ ->
   window.App = new App(el: $('body'))
   App.contacts.editorBtn.click()
+  Contact.fetch()

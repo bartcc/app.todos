@@ -19,6 +19,7 @@
     };
 
     var ajaxSync = function(record, method){
+        console.log('ajaxSync')
         if (Model._noSync) return;
   
         var params = {

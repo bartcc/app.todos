@@ -36,13 +36,13 @@ class MysqlController extends AppController {
       $postfix = 'mysql';
       $io = '<';
     } elseif (isempty($action)) {
-      $cmd = 'mysql connect 192.168.1.16 2>&1';
+      $cmd = 'mysql connect 192.168.1.11 2>&1';
       $op = `$cmd`;
       return $op;
     }
     
     
-    $cmd = sprintf('%1s -uaxel -pkakadax -h 192.168.1.16 todos_backbone %2s E:/Sites/php/mysql_backup/file.sql 2>&1', $postfix, $io);
+    $cmd = sprintf('%1s -uaxel -pkakadax -h localhost todos_backbone %2s /Library/WebServer/Sites/tmp/mysql_backup/backup.sql', $postfix, $io);
     $op = `$cmd`;
     return $op;
   }

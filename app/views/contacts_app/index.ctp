@@ -3,68 +3,48 @@
 </header>
 
 <div id="wrapper" class="hbox flex">
-  <div id="sidebar-wrapper" class="hbox vdraggable">
-    <div id="sidebar" class="vbox flex">
-      <div class="search">
-        <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
-      </div>
 
-      <ul class="items vbox flex autoflow"></ul>
-
-      <footer>
-        <button>New contact</button>
-      </footer>
+  <div id="sidebar" class="vbox">
+    <div class="search">
+      <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
     </div>
 
-    <div class="vdivide draghandle"></div>
+    <ul class="items vbox flex autoflow"></ul>
+
+    <footer>
+      <button>New contact</button>
+    </footer>
   </div>
+
+  <div class="vdivide"></div>
+
   <div id="contacts" class="vbox flex">
     <div class="show vbox flex">
-      <ul class="options hbox">
-        <li class="view showEditor">Editor</li>
-        <li class="view showAlbum">Album</li>
-        <li class="view showUpload">Upload Photo</li>
-        <li class="view showGrid">Thumb Grid</li>
-        <li class="splitter flex"></li>
+      <ul class="options">
         <li class="optEdit">Edit contact</li>
         <li class="optEmail">Email contact</li>
       </ul>
       <div class="content vbox flex autoflow"></div>
-      <div id="views-wrapper" class="hbox autoflow">
-        <div id="views" class="vbox flex hdraggable">
-          <div class="hdivide draghandle"></div>
-          <div id="editor" class="view flex autoflow" style="">
-            <div class="editEditor"></div>
-          </div>
-          <div id="album" class="view flex autoflow" style="">
-            <div class="editAlbum">Album</div>
-          </div>
-          <div id="upload" class="view flex autoflow" style="">
-            <div>Upload</div>
-          </div>
-          <div id="grid" class="view flex autoflow" style="">
-            <div>Grid</div>
-          </div>
-        </div>
-      </div>  
+
     </div>
+
     <div class="edit vbox flex">
-      <ul class="options hbox">
-        <li class="splitter flex"></li>
+      <ul class="options">
         <li class="optSave default">Save contact</li>
         <li class="optDestroy">Delete contact</li>
       </ul>
       <div class="content vbox flex autoflow"></div>
+
     </div>
+
   </div>
 
 </div>
 
 <script type="text/x-jquery-tmpl" id="contactsTemplate">
-  <li class="item" title="Doubleclick to edit / Save with Enter">
+  <li class="item">
     <img src="/img/missing.png" />
     {{if fullName()}}
-    <div style="font-size: 0.6em">ID: ${id}</div
     <span class="name">${fullName()}</span>
     {{else}}
     <span class="name empty">No Name</span>
@@ -72,12 +52,6 @@
     <span class="cta">&gt;</span>
   </li>
 </script>  
-
-<script type="text/x-jquery-tmpl" id="detailsViewTemplate">
-  <div>
-    Details
-  </div>
-</script>
 
 <script type="text/x-jquery-tmpl" id="contactTemplate">
   <label>
@@ -134,7 +108,6 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="editContactTemplate">
-  
   <label>
     <span>First name</span>
     <input type="text" name="first_name" value="${first_name}" autofocus>
@@ -169,5 +142,4 @@
     <span>Notes</span>
     <textarea name="notes">${notes}</textarea>
   </label>
-  <input type="hidden" name="id" value="${id}" autofocus>
 </script>  

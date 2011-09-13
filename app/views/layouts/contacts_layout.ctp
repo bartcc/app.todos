@@ -28,35 +28,32 @@
     <?php
     echo $this->Html->meta('icon');
 
-    echo $this->Html->css('spine/contacts/application');
+    //echo $this->Html->css('cake.generic');
+
+    echo $this->Html->css('contacts/application');
 
     echo $this->Html->script('lib/json2');
 
     echo $this->Html->script('lib/jquery/jquery-1.6.2');
+//    echo $this->Html->script('lib/jquery.ui.core');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.widget');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.mouse');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.draggable');
-    echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.core');
-    echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
-    echo $this->Html->script('lib/underscore');
+//    echo $this->Html->script('lib/jquery.link');
+//    echo $this->Html->script('lib/jquery.ui.widget');
+//    echo $this->Html->script('lib/jquery.ui.mouse');
+//    echo $this->Html->script('lib/jquery.ui.sortable');
 
-    echo $this->Html->script('spine/lib/spine');
-    echo $this->Html->script('spine/lib/local');
-    echo $this->Html->script('spine/lib/ajax');
-    echo $this->Html->script('spine/lib/filter');
-    echo $this->Html->script('spine/lib/manager');
-    echo $this->Html->script('spine/lib/tmpl');
 
-    echo $this->Html->script('spine/app/contacts/plugins/manager');
+    echo $this->Html->script('spine/lib/spine_js');
+    echo $this->Html->script('spine/lib/spine.list');
+    echo $this->Html->script('spine/lib/spine.model.local');
+    echo $this->Html->script('spine/lib/spine.ajax');
+    echo $this->Html->script('spine/lib/spine.model.filter');
+    echo $this->Html->script('spine/lib/utils');
+
+//    echo $this->Html->script('lib/underscore.debug');
+
     echo $this->Html->script('spine/app/contacts/models/contact');
-    echo $this->Html->script('spine/app/contacts/controllers/list');
     echo $this->Html->script('spine/app/contacts/controllers/sidebar');
-    echo $this->Html->script('spine/app/contacts/controllers/editor');
-    echo $this->Html->script('spine/app/contacts/controllers/album');
-    echo $this->Html->script('spine/app/contacts/controllers/upload');
-    echo $this->Html->script('spine/app/contacts/controllers/grid');
     echo $this->Html->script('spine/app/contacts/controllers/contacts');
     echo $this->Html->script('spine/app/contacts/application');
     ?>

@@ -130,12 +130,7 @@ button {
   -webkit-box-shadow: 0 1px 1px #ffffff;
   box-shadow: 0 1px 1px #ffffff;
 }
-.right {
-  float: right
-}
-.left {
-  float: left
-}
+
 div.content label div, #sidebar span.name {
     font-family: serif;
     font-style: italic
@@ -256,43 +251,16 @@ textarea {
   border-radius: 10px;
   height: 70px;
 }
+
 .vdivide {
-  width: 8px;
+  width: 6px;
   border: 1px solid #c5c5c5;
   border-width: 0 1px 0 1px;
   border-right-color: rgba(0, 0, 0, 0.3);
   background: #f9f9f9;
-  background: url(img/draghandle.png), -webkit-gradient(linear, left top, right top, from(#f9f9f9), to(#dfe0e1));
-  background: url(img/draghandle.png), -webkit-linear-gradient(left, #f9f9f9, #dfe0e1);
-  background: url(img/draghandle.png), -moz-linear-gradient(left, #f9f9f9, #dfe0e1);
-  background: url(img/draghandle.png), linear-gradient(left, #f9f9f9, #dfe0e1);
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: e-resize
-}
-.options li.splitter {
   background: -webkit-gradient(linear, left top, right top, from(#f9f9f9), to(#dfe0e1));
-  background: -webkit-linear-gradient(left, #f9f9f9, #dfe0e1);
   background: -moz-linear-gradient(left, #f9f9f9, #dfe0e1);
   background: linear-gradient(left, #f9f9f9, #dfe0e1);
-  border-left: 0 solid;
-  padding: 0;
-  width: 5px
-}
-
-.hdivide {
-  height: 8px;
-  border: 1px solid #c5c5c5;
-  border-width: 1px 0 1px 0;
-  border-bottom-color: rgba(0, 0, 0, 0.3);
-  background: #f9f9f9;
-  background: url(img/draghandle.png), -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#dfe0e1));
-  background: url(img/draghandle.png), -webkit-linear-gradient(top #f9f9f9, #dfe0e1);
-  background: url(img/draghandle.png), -moz-linear-gradient(top, #f9f9f9, #dfe0e1);
-  background: url(img/draghandle.png), linear-gradient(top, #f9f9f9, #dfe0e1);
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: n-resize
 }
 
 #title {
@@ -345,18 +313,18 @@ textarea {
   white-space: nowrap;
 }
 
-#sidebar li.active {
-  background: #FFB399;
-  background: -webkit-gradient(linear, left top, left bottom, from(#FFB399), to(#FF6633));
-  background: -moz-linear-gradient(top, #FFB399, #FF6633);
-  background: linear-gradient(top, #FFB399, #FF6633);
+#sidebar li.current {
   color: #ffffff;
-  text-shadow: 0 -1px 1px #FF0011;
-  border-bottom-color: #FF0011;
-  -moz-box-shadow: inset 0 1px 2px #4775b8;
-  -webkit-box-shadow: inset 0 1px 2px #FF6633;
-  box-shadow: inset 0 1px 2px #FF6633;
-  -webkit-box-shadow: inset 0 1px 2px #FFB399, inset 0 1px 2px #FF6633;
+  text-shadow: 0 -1px 1px #46677f;
+  background: #7bb5db;
+  background: -webkit-gradient(linear, left top, left bottom, from(#7bb5db), to(#4775b8));
+  background: -moz-linear-gradient(top, #7bb5db, #4775b8);
+  background: linear-gradient(top, #7bb5db, #4775b8);
+  border-bottom-color: #609fd0;
+  -moz-box-shadow: inset 0 2px 2px #4775b8;
+  -webkit-box-shadow: inset 0 2px 2px #4775b8;
+  box-shadow: inset 0 2px 2px #4775b8;
+  -webkit-box-shadow: inset 0 1px 1px #4775b8, inset 0 -1px 1px #3e67a3;
 }
 
 #sidebar li .cta {
@@ -376,11 +344,11 @@ textarea {
   -webkit-box-shadow: 0 0 2px #7f7f7f;
   box-shadow: 0 0 2px #7f7f7f;
   text-shadow: 0 -1px 1px #7f7f7f;
-  background: #FF563A;
-  background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), to(#FF533A));
-  background: -moz-linear-gradient(top, #FF563A, #FF533A);
-  background: linear-gradient(top, #FF563A, #FF533A);
-  background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), color-stop(0.5, #FF563A), color-stop(0.5, #FF533A), to(#FF533A))
+  background: #58a7d5;
+  background: -webkit-gradient(linear, left top, left bottom, from(#58a7d5), to(#3995cc));
+  background: -moz-linear-gradient(top, #58a7d5, #3995cc);
+  background: linear-gradient(top, #58a7d5, #3995cc);
+  background: -webkit-gradient(linear, left top, left bottom, from(#58a7d5), color-stop(0.5, #58a7d5), color-stop(0.5, #3995cc), to(#3995cc))
 }
 
 #sidebar li img {
@@ -455,7 +423,7 @@ textarea {
   -webkit-box-shadow: inset -1px -1px 3px #eeeeee, 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.options li {
+#contacts .options li {
   float: left;
   line-height: 30px;
   height: 30px;
@@ -464,23 +432,31 @@ textarea {
   border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.options li:active, #contacts .options li.active {
-  background: #FFB399;
+#contacts .options li:active {
+  background: #dadada;
   -moz-box-shadow: inset 0 0 10px #9c9c9c;
   -webkit-box-shadow: inset 0 0 10px #9c9c9c;
   box-shadow: inset 0 0 10px #9c9c9c;
 }
 
-.options li.default, #contacts .options li.active, #contacts .options li.default:active {
+#contacts .options li.default {
   color: #ffffff;
-  text-shadow: 0 -1px 1px #FFB399;
-  background: #882739;
-  background: -webkit-gradient(linear, left top, left bottom, from(#FFB399), to(#FF6633));
-  background: -moz-linear-gradient(top, #FFB399, #FF6633);
-  background: linear-gradient(top, #FFB399, #FF6633);
+  text-shadow: 0 -1px 1px #46677f;
+  background: #7bb5db;
+  background: -webkit-gradient(linear, left top, left bottom, from(#7bb5db), to(#4775b8));
+  background: -moz-linear-gradient(top, #7bb5db, #4775b8);
+  background: linear-gradient(top, #7bb5db, #4775b8);
 }
 
-.content, #views .view {
+#contacts .options li.default:active {
+  border-left-color: #a8a8a8;
+  background: #7bb5db;
+  -moz-box-shadow: inset 0 0 10px #4775b8;
+  -webkit-box-shadow: inset 0 0 10px #4775b8;
+  box-shadow: inset 0 0 10px #4775b8;
+}
+
+#contacts .content {
   -moz-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
@@ -488,19 +464,10 @@ textarea {
   -webkit-user-select: text;
 }
 
-.content span {
+#contacts .content span {
   -webkit-user-select: none;
 }
 
-.empty {
+#contacts .empty {
   font-style: italic;
-}
-#views {
-  background: #EFEFEF;
-}
-#views .view {
-  height: 0;
-}
-#views > .view:not(.active) {
-  display: none !important;
 }

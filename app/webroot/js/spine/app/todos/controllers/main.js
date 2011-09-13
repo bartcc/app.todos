@@ -13,17 +13,13 @@ jQuery(function($){
       "footer .clear"           : 'clear',
       '.items'                  : 'items',
       '#create-todo input'      : 'input',
-      '#create-todo .countVal'  : 'count',
-      '#stats'                  : 'stats'
+      '#create-todo .countVal'  : 'count'
     },
-    
-    statsTemplate: $.template(null, $('#stats-template').html()),
-    
+        
     init: function(){
       Task.bind('create',  this.proxy(this.addOne));
       Task.bind('refresh change',  this.proxy(this.updateUnsaved));
       Task.bind('refresh change', this.proxy(this.renderCount));
-      Task.bind('refresh change', this.proxy(this.renderStats));
       Task.bind('refresh', this.proxy(this.addAll));
       Task.bind('refresh:list', this.proxy(this.refreshList));
       this.items.sortable();
@@ -81,13 +77,9 @@ jQuery(function($){
     renderCount: function(){
       var active = Task.active().length, s;
       this.count.text(active + ' item' + (s = active !== 1 ? 's' : '') + ' left');
-    },
-    
-    renderStats: function(){
-      var active = Task.active().length, s;
-      this.stats.html($.tmpl(this.statsTemplate, {
-        done: Task.done().length
-      }))
+
+      var inactive = Task.done().length;
+      this.clear[inactive ? "show" : "hide"]();
     },
     
     updateUnsaved: function(task) {

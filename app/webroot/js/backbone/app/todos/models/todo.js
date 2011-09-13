@@ -70,7 +70,7 @@ exports.NS('Todos.Models').Todo = (function() {
     },
 
     parse: function(data) {
-      return data.json.attributes || data.json;
+      return data.attributes || data.json;
     }
   },
   {

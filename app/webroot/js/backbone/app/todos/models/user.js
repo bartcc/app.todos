@@ -40,7 +40,7 @@ jQuery(function() {
       },
 
       parse: function(data) {
-        if(data) return data.attributes || data;
+        if(data) return data.json.attributes || data.json;
       }
     },
     {

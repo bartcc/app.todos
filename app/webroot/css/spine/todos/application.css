@@ -402,7 +402,7 @@ button {
   text-shadow: 0 1px 1px #ffffff;
   font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
   font-size: 14px;
-  color: #363636;
+  color: #565656;
   padding: 6px 10px;
   margin: 1px 1px 1px 0;
   outline: none;
@@ -464,6 +464,20 @@ button.primary_lg.disabled {
   cursor: default;
   color: #B0B0B0;
   text-shadow: 0 -1px 0 #2f2f2f;
+}
+button.disabled, button.disabled:active {
+  background: #F7F7F7;
+  background: -webkit-gradient(linear, left top, left bottom, from(#F7F7F7), to(#D7D7D7));
+  background: -moz-linear-gradient(center top , #F7F7F7, #D7D7D7);
+  background: linear-gradient(top, #F7F7F7, #D7D7D7);
+  text-shadow: 0 1px 0 #FFFFFF;
+}
+button.disabled {
+  cursor: default;
+  color: #B0B0B0;
+}
+button.clear {
+  margin-right: 10px
 }
 .primary_lg {
   height: 50px;

@@ -14,7 +14,9 @@
       </div>
       <div class="hbox">
         <footer class="vbox flex">
-          <button id="refresh-db" class="light" style="width: 100%" onclick="window.location.href=base_url+'mysql/restore'">Restore DB</button>
+          <div style="height: 33px;">
+            <button id="refresh-db" class="light" style="width: 100%" onclick="window.location.href=base_url+'mysql/restore'">Restore DB</button>
+          </div>
         </footer>
       </div>
     </div>
@@ -34,7 +36,7 @@
 
       <footer class="hbox">
         <div id="storage-mode"><span></span></div>
-        <div class="flex">
+        <div class="flex" style="height: 33px;">
           <button class="light clear">Clear completed</button>
         </div>
       </footer>

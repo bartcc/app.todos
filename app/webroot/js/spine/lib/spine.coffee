@@ -193,7 +193,7 @@ class Model extends Module
       (new @(value) for value in objects)
     else
       new @(objects)
-
+      
   # Private
 
   @recordsValues: ->
@@ -460,9 +460,9 @@ Model.sub = (instances, statics) ->
   result.unbind?()
   result
   
-Model.setup = ->
+Model.setup = (name, attributes = []) ->
   class Instance extends this
-  Instance.configure(arguments...)
+  Instance.configure(name, attributes...)
   Instance
 
 Module.init = Controller.init = Model.init = (a1, a2, a3, a4, a5) ->

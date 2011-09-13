@@ -60,10 +60,9 @@ App = (function() {
       axis: 'y',
       min: 0,
       max: this.proxy(function() {
-        return this.contacts.el.height() / 2;
+        return this.contacts.el.height() * 2 / 3;
       })
     });
-    Contact.fetch();
   }
   return App;
 })();
@@ -71,5 +70,6 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  return App.contacts.editorBtn.click();
+  App.contacts.editorBtn.click();
+  return Contact.fetch();
 });

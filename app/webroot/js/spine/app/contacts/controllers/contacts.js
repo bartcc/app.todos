@@ -31,7 +31,8 @@ Contacts = (function() {
     "click .showGrid": "toggleGrid",
     "click .optDestroy": "destroy",
     "click .optSave": "save",
-    "keydown": "saveOnEnter"
+    "keydown": "saveOnEnter",
+    'dblclick .draghandle': 'toggleDraghandle'
   };
   function Contacts() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    Contacts.__super__.constructor.apply(this, arguments);
@@ -97,7 +98,7 @@ Contacts = (function() {
     });
   };
   Contacts.prototype.animateView = function() {
-    var assert, hasActive;
+    var hasActive, height;
     hasActive = function() {
       var controller, _i, _len, _ref;
       _ref = App.hmanager.controllers;
@@ -109,7 +110,7 @@ Contacts = (function() {
       }
       return App.hmanager.disableDrag();
     };
-    assert = function() {
+    height = function() {
       if (hasActive()) {
         return App.hmanager.currentDim + "px";
       } else {
@@ -117,7 +118,7 @@ Contacts = (function() {
       }
     };
     return $(this.views).animate({
-      height: assert()
+      height: height()
     }, 400);
   };
   Contacts.prototype.toggleEditor = function(e) {
@@ -138,10 +139,14 @@ Contacts = (function() {
     if (isActive) {
       App.hmanager.trigger("change", false);
     } else {
+      this.activeControl = $(control);
       App.hmanager.trigger("change", controller);
     }
     this.renderViewControl(controller, control);
     return this.animateView();
+  };
+  Contacts.prototype.toggleDraghandle = function() {
+    return this.activeControl.click();
   };
   Contacts.prototype.save = function(el) {
     var atts;

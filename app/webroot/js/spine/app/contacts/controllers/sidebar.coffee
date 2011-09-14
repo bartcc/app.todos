@@ -7,9 +7,10 @@ class Sidebar extends Spine.Controller
 
   #Attach event delegation
   events:
-    "click button"  : "create"
-    "keyup input"   : "filter"
-    "click input"   : "filter"
+    "click button"          : "create"
+    "keyup input"           : "filter"
+    "click input"           : "filter"
+    "dblclick .draghandle"  : 'toggleDraghandle'
 
   #Render template
   template: (items) ->
@@ -40,3 +41,17 @@ class Sidebar extends Spine.Controller
     e.preventDefault()
     contact = new Contact @newAttributes()
     contact.save()
+  
+  toggleDraghandle: ->
+    width = =>
+      width =  @el.width()
+      max = App.vmanager.max()
+      min = App.vmanager.min
+      if width >= min and width < max-20
+        max+"px"
+      else
+        min+'px'
+    
+    @el.animate
+      width: width()
+      400

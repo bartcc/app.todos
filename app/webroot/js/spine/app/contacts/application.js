@@ -10,7 +10,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
 App = (function() {
   __extends(App, Spine.Controller);
   App.prototype.elements = {
-    '#sidebar': 'sidebarEl',
+    '#sidebar-wrapper': 'sidebarEl',
     '#contacts': 'contactsEl',
     '#editor': 'editorEl',
     '#album': 'albumEl',
@@ -58,9 +58,13 @@ App = (function() {
       }),
       disabled: false,
       axis: 'y',
-      min: 0,
+      min: 30,
       max: this.proxy(function() {
         return this.contacts.el.height() * 2 / 3;
+      }),
+      goSleep: this.proxy(function() {
+        var _ref;
+        return (_ref = this.contacts.activeControl) != null ? _ref.click() : void 0;
       })
     });
   }

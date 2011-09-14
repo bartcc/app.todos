@@ -16,7 +16,7 @@ Spine.Manager.include({
     return !this.el.draggable("option", "disabled");
   },
   initDrag: function(el, opts) {
-    var defaults, dim, min, options, ori, rev;
+    var defaults, dim, max, min, options, ori, rev;
     if (!el) {
       return;
     }
@@ -31,13 +31,15 @@ Spine.Manager.include({
       max: function() {
         return 500;
       },
-      handle: '.draghandle'
+      handle: '.draghandle',
+      goSleep: function() {}
     };
     options = $.extend({}, defaults, opts);
     ori = options.axis === 'y' ? 'top' : 'left';
     dim = options.axis === 'y' ? 'height' : 'width';
     rev = options.axis === 'y' ? 1 : -1;
     min = options.min;
+    max = options.max;
     return el.draggable({
       create: __bind(function(e, ui) {
         this.el.css({
@@ -46,7 +48,9 @@ Spine.Manager.include({
         if (options.disabled) {
           this.disableDrag();
         }
-        return this.currentDim = options.initSize.call(this);
+        this.currentDim = options.initSize.call(this);
+        this.min = min;
+        return this.max = max;
       }, this),
       axis: options.axis,
       handle: options.handle,
@@ -58,25 +62,35 @@ Spine.Manager.include({
         _ori = ui.originalPosition[ori];
         _pos = ui.position[ori];
         _cur = this.currentDim;
-        _max = options.max.call(this);
-        return $(ui.helper)[dim](function() {
+        _max = max.call(this);
+        return $(ui.helper)[dim](__bind(function() {
           var d;
           d = (_cur + _ori) - (_pos * rev);
           if (d >= min && d <= _max) {
             return d;
           }
           if (d < min) {
-            return min;
+            if (!this.el.draggable("option", "disabled")) {
+              options.goSleep();
+              return min;
+            }
           }
           if (d > _max) {
             return _max;
           }
-        });
+        }, this));
       }, this),
       stop: __bind(function(e, ui) {
-        return this.currentDim = $(ui.helper)[dim]();
+        if (!this.el.draggable("option", "disabled")) {
+          return this.currentDim = $(ui.helper)[dim]();
+        }
       }, this)
     });
   }
 });
-Spine.Manager.extend;
+Spine.Manager.extend({
+  deactivate_: function() {
+    console.log('deactivate');
+    return this.constructor.apply(this, arguments);
+  }
+});

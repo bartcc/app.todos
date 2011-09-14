@@ -1,7 +1,7 @@
 class App extends Spine.Controller
   
   elements:
-    '#sidebar'    : 'sidebarEl'
+    '#sidebar-wrapper'    : 'sidebarEl'
     '#contacts'   : 'contactsEl'
     '#editor'     : 'editorEl'
     '#album'      : 'albumEl'
@@ -41,11 +41,12 @@ class App extends Spine.Controller
         $(@contacts.el).height()/2
       disabled: false
       axis: 'y'
-      min: 0
+      min: 30
       max: @proxy ->
         (@contacts.el).height()*2/3
-    
-
+      goSleep: @proxy ->
+        @contacts.activeControl?.click()
+      
 $ ->
   window.App = new App(el: $('body'))
   App.contacts.editorBtn.click()

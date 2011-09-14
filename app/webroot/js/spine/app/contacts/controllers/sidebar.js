@@ -6,7 +6,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 $ = jQuery;
 Sidebar = (function() {
   __extends(Sidebar, Spine.Controller);
@@ -17,7 +17,8 @@ Sidebar = (function() {
   Sidebar.prototype.events = {
     "click button": "create",
     "keyup input": "filter",
-    "click input": "filter"
+    "click input": "filter",
+    "dblclick .draghandle": 'toggleDraghandle'
   };
   Sidebar.prototype.template = function(items) {
     return $("#contactsTemplate").tmpl(items);
@@ -51,6 +52,23 @@ Sidebar = (function() {
     e.preventDefault();
     contact = new Contact(this.newAttributes());
     return contact.save();
+  };
+  Sidebar.prototype.toggleDraghandle = function() {
+    var width;
+    width = __bind(function() {
+      var max, min;
+      width = this.el.width();
+      max = App.vmanager.max();
+      min = App.vmanager.min;
+      if (width >= min && width < max - 20) {
+        return max + "px";
+      } else {
+        return min + 'px';
+      }
+    }, this);
+    return this.el.animate({
+      width: width()
+    }, 400);
   };
   return Sidebar;
 })();

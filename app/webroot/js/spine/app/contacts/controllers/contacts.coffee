@@ -23,6 +23,7 @@ class Contacts extends Spine.Controller
     "click .optDestroy"   : "destroy"
     "click .optSave"      : "save"
     "keydown"             : "saveOnEnter"
+    'dblclick .draghandle': 'toggleDraghandle'
 
   constructor: ->
     super
@@ -85,11 +86,11 @@ class Contacts extends Spine.Controller
           return App.hmanager.enableDrag()
       App.hmanager.disableDrag()
 
-    assert = ->
+    height = ->
       if hasActive() then App.hmanager.currentDim+"px" else "7px"
 
     $(@views).animate
-      height: assert()
+      height: height()
       400
 
   toggleEditor: (e) ->
@@ -110,10 +111,14 @@ class Contacts extends Spine.Controller
     if(isActive)
       App.hmanager.trigger("change", false)
     else
+      @activeControl = $(control)
       App.hmanager.trigger("change", controller)
 
     @renderViewControl controller, control
     @animateView()
+  
+  toggleDraghandle: ->
+    @activeControl.click()
 
   save: (el) ->
     atts = el.serializeForm?() or @editEl.serializeForm()

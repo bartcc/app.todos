@@ -40,6 +40,7 @@ class Spine.Manager extends Spine.Module
     @controllers.push(controller)
       
   deactivate: ->
+    console.log 'deactivate superclass'
     @trigger("change", false, arguments)
     
   # Private

@@ -1,111 +1,112 @@
-// Create the Task model.
-var Task = Spine.Model.setup("Task", "name", "done", 'order');
-
-var UnsavedTask = Spine.Model.setup("UnsavedTask", "name", "done", 'order');
-
-UnsavedTask.extend({
-  
-  addUnsaved: function(saved) {
-    if(!this.exists(saved.id)) {
-      this.create(saved.clone().attributes());
-    }
-  },
-    
-  removeUnsaved: function(saved) {
-    if(this.exists(saved.id)) {
-      this.destroy(saved.id);
-    }
-  },
-    
-  // save each todo who's id is in the list
-  save: function() {
-    this.each(function(unsaved) {
-      if(Task.exists(unsaved.id)) {
-        var saved = Task.find(unsaved.id);
-        saved.save();
-        Task.trigger('change:unsaved');
-      }
-    })
+var Task, UnsavedTask;
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+  function ctor() { this.constructor = child; }
+  ctor.prototype = parent.prototype;
+  child.prototype = new ctor;
+  child.__super__ = parent.prototype;
+  return child;
+};
+Task = (function() {
+  __extends(Task, Spine.Model);
+  function Task() {
+    Task.__super__.constructor.apply(this, arguments);
   }
-})
-
-// Persist model between page reloads.
-Task.extend(Spine.Model.Ajax);
-
-Task.extend({
-    
-  defaults: {
+  Task.configure("Task", "name", "done", 'order');
+  Task.extend(Spine.Model.Ajax);
+  Task.defaults = {
     name: 'Empty Todo...',
     done: false
-  },
-  
-  fromJSON: function(object) {
-	return this.__super__.constructor.fromJSON.call (this, object.json)
-  },
-  
-  // Return all active tasks.
-  active: function(){
-    return(this.select(function(item){
+  };
+  Task.fromJSON = function(object) {
+    return this.__super__.constructor.fromJSON.call(this, object.json);
+  };
+  Task.active = function() {
+    return this.select(function(item) {
       return !item.done;
-    }));
-  },
-  
-  // Return all done tasks.
-  done: function(){
-    return(this.select(function(item){
-      return !!item.done;
-    }));    
-  },
-  
-  url: function() {
-    return '' + base_url + (this.className.toLowerCase()) + 's';
-  },
-  
-  // Clear all done tasks.
-  destroyDone: function(){
-    jQuery(this.done()).each(function(i, rec){
-      rec.remove();
     });
-  },
-    
-  nextOrder: function() {
-    var next = this.last() ? (parseInt(this.last().order) + 1) : 0;
-    return next;
-  },
-    
-  filterUnsaved: function() {
+  };
+  Task.done = function() {
+    return this.select(function(item) {
+      return !!item.done;
+    });
+  };
+  Task.url = function() {
+    return '' + base_url + (this.className.toLowerCase()) + 's';
+  };
+  Task.destroyDone = function() {
+    return $(this.done()).each(function(i, rec) {
+      return rec.remove();
+    });
+  };
+  Task.nextOrder = function() {
+    if (this.last()) {
+      return parseInt(this.last().order) + 1;
+    } else {
+      return 0;
+    }
+  };
+  Task.filterUnsaved = function() {
     return this.select(function(task) {
-      var isEqual = _.isEqual(task.savedAttributes, task.attributes());
-      if(!task.isScheduledForSave) {
-        !isEqual ? UnsavedTask.addUnsaved(task) : UnsavedTask.removeUnsaved(task);
+      var isEqual;
+      isEqual = _.isEqual(task.savedAttributes, task.attributes());
+      if (!task.isScheduledForSave) {
+        if (!isEqual) {
+          UnsavedTask.addUnsaved(task);
+        } else {
+          UnsavedTask.removeUnsaved(task);
+        }
       }
       return !isEqual;
-    })
-  },
-  
-  comparator: function() {
-    this.each(function(rec) {
+    });
+  };
+  Task.comparator = function() {
+    return this.each(function(rec) {
       return rec.order;
-    })
-  },
-  
-  saveModelState: function(id) {
-    if(!this.exists(id)) return;
-    var model = this.find(id);
-    var saved = model.constructor.records[id].savedAttributes = model.attributes();
+    });
+  };
+  Task.saveModelState = function(id) {
+    var model, saved;
+    if (!this.exists(id)) {
+      return;
+    }
+    model = this.find(id);
+    saved = model.constructor.records[id].savedAttributes = model.attributes();
     Task.trigger('change:unsaved');
     return saved;
-  }
-    
-});
-
-Task.include({
-  initialize: function() {
-    
-  },
-    
-  remove: function() {
+  };
+  Task.prototype.init = function() {};
+  Task.prototype.remove = function() {
     this.destroy();
-    Task.trigger('change:unsaved', this);
+    return Task.trigger('change:unsaved', this);
+  };
+  return Task;
+})();
+UnsavedTask = (function() {
+  __extends(UnsavedTask, Spine.Model);
+  function UnsavedTask() {
+    UnsavedTask.__super__.constructor.apply(this, arguments);
   }
-})
+  UnsavedTask.configure("UnsavedTask", "name", "done", 'order');
+  UnsavedTask.addUnsaved = function(saved) {
+    if (!this.exists(saved.id)) {
+      return this.create(saved.clone().attributes());
+    }
+  };
+  UnsavedTask.removeUnsaved = function(saved) {
+    if (this.exists(saved.id)) {
+      return this.destroy(saved.id);
+    }
+  };
+  UnsavedTask.save = function() {
+    return this.each(function(unsaved) {
+      var saved;
+      if (Task.exists(unsaved.id)) {
+        saved = Task.find(unsaved.id);
+        saved.save();
+        return Task.trigger('change:unsaved');
+      }
+    });
+  };
+  return UnsavedTask;
+})();

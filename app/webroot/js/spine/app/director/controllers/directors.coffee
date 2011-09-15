@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Contacts extends Spine.Controller
+class Directors extends Spine.Controller
 
   elements:
     ".show"               : "showEl"
@@ -30,7 +30,7 @@ class Contacts extends Spine.Controller
   constructor: ->
     super
     @editEl.hide()
-    Contact.bind("change", @proxy @change)
+    Director.bind("change", @proxy @change)
     Spine.App.bind('save', @proxy @save)
     Spine.App.bind("change", @proxy @change)
     @bind("toggle:view", @proxy @toggleView)
@@ -45,8 +45,8 @@ class Contacts extends Spine.Controller
       @[mode]?(item)
 
   render: ->
-    @showContent.html $("#contactTemplate").tmpl @current
-    @editContent.html $("#editContactTemplate").tmpl @current
+    @showContent.html $("#albumTemplate").tmpl @current
+    @editContent.html $("#editAlbumTemplate").tmpl @current
     @focusFirstInput(@editEl)
     @
   
@@ -131,4 +131,4 @@ class Contacts extends Spine.Controller
     return if(e.keyCode != 13)
     Spine.App.trigger('save', @editEl)
 
-module?.exports = Contacts
+module?.exports = Directors

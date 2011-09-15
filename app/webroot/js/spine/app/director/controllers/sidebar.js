@@ -26,7 +26,7 @@ Sidebar = (function() {
     "dblclick .draghandle": 'toggleDraghandle'
   };
   Sidebar.prototype.template = function(items) {
-    return $("#contactsTemplate").tmpl(items);
+    return $("#directorsTemplate").tmpl(items);
   };
   function Sidebar() {
     Sidebar.__super__.constructor.apply(this, arguments);
@@ -34,7 +34,7 @@ Sidebar = (function() {
       el: this.items,
       template: this.template
     });
-    Contact.bind("refresh change", this.proxy(this.render));
+    Director.bind("refresh change", this.proxy(this.render));
   }
   Sidebar.prototype.filter = function() {
     this.query = this.input.val();
@@ -42,8 +42,8 @@ Sidebar = (function() {
   };
   Sidebar.prototype.render = function() {
     var items;
-    items = Contact.filter(this.query);
-    items = items.sort(Contact.nameSort);
+    items = Director.filter(this.query);
+    items = items.sort(Director.nameSort);
     return this.list.render(items);
   };
   Sidebar.prototype.newAttributes = function() {
@@ -53,10 +53,10 @@ Sidebar = (function() {
     };
   };
   Sidebar.prototype.create = function(e) {
-    var contact;
+    var album;
     e.preventDefault();
-    contact = new Contact(this.newAttributes());
-    return contact.save();
+    album = new Director(this.newAttributes());
+    return album.save();
   };
   Sidebar.prototype.toggleDraghandle = function() {
     var width;

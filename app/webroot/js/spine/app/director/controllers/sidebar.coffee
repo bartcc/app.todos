@@ -16,22 +16,22 @@ class Sidebar extends Spine.Controller
 
   #Render template
   template: (items) ->
-    return($("#contactsTemplate").tmpl(items))
+    return($("#directorsTemplate").tmpl(items))
 
   constructor: ->
     super
     Spine.App.list = @list = new Spine.List
       el: @items,
       template: @template
-    Contact.bind "refresh change", @proxy @render
+    Director.bind "refresh change", @proxy @render
 
   filter: ->
     @query = @input.val();
     @render();
 
   render: ->
-    items = Contact.filter @query
-    items = items.sort Contact.nameSort
+    items = Director.filter @query
+    items = items.sort Director.nameSort
     @list.render items
 
   newAttributes: ->
@@ -41,8 +41,8 @@ class Sidebar extends Spine.Controller
   #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
-    contact = new Contact @newAttributes()
-    contact.save()
+    album = new Director @newAttributes()
+    album.save()
   
   toggleDraghandle: ->
     width = =>

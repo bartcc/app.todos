@@ -1,4 +1,4 @@
-var $, Contacts;
+var $, Directors;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -13,9 +13,9 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-Contacts = (function() {
-  __extends(Contacts, Spine.Controller);
-  Contacts.prototype.elements = {
+Directors = (function() {
+  __extends(Directors, Spine.Controller);
+  Directors.prototype.elements = {
     ".show": "showEl",
     ".edit": "editEl",
     ".show .content": "showContent",
@@ -27,7 +27,7 @@ Contacts = (function() {
     '.showUpload': 'uploadBtn',
     '.showGrid': 'gridBtn'
   };
-  Contacts.prototype.events = {
+  Directors.prototype.events = {
     "click .optEdit": "edit",
     "click .optEmail": "email",
     "click .showEditor": "toggleEditor",
@@ -39,30 +39,30 @@ Contacts = (function() {
     "keydown": "saveOnEnter",
     'dblclick .draghandle': 'toggleDraghandle'
   };
-  function Contacts() {
-    this.saveOnEnter = __bind(this.saveOnEnter, this);    Contacts.__super__.constructor.apply(this, arguments);
+  function Directors() {
+    this.saveOnEnter = __bind(this.saveOnEnter, this);    Directors.__super__.constructor.apply(this, arguments);
     this.editEl.hide();
-    Contact.bind("change", this.proxy(this.change));
+    Director.bind("change", this.proxy(this.change));
     Spine.App.bind('save', this.proxy(this.save));
     Spine.App.bind("change", this.proxy(this.change));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.create = this.edit;
     $(this.views).queue("fx");
   }
-  Contacts.prototype.change = function(item, mode) {
+  Directors.prototype.change = function(item, mode) {
     if (!item.destroyed) {
       this.current = item;
       this.render();
       return typeof this[mode] === "function" ? this[mode](item) : void 0;
     }
   };
-  Contacts.prototype.render = function() {
-    this.showContent.html($("#contactTemplate").tmpl(this.current));
-    this.editContent.html($("#editContactTemplate").tmpl(this.current));
+  Directors.prototype.render = function() {
+    this.showContent.html($("#albumTemplate").tmpl(this.current));
+    this.editContent.html($("#editAlbumTemplate").tmpl(this.current));
     this.focusFirstInput(this.editEl);
     return this;
   };
-  Contacts.prototype.focusFirstInput = function(el) {
+  Directors.prototype.focusFirstInput = function(el) {
     if (!el) {
       return;
     }
@@ -71,27 +71,27 @@ Contacts = (function() {
     }
     return el;
   };
-  Contacts.prototype.show = function(item) {
+  Directors.prototype.show = function(item) {
     return this.showEl.show(0, this.proxy(function() {
       return this.editEl.hide();
     }));
   };
-  Contacts.prototype.edit = function(item) {
+  Directors.prototype.edit = function(item) {
     return this.editEl.show(0, this.proxy(function() {
       this.showEl.hide();
       return this.focusFirstInput(this.editEl);
     }));
   };
-  Contacts.prototype.destroy = function() {
+  Directors.prototype.destroy = function() {
     return this.current.destroy();
   };
-  Contacts.prototype.email = function() {
+  Directors.prototype.email = function() {
     if (!this.current.email) {
       return;
     }
     return window.location = "mailto:" + this.current.email;
   };
-  Contacts.prototype.renderViewControl = function(controller, controlEl) {
+  Directors.prototype.renderViewControl = function(controller, controlEl) {
     var active;
     active = controller.isActive();
     return $(".options .view").each(function() {
@@ -102,7 +102,7 @@ Contacts = (function() {
       }
     });
   };
-  Contacts.prototype.animateView = function() {
+  Directors.prototype.animateView = function() {
     var hasActive, height;
     hasActive = function() {
       var controller, _i, _len, _ref;
@@ -126,19 +126,19 @@ Contacts = (function() {
       height: height()
     }, 400);
   };
-  Contacts.prototype.toggleEditor = function(e) {
+  Directors.prototype.toggleEditor = function(e) {
     return this.trigger("toggle:view", App.editor, e.target);
   };
-  Contacts.prototype.toggleAlbum = function(e) {
+  Directors.prototype.toggleAlbum = function(e) {
     return this.trigger("toggle:view", App.album, e.target);
   };
-  Contacts.prototype.toggleUpload = function(e) {
+  Directors.prototype.toggleUpload = function(e) {
     return this.trigger("toggle:view", App.upload, e.target);
   };
-  Contacts.prototype.toggleGrid = function(e) {
+  Directors.prototype.toggleGrid = function(e) {
     return this.trigger("toggle:view", App.grid, e.target);
   };
-  Contacts.prototype.toggleView = function(controller, control) {
+  Directors.prototype.toggleView = function(controller, control) {
     var isActive;
     isActive = controller.isActive();
     if (isActive) {
@@ -150,23 +150,23 @@ Contacts = (function() {
     this.renderViewControl(controller, control);
     return this.animateView();
   };
-  Contacts.prototype.toggleDraghandle = function() {
+  Directors.prototype.toggleDraghandle = function() {
     return this.activeControl.click();
   };
-  Contacts.prototype.save = function(el) {
+  Directors.prototype.save = function(el) {
     var atts;
     atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
     this.current.updateChangedAttributes(atts);
     return this.show();
   };
-  Contacts.prototype.saveOnEnter = function(e) {
+  Directors.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {
       return;
     }
     return Spine.App.trigger('save', this.editEl);
   };
-  return Contacts;
+  return Directors;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Contacts;
+  module.exports = Directors;
 }

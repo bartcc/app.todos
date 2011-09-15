@@ -37,5 +37,5 @@ Router::connect('/mysql/*', array('controller' => 'mysql', 'action' => 'exec'));
  */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-Router::mapResources(array('todos', 'tasks', 'contacts' ,'users'));
+Router::mapResources(array('todos', 'tasks', 'contacts' ,'users', 'directors'));
 //Router::parseExtensions();

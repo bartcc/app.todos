@@ -1,12 +1,10 @@
 class Director extends Spine.Model
-  @configure "Director", "first_name", "last_name", "email",
-    "mobile", "work", "address", "notes"
+  @configure "Director", "name", "description"
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.Filter
 
-  @selectAttributes: ["first_name", "last_name", "email",
-    "mobile", "work", "address", "notes"]
+  @selectAttributes: ["name", "description"]
 
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'

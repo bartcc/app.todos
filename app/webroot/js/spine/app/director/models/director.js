@@ -12,10 +12,10 @@ Director = (function() {
   function Director() {
     Director.__super__.constructor.apply(this, arguments);
   }
-  Director.configure("Director", "first_name", "last_name", "email", "mobile", "work", "address", "notes");
+  Director.configure("Director", "name", "description");
   Director.extend(Spine.Model.Ajax);
   Director.extend(Spine.Model.Filter);
-  Director.selectAttributes = ["first_name", "last_name", "email", "mobile", "work", "address", "notes"];
+  Director.selectAttributes = ["name", "description"];
   Director.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
   };

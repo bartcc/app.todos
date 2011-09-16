@@ -11,7 +11,7 @@ App = (function() {
   __extends(App, Spine.Controller);
   App.prototype.elements = {
     '#sidebar-wrapper': 'sidebarEl',
-    '#directors': 'directorsEl',
+    '#galleries': 'galleriesEl',
     '#editor': 'editorEl',
     '#album': 'albumEl',
     '#upload': 'uploadEl',
@@ -36,8 +36,8 @@ App = (function() {
     this.grid = new Grid({
       el: this.gridEl
     });
-    this.directors = new Directors({
-      el: this.directorsEl
+    this.galleries = new Galleries({
+      el: this.galleriesEl
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
@@ -54,17 +54,17 @@ App = (function() {
     this.hmanager = new Spine.Manager(this.editor, this.upload, this.album, this.grid);
     this.hmanager.initDrag(this.hDrag, {
       initSize: this.proxy(function() {
-        return $(this.directors.el).height() / 2;
+        return $(this.galleries.el).height() / 2;
       }),
       disabled: false,
       axis: 'y',
       min: 30,
       max: this.proxy(function() {
-        return this.directors.el.height() * 2 / 3;
+        return this.galleries.el.height() * 2 / 3;
       }),
       goSleep: this.proxy(function() {
         var _ref;
-        return (_ref = this.directors.activeControl) != null ? _ref.click() : void 0;
+        return (_ref = this.galleries.activeControl) != null ? _ref.click() : void 0;
       })
     });
   }
@@ -74,6 +74,6 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  App.directors.editorBtn.click();
-  return Director.fetch();
+  App.galleries.editorBtn.click();
+  return Gallerie.fetch();
 });

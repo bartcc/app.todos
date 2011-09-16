@@ -23,7 +23,7 @@ Spine.List = (function() {
   function List() {
     this.change = __bind(this.change, this);    List.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
-    Director.bind("change", this.proxy(this.change));
+    Gallerie.bind("change", this.proxy(this.change));
   }
   List.prototype.template = function() {
     return arguments[0];

@@ -1,17 +1,17 @@
-class Director extends Spine.Model
-  @configure "Director", "name", "description"
+class Gallerie extends Spine.Model
+  @configure "Gallerie", "name", 'author', "description"
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.Filter
 
-  @selectAttributes: ["name", "description"]
+  @selectAttributes: ["name", 'author', "description"]
 
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'
 
   @nameSort: (a, b) ->
-    aa = (a or '').first_name?.toLowerCase()
-    bb = (b or '').first_name?.toLowerCase()
+    aa = (a or '').name?.toLowerCase()
+    bb = (b or '').name?.toLowerCase()
     return if aa == bb then 0 else if aa < bb then -1 else 1
 
   @fromJSON: (objects) ->
@@ -21,10 +21,6 @@ class Director extends Spine.Model
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
-
-  fullName: ->
-    return unless @first_name + @last_name
-    @first_name + ' ' + @last_name
 
   #prevents an update if model hasn't changed
   updateChangedAttributes: (atts) ->

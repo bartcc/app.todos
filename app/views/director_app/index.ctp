@@ -18,7 +18,7 @@
 
     <div class="vdivide draghandle"></div>
   </div>
-  <div id="directors" class="vbox flex">
+  <div id="galleries" class="vbox flex">
     <div class="show vbox flex">
       <ul class="options hbox">
         <li class="view showEditor">Editor</li>
@@ -60,12 +60,12 @@
 
 </div>
 
-<script type="text/x-jquery-tmpl" id="directorsTemplate">
+<script type="text/x-jquery-tmpl" id="galleriesTemplate">
   <li class="item" title="Doubleclick to edit / Save with Enter">
     <img src="/img/missing.png" />
-    {{if fullName()}}
     <div style="font-size: 0.6em">ID: ${id}</div
-    <span class="name">${fullName()}</span>
+    {{if name}}
+    <span class="name">${name}</span>
     {{else}}
     <span class="name empty">No Name</span>
     {{/if}}
@@ -86,47 +86,26 @@
 
   <label>
     <span>Name</span>
-    {{if fullName()}}
-    <div>${fullName()}</div>
+    {{if name}}
+    <div>${name}</div>
     {{else}}
     <div class="empty">Blank</div>
     {{/if}}
   </label>
 
   <label>
-    <span>Email</span>
-    {{if email}}
-    <div>${email}</div>
+    <span>Author</span>
+    {{if author}}
+    <div>${author}</div>
     {{else}}
     <div class="empty">Blank</div>
     {{/if}}
   </label>
 
-  {{if mobile}}
   <label>
-    <span>Mobile number</span>
-    <div>${mobile}</div>
-  </label>
-  {{/if}}
-
-  {{if work}}
-  <label>
-    <span>Work number</span>
-    <div>${work}</div>
-  </label>
-  {{/if}}
-
-  {{if address}}
-  <label>
-    <span>Address</span>
-    <div><pre>${address}</pre></div>
-  </label>
-  {{/if}}
-
-  <label>
-    <span>Notes</span>
-    {{if notes}}
-    <div>${notes}</div>
+    <span>Description</span>
+    {{if description}}
+    <div>${description}</div>
     {{else}}
     <div class="empty">Blank</div>
     {{/if}}
@@ -136,38 +115,18 @@
 <script type="text/x-jquery-tmpl" id="editAlbumTemplate">
   
   <label>
-    <span>First name</span>
-    <input type="text" name="first_name" value="${first_name}" autofocus>
+    <span>Album name</span>
+    <input type="text" name="name" value="${name}" autofocus>
   </label>
 
   <label>
-    <span>Last name</span>
-    <input type="text" name="last_name" value="${last_name}">
+    <span>Author</span>
+    <input type="text" name="author" value="${author}">
   </label>
 
   <label>
-    <span>Email</span>
-    <input type="text" name="email" value="${email}">
-  </label>
-
-  <label>
-    <span>Mobile number</span>
-    <input type="text" name="mobile" value="${mobile}">
-  </label>
-
-  <label>
-    <span>Work number</span>
-    <input type="text" name="work" value="${work}">
-  </label>
-
-  <label>
-    <span>Address</span>
-    <textarea name="address">${address}</textarea>
-  </label>
-
-  <label>
-    <span>Notes</span>
-    <textarea name="notes">${notes}</textarea>
+    <span>Description</span>
+    <textarea name="description">${description}</textarea>
   </label>
   <input type="hidden" name="id" value="${id}" autofocus>
 </script>  

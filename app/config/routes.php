@@ -29,6 +29,7 @@
  */
 Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 Router::connectNamed(array('passed'));
+Router::connect('/q/*', array('controller' => 'kodaks', 'action' => 'develop'));
 Router::connect('/git/*', array('controller' => 'gits', 'action' => 'exec'));
 Router::connect('/mysql/*', array('controller' => 'mysql', 'action' => 'exec'));
 
@@ -37,5 +38,5 @@ Router::connect('/mysql/*', array('controller' => 'mysql', 'action' => 'exec'));
  */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-Router::mapResources(array('todos', 'tasks', 'contacts' ,'users', 'directors'));
+Router::mapResources(array('todos', 'tasks', 'contacts' ,'users', 'galleries'));
 //Router::parseExtensions();

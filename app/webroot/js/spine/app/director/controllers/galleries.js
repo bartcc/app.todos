@@ -1,4 +1,4 @@
-var $, Directors;
+var $, Galleries;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -13,9 +13,9 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-Directors = (function() {
-  __extends(Directors, Spine.Controller);
-  Directors.prototype.elements = {
+Galleries = (function() {
+  __extends(Galleries, Spine.Controller);
+  Galleries.prototype.elements = {
     ".show": "showEl",
     ".edit": "editEl",
     ".show .content": "showContent",
@@ -27,7 +27,7 @@ Directors = (function() {
     '.showUpload': 'uploadBtn',
     '.showGrid': 'gridBtn'
   };
-  Directors.prototype.events = {
+  Galleries.prototype.events = {
     "click .optEdit": "edit",
     "click .optEmail": "email",
     "click .showEditor": "toggleEditor",
@@ -39,30 +39,30 @@ Directors = (function() {
     "keydown": "saveOnEnter",
     'dblclick .draghandle': 'toggleDraghandle'
   };
-  function Directors() {
-    this.saveOnEnter = __bind(this.saveOnEnter, this);    Directors.__super__.constructor.apply(this, arguments);
+  function Galleries() {
+    this.saveOnEnter = __bind(this.saveOnEnter, this);    Galleries.__super__.constructor.apply(this, arguments);
     this.editEl.hide();
-    Director.bind("change", this.proxy(this.change));
+    Gallerie.bind("change", this.proxy(this.change));
     Spine.App.bind('save', this.proxy(this.save));
     Spine.App.bind("change", this.proxy(this.change));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.create = this.edit;
     $(this.views).queue("fx");
   }
-  Directors.prototype.change = function(item, mode) {
+  Galleries.prototype.change = function(item, mode) {
     if (!item.destroyed) {
       this.current = item;
       this.render();
       return typeof this[mode] === "function" ? this[mode](item) : void 0;
     }
   };
-  Directors.prototype.render = function() {
+  Galleries.prototype.render = function() {
     this.showContent.html($("#albumTemplate").tmpl(this.current));
     this.editContent.html($("#editAlbumTemplate").tmpl(this.current));
     this.focusFirstInput(this.editEl);
     return this;
   };
-  Directors.prototype.focusFirstInput = function(el) {
+  Galleries.prototype.focusFirstInput = function(el) {
     if (!el) {
       return;
     }
@@ -71,27 +71,27 @@ Directors = (function() {
     }
     return el;
   };
-  Directors.prototype.show = function(item) {
+  Galleries.prototype.show = function(item) {
     return this.showEl.show(0, this.proxy(function() {
       return this.editEl.hide();
     }));
   };
-  Directors.prototype.edit = function(item) {
+  Galleries.prototype.edit = function(item) {
     return this.editEl.show(0, this.proxy(function() {
       this.showEl.hide();
       return this.focusFirstInput(this.editEl);
     }));
   };
-  Directors.prototype.destroy = function() {
+  Galleries.prototype.destroy = function() {
     return this.current.destroy();
   };
-  Directors.prototype.email = function() {
+  Galleries.prototype.email = function() {
     if (!this.current.email) {
       return;
     }
     return window.location = "mailto:" + this.current.email;
   };
-  Directors.prototype.renderViewControl = function(controller, controlEl) {
+  Galleries.prototype.renderViewControl = function(controller, controlEl) {
     var active;
     active = controller.isActive();
     return $(".options .view").each(function() {
@@ -102,7 +102,7 @@ Directors = (function() {
       }
     });
   };
-  Directors.prototype.animateView = function() {
+  Galleries.prototype.animateView = function() {
     var hasActive, height;
     hasActive = function() {
       var controller, _i, _len, _ref;
@@ -126,19 +126,19 @@ Directors = (function() {
       height: height()
     }, 400);
   };
-  Directors.prototype.toggleEditor = function(e) {
+  Galleries.prototype.toggleEditor = function(e) {
     return this.trigger("toggle:view", App.editor, e.target);
   };
-  Directors.prototype.toggleAlbum = function(e) {
+  Galleries.prototype.toggleAlbum = function(e) {
     return this.trigger("toggle:view", App.album, e.target);
   };
-  Directors.prototype.toggleUpload = function(e) {
+  Galleries.prototype.toggleUpload = function(e) {
     return this.trigger("toggle:view", App.upload, e.target);
   };
-  Directors.prototype.toggleGrid = function(e) {
+  Galleries.prototype.toggleGrid = function(e) {
     return this.trigger("toggle:view", App.grid, e.target);
   };
-  Directors.prototype.toggleView = function(controller, control) {
+  Galleries.prototype.toggleView = function(controller, control) {
     var isActive;
     isActive = controller.isActive();
     if (isActive) {
@@ -150,23 +150,23 @@ Directors = (function() {
     this.renderViewControl(controller, control);
     return this.animateView();
   };
-  Directors.prototype.toggleDraghandle = function() {
+  Galleries.prototype.toggleDraghandle = function() {
     return this.activeControl.click();
   };
-  Directors.prototype.save = function(el) {
+  Galleries.prototype.save = function(el) {
     var atts;
     atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
     this.current.updateChangedAttributes(atts);
     return this.show();
   };
-  Directors.prototype.saveOnEnter = function(e) {
+  Galleries.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {
       return;
     }
     return Spine.App.trigger('save', this.editEl);
   };
-  return Directors;
+  return Galleries;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Directors;
+  module.exports = Galleries;
 }

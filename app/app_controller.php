@@ -37,14 +37,65 @@ class AppController extends Controller {
   var $components = array('RequestHandler', 'Session', 'Auth', 'Cookie');
   
   function beforeFilter() {
-    $this->autoRender = FALSE;
-    $this->Auth->autoRedirect = FALSE;
-
+    if ($this->RequestHandler->isAjax()) {
+      $this->autoRender = FALSE;
+      $this->Auth->autoRedirect = FALSE;
+    }
+    
+    $data = $this->getPayLoad();
+    if(!empty($data)) {
+      foreach($data as $key => $value) {
+        $this->data[$this->modelClass][$key] = $value;
+      }
+    }
   }
-
+  
   function beforeRender() {
     if ($this->RequestHandler->isAjax())
       $this->layout = 'ajax';
   }
+  
+  private function getPayLoad() {
+    $payload = FALSE;
+    if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0) {
+      $payload = '';
+      $httpContent = fopen('php://input', 'r');
+      while ($data = fread($httpContent, 1024)) {
+        $payload .= $data;
+      }
+      fclose($httpContent);
+    }
 
+    // check to make sure there was payload and we read it in
+    if (!$payload)
+      return FALSE;
+
+    // translate the JSON into an associative array
+    $obj = json_decode($payload);
+    return $obj;
+  }
+
+  // Escape special meaning character for MySQL
+  // Must be used AFTER a session was opened
+  private function cleanValue($value) {
+    if (get_magic_quotes_gpc()) {
+      $value = stripslashes($value);
+    }
+
+    if (!is_numeric($value)) {
+      $value = mysql_real_escape_string($value);
+    }
+    return $value;
+  }
+
+  private function flatten_array($arr) {
+
+    $out = array();
+    debug($arr);
+    foreach ($arr as $key => $val) {
+      $val['Contact']['done'] = $val['Contact']['done'] == 1;
+      array_push($out, $val['Contact']);
+    }
+    return $out;
+  }
 }

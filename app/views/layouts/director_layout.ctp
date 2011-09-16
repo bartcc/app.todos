@@ -50,14 +50,14 @@
     echo $this->Html->script('spine/lib/tmpl');
 
     echo $this->Html->script('spine/app/director/plugins/manager');
-    echo $this->Html->script('spine/app/director/models/director');
+    echo $this->Html->script('spine/app/director/models/gallerie');
     echo $this->Html->script('spine/app/director/controllers/list');
     echo $this->Html->script('spine/app/director/controllers/sidebar');
     echo $this->Html->script('spine/app/director/controllers/editor');
     echo $this->Html->script('spine/app/director/controllers/album');
     echo $this->Html->script('spine/app/director/controllers/upload');
     echo $this->Html->script('spine/app/director/controllers/grid');
-    echo $this->Html->script('spine/app/director/controllers/directors');
+    echo $this->Html->script('spine/app/director/controllers/galleries');
     echo $this->Html->script('spine/app/director/application');
     ?>
 

@@ -11,7 +11,7 @@ class Spine.List extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-    Director.bind("change", @proxy @change)
+    Gallerie.bind("change", @proxy @change)
     
   template: -> arguments[0]
   

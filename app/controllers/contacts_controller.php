@@ -28,9 +28,8 @@ class ContactsController extends AppController {
   }
 
   function add() {
-    $payload = $this->getPayLoad();
     // validate the record to make sure we have all the data
-    if (!isset($payload->id)) {
+    if (!isset($this->data['Contacts']['id'])) {
       // we got bad data so set up an error response and exit
       header('HTTP/1.1 400 Bad Request');
       header('X-Reason: Received an array of records when ' .
@@ -38,31 +37,10 @@ class ContactsController extends AppController {
       exit;
     }
 
-    $id = $this->cleanValue($payload->id);
-    $first_name = $this->cleanValue($payload->first_name);
-    $last_name = $this->cleanValue($payload->last_name);
-    $email = $this->cleanValue($payload->email);
-    $mobile = $this->cleanValue($payload->mobile);
-    $work = $this->cleanValue($payload->work);
-    $address = $this->cleanValue($payload->address);
-    $notes = $this->cleanValue($payload->notes);
-    $this->data = array(
-        'id' => $id,
-        'first_name' => $first_name,
-        'last_name' => $last_name,
-        'email' => $email,
-        'mobile' => $mobile,
-        'work' => $work,
-        'address' => $address,
-        'notes' => $notes
-    );
     $this->Contact->create();
-//        $this->data = array('id' => $this->Contact->id);
     $this->Contact->save($this->data);
-    $this->set('json', $this->data);
+    $this->set('json', $this->data['Contacts']);
     $this->render(SIMPLE_JSON, 'ajax');
-//        header('HTTP/1.1 204 No Content');
-//        header("Location: http://".$_SERVER['HTTP_HOST'].'/todos/'.$id);
   }
 
   function edit($id = null) {
@@ -70,28 +48,8 @@ class ContactsController extends AppController {
     if (empty($id)) {
       return;
     }
-
-    $payload = $this->getPayLoad();
-    $id = $this->cleanValue($payload->id);
-    $first_name = $this->cleanValue($payload->first_name);
-    $last_name = $this->cleanValue($payload->last_name);
-    $email = $this->cleanValue($payload->email);
-    $mobile = $this->cleanValue($payload->mobile);
-    $work = $this->cleanValue($payload->work);
-    $address = $this->cleanValue($payload->address);
-    $notes = $this->cleanValue($payload->notes);
-    $this->data = array(
-        'id' => $id,
-        'first_name' => $first_name,
-        'last_name' => $last_name,
-        'email' => $email,
-        'mobile' => $mobile,
-        'work' => $work,
-        'address' => $address,
-        'notes' => $notes
-    );
     if ($this->Contact->save($this->data)) {
-      $this->set('json', $this->data);
+      $this->set('json', $this->data['Contacts']);
       $this->render(SIMPLE_JSON, 'ajax');
     }
   }
@@ -103,51 +61,6 @@ class ContactsController extends AppController {
     }
     $this->Contact->delete($id);
   }
-
-  private function getPayLoad() {
-    $payload = FALSE;
-    if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0) {
-      $payload = '';
-      $httpContent = fopen('php://input', 'r');
-      while ($data = fread($httpContent, 1024)) {
-        $payload .= $data;
-      }
-      fclose($httpContent);
-    }
-
-    // check to make sure there was payload and we read it in
-    if (!$payload)
-      return FALSE;
-
-    // translate the JSON into an associative array
-    $obj = json_decode($payload);
-    return $obj;
-  }
-
-  // Escape special meaning character for MySQL
-  // Must be used AFTER a session was opened
-  private function cleanValue($value) {
-    if (get_magic_quotes_gpc()) {
-      $value = stripslashes($value);
-    }
-
-    if (!is_numeric($value)) {
-      $value = mysql_real_escape_string($value);
-    }
-    return $value;
-  }
-
-  private function flatten_array($arr) {
-
-    $out = array();
-    debug($arr);
-    foreach ($arr as $key => $val) {
-      $val['Contact']['done'] = $val['Contact']['done'] == 1;
-      array_push($out, $val['Contact']);
-    }
-    return $out;
-  }
-
 }
 
 ?>

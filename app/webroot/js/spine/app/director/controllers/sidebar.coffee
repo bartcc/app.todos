@@ -16,32 +16,32 @@ class Sidebar extends Spine.Controller
 
   #Render template
   template: (items) ->
-    return($("#directorsTemplate").tmpl(items))
+    return($("#galleriesTemplate").tmpl(items))
 
   constructor: ->
     super
     Spine.App.list = @list = new Spine.List
       el: @items,
       template: @template
-    Director.bind "refresh change", @proxy @render
+    Gallerie.bind "refresh change", @proxy @render
 
   filter: ->
     @query = @input.val();
     @render();
 
   render: ->
-    items = Director.filter @query
-    items = items.sort Director.nameSort
+    items = Gallerie.filter @query
+    items = items.sort Gallerie.nameSort
     @list.render items
 
   newAttributes: ->
-    first_name: ''
-    last_name: ''
+    name: ''
+    author: ''
 
   #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
-    album = new Director @newAttributes()
+    album = new Gallerie @newAttributes()
     album.save()
   
   toggleDraghandle: ->

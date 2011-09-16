@@ -1,4 +1,4 @@
-var Director;
+var Gallerie;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -7,22 +7,22 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-Director = (function() {
-  __extends(Director, Spine.Model);
-  function Director() {
-    Director.__super__.constructor.apply(this, arguments);
+Gallerie = (function() {
+  __extends(Gallerie, Spine.Model);
+  function Gallerie() {
+    Gallerie.__super__.constructor.apply(this, arguments);
   }
-  Director.configure("Director", "name", "description");
-  Director.extend(Spine.Model.Ajax);
-  Director.extend(Spine.Model.Filter);
-  Director.selectAttributes = ["name", "description"];
-  Director.url = function() {
+  Gallerie.configure("Gallerie", "name", 'author', "description");
+  Gallerie.extend(Spine.Model.Ajax);
+  Gallerie.extend(Spine.Model.Filter);
+  Gallerie.selectAttributes = ["name", 'author', "description"];
+  Gallerie.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
   };
-  Director.nameSort = function(a, b) {
+  Gallerie.nameSort = function(a, b) {
     var aa, bb, _ref, _ref2;
-    aa = (_ref = (a || '').first_name) != null ? _ref.toLowerCase() : void 0;
-    bb = (_ref2 = (b || '').first_name) != null ? _ref2.toLowerCase() : void 0;
+    aa = (_ref = (a || '').name) != null ? _ref.toLowerCase() : void 0;
+    bb = (_ref2 = (b || '').name) != null ? _ref2.toLowerCase() : void 0;
     if (aa === bb) {
       return 0;
     } else if (aa < bb) {
@@ -31,10 +31,10 @@ Director = (function() {
       return 1;
     }
   };
-  Director.fromJSON = function(objects) {
+  Gallerie.fromJSON = function(objects) {
     return this.__super__.constructor.fromJSON.call(this, objects.json);
   };
-  Director.prototype.selectAttributes = function() {
+  Gallerie.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;
     result = {};
     _ref = this.constructor.selectAttributes;
@@ -44,13 +44,7 @@ Director = (function() {
     }
     return result;
   };
-  Director.prototype.fullName = function() {
-    if (!(this.first_name + this.last_name)) {
-      return;
-    }
-    return this.first_name + ' ' + this.last_name;
-  };
-  Director.prototype.updateChangedAttributes = function(atts) {
+  Gallerie.prototype.updateChangedAttributes = function(atts) {
     var invalid, key, origAtts, value;
     origAtts = this.attributes();
     for (key in atts) {
@@ -64,5 +58,5 @@ Director = (function() {
       return this.save();
     }
   };
-  return Director;
+  return Gallerie;
 })();

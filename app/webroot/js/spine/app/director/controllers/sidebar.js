@@ -26,7 +26,7 @@ Sidebar = (function() {
     "dblclick .draghandle": 'toggleDraghandle'
   };
   Sidebar.prototype.template = function(items) {
-    return $("#directorsTemplate").tmpl(items);
+    return $("#galleriesTemplate").tmpl(items);
   };
   function Sidebar() {
     Sidebar.__super__.constructor.apply(this, arguments);
@@ -34,7 +34,7 @@ Sidebar = (function() {
       el: this.items,
       template: this.template
     });
-    Director.bind("refresh change", this.proxy(this.render));
+    Gallerie.bind("refresh change", this.proxy(this.render));
   }
   Sidebar.prototype.filter = function() {
     this.query = this.input.val();
@@ -42,20 +42,20 @@ Sidebar = (function() {
   };
   Sidebar.prototype.render = function() {
     var items;
-    items = Director.filter(this.query);
-    items = items.sort(Director.nameSort);
+    items = Gallerie.filter(this.query);
+    items = items.sort(Gallerie.nameSort);
     return this.list.render(items);
   };
   Sidebar.prototype.newAttributes = function() {
     return {
-      first_name: '',
-      last_name: ''
+      name: '',
+      author: ''
     };
   };
   Sidebar.prototype.create = function(e) {
     var album;
     e.preventDefault();
-    album = new Director(this.newAttributes());
+    album = new Gallerie(this.newAttributes());
     return album.save();
   };
   Sidebar.prototype.toggleDraghandle = function() {

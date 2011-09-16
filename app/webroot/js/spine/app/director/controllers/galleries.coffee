@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Directors extends Spine.Controller
+class Galleries extends Spine.Controller
 
   elements:
     ".show"               : "showEl"
@@ -30,7 +30,7 @@ class Directors extends Spine.Controller
   constructor: ->
     super
     @editEl.hide()
-    Director.bind("change", @proxy @change)
+    Gallerie.bind("change", @proxy @change)
     Spine.App.bind('save', @proxy @save)
     Spine.App.bind("change", @proxy @change)
     @bind("toggle:view", @proxy @toggleView)
@@ -131,4 +131,4 @@ class Directors extends Spine.Controller
     return if(e.keyCode != 13)
     Spine.App.trigger('save', @editEl)
 
-module?.exports = Directors
+module?.exports = Galleries

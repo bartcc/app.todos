@@ -2,7 +2,7 @@ class App extends Spine.Controller
   
   elements:
     '#sidebar-wrapper'    : 'sidebarEl'
-    '#directors'   : 'directorsEl'
+    '#galleries'   : 'galleriesEl'
     '#editor'     : 'editorEl'
     '#album'      : 'albumEl'
     '#upload'     : 'uploadEl'
@@ -22,8 +22,8 @@ class App extends Spine.Controller
       el: @uploadEl
     @grid = new Grid
       el: @gridEl
-    @directors = new Directors
-      el: @directorsEl
+    @galleries = new Galleries
+      el: @galleriesEl
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
@@ -38,16 +38,16 @@ class App extends Spine.Controller
     @hmanager = new Spine.Manager(@editor, @upload, @album, @grid)
     @hmanager.initDrag @hDrag,
       initSize: @proxy ->
-        $(@directors.el).height()/2
+        $(@galleries.el).height()/2
       disabled: false
       axis: 'y'
       min: 30
       max: @proxy ->
-        (@directors.el).height()*2/3
+        (@galleries.el).height()*2/3
       goSleep: @proxy ->
-        @directors.activeControl?.click()
+        @galleries.activeControl?.click()
       
 $ ->
   window.App = new App(el: $('body'))
-  App.directors.editorBtn.click()
-  Director.fetch()
+  App.galleries.editorBtn.click()
+  Gallerie.fetch()

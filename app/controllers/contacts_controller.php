@@ -39,7 +39,7 @@ class ContactsController extends AppController {
 
     $this->Contact->create();
     $this->Contact->save($this->data);
-    $this->set('json', $this->data['Contacts']);
+    $this->set('json', $this->data['Contact']);
     $this->render(SIMPLE_JSON, 'ajax');
   }
 
@@ -49,7 +49,7 @@ class ContactsController extends AppController {
       return;
     }
     if ($this->Contact->save($this->data)) {
-      $this->set('json', $this->data['Contacts']);
+      $this->set('json', $this->data['Contact']);
       $this->render(SIMPLE_JSON, 'ajax');
     }
   }

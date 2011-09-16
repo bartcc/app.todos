@@ -29,17 +29,16 @@ class GalleriesController extends AppController {
 
   function add() {
     // validate the record to make sure we have all the data
-    if (empty($this->data['User']['id'])) {
+    if (empty($this->data['Gallery']['name'])) {
       // we got bad data so set up an error response and exit
       header('HTTP/1.1 400 Bad Request');
-      header('X-Reason: Received an array of records when ' .
-              'expecting just one');
+      header('X-Reason: received empty gallery name');
       exit;
     }
 
     $this->Gallery->create();
     $this->Gallery->save($this->data);
-    $this->set('json', $this->data);
+    $this->set('json', $this->data['Gallery']);
     $this->render(SIMPLE_JSON, 'ajax');
   }
 
@@ -50,7 +49,7 @@ class GalleriesController extends AppController {
     }
 
     if ($this->Gallery->save($this->data)) {
-      $this->set('json', $this->data);
+      $this->set('json', $this->data['Gallery']);
       $this->render(SIMPLE_JSON, 'ajax');
     }
   }

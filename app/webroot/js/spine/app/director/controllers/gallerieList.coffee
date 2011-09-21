@@ -16,7 +16,7 @@ class Spine.GalleryList extends Spine.Controller
   template: -> arguments[0]
   
   change: (item, mode) =>
-    #console.log 'GalleryList::change'
+    console.log 'GalleryList::change'
     if item and !item.destroyed
       @current = item
       #console.log Spine.App.galleryList.current.id

@@ -13,6 +13,12 @@ GalleriesAlbum = (function() {
     GalleriesAlbum.__super__.constructor.apply(this, arguments);
   }
   GalleriesAlbum.configure("GalleriesAlbum", "gallery_id", 'album_id');
+  GalleriesAlbum.extend(Spine.Model.Filter);
   GalleriesAlbum.extend(Spine.Model.Local);
+  GalleriesAlbum.prototype.select = function(query) {
+    if (this.gallery_id === query) {
+      return true;
+    }
+  };
   return GalleriesAlbum;
 })();

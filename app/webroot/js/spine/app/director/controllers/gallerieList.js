@@ -29,6 +29,7 @@ Spine.GalleryList = (function() {
     return arguments[0];
   };
   GalleryList.prototype.change = function(item, mode) {
+    console.log('GalleryList::change');
     if (item && !item.destroyed) {
       this.current = item;
       this.children().removeClass("active");

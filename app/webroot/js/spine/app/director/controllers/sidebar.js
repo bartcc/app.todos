@@ -38,10 +38,9 @@ SidebarView = (function() {
     Gallery.bind("refresh change", this.proxy(this.render));
   }
   SidebarView.prototype.loadJoinTables = function() {
-    GalleriesAlbum.records = Gallery.joinTableRecords;
-    return GalleriesAlbum;
+    return GalleriesAlbum.records = Gallery.joinTableRecords;
   };
-  SidebarView.prototype.filter = function() {
+  SidebarView.prototype.filter_ = function() {
     this.query = this.input.val();
     return this.render();
   };

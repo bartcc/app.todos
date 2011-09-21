@@ -52,31 +52,48 @@ AlbumsView = (function() {
     });
     Album.bind("refresh", this.proxy(this.loadJoinTables));
     Album.bind("change", this.proxy(this.change));
-    Album.bind("change", this.proxy(this.testbind));
     Spine.App.bind('save', this.proxy(this.save));
-    Spine.App.bind("change:gallery", this.proxy(this.change));
+    Spine.App.bind("change:gallery", this.proxy(this.galleryChange));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.create = this.edit;
     $(this.views).queue("fx");
   }
-  AlbumsView.prototype.testbind = function() {};
+  AlbumsView.prototype.testbind = function() {
+    return console.log('Album changed');
+  };
   AlbumsView.prototype.loadJoinTables = function() {
     return AlbumsImage.records = Album.joinTableRecords;
   };
   AlbumsView.prototype.change = function(item, mode) {
     if (!item.destroyed) {
+      console.log('Albums::change');
+      console.log(item.id);
       this.current = item;
       this.render();
       return typeof this[mode] === "function" ? this[mode](item) : void 0;
     }
   };
   AlbumsView.prototype.render = function() {
-    var items;
-    items = Album.filter();
+    var items, joinedItems, val;
+    joinedItems = GalleriesAlbum.filter(this.gallery.id);
+    items = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = joinedItems.length; _i < _len; _i++) {
+        val = joinedItems[_i];
+        _results.push(Album.find(val.album_id));
+      }
+      return _results;
+    })();
     this.list.render(items);
     this.editContent.html($("#editAlbumTemplate").tmpl(this.current));
     this.focusFirstInput(this.editEl);
     return this;
+  };
+  AlbumsView.prototype.galleryChange = function(item) {
+    console.log('Albums::galleryChange');
+    this.gallery = item;
+    return this.render();
   };
   AlbumsView.prototype.focusFirstInput = function(el) {
     if (!el) {

@@ -23,13 +23,12 @@ Spine.AlbumList = (function() {
   function AlbumList() {
     this.change = __bind(this.change, this);    AlbumList.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
-    Album.bind("change", this.proxy(this.change));
-    Gallery.bind("change", this.proxy(this.change));
   }
   AlbumList.prototype.template = function() {
     return arguments[0];
   };
   AlbumList.prototype.change = function(item, mode) {
+    console.log('AlbumList::change');
     if (item && !item.destroyed) {
       this.current = item;
       this.children().removeClass("active");
@@ -37,6 +36,7 @@ Spine.AlbumList = (function() {
     }
   };
   AlbumList.prototype.render = function(items) {
+    console.log('AlbumList::render');
     if (items) {
       this.items = items;
     }
@@ -48,6 +48,7 @@ Spine.AlbumList = (function() {
   AlbumList.prototype.click = function(e) {
     var item;
     item = $(e.target).item();
+    console.log('AlbumList::click');
     return this.change(item, 'show');
   };
   AlbumList.prototype.edit = function(e) {

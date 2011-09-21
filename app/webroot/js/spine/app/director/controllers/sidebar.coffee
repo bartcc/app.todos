@@ -29,9 +29,9 @@ class SidebarView extends Spine.Controller
 
   loadJoinTables: ->
     GalleriesAlbum.records = Gallery.joinTableRecords
-    GalleriesAlbum
+    #GalleriesAlbum
 
-  filter: ->
+  filter_: ->
     @query = @input.val();
     @render();
 

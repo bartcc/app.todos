@@ -39,35 +39,44 @@ class AlbumsView extends Spine.Controller
       template: @template
     Album.bind("refresh", @proxy @loadJoinTables)
     Album.bind("change", @proxy @change)
-    Album.bind("change", @proxy @testbind)
+    #Album.bind("change", @proxy @testbind)
     Spine.App.bind('save', @proxy @save)
-    Spine.App.bind("change:gallery", @proxy @change)
+    Spine.App.bind("change:gallery", @proxy @galleryChange)
     @bind("toggle:view", @proxy @toggleView)
     @create = @edit
 
     $(@views).queue("fx")
     
   testbind: ->
-    #console.log 'Album changed'
+    console.log 'Album changed'
 
   loadJoinTables: ->
     AlbumsImage.records = Album.joinTableRecords
 
   change: (item, mode) ->
     if(!item.destroyed)
+      console.log 'Albums::change'
+      console.log item.id
       @current = item
       @render()
       @[mode]?(item)
-  
 
   render: ->
-    items = Album.filter()#Spine.App.galleryList.current.id
+    #console.log 'Albums::render'
+    joinedItems = GalleriesAlbum.filter(@gallery.id)#Spine.App.galleryList.current.id
+    items = for val in joinedItems
+      Album.find(val.album_id)
+      
     @list.render items
-    #@showContent.html $("#albumTemplate").tmpl @current
     @editContent.html $("#editAlbumTemplate").tmpl @current
     @focusFirstInput(@editEl)
     @
   
+  galleryChange: (item) ->
+    console.log 'Albums::galleryChange'
+    @gallery = item
+    @render()
+
   focusFirstInput: (el) ->
     return unless el
     $('input', el).first().focus().select() if el.is(':visible')

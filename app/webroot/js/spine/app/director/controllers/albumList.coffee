@@ -11,13 +11,13 @@ class Spine.AlbumList extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-    Album.bind("change", @proxy @change)
-    Gallery.bind("change", @proxy @change)
+    #Album.bind("change", @proxy @change)
+    #Gallery.bind("change", @proxy @change)
     
   template: -> arguments[0]
   
   change: (item, mode) =>
-    #console.log 'AlbumList::change: '
+    console.log 'AlbumList::change'
     if item and !item.destroyed
       #console.log item
       @current = item
@@ -27,7 +27,7 @@ class Spine.AlbumList extends Spine.Controller
       #Spine.App.trigger('change', item, mode)
   
   render: (items) ->
-    #console.log 'AlbumList::render'
+    console.log 'AlbumList::render'
     @items = items if items
     #console.log @items
     @html @template(@items)
@@ -41,7 +41,7 @@ class Spine.AlbumList extends Spine.Controller
     
   click: (e) ->
     item = $(e.target).item()
-    #console.log 'AlbumList::click'
+    console.log 'AlbumList::click'
     #console.log item
     @change item, 'show'
     

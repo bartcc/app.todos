@@ -21,3 +21,16 @@ class Gallery extends Spine.Model
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
+
+  query_: =>
+    console.log 'Galleries::query'
+    albums = window[@constructor.joinTables].select (record) =>
+      console.log @.id + ' / ' + record.gallery_id
+      record.gallery_id is @.id
+    console.log albums
+    albums
+
+  select_: (query) ->
+    window[@constructor.joinTables].select (record) =>
+      console.log @.id + ' / ' + record.gallery_id
+      record.gallery_id is @.id

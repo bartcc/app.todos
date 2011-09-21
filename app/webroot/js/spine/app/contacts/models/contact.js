@@ -33,7 +33,7 @@ Contact = (function() {
       }
     },
     fromJSON: function(objects) {
-      return this.__super__.constructor.fromJSON.call(this, objects.json);
+      return this.__super__.constructor.fromJSON.call(this, objects);
     }
   });
   Contact.include({

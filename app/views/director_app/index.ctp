@@ -18,7 +18,7 @@
 
     <div class="vdivide draghandle"></div>
   </div>
-  <div id="galleries" class="vbox flex">
+  <div id="albums" class="vbox flex">
     <div class="show vbox flex">
       <ul class="options hbox">
         <li class="view showEditor">Editor</li>
@@ -26,10 +26,12 @@
         <li class="view showUpload">Upload Photo</li>
         <li class="view showGrid">Thumb Grid</li>
         <li class="splitter flex"></li>
-        <li class="optEdit">Edit album</li>
-        <li class="optEmail">Email album</li>
+        <li class="optEdit">Edit Gallery</li>
+        <li class="optEmail">Email Gallery</li>
       </ul>
-      <div class="content vbox flex autoflow"></div>
+      <div class="content vbox flex autoflow">
+        <div class="items"></div>
+      </div>
       <div id="views-wrapper" class="hbox autoflow">
         <div id="views" class="vbox flex hdraggable">
           <div class="hdivide draghandle"></div>
@@ -37,7 +39,9 @@
             <div class="editEditor"></div>
           </div>
           <div id="album" class="view flex autoflow" style="">
-            <div class="editAlbum">Album</div>
+            <div class="editAlbum">
+              <div class="items">Albums</div>
+            </div>
           </div>
           <div id="upload" class="view flex autoflow" style="">
             <div>Upload</div>
@@ -51,8 +55,8 @@
     <div class="edit vbox flex">
       <ul class="options hbox">
         <li class="splitter flex"></li>
-        <li class="optSave default">Save album</li>
-        <li class="optDestroy">Delete album</li>
+        <li class="optSave default">Save Gallery</li>
+        <li class="optDestroy">Delete Gallery</li>
       </ul>
       <div class="content vbox flex autoflow"></div>
     </div>
@@ -68,6 +72,18 @@
     <span class="name">${name}</span>
     {{else}}
     <span class="name empty">No Name</span>
+    {{/if}}
+    <span class="cta">&gt;</span>
+  </li>
+</script>
+
+<script type="text/x-jquery-tmpl" id="albumsTemplate">
+  <li class="item" >
+    <div style="font-size: 0.6em">ID: ${id}</div
+    {{if title}}
+    <span class="name">${title}</span>
+    {{else}}
+    <span class="name empty">No Title</span>
     {{/if}}
     <span class="cta">&gt;</span>
   </li>
@@ -129,4 +145,4 @@
     <textarea name="description">${description}</textarea>
   </label>
   <input type="hidden" name="id" value="${id}" autofocus>
-</script>  
+</script>

@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Sidebar extends Spine.Controller
+class SidebarView extends Spine.Controller
 
   elements:
     ".items"  : "items"
@@ -16,22 +16,29 @@ class Sidebar extends Spine.Controller
 
   #Render template
   template: (items) ->
-    return($("#galleriesTemplate").tmpl(items))
+    $("#galleriesTemplate").tmpl(items)
 
   constructor: ->
     super
-    Spine.App.list = @list = new Spine.List
+    Spine.App.galleryList = @list = new Spine.GalleryList
       el: @items,
       template: @template
-    Gallerie.bind "refresh change", @proxy @render
+
+    Gallery.bind "refresh", @proxy @loadJoinTables
+    Gallery.bind "refresh change", @proxy @render
+
+  loadJoinTables: ->
+    GalleriesAlbum.records = Gallery.joinTableRecords
+    GalleriesAlbum
 
   filter: ->
     @query = @input.val();
     @render();
 
   render: ->
-    items = Gallerie.filter @query
-    items = items.sort Gallerie.nameSort
+    items = Gallery.filter @query
+    items = items.sort Gallery.nameSort
+    #console.log items
     @list.render items
 
   newAttributes: ->
@@ -41,8 +48,8 @@ class Sidebar extends Spine.Controller
   #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
-    album = new Gallerie @newAttributes()
-    album.save()
+    gallery = new Gallery @newAttributes()
+    gallery.save()
   
   toggleDraghandle: ->
     width = =>
@@ -58,4 +65,4 @@ class Sidebar extends Spine.Controller
       width: width()
       400
 
-module?.exports = Sidebar
+module?.exports = SidebarView

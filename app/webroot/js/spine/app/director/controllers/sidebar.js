@@ -1,4 +1,4 @@
-var $, Sidebar;
+var $, SidebarView;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -13,52 +13,57 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-Sidebar = (function() {
-  __extends(Sidebar, Spine.Controller);
-  Sidebar.prototype.elements = {
+SidebarView = (function() {
+  __extends(SidebarView, Spine.Controller);
+  SidebarView.prototype.elements = {
     ".items": "items",
     "input": "input"
   };
-  Sidebar.prototype.events = {
+  SidebarView.prototype.events = {
     "click button": "create",
     "keyup input": "filter",
     "click input": "filter",
     "dblclick .draghandle": 'toggleDraghandle'
   };
-  Sidebar.prototype.template = function(items) {
+  SidebarView.prototype.template = function(items) {
     return $("#galleriesTemplate").tmpl(items);
   };
-  function Sidebar() {
-    Sidebar.__super__.constructor.apply(this, arguments);
-    Spine.App.list = this.list = new Spine.List({
+  function SidebarView() {
+    SidebarView.__super__.constructor.apply(this, arguments);
+    Spine.App.galleryList = this.list = new Spine.GalleryList({
       el: this.items,
       template: this.template
     });
-    Gallerie.bind("refresh change", this.proxy(this.render));
+    Gallery.bind("refresh", this.proxy(this.loadJoinTables));
+    Gallery.bind("refresh change", this.proxy(this.render));
   }
-  Sidebar.prototype.filter = function() {
+  SidebarView.prototype.loadJoinTables = function() {
+    GalleriesAlbum.records = Gallery.joinTableRecords;
+    return GalleriesAlbum;
+  };
+  SidebarView.prototype.filter = function() {
     this.query = this.input.val();
     return this.render();
   };
-  Sidebar.prototype.render = function() {
+  SidebarView.prototype.render = function() {
     var items;
-    items = Gallerie.filter(this.query);
-    items = items.sort(Gallerie.nameSort);
+    items = Gallery.filter(this.query);
+    items = items.sort(Gallery.nameSort);
     return this.list.render(items);
   };
-  Sidebar.prototype.newAttributes = function() {
+  SidebarView.prototype.newAttributes = function() {
     return {
       name: '',
       author: ''
     };
   };
-  Sidebar.prototype.create = function(e) {
-    var album;
+  SidebarView.prototype.create = function(e) {
+    var gallery;
     e.preventDefault();
-    album = new Gallerie(this.newAttributes());
-    return album.save();
+    gallery = new Gallery(this.newAttributes());
+    return gallery.save();
   };
-  Sidebar.prototype.toggleDraghandle = function() {
+  SidebarView.prototype.toggleDraghandle = function() {
     var width;
     width = __bind(function() {
       var max, min;
@@ -75,8 +80,8 @@ Sidebar = (function() {
       width: width()
     }, 400);
   };
-  return Sidebar;
+  return SidebarView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Sidebar;
+  module.exports = SidebarView;
 }

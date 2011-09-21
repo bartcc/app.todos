@@ -1,4 +1,4 @@
-var $, Editor;
+var $, EditorView;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -13,22 +13,22 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-Editor = (function() {
-  __extends(Editor, Spine.Controller);
-  Editor.prototype.elements = {
+EditorView = (function() {
+  __extends(EditorView, Spine.Controller);
+  EditorView.prototype.elements = {
     '.editEditor': 'editEl'
   };
-  Editor.prototype.events = {
+  EditorView.prototype.events = {
     "keydown": "save"
   };
-  Editor.prototype.template = function(item) {
+  EditorView.prototype.template = function(item) {
     return $('#editAlbumTemplate').tmpl(item);
   };
-  function Editor() {
-    Editor.__super__.constructor.apply(this, arguments);
+  function EditorView() {
+    EditorView.__super__.constructor.apply(this, arguments);
     Spine.App.bind('change', this.proxy(this.change));
   }
-  Editor.prototype.render = function() {
+  EditorView.prototype.render = function() {
     var _base;
     if (this.current && (typeof (_base = this.current).reload === "function" ? _base.reload() : void 0)) {
       this.current.reload();
@@ -36,18 +36,18 @@ Editor = (function() {
       return this;
     }
   };
-  Editor.prototype.change = function(item) {
+  EditorView.prototype.change = function(item) {
     this.current = item;
     return this.render();
   };
-  Editor.prototype.save = function(e) {
+  EditorView.prototype.save = function(e) {
     if (e.keyCode !== 13) {
       return;
     }
     return Spine.App.trigger('save', this.editEl);
   };
-  return Editor;
+  return EditorView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Editor;
+  module.exports = EditorView;
 }

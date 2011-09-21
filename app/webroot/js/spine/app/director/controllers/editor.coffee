@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Editor extends Spine.Controller
+class EditorView extends Spine.Controller
   
   elements:
     '.editEditor'  : 'editEl'
@@ -30,4 +30,4 @@ class Editor extends Spine.Controller
     return if(e.keyCode != 13)
     Spine.App.trigger('save', @editEl)
 
-module?.exports = Editor
+module?.exports = EditorView

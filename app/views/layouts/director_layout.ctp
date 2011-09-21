@@ -46,18 +46,24 @@
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/ajax');
     echo $this->Html->script('spine/lib/filter');
+    echo $this->Html->script('spine/lib/extender');
     echo $this->Html->script('spine/lib/manager');
     echo $this->Html->script('spine/lib/tmpl');
 
     echo $this->Html->script('spine/app/director/plugins/manager');
+    echo $this->Html->script('spine/app/director/models/galleries_albums');
+    echo $this->Html->script('spine/app/director/models/albums_images');
+    echo $this->Html->script('spine/app/director/models/image');
+    echo $this->Html->script('spine/app/director/models/album');
     echo $this->Html->script('spine/app/director/models/gallerie');
-    echo $this->Html->script('spine/app/director/controllers/list');
+    echo $this->Html->script('spine/app/director/controllers/gallerieList');
+    echo $this->Html->script('spine/app/director/controllers/albumList');
     echo $this->Html->script('spine/app/director/controllers/sidebar');
     echo $this->Html->script('spine/app/director/controllers/editor');
     echo $this->Html->script('spine/app/director/controllers/album');
     echo $this->Html->script('spine/app/director/controllers/upload');
     echo $this->Html->script('spine/app/director/controllers/grid');
-    echo $this->Html->script('spine/app/director/controllers/galleries');
+    echo $this->Html->script('spine/app/director/controllers/albums');
     echo $this->Html->script('spine/app/director/application');
     ?>
 
@@ -65,6 +71,17 @@
     echo $html->scriptStart();
     ?>
     var base_url = '<?php echo $html->url('/'); ?>';
+    
+    $(function() {
+      var galleries = <?php echo $js->object($galleries); ?>;
+      var albums = <?php echo $js->object($albums); ?>;
+      var images = <?php echo $js->object($images); ?>;
+      //var galleries_album = <?php echo $js->object($galleries_album); ?>;
+      //var albums_image = <?php echo $js->object($albums_image); ?>;
+      Gallery.refresh(galleries);
+      Album.refresh(albums);
+      Image.refresh(images);
+    })
     <?php
     echo $html->scriptEnd();
 

@@ -18,7 +18,7 @@ class Contact extends Spine.Model
       return if aa == bb then 0 else if aa < bb then -1 else 1
       
     fromJSON: (objects) ->
-      @__super__.constructor.fromJSON.call @, objects.json
+      @__super__.constructor.fromJSON.call @, objects
 
   @include
     selectAttributes: ->

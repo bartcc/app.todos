@@ -108,7 +108,9 @@ pre {
   margin: 0;
   font-family: serif, Helvetica, Arial, "MS Trebuchet", sans-serif;
 }
-
+ul, li {
+  list-style: none;
+}
 button {
   border: 1px solid #bbbbbb;
   font-weight: bold;
@@ -330,7 +332,6 @@ textarea {
 }
 
 #sidebar ul {
-  list-style: none;
   margin: 0;
   padding: 0;
 }
@@ -433,8 +434,10 @@ textarea {
 #sidebar .empty {
   font-style: italic;
 }
-
-#galleries .options {
+#albums .items li {
+  
+}
+#albums .options {
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -463,14 +466,14 @@ textarea {
   border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.options li:active, #galleries .options li.active {
+.options li:active, #albums .options li.active {
   background: #FFB399;
   -moz-box-shadow: inset 0 0 10px #9c9c9c;
   -webkit-box-shadow: inset 0 0 10px #9c9c9c;
   box-shadow: inset 0 0 10px #9c9c9c;
 }
 
-.options li.default, #galleries .options li.active, #galleries .options li.default:active {
+.options li.default, #albums .options li.active, #albums .options li.default:active {
   color: #ffffff;
   text-shadow: 0 -1px 1px #FFB399;
   background: #882739;

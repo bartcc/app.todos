@@ -12,8 +12,10 @@ class GalleriesController extends AppController {
   }
   
   function index() {
-    $this->Gallery->recursive = 0;
+    $this->Gallery->recursive = 1;
     $json = $this->Gallery->find('all', array('fields' => array('id', 'name', 'author', 'description')));
+    //$this->log($json, LOG_DEBUG);
+    //$this->log($json, LOG_DEBUG);
     $this->set('json', $json);
     $this->render(SIMPLE_JSON, 'ajax');
   }
@@ -29,7 +31,7 @@ class GalleriesController extends AppController {
 
   function add() {
     // validate the record to make sure we have all the data
-    if (empty($this->data['Gallery']['name'])) {
+    if (empty($this->data['Gallery']['id'])) {
       // we got bad data so set up an error response and exit
       header('HTTP/1.1 400 Bad Request');
       header('X-Reason: received empty gallery name');

@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Galleries extends Spine.Controller
+class AlbumsView extends Spine.Controller
 
   elements:
     ".show"               : "showEl"
@@ -14,6 +14,7 @@ class Galleries extends Spine.Controller
     '.showAlbum'          : 'albumBtn'
     '.showUpload'         : 'uploadBtn'
     '.showGrid'           : 'gridBtn'
+    '.items'              : 'items'
     
   events:
     "click .optEdit"      : "edit"
@@ -27,25 +28,42 @@ class Galleries extends Spine.Controller
     "keydown"             : "saveOnEnter"
     'dblclick .draghandle': 'toggleDraghandle'
 
+  template: (items) ->
+    $("#albumsTemplate").tmpl items
+
   constructor: ->
     super
     @editEl.hide()
-    Gallerie.bind("change", @proxy @change)
+    @list = new Spine.AlbumList
+      el: @items,
+      template: @template
+    Album.bind("refresh", @proxy @loadJoinTables)
+    Album.bind("change", @proxy @change)
+    Album.bind("change", @proxy @testbind)
     Spine.App.bind('save', @proxy @save)
-    Spine.App.bind("change", @proxy @change)
+    Spine.App.bind("change:gallery", @proxy @change)
     @bind("toggle:view", @proxy @toggleView)
     @create = @edit
 
     $(@views).queue("fx")
     
+  testbind: ->
+    #console.log 'Album changed'
+
+  loadJoinTables: ->
+    AlbumsImage.records = Album.joinTableRecords
+
   change: (item, mode) ->
     if(!item.destroyed)
       @current = item
       @render()
       @[mode]?(item)
+  
 
   render: ->
-    @showContent.html $("#albumTemplate").tmpl @current
+    items = Album.filter()#Spine.App.galleryList.current.id
+    @list.render items
+    #@showContent.html $("#albumTemplate").tmpl @current
     @editContent.html $("#editAlbumTemplate").tmpl @current
     @focusFirstInput(@editEl)
     @
@@ -131,4 +149,4 @@ class Galleries extends Spine.Controller
     return if(e.keyCode != 13)
     Spine.App.trigger('save', @editEl)
 
-module?.exports = Galleries
+module?.exports = AlbumsView

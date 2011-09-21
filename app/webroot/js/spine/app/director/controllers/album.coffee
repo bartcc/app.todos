@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Album extends Spine.Controller
+class AlbumView extends Spine.Controller
   
   events:
     "click .item": "click"
@@ -10,4 +10,7 @@ class Album extends Spine.Controller
     super
     @bind("change", @change)
 
-module?.exports = Album
+  click: ->
+    console.log 'click'
+
+module?.exports = AlbumView

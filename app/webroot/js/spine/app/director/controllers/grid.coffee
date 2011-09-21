@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Grid extends Spine.Controller
+class GridView extends Spine.Controller
   events:
     "click .item": "click"
     
@@ -9,4 +9,4 @@ class Grid extends Spine.Controller
     super
     @bind("change", @change)
 
-module?.exports = Grid
+module?.exports = GridView

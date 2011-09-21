@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Upload extends Spine.Controller
+class UploadView extends Spine.Controller
   events:
     "click .item": "click"
     
@@ -9,4 +9,4 @@ class Upload extends Spine.Controller
     super
     @bind("change", @change)
     
-module?.exports = Upload
+module?.exports = UploadView

@@ -1,4 +1,4 @@
-var $, Grid;
+var $, GridView;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -13,17 +13,17 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-Grid = (function() {
-  __extends(Grid, Spine.Controller);
-  Grid.prototype.events = {
+GridView = (function() {
+  __extends(GridView, Spine.Controller);
+  GridView.prototype.events = {
     "click .item": "click"
   };
-  function Grid() {
-    Grid.__super__.constructor.apply(this, arguments);
+  function GridView() {
+    GridView.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
   }
-  return Grid;
+  return GridView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Grid;
+  module.exports = GridView;
 }

@@ -38,9 +38,9 @@ class Gallery extends AppModel {
   );
 
   function afterFind($results) {
-
+    
     foreach ($results as $key => $val) {
-      $results[$key] = $val[$this->alias];
+      //$results[$key] = $val[$this->alias];
     }
     return $results;
   }

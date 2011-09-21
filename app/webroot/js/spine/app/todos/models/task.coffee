@@ -8,7 +8,7 @@ class Task extends Spine.Model
     done: false
   
   @fromJSON: (object) ->
-    @__super__.constructor.fromJSON.call @, object.json
+    @__super__.constructor.fromJSON.call @, object
   
   # Return all active tasks.
   @active: ->

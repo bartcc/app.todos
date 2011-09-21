@@ -11,7 +11,7 @@ App = (function() {
   __extends(App, Spine.Controller);
   App.prototype.elements = {
     '#sidebar-wrapper': 'sidebarEl',
-    '#galleries': 'galleriesEl',
+    '#albums': 'albumsEl',
     '#editor': 'editorEl',
     '#album': 'albumEl',
     '#upload': 'uploadEl',
@@ -21,23 +21,23 @@ App = (function() {
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
-    this.sidebar = new Sidebar({
+    this.sidebar = new SidebarView({
       el: this.sidebarEl
     });
-    this.editor = new Editor({
+    this.editor = new EditorView({
       el: this.editorEl
     });
-    this.album = new Album({
+    this.album = new AlbumView({
       el: this.albumEl
     });
-    this.upload = new Upload({
+    this.upload = new UploadView({
       el: this.uploadEl
     });
-    this.grid = new Grid({
+    this.grid = new GridView({
       el: this.gridEl
     });
-    this.galleries = new Galleries({
-      el: this.galleriesEl
+    this.albums = new AlbumsView({
+      el: this.albumsEl
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
@@ -54,17 +54,17 @@ App = (function() {
     this.hmanager = new Spine.Manager(this.editor, this.upload, this.album, this.grid);
     this.hmanager.initDrag(this.hDrag, {
       initSize: this.proxy(function() {
-        return $(this.galleries.el).height() / 2;
+        return $(this.albums.el).height() / 2;
       }),
       disabled: false,
       axis: 'y',
       min: 30,
       max: this.proxy(function() {
-        return this.galleries.el.height() * 2 / 3;
+        return this.albums.el.height() * 2 / 3;
       }),
       goSleep: this.proxy(function() {
         var _ref;
-        return (_ref = this.galleries.activeControl) != null ? _ref.click() : void 0;
+        return (_ref = this.albums.activeControl) != null ? _ref.click() : void 0;
       })
     });
   }
@@ -74,6 +74,5 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  App.galleries.editorBtn.click();
-  return Gallerie.fetch();
+  return App.albums.editorBtn.click();
 });

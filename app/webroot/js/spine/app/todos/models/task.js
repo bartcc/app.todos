@@ -19,7 +19,7 @@ Task = (function() {
     done: false
   };
   Task.fromJSON = function(object) {
-    return this.__super__.constructor.fromJSON.call(this, object.json);
+    return this.__super__.constructor.fromJSON.call(this, object);
   };
   Task.active = function() {
     return this.select(function(item) {

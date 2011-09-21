@@ -78,13 +78,13 @@ jQuery(function() {
         this.model.save(this.newAttributes(), {
           success: function(a, responseText) {
             Todos.Views.App.Sidebar.trigger('fetch', 'server');
-            that.trigger('flash', responseText.json.flash, true);
+            that.trigger('flash', responseText.flash, true);
             that.username.val('');
             that.password.val('');
             that.close();
           },
           error: function(a, xhr) {
-            that.trigger('flash', JSON.parse(xhr.responseText).json.flash, true);
+            that.trigger('flash', JSON.parse(xhr.responseText).flash, true);
             that.username.focus();
             that.password.val('');
             that.validateLogin();

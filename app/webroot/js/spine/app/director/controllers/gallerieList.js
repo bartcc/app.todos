@@ -13,30 +13,30 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-Spine.List = (function() {
-  __extends(List, Spine.Controller);
-  List.prototype.events = {
+Spine.GalleryList = (function() {
+  __extends(GalleryList, Spine.Controller);
+  GalleryList.prototype.events = {
     "click .item": "click",
     "dblclick .item": "edit"
   };
-  List.prototype.selectFirst = true;
-  function List() {
-    this.change = __bind(this.change, this);    List.__super__.constructor.apply(this, arguments);
+  GalleryList.prototype.selectFirst = true;
+  function GalleryList() {
+    this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
-    Gallerie.bind("change", this.proxy(this.change));
+    Gallery.bind("change", this.proxy(this.change));
   }
-  List.prototype.template = function() {
+  GalleryList.prototype.template = function() {
     return arguments[0];
   };
-  List.prototype.change = function(item, mode) {
+  GalleryList.prototype.change = function(item, mode) {
     if (item && !item.destroyed) {
       this.current = item;
       this.children().removeClass("active");
       this.children().forItem(this.current).addClass("active");
-      return Spine.App.trigger('change', item, mode);
+      return Spine.App.trigger('change:gallery', item, mode);
     }
   };
-  List.prototype.render = function(items) {
+  GalleryList.prototype.render = function(items) {
     if (items) {
       this.items = items;
     }
@@ -48,21 +48,21 @@ Spine.List = (function() {
       }
     }
   };
-  List.prototype.children = function(sel) {
+  GalleryList.prototype.children = function(sel) {
     return this.el.children(sel);
   };
-  List.prototype.click = function(e) {
+  GalleryList.prototype.click = function(e) {
     var item;
     item = $(e.target).item();
     return this.change(item, 'show');
   };
-  List.prototype.edit = function(e) {
+  GalleryList.prototype.edit = function(e) {
     var item;
     item = $(e.target).item();
     return this.change(item, 'edit');
   };
-  return List;
+  return GalleryList;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Spine.List;
+  module.exports = Spine.GalleryList;
 }

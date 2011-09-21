@@ -23,7 +23,7 @@ Model.Extender =
           res = @introspectJSON arr, key for key in keys
           for item in res
             @joinTableRecords[item.id] = item
-          console.log @joinTableRecords
+          #console.log @joinTableRecords
 
       fromArray: (arr, key) ->
         res = []

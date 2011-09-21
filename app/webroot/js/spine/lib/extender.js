@@ -23,7 +23,7 @@ Model.Extender = {
         return json;
       },
       createJoinTables: function(arr) {
-        var item, key, keys, res, _i, _j, _k, _len, _len2, _len3, _ref;
+        var item, key, keys, res, _i, _j, _k, _len, _len2, _len3, _ref, _results;
         if (!this.isArray(arr)) {
           return;
         }
@@ -38,11 +38,12 @@ Model.Extender = {
             key = keys[_j];
             res = this.introspectJSON(arr, key);
           }
+          _results = [];
           for (_k = 0, _len3 = res.length; _k < _len3; _k++) {
             item = res[_k];
-            this.joinTableRecords[item.id] = item;
+            _results.push(this.joinTableRecords[item.id] = item);
           }
-          return console.log(this.joinTableRecords);
+          return _results;
         }
       },
       fromArray: function(arr, key) {

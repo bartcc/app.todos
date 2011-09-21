@@ -12,3 +12,4 @@ nbproject
 /app/tmp/cache/persistent/*
 /app/config/database.php
 
+/app/controllers/_temp/

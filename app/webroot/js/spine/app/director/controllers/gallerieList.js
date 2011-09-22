@@ -19,6 +19,9 @@ Spine.GalleryList = (function() {
     "click .item": "click",
     "dblclick .item": "edit"
   };
+  GalleryList.prototype.elements = {
+    '.item': 'item'
+  };
   GalleryList.prototype.selectFirst = true;
   function GalleryList() {
     this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
@@ -28,16 +31,23 @@ Spine.GalleryList = (function() {
   GalleryList.prototype.template = function() {
     return arguments[0];
   };
-  GalleryList.prototype.change = function(item, mode) {
+  GalleryList.prototype.change = function(item, mode, shiftKey) {
     console.log('GalleryList::change');
-    if (item && !item.destroyed) {
-      this.current = item;
+    if (item) {
       this.children().removeClass("active");
-      this.children().forItem(this.current).addClass("active");
-      return Spine.App.trigger('change:gallery', item, mode);
+      if (!shiftKey) {
+        this.current = item;
+        this.children().forItem(this.current).addClass("active");
+      }
+      if (!this.children(".active").length) {
+        this.current = null;
+      }
+      Spine.App.trigger('change:gallery', this.current, mode);
+      return Spine.App.trigger('change:album', null);
     }
   };
   GalleryList.prototype.render = function(items) {
+    console.log('GalleryList::render');
     if (items) {
       this.items = items;
     }
@@ -54,13 +64,23 @@ Spine.GalleryList = (function() {
   };
   GalleryList.prototype.click = function(e) {
     var item;
+    console.log('GalleryList::click');
     item = $(e.target).item();
-    return this.change(item, 'show');
+    this.change(item, 'show', e.shiftKey);
+    return false;
   };
   GalleryList.prototype.edit = function(e) {
     var item;
+    console.log('GalleryList::edit');
     item = $(e.target).item();
     return this.change(item, 'edit');
+  };
+  GalleryList.prototype.stopEvent = function(e) {
+    if (e.stopPropagation) {
+      return e.stopPropagation();
+    } else {
+      return e.cancelBubble = true;
+    }
   };
   return GalleryList;
 })();

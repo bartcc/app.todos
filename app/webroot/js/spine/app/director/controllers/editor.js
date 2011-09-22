@@ -22,19 +22,23 @@ EditorView = (function() {
     "keydown": "save"
   };
   EditorView.prototype.template = function(item) {
-    return $('#editAlbumTemplate').tmpl(item);
+    return $('#editGalleryTemplate').tmpl(item);
   };
   function EditorView() {
     EditorView.__super__.constructor.apply(this, arguments);
-    Spine.App.bind('change', this.proxy(this.change));
+    Spine.App.bind('change:gallery', this.proxy(this.change));
   }
   EditorView.prototype.render = function() {
     var _base;
     if (this.current && (typeof (_base = this.current).reload === "function" ? _base.reload() : void 0)) {
       this.current.reload();
       this.editEl.html(this.template(this.current));
-      return this;
+    } else {
+      this.editEl.html($("#noSelectionTemplate").tmpl({
+        type: 'a gallery!'
+      }));
     }
+    return this;
   };
   EditorView.prototype.change = function(item) {
     this.current = item;
@@ -44,7 +48,7 @@ EditorView = (function() {
     if (e.keyCode !== 13) {
       return;
     }
-    return Spine.App.trigger('save', this.editEl);
+    return Spine.App.trigger('save:gallery', this.editEl);
   };
   return EditorView;
 })();

@@ -51,6 +51,7 @@
     echo $this->Html->script('spine/lib/tmpl');
 
     echo $this->Html->script('spine/app/director/plugins/manager');
+    echo $this->Html->script('spine/app/director/plugins/controller');
     echo $this->Html->script('spine/app/director/models/galleries_albums');
     echo $this->Html->script('spine/app/director/models/albums_images');
     echo $this->Html->script('spine/app/director/models/image');
@@ -69,6 +70,7 @@
 
     <?php
     echo $html->scriptStart();
+    //$this->log($js->object($albums), LOG_DEBUG) ;
     ?>
     var base_url = '<?php echo $html->url('/'); ?>';
     
@@ -78,9 +80,9 @@
       var images = <?php echo $js->object($images); ?>;
       //var galleries_album = <?php echo $js->object($galleries_album); ?>;
       //var albums_image = <?php echo $js->object($albums_image); ?>;
-      Gallery.refresh(galleries);
-      Album.refresh(albums);
       Image.refresh(images);
+      Album.refresh(albums);
+      Gallery.refresh(galleries);
     })
     <?php
     echo $html->scriptEnd();

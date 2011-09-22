@@ -26,7 +26,9 @@ AlbumsView = (function() {
     '.showAlbum': 'albumBtn',
     '.showUpload': 'uploadBtn',
     '.showGrid': 'gridBtn',
-    '.items': 'items'
+    '.content .items': 'items',
+    '.content .editAlbum .item': 'albumEditor',
+    '.header': 'header'
   };
   AlbumsView.prototype.events = {
     "click .optEdit": "edit",
@@ -48,34 +50,35 @@ AlbumsView = (function() {
     this.editEl.hide();
     this.list = new Spine.AlbumList({
       el: this.items,
-      template: this.template
+      template: this.template,
+      editor: this.albumEditor
     });
-    Album.bind("refresh", this.proxy(this.loadJoinTables));
-    Album.bind("change", this.proxy(this.change));
-    Spine.App.bind('save', this.proxy(this.save));
+    Album.bind("change", this.proxy(this.render));
+    Spine.App.bind('save:gallery', this.proxy(this.save));
     Spine.App.bind("change:gallery", this.proxy(this.galleryChange));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.create = this.edit;
     $(this.views).queue("fx");
   }
-  AlbumsView.prototype.testbind = function() {
-    return console.log('Album changed');
-  };
   AlbumsView.prototype.loadJoinTables = function() {
     return AlbumsImage.records = Album.joinTableRecords;
   };
   AlbumsView.prototype.change = function(item, mode) {
-    if (!item.destroyed) {
-      console.log('Albums::change');
-      console.log(item.id);
-      this.current = item;
-      this.render();
-      return typeof this[mode] === "function" ? this[mode](item) : void 0;
-    }
+    console.log('Albums::change');
+    this.current = item;
+    console;
+    this.render();
+    return typeof this[mode] === "function" ? this[mode](item) : void 0;
+  };
+  AlbumsView.prototype.galleryChange = function(item, mode) {
+    console.log('Albums::galleryChange');
+    this.current = item;
+    return this.change(item, mode);
   };
   AlbumsView.prototype.render = function() {
-    var items, joinedItems, val;
-    joinedItems = GalleriesAlbum.filter(this.gallery.id);
+    var items, joinedItems, val, _ref;
+    console.log('Albums::render');
+    joinedItems = GalleriesAlbum.filter(((_ref = this.current) != null ? _ref.id : void 0) || null);
     items = (function() {
       var _i, _len, _results;
       _results = [];
@@ -85,17 +88,15 @@ AlbumsView = (function() {
       }
       return _results;
     })();
+    this.header.html('<h2>Albums for Gallery ' + this.current.name + '</h2>');
     this.list.render(items);
-    this.editContent.html($("#editAlbumTemplate").tmpl(this.current));
-    this.focusFirstInput(this.editEl);
+    if (this.current) {
+      this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
+      this.focusFirstInput(this.editEl);
+    }
     return this;
   };
-  AlbumsView.prototype.galleryChange = function(item) {
-    console.log('Albums::galleryChange');
-    this.gallery = item;
-    return this.render();
-  };
-  AlbumsView.prototype.focusFirstInput = function(el) {
+  AlbumsView.prototype.focusFirstInput_ = function(el) {
     if (!el) {
       return;
     }
@@ -196,7 +197,7 @@ AlbumsView = (function() {
     if (e.keyCode !== 13) {
       return;
     }
-    return Spine.App.trigger('save', this.editEl);
+    return Spine.App.trigger('save:gallery', this.editEl);
   };
   return AlbumsView;
 })();

@@ -5,10 +5,13 @@ Model  = Spine.Model
 Model.Extender =
 
   extended: ->
+
     extend =
+
       joinTableRecords: {}
+
       fromJSON: (objects) ->
-        @createJoinTables objects
+        @joinTableRecords = @createJoinTables objects
         json = @__super__.constructor.fromJSON.call @, objects
         key = @className
         json = @fromArray(json, key) if @isArray(json) #test for READ or PUT !
@@ -16,14 +19,16 @@ Model.Extender =
         
       createJoinTables: (arr) ->
         return unless @isArray(arr)
+        table = {}
+        console.log @className
         if @joinTables and @joinTables.length
           keys = []
           keys.push key for key in @joinTables
 
           res = @introspectJSON arr, key for key in keys
-          for item in res
-            @joinTableRecords[item.id] = item
-          #console.log @joinTableRecords
+          
+          table[item.id] = item for item in res
+        table
 
       fromArray: (arr, key) ->
         res = []

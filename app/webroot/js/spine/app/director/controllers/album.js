@@ -1,5 +1,5 @@
 var $, AlbumView;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -15,13 +15,46 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 $ = Spine.$;
 AlbumView = (function() {
   __extends(AlbumView, Spine.Controller);
+  AlbumView.prototype.elements = {
+    '.item': 'item',
+    '.editAlbum': 'editEl'
+  };
   AlbumView.prototype.events = {
-    "click .item": "click"
+    "click .item": "click",
+    'keydown': 'saveOnEnter'
+  };
+  AlbumView.prototype.template = function(item) {
+    return $('#editAlbumTemplate').tmpl(item);
   };
   function AlbumView() {
-    AlbumView.__super__.constructor.apply(this, arguments);
-    this.bind("change", this.change);
+    this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumView.__super__.constructor.apply(this, arguments);
+    Spine.App.bind('change:album', this.proxy(this.change));
   }
+  AlbumView.prototype.change = function(item) {
+    this.current = item;
+    return this.render();
+  };
+  AlbumView.prototype.render = function() {
+    if (this.current) {
+      this.item.html(this.template(this.current));
+      return this.focusFirstInput(this.editEl);
+    } else {
+      return this.item.html($("#noSelectionTemplate").tmpl({
+        type: 'an Album!'
+      }));
+    }
+  };
+  AlbumView.prototype.save = function(el) {
+    var atts;
+    atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
+    return this.current.updateChangedAttributes(atts);
+  };
+  AlbumView.prototype.saveOnEnter = function(e) {
+    if (e.keyCode !== 13) {
+      return;
+    }
+    return this.save(this.editEl);
+  };
   AlbumView.prototype.click = function() {
     return console.log('click');
   };

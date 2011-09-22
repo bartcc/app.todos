@@ -18,21 +18,10 @@ class Album extends Spine.Model
 
   @joinTables: ['AlbumsImage']
 
-  @parentJoinTable: 'GalleriesAlbum'
-
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
-  query_: =>
-    console.log 'Album::query'
-    albums = window[@constructor.joinTables].select (record) =>
-      console.log @.id + ' / ' + record.gallery_id
-      record.gallery_id is @.id
-    console.log albums
-    albums
-
   select: (items) ->
-    #@constructor.exists(item.id) for item in items
     items.album_id is @.id

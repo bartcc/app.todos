@@ -12,7 +12,7 @@
       <ul class="items vbox flex autoflow"></ul>
 
       <footer>
-        <button>New Album</button>
+        <button>New Gallery</button>
       </footer>
     </div>
 
@@ -21,15 +21,17 @@
   <div id="albums" class="vbox flex">
     <div class="show vbox flex">
       <ul class="options hbox">
-        <li class="view showEditor">Editor</li>
+        <li class="view nobutton">Editors:</li>
+        <li class="view showEditor">Gallery</li>
         <li class="view showAlbum">Album</li>
         <li class="view showUpload">Upload Photo</li>
         <li class="view showGrid">Thumb Grid</li>
-        <li class="splitter flex"></li>
+        <li class="splitter nobutton flex"></li>
         <li class="optEdit">Edit Gallery</li>
         <li class="optEmail">Email Gallery</li>
       </ul>
       <div class="content vbox flex autoflow">
+        <div class="header"></div>
         <div class="items"></div>
       </div>
       <div id="views-wrapper" class="hbox autoflow">
@@ -40,7 +42,7 @@
           </div>
           <div id="album" class="view flex autoflow" style="">
             <div class="editAlbum">
-              <div class="items">Albums</div>
+              <div class="item">Albums</div>
             </div>
           </div>
           <div id="upload" class="view flex autoflow" style="">
@@ -78,60 +80,25 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsTemplate">
-  <li class="item" >
-    <div style="font-size: 0.6em">ID: ${id}</div
-    {{if title}}
-    <span class="name">${title}</span>
+  <li class="item thumbnail" >
+    <span style="font-size: 0.6em">ID: ${id}</span>
+    {{if name}}
+    <div class="name">${name}</div>
     {{else}}
-    <span class="name empty">No Title</span>
+    <div class="name empty">No Name</div>
     {{/if}}
-    <span class="cta">&gt;</span>
+    {{if title}}
+    <div class="name">${title}</div>
+    {{else}}
+    <div class="name empty">No Title</div>
+    {{/if}}
   </li>
 </script>  
 
-<script type="text/x-jquery-tmpl" id="detailsViewTemplate">
-  <div>
-    Details
-  </div>
-</script>
-
-<script type="text/x-jquery-tmpl" id="albumTemplate">
-  <label>
-    <span>ID: ${id}</span>
-  </label>
-
-  <label>
-    <span>Name</span>
-    {{if name}}
-    <div>${name}</div>
-    {{else}}
-    <div class="empty">Blank</div>
-    {{/if}}
-  </label>
-
-  <label>
-    <span>Author</span>
-    {{if author}}
-    <div>${author}</div>
-    {{else}}
-    <div class="empty">Blank</div>
-    {{/if}}
-  </label>
-
-  <label>
-    <span>Description</span>
-    {{if description}}
-    <div>${description}</div>
-    {{else}}
-    <div class="empty">Blank</div>
-    {{/if}}
-  </label>
-</script>
-
-<script type="text/x-jquery-tmpl" id="editAlbumTemplate">
+<script type="text/x-jquery-tmpl" id="editGalleryTemplate">
   
   <label>
-    <span>Album name</span>
+    <span>Gallery name</span>
     <input type="text" name="name" value="${name}" autofocus>
   </label>
 
@@ -145,4 +112,27 @@
     <textarea name="description">${description}</textarea>
   </label>
   <input type="hidden" name="id" value="${id}" autofocus>
+</script>
+
+<script type="text/x-jquery-tmpl" id="editAlbumTemplate">
+  
+  <label>
+    <span>Album name</span>
+    <input type="text" name="name" value="${name}" autofocus>
+  </label>
+
+  <label>
+    <span>Album Title</span>
+    <input type="text" name="title" value="${title}">
+  </label>
+
+  <label>
+    <span>Description</span>
+    <textarea name="description">${description}</textarea>
+  </label>
+  
+</script>
+
+<script type="text/x-jquery-tmpl" id="noSelectionTemplate">
+  <div>Select ${type}</div>
 </script>

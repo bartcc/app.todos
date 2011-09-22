@@ -2,8 +2,9 @@ Spine ?= require("spine")
 $      = Spine.$
 
 class Spine.AlbumList extends Spine.Controller
+
   events:
-    "click .item": "click",
+    "click .item"   : "click",
     "dblclick .item": "edit"
     
   selectFirst: true
@@ -19,22 +20,22 @@ class Spine.AlbumList extends Spine.Controller
   change: (item, mode) =>
     console.log 'AlbumList::change'
     if item and !item.destroyed
-      #console.log item
       @current = item
       @children().removeClass("active")
       @children().forItem(@current).addClass("active")
       
-      #Spine.App.trigger('change', item, mode)
+      Spine.App.trigger('change:album', item, mode)
   
   render: (items) ->
     console.log 'AlbumList::render'
     @items = items if items
     #console.log @items
     @html @template(@items)
-    #@change @current
+    #@albumEditor @current
 #    if @selectFirst
 #      unless @children(".active").length
 #        @children(":first").click()
+    @
         
   children: (sel) ->
     @el.children(sel)
@@ -42,10 +43,14 @@ class Spine.AlbumList extends Spine.Controller
   click: (e) ->
     item = $(e.target).item()
     console.log 'AlbumList::click'
-    #console.log item
-    @change item, 'show'
+
+    App.album.deactivate()
+    App.albums.albumBtn.click()
+
+    @change item
     
   edit: (e) ->
+    console.log 'AlbumList::edit'
     item = $(e.target).item()
     @change item, 'edit'
 

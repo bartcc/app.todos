@@ -14,7 +14,7 @@ Model.Extender = {
       joinTableRecords: {},
       fromJSON: function(objects) {
         var json, key;
-        this.createJoinTables(objects);
+        this.joinTableRecords = this.createJoinTables(objects);
         json = this.__super__.constructor.fromJSON.call(this, objects);
         key = this.className;
         if (this.isArray(json)) {
@@ -23,10 +23,12 @@ Model.Extender = {
         return json;
       },
       createJoinTables: function(arr) {
-        var item, key, keys, res, _i, _j, _k, _len, _len2, _len3, _ref, _results;
+        var item, key, keys, res, table, _i, _j, _k, _len, _len2, _len3, _ref;
         if (!this.isArray(arr)) {
           return;
         }
+        table = {};
+        console.log(this.className);
         if (this.joinTables && this.joinTables.length) {
           keys = [];
           _ref = this.joinTables;
@@ -38,13 +40,12 @@ Model.Extender = {
             key = keys[_j];
             res = this.introspectJSON(arr, key);
           }
-          _results = [];
           for (_k = 0, _len3 = res.length; _k < _len3; _k++) {
             item = res[_k];
-            _results.push(this.joinTableRecords[item.id] = item);
+            table[item.id] = item;
           }
-          return _results;
         }
+        return table;
       },
       fromArray: function(arr, key) {
         var extract, res, value, _i, _len;

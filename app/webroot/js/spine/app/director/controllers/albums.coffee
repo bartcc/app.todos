@@ -4,17 +4,19 @@ $      = Spine.$
 class AlbumsView extends Spine.Controller
 
   elements:
-    ".show"               : "showEl"
-    ".edit"               : "editEl"
-    ".show .content"      : "showContent"
-    ".edit .content"      : "editContent"
-    "#views"              : "views"
-    ".draggable"          : "draggable"
-    '.showEditor'         : 'editorBtn'
-    '.showAlbum'          : 'albumBtn'
-    '.showUpload'         : 'uploadBtn'
-    '.showGrid'           : 'gridBtn'
-    '.items'              : 'items'
+    ".show"                         : "showEl"
+    ".edit"                         : "editEl"
+    ".show .content"                : "showContent"
+    ".edit .content"                : "editContent"
+    "#views"                        : "views"
+    ".draggable"                    : "draggable"
+    '.showEditor'                   : 'editorBtn'
+    '.showAlbum'                    : 'albumBtn'
+    '.showUpload'                   : 'uploadBtn'
+    '.showGrid'                     : 'gridBtn'
+    '.content .items'               : 'items'
+    '.content .editAlbum .item'     : 'albumEditor'
+    '.header'                       : 'header'
     
   events:
     "click .optEdit"      : "edit"
@@ -29,6 +31,7 @@ class AlbumsView extends Spine.Controller
     'dblclick .draghandle': 'toggleDraghandle'
 
   template: (items) ->
+    #items = {album: items, gallery: @current}
     $("#albumsTemplate").tmpl items
 
   constructor: ->
@@ -37,47 +40,51 @@ class AlbumsView extends Spine.Controller
     @list = new Spine.AlbumList
       el: @items,
       template: @template
-    Album.bind("refresh", @proxy @loadJoinTables)
-    Album.bind("change", @proxy @change)
-    #Album.bind("change", @proxy @testbind)
-    Spine.App.bind('save', @proxy @save)
+      editor: @albumEditor
+    #Album.bind("refresh", @proxy @loadJoinTables)
+    Album.bind("change", @proxy @render)
+    Spine.App.bind('save:gallery', @proxy @save)
     Spine.App.bind("change:gallery", @proxy @galleryChange)
+    #Spine.App.bind("change:album", @proxy @galleryChange)
     @bind("toggle:view", @proxy @toggleView)
     @create = @edit
 
     $(@views).queue("fx")
     
-  testbind: ->
-    console.log 'Album changed'
-
   loadJoinTables: ->
     AlbumsImage.records = Album.joinTableRecords
 
   change: (item, mode) ->
-    if(!item.destroyed)
-      console.log 'Albums::change'
-      console.log item.id
-      @current = item
-      @render()
-      @[mode]?(item)
+    console.log 'Albums::change'
+    @current = item
+    console
+    @render()
+    @[mode]?(item)
+
+  galleryChange: (item, mode) ->
+    console.log 'Albums::galleryChange'
+    @current = item
+    #@gallery = item
+    @change item, mode
 
   render: ->
-    #console.log 'Albums::render'
-    joinedItems = GalleriesAlbum.filter(@gallery.id)#Spine.App.galleryList.current.id
+    console.log 'Albums::render'
+
+    joinedItems = GalleriesAlbum.filter(@current?.id or null)
     items = for val in joinedItems
       Album.find(val.album_id)
-      
+    
+    @header.html '<h2>Albums for Gallery ' + @current.name + '</h2>'
     @list.render items
-    @editContent.html $("#editAlbumTemplate").tmpl @current
-    @focusFirstInput(@editEl)
+    
+    #render Gallery Editor
+    if @current
+      @editContent.html $("#editGalleryTemplate").tmpl @current
+      @focusFirstInput(@editEl)
+      
     @
-  
-  galleryChange: (item) ->
-    console.log 'Albums::galleryChange'
-    @gallery = item
-    @render()
-
-  focusFirstInput: (el) ->
+    
+  focusFirstInput_: (el) ->
     return unless el
     $('input', el).first().focus().select() if el.is(':visible')
     el
@@ -136,7 +143,8 @@ class AlbumsView extends Spine.Controller
 
   toggleView: (controller, control) ->
     isActive = controller.isActive()
-
+    
+    #openClose = false if openClose
     if(isActive)
       App.hmanager.trigger("change", false)
     else
@@ -156,6 +164,6 @@ class AlbumsView extends Spine.Controller
 
   saveOnEnter: (e) =>
     return if(e.keyCode != 13)
-    Spine.App.trigger('save', @editEl)
+    Spine.App.trigger('save:gallery', @editEl)
 
 module?.exports = AlbumsView

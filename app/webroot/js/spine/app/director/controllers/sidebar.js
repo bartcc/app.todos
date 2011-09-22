@@ -22,7 +22,6 @@ SidebarView = (function() {
   SidebarView.prototype.events = {
     "click button": "create",
     "keyup input": "filter",
-    "click input": "filter",
     "dblclick .draghandle": 'toggleDraghandle'
   };
   SidebarView.prototype.template = function(items) {
@@ -40,12 +39,14 @@ SidebarView = (function() {
   SidebarView.prototype.loadJoinTables = function() {
     return GalleriesAlbum.records = Gallery.joinTableRecords;
   };
-  SidebarView.prototype.filter_ = function() {
+  SidebarView.prototype.filter = function() {
+    console.log('Sidebar::filter');
     this.query = this.input.val();
     return this.render();
   };
   SidebarView.prototype.render = function() {
     var items;
+    console.log('Sidebar::render');
     items = Gallery.filter(this.query);
     items = items.sort(Gallery.nameSort);
     return this.list.render(items);

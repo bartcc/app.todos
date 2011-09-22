@@ -42,19 +42,5 @@ Image = (function() {
     }
     return result;
   };
-  Image.prototype.updateChangedAttributes = function(atts) {
-    var invalid, key, origAtts, value;
-    origAtts = this.attributes();
-    for (key in atts) {
-      value = atts[key];
-      if (origAtts[key] !== value) {
-        invalid = true;
-        this[key] = value;
-      }
-    }
-    if (invalid) {
-      return this.save();
-    }
-  };
   return Image;
 })();

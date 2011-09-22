@@ -10,17 +10,19 @@ class EditorView extends Spine.Controller
     "keydown"    : "save"
     
   template: (item) ->
-    $('#editAlbumTemplate').tmpl item
+    $('#editGalleryTemplate').tmpl item
 
   constructor: ->
     super
-    Spine.App.bind('change', @proxy @change)
+    Spine.App.bind('change:gallery', @proxy @change)
 
   render: ->
     if @current and @current.reload?()
       @current.reload()
       @editEl.html @template @current
-      @
+    else
+      @editEl.html $("#noSelectionTemplate").tmpl({type: 'a gallery!'})
+    @
 
   change: (item) ->
     @current = item
@@ -28,6 +30,6 @@ class EditorView extends Spine.Controller
 
   save: (e) ->
     return if(e.keyCode != 13)
-    Spine.App.trigger('save', @editEl)
+    Spine.App.trigger('save:gallery', @editEl)
 
 module?.exports = EditorView

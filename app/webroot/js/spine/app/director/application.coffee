@@ -2,13 +2,13 @@ class App extends Spine.Controller
   
   elements:
     '#sidebar-wrapper'    : 'sidebarEl'
-    '#albums'     : 'albumsEl'
-    '#editor'     : 'editorEl'
-    '#album'      : 'albumEl'
-    '#upload'     : 'uploadEl'
-    '#grid'       : 'gridEl'
-    '.vdraggable' : 'vDrag'
-    '.hdraggable' : 'hDrag'
+    '#albums'             : 'albumsEl'
+    '#editor'             : 'editorEl'
+    '#album'              : 'albumEl'
+    '#upload'             : 'uploadEl'
+    '#grid'               : 'gridEl'
+    '.vdraggable'         : 'vDrag'
+    '.hdraggable'         : 'hDrag'
 
   constructor: ->
     super

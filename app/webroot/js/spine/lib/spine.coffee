@@ -99,7 +99,7 @@ class Model extends Module
 
   @find: (id) ->
     record = @records[id]
-    throw("Unknown record") unless record
+    throw("Unknown record: " + id) unless record
     record.clone()
 
   @exists: (id) ->

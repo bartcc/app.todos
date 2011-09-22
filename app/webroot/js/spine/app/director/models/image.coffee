@@ -19,13 +19,3 @@ class Image extends Spine.Model
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
-
-  #prevents an update if model hasn't changed
-  updateChangedAttributes: (atts) ->
-    origAtts = @attributes()
-    for key, value of atts
-      unless origAtts[key] is value
-        invalid = yes
-        @[key] = value
-
-    @save() if invalid

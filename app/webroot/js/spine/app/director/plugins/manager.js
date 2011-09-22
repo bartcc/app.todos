@@ -55,7 +55,7 @@ Spine.Manager.include({
       axis: options.axis,
       handle: options.handle,
       start: __bind(function(e, ui) {
-        return this.currentDim = $(ui.helper)[dim]();
+        return this.currentDim = parseInt($(ui.helper)[dim]());
       }, this),
       drag: __bind(function(e, ui) {
         var _cur, _max, _ori, _pos;
@@ -82,7 +82,7 @@ Spine.Manager.include({
       }, this),
       stop: __bind(function(e, ui) {
         if (!this.el.draggable("option", "disabled")) {
-          return this.currentDim = $(ui.helper)[dim]();
+          return this.currentDim = parseInt($(ui.helper)[dim]());
         }
       }, this)
     });

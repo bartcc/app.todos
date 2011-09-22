@@ -163,7 +163,7 @@ Model = (function() {
     var record;
     record = this.records[id];
     if (!record) {
-      throw "Unknown record";
+      throw "Unknown record: " + id;
     }
     return record.clone();
   };

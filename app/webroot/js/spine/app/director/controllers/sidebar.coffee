@@ -11,7 +11,7 @@ class SidebarView extends Spine.Controller
   events:
     "click button"          : "create"
     "keyup input"           : "filter"
-    "click input"           : "filter"
+    #"click input"           : "filter"
     "dblclick .draghandle"  : 'toggleDraghandle'
 
   #Render template
@@ -29,16 +29,16 @@ class SidebarView extends Spine.Controller
 
   loadJoinTables: ->
     GalleriesAlbum.records = Gallery.joinTableRecords
-    #GalleriesAlbum
 
-  filter_: ->
+  filter: ->
+    console.log 'Sidebar::filter'
     @query = @input.val();
     @render();
 
   render: ->
+    console.log 'Sidebar::render'
     items = Gallery.filter @query
     items = items.sort Gallery.nameSort
-    #console.log items
     @list.render items
 
   newAttributes: ->

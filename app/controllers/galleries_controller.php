@@ -10,60 +10,67 @@ class GalleriesController extends AppController {
     $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
     parent::beforeFilter();
   }
-  
+
   function index() {
     $this->Gallery->recursive = 1;
-    $json = $this->Gallery->find('all', array('fields' => array('id', 'name', 'author', 'description')));
-    //$this->log($json, LOG_DEBUG);
-    //$this->log($json, LOG_DEBUG);
-    $this->set('json', $json);
-    $this->render(SIMPLE_JSON, 'ajax');
+    $this->set('galleries', $this->paginate());
   }
 
   function view($id = null) {
     if (!$id) {
-      $this->Session->setFlash(__('Invalid album', true));
+      $this->Session->setFlash(__('Invalid gallery', true));
       $this->redirect(array('action' => 'index'));
     }
-    $this->set('json', $this->Gallery->read(null, $id));
-    $this->render(SIMPLE_JSON, 'ajax');
+    $g = $this->Gallery->read(null, $id);
+    $this->set('gallery', $this->Gallery->read(null, $id));
   }
 
   function add() {
-    // validate the record to make sure we have all the data
-    if (empty($this->data['Gallery']['id'])) {
-      // we got bad data so set up an error response and exit
-      header('HTTP/1.1 400 Bad Request');
-      header('X-Reason: received empty gallery name');
-      exit;
+    if (!empty($this->data)) {
+      $this->Gallery->create();
+      if ($this->Gallery->save($this->data)) {
+        $this->Session->setFlash(__('The gallery has been saved', true));
+        $this->redirect(array('action' => 'index'));
+      } else {
+        $this->Session->setFlash(__('The gallery could not be saved. Please, try again.', true));
+      }
     }
-
-    $this->Gallery->create();
-    $this->Gallery->save($this->data);
-    $this->set('json', $this->data['Gallery']);
-    $this->render(SIMPLE_JSON, 'ajax');
+    $albums = $this->Gallery->Album->find('list');
+    $this->set(compact('albums'));
   }
 
   function edit($id = null) {
-
-    if (empty($id)) {
-      return;
+    if (!$id && empty($this->data)) {
+      $this->Session->setFlash(__('Invalid gallery', true));
+      $this->redirect(array('action' => 'index'));
     }
-
-    if ($this->Gallery->save($this->data)) {
-      $this->set('json', $this->data['Gallery']);
-      $this->render(SIMPLE_JSON, 'ajax');
+    if (!empty($this->data)) {
+      if ($this->Gallery->save($this->data)) {
+        $this->Session->setFlash(__('The gallery has been saved', true));
+        $this->redirect(array('action' => 'index'));
+      } else {
+        $this->Session->setFlash(__('The gallery could not be saved. Please, try again.', true));
+      }
     }
+    if (empty($this->data)) {
+      $this->data = $this->Gallery->read(null, $id);
+    }
+    $albums = $this->Gallery->Album->find('list');
+    $this->set(compact('albums'));
   }
 
   function delete($id = null) {
-
     if (!$id) {
-      exit;
+      $this->Session->setFlash(__('Invalid id for gallery', true));
+      $this->redirect(array('action' => 'index'));
     }
-    $this->Gallery->delete($id);
+    if ($this->Gallery->delete($id)) {
+      $this->Session->setFlash(__('Gallery deleted', true));
+      $this->redirect(array('action' => 'index'));
+    }
+    $this->Session->setFlash(__('Gallery was not deleted', true));
+    $this->redirect(array('action' => 'index'));
   }
-
 
 }
 

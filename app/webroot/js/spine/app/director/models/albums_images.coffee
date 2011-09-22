@@ -4,3 +4,5 @@ class AlbumsImage extends Spine.Model
 
   @extend Spine.Model.Local
   
+  select: (query) ->
+    return true if @.album_id is query

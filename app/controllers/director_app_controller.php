@@ -15,14 +15,12 @@ class DirectorAppController extends AppController {
 
   function index() {
     $this->Gallery->recursive = 1;
+    $this->Album->recursive = 1;
+    $this->Image->recursive = 0;
     $galleries = $this->Gallery->find('all', array('fields' => array('id', 'name', 'author', 'description')));
     $albums = $this->Album->find('all', array('fields' => array('id', 'name', 'title', 'description')));
     $images = $this->Image->find('all', array('fields' => array('id', 'title', 'exif', 'description')));
-    //$json = $this->requestAction(array('controller' => 'galleries', 'action' => 'index'));
     $this->set(compact('galleries', 'albums', 'images'));
-    //$this->log($json, LOG_DEBUG);
-    //$this->render(SIMPLE_JSON, 'ajax');
-    //$json = $set('json', $js->object($json));
   }
 }
 

@@ -14,5 +14,10 @@ AlbumsImage = (function() {
   }
   AlbumsImage.configure("AlbumsImage", "album_id", 'image_id');
   AlbumsImage.extend(Spine.Model.Local);
+  AlbumsImage.prototype.select = function(query) {
+    if (this.album_id === query) {
+      return true;
+    }
+  };
   return AlbumsImage;
 })();

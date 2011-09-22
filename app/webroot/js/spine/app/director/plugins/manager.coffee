@@ -35,7 +35,7 @@ Spine.Manager.include
       axis: options.axis
       handle: options.handle
       start: (e, ui) =>
-        @currentDim = $(ui.helper)[dim]()
+        @currentDim = parseInt($(ui.helper)[dim]())
       drag: (e, ui) =>
         _ori = ui.originalPosition[ori]
         _pos = ui.position[ori]
@@ -52,7 +52,7 @@ Spine.Manager.include
           if d > _max
             return _max
       stop: (e, ui) =>
-        @currentDim = $(ui.helper)[dim]() unless @el.draggable("option", "disabled")
+        @currentDim = parseInt($(ui.helper)[dim]()) unless @el.draggable("option", "disabled")
 
 Spine.Manager.extend
   deactivate_: ->

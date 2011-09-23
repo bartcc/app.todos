@@ -520,9 +520,11 @@ textarea {
   box-shadow: 1px 2px 4px #444444;
   -moz-box-shadow: 0 1px 1px #444444;
   -webkit-box-shadow: 0 1px 1px #444444;
-  margin: 0 10px 0;
+  margin: 0 10px 10px 0;
   padding: 10px;
-  color: #e5e5e5
+  color: #e5e5e5;
+  width: 200px;
+  height: 200px
 }
 #albums .content li.thumbnail.active {
   outline:none;

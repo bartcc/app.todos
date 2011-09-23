@@ -71,14 +71,19 @@ AlbumsView = (function() {
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
   };
   AlbumsView.prototype.galleryChange = function(item, mode) {
+    var _ref;
     console.log('Albums::galleryChange');
+    if ((item != null ? item.id : void 0) === ((_ref = this.current) != null ? _ref.id : void 0)) {
+      return;
+    }
     this.current = item;
-    return this.change(item, mode);
+    this.change(item, mode);
+    return Spine.App.trigger('change:album');
   };
   AlbumsView.prototype.render = function() {
-    var items, joinedItems, val, _ref;
+    var i, items, itm, joinedItems, val, _ref;
     console.log('Albums::render');
-    joinedItems = GalleriesAlbum.filter(((_ref = this.current) != null ? _ref.id : void 0) || null);
+    joinedItems = GalleriesAlbum.filter((_ref = this.current) != null ? _ref.id : void 0);
     items = (function() {
       var _i, _len, _results;
       _results = [];
@@ -88,7 +93,16 @@ AlbumsView = (function() {
       }
       return _results;
     })();
-    this.header.html('<h2>Albums for Gallery ' + this.current.name + '</h2>');
+    i = 0;
+    for (itm in items) {
+      i++;
+    }
+    console.log(i + 'Albums gefiltert');
+    if (this.current) {
+      this.header.html('<h2>Albums for Gallery ' + this.current.name + '</h2>');
+    } else {
+      this.header.empty();
+    }
     this.list.render(items);
     if (this.current) {
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
@@ -139,19 +153,14 @@ AlbumsView = (function() {
   AlbumsView.prototype.animateView = function() {
     var hasActive, height;
     hasActive = function() {
-      var controller, _i, _len, _ref;
-      _ref = App.hmanager.controllers;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        controller = _ref[_i];
-        if (controller.isActive()) {
-          return App.hmanager.enableDrag();
-        }
+      if (App.hmanager.hasActive()) {
+        return App.hmanager.enableDrag();
       }
       return App.hmanager.disableDrag();
     };
     height = function() {
       if (hasActive()) {
-        return App.hmanager.currentDim + "px";
+        return parseInt(App.hmanager.currentDim) + "px";
       } else {
         return "7px";
       }

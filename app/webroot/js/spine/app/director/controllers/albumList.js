@@ -17,7 +17,7 @@ Spine.AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
   AlbumList.prototype.events = {
     "click .item": "click",
-    "dblclick .item": "edit"
+    "dblclick .item": "dblclick"
   };
   AlbumList.prototype.selectFirst = true;
   function AlbumList() {
@@ -28,12 +28,14 @@ Spine.AlbumList = (function() {
     return arguments[0];
   };
   AlbumList.prototype.change = function(item, mode) {
+    var album;
     console.log('AlbumList::change');
-    if (item && !item.destroyed) {
-      this.current = item;
+    album = this.selectedAlbum(item != null ? item.id : void 0);
+    if (album && !album.destroyed) {
+      this.current = album;
       this.children().removeClass("active");
       this.children().forItem(this.current).addClass("active");
-      return Spine.App.trigger('change:album', item, mode);
+      return Spine.App.trigger('change:album', this.current, mode);
     }
   };
   AlbumList.prototype.render = function(items) {
@@ -42,7 +44,26 @@ Spine.AlbumList = (function() {
       this.items = items;
     }
     this.html(this.template(this.items));
+    this.change();
     return this;
+  };
+  AlbumList.prototype.selectedAlbum = function(id) {
+    var alb, albumid, gal;
+    gal = Gallery.selected();
+    albumid = id || gal.selectedAlbumId;
+    if (!albumid) {
+      return;
+    }
+    alb = Album.find(albumid);
+    try {
+      Gallery.record.updateAttribute('selectedAlbumId', albumid, {
+        silent: true
+      });
+    } catch (e) {
+      alert('You must select a Gallery first!');
+      return;
+    }
+    return alb;
   };
   AlbumList.prototype.children = function(sel) {
     return this.el.children(sel);
@@ -51,9 +72,14 @@ Spine.AlbumList = (function() {
     var item;
     item = $(e.target).item();
     console.log('AlbumList::click');
-    App.album.deactivate();
-    App.albums.albumBtn.click();
+    if (App.hmanager.hasActive()) {
+      this.dblclick();
+    }
     return this.change(item);
+  };
+  AlbumList.prototype.dblclick = function() {
+    App.album.deactivate();
+    return App.albums.albumBtn.click();
   };
   AlbumList.prototype.edit = function(e) {
     var item;

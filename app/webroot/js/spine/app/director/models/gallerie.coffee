@@ -1,5 +1,5 @@
 class Gallery extends Spine.Model
-  @configure "Gallery", "name", 'author', "description"
+  @configure "Gallery", "name", 'author', "description", 'selectedAlbumId'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.Filter
@@ -16,8 +16,22 @@ class Gallery extends Spine.Model
     return if aa == bb then 0 else if aa < bb then -1 else 1
 
   @joinTables: ['GalleriesAlbum']
+  
+  updateAttributes: (atts, options={}) ->
+    load(atts)
+    Spine.Ajax.enabled = false if options.silent
+    @save()
+    Spine.Ajax.enabled = true
+  
+  updateAttribute: (name, value, options={}) ->
+    @[name] = value
+    Spine.Ajax.enabled = false if options.silent
+    @save()
+    Spine.Ajax.enabled = true
 
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
+    
+

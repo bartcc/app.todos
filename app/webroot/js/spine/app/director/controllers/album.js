@@ -28,26 +28,43 @@ AlbumView = (function() {
   };
   function AlbumView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumView.__super__.constructor.apply(this, arguments);
+    Album.bind('change', this.proxy(this.change));
     Spine.App.bind('change:album', this.proxy(this.change));
   }
   AlbumView.prototype.change = function(item) {
-    this.current = item;
     return this.render();
   };
   AlbumView.prototype.render = function() {
-    if (this.current) {
-      this.item.html(this.template(this.current));
-      return this.focusFirstInput(this.editEl);
+    var album, albumid;
+    albumid = this.albumid();
+    if (Album.exists(albumid)) {
+      album = Album.find(albumid);
+    }
+    if (album) {
+      this.current = album;
+      this.item.html(this.template(album));
+      this.focusFirstInput(this.editEl);
     } else {
-      return this.item.html($("#noSelectionTemplate").tmpl({
+      this.item.html($("#noSelectionTemplate").tmpl({
         type: 'an Album!'
       }));
     }
+    return this;
+  };
+  AlbumView.prototype.albumid = function() {
+    var albid, gal;
+    gal = Gallery.selected();
+    albid = gal.selectedAlbumId;
+    return gal.selectedAlbumId;
+  };
+  AlbumView.prototype.selected = function() {
+    return App.sidebar;
   };
   AlbumView.prototype.save = function(el) {
     var atts;
     atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
-    return this.current.updateChangedAttributes(atts);
+    this.current.updateChangedAttributes(atts);
+    return this.change();
   };
   AlbumView.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {

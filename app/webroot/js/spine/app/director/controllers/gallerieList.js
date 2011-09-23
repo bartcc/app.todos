@@ -36,14 +36,13 @@ Spine.GalleryList = (function() {
     if (item) {
       this.children().removeClass("active");
       if (!shiftKey) {
-        this.current = item;
+        Gallery.current(this.current = item);
         this.children().forItem(this.current).addClass("active");
-      }
-      if (!this.children(".active").length) {
+      } else {
         this.current = null;
       }
-      Spine.App.trigger('change:gallery', this.current, mode);
-      return Spine.App.trigger('change:album', null);
+      Gallery.current(this.current);
+      return Spine.App.trigger('change:gallery', this.current, mode);
     }
   };
   GalleryList.prototype.render = function(items) {

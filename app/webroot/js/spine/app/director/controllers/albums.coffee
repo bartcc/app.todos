@@ -63,18 +63,25 @@ class AlbumsView extends Spine.Controller
 
   galleryChange: (item, mode) ->
     console.log 'Albums::galleryChange'
+    return if item?.id is @current?.id
     @current = item
     #@gallery = item
     @change item, mode
+    Spine.App.trigger('change:album')
 
   render: ->
     console.log 'Albums::render'
 
-    joinedItems = GalleriesAlbum.filter(@current?.id or null)
+    joinedItems = GalleriesAlbum.filter(@current?.id)
     items = for val in joinedItems
       Album.find(val.album_id)
-    
-    @header.html '<h2>Albums for Gallery ' + @current.name + '</h2>'
+    i=0
+    i++ for itm of items
+    console.log i + 'Albums gefiltert'
+    if @current
+      @header.html '<h2>Albums for Gallery ' + @current.name + '</h2>'
+    else
+      @header.empty()
     @list.render items
     
     #render Gallery Editor
@@ -117,13 +124,13 @@ class AlbumsView extends Spine.Controller
 
   animateView: ->
     hasActive = ->
-      for controller in App.hmanager.controllers
-        if controller.isActive()
-          return App.hmanager.enableDrag()
+      if App.hmanager.hasActive()
+        return App.hmanager.enableDrag()
       App.hmanager.disableDrag()
-
+    
+    
     height = ->
-      if hasActive() then App.hmanager.currentDim+"px" else "7px"
+      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "7px"
 
     $(@views).animate
       height: height()

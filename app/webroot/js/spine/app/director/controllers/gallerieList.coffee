@@ -23,13 +23,13 @@ class Spine.GalleryList extends Spine.Controller
     if item
       @children().removeClass("active")
       unless shiftKey
-        @current = item
+        Gallery.current(@current = item)
         @children().forItem(@current).addClass("active")
-      unless @children(".active").length
+      else
         @current = null
+      Gallery.current(@current)
       
       Spine.App.trigger('change:gallery', @current, mode)
-      Spine.App.trigger('change:album', null)
   
   render: (items) ->
     console.log 'GalleryList::render'

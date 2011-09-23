@@ -12,7 +12,7 @@ Gallery = (function() {
   function Gallery() {
     Gallery.__super__.constructor.apply(this, arguments);
   }
-  Gallery.configure("Gallery", "name", 'author', "description");
+  Gallery.configure("Gallery", "name", 'author', "description", 'selectedAlbumId');
   Gallery.extend(Spine.Model.Ajax);
   Gallery.extend(Spine.Model.Filter);
   Gallery.extend(Spine.Model.Extender);
@@ -33,6 +33,28 @@ Gallery = (function() {
     }
   };
   Gallery.joinTables = ['GalleriesAlbum'];
+  Gallery.prototype.updateAttributes = function(atts, options) {
+    if (options == null) {
+      options = {};
+    }
+    load(atts);
+    if (options.silent) {
+      Spine.Ajax.enabled = false;
+    }
+    this.save();
+    return Spine.Ajax.enabled = true;
+  };
+  Gallery.prototype.updateAttribute = function(name, value, options) {
+    if (options == null) {
+      options = {};
+    }
+    this[name] = value;
+    if (options.silent) {
+      Spine.Ajax.enabled = false;
+    }
+    this.save();
+    return Spine.Ajax.enabled = true;
+  };
   Gallery.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;
     result = {};

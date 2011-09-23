@@ -11,6 +11,7 @@ Model.Extender = {
   extended: function() {
     var extend, include;
     extend = {
+      record: false,
       joinTableRecords: {},
       fromJSON: function(objects) {
         var json, key;
@@ -103,6 +104,18 @@ Model.Extender = {
       },
       isObject: function(value) {
         return Object.prototype.toString.call(value) === "[object Object]";
+      },
+      current: function(record) {
+        var rec;
+        rec = false;
+        if (this.exists(record != null ? record.id : void 0)) {
+          rec = this.find(record.id);
+        }
+        this.record = rec;
+        return this.record || false;
+      },
+      selected: function() {
+        return this.record;
       }
     };
     include = {

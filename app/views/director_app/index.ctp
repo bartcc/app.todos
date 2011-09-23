@@ -21,7 +21,7 @@
   <div id="albums" class="vbox flex">
     <div class="show vbox flex">
       <ul class="options hbox">
-        <li class="view nobutton">Editors:</li>
+        <li class="view nobutton">Properties:</li>
         <li class="view showEditor">Gallery</li>
         <li class="view showAlbum">Album</li>
         <li class="view showUpload">Upload Photo</li>
@@ -68,7 +68,7 @@
 
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
   <li class="item" title="Doubleclick to edit / Save with Enter">
-    <img src="/img/missing.png" />
+    <img src="/img/gallery.png" />
     <div style="font-size: 0.6em">ID: ${id}</div
     {{if name}}
     <span class="name">${name}</span>

@@ -273,12 +273,13 @@ textarea {
   cursor: e-resize
 }
 .options li.splitter, .options li.nobutton {
+  color: #ABABAB;
   background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#dfe0e1));
   background: -webkit-linear-gradient(top, #f9f9f9, #dfe0e1);
   background: -moz-linear-gradient(top, #f9f9f9, #dfe0e1);
   background: linear-gradient(top, #f9f9f9, #dfe0e1);
   border-left: 0 solid;
-  cursor: auto
+  cursor: auto;
 }
 
 .hdivide {
@@ -507,7 +508,7 @@ textarea {
 #views > .view:not(.active) {
   display: none !important;
 }
-.thumbnail {
+#albums .content li.thumbnail {
   outline: none;
   background: #4F2F2F;
   background: -webkit-gradient(linear, left top, left bottom, from(#4F2F2F), to(#3B1B1B));
@@ -522,4 +523,14 @@ textarea {
   margin: 0 10px 0;
   padding: 10px;
   color: #e5e5e5
+}
+#albums .content li.thumbnail.active {
+  outline:none;
+  transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  -moz-transition: all 0.25s ease-in-out;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border: 4px solid rgba(255, 128, 0, 0.8);
 }

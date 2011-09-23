@@ -7,6 +7,8 @@ Model.Extender =
   extended: ->
 
     extend =
+      
+      record: false
 
       joinTableRecords: {}
 
@@ -63,6 +65,15 @@ Model.Extender =
 
       isObject: (value) ->
         Object::toString.call(value) is "[object Object]"
+
+      current: (record) ->
+        rec = false
+        rec = @find(record.id) if @exists(record?.id)
+        @record = rec
+        @record or false
+
+      selected: ->
+        @record
       
     include =
       #prevents an update if model hasn't changed
@@ -74,6 +85,7 @@ Model.Extender =
             @[key] = value
 
         @save() if invalid
+
 
     @extend extend
     @include include

@@ -35,7 +35,7 @@ AlbumView = (function() {
     return this.render();
   };
   AlbumView.prototype.render = function() {
-    var album, albumid;
+    var album, albumid, noalbum, nogallery;
     albumid = this.albumid();
     if (Album.exists(albumid)) {
       album = Album.find(albumid);
@@ -45,8 +45,10 @@ AlbumView = (function() {
       this.item.html(this.template(album));
       this.focusFirstInput(this.editEl);
     } else {
+      nogallery = 'a Gallery and an Album!';
+      noalbum = 'an Album!';
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: 'an Album!'
+        type: Gallery.record ? noalbum : nogallery
       }));
     }
     return this;

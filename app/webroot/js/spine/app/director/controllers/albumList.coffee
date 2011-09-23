@@ -43,7 +43,7 @@ class Spine.AlbumList extends Spine.Controller
     try
       Gallery.record.updateAttribute('selectedAlbumId', albumid, {silent:true})
     catch e
-      alert 'You must select a Gallery first!'
+      alert 'Select a Gallery or drag Album into a Gallery !'
       return
     alb
 

@@ -30,7 +30,9 @@ class AlbumView extends Spine.Controller
       @item.html @template album
       @focusFirstInput(@editEl)
     else
-      @item.html $("#noSelectionTemplate").tmpl({type: 'an Album!'})
+      nogallery = 'a Gallery and an Album!'
+      noalbum = 'an Album!'
+      @item.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then noalbum else nogallery})
     @
 
   albumid: ->

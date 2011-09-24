@@ -56,11 +56,11 @@
     echo $this->Html->script('spine/app/director/models/albums_images');
     echo $this->Html->script('spine/app/director/models/image');
     echo $this->Html->script('spine/app/director/models/album');
-    echo $this->Html->script('spine/app/director/models/gallerie');
+    echo $this->Html->script('spine/app/director/models/gallery');
     echo $this->Html->script('spine/app/director/controllers/gallerieList');
     echo $this->Html->script('spine/app/director/controllers/albumList');
     echo $this->Html->script('spine/app/director/controllers/sidebar');
-    echo $this->Html->script('spine/app/director/controllers/editor');
+    echo $this->Html->script('spine/app/director/controllers/gallery');
     echo $this->Html->script('spine/app/director/controllers/album');
     echo $this->Html->script('spine/app/director/controllers/upload');
     echo $this->Html->script('spine/app/director/controllers/grid');

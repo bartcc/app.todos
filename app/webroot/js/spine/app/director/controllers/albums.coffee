@@ -90,7 +90,7 @@ class AlbumsView extends Spine.Controller
     if @current
       @header.html '<h2>Albums for Gallery ' + @current.name + '</h2>'
     else
-      @header.empty()
+      @header.html '<h2>Albums Overview</h2>'
 
   show: (item) ->
     @showEl.show 0, @proxy ->

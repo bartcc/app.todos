@@ -33,6 +33,7 @@ class Spine.GalleryList extends Spine.Controller
         @children().forItem(@current).addClass("active")
       else
         @current = null
+
       Gallery.current(@current)
       
       changed = true if !(@current) or dblclick

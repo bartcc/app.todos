@@ -115,7 +115,7 @@ AlbumsView = (function() {
     if (this.current) {
       return this.header.html('<h2>Albums for Gallery ' + this.current.name + '</h2>');
     } else {
-      return this.header.empty();
+      return this.header.html('<h2>Albums Overview</h2>');
     }
   };
   AlbumsView.prototype.show = function(item) {

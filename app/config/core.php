@@ -67,7 +67,7 @@
  * And uncomment the App.baseUrl below:
  */
 	//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
-	//Configure::write('App.baseUrl', env('SCRIPT_NAME') . '?');
+	Configure::write('App.baseUrl', env('SCRIPT_NAME') . '?');
 
 /**
  * Uncomment the define below to use CakePHP prefix routes.
@@ -109,7 +109,7 @@
  * Defines the default error type when using the log() function. Used for
  * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
  */
-	define('LOG_ERROR', 2);
+	define('LOG_ERROR', 0);
 
 /**
  * The preferred session handling method. Valid values:

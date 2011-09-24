@@ -33,15 +33,20 @@ AlbumView = (function() {
     Spine.App.bind('change:selectedGallery', this.proxy(this.change));
   }
   AlbumView.prototype.change = function(item) {
+    var album;
     console.log('Album::change');
-    return this.render(item instanceof Album ? item : void 0);
+    if (item instanceof Album) {
+      album = item;
+    }
+    this.current = album;
+    return this.render();
   };
-  AlbumView.prototype.render = function(item) {
+  AlbumView.prototype.render = function() {
     var missing, missingAlbum;
     console.log('Album::render');
-    if (item) {
-      this.current = item;
-      this.item.html(this.template(item));
+    if (this.current) {
+      console.log(this.current);
+      this.item.html(this.template(this.current));
       this.focusFirstInput(this.editEl);
     } else {
       missing = 'Select a Gallery and an Album!';
@@ -52,17 +57,9 @@ AlbumView = (function() {
     }
     return this;
   };
-  AlbumView.prototype.albumid = function() {
-    var albid, gal;
-    gal = Gallery.selected();
-    albid = gal.selectedAlbumId;
-    return gal.selectedAlbumId;
-  };
-  AlbumView.prototype.selected = function() {
-    return App.sidebar;
-  };
   AlbumView.prototype.save = function(el) {
     var atts;
+    console.log('Album::save');
     atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
     return this.current.updateChangedAttributes(atts);
   };

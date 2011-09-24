@@ -14,25 +14,26 @@ class Spine.GalleryList extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-    Gallery.bind("change", @proxy @change)
+    #Gallery.bind("change", @proxy @change)
 
   template: -> arguments[0]
   
   change: (item, mode, shiftKey) =>
     console.log 'GalleryList::change'
-    if item
+    if item?.reload()
       oldId = @current?.id
       newId = item.id
-      changed = !(oldId is newId)
+      changed = !(oldId is newId) or !(oldId)
       @children().removeClass("active")
       unless shiftKey
         @current = item
         @children().forItem(@current).addClass("active")
       else
         @current = null
+        changed = true
       Gallery.current(@current)
       
-      Spine.App.trigger('change:selectedGallery', @current, mode)
+      Spine.App.trigger('change:selectedGallery', @current, mode) if changed
   
   render: (items) ->
     console.log 'GalleryList::render'
@@ -47,7 +48,7 @@ class Spine.GalleryList extends Spine.Controller
     @el.children(sel)
 
   click: (e) ->
-    @stopEvent(e)
+    #@stopEvent(e)
     console.log 'GalleryList::click'
     item = $(e.target).item()
     @change item, 'show', e.shiftKey

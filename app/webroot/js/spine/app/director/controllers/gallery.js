@@ -19,7 +19,7 @@ GalleryView = (function() {
     '.editGallery': 'editEl'
   };
   GalleryView.prototype.events = {
-    "keydown": "save"
+    "keydown": "saveOnEnter"
   };
   GalleryView.prototype.template = function(item) {
     return $('#editGalleryTemplate').tmpl(item);
@@ -27,6 +27,7 @@ GalleryView = (function() {
   function GalleryView() {
     GalleryView.__super__.constructor.apply(this, arguments);
     Spine.App.bind('change:selectedGallery', this.proxy(this.change));
+    Gallery.bind("update", this.proxy(this.change));
   }
   GalleryView.prototype.change = function(item) {
     console.log('Gallery::change');
@@ -34,9 +35,8 @@ GalleryView = (function() {
     return this.render();
   };
   GalleryView.prototype.render = function() {
-    var missing, missingGallery, _base;
-    if (this.current && (typeof (_base = this.current).reload === "function" ? _base.reload() : void 0)) {
-      this.current.reload();
+    var missing, missingGallery;
+    if (this.current) {
       this.editEl.html(this.template(this.current));
     } else {
       missing = 'Select a Gallery and an Album!';
@@ -47,11 +47,18 @@ GalleryView = (function() {
     }
     return this;
   };
-  GalleryView.prototype.save = function(e) {
+  GalleryView.prototype.save = function(el) {
+    var atts;
+    if (this.current) {
+      atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
+      return this.current.updateChangedAttributes(atts);
+    }
+  };
+  GalleryView.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {
       return;
     }
-    return Spine.App.trigger('save:gallery', this.editEl);
+    return this.save(this.editEl);
   };
   return GalleryView;
 })();

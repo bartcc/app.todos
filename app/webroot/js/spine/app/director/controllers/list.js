@@ -13,22 +13,22 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-Spine.AlbumList = (function() {
-  __extends(AlbumList, Spine.Controller);
-  AlbumList.prototype.events = {
+Spine.List = (function() {
+  __extends(List, Spine.Controller);
+  List.prototype.events = {
     "click .item": "click",
     "dblclick .item": "preserveEditorOpen"
   };
-  AlbumList.prototype.selectFirst = true;
-  function AlbumList() {
-    this.change = __bind(this.change, this);    AlbumList.__super__.constructor.apply(this, arguments);
+  List.prototype.selectFirst = true;
+  function List() {
+    this.change = __bind(this.change, this);    List.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
     this.record = Gallery.record;
   }
-  AlbumList.prototype.template = function() {
+  List.prototype.template = function() {
     return arguments[0];
   };
-  AlbumList.prototype.change = function(item, mode) {
+  List.prototype.change = function(item, mode) {
     var changed, newId, oldId, _ref;
     console.log('AlbumList::change');
     if (item && !item.destroyed) {
@@ -43,7 +43,7 @@ Spine.AlbumList = (function() {
       }
     }
   };
-  AlbumList.prototype.render = function(items, selected) {
+  List.prototype.render = function(items, selected) {
     console.log('AlbumList::render');
     if (!selected) {
       selected = this.record.selectedAlbumId;
@@ -53,10 +53,10 @@ Spine.AlbumList = (function() {
     this.change(selected);
     return this;
   };
-  AlbumList.prototype.children = function(sel) {
+  List.prototype.children = function(sel) {
     return this.el.children(sel);
   };
-  AlbumList.prototype.click = function(e) {
+  List.prototype.click = function(e) {
     var item;
     console.log('AlbumList::click');
     item = $(e.target).item();
@@ -65,18 +65,18 @@ Spine.AlbumList = (function() {
     }
     return this.change(item);
   };
-  AlbumList.prototype.edit = function(e) {
+  List.prototype.edit = function(e) {
     var item;
     console.log('AlbumList::edit');
     item = $(e.target).item();
     return this.change(item, 'edit');
   };
-  AlbumList.prototype.preserveEditorOpen = function() {
+  List.prototype.preserveEditorOpen = function() {
     console.log('AlbumList::dblclick');
     App.album.deactivate();
     return App.albums.albumBtn.click();
   };
-  return AlbumList;
+  return List;
 })();
 if (typeof module !== "undefined" && module !== null) {
   module.exports = Spine.AlbumList;

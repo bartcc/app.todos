@@ -26,7 +26,6 @@ Spine.GalleryList = (function() {
   function GalleryList() {
     this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
-    Gallery.bind("change", this.proxy(this.change));
   }
   GalleryList.prototype.template = function() {
     return arguments[0];
@@ -34,19 +33,22 @@ Spine.GalleryList = (function() {
   GalleryList.prototype.change = function(item, mode, shiftKey) {
     var changed, newId, oldId, _ref;
     console.log('GalleryList::change');
-    if (item) {
+    if (item != null ? item.reload() : void 0) {
       oldId = (_ref = this.current) != null ? _ref.id : void 0;
       newId = item.id;
-      changed = !(oldId === newId);
+      changed = !(oldId === newId) || !oldId;
       this.children().removeClass("active");
       if (!shiftKey) {
         this.current = item;
         this.children().forItem(this.current).addClass("active");
       } else {
         this.current = null;
+        changed = true;
       }
       Gallery.current(this.current);
-      return Spine.App.trigger('change:selectedGallery', this.current, mode);
+      if (changed) {
+        return Spine.App.trigger('change:selectedGallery', this.current, mode);
+      }
     }
   };
   GalleryList.prototype.render = function(items) {
@@ -67,7 +69,6 @@ Spine.GalleryList = (function() {
   };
   GalleryList.prototype.click = function(e) {
     var item;
-    this.stopEvent(e);
     console.log('GalleryList::click');
     item = $(e.target).item();
     return this.change(item, 'show', e.shiftKey);

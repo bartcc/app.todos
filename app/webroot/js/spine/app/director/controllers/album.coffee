@@ -22,13 +22,16 @@ class AlbumView extends Spine.Controller
 
   change: (item) ->
     console.log 'Album::change'
-    @render(item if item instanceof Album)
+    album = item if item instanceof Album
+    @current = album
+    @render()
 
-  render: (item) ->
+  render: () ->
     console.log 'Album::render'
-    if item
-      @current = item
-      @item.html @template item
+    if @current
+      console.log @current
+      
+      @item.html @template @current
       @focusFirstInput(@editEl)
     else
       missing = 'Select a Gallery and an Album!'
@@ -36,15 +39,8 @@ class AlbumView extends Spine.Controller
       @item.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missingAlbum else missing})
     @
 
-  albumid: ->
-    gal = Gallery.selected()
-    albid = gal.selectedAlbumId
-    gal.selectedAlbumId
-
-  selected: ->
-    App.sidebar
-
   save: (el) ->
+    console.log 'Album::save'
     atts = el.serializeForm?() or @editEl.serializeForm()
     @current.updateChangedAttributes(atts)
 

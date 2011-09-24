@@ -7,7 +7,7 @@ class GalleryView extends Spine.Controller
     '.editGallery'  : 'editEl'
 
   events:
-    "keydown"    : "save"
+    "keydown"    : "saveOnEnter"
     
   template: (item) ->
     $('#editGalleryTemplate').tmpl item
@@ -15,6 +15,7 @@ class GalleryView extends Spine.Controller
   constructor: ->
     super
     Spine.App.bind('change:selectedGallery', @proxy @change)
+    Gallery.bind "update", @proxy @change
 
   change: (item) ->
     console.log 'Gallery::change'
@@ -22,8 +23,8 @@ class GalleryView extends Spine.Controller
     @render()
 
   render: ->
-    if @current and @current.reload?()
-      @current.reload()
+    if @current# and @current.reload?()
+      #@current.reload()
       @editEl.html @template @current
     else
       missing         = 'Select a Gallery and an Album!'
@@ -31,8 +32,13 @@ class GalleryView extends Spine.Controller
       @editEl.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missing else missingGallery})
     @
 
-  save: (e) ->
+  save: (el) ->
+    if @current
+      atts = el.serializeForm?() or @editEl.serializeForm()
+      @current.updateChangedAttributes(atts)
+
+  saveOnEnter: (e) ->
     return if(e.keyCode != 13)
-    Spine.App.trigger('save:gallery', @editEl)
+    @save @editEl
 
 module?.exports = EditorView

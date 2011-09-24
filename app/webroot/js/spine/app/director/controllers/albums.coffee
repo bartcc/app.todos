@@ -42,8 +42,10 @@ class AlbumsView extends Spine.Controller
       editor: @albumEditor
     Album.bind("change", @proxy @render)
     Spine.App.bind('save:gallery', @proxy @save)
+    @bind('save:gallery', @proxy @save)
     Spine.App.bind('change:selectedGallery', @proxy @change)
-    #Gallery.bind('change', @proxy @renderHeader)
+    Gallery.bind "change", @proxy @renderGalleryEditor
+    Gallery.bind "change", @proxy @renderHeader
     @bind("toggle:view", @proxy @toggleView)
     @create = @edit
 
@@ -54,7 +56,7 @@ class AlbumsView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'Albums::change'
-    console.log item
+    console.log mode if mode
     @current = item
     @render item
     @[mode]?(item)
@@ -69,11 +71,12 @@ class AlbumsView extends Spine.Controller
     else
       items = Album.filter()
       
-
-    @renderHeader(item)
+    @renderGalleryEditor()
+    @renderHeader()
     @list.render items, item
     
-    #render Gallery Editor
+  renderGalleryEditor: (item) ->
+    @current = item if item
     if @current
       @editContent.html $("#editGalleryTemplate").tmpl @current
       @focusFirstInput(@editEl)
@@ -83,7 +86,11 @@ class AlbumsView extends Spine.Controller
    
   renderHeader: (item) ->
     console.log 'Albums::renderHeader'
-    @header.html '<h2>Albums for Gallery ' + item.name + '</h2>'
+    
+    if @current
+      @header.html '<h2>Albums for Gallery ' + @current.name + '</h2>'
+    else
+      @header.empty()
 
   show: (item) ->
     @showEl.show 0, @proxy ->
@@ -154,6 +161,8 @@ class AlbumsView extends Spine.Controller
     @activeControl.click()
 
   save: (el) ->
+    console.log 'Albums::save'
+    console.log @current
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)
@@ -161,6 +170,6 @@ class AlbumsView extends Spine.Controller
 
   saveOnEnter: (e) =>
     return if(e.keyCode != 13)
-    Spine.App.trigger('save:gallery', @editEl)
+    @trigger('save:gallery', @editEl)
 
 module?.exports = AlbumsView

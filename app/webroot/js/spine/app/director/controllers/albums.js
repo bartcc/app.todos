@@ -55,7 +55,10 @@ AlbumsView = (function() {
     });
     Album.bind("change", this.proxy(this.render));
     Spine.App.bind('save:gallery', this.proxy(this.save));
+    this.bind('save:gallery', this.proxy(this.save));
     Spine.App.bind('change:selectedGallery', this.proxy(this.change));
+    Gallery.bind("change", this.proxy(this.renderGalleryEditor));
+    Gallery.bind("change", this.proxy(this.renderHeader));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.create = this.edit;
     $(this.views).queue("fx");
@@ -65,7 +68,9 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.change = function(item, mode) {
     console.log('Albums::change');
-    console.log(item);
+    if (mode) {
+      console.log(mode);
+    }
     this.current = item;
     this.render(item);
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
@@ -87,8 +92,14 @@ AlbumsView = (function() {
     } else {
       items = Album.filter();
     }
-    this.renderHeader(item);
-    this.list.render(items, item);
+    this.renderGalleryEditor();
+    this.renderHeader();
+    return this.list.render(items, item);
+  };
+  AlbumsView.prototype.renderGalleryEditor = function(item) {
+    if (item) {
+      this.current = item;
+    }
     if (this.current) {
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
       this.focusFirstInput(this.editEl);
@@ -101,7 +112,11 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.renderHeader = function(item) {
     console.log('Albums::renderHeader');
-    return this.header.html('<h2>Albums for Gallery ' + item.name + '</h2>');
+    if (this.current) {
+      return this.header.html('<h2>Albums for Gallery ' + this.current.name + '</h2>');
+    } else {
+      return this.header.empty();
+    }
   };
   AlbumsView.prototype.show = function(item) {
     return this.showEl.show(0, this.proxy(function() {
@@ -182,6 +197,8 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.save = function(el) {
     var atts;
+    console.log('Albums::save');
+    console.log(this.current);
     if (this.current) {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
       this.current.updateChangedAttributes(atts);
@@ -192,7 +209,7 @@ AlbumsView = (function() {
     if (e.keyCode !== 13) {
       return;
     }
-    return Spine.App.trigger('save:gallery', this.editEl);
+    return this.trigger('save:gallery', this.editEl);
   };
   return AlbumsView;
 })();

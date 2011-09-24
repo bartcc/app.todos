@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Spine.AlbumList extends Spine.Controller
+class Spine.List extends Spine.Controller
 
   events:
     "click .item"      : "click"

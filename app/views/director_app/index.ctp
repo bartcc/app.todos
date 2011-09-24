@@ -22,7 +22,7 @@
     <div class="show vbox flex">
       <ul class="options hbox">
         <li class="view nobutton">Properties:</li>
-        <li class="view showEditor">Gallery</li>
+        <li class="view showGallery">Gallery</li>
         <li class="view showAlbum">Album</li>
         <li class="view showUpload">Upload Photo</li>
         <li class="view showGrid">Thumb Grid</li>
@@ -37,8 +37,8 @@
       <div id="views-wrapper" class="hbox autoflow">
         <div id="views" class="vbox flex hdraggable">
           <div class="hdivide draghandle"></div>
-          <div id="editor" class="view flex autoflow" style="">
-            <div class="editEditor"></div>
+          <div id="gallery" class="view flex autoflow" style="">
+            <div class="editGallery"></div>
           </div>
           <div id="album" class="view flex autoflow" style="">
             <div class="editAlbum">
@@ -134,5 +134,5 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="noSelectionTemplate">
-  <div>Select ${type}</div>
+  <div>${type}</div>
 </script>

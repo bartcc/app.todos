@@ -33,7 +33,7 @@
  * In production mode, flash messages redirect after a time interval.
  * In development mode, you need to click the flash message to continue.
  */
-	Configure::write('debug', 0);
+	Configure::write('debug', 2);
 
 /**
  * CakePHP Log Level:
@@ -67,7 +67,7 @@
  * And uncomment the App.baseUrl below:
  */
 	//Configure::write('App.baseUrl', env('SCRIPT_NAME'));
-	Configure::write('App.baseUrl', env('SCRIPT_NAME') . '?');
+	//Configure::write('App.baseUrl', env('SCRIPT_NAME') . '?');
 
 /**
  * Uncomment the define below to use CakePHP prefix routes.

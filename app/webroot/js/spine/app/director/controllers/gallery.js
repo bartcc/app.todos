@@ -1,4 +1,4 @@
-var $, EditorView;
+var $, GalleryView;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -13,44 +13,47 @@ if (typeof Spine !== "undefined" && Spine !== null) {
   Spine = require("spine");
 };
 $ = Spine.$;
-EditorView = (function() {
-  __extends(EditorView, Spine.Controller);
-  EditorView.prototype.elements = {
-    '.editEditor': 'editEl'
+GalleryView = (function() {
+  __extends(GalleryView, Spine.Controller);
+  GalleryView.prototype.elements = {
+    '.editGallery': 'editEl'
   };
-  EditorView.prototype.events = {
+  GalleryView.prototype.events = {
     "keydown": "save"
   };
-  EditorView.prototype.template = function(item) {
+  GalleryView.prototype.template = function(item) {
     return $('#editGalleryTemplate').tmpl(item);
   };
-  function EditorView() {
-    EditorView.__super__.constructor.apply(this, arguments);
-    Spine.App.bind('change:gallery', this.proxy(this.change));
+  function GalleryView() {
+    GalleryView.__super__.constructor.apply(this, arguments);
+    Spine.App.bind('change:selectedGallery', this.proxy(this.change));
   }
-  EditorView.prototype.render = function() {
-    var _base;
+  GalleryView.prototype.change = function(item) {
+    console.log('Gallery::change');
+    this.current = item;
+    return this.render();
+  };
+  GalleryView.prototype.render = function() {
+    var missing, missingGallery, _base;
     if (this.current && (typeof (_base = this.current).reload === "function" ? _base.reload() : void 0)) {
       this.current.reload();
       this.editEl.html(this.template(this.current));
     } else {
+      missing = 'Select a Gallery and an Album!';
+      missingGallery = 'Select a Gallery!';
       this.editEl.html($("#noSelectionTemplate").tmpl({
-        type: 'a gallery!'
+        type: Gallery.record ? missing : missingGallery
       }));
     }
     return this;
   };
-  EditorView.prototype.change = function(item) {
-    this.current = item;
-    return this.render();
-  };
-  EditorView.prototype.save = function(e) {
+  GalleryView.prototype.save = function(e) {
     if (e.keyCode !== 13) {
       return;
     }
     return Spine.App.trigger('save:gallery', this.editEl);
   };
-  return EditorView;
+  return GalleryView;
 })();
 if (typeof module !== "undefined" && module !== null) {
   module.exports = EditorView;

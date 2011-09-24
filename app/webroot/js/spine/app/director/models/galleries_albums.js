@@ -16,13 +16,10 @@ GalleriesAlbum = (function() {
   GalleriesAlbum.extend(Spine.Model.Filter);
   GalleriesAlbum.extend(Spine.Model.Local);
   GalleriesAlbum.prototype.select = function(query) {
-    if (query) {
-      if (this.gallery_id === query) {
-        return true;
-      }
-    } else {
+    if (this.gallery_id === query) {
       return true;
     }
+    return false;
   };
   return GalleriesAlbum;
 })();

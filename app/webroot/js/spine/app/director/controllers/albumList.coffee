@@ -5,7 +5,7 @@ class Spine.AlbumList extends Spine.Controller
 
   events:
     "click .item"      : "click"
-    "dblclick .item"   : "dblclick"
+    "dblclick .item"   : "preserveEditorOpen"
     
   selectFirst: true
     
@@ -14,58 +14,48 @@ class Spine.AlbumList extends Spine.Controller
     @bind("change", @change)
     #Album.bind("change", @proxy @change)
     #Gallery.bind("change", @proxy @change)
+    @record = Gallery.record
     
   template: -> arguments[0]
   
   change: (item, mode) =>
     console.log 'AlbumList::change'
-    album = @selectedAlbum(item?.id)
-    if album and !album.destroyed
-      
-      @current = album
+    if item and !item.destroyed
+      @current = item
+      #@record.updateAttribute('selectedAlbumId', @current, {silent: true})
       @children().removeClass("active")
       @children().forItem(@current).addClass("active")
       
-      Spine.App.trigger('change:album', @current, mode)
+      Spine.App.trigger('change:selectedAlbum', @current, mode)
   
-  render: (items) ->
+  render: (items, selected) ->
     console.log 'AlbumList::render'
-    @items = items if items
-    @html @template(@items)
-    @change()
+    selected = @record.selectedAlbumId unless selected
+    @items = items
+    @html @template @items
+    @change(selected)
     @
-      
-  selectedAlbum: (id) ->
-    gal = Gallery.selected()
-    albumid = id or gal.selectedAlbumId
-    return unless albumid
-    alb = Album.find(albumid)
-    try
-      Gallery.record.updateAttribute('selectedAlbumId', albumid, {silent:true})
-    catch e
-      alert 'Select a Gallery or drag Album into a Gallery !'
-      return
-    alb
-
+  
   children: (sel) ->
     @el.children(sel)
     
   click: (e) ->
-    item = $(e.target).item()
     console.log 'AlbumList::click'
+    item = $(e.target).item()
     
     if App.hmanager.hasActive()
-      @dblclick()
+      @preserveEditorOpen()
 
     @change item
-    
-  dblclick: ->
-    App.album.deactivate()
-    App.albums.albumBtn.click()
 
   edit: (e) ->
     console.log 'AlbumList::edit'
     item = $(e.target).item()
     @change item, 'edit'
+    
+  preserveEditorOpen: ->
+    console.log 'AlbumList::dblclick'
+    App.album.deactivate()
+    App.albums.albumBtn.click()
 
 module?.exports = Spine.AlbumList

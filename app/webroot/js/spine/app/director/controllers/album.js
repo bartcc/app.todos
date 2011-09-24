@@ -29,26 +29,25 @@ AlbumView = (function() {
   function AlbumView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumView.__super__.constructor.apply(this, arguments);
     Album.bind('change', this.proxy(this.change));
-    Spine.App.bind('change:album', this.proxy(this.change));
+    Spine.App.bind('change:selectedAlbum', this.proxy(this.change));
+    Spine.App.bind('change:selectedGallery', this.proxy(this.change));
   }
   AlbumView.prototype.change = function(item) {
-    return this.render();
+    console.log('Album::change');
+    return this.render(item instanceof Album ? item : void 0);
   };
-  AlbumView.prototype.render = function() {
-    var album, albumid, noalbum, nogallery;
-    albumid = this.albumid();
-    if (Album.exists(albumid)) {
-      album = Album.find(albumid);
-    }
-    if (album) {
-      this.current = album;
-      this.item.html(this.template(album));
+  AlbumView.prototype.render = function(item) {
+    var missing, missingAlbum;
+    console.log('Album::render');
+    if (item) {
+      this.current = item;
+      this.item.html(this.template(item));
       this.focusFirstInput(this.editEl);
     } else {
-      nogallery = 'a Gallery and an Album!';
-      noalbum = 'an Album!';
+      missing = 'Select a Gallery and an Album!';
+      missingAlbum = 'Select an Album!';
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: Gallery.record ? noalbum : nogallery
+        type: Gallery.record ? missingAlbum : missing
       }));
     }
     return this;
@@ -65,8 +64,7 @@ AlbumView = (function() {
   AlbumView.prototype.save = function(el) {
     var atts;
     atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
-    this.current.updateChangedAttributes(atts);
-    return this.change();
+    return this.current.updateChangedAttributes(atts);
   };
   AlbumView.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {

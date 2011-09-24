@@ -17,22 +17,23 @@ class AlbumView extends Spine.Controller
   constructor: ->
     super
     Album.bind('change', @proxy @change)
-    Spine.App.bind('change:album', @proxy @change)
+    Spine.App.bind('change:selectedAlbum', @proxy @change)
+    Spine.App.bind('change:selectedGallery', @proxy @change)
 
   change: (item) ->
-    @render()
+    console.log 'Album::change'
+    @render(item if item instanceof Album)
 
-  render: ->
-    albumid = @albumid()
-    album = Album.find(albumid) if Album.exists(albumid)
-    if album
-      @current = album
-      @item.html @template album
+  render: (item) ->
+    console.log 'Album::render'
+    if item
+      @current = item
+      @item.html @template item
       @focusFirstInput(@editEl)
     else
-      nogallery = 'a Gallery and an Album!'
-      noalbum = 'an Album!'
-      @item.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then noalbum else nogallery})
+      missing = 'Select a Gallery and an Album!'
+      missingAlbum = 'Select an Album!'
+      @item.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missingAlbum else missing})
     @
 
   albumid: ->
@@ -46,7 +47,6 @@ class AlbumView extends Spine.Controller
   save: (el) ->
     atts = el.serializeForm?() or @editEl.serializeForm()
     @current.updateChangedAttributes(atts)
-    @change()
 
   saveOnEnter: (e) =>
     return if(e.keyCode != 13)

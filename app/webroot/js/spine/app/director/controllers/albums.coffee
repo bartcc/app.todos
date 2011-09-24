@@ -10,7 +10,7 @@ class AlbumsView extends Spine.Controller
     ".edit .content"                : "editContent"
     "#views"                        : "views"
     ".draggable"                    : "draggable"
-    '.showEditor'                   : 'editorBtn'
+    '.showGallery'                  : 'galleryBtn'
     '.showAlbum'                    : 'albumBtn'
     '.showUpload'                   : 'uploadBtn'
     '.showGrid'                     : 'gridBtn'
@@ -21,7 +21,7 @@ class AlbumsView extends Spine.Controller
   events:
     "click .optEdit"      : "edit"
     "click .optEmail"     : "email"
-    "click .showEditor"   : "toggleEditor"
+    "click .showGallery"  : "toggleGallery"
     "click .showAlbum"    : "toggleAlbum"
     "click .showUpload"   : "toggleUpload"
     "click .showGrid"     : "toggleGrid"
@@ -31,7 +31,6 @@ class AlbumsView extends Spine.Controller
     'dblclick .draghandle': 'toggleDraghandle'
 
   template: (items) ->
-    #items = {album: items, gallery: @current}
     $("#albumsTemplate").tmpl items
 
   constructor: ->
@@ -41,11 +40,10 @@ class AlbumsView extends Spine.Controller
       el: @items,
       template: @template
       editor: @albumEditor
-    #Album.bind("refresh", @proxy @loadJoinTables)
     Album.bind("change", @proxy @render)
     Spine.App.bind('save:gallery', @proxy @save)
-    Spine.App.bind("change:gallery", @proxy @galleryChange)
-    #Spine.App.bind("change:album", @proxy @galleryChange)
+    Spine.App.bind('change:selectedGallery', @proxy @change)
+    #Gallery.bind('change', @proxy @renderHeader)
     @bind("toggle:view", @proxy @toggleView)
     @create = @edit
 
@@ -56,45 +54,36 @@ class AlbumsView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'Albums::change'
+    console.log item
     @current = item
-    console
-    @render()
+    @render item
     @[mode]?(item)
 
-  galleryChange: (item, mode) ->
-    console.log 'Albums::galleryChange'
-    return if item?.id is @current?.id
-    @current = item
-    #@gallery = item
-    @change item, mode
-    Spine.App.trigger('change:album')
-
-  render: ->
+  render: (item) ->
     console.log 'Albums::render'
-
-    joinedItems = GalleriesAlbum.filter(@current?.id)
-    items = for val in joinedItems
-      Album.find(val.album_id)
-    i=0
-    i++ for itm of items
-    console.log i + 'Albums gefiltert'
+    
     if @current
-      @header.html '<h2>Albums for Gallery ' + @current.name + '</h2>'
+      joinedItems = GalleriesAlbum.filter(@current.id)
+      items = for val in joinedItems
+        Album.find(val.album_id)
     else
-      @header.empty()
-    @list.render items
+      items = Album.filter()
+      
+
+    @renderHeader(item)
+    @list.render items, item
     
     #render Gallery Editor
     if @current
       @editContent.html $("#editGalleryTemplate").tmpl @current
       @focusFirstInput(@editEl)
-      
+    else
+      @editContent.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
     @
-    
-  focusFirstInput_: (el) ->
-    return unless el
-    $('input', el).first().focus().select() if el.is(':visible')
-    el
+   
+  renderHeader: (item) ->
+    console.log 'Albums::renderHeader'
+    @header.html '<h2>Albums for Gallery ' + item.name + '</h2>'
 
   show: (item) ->
     @showEl.show 0, @proxy ->
@@ -136,8 +125,8 @@ class AlbumsView extends Spine.Controller
       height: height()
       400
 
-  toggleEditor: (e) ->
-    @trigger("toggle:view", App.editor, e.target)
+  toggleGallery: (e) ->
+    @trigger("toggle:view", App.gallery, e.target)
 
   toggleAlbum: (e) ->
     @trigger("toggle:view", App.album, e.target)
@@ -165,9 +154,10 @@ class AlbumsView extends Spine.Controller
     @activeControl.click()
 
   save: (el) ->
-    atts = el.serializeForm?() or @editEl.serializeForm()
-    @current.updateChangedAttributes(atts)
-    @show()
+    if @current
+      atts = el.serializeForm?() or @editEl.serializeForm()
+      @current.updateChangedAttributes(atts)
+      @show()
 
   saveOnEnter: (e) =>
     return if(e.keyCode != 13)

@@ -6,6 +6,5 @@ class GalleriesAlbum extends Spine.Model
   @extend Spine.Model.Local
   
   select: (query) ->
-    if query
-      return true if @.gallery_id is query
-    else return true
+    return true if @.gallery_id is query
+    return false

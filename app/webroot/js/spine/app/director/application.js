@@ -12,7 +12,7 @@ App = (function() {
   App.prototype.elements = {
     '#sidebar-wrapper': 'sidebarEl',
     '#albums': 'albumsEl',
-    '#editor': 'editorEl',
+    '#gallery': 'galleryEl',
     '#album': 'albumEl',
     '#upload': 'uploadEl',
     '#grid': 'gridEl',
@@ -24,8 +24,8 @@ App = (function() {
     this.sidebar = new SidebarView({
       el: this.sidebarEl
     });
-    this.editor = new EditorView({
-      el: this.editorEl
+    this.gallery = new GalleryView({
+      el: this.galleryEl
     });
     this.album = new AlbumView({
       el: this.albumEl
@@ -51,7 +51,7 @@ App = (function() {
         return $(this.el).width() / 2;
       })
     });
-    this.hmanager = new Spine.Manager(this.editor, this.upload, this.album, this.grid);
+    this.hmanager = new Spine.Manager(this.gallery, this.upload, this.album, this.grid);
     this.hmanager.initDrag(this.hDrag, {
       initSize: this.proxy(function() {
         return $(this.albums.el).height() / 2;
@@ -74,5 +74,5 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  return App.albums.editorBtn.click();
+  return App.albums.galleryBtn.click();
 });

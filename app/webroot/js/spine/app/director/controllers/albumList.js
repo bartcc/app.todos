@@ -17,75 +17,58 @@ Spine.AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
   AlbumList.prototype.events = {
     "click .item": "click",
-    "dblclick .item": "dblclick"
+    "dblclick .item": "preserveEditorOpen"
   };
   AlbumList.prototype.selectFirst = true;
   function AlbumList() {
     this.change = __bind(this.change, this);    AlbumList.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
+    this.record = Gallery.record;
   }
   AlbumList.prototype.template = function() {
     return arguments[0];
   };
   AlbumList.prototype.change = function(item, mode) {
-    var album;
     console.log('AlbumList::change');
-    album = this.selectedAlbum(item != null ? item.id : void 0);
-    if (album && !album.destroyed) {
-      this.current = album;
+    if (item && !item.destroyed) {
+      this.current = item;
       this.children().removeClass("active");
       this.children().forItem(this.current).addClass("active");
-      return Spine.App.trigger('change:album', this.current, mode);
+      return Spine.App.trigger('change:selectedAlbum', this.current, mode);
     }
   };
-  AlbumList.prototype.render = function(items) {
+  AlbumList.prototype.render = function(items, selected) {
     console.log('AlbumList::render');
-    if (items) {
-      this.items = items;
+    if (!selected) {
+      selected = this.record.selectedAlbumId;
     }
+    this.items = items;
     this.html(this.template(this.items));
-    this.change();
+    this.change(selected);
     return this;
-  };
-  AlbumList.prototype.selectedAlbum = function(id) {
-    var alb, albumid, gal;
-    gal = Gallery.selected();
-    albumid = id || gal.selectedAlbumId;
-    if (!albumid) {
-      return;
-    }
-    alb = Album.find(albumid);
-    try {
-      Gallery.record.updateAttribute('selectedAlbumId', albumid, {
-        silent: true
-      });
-    } catch (e) {
-      alert('Select a Gallery or drag Album into a Gallery !');
-      return;
-    }
-    return alb;
   };
   AlbumList.prototype.children = function(sel) {
     return this.el.children(sel);
   };
   AlbumList.prototype.click = function(e) {
     var item;
-    item = $(e.target).item();
     console.log('AlbumList::click');
+    item = $(e.target).item();
     if (App.hmanager.hasActive()) {
-      this.dblclick();
+      this.preserveEditorOpen();
     }
     return this.change(item);
-  };
-  AlbumList.prototype.dblclick = function() {
-    App.album.deactivate();
-    return App.albums.albumBtn.click();
   };
   AlbumList.prototype.edit = function(e) {
     var item;
     console.log('AlbumList::edit');
     item = $(e.target).item();
     return this.change(item, 'edit');
+  };
+  AlbumList.prototype.preserveEditorOpen = function() {
+    console.log('AlbumList::dblclick');
+    App.album.deactivate();
+    return App.albums.albumBtn.click();
   };
   return AlbumList;
 })();

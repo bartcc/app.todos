@@ -1,10 +1,10 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class EditorView extends Spine.Controller
+class GalleryView extends Spine.Controller
   
   elements:
-    '.editEditor'  : 'editEl'
+    '.editGallery'  : 'editEl'
 
   events:
     "keydown"    : "save"
@@ -14,19 +14,22 @@ class EditorView extends Spine.Controller
 
   constructor: ->
     super
-    Spine.App.bind('change:gallery', @proxy @change)
+    Spine.App.bind('change:selectedGallery', @proxy @change)
+
+  change: (item) ->
+    console.log 'Gallery::change'
+    @current = item
+    @render()
 
   render: ->
     if @current and @current.reload?()
       @current.reload()
       @editEl.html @template @current
     else
-      @editEl.html $("#noSelectionTemplate").tmpl({type: 'a gallery!'})
+      missing         = 'Select a Gallery and an Album!'
+      missingGallery  = 'Select a Gallery!'
+      @editEl.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missing else missingGallery})
     @
-
-  change: (item) ->
-    @current = item
-    @render()
 
   save: (e) ->
     return if(e.keyCode != 13)

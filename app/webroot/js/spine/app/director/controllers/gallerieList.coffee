@@ -3,8 +3,8 @@ $      = Spine.$
 
 class Spine.GalleryList extends Spine.Controller
   events:
-    "click .item"   : "click",
     "dblclick .item": "edit"
+    "click .item"   : "click",
     
   elements:
     '.item'         : 'item'
@@ -21,15 +21,18 @@ class Spine.GalleryList extends Spine.Controller
   change: (item, mode, shiftKey) =>
     console.log 'GalleryList::change'
     if item
+      oldId = @current?.id
+      newId = item.id
+      changed = !(oldId is newId)
       @children().removeClass("active")
       unless shiftKey
-        Gallery.current(@current = item)
+        @current = item
         @children().forItem(@current).addClass("active")
       else
         @current = null
       Gallery.current(@current)
       
-      Spine.App.trigger('change:gallery', @current, mode)
+      Spine.App.trigger('change:selectedGallery', @current, mode)
   
   render: (items) ->
     console.log 'GalleryList::render'
@@ -44,11 +47,11 @@ class Spine.GalleryList extends Spine.Controller
     @el.children(sel)
 
   click: (e) ->
+    @stopEvent(e)
     console.log 'GalleryList::click'
     item = $(e.target).item()
     @change item, 'show', e.shiftKey
-    false
-    
+
   edit: (e) ->
     console.log 'GalleryList::edit'
     item = $(e.target).item()
@@ -57,6 +60,7 @@ class Spine.GalleryList extends Spine.Controller
   stopEvent: (e) ->
     if (e.stopPropagation)
       e.stopPropagation()
+      e.preventDefault()
     else
       e.cancelBubble = true
 

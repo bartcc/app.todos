@@ -22,7 +22,7 @@ AlbumsView = (function() {
     ".edit .content": "editContent",
     "#views": "views",
     ".draggable": "draggable",
-    '.showEditor': 'editorBtn',
+    '.showGallery': 'galleryBtn',
     '.showAlbum': 'albumBtn',
     '.showUpload': 'uploadBtn',
     '.showGrid': 'gridBtn',
@@ -33,7 +33,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.events = {
     "click .optEdit": "edit",
     "click .optEmail": "email",
-    "click .showEditor": "toggleEditor",
+    "click .showGallery": "toggleGallery",
     "click .showAlbum": "toggleAlbum",
     "click .showUpload": "toggleUpload",
     "click .showGrid": "toggleGrid",
@@ -55,7 +55,7 @@ AlbumsView = (function() {
     });
     Album.bind("change", this.proxy(this.render));
     Spine.App.bind('save:gallery', this.proxy(this.save));
-    Spine.App.bind("change:gallery", this.proxy(this.galleryChange));
+    Spine.App.bind('change:selectedGallery', this.proxy(this.change));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.create = this.edit;
     $(this.views).queue("fx");
@@ -65,59 +65,43 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.change = function(item, mode) {
     console.log('Albums::change');
+    console.log(item);
     this.current = item;
-    console;
-    this.render();
+    this.render(item);
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
   };
-  AlbumsView.prototype.galleryChange = function(item, mode) {
-    var _ref;
-    console.log('Albums::galleryChange');
-    if ((item != null ? item.id : void 0) === ((_ref = this.current) != null ? _ref.id : void 0)) {
-      return;
-    }
-    this.current = item;
-    this.change(item, mode);
-    return Spine.App.trigger('change:album');
-  };
-  AlbumsView.prototype.render = function() {
-    var i, items, itm, joinedItems, val, _ref;
+  AlbumsView.prototype.render = function(item) {
+    var items, joinedItems, val;
     console.log('Albums::render');
-    joinedItems = GalleriesAlbum.filter((_ref = this.current) != null ? _ref.id : void 0);
-    items = (function() {
-      var _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = joinedItems.length; _i < _len; _i++) {
-        val = joinedItems[_i];
-        _results.push(Album.find(val.album_id));
-      }
-      return _results;
-    })();
-    i = 0;
-    for (itm in items) {
-      i++;
-    }
-    console.log(i + 'Albums gefiltert');
     if (this.current) {
-      this.header.html('<h2>Albums for Gallery ' + this.current.name + '</h2>');
+      joinedItems = GalleriesAlbum.filter(this.current.id);
+      items = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = joinedItems.length; _i < _len; _i++) {
+          val = joinedItems[_i];
+          _results.push(Album.find(val.album_id));
+        }
+        return _results;
+      })();
     } else {
-      this.header.empty();
+      items = Album.filter();
     }
-    this.list.render(items);
+    this.renderHeader(item);
+    this.list.render(items, item);
     if (this.current) {
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
       this.focusFirstInput(this.editEl);
+    } else {
+      this.editContent.html($("#noSelectionTemplate").tmpl({
+        type: 'Select a Gallery!'
+      }));
     }
     return this;
   };
-  AlbumsView.prototype.focusFirstInput_ = function(el) {
-    if (!el) {
-      return;
-    }
-    if (el.is(':visible')) {
-      $('input', el).first().focus().select();
-    }
-    return el;
+  AlbumsView.prototype.renderHeader = function(item) {
+    console.log('Albums::renderHeader');
+    return this.header.html('<h2>Albums for Gallery ' + item.name + '</h2>');
   };
   AlbumsView.prototype.show = function(item) {
     return this.showEl.show(0, this.proxy(function() {
@@ -169,8 +153,8 @@ AlbumsView = (function() {
       height: height()
     }, 400);
   };
-  AlbumsView.prototype.toggleEditor = function(e) {
-    return this.trigger("toggle:view", App.editor, e.target);
+  AlbumsView.prototype.toggleGallery = function(e) {
+    return this.trigger("toggle:view", App.gallery, e.target);
   };
   AlbumsView.prototype.toggleAlbum = function(e) {
     return this.trigger("toggle:view", App.album, e.target);
@@ -198,9 +182,11 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.save = function(el) {
     var atts;
-    atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
-    this.current.updateChangedAttributes(atts);
-    return this.show();
+    if (this.current) {
+      atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
+      this.current.updateChangedAttributes(atts);
+      return this.show();
+    }
   };
   AlbumsView.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {

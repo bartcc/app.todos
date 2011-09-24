@@ -3,7 +3,7 @@ class App extends Spine.Controller
   elements:
     '#sidebar-wrapper'    : 'sidebarEl'
     '#albums'             : 'albumsEl'
-    '#editor'             : 'editorEl'
+    '#gallery'            : 'galleryEl'
     '#album'              : 'albumEl'
     '#upload'             : 'uploadEl'
     '#grid'               : 'gridEl'
@@ -14,8 +14,8 @@ class App extends Spine.Controller
     super
     @sidebar = new SidebarView
       el: @sidebarEl
-    @editor = new EditorView
-      el: @editorEl
+    @gallery = new GalleryView
+      el: @galleryEl
     @album = new AlbumView
       el: @albumEl
     @upload = new UploadView
@@ -35,7 +35,7 @@ class App extends Spine.Controller
       max: @proxy ->
         $(@el).width()/2
 
-    @hmanager = new Spine.Manager(@editor, @upload, @album, @grid)
+    @hmanager = new Spine.Manager(@gallery, @upload, @album, @grid)
     @hmanager.initDrag @hDrag,
       initSize: @proxy ->
         $(@albums.el).height()/2
@@ -49,5 +49,5 @@ class App extends Spine.Controller
       
 $ ->
   window.App = new App(el: $('body'))
-  App.albums.editorBtn.click()
+  App.albums.galleryBtn.click()
   #Gallery.fetch()

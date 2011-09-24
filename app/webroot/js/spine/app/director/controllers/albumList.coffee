@@ -12,8 +12,6 @@ class Spine.AlbumList extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-    #Album.bind("change", @proxy @change)
-    #Gallery.bind("change", @proxy @change)
     @record = Gallery.record
     
   template: -> arguments[0]

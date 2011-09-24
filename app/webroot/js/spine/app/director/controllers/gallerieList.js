@@ -30,9 +30,14 @@ Spine.GalleryList = (function() {
   GalleryList.prototype.template = function() {
     return arguments[0];
   };
-  GalleryList.prototype.change = function(item, mode, shiftKey) {
-    var changed, newId, oldId, _ref;
+  GalleryList.prototype.change = function(item, mode, e) {
+    var changed, dblclick, newId, oldId, shiftKey, _ref;
     console.log('GalleryList::change');
+    if (e) {
+      shiftKey = e.shiftKey;
+      dblclick = e.type === 'dblclick';
+      console.log(e);
+    }
     if (item != null ? item.reload() : void 0) {
       oldId = (_ref = this.current) != null ? _ref.id : void 0;
       newId = item.id;
@@ -43,9 +48,11 @@ Spine.GalleryList = (function() {
         this.children().forItem(this.current).addClass("active");
       } else {
         this.current = null;
-        changed = true;
       }
       Gallery.current(this.current);
+      if (!this.current || dblclick) {
+        changed = true;
+      }
       if (changed) {
         return Spine.App.trigger('change:selectedGallery', this.current, mode);
       }
@@ -71,13 +78,13 @@ Spine.GalleryList = (function() {
     var item;
     console.log('GalleryList::click');
     item = $(e.target).item();
-    return this.change(item, 'show', e.shiftKey);
+    return this.change(item, 'show', e);
   };
   GalleryList.prototype.edit = function(e) {
     var item;
     console.log('GalleryList::edit');
     item = $(e.target).item();
-    return this.change(item, 'edit');
+    return this.change(item, 'edit', e);
   };
   GalleryList.prototype.stopEvent = function(e) {
     if (e.stopPropagation) {

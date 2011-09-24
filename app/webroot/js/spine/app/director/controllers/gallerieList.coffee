@@ -18,8 +18,12 @@ class Spine.GalleryList extends Spine.Controller
 
   template: -> arguments[0]
   
-  change: (item, mode, shiftKey) =>
+  change: (item, mode, e) =>
     console.log 'GalleryList::change'
+    if e
+      shiftKey = e.shiftKey
+      dblclick = e.type is 'dblclick'
+      console.log e
     if item?.reload()
       oldId = @current?.id
       newId = item.id
@@ -30,8 +34,9 @@ class Spine.GalleryList extends Spine.Controller
         @children().forItem(@current).addClass("active")
       else
         @current = null
-        changed = true
       Gallery.current(@current)
+      
+      changed = true if !(@current) or dblclick
       
       Spine.App.trigger('change:selectedGallery', @current, mode) if changed
   
@@ -51,12 +56,12 @@ class Spine.GalleryList extends Spine.Controller
     #@stopEvent(e)
     console.log 'GalleryList::click'
     item = $(e.target).item()
-    @change item, 'show', e.shiftKey
+    @change item, 'show', e
 
   edit: (e) ->
     console.log 'GalleryList::edit'
     item = $(e.target).item()
-    @change item, 'edit'
+    @change item, 'edit', e
 
   stopEvent: (e) ->
     if (e.stopPropagation)

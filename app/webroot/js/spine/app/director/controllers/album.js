@@ -45,7 +45,6 @@ AlbumView = (function() {
     var missing, missingAlbum;
     console.log('Album::render');
     if (this.current) {
-      console.log(this.current);
       this.item.html(this.template(this.current));
       this.focusFirstInput(this.editEl);
     } else {

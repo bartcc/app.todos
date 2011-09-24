@@ -36,7 +36,6 @@ Spine.GalleryList = (function() {
     if (e) {
       shiftKey = e.shiftKey;
       dblclick = e.type === 'dblclick';
-      console.log(e);
     }
     if (item != null ? item.reload() : void 0) {
       oldId = (_ref = this.current) != null ? _ref.id : void 0;

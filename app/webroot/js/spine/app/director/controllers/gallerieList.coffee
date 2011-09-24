@@ -23,7 +23,6 @@ class Spine.GalleryList extends Spine.Controller
     if e
       shiftKey = e.shiftKey
       dblclick = e.type is 'dblclick'
-      console.log e
     if item?.reload()
       oldId = @current?.id
       newId = item.id

@@ -29,8 +29,6 @@ class AlbumView extends Spine.Controller
   render: () ->
     console.log 'Album::render'
     if @current
-      console.log @current
-      
       @item.html @template @current
       @focusFirstInput(@editEl)
     else

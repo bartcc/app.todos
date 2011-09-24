@@ -508,12 +508,16 @@ textarea {
 #views > .view:not(.active) {
   display: none !important;
 }
+#albums .content .items {
+  margin-top: 20px
+}
 #albums .content li.thumbnail {
   outline: none;
   background: #4F2F2F;
   background: -webkit-gradient(linear, left top, left bottom, from(#4F2F2F), to(#3B1B1B));
   background: -moz-linear-gradient(top, #4F2F2F, #3B1B1B);
   background: linear-gradient(top, #4F2F2F, #3B1B1B);
+  border: 4px solid rgba(156, 120, 0, 0.5);
   border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -523,16 +527,14 @@ textarea {
   margin: 0 10px 10px 0;
   padding: 10px;
   color: rgba(156, 120, 0, 0.5);
-  width: 200px;
-  height: 200px
+  width: 150px;
+  height: 150px
 }
 #albums .content li.thumbnail.active {
   outline:none;
   transition: all 0.25s ease-in-out;
   -webkit-transition: all 0.25s ease-in-out;
   -moz-transition: all 0.25s ease-in-out;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
+  
   border: 4px solid rgba(255, 128, 0, 0.8);
 }

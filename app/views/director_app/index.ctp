@@ -18,31 +18,31 @@
 
     <div class="vdivide draghandle"></div>
   </div>
-  <div id="albums" class="vbox flex">
-    <div class="show vbox flex">
+  <div id="albums" class="views vbox flex">
+    <div class="show view vbox flex">
       <ul class="options hbox">
-        <li class="view nobutton">Properties:</li>
-        <li class="view showGallery">Gallery</li>
-        <li class="view showAlbum">Album</li>
-        <li class="view showUpload">Upload Photo</li>
-        <li class="view showGrid">Thumb Grid</li>
-        <li class="splitter nobutton flex"></li>
+        <li class="disabled">Properties:</li>
+        <li class="opt optGallery">Gallery</li>
+        <li class="opt optAlbum">Album</li>
+        <li class="opt optUpload">Upload Photo</li>
+        <li class="opt optGrid">Thumb Grid</li>
+        <li class="splitter disabled flex"></li>
         <li class="optEdit">Edit Gallery</li>
         <li class="optEmail">Email Gallery</li>
       </ul>
       <div class="content vbox flex autoflow">
         <div class="header"></div>
-        <div class="items"></div>
+        <div class="items">No Albums found!</div>
       </div>
-      <div id="views-wrapper" class="hbox autoflow">
-        <div id="views" class="vbox flex hdraggable">
+      <div id="views" class="hbox autoflow">
+        <div class="views vbox flex hdraggable">
           <div class="hdivide draghandle"></div>
           <div id="gallery" class="view flex autoflow" style="">
-            <div class="editGallery"></div>
+            <div class="editGallery">You have no Galleries!</div>
           </div>
           <div id="album" class="view flex autoflow" style="">
             <div class="editAlbum">
-              <div class="item">Albums</div>
+              <div class="item">No Albums found!</div>
             </div>
           </div>
           <div id="upload" class="view flex autoflow" style="">
@@ -54,11 +54,11 @@
         </div>
       </div>  
     </div>
-    <div class="edit vbox flex">
+    <div class="edit view vbox flex">
       <ul class="options hbox">
         <li class="splitter flex"></li>
-        <li class="optSave default">Save Gallery</li>
-        <li class="optDestroy">Delete Gallery</li>
+        <li class="optSave default">Save and Close</li>
+        <li class="optDestroy disabled">Delete Gallery</li>
       </ul>
       <div class="content vbox flex autoflow"></div>
     </div>

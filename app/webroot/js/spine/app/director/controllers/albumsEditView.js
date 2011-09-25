@@ -38,7 +38,7 @@ AlbumsEditView = (function() {
   }
   AlbumsEditView.prototype.change = function(item, mode) {
     console.log('AlbumsEditView::change');
-    if (!item.destroyed) {
+    if (!(item != null ? item.destroyed : void 0)) {
       this.current = item;
     }
     return this.render(this.current);

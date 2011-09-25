@@ -34,7 +34,10 @@ class Spine.AlbumList extends Spine.Controller
     console.log 'AlbumList::render'
     selected = @record.selectedAlbumId unless selected
     @items = items
-    @html @template @items
+    if @items.length
+      @html @template @items
+    else
+      @html 'This Gallery has no Albums'
     @change(selected)
     @
   
@@ -46,7 +49,7 @@ class Spine.AlbumList extends Spine.Controller
     item = $(e.target).item()
     
     if App.hmanager.hasActive()
-      @preserveEditorOpen('albums', e.target)
+      @preserveEditorOpen('album', App.albumsShowView.btnAlbum)
 
     @change item
 

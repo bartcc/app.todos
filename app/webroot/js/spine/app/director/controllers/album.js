@@ -48,8 +48,9 @@ AlbumView = (function() {
       this.item.html(this.template(this.current));
       this.focusFirstInput(this.editEl);
     } else {
+      console.log(Album.record);
       missing = 'Select a Gallery and an Album!';
-      missingAlbum = 'Select an Album!';
+      missingAlbum = Album.record ? 'Select an Album!' : 'Create an Album!';
       this.item.html($("#noSelectionTemplate").tmpl({
         type: Gallery.record ? missingAlbum : missing
       }));

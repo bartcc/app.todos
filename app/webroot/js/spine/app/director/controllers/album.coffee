@@ -32,8 +32,9 @@ class AlbumView extends Spine.Controller
       @item.html @template @current
       @focusFirstInput(@editEl)
     else
+      console.log Album.record
       missing = 'Select a Gallery and an Album!'
-      missingAlbum = 'Select an Album!'
+      missingAlbum = if Album.record then 'Select an Album!' else 'Create an Album!'
       @item.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missingAlbum else missing})
     @
 

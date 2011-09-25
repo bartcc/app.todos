@@ -26,7 +26,7 @@ class AlbumsEditView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'AlbumsEditView::change'
-    @current = item if !(item.destroyed)
+    @current = item if !(item?.destroyed)
     @render @current
 
   render: (item) ->

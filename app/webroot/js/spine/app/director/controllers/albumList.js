@@ -49,7 +49,11 @@ Spine.AlbumList = (function() {
       selected = this.record.selectedAlbumId;
     }
     this.items = items;
-    this.html(this.template(this.items));
+    if (this.items.length) {
+      this.html(this.template(this.items));
+    } else {
+      this.html('This Gallery has no Albums');
+    }
     this.change(selected);
     return this;
   };
@@ -61,7 +65,7 @@ Spine.AlbumList = (function() {
     console.log('AlbumList::click');
     item = $(e.target).item();
     if (App.hmanager.hasActive()) {
-      this.preserveEditorOpen('albums', e.target);
+      this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
     }
     return this.change(item);
   };

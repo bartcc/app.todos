@@ -34,30 +34,20 @@ GalleryView = (function() {
     if (!(item != null ? item.destroyed : void 0)) {
       this.current = item;
     }
-    if (this.current) {
-      console.log(this.current);
-    }
     return this.render();
   };
   GalleryView.prototype.render = function() {
     var missing, missingGallery;
     console.log('Gallery::render');
-    if (this.current) {
-      console.log(this.current);
-    }
-    console.log(this.current.destroyed);
     if (this.current && !this.current.destroyed) {
-      console.log('Gallery::render1');
       this.editEl.html(this.template(this.current));
       this.focusFirstInput(this.editEl);
     } else {
-      console.log('Gallery::render2');
       missing = 'Select a Gallery and an Album!';
       missingGallery = Gallery.count() ? 'Select a Gallery!' : 'Create a Gallery';
       this.editEl.html($("#noSelectionTemplate").tmpl({
         type: Gallery.record ? missing : missingGallery
       }));
-      console.log(this.editEl.html());
     }
     return this;
   };

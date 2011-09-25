@@ -32,10 +32,10 @@ class AlbumsShowView extends Spine.Controller
       el: @items,
       template: @template
     Album.bind("change", @proxy @render)
+    Gallery.bind "update", @proxy @renderHeader
     Spine.App.bind('save:gallery', @proxy @save)
-    @bind('save:gallery', @proxy @save)
     Spine.App.bind('change:selectedGallery', @proxy @change)
-    Gallery.bind "change", @proxy @renderHeader
+    @bind('save:gallery', @proxy @save)
     @bind("toggle:view", @proxy @toggleView)
     @create = @edit
 
@@ -67,7 +67,6 @@ class AlbumsShowView extends Spine.Controller
   renderHeader: (item) ->
     console.log 'AlbumsShowView::renderHeader'
     gallery = item or @current
-    console.log name
     if gallery
       @header.html '<h2>Albums for Gallery ' + gallery.name + '</h2>'
     else

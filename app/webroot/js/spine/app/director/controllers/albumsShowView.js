@@ -45,10 +45,10 @@ AlbumsShowView = (function() {
       template: this.template
     });
     Album.bind("change", this.proxy(this.render));
+    Gallery.bind("update", this.proxy(this.renderHeader));
     Spine.App.bind('save:gallery', this.proxy(this.save));
-    this.bind('save:gallery', this.proxy(this.save));
     Spine.App.bind('change:selectedGallery', this.proxy(this.change));
-    Gallery.bind("change", this.proxy(this.renderHeader));
+    this.bind('save:gallery', this.proxy(this.save));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.create = this.edit;
     $(this.views).queue("fx");
@@ -89,7 +89,6 @@ AlbumsShowView = (function() {
     var gallery;
     console.log('AlbumsShowView::renderHeader');
     gallery = item || this.current;
-    console.log(name);
     if (gallery) {
       return this.header.html('<h2>Albums for Gallery ' + gallery.name + '</h2>');
     } else {

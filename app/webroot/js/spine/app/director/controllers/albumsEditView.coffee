@@ -26,9 +26,7 @@ class AlbumsEditView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'AlbumsEditView::change'
-    console.log '!!!!!!!!!!!!!!'
     @current = item if !(item.destroyed)
-    console.log @current
     @render @current
 
   render: (item) ->
@@ -36,7 +34,7 @@ class AlbumsEditView extends Spine.Controller
     @current = item if item
     if @current and !(@current.destroyed)
       @editContent.html $("#editGalleryTemplate").tmpl @current
-      @focusFirstInput(@editEl)
+      @focusFirstInput @el
     else
       if Gallery.count()
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
@@ -46,7 +44,7 @@ class AlbumsEditView extends Spine.Controller
     @
 
   destroy: ->
-    console.log @current
+    console.log 'AlbumsEditView::destroy'
     @current.destroy()
     Gallery.record = false if !Gallery.count()
 

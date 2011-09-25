@@ -38,11 +38,9 @@ AlbumsEditView = (function() {
   }
   AlbumsEditView.prototype.change = function(item, mode) {
     console.log('AlbumsEditView::change');
-    console.log('!!!!!!!!!!!!!!');
     if (!item.destroyed) {
       this.current = item;
     }
-    console.log(this.current);
     return this.render(this.current);
   };
   AlbumsEditView.prototype.render = function(item) {
@@ -52,7 +50,7 @@ AlbumsEditView = (function() {
     }
     if (this.current && !this.current.destroyed) {
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
-      this.focusFirstInput(this.editEl);
+      this.focusFirstInput(this.el);
     } else {
       if (Gallery.count()) {
         this.editContent.html($("#noSelectionTemplate").tmpl({
@@ -67,7 +65,7 @@ AlbumsEditView = (function() {
     return this;
   };
   AlbumsEditView.prototype.destroy = function() {
-    console.log(this.current);
+    console.log('AlbumsEditView::destroy');
     this.current.destroy();
     if (!Gallery.count()) {
       return Gallery.record = false;

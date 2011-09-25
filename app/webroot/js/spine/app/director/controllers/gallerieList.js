@@ -45,10 +45,6 @@ Spine.GalleryList = (function() {
       this.children().removeClass("active");
       if (!shiftKey) {
         this.current = item;
-        console.log('@current if @current in ::change');
-        if (this.current) {
-          console.log(this.current);
-        }
         this.children().forItem(this.current).addClass("active");
       } else {
         this.current = null;
@@ -63,20 +59,11 @@ Spine.GalleryList = (function() {
     }
   };
   GalleryList.prototype.render = function(items, item) {
-    var _ref;
     console.log('GalleryList::render');
     if (items) {
       this.items = items;
     }
     this.html(this.template(this.items));
-    console.log('@current if @current in ::render');
-    if (this.current) {
-      console.log(this.current);
-    }
-    console.log((_ref = this.current) != null ? _ref.destroyed : void 0);
-    if (this.current) {
-      console.log(this.current.destroyed);
-    }
     this.change(item || this.current);
     if (this.selectFirst) {
       if (!this.children(".active").length) {

@@ -3,6 +3,8 @@ class App extends Spine.Controller
   elements:
     '#sidebar-wrapper'    : 'sidebarEl'
     '#albums'             : 'albumsEl'
+    '#albums .show'       : 'albumsShowEl'
+    '#albums .edit'       : 'albumsEditEl'
     '#gallery'            : 'galleryEl'
     '#album'              : 'albumEl'
     '#upload'             : 'uploadEl'
@@ -22,8 +24,12 @@ class App extends Spine.Controller
       el: @uploadEl
     @grid = new GridView
       el: @gridEl
-    @albums = new AlbumsView
-      el: @albumsEl
+    @albumsShowView = new AlbumsShowView
+      el: @albumsShowEl
+    @albumsEditView = new AlbumsEditView
+      el: @albumsEditEl
+#    @albums = new AlbumsView
+#      el: @albumsEl
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
@@ -35,19 +41,22 @@ class App extends Spine.Controller
       max: @proxy ->
         $(@el).width()/2
 
-    @hmanager = new Spine.Manager(@gallery, @upload, @album, @grid)
+    @hmanager = new Spine.Manager(@gallery, @album, @upload, @grid)
     @hmanager.initDrag @hDrag,
       initSize: @proxy ->
-        $(@albums.el).height()/2
+        $(@.el).height()/2
       disabled: false
       axis: 'y'
       min: 30
       max: @proxy ->
-        (@albums.el).height()*2/3
+        @.el.height()*2/3
       goSleep: @proxy ->
-        @albums.activeControl?.click()
+        @albumsShowView.activeControl?.click()
+
+    @albumsManager = new Spine.Manager(@albumsShowView, @albumsEditView)
       
 $ ->
   window.App = new App(el: $('body'))
-  App.albums.galleryBtn.click()
+  App.albumsManager.change(App.albumsShowView)
+  App.albumsShowView.btnGallery.click()
   #Gallery.fetch()

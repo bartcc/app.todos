@@ -35,11 +35,11 @@ class SidebarView extends Spine.Controller
     @query = @input.val();
     @render();
 
-  render: ->
+  render: (item) ->
     console.log 'Sidebar::render'
     items = Gallery.filter @query
     items = items.sort Gallery.nameSort
-    @list.render items
+    @list.render items, item
 
   newAttributes: ->
     name: ''
@@ -49,6 +49,7 @@ class SidebarView extends Spine.Controller
   create: (e) ->
     e.preventDefault()
     gallery = new Gallery @newAttributes()
+    @preserveEditorOpen('gallery', App.albumsShowView.btnGallery)
     gallery.save()
   
   toggleDraghandle: ->

@@ -8,7 +8,7 @@ class AlbumsView extends Spine.Controller
     ".edit"                         : "editEl"
     ".show .content"                : "showContent"
     ".edit .content"                : "editContent"
-    ".views"                        : "views"
+    "#views"                        : "views"
     ".draggable"                    : "draggable"
     '.showGallery'                  : 'galleryBtn'
     '.showAlbum'                    : 'albumBtn'

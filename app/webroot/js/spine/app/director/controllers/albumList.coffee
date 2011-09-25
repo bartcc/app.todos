@@ -18,6 +18,7 @@ class Spine.AlbumList extends Spine.Controller
   
   change: (item, mode) =>
     console.log 'AlbumList::change'
+    
     if item and !item.destroyed
       oldId = @current?.id
       newId = item.id
@@ -45,7 +46,7 @@ class Spine.AlbumList extends Spine.Controller
     item = $(e.target).item()
     
     if App.hmanager.hasActive()
-      @preserveEditorOpen()
+      @preserveEditorOpen('albums', e.target)
 
     @change item
 
@@ -53,10 +54,5 @@ class Spine.AlbumList extends Spine.Controller
     console.log 'AlbumList::edit'
     item = $(e.target).item()
     @change item, 'edit'
-    
-  preserveEditorOpen: ->
-    console.log 'AlbumList::dblclick'
-    App.album.deactivate()
-    App.albums.albumBtn.click()
 
 module?.exports = Spine.AlbumList

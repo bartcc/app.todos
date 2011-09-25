@@ -44,12 +44,12 @@ SidebarView = (function() {
     this.query = this.input.val();
     return this.render();
   };
-  SidebarView.prototype.render = function() {
+  SidebarView.prototype.render = function(item) {
     var items;
     console.log('Sidebar::render');
     items = Gallery.filter(this.query);
     items = items.sort(Gallery.nameSort);
-    return this.list.render(items);
+    return this.list.render(items, item);
   };
   SidebarView.prototype.newAttributes = function() {
     return {
@@ -61,6 +61,7 @@ SidebarView = (function() {
     var gallery;
     e.preventDefault();
     gallery = new Gallery(this.newAttributes());
+    this.preserveEditorOpen('gallery', App.albumsShowView.btnGallery);
     return gallery.save();
   };
   SidebarView.prototype.toggleDraghandle = function() {

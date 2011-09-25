@@ -14,6 +14,10 @@ Spine.Controller.include({
       $('input', el).first().focus().select();
     }
     return el;
+  },
+  preserveEditorOpen: function(controller, target) {
+    App[controller].deactivate();
+    return target.click();
   }
 });
 Spine.Controller.extend({

@@ -61,7 +61,7 @@ Spine.AlbumList = (function() {
     console.log('AlbumList::click');
     item = $(e.target).item();
     if (App.hmanager.hasActive()) {
-      this.preserveEditorOpen();
+      this.preserveEditorOpen('albums', e.target);
     }
     return this.change(item);
   };
@@ -70,11 +70,6 @@ Spine.AlbumList = (function() {
     console.log('AlbumList::edit');
     item = $(e.target).item();
     return this.change(item, 'edit');
-  };
-  AlbumList.prototype.preserveEditorOpen = function() {
-    console.log('AlbumList::dblclick');
-    App.album.deactivate();
-    return App.albums.albumBtn.click();
   };
   return AlbumList;
 })();

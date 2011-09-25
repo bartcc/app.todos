@@ -37,13 +37,18 @@ Spine.GalleryList = (function() {
       shiftKey = e.shiftKey;
       dblclick = e.type === 'dblclick';
     }
-    if (item != null ? item.reload() : void 0) {
+    if (!(item != null ? item.destroyed : void 0) && (item != null ? item.reload() : void 0)) {
       oldId = (_ref = this.current) != null ? _ref.id : void 0;
+      console.log('ITEM VALID');
       newId = item.id;
       changed = !(oldId === newId) || !oldId;
       this.children().removeClass("active");
       if (!shiftKey) {
         this.current = item;
+        console.log('@current if @current in ::change');
+        if (this.current) {
+          console.log(this.current);
+        }
         this.children().forItem(this.current).addClass("active");
       } else {
         this.current = null;
@@ -57,13 +62,22 @@ Spine.GalleryList = (function() {
       }
     }
   };
-  GalleryList.prototype.render = function(items) {
+  GalleryList.prototype.render = function(items, item) {
+    var _ref;
     console.log('GalleryList::render');
     if (items) {
       this.items = items;
     }
     this.html(this.template(this.items));
-    this.change(this.current);
+    console.log('@current if @current in ::render');
+    if (this.current) {
+      console.log(this.current);
+    }
+    console.log((_ref = this.current) != null ? _ref.destroyed : void 0);
+    if (this.current) {
+      console.log(this.current.destroyed);
+    }
+    this.change(item || this.current);
     if (this.selectFirst) {
       if (!this.children(".active").length) {
         return this.children(":first").click();

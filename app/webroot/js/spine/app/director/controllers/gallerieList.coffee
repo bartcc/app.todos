@@ -23,13 +23,16 @@ class Spine.GalleryList extends Spine.Controller
     if e
       shiftKey = e.shiftKey
       dblclick = e.type is 'dblclick'
-    if item?.reload()
+    if !(item?.destroyed) and item?.reload()
       oldId = @current?.id
+      console.log 'ITEM VALID'
       newId = item.id
       changed = !(oldId is newId) or !(oldId)
       @children().removeClass("active")
       unless shiftKey
         @current = item
+        console.log '@current if @current in ::change'
+        console.log @current if @current
         @children().forItem(@current).addClass("active")
       else
         @current = null
@@ -40,11 +43,16 @@ class Spine.GalleryList extends Spine.Controller
       
       Spine.App.trigger('change:selectedGallery', @current, mode) if changed
   
-  render: (items) ->
+  render: (items, item) ->
     console.log 'GalleryList::render'
     @items = items if items
     @html @template(@items)
-    @change @current
+    console.log '@current if @current in ::render'
+    console.log @current if @current
+    console.log @current?.destroyed
+    #@current?.reload()
+    console.log @current.destroyed if @current
+    @change item or @current
     if @selectFirst
       unless @children(".active").length
         @children(":first").click()

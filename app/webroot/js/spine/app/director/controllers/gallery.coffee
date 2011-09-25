@@ -15,21 +15,28 @@ class GalleryView extends Spine.Controller
   constructor: ->
     super
     Spine.App.bind('change:selectedGallery', @proxy @change)
-    Gallery.bind "update", @proxy @change
+    Gallery.bind "change", @proxy @change
 
   change: (item) ->
     console.log 'Gallery::change'
-    @current = item
+    @current = item if !(item?.destroyed)
+    console.log @current if @current
     @render()
 
   render: ->
-    if @current# and @current.reload?()
-      #@current.reload()
+    console.log 'Gallery::render'
+    console.log @current if @current
+    console.log @current.destroyed
+    if @current and !(@current.destroyed)
+      console.log 'Gallery::render1'
       @editEl.html @template @current
+      @focusFirstInput(@editEl)
     else
+      console.log 'Gallery::render2'
       missing         = 'Select a Gallery and an Album!'
-      missingGallery  = 'Select a Gallery!'
+      missingGallery  = if Gallery.count() then 'Select a Gallery!' else 'Create a Gallery'
       @editEl.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missing else missingGallery})
+      console.log @editEl.html()
     @
 
   save: (el) ->

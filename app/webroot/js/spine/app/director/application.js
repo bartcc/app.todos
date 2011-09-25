@@ -12,6 +12,8 @@ App = (function() {
   App.prototype.elements = {
     '#sidebar-wrapper': 'sidebarEl',
     '#albums': 'albumsEl',
+    '#albums .show': 'albumsShowEl',
+    '#albums .edit': 'albumsEditEl',
     '#gallery': 'galleryEl',
     '#album': 'albumEl',
     '#upload': 'uploadEl',
@@ -36,8 +38,11 @@ App = (function() {
     this.grid = new GridView({
       el: this.gridEl
     });
-    this.albums = new AlbumsView({
-      el: this.albumsEl
+    this.albumsShowView = new AlbumsShowView({
+      el: this.albumsShowEl
+    });
+    this.albumsEditView = new AlbumsEditView({
+      el: this.albumsEditEl
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
@@ -51,22 +56,23 @@ App = (function() {
         return $(this.el).width() / 2;
       })
     });
-    this.hmanager = new Spine.Manager(this.gallery, this.upload, this.album, this.grid);
+    this.hmanager = new Spine.Manager(this.gallery, this.album, this.upload, this.grid);
     this.hmanager.initDrag(this.hDrag, {
       initSize: this.proxy(function() {
-        return $(this.albums.el).height() / 2;
+        return $(this.el).height() / 2;
       }),
       disabled: false,
       axis: 'y',
       min: 30,
       max: this.proxy(function() {
-        return this.albums.el.height() * 2 / 3;
+        return this.el.height() * 2 / 3;
       }),
       goSleep: this.proxy(function() {
         var _ref;
-        return (_ref = this.albums.activeControl) != null ? _ref.click() : void 0;
+        return (_ref = this.albumsShowView.activeControl) != null ? _ref.click() : void 0;
       })
     });
+    this.albumsManager = new Spine.Manager(this.albumsShowView, this.albumsEditView);
   }
   return App;
 })();
@@ -74,5 +80,6 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  return App.albums.galleryBtn.click();
+  App.albumsManager.change(App.albumsShowView);
+  return App.albumsShowView.btnGallery.click();
 });

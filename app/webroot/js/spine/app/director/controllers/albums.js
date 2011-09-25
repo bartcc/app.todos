@@ -20,7 +20,7 @@ AlbumsView = (function() {
     ".edit": "editEl",
     ".show .content": "showContent",
     ".edit .content": "editContent",
-    "#views": "views",
+    ".views": "views",
     ".draggable": "draggable",
     '.showGallery': 'galleryBtn',
     '.showAlbum': 'albumBtn',
@@ -75,7 +75,7 @@ AlbumsView = (function() {
     this.render(item);
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
   };
-  AlbumsView.prototype.render = function(item) {
+  AlbumsView.prototype.render = function(album) {
     var items, joinedItems, val;
     console.log('Albums::render');
     if (this.current) {
@@ -94,7 +94,7 @@ AlbumsView = (function() {
     }
     this.renderGalleryEditor();
     this.renderHeader();
-    return this.list.render(items, item);
+    return this.list.render(items, album);
   };
   AlbumsView.prototype.renderGalleryEditor = function(item) {
     if (item) {

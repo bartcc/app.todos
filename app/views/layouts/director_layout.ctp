@@ -46,12 +46,12 @@
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/ajax');
     echo $this->Html->script('spine/lib/filter');
-    echo $this->Html->script('spine/lib/extender');
     echo $this->Html->script('spine/lib/manager');
     echo $this->Html->script('spine/lib/tmpl');
 
     echo $this->Html->script('spine/app/director/plugins/manager');
     echo $this->Html->script('spine/app/director/plugins/controller');
+    echo $this->Html->script('spine/app/director/models/modelExtender');
     echo $this->Html->script('spine/app/director/models/galleries_albums');
     echo $this->Html->script('spine/app/director/models/albums_images');
     echo $this->Html->script('spine/app/director/models/image');
@@ -64,7 +64,8 @@
     echo $this->Html->script('spine/app/director/controllers/album');
     echo $this->Html->script('spine/app/director/controllers/upload');
     echo $this->Html->script('spine/app/director/controllers/grid');
-    echo $this->Html->script('spine/app/director/controllers/albums');
+    echo $this->Html->script('spine/app/director/controllers/albumsShowView');
+    echo $this->Html->script('spine/app/director/controllers/albumsEditView');
     echo $this->Html->script('spine/app/director/application');
     ?>
 

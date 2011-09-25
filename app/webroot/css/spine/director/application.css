@@ -272,7 +272,7 @@ textarea {
   background-position: center;
   cursor: e-resize
 }
-.options li.splitter, .options li.nobutton {
+.options li.disabled {
   color: #ABABAB;
   background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#dfe0e1));
   background: -webkit-linear-gradient(top, #f9f9f9, #dfe0e1);
@@ -415,7 +415,6 @@ textarea {
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
   text-align: right;
 }
-
 #sidebar .search {
   padding: 6px 7px 5px 7px;
   border: 1px solid #c5c5c5;
@@ -425,12 +424,10 @@ textarea {
   background: -moz-linear-gradient(top, #ffffff, #dedfe0);
   background: linear-gradient(top, #ffffff, #dedfe0);
 }
-
 #sidebar .search input {
   font-size: 30px;
   width: 100%;
 }
-
 #sidebar .empty {
   font-style: italic;
 }
@@ -458,54 +455,48 @@ textarea {
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset -1px -1px 3px #eeeeee, 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
-
 .options li {
   border-right: 1px solid rgba(0, 0, 0, 0.3);
   line-height: 30px;
   height: 30px;
   padding: 0 20px;
 }
-.options li:not(.nobutton) {
+.options li:not(.disabled) {
   cursor: pointer;
 }
-
-.options li:not(.nobutton):active, #albums .options li.active:not(.nobutton) {
+.options li:not(.disabled):active, #albums .options li.active:not(.disabled) {
   background: #FFB399;
   -moz-box-shadow: inset 0 0 10px #9c9c9c;
   -webkit-box-shadow: inset 0 0 10px #9c9c9c;
   box-shadow: inset 0 0 10px #9c9c9c;
 }
-
-.options li.default, #albums .options li.active:not(.nobutton), #albums .options li.default:active {
+.options li.default, #albums .options li.active:not(.disabled), #albums .options li.default:active {
   text-shadow: 0 -1px 1px #FFB399;
   background: #FFB399;
   background: -webkit-gradient(linear, left top, left bottom, from(#FFB399), to(#FF6633));
   background: -moz-linear-gradient(top, #FFB399, #FF6633);
   background: linear-gradient(top, #FFB399, #FF6633);
 }
-
-.content, #views .view {
+.content, #views .views .view {
   -moz-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   padding: 20px;
   -webkit-user-select: text;
 }
-
 .content span {
   -webkit-user-select: none;
 }
-
 .empty {
   font-style: italic;
 }
-#views {
+#views .views {
   background: #EFEFEF;
 }
-#views .view {
+#views .views .view {
   height: 0;
 }
-#views > .view:not(.active) {
+.views > .view:not(.active) {
   display: none !important;
 }
 #albums .content .items {

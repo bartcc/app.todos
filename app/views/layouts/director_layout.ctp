@@ -49,9 +49,11 @@
     echo $this->Html->script('spine/lib/manager');
     echo $this->Html->script('spine/lib/tmpl');
 
+    echo $this->Html->script('spine/app/director/plugins/array');
     echo $this->Html->script('spine/app/director/plugins/manager');
     echo $this->Html->script('spine/app/director/plugins/controller');
     echo $this->Html->script('spine/app/director/models/modelExtender');
+    echo $this->Html->script('spine/app/director/models/ajaxExtender');
     echo $this->Html->script('spine/app/director/models/galleries_albums');
     echo $this->Html->script('spine/app/director/models/albums_images');
     echo $this->Html->script('spine/app/director/models/image');
@@ -70,6 +72,7 @@
     ?>
 
     <?php
+    //$this->log($js->object($galleries), LOG_DEBUG);
     echo $html->scriptStart();
     //$this->log($js->object($albums), LOG_DEBUG) ;
     ?>

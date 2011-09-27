@@ -27,8 +27,7 @@
         <li class="opt optUpload">Upload Photo</li>
         <li class="opt optGrid">Thumb Grid</li>
         <li class="splitter disabled flex"></li>
-        <li class="optEdit">Edit Gallery</li>
-        <li class="optEmail">Email Gallery</li>
+        <ul class="tools hbox"></ul>
       </ul>
       <div class="content vbox flex autoflow">
         <div class="header"></div>
@@ -46,19 +45,19 @@
             </div>
           </div>
           <div id="upload" class="view flex autoflow" style="">
-            <div>Upload</div>
+            <div>Not quite there yet</div>
           </div>
           <div id="grid" class="view flex autoflow" style="">
-            <div>Grid</div>
+            <div>Not quite there yet</div>
           </div>
         </div>
       </div>  
     </div>
     <div class="edit view vbox flex">
-      <ul class="options hbox">
-        <li class="splitter flex"></li>
+      <ul class="tools options hbox">
+        <li class="splitter diabled flex"></li>
         <li class="optSave default">Save and Close</li>
-        <li class="optDestroy disabled">Delete Gallery</li>
+        <li class="optDestroy">Delete Gallery</li>
       </ul>
       <div class="content vbox flex autoflow"></div>
     </div>
@@ -130,6 +129,13 @@
     <span>Description</span>
     <textarea name="description">${description}</textarea>
   </label>
+  
+</script>
+
+<script type="text/x-jquery-tmpl" id="toolsTemplate">
+  {{each names}}
+    <li class="optEdit">${$value}</li>
+  {{/each}}
   
 </script>
 

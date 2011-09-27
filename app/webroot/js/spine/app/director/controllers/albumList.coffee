@@ -27,24 +27,19 @@ class Spine.AlbumList extends Spine.Controller
     @children().removeClass("active")
     if list
       for id in list
-        album = Album.find(id) if Album.exists(id)
-        @children().forItem(album).addClass("active")
+        item = Album.find(id) if Album.exists(id)
+        @children().forItem(item).addClass("active")
 
-      selected = Album.find(list[0]) if Album.exists(list[0])# and @list.length = 1
+      selected = Album.find(list[0]) if Album.exists(list[0])
       if selected and !selected.destroyed
         item = selected
-    else
-      alert 'Error in AlbumList::change'
-#      @children().forItem(clicked).addClass("active")
-#      item = clicked
 
-    Spine.App.trigger('change:selectedAlbum', item)# if changed
+    Spine.App.trigger('change:selectedAlbum', item)
       
       
   
   render: (items, newAlbum) ->
     console.log 'AlbumList::render'
-    #@items = items
     if items.length
       @html @template items
     else
@@ -61,7 +56,7 @@ class Spine.AlbumList extends Spine.Controller
   create: ->
     @preserveEditorOpen('album', App.albumsShowView.btnAlbum)
     album = new Album()
-    res = album.save()
+    album.save()
 
   click: (e) ->
     console.log 'AlbumList::click'

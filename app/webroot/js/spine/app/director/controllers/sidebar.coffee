@@ -6,6 +6,7 @@ class SidebarView extends Spine.Controller
   elements:
     ".items"  : "items"
     "input"   : "input"
+    '.droppable':  'droppable'
 
   #Attach event delegation
   events:
@@ -13,6 +14,7 @@ class SidebarView extends Spine.Controller
     "keyup input"           : "filter"
     #"click input"           : "filter"
     "dblclick .draghandle"  : 'toggleDraghandle'
+    'dropcreate .items li'  : 'dropCreate'
 
   #Render template
   template: (items) ->
@@ -26,6 +28,7 @@ class SidebarView extends Spine.Controller
 
     Gallery.bind "refresh", @proxy @loadJoinTables
     Gallery.bind "refresh change", @proxy @render
+    Spine.App.bind('create:sidebar', @proxy @initDroppables)
 
   loadJoinTables: ->
     GalleriesAlbum.records = Gallery.joinTableRecords
@@ -40,6 +43,16 @@ class SidebarView extends Spine.Controller
     items = Gallery.filter @query
     items = items.sort Gallery.nameSort
     @list.render items, item
+    
+  initDroppables: (items) ->
+    console.log 'Sidebar::initDroppables'
+    dropOptions =
+      drop: ->
+        console.log 'Dropped'
+    items.droppable dropOptions
+
+  dropCreate: ->
+    console.log 'dropCreate'
 
   newAttributes: ->
     name: ''

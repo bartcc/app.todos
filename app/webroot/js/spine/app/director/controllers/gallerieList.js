@@ -67,9 +67,10 @@ Spine.GalleryList = (function() {
     this.change(item || this.current);
     if (this.selectFirst) {
       if (!this.children(".active").length) {
-        return this.children(":first").click();
+        this.children(":first").click();
       }
     }
+    return Spine.App.trigger('create:sidebar', this.children(".droppable"));
   };
   GalleryList.prototype.children = function(sel) {
     return this.el.children(sel);

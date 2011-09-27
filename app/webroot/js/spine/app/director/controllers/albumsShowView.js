@@ -18,14 +18,14 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.elements = {
     ".content": "showContent",
     "#views .views": "views",
-    ".draggable": "draggable",
+    ".content .sortable": "sortable",
     '.optGallery': 'btnGallery',
     '.optAlbum': 'btnAlbum',
     '.optUpload': 'btnUpload',
     '.optGrid': 'btnGrid',
     '.content .items': 'items',
     '.header': 'header',
-    '.tools': 'tools'
+    '.toolbar': 'toolBar'
   };
   AlbumsShowView.prototype.events = {
     "click .optEdit": "edit",
@@ -34,7 +34,9 @@ AlbumsShowView = (function() {
     "click .optAlbum": "toggleAlbum",
     "click .optUpload": "toggleUpload",
     "click .optGrid": "toggleGrid",
-    'dblclick .draghandle': 'toggleDraghandle'
+    'dblclick .draghandle': 'toggleDraghandle',
+    'dragcreate .items': 'dragcreate',
+    'drag .items': 'drag'
   };
   AlbumsShowView.prototype.albumsTemplate = function(items) {
     return $("#albumsTemplate").tmpl(items);
@@ -54,10 +56,13 @@ AlbumsShowView = (function() {
     Spine.App.bind('change:selectedGallery', this.proxy(this.change));
     this.bind('save:gallery', this.proxy(this.save));
     this.bind("toggle:view", this.proxy(this.toggleView));
-    this.toolBar = {};
+    this.toolBarList = [];
     this.create = this.edit;
     $(this.views).queue("fx");
   }
+  AlbumsShowView.prototype.children = function(sel) {
+    return this.el.children(sel);
+  };
   AlbumsShowView.prototype.loadJoinTables = function() {
     return AlbumsImage.records = Album.joinTableRecords;
   };
@@ -88,7 +93,8 @@ AlbumsShowView = (function() {
       items = Album.filter();
     }
     this.renderHeader();
-    return this.list.render(items, album);
+    this.list.render(items, album);
+    return this.initDraggables();
   };
   AlbumsShowView.prototype.renderHeader = function(item) {
     var gallery;
@@ -101,11 +107,28 @@ AlbumsShowView = (function() {
     }
   };
   AlbumsShowView.prototype.renderToolBar = function() {
-    console.log(this.toolBar);
-    console.log('AlbumsShowView::renderTools');
-    this.tools.html(this.toolsTemplate(this.toolBar));
+    this.toolBar.html(this.toolsTemplate(this.toolBarList));
     return this.refreshElements();
   };
+  AlbumsShowView.prototype.initDraggables = function() {
+    var dragOptions, dropOptions, sortOptions;
+    sortOptions = {
+      connectWith: '#sidebar .items'
+    };
+    dragOptions = {
+      opacity: 0.35,
+      revert: true,
+      revertDuration: 1000,
+      scope: 'albums',
+      stack: '#sidebar',
+      connectToSortable: '.show .content .sortable'
+    };
+    dropOptions = {};
+    this.sortable.children().draggable(dragOptions);
+    return console.log(this.droppable);
+  };
+  AlbumsShowView.prototype.drag = function(e, ui) {};
+  AlbumsShowView.prototype.dragcreate = function(e, ui) {};
   AlbumsShowView.prototype.edit = function() {
     App.albumsEditView.render();
     return App.albumsManager.change(App.albumsEditView);
@@ -119,13 +142,16 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.renderViewControl = function(controller, controlEl) {
     var active;
     active = controller.isActive();
-    return $(".options .opt").each(function() {
+    $(".options .opt").each(function() {
       if (this === controlEl) {
         return $(this).toggleClass("active", active);
       } else {
         return $(this).removeClass("active");
       }
     });
+    if (!App.hmanager.hasActive()) {
+      return this.toolBar.empty();
+    }
   };
   AlbumsShowView.prototype.animateView = function() {
     var hasActive, height;
@@ -147,19 +173,51 @@ AlbumsShowView = (function() {
     }, 400);
   };
   AlbumsShowView.prototype.toggleGallery = function(e) {
-    this.toolBar.names = ['Edit Gallery', 'Show Gallery'];
+    this.toolBarList = [
+      {
+        name: 'Show Gallery',
+        klass: 'optEdit'
+      }, {
+        name: 'Edit Gallery',
+        klass: 'optEdit'
+      }
+    ];
     return this.trigger("toggle:view", App.gallery, e.target);
   };
   AlbumsShowView.prototype.toggleAlbum = function(e) {
-    this.toolBar.names = ['Edit Album', 'Show Album'];
+    this.toolBarList = [
+      {
+        name: 'Show Album',
+        klass: 'optEdit'
+      }, {
+        name: 'Edit Album',
+        klass: 'optEdit'
+      }
+    ];
     return this.trigger("toggle:view", App.album, e.target);
   };
   AlbumsShowView.prototype.toggleUpload = function(e) {
-    this.toolBar.names = ['Edit Upload', 'Show Upload'];
+    this.toolBarList = [
+      {
+        name: 'Show Upload',
+        klass: 'optEdit'
+      }, {
+        name: 'Edit Upload',
+        klass: 'optEdit'
+      }
+    ];
     return this.trigger("toggle:view", App.upload, e.target);
   };
   AlbumsShowView.prototype.toggleGrid = function(e) {
-    this.toolBar.names = ['Edit Grid', 'Show Grid'];
+    this.toolBarList = [
+      {
+        name: 'Show Grid',
+        klass: 'optEdit'
+      }, {
+        name: 'Edit Grid',
+        klass: 'optEdit'
+      }
+    ];
     return this.trigger("toggle:view", App.grid, e.target);
   };
   AlbumsShowView.prototype.toggleView = function(controller, control) {

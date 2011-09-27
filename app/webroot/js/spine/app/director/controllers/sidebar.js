@@ -17,12 +17,14 @@ SidebarView = (function() {
   __extends(SidebarView, Spine.Controller);
   SidebarView.prototype.elements = {
     ".items": "items",
-    "input": "input"
+    "input": "input",
+    '.droppable': 'droppable'
   };
   SidebarView.prototype.events = {
     "click button": "create",
     "keyup input": "filter",
-    "dblclick .draghandle": 'toggleDraghandle'
+    "dblclick .draghandle": 'toggleDraghandle',
+    'dropcreate .items li': 'dropCreate'
   };
   SidebarView.prototype.template = function(items) {
     return $("#galleriesTemplate").tmpl(items);
@@ -35,6 +37,7 @@ SidebarView = (function() {
     });
     Gallery.bind("refresh", this.proxy(this.loadJoinTables));
     Gallery.bind("refresh change", this.proxy(this.render));
+    Spine.App.bind('create:sidebar', this.proxy(this.initDroppables));
   }
   SidebarView.prototype.loadJoinTables = function() {
     return GalleriesAlbum.records = Gallery.joinTableRecords;
@@ -50,6 +53,19 @@ SidebarView = (function() {
     items = Gallery.filter(this.query);
     items = items.sort(Gallery.nameSort);
     return this.list.render(items, item);
+  };
+  SidebarView.prototype.initDroppables = function(items) {
+    var dropOptions;
+    console.log('Sidebar::initDroppables');
+    dropOptions = {
+      drop: function() {
+        return console.log('Dropped');
+      }
+    };
+    return items.droppable(dropOptions);
+  };
+  SidebarView.prototype.dropCreate = function() {
+    return console.log('dropCreate');
   };
   SidebarView.prototype.newAttributes = function() {
     return {

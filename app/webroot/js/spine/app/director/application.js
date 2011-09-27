@@ -80,6 +80,5 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  App.albumsManager.change(App.albumsShowView);
-  return App.albumsShowView.btnGallery.click();
+  return App.albumsManager.change(App.albumsShowView);
 });

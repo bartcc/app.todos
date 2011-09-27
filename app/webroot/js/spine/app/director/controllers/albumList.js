@@ -33,7 +33,7 @@ Spine.AlbumList = (function() {
     return arguments[0];
   };
   AlbumList.prototype.change = function() {
-    var album, id, item, list, selected, _i, _len;
+    var id, item, list, selected, _i, _len;
     console.log('AlbumList::change');
     list = Gallery.selectionList();
     this.children().removeClass("active");
@@ -41,9 +41,9 @@ Spine.AlbumList = (function() {
       for (_i = 0, _len = list.length; _i < _len; _i++) {
         id = list[_i];
         if (Album.exists(id)) {
-          album = Album.find(id);
+          item = Album.find(id);
         }
-        this.children().forItem(album).addClass("active");
+        this.children().forItem(item).addClass("active");
       }
       if (Album.exists(list[0])) {
         selected = Album.find(list[0]);
@@ -51,8 +51,6 @@ Spine.AlbumList = (function() {
       if (selected && !selected.destroyed) {
         item = selected;
       }
-    } else {
-      alert('Error in AlbumList::change');
     }
     return Spine.App.trigger('change:selectedAlbum', item);
   };
@@ -74,10 +72,10 @@ Spine.AlbumList = (function() {
     return this.el.children(sel);
   };
   AlbumList.prototype.create = function() {
-    var album, res;
+    var album;
     this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
     album = new Album();
-    return res = album.save();
+    return album.save();
   };
   AlbumList.prototype.click = function(e) {
     var item;

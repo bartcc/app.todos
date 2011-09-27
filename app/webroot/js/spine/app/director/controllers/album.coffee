@@ -24,7 +24,6 @@ class AlbumView extends Spine.Controller
     console.log 'Album::change'
     # render only if event came from Album
     if item instanceof Album
-      #@current = Album.find(selection[0]) if Album.exists(selection[0])
       @current = item
     else
       @current = null

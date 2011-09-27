@@ -49,6 +49,7 @@ class Spine.GalleryList extends Spine.Controller
     if @selectFirst
       unless @children(".active").length
         @children(":first").click()
+    Spine.App.trigger('create:sidebar', @children(".droppable"))
         
   children: (sel) ->
     @el.children(sel)

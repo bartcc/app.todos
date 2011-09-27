@@ -95,7 +95,7 @@ class Singleton extends Base
   create: (params) ->
     @send params,
           type:    "POST"
-          data:    JSON.stringify(@record)
+          data:    JSON.stringify(@records)
           url:     @base
           success: @recordResponse(params)
           error: @errorResponse(params)
@@ -104,7 +104,7 @@ class Singleton extends Base
   update: (params) ->
     @send params,
           type:    "PUT"
-          data:    JSON.stringify(@record)
+          data:    JSON.stringify(@records)
           url:     @url
           success: @recordResponse(params)
           error: @errorResponse(params)

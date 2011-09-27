@@ -40,7 +40,6 @@ Spine.Manager = (function() {
     return this.controllers.push(controller);
   };
   Manager.prototype.deactivate = function() {
-    console.log('deactivate superclass');
     return this.trigger("change", false, arguments);
   };
   Manager.prototype.change = function(current, args) {

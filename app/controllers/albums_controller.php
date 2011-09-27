@@ -3,6 +3,8 @@
 class AlbumsController extends AppController {
 
   var $name = 'Albums';
+  var $helpers = array('Ajax', 'Js');
+  var $components = array('RequestHandler');
 
   function beforeFilter() {
     $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
@@ -17,7 +19,6 @@ class AlbumsController extends AppController {
   function view($id = null) {
     if (!$id) {
       $this->Session->setFlash(__('Invalid album', true));
-      $this->redirect(array('action' => 'index'));
     }
     $this->set('album', $this->Album->read(null, $id));
   }
@@ -25,9 +26,9 @@ class AlbumsController extends AppController {
   function add() {
     if (!empty($this->data)) {
       $this->Album->create();
+      $this->log($this->data, LOG_DEBUG);
       if ($this->Album->save($this->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
-        $this->redirect(array('action' => 'index'));
       } else {
         $this->Session->setFlash(__('The album could not be saved. Please, try again.', true));
       }
@@ -43,6 +44,7 @@ class AlbumsController extends AppController {
       $this->redirect(array('action' => 'index'));
     }
     if (!empty($this->data)) {
+      //$this->log($this->data, LOG_DEBUG);
       if ($this->Album->save($this->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
         $this->redirect(array('action' => 'index'));

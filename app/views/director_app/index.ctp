@@ -27,11 +27,11 @@
         <li class="opt optUpload">Upload Photo</li>
         <li class="opt optGrid">Thumb Grid</li>
         <li class="splitter disabled flex"></li>
-        <ul class="tools hbox"></ul>
+        <ul class="toolbar hbox"></ul>
       </ul>
       <div class="content vbox flex autoflow">
         <div class="header"></div>
-        <div class="items">No Albums found!</div>
+        <div class="items sortable">No Albums found!</div>
       </div>
       <div id="views" class="hbox autoflow">
         <div class="views vbox flex hdraggable">
@@ -55,7 +55,7 @@
     </div>
     <div class="edit view vbox flex">
       <ul class="tools options hbox">
-        <li class="splitter diabled flex"></li>
+        <li class="splitter disabled flex"></li>
         <li class="optSave default">Save and Close</li>
         <li class="optDestroy">Delete Gallery</li>
       </ul>
@@ -66,7 +66,7 @@
 </div>
 
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
-  <li class="item" title="Doubleclick to edit / Save with Enter">
+  <li class="item droppable" title="Doubleclick to edit / Save with Enter">
     <img src="/img/gallery.png" />
     <div style="font-size: 0.6em">ID: ${id}</div
     {{if name}}
@@ -133,9 +133,8 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="toolsTemplate">
-  {{each names}}
-    <li class="optEdit">${$value}</li>
-  {{/each}}
+  
+    <li class="${klass}">${name}</li>
   
 </script>
 

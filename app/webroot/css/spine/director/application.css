@@ -110,6 +110,7 @@ pre {
 }
 ul, li {
   list-style: none;
+  padding: 0
 }
 button {
   border: 1px solid #bbbbbb;

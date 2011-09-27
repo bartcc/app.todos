@@ -5,9 +5,9 @@ class Album extends Spine.Model
   @extend Spine.Model.Ajax
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
+  @extend Singleton.Extender
 
   @selectAttributes: ["name", 'title', "description"]
-
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'
 
@@ -18,6 +18,9 @@ class Album extends Spine.Model
 
   @joinTables: ['AlbumsImage']
 
+  init: (instance) ->
+    return unless instance
+  
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
@@ -25,3 +28,4 @@ class Album extends Spine.Model
 
   select: (items) ->
     items.album_id is @.id
+

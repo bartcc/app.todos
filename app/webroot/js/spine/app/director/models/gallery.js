@@ -12,7 +12,7 @@ Gallery = (function() {
   function Gallery() {
     Gallery.__super__.constructor.apply(this, arguments);
   }
-  Gallery.configure("Gallery", "name", 'author', "description", 'selectedAlbumId');
+  Gallery.configure("Gallery", "name", 'author', "description", 'selectedAlbumId', 'recordList');
   Gallery.extend(Spine.Model.Ajax);
   Gallery.extend(Spine.Model.Filter);
   Gallery.extend(Spine.Model.Extender);
@@ -33,6 +33,15 @@ Gallery = (function() {
     }
   };
   Gallery.joinTables = ['GalleriesAlbum'];
+  Gallery.prototype.init = function(instance) {
+    var empty;
+    if (!instance) {
+      return;
+    }
+    empty = {};
+    empty[instance.id] = [];
+    return this.constructor.selection.push(empty);
+  };
   Gallery.prototype.updateAttributes = function(atts, options) {
     if (options == null) {
       options = {};

@@ -1,5 +1,10 @@
 var $, Model;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __indexOf = Array.prototype.indexOf || function(item) {
+  for (var i = 0, l = this.length; i < l; i++) {
+    if (this[i] === item) return i;
+  }
+  return -1;
+};
 if (typeof Spine !== "undefined" && Spine !== null) {
   Spine;
 } else {
@@ -12,29 +17,33 @@ Model.Extender = {
     var extend, include;
     extend = {
       record: false,
+      selection: [
+        {
+          global: []
+        }
+      ],
       joinTableRecords: {},
       fromJSON: function(objects) {
         var json, key;
         this.joinTableRecords = this.createJoinTables(objects);
-        json = this.__super__.constructor.fromJSON.call(this, objects);
         key = this.className;
-        if (this.isArray(json)) {
-          json = this.fromArray(json, key);
+        if (this.isArray(objects)) {
+          json = this.fromArray(objects, key);
         }
-        return json;
+        return json || this.__super__.constructor.fromJSON.call(this, objects);
       },
       createJoinTables: function(arr) {
-        var item, key, keys, res, table, _i, _j, _k, _len, _len2, _len3, _ref;
+        var item, key, keys, res, table, _i, _j, _k, _len, _len2, _len3, _ref, _ref2;
         if (!this.isArray(arr)) {
           return;
         }
         table = {};
         console.log(this.className);
-        if (this.joinTables && this.joinTables.length) {
+        if ((_ref = this.joinTables) != null ? _ref.length : void 0) {
           keys = [];
-          _ref = this.joinTables;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            key = _ref[_i];
+          _ref2 = this.joinTables;
+          for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+            key = _ref2[_i];
             keys.push(key);
           }
           for (_j = 0, _len2 = keys.length; _j < _len2; _j++) {
@@ -51,21 +60,20 @@ Model.Extender = {
       fromArray: function(arr, key) {
         var extract, res, value, _i, _len;
         res = [];
-        extract = __bind(function(val, key) {
+        extract = __bind(function(val) {
           var item, itm;
           if (!this.isArray(val[key])) {
             item = __bind(function() {
-              return new this(val[key]);
+              var inst;
+              inst = new this(val[key]);
+              return res.push(inst);
             }, this);
-            itm = item();
-            if (itm.id) {
-              return res.push(itm);
-            }
+            return itm = item();
           }
         }, this);
         for (_i = 0, _len = arr.length; _i < _len; _i++) {
           value = arr[_i];
-          extract(value, key);
+          extract(value);
         }
         return res;
       },
@@ -99,6 +107,18 @@ Model.Extender = {
         }
         return res;
       },
+      selectionList: __bind(function() {
+        var id, item, _i, _len, _ref;
+        id = this.record.id;
+        _ref = this.selection;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          if (item[id]) {
+            return item[id];
+          }
+        }
+        return this.selection[0].global;
+      }, this),
       isArray: function(value) {
         return Object.prototype.toString.call(value) === "[object Array]";
       },
@@ -132,6 +152,33 @@ Model.Extender = {
         if (invalid) {
           return this.save();
         }
+      },
+      addToSelection: function(model, isMetaKey) {
+        var list;
+        list = model.selectionList();
+        if (!list) {
+          return;
+        }
+        if (!isMetaKey) {
+          this.addUnique(model, list);
+        } else {
+          this.addRemove(model, list);
+        }
+        return list;
+      },
+      addUnique: function(model, list) {
+        var _ref;
+        return ([].splice.apply(list, [0, list.length - 0].concat(_ref = [this.id])), _ref);
+      },
+      addRemove: function(model, list) {
+        var index, _ref;
+        if (_ref = this.id, __indexOf.call(list, _ref) < 0) {
+          list.push(this.id);
+        } else {
+          index = list.indexOf(this.id);
+          list.splice(index, 1);
+        }
+        return list;
       }
     };
     this.extend(extend);

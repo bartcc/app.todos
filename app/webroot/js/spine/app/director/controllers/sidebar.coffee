@@ -48,8 +48,8 @@ class SidebarView extends Spine.Controller
   #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
-    gallery = new Gallery @newAttributes()
     @preserveEditorOpen('gallery', App.albumsShowView.btnGallery)
+    gallery = new Gallery @newAttributes()
     gallery.save()
   
   toggleDraghandle: ->

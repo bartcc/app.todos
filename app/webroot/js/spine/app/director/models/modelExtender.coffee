@@ -10,20 +10,22 @@ Model.Extender =
       
       record: false
 
+      selection: [global:[]]
+
       joinTableRecords: {}
 
       fromJSON: (objects) ->
         @joinTableRecords = @createJoinTables objects
-        json = @__super__.constructor.fromJSON.call @, objects
+        #json = @__super__.constructor.fromJSON.call @, objects
         key = @className
-        json = @fromArray(json, key) if @isArray(json) #test for READ or PUT !
-        json
+        json = @fromArray(objects, key) if @isArray(objects) #test for READ or PUT !
+        json || @__super__.constructor.fromJSON.call @, objects
         
       createJoinTables: (arr) ->
         return unless @isArray(arr)
         table = {}
         console.log @className
-        if @joinTables and @joinTables.length
+        if @joinTables?.length
           keys = []
           keys.push key for key in @joinTables
 
@@ -34,16 +36,16 @@ Model.Extender =
 
       fromArray: (arr, key) ->
         res = []
-        extract = (val, key) =>
+        extract = (val) =>
           unless @isArray val[key]
             item = =>
-              new @(val[key])
+              inst = new @(val[key])
+              res.push inst
             itm = item()
-            if itm.id then res.push itm
         
-        extract(value, key) for value in arr
+        extract(value) for value in arr
         res
-
+        
       introspectJSON: (json, jointable) ->
         res = []
         introspect = (obj) =>
@@ -59,6 +61,13 @@ Model.Extender =
         for obj in json
           introspect(obj)
         res
+      
+
+      selectionList: =>
+        id = @record.id
+        for item in @selection
+          return item[id] if item[id]
+        return @selection[0].global
 
       isArray: (value) ->
         Object::toString.call(value) is "[object Array]"
@@ -76,6 +85,7 @@ Model.Extender =
         @record
       
     include =
+      
       #prevents an update if model hasn't changed
       updateChangedAttributes: (atts) ->
         origAtts = @attributes()
@@ -86,6 +96,28 @@ Model.Extender =
 
         @save() if invalid
 
+      addToSelection: (model, isMetaKey) ->
+        list = model.selectionList()
+        return unless list
+        unless isMetaKey
+          @addUnique(model, list)
+        else
+          @addRemove(model, list)
+        list
+      
+      #private
+      
+      addUnique: (model, list) ->
+        list[0...list.length] = [@id]
+
+      addRemove: (model, list) ->
+        unless @id in list
+          list.push @id
+        else
+          index = list.indexOf(@id)
+          list.splice(index, 1)
+        list
+ 
 
     @extend extend
     @include include

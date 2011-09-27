@@ -18,6 +18,9 @@ Spine.Controller.include({
   preserveEditorOpen: function(controller, target) {
     App[controller].deactivate();
     return target.click();
+  },
+  isCtrlClick: function(e) {
+    return e.metaKey || e.ctrlKey;
   }
 });
 Spine.Controller.extend({

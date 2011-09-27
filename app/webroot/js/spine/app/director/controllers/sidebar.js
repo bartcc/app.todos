@@ -60,8 +60,8 @@ SidebarView = (function() {
   SidebarView.prototype.create = function(e) {
     var gallery;
     e.preventDefault();
-    gallery = new Gallery(this.newAttributes());
     this.preserveEditorOpen('gallery', App.albumsShowView.btnGallery);
+    gallery = new Gallery(this.newAttributes());
     return gallery.save();
   };
   SidebarView.prototype.toggleDraghandle = function() {

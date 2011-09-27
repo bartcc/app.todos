@@ -16,7 +16,8 @@ $ = Spine.$;
 AlbumsEditView = (function() {
   __extends(AlbumsEditView, Spine.Controller);
   AlbumsEditView.prototype.elements = {
-    ".content": "editContent"
+    ".content": "editContent",
+    '.optDestroy': 'btnDestroy'
   };
   AlbumsEditView.prototype.events = {
     "click .optEdit": "edit",
@@ -49,9 +50,12 @@ AlbumsEditView = (function() {
       this.current = item;
     }
     if (this.current && !this.current.destroyed) {
+      this.btnDestroy.removeClass('disabled');
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
       this.focusFirstInput(this.el);
     } else {
+      this.btnDestroy.addClass('disabled');
+      this.btnDestroy.unbind('click');
       if (Gallery.count()) {
         this.editContent.html($("#noSelectionTemplate").tmpl({
           type: 'Select a Gallery!'
@@ -65,6 +69,9 @@ AlbumsEditView = (function() {
     return this;
   };
   AlbumsEditView.prototype.destroy = function() {
+    if (!Gallery.record) {
+      return;
+    }
     console.log('AlbumsEditView::destroy');
     this.current.destroy();
     if (!Gallery.count()) {

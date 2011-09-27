@@ -13,6 +13,7 @@ class AlbumsShowView extends Spine.Controller
     '.optGrid'                : 'btnGrid'
     '.content .items'         : 'items'
     '.header'                 : 'header'
+    '.tools'                  : 'tools'
     
   events:
     "click .optEdit"      : "edit"
@@ -23,20 +24,26 @@ class AlbumsShowView extends Spine.Controller
     "click .optGrid"      : "toggleGrid"
     'dblclick .draghandle': 'toggleDraghandle'
 
-  template: (items) ->
+  albumsTemplate: (items) ->
     $("#albumsTemplate").tmpl items
+
+  toolsTemplate: (items) ->
+    $("#toolsTemplate").tmpl items
 
   constructor: ->
     super
     @list = new Spine.AlbumList
       el: @items,
-      template: @template
+      template: @albumsTemplate
     Album.bind("change", @proxy @render)
     Gallery.bind "update", @proxy @renderHeader
     Spine.App.bind('save:gallery', @proxy @save)
     Spine.App.bind('change:selectedGallery', @proxy @change)
     @bind('save:gallery', @proxy @save)
     @bind("toggle:view", @proxy @toggleView)
+
+    @toolBar = {}
+
     @create = @edit
 
     $(@views).queue("fx")
@@ -72,6 +79,12 @@ class AlbumsShowView extends Spine.Controller
     else
       @header.html '<h2>Albums Overview</h2>'
 
+  renderToolBar: ->
+    console.log @toolBar
+    console.log 'AlbumsShowView::renderTools'
+    @tools.html @toolsTemplate @toolBar
+    @refreshElements()
+
   edit: ->
     App.albumsEditView.render()
     App.albumsManager.change(App.albumsEditView)
@@ -104,15 +117,21 @@ class AlbumsShowView extends Spine.Controller
       400
 
   toggleGallery: (e) ->
+    @toolBar.names = ['Edit Gallery', 'Show Gallery']
     @trigger("toggle:view", App.gallery, e.target)
 
   toggleAlbum: (e) ->
+    @toolBar.names = ['Edit Album', 'Show Album']
+    #@toolBar['edit'] = 'Edit Album'
+    #@toolBar['show'] = 'Show Album'
     @trigger("toggle:view", App.album, e.target)
 
   toggleUpload: (e) ->
+    @toolBar.names = ['Edit Upload', 'Show Upload']
     @trigger("toggle:view", App.upload, e.target)
 
   toggleGrid: (e) ->
+    @toolBar.names = ['Edit Grid', 'Show Grid']
     @trigger("toggle:view", App.grid, e.target)
 
   toggleView: (controller, control) ->
@@ -123,7 +142,8 @@ class AlbumsShowView extends Spine.Controller
     else
       @activeControl = $(control)
       App.hmanager.trigger("change", controller)
-
+    
+    @renderToolBar()
     @renderViewControl controller, control
     @animateView()
   

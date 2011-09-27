@@ -5,6 +5,7 @@ class AlbumsEditView extends Spine.Controller
 
   elements:
     ".content"                : "editContent"
+    '.optDestroy'             : 'btnDestroy'
     
   events:
     "click .optEdit"      : "edit"
@@ -33,9 +34,12 @@ class AlbumsEditView extends Spine.Controller
     console.log 'AlbumsEditView::render'
     @current = item if item
     if @current and !(@current.destroyed)
+      @btnDestroy.removeClass('disabled')
       @editContent.html $("#editGalleryTemplate").tmpl @current
       @focusFirstInput @el
     else
+      @btnDestroy.addClass('disabled')
+      @btnDestroy.unbind('click')
       if Gallery.count()
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
       else
@@ -44,6 +48,7 @@ class AlbumsEditView extends Spine.Controller
     @
 
   destroy: ->
+    return unless Gallery.record
     console.log 'AlbumsEditView::destroy'
     @current.destroy()
     Gallery.record = false if !Gallery.count()

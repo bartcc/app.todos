@@ -11,6 +11,9 @@ Spine.Controller.include
     App[controller].deactivate()
     target.click()
 
+  isCtrlClick: (e) ->
+    e.metaKey or e.ctrlKey
+
 Spine.Controller.extend
   empty: ->
     console.log 'empty'

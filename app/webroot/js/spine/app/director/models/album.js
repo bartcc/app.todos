@@ -16,6 +16,7 @@ Album = (function() {
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Extender);
+  Album.extend(Singleton.Extender);
   Album.selectAttributes = ["name", 'title', "description"];
   Album.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
@@ -33,6 +34,11 @@ Album = (function() {
     }
   };
   Album.joinTables = ['AlbumsImage'];
+  Album.prototype.init = function(instance) {
+    if (!instance) {
+      ;
+    }
+  };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;
     result = {};

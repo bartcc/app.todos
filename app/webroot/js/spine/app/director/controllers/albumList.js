@@ -1,5 +1,5 @@
 var $;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -15,50 +15,69 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 $ = Spine.$;
 Spine.AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
+  AlbumList.prototype.elements = {
+    '.optCreateAlbum': 'btnCreateAlbum'
+  };
   AlbumList.prototype.events = {
     "click .item": "click",
-    "dblclick .item": "preserveEditorOpen"
+    "dblclick .item": "dblclick",
+    'click .optCreateAlbum': 'create'
   };
   AlbumList.prototype.selectFirst = true;
   function AlbumList() {
-    this.change = __bind(this.change, this);    AlbumList.__super__.constructor.apply(this, arguments);
+    AlbumList.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
     this.record = Gallery.record;
   }
   AlbumList.prototype.template = function() {
     return arguments[0];
   };
-  AlbumList.prototype.change = function(item, mode) {
-    var changed, newId, oldId, _ref;
+  AlbumList.prototype.change = function() {
+    var album, id, item, list, selected, _i, _len;
     console.log('AlbumList::change');
-    if (item && !item.destroyed) {
-      oldId = (_ref = this.current) != null ? _ref.id : void 0;
-      newId = item.id;
-      changed = !(oldId === newId) || !oldId;
-      this.current = item;
-      this.children().removeClass("active");
-      this.children().forItem(this.current).addClass("active");
-      if (changed) {
-        return Spine.App.trigger('change:selectedAlbum', this.current, mode);
+    list = Gallery.selectionList();
+    this.children().removeClass("active");
+    if (list) {
+      for (_i = 0, _len = list.length; _i < _len; _i++) {
+        id = list[_i];
+        if (Album.exists(id)) {
+          album = Album.find(id);
+        }
+        this.children().forItem(album).addClass("active");
       }
-    }
-  };
-  AlbumList.prototype.render = function(items, selected) {
-    console.log('AlbumList::render');
-    if (!selected) {
-      selected = this.record.selectedAlbumId;
-    }
-    this.items = items;
-    if (this.items.length) {
-      this.html(this.template(this.items));
+      if (Album.exists(list[0])) {
+        selected = Album.find(list[0]);
+      }
+      if (selected && !selected.destroyed) {
+        item = selected;
+      }
     } else {
-      this.html('This Gallery has no Albums');
+      alert('Error in AlbumList::change');
     }
-    this.change(selected);
+    return Spine.App.trigger('change:selectedAlbum', item);
+  };
+  AlbumList.prototype.render = function(items, newAlbum) {
+    console.log('AlbumList::render');
+    if (items.length) {
+      this.html(this.template(items));
+    } else {
+      this.html('This Gallery has no Albums&nbsp;<button class="optCreateAlbum">CreateAlbum</button>');
+      this.refreshElements();
+    }
+    if (newAlbum) {
+      newAlbum.addToSelection(Gallery);
+    }
+    this.change();
     return this;
   };
   AlbumList.prototype.children = function(sel) {
     return this.el.children(sel);
+  };
+  AlbumList.prototype.create = function() {
+    var album, res;
+    this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
+    album = new Album();
+    return res = album.save();
   };
   AlbumList.prototype.click = function(e) {
     var item;
@@ -67,13 +86,17 @@ Spine.AlbumList = (function() {
     if (App.hmanager.hasActive()) {
       this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
     }
+    item.addToSelection(Gallery, this.isCtrlClick(e));
     return this.change(item);
+  };
+  AlbumList.prototype.dblclick = function(e) {
+    return this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
   };
   AlbumList.prototype.edit = function(e) {
     var item;
     console.log('AlbumList::edit');
     item = $(e.target).item();
-    return this.change(item, 'edit');
+    return this.change(item);
   };
   return AlbumList;
 })();

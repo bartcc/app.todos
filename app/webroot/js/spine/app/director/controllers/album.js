@@ -33,35 +33,43 @@ AlbumView = (function() {
     Spine.App.bind('change:selectedGallery', this.proxy(this.change));
   }
   AlbumView.prototype.change = function(item) {
-    var album;
     console.log('Album::change');
     if (item instanceof Album) {
-      album = item;
-    }
-    this.current = album;
-    return this.render();
-  };
-  AlbumView.prototype.render = function() {
-    var missing, missingAlbum;
-    console.log('Album::render');
-    if (this.current) {
-      this.item.html(this.template(this.current));
-      this.focusFirstInput(this.editEl);
+      this.current = item;
     } else {
-      console.log(Album.record);
-      missing = 'Select a Gallery and an Album!';
-      missingAlbum = Album.record ? 'Select an Album!' : 'Create an Album!';
+      this.current = null;
+    }
+    return this.render(this.current);
+  };
+  AlbumView.prototype.render = function(item) {
+    var selection;
+    console.log('Album::render');
+    selection = Gallery.selectionList();
+    if ((selection != null ? selection.length : void 0) === 0) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: Gallery.record ? missingAlbum : missing
+        type: 'Select or Create an Album!'
       }));
+    } else if ((selection != null ? selection.length : void 0) > 1) {
+      this.item.html($("#noSelectionTemplate").tmpl({
+        type: 'Multiple Selection'
+      }));
+    } else if (!item) {
+      this.item.html($("#noSelectionTemplate").tmpl({
+        type: 'Select an Gallery!'
+      }));
+    } else {
+      this.item.html(this.template(item));
+      this.focusFirstInput(this.editEl);
     }
     return this;
   };
   AlbumView.prototype.save = function(el) {
     var atts;
     console.log('Album::save');
-    atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
-    return this.current.updateChangedAttributes(atts);
+    if (this.current) {
+      atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
+      return this.current.updateChangedAttributes(atts);
+    }
   };
   AlbumView.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {

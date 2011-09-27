@@ -22,26 +22,34 @@ class AlbumView extends Spine.Controller
 
   change: (item) ->
     console.log 'Album::change'
-    album = item if item instanceof Album
-    @current = album
-    @render()
-
-  render: () ->
-    console.log 'Album::render'
-    if @current
-      @item.html @template @current
-      @focusFirstInput(@editEl)
+    # render only if event came from Album
+    if item instanceof Album
+      #@current = Album.find(selection[0]) if Album.exists(selection[0])
+      @current = item
     else
-      console.log Album.record
-      missing = 'Select a Gallery and an Album!'
-      missingAlbum = if Album.record then 'Select an Album!' else 'Create an Album!'
-      @item.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missingAlbum else missing})
+      @current = null
+    @render @current
+
+  render: (item) ->
+    console.log 'Album::render'
+    selection = Gallery.selectionList()
+
+    if selection?.length is 0
+      @item.html $("#noSelectionTemplate").tmpl({type: 'Select or Create an Album!'})
+    else if selection?.length > 1
+      @item.html $("#noSelectionTemplate").tmpl({type: 'Multiple Selection'})
+    else unless item
+      @item.html $("#noSelectionTemplate").tmpl({type: 'Select an Gallery!'})
+    else
+      @item.html @template item
+      @focusFirstInput(@editEl)
     @
 
   save: (el) ->
     console.log 'Album::save'
-    atts = el.serializeForm?() or @editEl.serializeForm()
-    @current.updateChangedAttributes(atts)
+    if @current
+      atts = el.serializeForm?() or @editEl.serializeForm()
+      @current.updateChangedAttributes(atts)
 
   saveOnEnter: (e) =>
     return if(e.keyCode != 13)

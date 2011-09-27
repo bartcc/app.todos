@@ -520,13 +520,21 @@ textarea {
   padding: 10px;
   color: rgba(156, 120, 0, 0.5);
   width: 150px;
-  height: 150px
+  height: 150px;
+  line-height: 1.2em
 }
 #albums .content li.thumbnail.active {
   outline:none;
-  transition: all 0.25s ease-in-out;
+/*  transition: all 0.25s ease-in-out;
   -webkit-transition: all 0.25s ease-in-out;
   -moz-transition: all 0.25s ease-in-out;
-  
+  */
   border: 4px solid rgba(255, 128, 0, 0.8);
+}
+.ui-state-highlight {
+  margin: 0 10px 10px 0;
+  padding: 10px;
+  width: 156px;
+  height: 156px;
+  line-height: 1.2em
 }

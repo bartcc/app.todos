@@ -36,7 +36,7 @@ Main = (function() {
     this.items.sortable();
   }
   Main.prototype.refreshList = function() {
-    Spine.App.trigger('render:refreshState', true);
+    Spine.trigger('render:refreshState', true);
     Spine.Ajax.enabled = false;
     Task.destroyAll();
     Spine.Ajax.enabled = true;
@@ -81,7 +81,7 @@ Main = (function() {
   };
   Main.prototype.addAll = function() {
     Task.each(this.proxy(this.addOne));
-    return Spine.App.trigger('render:refreshState', false);
+    return Spine.trigger('render:refreshState', false);
   };
   Main.prototype.renderCount = function() {
     var active;

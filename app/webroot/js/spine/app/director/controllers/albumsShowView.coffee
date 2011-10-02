@@ -2,7 +2,9 @@ Spine ?= require("spine")
 $      = Spine.$
 
 class AlbumsShowView extends Spine.Controller
-
+  
+  @extend Spine.Controller.Drag
+  
   elements:
     ".content"                : "showContent"
     "#views .views"           : "views"
@@ -12,20 +14,27 @@ class AlbumsShowView extends Spine.Controller
     '.optUpload'              : 'btnUpload'
     '.optGrid'                : 'btnGrid'
     '.content .items'         : 'items'
+    '.content .items .item'   : 'item'
     '.header'                 : 'header'
     '.toolbar'                : 'toolBar'
     
   events:
-    "click .optEdit"          : "edit"
-    "click .optEmail"         : "email"
-    "click .optGallery"       : "toggleGallery"
-    "click .optAlbum"         : "toggleAlbum"
-    "click .optUpload"        : "toggleUpload"
-    "click .optGrid"          : "toggleGrid"
-    'dblclick .draghandle'    : 'toggleDraghandle'
-    #'sortupdate .items'       : 'sortupdate'
-    'dragcreate .items'       : 'dragcreate'
-    'drag .items'             : 'drag'
+    "click .optCreateAlbum"                   : "create"
+    "click .optDeleteAlbum"                   : "destroy"
+    "click .optEdit"                          : "edit"
+    "click .optEmail"                         : "email"
+    "click .optGallery"                       : "toggleGallery"
+    "click .optAlbum"                         : "toggleAlbum"
+    "click .optUpload"                        : "toggleUpload"
+    "click .optGrid"                          : "toggleGrid"
+    'dblclick .draghandle'                    : 'toggleDraghandle'
+    #'sortupdate         .items'               : 'sortupdate'
+    'dragstart          .items .item'         : 'dragstart'
+    'dragenter          .items .item'         : 'dragenter'
+    'dragover           .items .item'         : 'dragover'
+    'dragleave          .items .item'         : 'dragleave'
+    'drop               .items .item'         : 'drop'
+    'dragend            .items .item'         : 'dragend'
 
   albumsTemplate: (items) ->
     $("#albumsTemplate").tmpl items
@@ -38,10 +47,13 @@ class AlbumsShowView extends Spine.Controller
     @list = new Spine.AlbumList
       el: @items,
       template: @albumsTemplate
+    Album.bind("create", @proxy @createJoin)
+    Album.bind("destroy", @proxy @destroyJoin)
     Album.bind("change", @proxy @render)
-    Gallery.bind "update", @proxy @renderHeader
-    Spine.App.bind('save:gallery', @proxy @save)
-    Spine.App.bind('change:selectedGallery', @proxy @change)
+    Gallery.bind("update", @proxy @renderHeader)
+    Spine.bind('save:gallery', @proxy @save)
+    Spine.bind('change:selectedGallery', @proxy @change)
+    GalleriesAlbum.bind("destroy", @proxy @render)
     @bind('save:gallery', @proxy @save)
     @bind("toggle:view", @proxy @toggleView)
 
@@ -73,10 +85,10 @@ class AlbumsShowView extends Spine.Controller
         Album.find(val.album_id)
     else
       items = Album.filter()
-      
+    
     @renderHeader()
-    @list.render items, album
-    @initDraggables()
+    @list.render items, (album if album instanceof Album)
+    #@initSortables()
    
   renderHeader: (item) ->
     console.log 'AlbumsShowView::renderHeader'
@@ -90,35 +102,28 @@ class AlbumsShowView extends Spine.Controller
     @toolBar.html @toolsTemplate @toolBarList
     @refreshElements()
   
-  initDraggables: ->
-    sortOptions =
-      connectWith: '#sidebar .items'
-      
-    dragOptions =
-      opacity: 0.35
-      revert: true
-      revertDuration: 1000
-      scope: 'albums'
-      stack: '#sidebar'
-      connectToSortable: '.show .content .sortable'
-    dropOptions = {}
-    #@sortable.sortable sortOptions
-    @sortable.children().draggable dragOptions
-    #@droppable = $('#sidebar .items')
-    #@droppable.droppable dropOptions
-    #console.log @draggable.children()
-    console.log @droppable
+  initSortables: ->
+    sortOptions = {}
+    @sortable.sortable sortOptions
 
-  drag: (e, ui) ->
-    #@items.children('li').each (index) ->
-    #console.log e
-
-  dragcreate: (e, ui) ->
-    #console.log e
-    #@items.children('li').each (index) ->
-      #todo = Todos.Collections.Todos.get($(this).attr('id').replace("todo-", ""));
-#      if(todo.get('order') != index) todo.save({
-#        order: index
+  create: ->
+    Spine.trigger('createAlbum')
+  
+  destroy: ->
+    Spine.trigger('destroyAlbum')
+  
+  createJoin: (album) ->
+    console.log 'AlbumsShowView::createJoin'
+    if Gallery.record
+      ga = new GalleriesAlbum
+        gallery_id: Gallery.record.id
+        album_id: album.id
+      ga.save()
+  
+  destroyJoin: (album) ->
+    console.log 'AlbumsShowView::destroyJoin'
+    ga = GalleriesAlbum.findByAttribute('album_id', album.id)
+    GalleriesAlbum.destroy(ga.id) if ga
 
   edit: ->
     App.albumsEditView.render()
@@ -162,8 +167,8 @@ class AlbumsShowView extends Spine.Controller
 
   toggleAlbum: (e) ->
     @toolBarList = [
-      {name: 'Show Album', klass: 'optEdit'}
-      {name: 'Edit Album', klass: 'optEdit'}
+      {name: 'Create Album', klass: 'optCreateAlbum'}
+      {name: 'Delete Album', klass: 'optDeleteAlbum'}
     ]
     @trigger("toggle:view", App.album, e.target)
 

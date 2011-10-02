@@ -12,8 +12,9 @@ Gallery = (function() {
   function Gallery() {
     Gallery.__super__.constructor.apply(this, arguments);
   }
-  Gallery.configure("Gallery", "name", 'author', "description", 'selectedAlbumId', 'recordList');
+  Gallery.configure("Gallery", "name", 'author', "description");
   Gallery.extend(Spine.Model.Ajax);
+  Gallery.extend(Spine.Model.AjaxExtender);
   Gallery.extend(Spine.Model.Filter);
   Gallery.extend(Spine.Model.Extender);
   Gallery.selectAttributes = ["name", 'author', "description"];
@@ -32,7 +33,10 @@ Gallery = (function() {
       return 1;
     }
   };
-  Gallery.joinTables = ['GalleriesAlbum'];
+  Gallery.joinTable = 'GalleriesAlbum';
+  Gallery.foreignModel = 'Album';
+  Gallery.foreignKey = 'gallery_id';
+  Gallery.associationForeignKey = 'album_id';
   Gallery.prototype.init = function(instance) {
     var empty;
     if (!instance) {
@@ -76,3 +80,4 @@ Gallery = (function() {
   };
   return Gallery;
 })();
+Spine.Model.Gallery = Gallery;

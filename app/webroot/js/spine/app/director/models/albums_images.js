@@ -14,6 +14,7 @@ AlbumsImage = (function() {
   }
   AlbumsImage.configure("AlbumsImage", "album_id", 'image_id');
   AlbumsImage.extend(Spine.Model.Local);
+  AlbumsImage.extend(Spine.Model.Filter);
   AlbumsImage.prototype.select = function(query) {
     if (this.album_id === query) {
       return true;
@@ -21,3 +22,4 @@ AlbumsImage = (function() {
   };
   return AlbumsImage;
 })();
+Spine.Model.AlbumsImage = AlbumsImage;

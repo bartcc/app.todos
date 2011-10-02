@@ -29,8 +29,8 @@ AlbumView = (function() {
   function AlbumView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumView.__super__.constructor.apply(this, arguments);
     Album.bind('change', this.proxy(this.change));
-    Spine.App.bind('change:selectedAlbum', this.proxy(this.change));
-    Spine.App.bind('change:selectedGallery', this.proxy(this.change));
+    Spine.bind('change:selectedAlbum', this.proxy(this.change));
+    Spine.bind('change:selectedGallery', this.proxy(this.change));
   }
   AlbumView.prototype.change = function(item) {
     console.log('Album::change');

@@ -2,10 +2,15 @@ class Image extends Spine.Model
   @configure "Image", 'title', "description", "exif"
 
   @extend Spine.Model.Ajax
+  @extend Spine.Model.AjaxExtender
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
   @selectAttributes: ['title', "description", "exif"]
+
+  @joinTable: AlbumsImage
+
+  @foreignModel: Album
 
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'

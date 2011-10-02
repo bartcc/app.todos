@@ -31,8 +31,8 @@ class Contacts extends Spine.Controller
     super
     @editEl.hide()
     Contact.bind("change", @proxy @change)
-    Spine.App.bind('save', @proxy @save)
-    Spine.App.bind("change", @proxy @change)
+    Spine.bind('save', @proxy @save)
+    Spine.bind("change", @proxy @change)
     @bind("toggle:view", @proxy @toggleView)
     @create = @edit
 
@@ -129,6 +129,6 @@ class Contacts extends Spine.Controller
 
   saveOnEnter: (e) =>
     return if(e.keyCode != 13)
-    Spine.App.trigger('save', @editEl)
+    Spine.trigger('save', @editEl)
 
 module?.exports = Contacts

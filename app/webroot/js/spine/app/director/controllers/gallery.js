@@ -26,7 +26,7 @@ GalleryView = (function() {
   };
   function GalleryView() {
     GalleryView.__super__.constructor.apply(this, arguments);
-    Spine.App.bind('change:selectedGallery', this.proxy(this.change));
+    Spine.bind('change:selectedGallery', this.proxy(this.change));
     Gallery.bind("change", this.proxy(this.change));
   }
   GalleryView.prototype.change = function(item) {

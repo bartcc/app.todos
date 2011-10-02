@@ -3,18 +3,25 @@ $      = Spine.$
 
 class SidebarView extends Spine.Controller
 
+  @extend Spine.Controller.Drag
+
   elements:
-    ".items"  : "items"
-    "input"   : "input"
+    'input'   : 'input'
+    '.items'  : 'items'
     '.droppable':  'droppable'
 
   #Attach event delegation
   events:
     "click button"          : "create"
     "keyup input"           : "filter"
-    #"click input"           : "filter"
     "dblclick .draghandle"  : 'toggleDraghandle'
-    'dropcreate .items li'  : 'dropCreate'
+
+    'dragstart          .items .item'         : 'dragstart'
+    'dragenter          .items .item'         : 'dragenter'
+    'dragover           .items .item'         : 'dragover'
+    'dragleave          .items .item'         : 'dragleave'
+    'drop               .items .item'         : 'drop'
+    'dragend            .items .item'         : 'dragend'
 
   #Render template
   template: (items) ->
@@ -22,13 +29,15 @@ class SidebarView extends Spine.Controller
 
   constructor: ->
     super
-    Spine.App.galleryList = @list = new Spine.GalleryList
+    Spine.galleryList = @list = new Spine.GalleryList
       el: @items,
       template: @template
 
+    #GalleriesAlbum.bind "change", @proxy @loadJoinTables
     Gallery.bind "refresh", @proxy @loadJoinTables
     Gallery.bind "refresh change", @proxy @render
-    Spine.App.bind('create:sidebar', @proxy @initDroppables)
+    Spine.bind('create:sidebar', @proxy @initDroppables)
+    Spine.bind('drag:dropped', @proxy @dropComplete)
 
   loadJoinTables: ->
     GalleriesAlbum.records = Gallery.joinTableRecords
@@ -51,19 +60,44 @@ class SidebarView extends Spine.Controller
         console.log 'Dropped'
     items.droppable dropOptions
 
-  dropCreate: ->
-    console.log 'dropCreate'
+  dropComplete: (source, target) ->
+    console.log 'dropComplete'
+    items = GalleriesAlbum.filter(target.id)
+    for item in items
+      if item.album_id is source.id
+        albumExists = true
 
+    if albumExists
+      alert 'Album already exists in Gallery'
+      return
+    unless source instanceof Album
+      alert 'You can only drop Albums here'
+      return
+
+    ga = new GalleriesAlbum
+      album_id: source.id
+      gallery_id: target.id
+    ga.save()
+    console.log ga
+    gallery = Gallery.find(target.id)
+    oldTarget = Gallery.record
+    Gallery.current(target)
+    gallery.save()
+    Gallery.current(oldTarget)
+    
   newAttributes: ->
-    name: ''
+    name: 'New Gallery'
     author: ''
 
   #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
+    params =
+      success: (a) ->
+        alert 'success'
     @preserveEditorOpen('gallery', App.albumsShowView.btnGallery)
     gallery = new Gallery @newAttributes()
-    gallery.save()
+    gallery.save(params)
   
   toggleDraghandle: ->
     width = =>

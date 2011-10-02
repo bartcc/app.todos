@@ -1,13 +1,14 @@
 
 class Album extends Spine.Model
-  @configure "Album", "name", 'title', "description"
+  @configure "Album", "name", 'title', 'description'
 
   @extend Spine.Model.Ajax
+  @extend Spine.Model.AjaxExtender
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
-  @extend Singleton.Extender
 
   @selectAttributes: ["name", 'title', "description"]
+
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'
 
@@ -16,7 +17,9 @@ class Album extends Spine.Model
     bb = (b or '').name?.toLowerCase()
     return if aa == bb then 0 else if aa < bb then -1 else 1
 
-  @joinTables: ['AlbumsImage']
+  @joinTable: 'AlbumsImage'
+
+  @foreignModel: 'Gallery'
 
   init: (instance) ->
     return unless instance
@@ -29,3 +32,4 @@ class Album extends Spine.Model
   select: (items) ->
     items.album_id is @.id
 
+Spine.Model.Album = Album

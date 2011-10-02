@@ -37,6 +37,10 @@ Ajax = {
   },
   request: function(params) {
     var error, success;
+    console.log('Ajax::request');
+    if (params) {
+      console.log(params);
+    }
     success = params.success;
     error = params.error;
     params.error = __bind(function() {
@@ -73,6 +77,10 @@ Base = (function() {
     processData: false
   };
   Base.prototype.send = function(params, defaults) {
+    console.log('Base::send');
+    if (params) {
+      console.log(params);
+    }
     return Ajax.send($.extend({}, this.defaults, defaults, params));
   };
   return Base;
@@ -103,6 +111,9 @@ Collection = (function() {
   };
   Collection.prototype.recordsResponse = function(params) {
     var success;
+    if (params) {
+      console.log(params);
+    }
     success = params.success;
     return __bind(function(data, status, xhr) {
       this.model.trigger("ajaxSuccess", null, status, xhr);
@@ -130,6 +141,8 @@ Singleton = (function() {
     this.blankResponse = __bind(this.blankResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
     Singleton.__super__.constructor.apply(this, arguments);
+    console.log('Singleton::constructor');
+    console.log(this.record);
     this.model = this.record.constructor;
     this.url = Ajax.getURL(this.record);
     this.base = Ajax.getURL(this.model);
@@ -141,9 +154,13 @@ Singleton = (function() {
     });
   };
   Singleton.prototype.create = function(params) {
+    console.log('Singleton:create');
+    if (params) {
+      console.log(params);
+    }
     return this.send(params, {
       type: "POST",
-      data: JSON.stringify(this.record),
+      data: JSON.stringify(this.records),
       url: this.base,
       success: this.recordResponse(params),
       error: this.errorResponse(params)
@@ -152,13 +169,17 @@ Singleton = (function() {
   Singleton.prototype.update = function(params) {
     return this.send(params, {
       type: "PUT",
-      data: JSON.stringify(this.record),
+      data: JSON.stringify(this.records),
       url: this.url,
       success: this.recordResponse(params),
       error: this.errorResponse(params)
     });
   };
   Singleton.prototype.destroy = function(params) {
+    console.log('Singleton:destroy');
+    if (params) {
+      console.log(params);
+    }
     return this.send(params, {
       type: "DELETE",
       url: this.url,
@@ -170,6 +191,9 @@ Singleton = (function() {
     var success;
     if (params == null) {
       params = {};
+    }
+    if (params) {
+      console.log(params);
     }
     success = params.success;
     return __bind(function(data, status, xhr) {
@@ -232,7 +256,7 @@ Model.Ajax = {
   },
   extended: function() {
     this.change(function(record, type) {
-      return record.ajax()[type]();
+      return record.ajax()[type](params);
     });
     this.fetch(function() {
       var _ref;

@@ -32,9 +32,9 @@ AlbumsEditView = (function() {
   function AlbumsEditView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumsEditView.__super__.constructor.apply(this, arguments);
     Gallery.bind("change", this.proxy(this.change));
-    Spine.App.bind('save:gallery', this.proxy(this.save));
+    Spine.bind('save:gallery', this.proxy(this.save));
     this.bind('save:gallery', this.proxy(this.save));
-    Spine.App.bind('change:selectedGallery', this.proxy(this.change));
+    Spine.bind('change:selectedGallery', this.proxy(this.change));
     this.create = this.edit;
   }
   AlbumsEditView.prototype.change = function(item, mode) {
@@ -69,13 +69,20 @@ AlbumsEditView = (function() {
     return this;
   };
   AlbumsEditView.prototype.destroy = function() {
+    var params;
+    console.log('AlbumsEditView::destroy');
+    params = {
+      success: function(a) {
+        return alert('success');
+      }
+    };
     if (!Gallery.record) {
       return;
     }
-    console.log('AlbumsEditView::destroy');
-    this.current.destroy();
+    console.log(params);
+    this.current.destroy(params);
     if (!Gallery.count()) {
-      return Gallery.record = false;
+      return Gallery.current();
     }
   };
   AlbumsEditView.prototype.email = function() {

@@ -79,7 +79,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsTemplate">
-  <li class="item thumbnail" >
+  <li class="item thumbnail" draggable="true">
     <span style="font-size: 0.6em">ID: ${id}</span>
     {{if name}}
     <div class="name">${name}</div>

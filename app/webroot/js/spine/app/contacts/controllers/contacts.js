@@ -43,8 +43,8 @@ Contacts = (function() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    Contacts.__super__.constructor.apply(this, arguments);
     this.editEl.hide();
     Contact.bind("change", this.proxy(this.change));
-    Spine.App.bind('save', this.proxy(this.save));
-    Spine.App.bind("change", this.proxy(this.change));
+    Spine.bind('save', this.proxy(this.save));
+    Spine.bind("change", this.proxy(this.change));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.create = this.edit;
     $(this.views).queue("fx");
@@ -163,7 +163,7 @@ Contacts = (function() {
     if (e.keyCode !== 13) {
       return;
     }
-    return Spine.App.trigger('save', this.editEl);
+    return Spine.trigger('save', this.editEl);
   };
   return Contacts;
 })();

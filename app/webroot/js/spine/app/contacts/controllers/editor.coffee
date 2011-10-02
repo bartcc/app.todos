@@ -14,7 +14,7 @@ class Editor extends Spine.Controller
 
   constructor: ->
     super
-    Spine.App.bind('change', @proxy @change)
+    Spine.bind('change', @proxy @change)
 
   render: ->
     if @current and @current.reload?()
@@ -28,6 +28,6 @@ class Editor extends Spine.Controller
 
   save: (e) ->
     return if(e.keyCode != 13)
-    Spine.App.trigger('save', @editEl)
+    Spine.trigger('save', @editEl)
 
 module?.exports = Editor

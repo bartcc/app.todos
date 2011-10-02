@@ -29,7 +29,7 @@ Sidebar = (function() {
   };
   function Sidebar() {
     Sidebar.__super__.constructor.apply(this, arguments);
-    Spine.App.bind('render:refreshState', this.proxy(this.renderRefreshState));
+    Spine.bind('render:refreshState', this.proxy(this.renderRefreshState));
     Task.bind('refresh change', this.proxy(this.renderControls));
     Task.bind('change:unsaved', this.proxy(this.renderSaveState));
   }

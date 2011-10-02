@@ -39,7 +39,7 @@ class Spine.GalleryList extends Spine.Controller
       
       changed = true if !(@current) or dblclick
       
-      Spine.App.trigger('change:selectedGallery', @current, mode) if changed
+      Spine.trigger('change:selectedGallery', @current, mode) if changed
   
   render: (items, item) ->
     console.log 'GalleryList::render'
@@ -49,7 +49,7 @@ class Spine.GalleryList extends Spine.Controller
     if @selectFirst
       unless @children(".active").length
         @children(":first").click()
-    Spine.App.trigger('create:sidebar', @children(".droppable"))
+    #Spine.trigger('create:sidebar', @children(".droppable"))
         
   children: (sel) ->
     @el.children(sel)

@@ -13,7 +13,7 @@ class Sidebar extends Spine.Controller
 
   constructor: ->
     super
-    Spine.App.bind('render:refreshState', @proxy @renderRefreshState)
+    Spine.bind('render:refreshState', @proxy @renderRefreshState)
     Task.bind('refresh change', @proxy @renderControls)
     Task.bind('change:unsaved', @proxy @renderSaveState)
 

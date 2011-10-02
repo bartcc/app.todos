@@ -14,7 +14,7 @@ class GalleryView extends Spine.Controller
 
   constructor: ->
     super
-    Spine.App.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedGallery', @proxy @change)
     Gallery.bind "change", @proxy @change
 
   change: (item) ->

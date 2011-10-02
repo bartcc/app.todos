@@ -12,9 +12,9 @@ GalleriesAlbum = (function() {
   function GalleriesAlbum() {
     GalleriesAlbum.__super__.constructor.apply(this, arguments);
   }
-  GalleriesAlbum.configure("GalleriesAlbum", "gallery_id", 'album_id');
-  GalleriesAlbum.extend(Spine.Model.Filter);
+  GalleriesAlbum.configure("GalleriesAlbum", 'gallery_id', 'album_id', 'name');
   GalleriesAlbum.extend(Spine.Model.Local);
+  GalleriesAlbum.extend(Spine.Model.Filter);
   GalleriesAlbum.prototype.select = function(query) {
     if (this.gallery_id === query) {
       return true;
@@ -23,3 +23,4 @@ GalleriesAlbum = (function() {
   };
   return GalleriesAlbum;
 })();
+Spine.Model.GalleriesAlbum = GalleriesAlbum;

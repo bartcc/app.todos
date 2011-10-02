@@ -26,6 +26,7 @@ class GalleriesController extends AppController {
 
   function add() {
     if (!empty($this->data)) {
+      $this->log('Galleries::add', LOG_DEBUG);
       $this->log($this->data, LOG_DEBUG);
       $this->Gallery->create();
       if ($this->Gallery->save($this->data)) {
@@ -44,6 +45,7 @@ class GalleriesController extends AppController {
       $this->redirect(array('action' => 'index'));
     }
     if (!empty($this->data)) {
+      $this->log($this->data, LOG_DEBUG);
       if ($this->Gallery->save($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));
       } else {

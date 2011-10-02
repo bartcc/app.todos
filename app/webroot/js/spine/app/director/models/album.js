@@ -12,11 +12,11 @@ Album = (function() {
   function Album() {
     Album.__super__.constructor.apply(this, arguments);
   }
-  Album.configure("Album", "name", 'title', "description");
+  Album.configure("Album", "name", 'title', 'description');
   Album.extend(Spine.Model.Ajax);
+  Album.extend(Spine.Model.AjaxExtender);
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Extender);
-  Album.extend(Singleton.Extender);
   Album.selectAttributes = ["name", 'title', "description"];
   Album.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
@@ -33,7 +33,8 @@ Album = (function() {
       return 1;
     }
   };
-  Album.joinTables = ['AlbumsImage'];
+  Album.joinTable = 'AlbumsImage';
+  Album.foreignModel = 'Gallery';
   Album.prototype.init = function(instance) {
     if (!instance) {
       ;
@@ -54,3 +55,4 @@ Album = (function() {
   };
   return Album;
 })();
+Spine.Model.Album = Album;

@@ -42,14 +42,30 @@ class AppController extends Controller {
       $this->Auth->autoRedirect = FALSE;
     }
     
-    $data = $this->getPayLoad();
-    if(!empty($data)) {
-      foreach($data as $key => $value) {
-        $this->data[$this->modelClass][$key] = $value;
+    if ($this->RequestHandler->isAjax()) {
+      $data = $this->getPayLoad();
+      if(!empty($data)) {
+        //$this->log('Payload', LOG_DEBUG);
+        //$this->log($data, LOG_DEBUG);
+        $data = $this->object2Array($data);
+        if(empty($data[$this->modelClass])) {
+          $this->data[$this->modelClass] = $data;
+        } else {
+          $this->data = $data;
+        }
       }
     }
   }
   
+  function object2array($obj) {
+    $_arr = is_object($obj) ? get_object_vars($obj) : $obj;
+    foreach ($_arr as $key => $val) {
+      $val = (is_array($val) || is_object($val)) ? $this->object2array($val) : $val;
+      $arr[$key] = $val;
+    }
+    return $arr;
+  }
+
   function beforeRender() {
     if ($this->RequestHandler->isAjax())
       $this->layout = 'ajax';

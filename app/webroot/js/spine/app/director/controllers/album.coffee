@@ -17,8 +17,8 @@ class AlbumView extends Spine.Controller
   constructor: ->
     super
     Album.bind('change', @proxy @change)
-    Spine.App.bind('change:selectedAlbum', @proxy @change)
-    Spine.App.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedAlbum', @proxy @change)
+    Spine.bind('change:selectedGallery', @proxy @change)
 
   change: (item) ->
     console.log 'Album::change'

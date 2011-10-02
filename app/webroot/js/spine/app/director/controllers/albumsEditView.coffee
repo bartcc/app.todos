@@ -20,9 +20,9 @@ class AlbumsEditView extends Spine.Controller
   constructor: ->
     super
     Gallery.bind "change", @proxy @change
-    Spine.App.bind('save:gallery', @proxy @save)
+    Spine.bind('save:gallery', @proxy @save)
     @bind('save:gallery', @proxy @save)
-    Spine.App.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedGallery', @proxy @change)
     @create = @edit
 
   change: (item, mode) ->
@@ -48,10 +48,14 @@ class AlbumsEditView extends Spine.Controller
     @
 
   destroy: ->
-    return unless Gallery.record
     console.log 'AlbumsEditView::destroy'
-    @current.destroy()
-    Gallery.record = false if !Gallery.count()
+    params =
+      success: (a) ->
+        alert 'success'
+    return unless Gallery.record
+    console.log params
+    @current.destroy(params)
+    Gallery.current() if !Gallery.count()
 
   email: ->
     return if ( !@current.email ) 

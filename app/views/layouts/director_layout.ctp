@@ -30,7 +30,7 @@
 
     echo $this->Html->css('spine/director/application');
 
-    echo $this->Html->script('lib/json2');
+    //echo $this->Html->script('lib/json2');
 
     echo $this->Html->script('lib/jquery/jquery-1.6.2');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
@@ -45,23 +45,23 @@
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
     echo $this->Html->script('lib/underscore');
 
-    echo $this->Html->script('spine/lib/spine');
+    echo $this->Html->script('spine/lib/spine2');
     echo $this->Html->script('spine/lib/local');
-    echo $this->Html->script('spine/lib/ajax');
+    echo $this->Html->script('spine/lib/ajax2');
     echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/lib/manager');
     echo $this->Html->script('spine/lib/tmpl');
 
-    echo $this->Html->script('spine/app/director/plugins/array');
     echo $this->Html->script('spine/app/director/plugins/manager');
     echo $this->Html->script('spine/app/director/plugins/controller');
+    echo $this->Html->script('spine/app/director/plugins/drag');
     echo $this->Html->script('spine/app/director/models/modelExtender');
     echo $this->Html->script('spine/app/director/models/ajaxExtender');
     echo $this->Html->script('spine/app/director/models/galleries_albums');
     echo $this->Html->script('spine/app/director/models/albums_images');
+    echo $this->Html->script('spine/app/director/models/gallery');
     echo $this->Html->script('spine/app/director/models/image');
     echo $this->Html->script('spine/app/director/models/album');
-    echo $this->Html->script('spine/app/director/models/gallery');
     echo $this->Html->script('spine/app/director/controllers/gallerieList');
     echo $this->Html->script('spine/app/director/controllers/albumList');
     echo $this->Html->script('spine/app/director/controllers/sidebar');

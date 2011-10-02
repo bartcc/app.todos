@@ -30,7 +30,7 @@ Sidebar = (function() {
   };
   function Sidebar() {
     Sidebar.__super__.constructor.apply(this, arguments);
-    Spine.App.list = this.list = new Spine.List({
+    Spine.list = this.list = new Spine.List({
       el: this.items,
       template: this.template
     });

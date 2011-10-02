@@ -1,3 +1,4 @@
+
 class App extends Spine.Controller
   
   elements:
@@ -14,6 +15,8 @@ class App extends Spine.Controller
 
   constructor: ->
     super
+
+
     @sidebar = new SidebarView
       el: @sidebarEl
     @gallery = new GalleryView
@@ -57,6 +60,7 @@ class App extends Spine.Controller
       
 $ ->
   window.App = new App(el: $('body'))
+  
   App.albumsManager.change(App.albumsShowView)
   #App.albumsShowView.btnGallery.click()
   #Gallery.fetch()

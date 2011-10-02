@@ -15,29 +15,36 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 $ = Spine.$;
 SidebarView = (function() {
   __extends(SidebarView, Spine.Controller);
+  SidebarView.extend(Spine.Controller.Drag);
   SidebarView.prototype.elements = {
-    ".items": "items",
-    "input": "input",
+    'input': 'input',
+    '.items': 'items',
     '.droppable': 'droppable'
   };
   SidebarView.prototype.events = {
     "click button": "create",
     "keyup input": "filter",
     "dblclick .draghandle": 'toggleDraghandle',
-    'dropcreate .items li': 'dropCreate'
+    'dragstart          .items .item': 'dragstart',
+    'dragenter          .items .item': 'dragenter',
+    'dragover           .items .item': 'dragover',
+    'dragleave          .items .item': 'dragleave',
+    'drop               .items .item': 'drop',
+    'dragend            .items .item': 'dragend'
   };
   SidebarView.prototype.template = function(items) {
     return $("#galleriesTemplate").tmpl(items);
   };
   function SidebarView() {
     SidebarView.__super__.constructor.apply(this, arguments);
-    Spine.App.galleryList = this.list = new Spine.GalleryList({
+    Spine.galleryList = this.list = new Spine.GalleryList({
       el: this.items,
       template: this.template
     });
     Gallery.bind("refresh", this.proxy(this.loadJoinTables));
     Gallery.bind("refresh change", this.proxy(this.render));
-    Spine.App.bind('create:sidebar', this.proxy(this.initDroppables));
+    Spine.bind('create:sidebar', this.proxy(this.initDroppables));
+    Spine.bind('drag:dropped', this.proxy(this.dropComplete));
   }
   SidebarView.prototype.loadJoinTables = function() {
     return GalleriesAlbum.records = Gallery.joinTableRecords;
@@ -64,21 +71,53 @@ SidebarView = (function() {
     };
     return items.droppable(dropOptions);
   };
-  SidebarView.prototype.dropCreate = function() {
-    return console.log('dropCreate');
+  SidebarView.prototype.dropComplete = function(source, target) {
+    var albumExists, ga, gallery, item, items, oldTarget, _i, _len;
+    console.log('dropComplete');
+    items = GalleriesAlbum.filter(target.id);
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      item = items[_i];
+      if (item.album_id === source.id) {
+        albumExists = true;
+      }
+    }
+    if (albumExists) {
+      alert('Album already exists in Gallery');
+      return;
+    }
+    if (!(source instanceof Album)) {
+      alert('You can only drop Albums here');
+      return;
+    }
+    ga = new GalleriesAlbum({
+      album_id: source.id,
+      gallery_id: target.id
+    });
+    ga.save();
+    console.log(ga);
+    gallery = Gallery.find(target.id);
+    oldTarget = Gallery.record;
+    Gallery.current(target);
+    gallery.save();
+    return Gallery.current(oldTarget);
   };
   SidebarView.prototype.newAttributes = function() {
     return {
-      name: '',
+      name: 'New Gallery',
       author: ''
     };
   };
   SidebarView.prototype.create = function(e) {
-    var gallery;
+    var gallery, params;
     e.preventDefault();
+    params = {
+      success: function(a) {
+        return alert('success');
+      }
+    };
     this.preserveEditorOpen('gallery', App.albumsShowView.btnGallery);
     gallery = new Gallery(this.newAttributes());
-    return gallery.save();
+    return gallery.save(params);
   };
   SidebarView.prototype.toggleDraghandle = function() {
     var width;

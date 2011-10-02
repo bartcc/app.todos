@@ -1,8 +1,9 @@
 
 class Gallery extends Spine.Model
-  @configure "Gallery", "name", 'author', "description", 'selectedAlbumId', 'recordList'
+  @configure "Gallery", "name", 'author', "description"
 
   @extend Spine.Model.Ajax
+  @extend Spine.Model.AjaxExtender
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
@@ -16,7 +17,13 @@ class Gallery extends Spine.Model
     bb = (b or '').name?.toLowerCase()
     return if aa == bb then 0 else if aa < bb then -1 else 1
 
-  @joinTables: ['GalleriesAlbum']
+  @joinTable: 'GalleriesAlbum'
+
+  @foreignModel: 'Album'
+
+  @foreignKey: 'gallery_id'
+
+  @associationForeignKey: 'album_id'
 
   init: (instance) ->
     return unless instance
@@ -42,3 +49,4 @@ class Gallery extends Spine.Model
     result
     
 
+Spine.Model.Gallery = Gallery

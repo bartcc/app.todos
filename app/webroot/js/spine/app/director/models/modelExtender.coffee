@@ -6,7 +6,7 @@ Model.Extender =
 
   extended: ->
 
-    extend =
+    Extend =
       
       record: false
 
@@ -15,23 +15,18 @@ Model.Extender =
       joinTableRecords: {}
 
       fromJSON: (objects) ->
-        @joinTableRecords = @createJoinTables objects
+        @joinTableRecords = @createJoinTable objects
         #json = @__super__.constructor.fromJSON.call @, objects
         key = @className
         json = @fromArray(objects, key) if @isArray(objects) #test for READ or PUT !
         json || @__super__.constructor.fromJSON.call @, objects
-        
-      createJoinTables: (arr) ->
-        return unless @isArray(arr)
-        table = {}
-        console.log @className
-        if @joinTables?.length
-          keys = []
-          keys.push key for key in @joinTables
 
-          res = @introspectJSON arr, key for key in keys
-          
-          table[item.id] = item for item in res
+      createJoinTable: (arr) ->
+        console.log 'ModelExtender::createJoinTable'
+        return unless @joinTable
+        table = {}
+        res = @introspectJSON arr, @joinTable
+        table[item.id] = item for item in res
         table
 
       fromArray: (arr, key) ->
@@ -69,6 +64,15 @@ Model.Extender =
           return item[id] if item[id]
         return @selection[0].global
 
+      emptyList: ->
+        list = @selectionList()
+        list[0...list.length] = []
+        list
+
+      removeFromList: (id) ->
+        album = Album.find(id)
+        album.addRemoveSelection @, true
+
       isArray: (value) ->
         Object::toString.call(value) is "[object Array]"
 
@@ -84,7 +88,7 @@ Model.Extender =
       selected: ->
         @record
       
-    include =
+    Include =
       
       #prevents an update if model hasn't changed
       updateChangedAttributes: (atts) ->
@@ -96,7 +100,7 @@ Model.Extender =
 
         @save() if invalid
 
-      addToSelection: (model, isMetaKey) ->
+      addRemoveSelection: (model, isMetaKey) ->
         list = model.selectionList()
         return unless list
         unless isMetaKey
@@ -105,6 +109,7 @@ Model.Extender =
           @addRemove(model, list)
         list
       
+
       #private
       
       addUnique: (model, list) ->
@@ -117,9 +122,10 @@ Model.Extender =
           index = list.indexOf(@id)
           list.splice(index, 1)
         list
+
  
 
-    @extend extend
-    @include include
+    @extend Extend
+    @include Include
 
     

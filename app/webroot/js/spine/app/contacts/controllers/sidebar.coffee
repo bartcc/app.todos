@@ -20,7 +20,7 @@ class Sidebar extends Spine.Controller
 
   constructor: ->
     super
-    Spine.App.list = @list = new Spine.List
+    Spine.list = @list = new Spine.List
       el: @items,
       template: @template
     Contact.bind "refresh change", @proxy @render

@@ -22,6 +22,8 @@ Ajax =
       @pending = false
 
   request: (params) ->
+    console.log 'Ajax::request'
+    console.log params if params
     success = params.success
     error = params.error
     params.error= =>
@@ -47,6 +49,8 @@ class Base
     processData: false
   
   send: (params, defaults) ->
+    console.log 'Base::send'
+    console.log params if params
     Ajax.send($.extend({}, @defaults, defaults, params))
 
 class Collection extends Base
@@ -66,6 +70,7 @@ class Collection extends Base
       @model.refresh(records)
     
   recordsResponse: (params) =>
+    console.log params if params
     success = params.success
     
     (data, status, xhr) =>
@@ -83,6 +88,8 @@ class Collection extends Base
 class Singleton extends Base
   constructor: (@record) ->
     super
+    console.log 'Singleton::constructor'
+    console.log @record
     @model = @record.constructor
     @url   = Ajax.getURL(@record)
     @base  = Ajax.getURL(@model)
@@ -93,6 +100,8 @@ class Singleton extends Base
           url:  @url
   
   create: (params) ->
+    console.log 'Singleton:create'
+    console.log params if params
     @send params,
           type:    "POST"
           data:    JSON.stringify(@records)
@@ -111,6 +120,8 @@ class Singleton extends Base
 
   
   destroy: (params) ->
+    console.log 'Singleton:destroy'
+    console.log params if params
     @send params,
           type:    "DELETE"
           url:     @url
@@ -120,6 +131,7 @@ class Singleton extends Base
   # Private
 
   recordResponse: (params = {}) =>
+    console.log params  if params
     success = params.success
   
     (data, status, xhr) =>
@@ -158,7 +170,7 @@ class Singleton extends Base
 Model.host = ""
 
 Include =
-  ajax: -> new Singleton(this)
+  ajax: -> new Singleton @
 
   url: ->
     base = Ajax.getURL(@constructor)
@@ -167,11 +179,11 @@ Include =
     base
 
 Model.Ajax =
-  ajax: -> new Collection(this)
+  ajax: -> new Collection @
 
   extended: ->
     @change (record, type) ->
-      record.ajax()[type]()
+      record.ajax()[type](params)
       
     @fetch ->
       @ajax().fetch(arguments...)

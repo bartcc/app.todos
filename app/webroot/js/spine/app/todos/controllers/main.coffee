@@ -26,7 +26,7 @@ class Main extends Spine.Controller
     @items.sortable()
 
   refreshList: ->
-    Spine.App.trigger('render:refreshState', true)
+    Spine.trigger('render:refreshState', true)
     Spine.Ajax.enabled = false
     Task.destroyAll()
     Spine.Ajax.enabled = true
@@ -61,7 +61,7 @@ class Main extends Spine.Controller
 
   addAll: ->
     Task.each @proxy @addOne
-    Spine.App.trigger('render:refreshState', false)
+    Spine.trigger('render:refreshState', false)
 
   renderCount: ->
     active = Task.active().length

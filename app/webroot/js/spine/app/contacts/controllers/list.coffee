@@ -21,7 +21,7 @@ class Spine.List extends Spine.Controller
       @children().removeClass("active")
       @children().forItem(@current).addClass("active")
       
-      Spine.App.trigger('change', item, mode)
+      Spine.trigger('change', item, mode)
   
   render: (items) ->
     @items = items if items

@@ -54,7 +54,7 @@ Spine.GalleryList = (function() {
         changed = true;
       }
       if (changed) {
-        return Spine.App.trigger('change:selectedGallery', this.current, mode);
+        return Spine.trigger('change:selectedGallery', this.current, mode);
       }
     }
   };
@@ -67,10 +67,9 @@ Spine.GalleryList = (function() {
     this.change(item || this.current);
     if (this.selectFirst) {
       if (!this.children(".active").length) {
-        this.children(":first").click();
+        return this.children(":first").click();
       }
     }
-    return Spine.App.trigger('create:sidebar', this.children(".droppable"));
   };
   GalleryList.prototype.children = function(sel) {
     return this.el.children(sel);

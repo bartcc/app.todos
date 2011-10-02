@@ -4,12 +4,12 @@ $      = Spine.$
 class Spine.AlbumList extends Spine.Controller
   
   elements:
-    '.optCreateAlbum'         : 'btnCreateAlbum'
+    '.optCreate'         : 'btnCreateAlbum'
 
   events:
     "click .item"             : "click"
     "dblclick .item"          : "dblclick"
-    'click .optCreateAlbum'   : 'create'
+    'click .optCreate'   : 'create'
     
   selectFirst: true
     
@@ -17,24 +17,26 @@ class Spine.AlbumList extends Spine.Controller
     super
     @bind("change", @change)
     @record = Gallery.record
+    Spine.bind('createAlbum', @proxy @create)
+    Spine.bind('destroyAlbum', @proxy @destroy)
     
   template: -> arguments[0]
   
   change: ->
     console.log 'AlbumList::change'
     
-    list = Gallery.selectionList() 
+    list = Gallery.selectionList()
     @children().removeClass("active")
     if list
       for id in list
         item = Album.find(id) if Album.exists(id)
-        @children().forItem(item).addClass("active")
+        @children().forItem(item).addClass("active") if item
 
       selected = Album.find(list[0]) if Album.exists(list[0])
       if selected and !selected.destroyed
         item = selected
 
-    Spine.App.trigger('change:selectedAlbum', item)
+    Spine.trigger('change:selectedAlbum', item)
       
       
   
@@ -43,20 +45,43 @@ class Spine.AlbumList extends Spine.Controller
     if items.length
       @html @template items
     else
-      @html 'This Gallery has no Albums&nbsp;<button class="optCreateAlbum">CreateAlbum</button>'
+      @html 'This Gallery has no Albums&nbsp;<button class="optCreate">New Album</button>'
       @refreshElements()
 
-    newAlbum.addToSelection(Gallery) if newAlbum
+    newAlbum.addRemoveSelection(Gallery) if newAlbum
     @change()
     @
   
   children: (sel) ->
     @el.children(sel)
     
+  newAttributes: ->
+    title: 'New Title'
+    name: 'New Album'
+
   create: ->
+    console.log 'AlbumList::create'
     @preserveEditorOpen('album', App.albumsShowView.btnAlbum)
-    album = new Album()
+    album = new Album(@newAttributes())
     album.save()
+
+  destroy: ->
+    console.log 'AlbumList::destroy'
+    list = Gallery.selectionList().slice()
+    if Gallery.record
+      for id in list
+        alb = GalleriesAlbum.findByAttribute('album_id', id)
+        console.log alb
+        Gallery.removeFromList(id)
+        alb.destroy() if alb
+        gallery = Gallery.find(Gallery.record.id)
+        gallery.save()
+    else
+      for id in list
+        alb = Album.find(id) if Album.exists(id)
+        Gallery.removeFromList(id)
+        console.log alb
+        alb.destroy() if alb
 
   click: (e) ->
     console.log 'AlbumList::click'
@@ -65,7 +90,7 @@ class Spine.AlbumList extends Spine.Controller
     if App.hmanager.hasActive()
       @preserveEditorOpen('album', App.albumsShowView.btnAlbum)
     
-    item.addToSelection(Gallery, @isCtrlClick(e))
+    item.addRemoveSelection(Gallery, @isCtrlClick(e))
     @change item 
 
   dblclick: (e) ->

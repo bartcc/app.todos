@@ -2,40 +2,101 @@ Spine ?= require("spine")
 $      = Spine.$
 Model  = Spine.Model
 
-Singleton.Extender =
-
-  extended: ->
-    include = 
-
-      create: (params) ->
-        console.log 'create'
-        @send params,
-              type:    "DELETE"
-              data:    ''#JSON.stringify(@record)
-              url:     @base
-              #success: @recordResponse(params)
-              #error: @errorResponse(params)
-
-      destroy: (params) ->
-        console.log 'destroy'
-        @send params,
-              type:    "DELETE"
-              url:     @url
-              success: @blankResponse(params)
-              error: @errorResponse(params)
-
-      update: (params) ->
-        console.log 'update'
-        @send params,
-              type:    "PUT"
-              data:    JSON.stringify(@records)
-              url:     @url
-              success: @recordResponse(params)
-              error:   @errorResponse(params)
-
-      empty: (atts) ->
-
-
-    @extend include
-
+class Request extends Base
+  constructor: (@record) ->
+    @data = {}
     
+    console.log 'new Request'
+
+    @model = @record.constructor
+    @foreignModel = Spine.Model[@model.foreignModel]
+    @joinTable = Spine.Model[@model.joinTable]
+    @associationForeignKey = @model.associationForeignKey
+    @foreignKey = @model.foreignKey
+
+    console.log @foreignModel
+    console.log @foreignModel.record
+    console.log @joinTable
+
+    if @foreignModel and @foreignModel.record
+      @data[@foreignModel.className] = @foreignModel.record
+    @data[@model.className] = @record
+    
+  
+  find: (params) ->
+    @ajax(
+      params,
+      type: "GET"
+      url:  @url
+    )
+  
+  create: (params) ->
+    console.log 'create'
+    @queue =>
+      @ajax(
+        params,
+        type: "POST"
+        data: JSON.stringify(@data)
+        url:  Ajax.getURL(@model)
+      ).success(@recordResponse)
+       .error(@errorResponse)
+
+  update: (params) ->
+    console.log 'update'
+    
+    if @joinTable
+      data = {}
+      list = @joinTable.findAllByAttribute(@foreignKey, @model.record.id)
+      ids = for item in list
+        item[@associationForeignKey]
+      data[@foreignModel.className] = ids
+      @data[@foreignModel.className] = data
+    @queue =>
+      @ajax(
+        params,
+        type: "PUT"
+        data: JSON.stringify(@data)
+        url:  Ajax.getURL(@record)
+      ).success(@recordResponse)
+       .error(@errorResponse)
+  
+  destroy: (params) ->
+    console.log 'destroy'
+    @queue =>
+      @ajax(
+        params,
+        type: "DELETE"
+        url:  Ajax.getURL(@record)
+      ).success(@recordResponse)
+       .error(@errorResponse)  
+
+  # Private
+
+  recordResponse: (data, status, xhr) =>
+    @record.trigger("ajaxSuccess", @record, status, xhr)
+    
+    return if Spine.isBlank(data)
+    data = @model.fromJSON(data)
+    
+    Ajax.disable =>        
+      # ID change, need to do some shifting
+      if data.id and @record.id isnt data.id
+        @record.changeID(data.id)
+
+      # Update with latest data
+      @record.updateAttributes(data.attributes())      
+      
+  blankResponse: (data, status, xhr) =>
+    @record.trigger("ajaxSuccess", @record, status, xhr)
+
+  errorResponse: (xhr, statusText, error) =>
+    @record.trigger("ajaxError", @record, xhr, statusText, error)
+
+Model.AjaxExtender =
+  
+  extended: ->
+    
+    Include =
+      ajax: -> new Request(this)
+      
+    @include Include

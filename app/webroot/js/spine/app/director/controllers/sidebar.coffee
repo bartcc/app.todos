@@ -78,7 +78,6 @@ class SidebarView extends Spine.Controller
       album_id: source.id
       gallery_id: target.id
     ga.save()
-    console.log ga
     gallery = Gallery.find(target.id)
     oldTarget = Gallery.record
     Gallery.current(target)
@@ -92,12 +91,9 @@ class SidebarView extends Spine.Controller
   #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
-    params =
-      success: (a) ->
-        alert 'success'
     @preserveEditorOpen('gallery', App.albumsShowView.btnGallery)
     gallery = new Gallery @newAttributes()
-    gallery.save(params)
+    gallery.save()
   
   toggleDraghandle: ->
     width = =>

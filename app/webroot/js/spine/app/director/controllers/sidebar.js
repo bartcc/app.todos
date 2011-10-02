@@ -94,7 +94,6 @@ SidebarView = (function() {
       gallery_id: target.id
     });
     ga.save();
-    console.log(ga);
     gallery = Gallery.find(target.id);
     oldTarget = Gallery.record;
     Gallery.current(target);
@@ -108,16 +107,11 @@ SidebarView = (function() {
     };
   };
   SidebarView.prototype.create = function(e) {
-    var gallery, params;
+    var gallery;
     e.preventDefault();
-    params = {
-      success: function(a) {
-        return alert('success');
-      }
-    };
     this.preserveEditorOpen('gallery', App.albumsShowView.btnGallery);
     gallery = new Gallery(this.newAttributes());
-    return gallery.save(params);
+    return gallery.save();
   };
   SidebarView.prototype.toggleDraghandle = function() {
     var width;

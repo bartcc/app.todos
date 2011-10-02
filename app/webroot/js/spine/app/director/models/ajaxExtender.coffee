@@ -6,17 +6,11 @@ class Request extends Base
   constructor: (@record) ->
     @data = {}
     
-    console.log 'new Request'
-
     @model = @record.constructor
     @foreignModel = Spine.Model[@model.foreignModel]
     @joinTable = Spine.Model[@model.joinTable]
     @associationForeignKey = @model.associationForeignKey
     @foreignKey = @model.foreignKey
-
-    console.log @foreignModel
-    console.log @foreignModel.record
-    console.log @joinTable
 
     if @foreignModel and @foreignModel.record
       @data[@foreignModel.className] = @foreignModel.record
@@ -31,7 +25,6 @@ class Request extends Base
     )
   
   create: (params) ->
-    console.log 'create'
     @queue =>
       @ajax(
         params,
@@ -42,8 +35,6 @@ class Request extends Base
        .error(@errorResponse)
 
   update: (params) ->
-    console.log 'update'
-    
     if @joinTable
       data = {}
       list = @joinTable.findAllByAttribute(@foreignKey, @model.record.id)
@@ -61,7 +52,6 @@ class Request extends Base
        .error(@errorResponse)
   
   destroy: (params) ->
-    console.log 'destroy'
     @queue =>
       @ajax(
         params,

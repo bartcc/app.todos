@@ -22,15 +22,11 @@ Request = (function() {
     this.blankResponse = __bind(this.blankResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
     this.data = {};
-    console.log('new Request');
     this.model = this.record.constructor;
     this.foreignModel = Spine.Model[this.model.foreignModel];
     this.joinTable = Spine.Model[this.model.joinTable];
     this.associationForeignKey = this.model.associationForeignKey;
     this.foreignKey = this.model.foreignKey;
-    console.log(this.foreignModel);
-    console.log(this.foreignModel.record);
-    console.log(this.joinTable);
     if (this.foreignModel && this.foreignModel.record) {
       this.data[this.foreignModel.className] = this.foreignModel.record;
     }
@@ -43,7 +39,6 @@ Request = (function() {
     });
   };
   Request.prototype.create = function(params) {
-    console.log('create');
     return this.queue(__bind(function() {
       return this.ajax(params, {
         type: "POST",
@@ -54,7 +49,6 @@ Request = (function() {
   };
   Request.prototype.update = function(params) {
     var data, ids, item, list;
-    console.log('update');
     if (this.joinTable) {
       data = {};
       list = this.joinTable.findAllByAttribute(this.foreignKey, this.model.record.id);
@@ -79,7 +73,6 @@ Request = (function() {
     }, this));
   };
   Request.prototype.destroy = function(params) {
-    console.log('destroy');
     return this.queue(__bind(function() {
       return this.ajax(params, {
         type: "DELETE",

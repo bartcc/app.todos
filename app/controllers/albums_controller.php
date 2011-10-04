@@ -44,7 +44,7 @@ class AlbumsController extends AppController {
       $this->redirect(array('action' => 'index'));
     }
     if (!empty($this->data)) {
-      //$this->log($this->data, LOG_DEBUG);
+      $this->log($this->data, LOG_DEBUG);
       if ($this->Album->save($this->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
         $this->redirect(array('action' => 'index'));

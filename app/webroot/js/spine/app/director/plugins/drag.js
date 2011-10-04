@@ -32,10 +32,12 @@ Controller.Drag = {
           event.stopPropagation();
         }
         event.dataTransfer.dropEffect = 'move';
+        Spine.trigger('drag:over', e);
         return false;
       },
       dragleave: function(e, data) {
-        return $(e.target).removeClass('over');
+        $(e.target).removeClass('over');
+        return Spine.trigger('drag:over', e);
       },
       dragend: function(e, data) {
         return $(e.target).removeClass('dragged');

@@ -35,6 +35,8 @@ class SidebarView extends Spine.Controller
 
     Gallery.bind "refresh change", @proxy @render
     Spine.bind('drag:drop', @proxy @dropComplete)
+    Spine.bind('drag:over', @proxy @dragOver)
+    Spine.bind('drag:leave', @proxy @dragLeave)
 
   filter: ->
     @query = @input.val();
@@ -45,6 +47,22 @@ class SidebarView extends Spine.Controller
     items = Gallery.filter @query, 'searchSelect'
     items = items.sort Gallery.nameSort
     @list.render items, item
+
+  dragOver: (e) ->
+    target = $(e.target).item()
+    return if target.id is @oldtargetID
+    @oldtargetID = target.id
+    items = GalleriesAlbum.filter(target.id)
+    for item in items
+      if item.album_id is Spine.dragItem.id
+        $(e.target).addClass('nodrop')
+
+  dragLeave: (e) ->
+    target = $(e.target).item()
+    return if target.id is @oldtargetID
+    @oldtargetID = target.id
+    #$(e.target).removeClass('nodrop')
+
 
   dropComplete: (source, target) ->
     console.log 'dropComplete'

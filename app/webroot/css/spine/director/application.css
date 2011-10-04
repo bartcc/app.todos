@@ -540,6 +540,21 @@ textarea {
 .items .item.dragged {
   opacity: 0.5;
 }
-.items .item.over {
-  border: 1px dashed #121212
+#sidebar li.item.over {
+  background: #99FF99;
+  background: -webkit-gradient(linear, left top, left bottom, from(#99FF99), to(#99D687));
+  background: -moz-linear-gradient(top, #99FF99, #99D687);
+  background: linear-gradient(top, #99FF99, #99D687);
+  border-bottom-color: #99FF99;
+  -moz-box-shadow: inset 0 1px 2px 89C48E;
+  -webkit-box-shadow: inset 0 1px 2px 89C48E;
+  box-shadow: inset 0 1px 2px 89C48E;
+  -webkit-box-shadow: inset 0 1px 2px 89C48E, inset 0 1px 2px #99FF99;
+}
+#sidebar li.item.over.nodrop {
+  background: #FFB399;
+  background: -webkit-gradient(linear, left top, left bottom, from(#FFB399), to(#FF0033));
+  background: -moz-linear-gradient(top, #FFB399, #FF0033);
+  background: linear-gradient(top, #FFB399, #FF0033);
+  border-bottom-color: #89C48E;
 }

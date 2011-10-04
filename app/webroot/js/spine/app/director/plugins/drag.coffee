@@ -25,10 +25,12 @@ Controller.Drag =
         event = e.originalEvent
         event.stopPropagation() if event.stopPropagation
         event.dataTransfer.dropEffect = 'move'
+        Spine.trigger('drag:over', e)
         false
 
       dragleave: (e, data) ->
         $(e.target).removeClass('over')
+        Spine.trigger('drag:over', e)
 
       dragend: (e, data) ->
         $(e.target).removeClass('dragged')

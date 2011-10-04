@@ -48,6 +48,8 @@ SidebarView = (function() {
     });
     Gallery.bind("refresh change", this.proxy(this.render));
     Spine.bind('drag:drop', this.proxy(this.dropComplete));
+    Spine.bind('drag:over', this.proxy(this.dragOver));
+    Spine.bind('drag:leave', this.proxy(this.dragLeave));
   }
   SidebarView.prototype.filter = function() {
     this.query = this.input.val();
@@ -59,6 +61,29 @@ SidebarView = (function() {
     items = Gallery.filter(this.query, 'searchSelect');
     items = items.sort(Gallery.nameSort);
     return this.list.render(items, item);
+  };
+  SidebarView.prototype.dragOver = function(e) {
+    var item, items, target, _i, _len, _results;
+    target = $(e.target).item();
+    if (target.id === this.oldtargetID) {
+      return;
+    }
+    this.oldtargetID = target.id;
+    items = GalleriesAlbum.filter(target.id);
+    _results = [];
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      item = items[_i];
+      _results.push(item.album_id === Spine.dragItem.id ? $(e.target).addClass('nodrop') : void 0);
+    }
+    return _results;
+  };
+  SidebarView.prototype.dragLeave = function(e) {
+    var target;
+    target = $(e.target).item();
+    if (target.id === this.oldtargetID) {
+      return;
+    }
+    return this.oldtargetID = target.id;
   };
   SidebarView.prototype.dropComplete = function(source, target) {
     var albumExists, albums, item, items, selected, selection, _i, _len, _ref;

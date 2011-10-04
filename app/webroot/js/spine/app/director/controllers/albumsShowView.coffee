@@ -99,7 +99,7 @@ class AlbumsShowView extends Spine.Controller
     console.log 'AlbumsShowView::renderHeader'
     gallery = item or @current
     if gallery
-      @header.html '<h2>Albums for Gallery ' + gallery.name + '</h2>'
+      @header.html '<h2>Albums (Working Copies) for Gallery ' + gallery.name + '</h2>'
     else
       @header.html '<h2>All Albums (Originals)</h2>'
 

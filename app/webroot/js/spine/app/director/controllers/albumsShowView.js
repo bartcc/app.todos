@@ -111,7 +111,7 @@ AlbumsShowView = (function() {
     console.log('AlbumsShowView::renderHeader');
     gallery = item || this.current;
     if (gallery) {
-      return this.header.html('<h2>Albums for Gallery ' + gallery.name + '</h2>');
+      return this.header.html('<h2>Albums (Working Copies) for Gallery ' + gallery.name + '</h2>');
     } else {
       return this.header.html('<h2>All Albums (Originals)</h2>');
     }

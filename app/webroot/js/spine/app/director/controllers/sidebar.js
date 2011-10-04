@@ -81,6 +81,7 @@ SidebarView = (function() {
       }
     });
     Gallery.current(target);
+    target.constructor.updateSelection(selection);
     Spine.trigger('create:albumJoin', albums);
     return target.save();
   };

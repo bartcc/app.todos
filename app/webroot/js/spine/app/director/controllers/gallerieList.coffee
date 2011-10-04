@@ -21,15 +21,14 @@ class Spine.GalleryList extends Spine.Controller
   change: (item, mode, e) =>
     console.log 'GalleryList::change'
     if e
-      shiftKey = e.shiftKey
+      cmdKey = e.metaKey || e.ctrlKey
       dblclick = e.type is 'dblclick'
     if !(item?.destroyed) and item?.reload()
       oldId = @current?.id
-      console.log 'ITEM VALID'
       newId = item.id
       changed = !(oldId is newId) or !(oldId)
       @children().removeClass("active")
-      unless shiftKey
+      unless cmdKey
         @current = item
         @children().forItem(@current).addClass("active")
       else

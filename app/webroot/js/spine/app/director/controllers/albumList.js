@@ -38,6 +38,7 @@ Spine.AlbumList = (function() {
     var id, item, list, selected, _i, _len;
     console.log('AlbumList::change');
     list = Gallery.selectionList();
+    console.log(list);
     this.children().removeClass("active");
     if (list) {
       for (_i = 0, _len = list.length; _i < _len; _i++) {

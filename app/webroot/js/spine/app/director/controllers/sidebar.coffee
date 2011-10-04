@@ -64,7 +64,9 @@ class SidebarView extends Spine.Controller
     albums = []
     Album.each (record) ->
       albums.push record unless selection.indexOf(record.id) is -1
+    
     Gallery.current(target)
+    target.constructor.updateSelection selection
     Spine.trigger('create:albumJoin', albums)
     target.save()
     

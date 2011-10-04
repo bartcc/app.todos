@@ -26,6 +26,7 @@ class Spine.AlbumList extends Spine.Controller
     console.log 'AlbumList::change'
     
     list = Gallery.selectionList()
+    console.log list
     @children().removeClass("active")
     if list
       for id in list

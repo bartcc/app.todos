@@ -31,19 +31,18 @@ Spine.GalleryList = (function() {
     return arguments[0];
   };
   GalleryList.prototype.change = function(item, mode, e) {
-    var changed, dblclick, newId, oldId, shiftKey, _ref;
+    var changed, cmdKey, dblclick, newId, oldId, _ref;
     console.log('GalleryList::change');
     if (e) {
-      shiftKey = e.shiftKey;
+      cmdKey = e.metaKey || e.ctrlKey;
       dblclick = e.type === 'dblclick';
     }
     if (!(item != null ? item.destroyed : void 0) && (item != null ? item.reload() : void 0)) {
       oldId = (_ref = this.current) != null ? _ref.id : void 0;
-      console.log('ITEM VALID');
       newId = item.id;
       changed = !(oldId === newId) || !oldId;
       this.children().removeClass("active");
-      if (!shiftKey) {
+      if (!cmdKey) {
         this.current = item;
         this.children().forItem(this.current).addClass("active");
       } else {

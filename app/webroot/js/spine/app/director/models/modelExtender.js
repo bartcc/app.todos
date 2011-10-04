@@ -115,9 +115,9 @@ Model.Extender = {
         }
         return res;
       },
-      selectionList: __bind(function() {
+      selectionList: __bind(function(recordID) {
         var id, item, _i, _len, _ref;
-        id = this.record.id;
+        id = recordID || this.record.id;
         if (!id) {
           return this.selection[0].global;
         }
@@ -129,11 +129,17 @@ Model.Extender = {
           }
         }
       }, this),
-      emptySelection: function() {
-        var list, _ref;
-        list = this.selectionList();
-        [].splice.apply(list, [0, list.length - 0].concat(_ref = [])), _ref;
-        return list;
+      updateSelection: function(list, id) {
+        return this.emptySelection(list, id);
+      },
+      emptySelection: function(list, id) {
+        var originalList;
+        if (list == null) {
+          list = [];
+        }
+        originalList = this.selectionList(id);
+        [].splice.apply(originalList, [0, originalList.length - 0].concat(list)), list;
+        return originalList;
       },
       removeFromSelection: function(id) {
         var album;

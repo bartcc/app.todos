@@ -68,21 +68,22 @@ Model.Extender =
 
         for obj in json
           introspect(obj)
-        #console.log tableName
-        #console.log res
         res
       
 
-      selectionList: =>
-        id = @record.id
+      selectionList: (recordID) =>
+        id = recordID or @record.id
         return @selection[0].global unless id
         for item in @selection
           return item[id] if item[id]
 
-      emptySelection: ->
-        list = @selectionList()
-        list[0...list.length] = []
-        list
+      updateSelection: (list, id) ->
+        @emptySelection list, id
+
+      emptySelection: (list = [], id) ->
+        originalList = @selectionList(id)
+        originalList[0...originalList.length] = list
+        originalList
 
       removeFromSelection: (id) ->
         album = Album.find(id)

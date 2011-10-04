@@ -69,18 +69,11 @@ AlbumsEditView = (function() {
     return this;
   };
   AlbumsEditView.prototype.destroy = function() {
-    var params;
     console.log('AlbumsEditView::destroy');
-    params = {
-      success: function(a) {
-        return alert('success');
-      }
-    };
     if (!Gallery.record) {
       return;
     }
-    console.log(params);
-    this.current.destroy(params);
+    this.current.destroy();
     if (!Gallery.count()) {
       return Gallery.current();
     }

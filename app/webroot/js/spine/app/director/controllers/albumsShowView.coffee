@@ -49,11 +49,14 @@ class AlbumsShowView extends Spine.Controller
       template: @albumsTemplate
     Album.bind("create", @proxy @createJoin)
     Album.bind("destroy", @proxy @destroyJoin)
+    Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
     Album.bind("change", @proxy @render)
     Gallery.bind("update", @proxy @renderHeader)
     Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
-    GalleriesAlbum.bind("destroy", @proxy @render)
+    GalleriesAlbum.bind("destroy", @proxy @confirmed)
+    #GalleriesAlbum.bind("destroy", @proxy @render)
+    GalleriesAlbum.bind("change", @proxy @render)
     @bind('save:gallery', @proxy @save)
     @bind("toggle:view", @proxy @toggleView)
 
@@ -62,7 +65,11 @@ class AlbumsShowView extends Spine.Controller
     @create = @edit
 
     $(@views).queue("fx")
-    
+
+  confirmed: (ga) ->
+    #alert 'Success! ' + Album.filter(Gallery.record.id).length + ' / ' + Gallery.record.id if ga.destroyed
+    alert ga.name + 'NOT destroyed' unless ga.destroyed
+
   children: (sel) ->
     @el.children(sel)
 
@@ -80,9 +87,7 @@ class AlbumsShowView extends Spine.Controller
     console.log 'AlbumsShowView::render'
     
     if @current
-      joinedItems = GalleriesAlbum.filter(@current.id)
-      items = for val in joinedItems
-        Album.find(val.album_id)
+      items = Album.filter(@current.id)
     else
       items = Album.filter()
     
@@ -114,16 +119,19 @@ class AlbumsShowView extends Spine.Controller
   
   createJoin: (album) ->
     console.log 'AlbumsShowView::createJoin'
-    if Gallery.record
-      ga = new GalleriesAlbum
-        gallery_id: Gallery.record.id
-        album_id: album.id
-      ga.save()
+    console.log album
+    return unless Gallery.record
+
+    ga = new GalleriesAlbum
+      gallery_id: Gallery.record.id
+      album_id: album.id
+    ga.save()
   
   destroyJoin: (album) ->
     console.log 'AlbumsShowView::destroyJoin'
-    ga = GalleriesAlbum.findByAttribute('album_id', album.id)
-    GalleriesAlbum.destroy(ga.id) if ga
+    GalleriesAlbum.each (record) ->
+      if record.gallery_id is Gallery.record.id and album.id is record.album_id
+        record.destroy()
 
   edit: ->
     App.albumsEditView.render()

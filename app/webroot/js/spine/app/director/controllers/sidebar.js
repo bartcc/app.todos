@@ -37,44 +37,29 @@ SidebarView = (function() {
   };
   function SidebarView() {
     SidebarView.__super__.constructor.apply(this, arguments);
-    Spine.galleryList = this.list = new Spine.GalleryList({
+    this.list = new Spine.GalleryList({
       el: this.items,
       template: this.template
     });
-    Gallery.bind("refresh", this.proxy(this.loadJoinTables));
     Gallery.bind("refresh change", this.proxy(this.render));
-    Spine.bind('create:sidebar', this.proxy(this.initDroppables));
     Spine.bind('drag:dropped', this.proxy(this.dropComplete));
   }
-  SidebarView.prototype.loadJoinTables = function() {
-    return GalleriesAlbum.records = Gallery.joinTableRecords;
-  };
   SidebarView.prototype.filter = function() {
-    console.log('Sidebar::filter');
     this.query = this.input.val();
     return this.render();
   };
   SidebarView.prototype.render = function(item) {
     var items;
     console.log('Sidebar::render');
-    items = Gallery.filter(this.query);
+    items = Gallery.filter(this.query, 'searchSelect');
     items = items.sort(Gallery.nameSort);
     return this.list.render(items, item);
   };
-  SidebarView.prototype.initDroppables = function(items) {
-    var dropOptions;
-    console.log('Sidebar::initDroppables');
-    dropOptions = {
-      drop: function() {
-        return console.log('Dropped');
-      }
-    };
-    return items.droppable(dropOptions);
-  };
   SidebarView.prototype.dropComplete = function(source, target) {
-    var albumExists, ga, gallery, item, items, oldTarget, _i, _len;
+    var albumExists, ga, item, items, _i, _len;
     console.log('dropComplete');
     items = GalleriesAlbum.filter(target.id);
+    console.log(items.length);
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       if (item.album_id === source.id) {
@@ -94,11 +79,9 @@ SidebarView = (function() {
       gallery_id: target.id
     });
     ga.save();
-    gallery = Gallery.find(target.id);
-    oldTarget = Gallery.record;
+    console.log(ga);
     Gallery.current(target);
-    gallery.save();
-    return Gallery.current(oldTarget);
+    return target.save();
   };
   SidebarView.prototype.newAttributes = function() {
     return {

@@ -17,11 +17,28 @@ class Album extends Spine.Model
     bb = (b or '').name?.toLowerCase()
     return if aa == bb then 0 else if aa < bb then -1 else 1
 
-  @joinTable: 'AlbumsImage'
+  @foreignModels: ->
+    'Gallery':
+      className: 'Gallery'
+      joinTable: 'GalleriesAlbum'
+      foreignKey: 'album_id'
+      associationForeignKey: 'gallery_id'
+      parent: 'Gallery'
+    'Image':
+      className: 'Image'
+      joinTable: 'AlbumsImage'
+      foreignKey: 'album_id'
+      associationForeignKey: 'image_id'
+      parent: 'Album'
 
-  @foreignModel: 'Gallery'
+  @joinTables: ->
+    fModels = @foreignModels()
+    joinTables = for key, value of fModels
+      fModels[key]['joinTable']
+    joinTables
 
   init: (instance) ->
+    @constructor.counter = 0
     return unless instance
   
   selectAttributes: ->
@@ -29,7 +46,10 @@ class Album extends Spine.Model
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
-  select: (items) ->
-    items.album_id is @.id
+  select: (id) ->
+    ga = GalleriesAlbum.filter(id)
+    for record in ga
+      return true if record.album_id is @id
+        
 
 Spine.Model.Album = Album

@@ -49,12 +49,8 @@ class AlbumsEditView extends Spine.Controller
 
   destroy: ->
     console.log 'AlbumsEditView::destroy'
-    params =
-      success: (a) ->
-        alert 'success'
     return unless Gallery.record
-    console.log params
-    @current.destroy(params)
+    @current.destroy()
     Gallery.current() if !Gallery.count()
 
   email: ->

@@ -2,27 +2,40 @@ Spine ?= require("spine")
 $      = Spine.$
 Model  = Spine.Model
 
-class Request extends Base
-  constructor: (@record) ->
+class Builder
+  constructor: (record) ->
     @data = {}
-    
-    @model = @record.constructor
-    @foreignModel = Spine.Model[@model.foreignModel]
-    @joinTable = Spine.Model[@model.joinTable]
-    @associationForeignKey = @model.associationForeignKey
-    @foreignKey = @model.foreignKey
+    @record = record
+    @model = record.constructor
+    @foreignModels = @model.foreignModels()
 
-    if @foreignModel and @foreignModel.record
-      @data[@foreignModel.className] = @foreignModel.record
-    @data[@model.className] = @record
+  newWrapper: (key) ->
+    throw('No Classname found') unless key.className
+    data = {}
+    data[key.className] = {}
+    data
     
-  
-  find: (params) ->
-    @ajax(
-      params,
-      type: "GET"
-      url:  @url
-    )
+
+  exec: ->
+    @fModels = for key, value of @foreignModels
+      @foreignModels[key]
+
+    for key in @fModels
+      model = Spine.Model[key.className]
+      parent = Spine.Model[key.parent]
+      records = model.filter(@record.id)
+
+      selected = @newWrapper model
+      selected[model.className] = @model.toId(records)
+      @data[model.className] = selected
+
+    @data[@model.className] = @record
+    @data
+
+class Request extends Singleton
+  constructor: (@record) ->
+    super
+    @data = new Builder(@record).exec()
   
   create: (params) ->
     @queue =>
@@ -35,13 +48,6 @@ class Request extends Base
        .error(@errorResponse)
 
   update: (params) ->
-    if @joinTable
-      data = {}
-      list = @joinTable.findAllByAttribute(@foreignKey, @model.record.id)
-      ids = for item in list
-        item[@associationForeignKey]
-      data[@foreignModel.className] = ids
-      @data[@foreignModel.className] = data
     @queue =>
       @ajax(
         params,
@@ -50,43 +56,12 @@ class Request extends Base
         url:  Ajax.getURL(@record)
       ).success(@recordResponse)
        .error(@errorResponse)
-  
-  destroy: (params) ->
-    @queue =>
-      @ajax(
-        params,
-        type: "DELETE"
-        url:  Ajax.getURL(@record)
-      ).success(@recordResponse)
-       .error(@errorResponse)  
-
-  # Private
-
-  recordResponse: (data, status, xhr) =>
-    @record.trigger("ajaxSuccess", @record, status, xhr)
-    
-    return if Spine.isBlank(data)
-    data = @model.fromJSON(data)
-    
-    Ajax.disable =>        
-      # ID change, need to do some shifting
-      if data.id and @record.id isnt data.id
-        @record.changeID(data.id)
-
-      # Update with latest data
-      @record.updateAttributes(data.attributes())      
-      
-  blankResponse: (data, status, xhr) =>
-    @record.trigger("ajaxSuccess", @record, status, xhr)
-
-  errorResponse: (xhr, statusText, error) =>
-    @record.trigger("ajaxError", @record, xhr, statusText, error)
 
 Model.AjaxExtender =
   
   extended: ->
     
     Include =
-      ajax: -> new Request(this)
+      ajax: -> new Request @
       
     @include Include

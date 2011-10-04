@@ -14,9 +14,35 @@ Image = (function() {
   }
   Image.configure("Image", 'title', "description", "exif");
   Image.extend(Spine.Model.Ajax);
+  Image.extend(Spine.Model.AjaxExtender);
   Image.extend(Spine.Model.Filter);
   Image.extend(Spine.Model.Extender);
   Image.selectAttributes = ['title', "description", "exif"];
+  Image.foreignModels = function() {
+    return {
+      'Album': {
+        className: 'Album',
+        joinTable: 'AlbumsImage',
+        foreignKey: 'image_id',
+        associationForeignKey: 'album_id',
+        parent: 'Gallery'
+      }
+    };
+  };
+  Image.joinTables = function() {
+    var fModels, joinTables, key, value;
+    fModels = this.foreignModels();
+    joinTables = (function() {
+      var _results;
+      _results = [];
+      for (key in fModels) {
+        value = fModels[key];
+        _results.push(fModels[key]['joinTable']);
+      }
+      return _results;
+    })();
+    return joinTables;
+  };
   Image.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
   };
@@ -44,3 +70,4 @@ Image = (function() {
   };
   return Image;
 })();
+Spine.Model.Image = Image;

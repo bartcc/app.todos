@@ -29,40 +29,27 @@ class SidebarView extends Spine.Controller
 
   constructor: ->
     super
-    Spine.galleryList = @list = new Spine.GalleryList
+    @list = new Spine.GalleryList
       el: @items,
       template: @template
 
-    #GalleriesAlbum.bind "change", @proxy @loadJoinTables
-    Gallery.bind "refresh", @proxy @loadJoinTables
     Gallery.bind "refresh change", @proxy @render
-    Spine.bind('create:sidebar', @proxy @initDroppables)
     Spine.bind('drag:dropped', @proxy @dropComplete)
 
-  loadJoinTables: ->
-    GalleriesAlbum.records = Gallery.joinTableRecords
-
   filter: ->
-    console.log 'Sidebar::filter'
     @query = @input.val();
     @render();
 
   render: (item) ->
     console.log 'Sidebar::render'
-    items = Gallery.filter @query
+    items = Gallery.filter @query, 'searchSelect'
     items = items.sort Gallery.nameSort
     @list.render items, item
-    
-  initDroppables: (items) ->
-    console.log 'Sidebar::initDroppables'
-    dropOptions =
-      drop: ->
-        console.log 'Dropped'
-    items.droppable dropOptions
 
   dropComplete: (source, target) ->
     console.log 'dropComplete'
     items = GalleriesAlbum.filter(target.id)
+    console.log items.length
     for item in items
       if item.album_id is source.id
         albumExists = true
@@ -78,11 +65,9 @@ class SidebarView extends Spine.Controller
       album_id: source.id
       gallery_id: target.id
     ga.save()
-    gallery = Gallery.find(target.id)
-    oldTarget = Gallery.record
+    console.log ga
     Gallery.current(target)
-    gallery.save()
-    Gallery.current(oldTarget)
+    target.save()
     
   newAttributes: ->
     name: 'New Gallery'

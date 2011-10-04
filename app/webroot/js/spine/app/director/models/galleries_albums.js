@@ -16,7 +16,7 @@ GalleriesAlbum = (function() {
   GalleriesAlbum.extend(Spine.Model.Local);
   GalleriesAlbum.extend(Spine.Model.Filter);
   GalleriesAlbum.prototype.select = function(query) {
-    if (this.gallery_id === query) {
+    if (this.gallery_id === query && this.constructor.records[this.id]) {
       return true;
     }
     return false;

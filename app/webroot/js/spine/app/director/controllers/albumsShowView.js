@@ -60,17 +60,24 @@ AlbumsShowView = (function() {
     });
     Album.bind("create", this.proxy(this.createJoin));
     Album.bind("destroy", this.proxy(this.destroyJoin));
+    Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));
     Album.bind("change", this.proxy(this.render));
     Gallery.bind("update", this.proxy(this.renderHeader));
     Spine.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
-    GalleriesAlbum.bind("destroy", this.proxy(this.render));
+    GalleriesAlbum.bind("destroy", this.proxy(this.confirmed));
+    GalleriesAlbum.bind("change", this.proxy(this.render));
     this.bind('save:gallery', this.proxy(this.save));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.toolBarList = [];
     this.create = this.edit;
     $(this.views).queue("fx");
   }
+  AlbumsShowView.prototype.confirmed = function(ga) {
+    if (!ga.destroyed) {
+      return alert(ga.name + 'NOT destroyed');
+    }
+  };
   AlbumsShowView.prototype.children = function(sel) {
     return this.el.children(sel);
   };
@@ -87,19 +94,10 @@ AlbumsShowView = (function() {
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
   };
   AlbumsShowView.prototype.render = function(album) {
-    var items, joinedItems, val;
+    var items;
     console.log('AlbumsShowView::render');
     if (this.current) {
-      joinedItems = GalleriesAlbum.filter(this.current.id);
-      items = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = joinedItems.length; _i < _len; _i++) {
-          val = joinedItems[_i];
-          _results.push(Album.find(val.album_id));
-        }
-        return _results;
-      })();
+      items = Album.filter(this.current.id);
     } else {
       items = Album.filter();
     }
@@ -134,21 +132,23 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.createJoin = function(album) {
     var ga;
     console.log('AlbumsShowView::createJoin');
-    if (Gallery.record) {
-      ga = new GalleriesAlbum({
-        gallery_id: Gallery.record.id,
-        album_id: album.id
-      });
-      return ga.save();
+    console.log(album);
+    if (!Gallery.record) {
+      return;
     }
+    ga = new GalleriesAlbum({
+      gallery_id: Gallery.record.id,
+      album_id: album.id
+    });
+    return ga.save();
   };
   AlbumsShowView.prototype.destroyJoin = function(album) {
-    var ga;
     console.log('AlbumsShowView::destroyJoin');
-    ga = GalleriesAlbum.findByAttribute('album_id', album.id);
-    if (ga) {
-      return GalleriesAlbum.destroy(ga.id);
-    }
+    return GalleriesAlbum.each(function(record) {
+      if (record.gallery_id === Gallery.record.id && album.id === record.album_id) {
+        return record.destroy();
+      }
+    });
   };
   AlbumsShowView.prototype.edit = function() {
     App.albumsEditView.render();

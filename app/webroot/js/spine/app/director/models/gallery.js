@@ -33,10 +33,31 @@ Gallery = (function() {
       return 1;
     }
   };
-  Gallery.joinTable = 'GalleriesAlbum';
-  Gallery.foreignModel = 'Album';
-  Gallery.foreignKey = 'gallery_id';
-  Gallery.associationForeignKey = 'album_id';
+  Gallery.foreignModels = function() {
+    return {
+      'Album': {
+        className: 'Album',
+        joinTable: 'GalleriesAlbum',
+        foreignKey: 'gallery_id',
+        associationForeignKey: 'album_id',
+        parent: 'Gallery'
+      }
+    };
+  };
+  Gallery.joinTables = function() {
+    var fModels, joinTables, key, value;
+    fModels = this.foreignModels();
+    joinTables = (function() {
+      var _results;
+      _results = [];
+      for (key in fModels) {
+        value = fModels[key];
+        _results.push(fModels[key]['joinTable']);
+      }
+      return _results;
+    })();
+    return joinTables;
+  };
   Gallery.prototype.init = function(instance) {
     var empty;
     if (!instance) {
@@ -77,6 +98,22 @@ Gallery = (function() {
       result[attr] = this[attr];
     }
     return result;
+  };
+  Gallery.prototype.select = function(query) {
+    return this.id === this.constructor.record.id;
+  };
+  Gallery.prototype.searchSelect = function(query) {
+    var atts, key, value;
+    query = query.toLowerCase();
+    atts = (this.selectAttributes || this.attributes).apply(this);
+    for (key in atts) {
+      value = atts[key];
+      value = value.toLowerCase();
+      if (!((value != null ? value.indexOf(query) : void 0) === -1)) {
+        return true;
+      }
+    }
+    return false;
   };
   return Gallery;
 })();

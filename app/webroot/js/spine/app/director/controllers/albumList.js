@@ -89,21 +89,18 @@ Spine.AlbumList = (function() {
     return album.save();
   };
   AlbumList.prototype.destroy = function() {
-    var alb, gallery, id, list, _i, _j, _len, _len2, _results, _results2;
+    var alb, album, id, list, _i, _j, _len, _len2, _results, _results2;
     console.log('AlbumList::destroy');
     list = Gallery.selectionList().slice();
     if (Gallery.record) {
       _results = [];
       for (_i = 0, _len = list.length; _i < _len; _i++) {
         id = list[_i];
-        alb = GalleriesAlbum.findByAttribute('album_id', id);
-        console.log(alb);
-        Gallery.removeFromList(id);
-        if (alb) {
-          alb.destroy();
-        }
-        gallery = Gallery.find(Gallery.record.id);
-        _results.push(gallery.save());
+        album = Album.find(id);
+        Gallery.removeFromSelection(id);
+        Spine.trigger('destroy:albumJoin', album);
+        console.log('Saving Gallery');
+        _results.push(Gallery.record.save());
       }
       return _results;
     } else {
@@ -113,8 +110,7 @@ Spine.AlbumList = (function() {
         if (Album.exists(id)) {
           alb = Album.find(id);
         }
-        Gallery.removeFromList(id);
-        console.log(alb);
+        Gallery.removeFromSelection(id);
         _results2.push(alb ? alb.destroy() : void 0);
       }
       return _results2;

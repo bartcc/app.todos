@@ -9,7 +9,7 @@ class Spine.AlbumList extends Spine.Controller
   events:
     "click .item"             : "click"
     "dblclick .item"          : "dblclick"
-    'click .optCreate'   : 'create'
+    'click .optCreate'        : 'create'
     
   selectFirst: true
     
@@ -70,17 +70,19 @@ class Spine.AlbumList extends Spine.Controller
     list = Gallery.selectionList().slice()
     if Gallery.record
       for id in list
-        alb = GalleriesAlbum.findByAttribute('album_id', id)
-        console.log alb
-        Gallery.removeFromList(id)
-        alb.destroy() if alb
-        gallery = Gallery.find(Gallery.record.id)
-        gallery.save()
+        album = Album.find(id)
+        Gallery.removeFromSelection(id)
+        Spine.trigger('destroy:albumJoin', album)
+        #ga = GalleriesAlbum.findByAttribute('album_id', id)
+        #console.log ga
+        #ga.destroy()
+        #console.log 'GalleriesAlbum.length after destroy:'
+        console.log 'Saving Gallery'
+        Gallery.record.save()
     else
       for id in list
         alb = Album.find(id) if Album.exists(id)
-        Gallery.removeFromList(id)
-        console.log alb
+        Gallery.removeFromSelection(id)
         alb.destroy() if alb
 
   click: (e) ->

@@ -15,38 +15,51 @@ Model.Extender =
       joinTableRecords: {}
 
       fromJSON: (objects) ->
-        @joinTableRecords = @createJoinTable objects
+        Spine.joinTableRecords = @createJoinTables objects
+        #@createJoinTables objects
+        #console.log @joinTableRecords
+        #@createJoinTables objects
         #json = @__super__.constructor.fromJSON.call @, objects
         key = @className
         json = @fromArray(objects, key) if @isArray(objects) #test for READ or PUT !
         json || @__super__.constructor.fromJSON.call @, objects
 
-      createJoinTable: (arr) ->
+      createJoinTables_: (arr) ->
         console.log 'ModelExtender::createJoinTable'
-        return unless @joinTable
+        return unless @isArray(arr) or @isArray(@joinTables)
         table = {}
-        res = @introspectJSON arr, @joinTable
+        res = @createJoin arr, table for table in @joinTables
         table[item.id] = item for item in res
+        console.log table
         table
+
+      createJoinTables: (arr) ->
+        return unless @isArray(arr)
+        table = {}
+        joinTables = @joinTables()
+ 
+        for key in joinTables
+          Spine.Model[key].refresh(@createJoin arr, key )
+        
 
       fromArray: (arr, key) ->
         res = []
-        extract = (val) =>
-          unless @isArray val[key]
+        extract = (obj) =>
+          unless @isArray obj[key]
             item = =>
-              inst = new @(val[key])
+              inst = new @(obj[key])
               res.push inst
             itm = item()
         
-        extract(value) for value in arr
+        extract(obj) for obj in arr
         res
         
-      introspectJSON: (json, jointable) ->
+      createJoin: (json, tableName) ->
         res = []
         introspect = (obj) =>
           if @isObject(obj)
             for key, val of obj
-              if key is jointable then res.push(new window[jointable](obj[key]))
+              if key is tableName then res.push(new Spine.Model[tableName](obj[key]))
               else introspect obj[key]
           
           if @isArray(obj)
@@ -55,21 +68,23 @@ Model.Extender =
 
         for obj in json
           introspect(obj)
+        #console.log tableName
+        #console.log res
         res
       
 
       selectionList: =>
         id = @record.id
+        return @selection[0].global unless id
         for item in @selection
           return item[id] if item[id]
-        return @selection[0].global
 
-      emptyList: ->
+      emptySelection: ->
         list = @selectionList()
         list[0...list.length] = []
         list
 
-      removeFromList: (id) ->
+      removeFromSelection: (id) ->
         album = Album.find(id)
         album.addRemoveSelection @, true
 
@@ -87,6 +102,11 @@ Model.Extender =
 
       selected: ->
         @record
+        
+      toId: (records = @records) ->
+        #return null unless records.length
+        ids = for record in records
+          record.id
       
     Include =
       

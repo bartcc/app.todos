@@ -8,9 +8,20 @@ class Image extends Spine.Model
 
   @selectAttributes: ['title', "description", "exif"]
 
-  @joinTable: AlbumsImage
+  @foreignModels: ->
+    'Album':
+      className: 'Album'
+      joinTable: 'AlbumsImage'
+      foreignKey: 'image_id'
+      associationForeignKey: 'album_id'
+      parent: 'Gallery'
 
-  @foreignModel: Album
+  @joinTables: ->
+    fModels = @foreignModels()
+    joinTables = for key, value of fModels
+      fModels[key]['joinTable']
+    joinTables
+
 
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'
@@ -24,3 +35,5 @@ class Image extends Spine.Model
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
+
+Spine.Model.Image = Image

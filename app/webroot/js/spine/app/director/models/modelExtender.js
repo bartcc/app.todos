@@ -25,48 +25,67 @@ Model.Extender = {
       joinTableRecords: {},
       fromJSON: function(objects) {
         var json, key;
-        this.joinTableRecords = this.createJoinTable(objects);
+        Spine.joinTableRecords = this.createJoinTables(objects);
         key = this.className;
         if (this.isArray(objects)) {
           json = this.fromArray(objects, key);
         }
         return json || this.__super__.constructor.fromJSON.call(this, objects);
       },
-      createJoinTable: function(arr) {
-        var item, res, table, _i, _len;
+      createJoinTables_: function(arr) {
+        var item, res, table, _i, _j, _len, _len2, _ref;
         console.log('ModelExtender::createJoinTable');
-        if (!this.joinTable) {
+        if (!(this.isArray(arr) || this.isArray(this.joinTables))) {
           return;
         }
         table = {};
-        res = this.introspectJSON(arr, this.joinTable);
-        for (_i = 0, _len = res.length; _i < _len; _i++) {
-          item = res[_i];
+        _ref = this.joinTables;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          table = _ref[_i];
+          res = this.createJoin(arr, table);
+        }
+        for (_j = 0, _len2 = res.length; _j < _len2; _j++) {
+          item = res[_j];
           table[item.id] = item;
         }
+        console.log(table);
         return table;
       },
+      createJoinTables: function(arr) {
+        var joinTables, key, table, _i, _len, _results;
+        if (!this.isArray(arr)) {
+          return;
+        }
+        table = {};
+        joinTables = this.joinTables();
+        _results = [];
+        for (_i = 0, _len = joinTables.length; _i < _len; _i++) {
+          key = joinTables[_i];
+          _results.push(Spine.Model[key].refresh(this.createJoin(arr, key)));
+        }
+        return _results;
+      },
       fromArray: function(arr, key) {
-        var extract, res, value, _i, _len;
+        var extract, obj, res, _i, _len;
         res = [];
-        extract = __bind(function(val) {
+        extract = __bind(function(obj) {
           var item, itm;
-          if (!this.isArray(val[key])) {
+          if (!this.isArray(obj[key])) {
             item = __bind(function() {
               var inst;
-              inst = new this(val[key]);
+              inst = new this(obj[key]);
               return res.push(inst);
             }, this);
             return itm = item();
           }
         }, this);
         for (_i = 0, _len = arr.length; _i < _len; _i++) {
-          value = arr[_i];
-          extract(value);
+          obj = arr[_i];
+          extract(obj);
         }
         return res;
       },
-      introspectJSON: function(json, jointable) {
+      createJoin: function(json, tableName) {
         var introspect, obj, res, _i, _len;
         res = [];
         introspect = __bind(function(obj) {
@@ -74,8 +93,8 @@ Model.Extender = {
           if (this.isObject(obj)) {
             for (key in obj) {
               val = obj[key];
-              if (key === jointable) {
-                res.push(new window[jointable](obj[key]));
+              if (key === tableName) {
+                res.push(new Spine.Model[tableName](obj[key]));
               } else {
                 introspect(obj[key]);
               }
@@ -99,6 +118,9 @@ Model.Extender = {
       selectionList: __bind(function() {
         var id, item, _i, _len, _ref;
         id = this.record.id;
+        if (!id) {
+          return this.selection[0].global;
+        }
         _ref = this.selection;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           item = _ref[_i];
@@ -106,15 +128,14 @@ Model.Extender = {
             return item[id];
           }
         }
-        return this.selection[0].global;
       }, this),
-      emptyList: function() {
+      emptySelection: function() {
         var list, _ref;
         list = this.selectionList();
         [].splice.apply(list, [0, list.length - 0].concat(_ref = [])), _ref;
         return list;
       },
-      removeFromList: function(id) {
+      removeFromSelection: function(id) {
         var album;
         album = Album.find(id);
         return album.addRemoveSelection(this, true);
@@ -136,6 +157,21 @@ Model.Extender = {
       },
       selected: function() {
         return this.record;
+      },
+      toId: function(records) {
+        var ids, record;
+        if (records == null) {
+          records = this.records;
+        }
+        return ids = (function() {
+          var _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = records.length; _i < _len; _i++) {
+            record = records[_i];
+            _results.push(record.id);
+          }
+          return _results;
+        })();
       }
     };
     Include = {

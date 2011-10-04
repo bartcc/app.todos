@@ -17,13 +17,19 @@ class Gallery extends Spine.Model
     bb = (b or '').name?.toLowerCase()
     return if aa == bb then 0 else if aa < bb then -1 else 1
 
-  @joinTable: 'GalleriesAlbum'
+  @foreignModels: ->
+    'Album':
+      className: 'Album'
+      joinTable: 'GalleriesAlbum'
+      foreignKey: 'gallery_id'
+      associationForeignKey: 'album_id'
+      parent: 'Gallery'
 
-  @foreignModel: 'Album'
-
-  @foreignKey: 'gallery_id'
-
-  @associationForeignKey: 'album_id'
+  @joinTables: ->
+    fModels = @foreignModels()
+    joinTables = for key, value of fModels
+      fModels[key]['joinTable']
+    joinTables
 
   init: (instance) ->
     return unless instance
@@ -47,6 +53,18 @@ class Gallery extends Spine.Model
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
+
+  select: (query) ->
+    @id is @constructor.record.id
+
+  searchSelect: (query) ->
+    query = query.toLowerCase()
+    atts = (@selectAttributes or @attributes).apply @
+    for key, value of atts
+      value = value.toLowerCase()
+      unless (value?.indexOf(query) is -1)
+        return true
+    false
     
 
 Spine.Model.Gallery = Gallery

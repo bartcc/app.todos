@@ -33,9 +33,40 @@ Album = (function() {
       return 1;
     }
   };
-  Album.joinTable = 'AlbumsImage';
-  Album.foreignModel = 'Gallery';
+  Album.foreignModels = function() {
+    return {
+      'Gallery': {
+        className: 'Gallery',
+        joinTable: 'GalleriesAlbum',
+        foreignKey: 'album_id',
+        associationForeignKey: 'gallery_id',
+        parent: 'Gallery'
+      },
+      'Image': {
+        className: 'Image',
+        joinTable: 'AlbumsImage',
+        foreignKey: 'album_id',
+        associationForeignKey: 'image_id',
+        parent: 'Album'
+      }
+    };
+  };
+  Album.joinTables = function() {
+    var fModels, joinTables, key, value;
+    fModels = this.foreignModels();
+    joinTables = (function() {
+      var _results;
+      _results = [];
+      for (key in fModels) {
+        value = fModels[key];
+        _results.push(fModels[key]['joinTable']);
+      }
+      return _results;
+    })();
+    return joinTables;
+  };
   Album.prototype.init = function(instance) {
+    this.constructor.counter = 0;
     if (!instance) {
       ;
     }
@@ -50,8 +81,15 @@ Album = (function() {
     }
     return result;
   };
-  Album.prototype.select = function(items) {
-    return items.album_id === this.id;
+  Album.prototype.select = function(id) {
+    var ga, record, _i, _len;
+    ga = GalleriesAlbum.filter(id);
+    for (_i = 0, _len = ga.length; _i < _len; _i++) {
+      record = ga[_i];
+      if (record.album_id === this.id) {
+        return true;
+      }
+    }
   };
   return Album;
 })();

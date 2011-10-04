@@ -1,12 +1,12 @@
-var $, Model, Request;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var $, Builder, Model, Request;
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 if (typeof Spine !== "undefined" && Spine !== null) {
   Spine;
 } else {
@@ -14,30 +14,56 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 };
 $ = Spine.$;
 Model = Spine.Model;
-Request = (function() {
-  __extends(Request, Base);
-  function Request(record) {
-    this.record = record;
-    this.errorResponse = __bind(this.errorResponse, this);
-    this.blankResponse = __bind(this.blankResponse, this);
-    this.recordResponse = __bind(this.recordResponse, this);
+Builder = (function() {
+  function Builder(record) {
     this.data = {};
-    this.model = this.record.constructor;
-    this.foreignModel = Spine.Model[this.model.foreignModel];
-    this.joinTable = Spine.Model[this.model.joinTable];
-    this.associationForeignKey = this.model.associationForeignKey;
-    this.foreignKey = this.model.foreignKey;
-    if (this.foreignModel && this.foreignModel.record) {
-      this.data[this.foreignModel.className] = this.foreignModel.record;
+    this.record = record;
+    this.model = record.constructor;
+    this.foreignModels = this.model.foreignModels();
+  }
+  Builder.prototype.newWrapper = function(key) {
+    var data;
+    if (!key.className) {
+      throw 'No Classname found';
+    }
+    data = {};
+    data[key.className] = {};
+    return data;
+  };
+  Builder.prototype.exec = function() {
+    var key, model, parent, records, selected, value, _i, _len, _ref;
+    this.fModels = (function() {
+      var _ref, _results;
+      _ref = this.foreignModels;
+      _results = [];
+      for (key in _ref) {
+        value = _ref[key];
+        _results.push(this.foreignModels[key]);
+      }
+      return _results;
+    }).call(this);
+    _ref = this.fModels;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      key = _ref[_i];
+      model = Spine.Model[key.className];
+      parent = Spine.Model[key.parent];
+      records = model.filter(this.record.id);
+      selected = this.newWrapper(model);
+      selected[model.className] = this.model.toId(records);
+      this.data[model.className] = selected;
     }
     this.data[this.model.className] = this.record;
-  }
-  Request.prototype.find = function(params) {
-    return this.ajax(params, {
-      type: "GET",
-      url: this.url
-    });
+    return this.data;
   };
+  return Builder;
+})();
+Request = (function() {
+  __extends(Request, Singleton);
+  function Request(record) {
+    this.record = record;
+    Request.__super__.constructor.apply(this, arguments);
+    this.data = new Builder(this.record).exec();
+  }
   Request.prototype.create = function(params) {
     return this.queue(__bind(function() {
       return this.ajax(params, {
@@ -48,22 +74,6 @@ Request = (function() {
     }, this));
   };
   Request.prototype.update = function(params) {
-    var data, ids, item, list;
-    if (this.joinTable) {
-      data = {};
-      list = this.joinTable.findAllByAttribute(this.foreignKey, this.model.record.id);
-      ids = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = list.length; _i < _len; _i++) {
-          item = list[_i];
-          _results.push(item[this.associationForeignKey]);
-        }
-        return _results;
-      }).call(this);
-      data[this.foreignModel.className] = ids;
-      this.data[this.foreignModel.className] = data;
-    }
     return this.queue(__bind(function() {
       return this.ajax(params, {
         type: "PUT",
@@ -71,33 +81,6 @@ Request = (function() {
         url: Ajax.getURL(this.record)
       }).success(this.recordResponse).error(this.errorResponse);
     }, this));
-  };
-  Request.prototype.destroy = function(params) {
-    return this.queue(__bind(function() {
-      return this.ajax(params, {
-        type: "DELETE",
-        url: Ajax.getURL(this.record)
-      }).success(this.recordResponse).error(this.errorResponse);
-    }, this));
-  };
-  Request.prototype.recordResponse = function(data, status, xhr) {
-    this.record.trigger("ajaxSuccess", this.record, status, xhr);
-    if (Spine.isBlank(data)) {
-      return;
-    }
-    data = this.model.fromJSON(data);
-    return Ajax.disable(__bind(function() {
-      if (data.id && this.record.id !== data.id) {
-        this.record.changeID(data.id);
-      }
-      return this.record.updateAttributes(data.attributes());
-    }, this));
-  };
-  Request.prototype.blankResponse = function(data, status, xhr) {
-    return this.record.trigger("ajaxSuccess", this.record, status, xhr);
-  };
-  Request.prototype.errorResponse = function(xhr, statusText, error) {
-    return this.record.trigger("ajaxError", this.record, xhr, statusText, error);
   };
   return Request;
 })();

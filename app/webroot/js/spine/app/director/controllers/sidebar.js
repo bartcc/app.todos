@@ -56,10 +56,9 @@ SidebarView = (function() {
     return this.list.render(items, item);
   };
   SidebarView.prototype.dropComplete = function(source, target) {
-    var albumExists, ga, item, items, _i, _len;
+    var albumExists, albums, item, items, selection, _i, _len;
     console.log('dropComplete');
     items = GalleriesAlbum.filter(target.id);
-    console.log(items.length);
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       if (item.album_id === source.id) {
@@ -74,13 +73,15 @@ SidebarView = (function() {
       alert('You can only drop Albums here');
       return;
     }
-    ga = new GalleriesAlbum({
-      album_id: source.id,
-      gallery_id: target.id
+    selection = Gallery.selectionList();
+    albums = [];
+    Album.each(function(record) {
+      if (selection.indexOf(record.id) !== -1) {
+        return albums.push(record);
+      }
     });
-    ga.save();
-    console.log(ga);
     Gallery.current(target);
+    Spine.trigger('create:albumJoin', albums);
     return target.save();
   };
   SidebarView.prototype.newAttributes = function() {

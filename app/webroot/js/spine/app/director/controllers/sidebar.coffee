@@ -49,7 +49,6 @@ class SidebarView extends Spine.Controller
   dropComplete: (source, target) ->
     console.log 'dropComplete'
     items = GalleriesAlbum.filter(target.id)
-    console.log items.length
     for item in items
       if item.album_id is source.id
         albumExists = true
@@ -60,13 +59,13 @@ class SidebarView extends Spine.Controller
     unless source instanceof Album
       alert 'You can only drop Albums here'
       return
-
-    ga = new GalleriesAlbum
-      album_id: source.id
-      gallery_id: target.id
-    ga.save()
-    console.log ga
+    
+    selection = Gallery.selectionList()
+    albums = []
+    Album.each (record) ->
+      albums.push record unless selection.indexOf(record.id) is -1
     Gallery.current(target)
+    Spine.trigger('create:albumJoin', albums)
     target.save()
     
   newAttributes: ->

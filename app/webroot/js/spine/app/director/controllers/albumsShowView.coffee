@@ -28,7 +28,7 @@ class AlbumsShowView extends Spine.Controller
     "click .optUpload"                        : "toggleUpload"
     "click .optGrid"                          : "toggleGrid"
     'dblclick .draghandle'                    : 'toggleDraghandle'
-    #'sortupdate         .items'               : 'sortupdate'
+    'sortupdate         .items'               : 'sortupdate'
     'dragstart          .items .item'         : 'dragstart'
     'dragenter          .items .item'         : 'dragenter'
     'dragover           .items .item'         : 'dragover'
@@ -50,12 +50,12 @@ class AlbumsShowView extends Spine.Controller
     Album.bind("create", @proxy @createJoin)
     Album.bind("destroy", @proxy @destroyJoin)
     Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
+    Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("change", @proxy @render)
     Gallery.bind("update", @proxy @renderHeader)
     Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
     GalleriesAlbum.bind("destroy", @proxy @confirmed)
-    #GalleriesAlbum.bind("destroy", @proxy @render)
     GalleriesAlbum.bind("change", @proxy @render)
     @bind('save:gallery', @proxy @save)
     @bind("toggle:view", @proxy @toggleView)
@@ -101,7 +101,7 @@ class AlbumsShowView extends Spine.Controller
     if gallery
       @header.html '<h2>Albums for Gallery ' + gallery.name + '</h2>'
     else
-      @header.html '<h2>Albums Overview</h2>'
+      @header.html '<h2>All Albums (Originals)</h2>'
 
   renderToolBar: ->
     @toolBar.html @toolsTemplate @toolBarList
@@ -117,15 +117,18 @@ class AlbumsShowView extends Spine.Controller
   destroy: ->
     Spine.trigger('destroyAlbum')
   
-  createJoin: (album) ->
+  createJoin: (albums) ->
     console.log 'AlbumsShowView::createJoin'
-    console.log album
     return unless Gallery.record
-
-    ga = new GalleriesAlbum
-      gallery_id: Gallery.record.id
-      album_id: album.id
-    ga.save()
+    unless Album.isArray albums
+      records = []
+      records.push(albums)
+    else records = albums.slice()
+    for record in records
+      ga = new GalleriesAlbum
+        gallery_id: Gallery.record.id
+        album_id: record.id
+      ga.save()
   
   destroyJoin: (album) ->
     console.log 'AlbumsShowView::destroyJoin'

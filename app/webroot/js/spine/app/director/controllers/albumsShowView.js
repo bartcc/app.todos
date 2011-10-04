@@ -39,6 +39,7 @@ AlbumsShowView = (function() {
     "click .optUpload": "toggleUpload",
     "click .optGrid": "toggleGrid",
     'dblclick .draghandle': 'toggleDraghandle',
+    'sortupdate         .items': 'sortupdate',
     'dragstart          .items .item': 'dragstart',
     'dragenter          .items .item': 'dragenter',
     'dragover           .items .item': 'dragover',
@@ -61,6 +62,7 @@ AlbumsShowView = (function() {
     Album.bind("create", this.proxy(this.createJoin));
     Album.bind("destroy", this.proxy(this.destroyJoin));
     Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));
+    Spine.bind("create:albumJoin", this.proxy(this.createJoin));
     Album.bind("change", this.proxy(this.render));
     Gallery.bind("update", this.proxy(this.renderHeader));
     Spine.bind('save:gallery', this.proxy(this.save));
@@ -111,7 +113,7 @@ AlbumsShowView = (function() {
     if (gallery) {
       return this.header.html('<h2>Albums for Gallery ' + gallery.name + '</h2>');
     } else {
-      return this.header.html('<h2>Albums Overview</h2>');
+      return this.header.html('<h2>All Albums (Originals)</h2>');
     }
   };
   AlbumsShowView.prototype.renderToolBar = function() {
@@ -129,18 +131,28 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.destroy = function() {
     return Spine.trigger('destroyAlbum');
   };
-  AlbumsShowView.prototype.createJoin = function(album) {
-    var ga;
+  AlbumsShowView.prototype.createJoin = function(albums) {
+    var ga, record, records, _i, _len, _results;
     console.log('AlbumsShowView::createJoin');
-    console.log(album);
     if (!Gallery.record) {
       return;
     }
-    ga = new GalleriesAlbum({
-      gallery_id: Gallery.record.id,
-      album_id: album.id
-    });
-    return ga.save();
+    if (!Album.isArray(albums)) {
+      records = [];
+      records.push(albums);
+    } else {
+      records = albums.slice();
+    }
+    _results = [];
+    for (_i = 0, _len = records.length; _i < _len; _i++) {
+      record = records[_i];
+      ga = new GalleriesAlbum({
+        gallery_id: Gallery.record.id,
+        album_id: record.id
+      });
+      _results.push(ga.save());
+    }
+    return _results;
   };
   AlbumsShowView.prototype.destroyJoin = function(album) {
     console.log('AlbumsShowView::destroyJoin');

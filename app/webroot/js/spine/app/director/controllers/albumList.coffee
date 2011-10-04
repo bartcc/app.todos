@@ -26,7 +26,6 @@ class Spine.AlbumList extends Spine.Controller
     console.log 'AlbumList::change'
     
     list = Gallery.selectionList()
-    console.log list
     @children().removeClass("active")
     if list
       for id in list
@@ -74,11 +73,6 @@ class Spine.AlbumList extends Spine.Controller
         album = Album.find(id)
         Gallery.removeFromSelection(id)
         Spine.trigger('destroy:albumJoin', album)
-        #ga = GalleriesAlbum.findByAttribute('album_id', id)
-        #console.log ga
-        #ga.destroy()
-        #console.log 'GalleriesAlbum.length after destroy:'
-        console.log 'Saving Gallery'
         Gallery.record.save()
     else
       for id in list

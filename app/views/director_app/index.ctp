@@ -66,7 +66,7 @@
 </div>
 
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
-  <li class="item droppable" title="Doubleclick to edit / Save with Enter">
+  <li class="item droppable" title="cmd-click to deselect">
     <img src="/img/gallery.png" />
     <div style="font-size: 0.6em">ID: ${id}</div
     {{if name}}

@@ -37,18 +37,6 @@ class Gallery extends AppModel {
       )
   );
 
-  function afterFind($results, $primary) {
-    
-//    foreach ($results as $key => $val) {
-//      $results[$key] = $val[$this->alias];
-//    }
-    return $results;
-    
-//    if($primary == true && !is_object($results)) {
-//        return Set::map($results);
-//    }
-  }
-
 }
 
 ?>

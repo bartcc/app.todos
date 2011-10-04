@@ -48,7 +48,7 @@ Controller.Drag = {
         }
         target = $(e.target).item();
         $(e.target).removeClass('over');
-        Spine.trigger('drag:dropped', Spine.dragItem, target);
+        Spine.trigger('drag:drop', Spine.dragItem, target);
         Spine.dragItem = null;
         return false;
       }, this)

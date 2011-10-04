@@ -6,6 +6,11 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
+}, __indexOf = Array.prototype.indexOf || function(item) {
+  for (var i = 0, l = this.length; i < l; i++) {
+    if (this[i] === item) return i;
+  }
+  return -1;
 }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 if (typeof Spine !== "undefined" && Spine !== null) {
   Spine;
@@ -42,7 +47,7 @@ SidebarView = (function() {
       template: this.template
     });
     Gallery.bind("refresh change", this.proxy(this.render));
-    Spine.bind('drag:dropped', this.proxy(this.dropComplete));
+    Spine.bind('drag:drop', this.proxy(this.dropComplete));
   }
   SidebarView.prototype.filter = function() {
     this.query = this.input.val();
@@ -56,7 +61,7 @@ SidebarView = (function() {
     return this.list.render(items, item);
   };
   SidebarView.prototype.dropComplete = function(source, target) {
-    var albumExists, albums, item, items, selection, _i, _len;
+    var albumExists, albums, item, items, selected, selection, _i, _len, _ref;
     console.log('dropComplete');
     items = GalleriesAlbum.filter(target.id);
     for (_i = 0, _len = items.length; _i < _len; _i++) {
@@ -74,6 +79,10 @@ SidebarView = (function() {
       return;
     }
     selection = Gallery.selectionList();
+    selected = (_ref = source.id, __indexOf.call(selection, _ref) >= 0);
+    if (!selected) {
+      selection.push(source.id);
+    }
     albums = [];
     Album.each(function(record) {
       if (selection.indexOf(record.id) !== -1) {

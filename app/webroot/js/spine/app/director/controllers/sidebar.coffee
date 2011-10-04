@@ -34,7 +34,7 @@ class SidebarView extends Spine.Controller
       template: @template
 
     Gallery.bind "refresh change", @proxy @render
-    Spine.bind('drag:dropped', @proxy @dropComplete)
+    Spine.bind('drag:drop', @proxy @dropComplete)
 
   filter: ->
     @query = @input.val();
@@ -61,6 +61,9 @@ class SidebarView extends Spine.Controller
       return
     
     selection = Gallery.selectionList()
+    selected = source.id in selection
+    selection.push source.id unless selected
+      
     albums = []
     Album.each (record) ->
       albums.push record unless selection.indexOf(record.id) is -1

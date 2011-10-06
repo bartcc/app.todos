@@ -181,6 +181,15 @@ Model.Extender = {
       }
     };
     Include = {
+      selectionList: function() {
+        return this.constructor.selectionList(this.id);
+      },
+      updateSelection: function(list) {
+        return this.constructor.updateSelection(list, this.id);
+      },
+      emptySelection: function(list) {
+        return this.constructor.updateSelection(list, this.id);
+      },
       updateChangedAttributes: function(atts) {
         var invalid, key, origAtts, value;
         origAtts = this.attributes();

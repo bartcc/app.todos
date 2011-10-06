@@ -40,7 +40,7 @@ class Spine.AlbumList extends Spine.Controller
       
       
   
-  render: (items, newAlbum) ->
+  render: (items) ->
     console.log 'AlbumList::render'
     if items.length
       @html @template items
@@ -48,7 +48,7 @@ class Spine.AlbumList extends Spine.Controller
       @html 'This Gallery has no Albums&nbsp;<button class="optCreate">New Album</button>'
       @refreshElements()
 
-    newAlbum.addRemoveSelection(Gallery) if newAlbum
+    #newAlbum.addRemoveSelection(Gallery) if newAlbum
     @change()
     @
   

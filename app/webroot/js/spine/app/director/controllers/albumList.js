@@ -58,16 +58,13 @@ Spine.AlbumList = (function() {
     }
     return Spine.trigger('change:selectedAlbum', item);
   };
-  AlbumList.prototype.render = function(items, newAlbum) {
+  AlbumList.prototype.render = function(items) {
     console.log('AlbumList::render');
     if (items.length) {
       this.html(this.template(items));
     } else {
       this.html('This Gallery has no Albums&nbsp;<button class="optCreate">New Album</button>');
       this.refreshElements();
-    }
-    if (newAlbum) {
-      newAlbum.addRemoveSelection(Gallery);
     }
     this.change();
     return this;

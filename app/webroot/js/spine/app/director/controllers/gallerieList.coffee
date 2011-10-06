@@ -13,16 +13,18 @@ class Spine.GalleryList extends Spine.Controller
     
   constructor: ->
     super
-    @bind("change", @change)
-    #Gallery.bind("change", @proxy @change)
 
   template: -> arguments[0]
-  
+
   change: (item, mode, e) =>
     console.log 'GalleryList::change'
+
+    #alert item if item
+
     if e
       cmdKey = e.metaKey || e.ctrlKey
       dblclick = e.type is 'dblclick'
+
     if !(item?.destroyed) and item?.reload()
       oldId = @current?.id
       newId = item.id
@@ -32,7 +34,7 @@ class Spine.GalleryList extends Spine.Controller
         @current = item
         @children().forItem(@current).addClass("active")
       else
-        @current = null
+        @current = false
 
       Gallery.current(@current)
       
@@ -42,19 +44,21 @@ class Spine.GalleryList extends Spine.Controller
   
   render: (items, item) ->
     console.log 'GalleryList::render'
-    @items = items if items
+    #inject counter
+    for record in items
+      record.count = Album.filter(record.id).length
+    
+    @items = items
     @html @template(@items)
     @change item or @current
     if @selectFirst
       unless @children(".active").length
         @children(":first").click()
-    #Spine.trigger('create:sidebar', @children(".droppable"))
-        
+
   children: (sel) ->
     @el.children(sel)
 
   click: (e) ->
-    #@stopEvent(e)
     console.log 'GalleryList::click'
     item = $(e.target).item()
     @change item, 'show', e
@@ -64,11 +68,5 @@ class Spine.GalleryList extends Spine.Controller
     item = $(e.target).item()
     @change item, 'edit', e
 
-  stopEvent: (e) ->
-    if (e.stopPropagation)
-      e.stopPropagation()
-      e.preventDefault()
-    else
-      e.cancelBubble = true
 
 module?.exports = Spine.GalleryList

@@ -66,7 +66,7 @@
 </div>
 
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
-  <li class="item droppable" title="cmd-click to deselect">
+  <li class="item droppable" title="Deselect   Cmd-Click">
     <img src="/img/gallery.png" />
     <div style="font-size: 0.6em">ID: ${id}</div
     {{if name}}
@@ -74,7 +74,7 @@
     {{else}}
     <span class="name empty">No Name</span>
     {{/if}}
-    <span class="cta">&gt;</span>
+    <span id="${id}" class="cta">${count}</span>
   </li>
 </script>
 
@@ -140,4 +140,9 @@
 
 <script type="text/x-jquery-tmpl" id="noSelectionTemplate">
   <div>${type}</div>
+</script>
+
+<script type="text/x-jquery-tmpl" id="headerTemplate">
+  <h3>Gallery: ${record.name} <span style="color: #D0D0D0; font-style: normal; font-weight: 100; font-size: 1.2em;">&nbsp;||&nbsp;</span> Author: ${record.author}</h3>
+  <h2>{{if count}}${count} Album{{if count>1}}s{{/if}}{{else}}No Albums{{/if}}</h2>
 </script>

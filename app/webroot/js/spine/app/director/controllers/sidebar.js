@@ -47,6 +47,7 @@ SidebarView = (function() {
       template: this.template
     });
     Gallery.bind("refresh change", this.proxy(this.render));
+    Spine.bind('render:count', this.proxy(this.renderCount));
     Spine.bind('drag:drop', this.proxy(this.dropComplete));
     Spine.bind('drag:over', this.proxy(this.dragOver));
     Spine.bind('drag:leave', this.proxy(this.dragLeave));
@@ -60,7 +61,18 @@ SidebarView = (function() {
     console.log('Sidebar::render');
     items = Gallery.filter(this.query, 'searchSelect');
     items = items.sort(Gallery.nameSort);
-    return this.list.render(items, item);
+    this.galleryItems = items;
+    return this.list.render(items);
+  };
+  SidebarView.prototype.renderCount = function() {
+    var item, _i, _len, _ref, _results;
+    _ref = this.galleryItems;
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      item = _ref[_i];
+      _results.push($('#' + item.id).html(Album.filter(item.id).length));
+    }
+    return _results;
   };
   SidebarView.prototype.dragOver = function(e) {
     var item, items, target, _i, _len, _results;
@@ -80,49 +92,46 @@ SidebarView = (function() {
   SidebarView.prototype.dragLeave = function(e) {
     var target;
     target = $(e.target).item();
-    if (target.id === this.oldtargetID) {
-      return;
-    }
-    return this.oldtargetID = target.id;
+    return $('li').removeClass('nodrop');
   };
   SidebarView.prototype.dropComplete = function(source, target) {
-    var albumExists, albums, item, items, selected, selection, _i, _len, _ref;
+    var albums, currentTarget, item, items, newSelection, selection, _i, _len, _ref;
     console.log('dropComplete');
-    items = GalleriesAlbum.filter(target.id);
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      item = items[_i];
-      if (item.album_id === source.id) {
-        albumExists = true;
-      }
-    }
-    if (albumExists) {
-      alert('Album already exists in Gallery');
-      return;
-    }
     if (!(source instanceof Album)) {
       alert('You can only drop Albums here');
       return;
     }
+    if (!(target instanceof Gallery)) {
+      return;
+    }
+    items = GalleriesAlbum.filter(target.id);
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      item = items[_i];
+      if (item.album_id === source.id) {
+        alert('Album already exists in Gallery');
+        return;
+      }
+    }
     selection = Gallery.selectionList();
-    selected = (_ref = source.id, __indexOf.call(selection, _ref) >= 0);
-    if (!selected) {
-      selection.push(source.id);
+    newSelection = selection.slice(0);
+    if (_ref = source.id, __indexOf.call(selection, _ref) < 0) {
+      newSelection.push(source.id);
     }
     albums = [];
     Album.each(function(record) {
-      if (selection.indexOf(record.id) !== -1) {
+      if (newSelection.indexOf(record.id) !== -1) {
         return albums.push(record);
       }
     });
-    Gallery.current(target);
-    target.constructor.updateSelection(selection);
-    Spine.trigger('create:albumJoin', albums);
-    return target.save();
+    currentTarget = Gallery.record;
+    Spine.trigger('create:albumJoin', target, albums);
+    target.save();
+    return console.log(selection);
   };
   SidebarView.prototype.newAttributes = function() {
     return {
       name: 'New Gallery',
-      author: ''
+      author: 'No Author'
     };
   };
   SidebarView.prototype.create = function(e) {

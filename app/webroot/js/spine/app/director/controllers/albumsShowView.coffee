@@ -42,6 +42,9 @@ class AlbumsShowView extends Spine.Controller
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
 
+  headerTemplate: (items) ->
+    $("#headerTemplate").tmpl items
+
   constructor: ->
     super
     @list = new Spine.AlbumList
@@ -55,7 +58,6 @@ class AlbumsShowView extends Spine.Controller
     Gallery.bind("update", @proxy @renderHeader)
     Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
-    GalleriesAlbum.bind("destroy", @proxy @confirmed)
     GalleriesAlbum.bind("change", @proxy @render)
     @bind('save:gallery', @proxy @save)
     @bind("toggle:view", @proxy @toggleView)
@@ -65,10 +67,6 @@ class AlbumsShowView extends Spine.Controller
     @create = @edit
 
     $(@views).queue("fx")
-
-  confirmed: (ga) ->
-    #alert 'Success! ' + Album.filter(Gallery.record.id).length + ' / ' + Gallery.record.id if ga.destroyed
-    alert ga.name + 'NOT destroyed' unless ga.destroyed
 
   children: (sel) ->
     @el.children(sel)
@@ -83,25 +81,26 @@ class AlbumsShowView extends Spine.Controller
     @render()
     @[mode]?(item)
 
-  render: (album) ->
+  render: ->
     console.log 'AlbumsShowView::render'
+    Spine.trigger('render:count')
     
     if @current
       items = Album.filter(@current.id)
     else
       items = Album.filter()
     
-    @renderHeader()
-    @list.render items, (album if album instanceof Album)
+    @renderHeader(items)
+    @list.render items#, (album if album instanceof Album)
     #@initSortables()
    
-  renderHeader: (item) ->
+  renderHeader: (items) ->
     console.log 'AlbumsShowView::renderHeader'
-    gallery = item or @current
-    if gallery
-      @header.html '<h2>Albums (Working Copies) for Gallery ' + gallery.name + '</h2>'
+    values = {record: Gallery.record, count: items.length}
+    if Gallery.record
+      @header.html @headerTemplate values
     else
-      @header.html '<h2>All Albums (Originals)</h2>'
+      @header.html '<h3>Album Originals</h3><h2>All Albums</h2>'
 
   renderToolBar: ->
     @toolBar.html @toolsTemplate @toolBarList
@@ -117,16 +116,16 @@ class AlbumsShowView extends Spine.Controller
   destroy: ->
     Spine.trigger('destroyAlbum')
   
-  createJoin: (albums) ->
+  createJoin: (target, albums) ->
     console.log 'AlbumsShowView::createJoin'
-    return unless Gallery.record
+    return unless target instanceof Gallery
     unless Album.isArray albums
       records = []
       records.push(albums)
-    else records = albums.slice()
+    else records = albums
     for record in records
       ga = new GalleriesAlbum
-        gallery_id: Gallery.record.id
+        gallery_id: target.id
         album_id: record.id
       ga.save()
   

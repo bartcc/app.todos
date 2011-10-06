@@ -111,6 +111,15 @@ Model.Extender =
       
     Include =
       
+      selectionList: ->
+        @constructor.selectionList @id
+
+      updateSelection: (list) ->
+        @constructor.updateSelection list, @id
+
+      emptySelection: (list) ->
+        @constructor.updateSelection list, @id
+
       #prevents an update if model hasn't changed
       updateChangedAttributes: (atts) ->
         origAtts = @attributes()

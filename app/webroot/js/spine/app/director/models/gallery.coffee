@@ -33,9 +33,10 @@ class Gallery extends Spine.Model
 
   init: (instance) ->
     return unless instance
-    empty = {}
-    empty[instance.id] = []
-    @constructor.selection.push(empty)
+    newSelection = {}
+    throw 'No instance ID' unless instance.id
+    newSelection[instance.id] = []
+    @constructor.selection.push(newSelection)
     
   updateAttributes: (atts, options={}) ->
     load(atts)

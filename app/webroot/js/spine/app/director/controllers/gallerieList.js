@@ -25,7 +25,6 @@ Spine.GalleryList = (function() {
   GalleryList.prototype.selectFirst = true;
   function GalleryList() {
     this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
-    this.bind("change", this.change);
   }
   GalleryList.prototype.template = function() {
     return arguments[0];
@@ -46,7 +45,7 @@ Spine.GalleryList = (function() {
         this.current = item;
         this.children().forItem(this.current).addClass("active");
       } else {
-        this.current = null;
+        this.current = false;
       }
       Gallery.current(this.current);
       if (!this.current || dblclick) {
@@ -58,10 +57,13 @@ Spine.GalleryList = (function() {
     }
   };
   GalleryList.prototype.render = function(items, item) {
+    var record, _i, _len;
     console.log('GalleryList::render');
-    if (items) {
-      this.items = items;
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      record = items[_i];
+      record.count = Album.filter(record.id).length;
     }
+    this.items = items;
     this.html(this.template(this.items));
     this.change(item || this.current);
     if (this.selectFirst) {
@@ -84,14 +86,6 @@ Spine.GalleryList = (function() {
     console.log('GalleryList::edit');
     item = $(e.target).item();
     return this.change(item, 'edit', e);
-  };
-  GalleryList.prototype.stopEvent = function(e) {
-    if (e.stopPropagation) {
-      e.stopPropagation();
-      return e.preventDefault();
-    } else {
-      return e.cancelBubble = true;
-    }
   };
   return GalleryList;
 })();

@@ -47,6 +47,7 @@ class Album extends Spine.Model
     result
 
   select: (id) ->
+    #id should be gallery.id
     ga = GalleriesAlbum.filter(id)
     for record in ga
       return true if record.album_id is @id

@@ -33,7 +33,8 @@ class SidebarView extends Spine.Controller
       el: @items,
       template: @template
 
-    Gallery.bind "refresh change", @proxy @render
+    Gallery.bind("refresh change", @proxy @render)
+    Spine.bind('render:count', @proxy @renderCount)
     Spine.bind('drag:drop', @proxy @dropComplete)
     Spine.bind('drag:over', @proxy @dragOver)
     Spine.bind('drag:leave', @proxy @dragLeave)
@@ -46,7 +47,12 @@ class SidebarView extends Spine.Controller
     console.log 'Sidebar::render'
     items = Gallery.filter @query, 'searchSelect'
     items = items.sort Gallery.nameSort
-    @list.render items, item
+    @galleryItems = items
+    @list.render items
+
+  renderCount: ->
+    for item in @galleryItems
+      $('#'+item.id).html(Album.filter(item.id).length)
 
   dragOver: (e) ->
     target = $(e.target).item()
@@ -59,41 +65,43 @@ class SidebarView extends Spine.Controller
 
   dragLeave: (e) ->
     target = $(e.target).item()
-    return if target.id is @oldtargetID
-    @oldtargetID = target.id
-    #$(e.target).removeClass('nodrop')
+    #return if target.id is @oldtargetID
+    #@oldtargetID = target.id
+    $('li').removeClass('nodrop')
 
 
   dropComplete: (source, target) ->
     console.log 'dropComplete'
-    items = GalleriesAlbum.filter(target.id)
-    for item in items
-      if item.album_id is source.id
-        albumExists = true
 
-    if albumExists
-      alert 'Album already exists in Gallery'
-      return
     unless source instanceof Album
       alert 'You can only drop Albums here'
       return
+    unless target instanceof Gallery
+      return
+
+    items = GalleriesAlbum.filter(target.id)
+    for item in items
+      if item.album_id is source.id
+        alert 'Album already exists in Gallery'
+        return
+
     
     selection = Gallery.selectionList()
-    selected = source.id in selection
-    selection.push source.id unless selected
+    newSelection = selection.slice(0)
+    newSelection.push source.id unless source.id in selection
       
     albums = []
     Album.each (record) ->
-      albums.push record unless selection.indexOf(record.id) is -1
+      albums.push record unless newSelection.indexOf(record.id) is -1
     
-    Gallery.current(target)
-    target.constructor.updateSelection selection
-    Spine.trigger('create:albumJoin', albums)
+    currentTarget = Gallery.record
+    Spine.trigger('create:albumJoin', target, albums)
     target.save()
+    console.log selection
     
   newAttributes: ->
     name: 'New Gallery'
-    author: ''
+    author: 'No Author'
 
   #Called when 'Create' button is clicked
   create: (e) ->

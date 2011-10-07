@@ -50,7 +50,7 @@ class Spine.GalleryList extends Spine.Controller
     
     @items = items
     @html @template(@items)
-    @change item or @current
+    @change @current
     if @selectFirst
       unless @children(".active").length
         @children(":first").click()

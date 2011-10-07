@@ -17,6 +17,7 @@ Controller.Drag =
         Spine.dragItem = $(e.target).item()
         event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/html', Spine.dragItem);
+        Spine.trigger('drag:start')
 
       dragenter: (e, data) ->
         $(e.target).addClass('over')

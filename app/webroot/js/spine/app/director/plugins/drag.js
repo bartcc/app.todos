@@ -20,7 +20,8 @@ Controller.Drag = {
         $(e.target).addClass('dragged');
         Spine.dragItem = $(e.target).item();
         event.dataTransfer.effectAllowed = 'move';
-        return event.dataTransfer.setData('text/html', Spine.dragItem);
+        event.dataTransfer.setData('text/html', Spine.dragItem);
+        return Spine.trigger('drag:start');
       }, this),
       dragenter: function(e, data) {
         return $(e.target).addClass('over');

@@ -58,13 +58,16 @@ Spine.AlbumList = (function() {
     }
     return Spine.trigger('change:selectedAlbum', item);
   };
-  AlbumList.prototype.render = function(items) {
+  AlbumList.prototype.render = function(items, newAlbum) {
     console.log('AlbumList::render');
     if (items.length) {
       this.html(this.template(items));
     } else {
       this.html('This Gallery has no Albums&nbsp;<button class="optCreate">New Album</button>');
       this.refreshElements();
+    }
+    if (newAlbum) {
+      newAlbum.addRemoveSelection(Gallery);
     }
     this.change();
     return this;
@@ -83,7 +86,8 @@ Spine.AlbumList = (function() {
     console.log('AlbumList::create');
     this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
     album = new Album(this.newAttributes());
-    return album.save();
+    album.save();
+    return Spine.trigger('create:albumJoin', Gallery.record, album);
   };
   AlbumList.prototype.destroy = function() {
     var alb, album, id, list, _i, _j, _len, _len2, _results, _results2;
@@ -95,8 +99,8 @@ Spine.AlbumList = (function() {
         id = list[_i];
         album = Album.find(id);
         Gallery.removeFromSelection(id);
-        Spine.trigger('destroy:albumJoin', album);
-        _results.push(Gallery.record.save());
+        Gallery.record.save();
+        _results.push(Spine.trigger('destroy:albumJoin', Gallery.record, album));
       }
       return _results;
     } else {
@@ -107,7 +111,10 @@ Spine.AlbumList = (function() {
           alb = Album.find(id);
         }
         Gallery.removeFromSelection(id);
-        _results2.push(alb ? alb.destroy() : void 0);
+        if (alb) {
+          alb.destroy();
+        }
+        _results2.push(Spine.trigger('destroy:albumJoin', Gallery.record, album));
       }
       return _results2;
     }

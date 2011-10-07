@@ -35,9 +35,10 @@ class SidebarView extends Spine.Controller
 
     Gallery.bind("refresh change", @proxy @render)
     Spine.bind('render:count', @proxy @renderCount)
-    Spine.bind('drag:drop', @proxy @dropComplete)
+    Spine.bind('drag:start', @proxy @dragStart)
     Spine.bind('drag:over', @proxy @dragOver)
     Spine.bind('drag:leave', @proxy @dragLeave)
+    Spine.bind('drag:drop', @proxy @dropComplete)
 
   filter: ->
     @query = @input.val();
@@ -48,11 +49,18 @@ class SidebarView extends Spine.Controller
     items = Gallery.filter @query, 'searchSelect'
     items = items.sort Gallery.nameSort
     @galleryItems = items
-    @list.render items
+    @list.render items, item
 
   renderCount: ->
     for item in @galleryItems
       $('#'+item.id).html(Album.filter(item.id).length)
+
+  dragStart: ->
+    selection = Gallery.selectionList()
+    newSelection = selection.slice(0)
+    newSelection.push Spine.dragItem.id unless Spine.dragItem.id in selection
+    @newSelection = newSelection
+    @oldtargetID = null
 
   dragOver: (e) ->
     target = $(e.target).item()
@@ -60,13 +68,14 @@ class SidebarView extends Spine.Controller
     @oldtargetID = target.id
     items = GalleriesAlbum.filter(target.id)
     for item in items
-      if item.album_id is Spine.dragItem.id
+      if item.album_id in @newSelection
         $(e.target).addClass('nodrop')
+        
 
   dragLeave: (e) ->
     target = $(e.target).item()
-    #return if target.id is @oldtargetID
-    #@oldtargetID = target.id
+    return if target.id is @oldtargetID
+    @oldtargetID = target.id
     $('li').removeClass('nodrop')
 
 
@@ -86,18 +95,17 @@ class SidebarView extends Spine.Controller
         return
 
     
-    selection = Gallery.selectionList()
-    newSelection = selection.slice(0)
-    newSelection.push source.id unless source.id in selection
+#    selection = Gallery.selectionList()
+#    newSelection = selection.slice(0)
+#    newSelection.push source.id unless source.id in selection
       
     albums = []
-    Album.each (record) ->
-      albums.push record unless newSelection.indexOf(record.id) is -1
+    Album.each (record) =>
+      albums.push record unless @newSelection.indexOf(record.id) is -1
     
-    currentTarget = Gallery.record
+    #currentTarget = Gallery.record
     Spine.trigger('create:albumJoin', target, albums)
     target.save()
-    console.log selection
     
   newAttributes: ->
     name: 'New Gallery'

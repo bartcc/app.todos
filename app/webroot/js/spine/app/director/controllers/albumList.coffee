@@ -40,7 +40,7 @@ class Spine.AlbumList extends Spine.Controller
       
       
   
-  render: (items) ->
+  render: (items, newAlbum) ->
     console.log 'AlbumList::render'
     if items.length
       @html @template items
@@ -48,7 +48,7 @@ class Spine.AlbumList extends Spine.Controller
       @html 'This Gallery has no Albums&nbsp;<button class="optCreate">New Album</button>'
       @refreshElements()
 
-    #newAlbum.addRemoveSelection(Gallery) if newAlbum
+    newAlbum.addRemoveSelection(Gallery) if newAlbum
     @change()
     @
   
@@ -64,6 +64,7 @@ class Spine.AlbumList extends Spine.Controller
     @preserveEditorOpen('album', App.albumsShowView.btnAlbum)
     album = new Album(@newAttributes())
     album.save()
+    Spine.trigger('create:albumJoin', Gallery.record, album)
 
   destroy: ->
     console.log 'AlbumList::destroy'
@@ -72,13 +73,14 @@ class Spine.AlbumList extends Spine.Controller
       for id in list
         album = Album.find(id)
         Gallery.removeFromSelection(id)
-        Spine.trigger('destroy:albumJoin', album)
         Gallery.record.save()
+        Spine.trigger('destroy:albumJoin', Gallery.record, album)
     else
       for id in list
         alb = Album.find(id) if Album.exists(id)
         Gallery.removeFromSelection(id)
         alb.destroy() if alb
+        Spine.trigger('destroy:albumJoin', Gallery.record, album)
 
   click: (e) ->
     console.log 'AlbumList::click'

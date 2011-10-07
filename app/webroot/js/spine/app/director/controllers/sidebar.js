@@ -48,9 +48,10 @@ SidebarView = (function() {
     });
     Gallery.bind("refresh change", this.proxy(this.render));
     Spine.bind('render:count', this.proxy(this.renderCount));
-    Spine.bind('drag:drop', this.proxy(this.dropComplete));
+    Spine.bind('drag:start', this.proxy(this.dragStart));
     Spine.bind('drag:over', this.proxy(this.dragOver));
     Spine.bind('drag:leave', this.proxy(this.dragLeave));
+    Spine.bind('drag:drop', this.proxy(this.dropComplete));
   }
   SidebarView.prototype.filter = function() {
     this.query = this.input.val();
@@ -62,7 +63,7 @@ SidebarView = (function() {
     items = Gallery.filter(this.query, 'searchSelect');
     items = items.sort(Gallery.nameSort);
     this.galleryItems = items;
-    return this.list.render(items);
+    return this.list.render(items, item);
   };
   SidebarView.prototype.renderCount = function() {
     var item, _i, _len, _ref, _results;
@@ -74,8 +75,18 @@ SidebarView = (function() {
     }
     return _results;
   };
+  SidebarView.prototype.dragStart = function() {
+    var newSelection, selection, _ref;
+    selection = Gallery.selectionList();
+    newSelection = selection.slice(0);
+    if (_ref = Spine.dragItem.id, __indexOf.call(selection, _ref) < 0) {
+      newSelection.push(Spine.dragItem.id);
+    }
+    this.newSelection = newSelection;
+    return this.oldtargetID = null;
+  };
   SidebarView.prototype.dragOver = function(e) {
-    var item, items, target, _i, _len, _results;
+    var item, items, target, _i, _len, _ref, _results;
     target = $(e.target).item();
     if (target.id === this.oldtargetID) {
       return;
@@ -85,17 +96,21 @@ SidebarView = (function() {
     _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
-      _results.push(item.album_id === Spine.dragItem.id ? $(e.target).addClass('nodrop') : void 0);
+      _results.push((_ref = item.album_id, __indexOf.call(this.newSelection, _ref) >= 0) ? $(e.target).addClass('nodrop') : void 0);
     }
     return _results;
   };
   SidebarView.prototype.dragLeave = function(e) {
     var target;
     target = $(e.target).item();
+    if (target.id === this.oldtargetID) {
+      return;
+    }
+    this.oldtargetID = target.id;
     return $('li').removeClass('nodrop');
   };
   SidebarView.prototype.dropComplete = function(source, target) {
-    var albums, currentTarget, item, items, newSelection, selection, _i, _len, _ref;
+    var albums, item, items, _i, _len;
     console.log('dropComplete');
     if (!(source instanceof Album)) {
       alert('You can only drop Albums here');
@@ -112,21 +127,14 @@ SidebarView = (function() {
         return;
       }
     }
-    selection = Gallery.selectionList();
-    newSelection = selection.slice(0);
-    if (_ref = source.id, __indexOf.call(selection, _ref) < 0) {
-      newSelection.push(source.id);
-    }
     albums = [];
-    Album.each(function(record) {
-      if (newSelection.indexOf(record.id) !== -1) {
+    Album.each(__bind(function(record) {
+      if (this.newSelection.indexOf(record.id) !== -1) {
         return albums.push(record);
       }
-    });
-    currentTarget = Gallery.record;
+    }, this));
     Spine.trigger('create:albumJoin', target, albums);
-    target.save();
-    return console.log(selection);
+    return target.save();
   };
   SidebarView.prototype.newAttributes = function() {
     return {

@@ -62,8 +62,6 @@ AlbumsShowView = (function() {
       el: this.items,
       template: this.albumsTemplate
     });
-    Album.bind("create", this.proxy(this.createJoin));
-    Album.bind("destroy", this.proxy(this.destroyJoin));
     Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));
     Spine.bind("create:albumJoin", this.proxy(this.createJoin));
     Album.bind("change", this.proxy(this.render));
@@ -92,7 +90,7 @@ AlbumsShowView = (function() {
     this.render();
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
   };
-  AlbumsShowView.prototype.render = function() {
+  AlbumsShowView.prototype.render = function(album) {
     var items;
     console.log('AlbumsShowView::render');
     Spine.trigger('render:count');
@@ -155,11 +153,12 @@ AlbumsShowView = (function() {
     }
     return _results;
   };
-  AlbumsShowView.prototype.destroyJoin = function(album) {
+  AlbumsShowView.prototype.destroyJoin = function(target, album) {
     console.log('AlbumsShowView::destroyJoin');
     return GalleriesAlbum.each(function(record) {
-      if (record.gallery_id === Gallery.record.id && album.id === record.album_id) {
-        return record.destroy();
+      if (record.gallery_id === target.id && album.id === record.album_id) {
+        record.destroy();
+        return target.emptySelection();
       }
     });
   };

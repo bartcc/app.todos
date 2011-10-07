@@ -50,8 +50,8 @@ class AlbumsShowView extends Spine.Controller
     @list = new Spine.AlbumList
       el: @items,
       template: @albumsTemplate
-    Album.bind("create", @proxy @createJoin)
-    Album.bind("destroy", @proxy @destroyJoin)
+    #Album.bind("create", @proxy @createJoin)
+    #Album.bind("destroy", @proxy @destroyJoin)
     Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
     Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("change", @proxy @render)
@@ -81,7 +81,7 @@ class AlbumsShowView extends Spine.Controller
     @render()
     @[mode]?(item)
 
-  render: ->
+  render: (album) ->
     console.log 'AlbumsShowView::render'
     Spine.trigger('render:count')
     
@@ -91,7 +91,7 @@ class AlbumsShowView extends Spine.Controller
       items = Album.filter()
     
     @renderHeader(items)
-    @list.render items#, (album if album instanceof Album)
+    @list.render items#, (album if album and album instanceof Album)
     #@initSortables()
    
   renderHeader: (items) ->
@@ -129,11 +129,12 @@ class AlbumsShowView extends Spine.Controller
         album_id: record.id
       ga.save()
   
-  destroyJoin: (album) ->
+  destroyJoin: (target, album) ->
     console.log 'AlbumsShowView::destroyJoin'
     GalleriesAlbum.each (record) ->
-      if record.gallery_id is Gallery.record.id and album.id is record.album_id
+      if record.gallery_id is target.id and album.id is record.album_id
         record.destroy()
+        target.emptySelection()
 
   edit: ->
     App.albumsEditView.render()

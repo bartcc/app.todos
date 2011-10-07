@@ -65,7 +65,7 @@ Spine.GalleryList = (function() {
     }
     this.items = items;
     this.html(this.template(this.items));
-    this.change(item || this.current);
+    this.change(this.current);
     if (this.selectFirst) {
       if (!this.children(".active").length) {
         return this.children(":first").click();

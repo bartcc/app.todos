@@ -68,7 +68,6 @@
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
   <li class="item droppable" title="Deselect   Cmd-Click">
     <img src="/img/gallery.png" />
-    <div style="font-size: 0.6em">ID: ${id}</div
     {{if name}}
     <span class="name">${name}</span>
     {{else}}

@@ -132,7 +132,7 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.createJoin = function(target, albums) {
     var ga, record, records, _i, _len;
     console.log('AlbumsShowView::createJoin');
-    if (!(target instanceof Gallery)) {
+    if (!(target && target instanceof Gallery)) {
       return;
     }
     if (!Album.isArray(albums)) {
@@ -154,6 +154,9 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.destroyJoin = function(target, albums) {
     var ga, gas, records, _i, _len;
     console.log('AlbumsShowView::destroyJoin');
+    if (!(target && target instanceof Gallery)) {
+      return;
+    }
     if (!Album.isArray(albums)) {
       records = [];
       records.push(albums);

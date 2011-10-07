@@ -115,7 +115,7 @@ class AlbumsShowView extends Spine.Controller
   
   createJoin: (target, albums) ->
     console.log 'AlbumsShowView::createJoin'
-    return unless target instanceof Gallery
+    return unless target and target instanceof Gallery
 
     unless Album.isArray albums
       records = []
@@ -132,6 +132,7 @@ class AlbumsShowView extends Spine.Controller
   
   destroyJoin: (target, albums) ->
     console.log 'AlbumsShowView::destroyJoin'
+    return unless target and target instanceof Gallery
 
     unless Album.isArray albums
       records = []

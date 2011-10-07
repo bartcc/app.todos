@@ -79,8 +79,11 @@ class SidebarView extends Spine.Controller
     $('li').removeClass('nodrop')
 
 
-  dropComplete: (source, target) ->
+  dropComplete: (target, e) ->
     console.log 'dropComplete'
+
+    source = Spine.dragItem
+    origin = Gallery.record
 
     unless source instanceof Album
       alert 'You can only drop Albums here'
@@ -97,7 +100,9 @@ class SidebarView extends Spine.Controller
     albums = []
     Album.each (record) =>
       albums.push record unless @newSelection.indexOf(record.id) is -1
+
     Spine.trigger('create:albumJoin', target, albums)
+    Spine.trigger('destroy:albumJoin', origin, albums) unless e.altKey
     
   newAttributes: ->
     name: 'New Gallery'

@@ -17,7 +17,7 @@ Controller.Drag =
         Spine.dragItem = $(e.target).item()
         event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/html', Spine.dragItem);
-        Spine.trigger('drag:start')
+        Spine.trigger('drag:start', e)
 
       dragenter: (e, data) ->
         $(e.target).addClass('over')
@@ -41,7 +41,7 @@ Controller.Drag =
         event.stopPropagation() if event.stopPropagation
         target = $(e.target).item()
         $(e.target).removeClass('over')
-        Spine.trigger('drag:drop', Spine.dragItem, target)
+        Spine.trigger('drag:drop', target, e)
         Spine.dragItem = null
         false
 

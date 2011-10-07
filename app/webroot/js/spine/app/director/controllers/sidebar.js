@@ -109,9 +109,11 @@ SidebarView = (function() {
     this.oldtargetID = target.id;
     return $('li').removeClass('nodrop');
   };
-  SidebarView.prototype.dropComplete = function(source, target) {
-    var albums, item, items, _i, _len;
+  SidebarView.prototype.dropComplete = function(target, e) {
+    var albums, item, items, origin, source, _i, _len;
     console.log('dropComplete');
+    source = Spine.dragItem;
+    origin = Gallery.record;
     if (!(source instanceof Album)) {
       alert('You can only drop Albums here');
       return;
@@ -133,7 +135,10 @@ SidebarView = (function() {
         return albums.push(record);
       }
     }, this));
-    return Spine.trigger('create:albumJoin', target, albums);
+    Spine.trigger('create:albumJoin', target, albums);
+    if (!e.altKey) {
+      return Spine.trigger('destroy:albumJoin', origin, albums);
+    }
   };
   SidebarView.prototype.newAttributes = function() {
     return {

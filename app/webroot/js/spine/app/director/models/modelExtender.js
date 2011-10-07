@@ -164,7 +164,7 @@ Model.Extender = {
       selected: function() {
         return this.record;
       },
-      toId: function(records) {
+      toID: function(records) {
         var ids, record;
         if (records == null) {
           records = this.records;
@@ -190,6 +190,19 @@ Model.Extender = {
       emptySelection: function(list) {
         return this.constructor.updateSelection(list, this.id);
       },
+      addRemoveSelection: function(model, isMetaKey) {
+        var list;
+        list = model.selectionList();
+        if (!list) {
+          return;
+        }
+        if (!isMetaKey) {
+          this.addUnique(list);
+        } else {
+          this.addRemove(list);
+        }
+        return list;
+      },
       updateChangedAttributes: function(atts) {
         var invalid, key, origAtts, value;
         origAtts = this.attributes();
@@ -204,24 +217,11 @@ Model.Extender = {
           return this.save();
         }
       },
-      addRemoveSelection: function(model, isMetaKey) {
-        var list;
-        list = model.selectionList();
-        if (!list) {
-          return;
-        }
-        if (!isMetaKey) {
-          this.addUnique(model, list);
-        } else {
-          this.addRemove(model, list);
-        }
-        return list;
-      },
-      addUnique: function(model, list) {
+      addUnique: function(list) {
         var _ref;
         return ([].splice.apply(list, [0, list.length - 0].concat(_ref = [this.id])), _ref);
       },
-      addRemove: function(model, list) {
+      addRemove: function(list) {
         var index, _ref;
         if (_ref = this.id, __indexOf.call(list, _ref) < 0) {
           list.push(this.id);

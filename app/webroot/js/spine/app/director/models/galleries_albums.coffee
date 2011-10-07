@@ -9,4 +9,7 @@ class GalleriesAlbum extends Spine.Model
     return true if @gallery_id is query and @constructor.records[@id]
     return false
 
+  selectAlbum: (query) ->
+    return true if @album_id is query
+
 Spine.Model.GalleriesAlbum = GalleriesAlbum

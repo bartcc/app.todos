@@ -57,13 +57,13 @@ SidebarView = (function() {
     this.query = this.input.val();
     return this.render();
   };
-  SidebarView.prototype.render = function(item) {
+  SidebarView.prototype.render = function(item, mode) {
     var items;
     console.log('Sidebar::render');
     items = Gallery.filter(this.query, 'searchSelect');
     items = items.sort(Gallery.nameSort);
     this.galleryItems = items;
-    return this.list.render(items, item);
+    return this.list.render(items, item, mode);
   };
   SidebarView.prototype.renderCount = function() {
     var item, _i, _len, _ref, _results;
@@ -133,8 +133,7 @@ SidebarView = (function() {
         return albums.push(record);
       }
     }, this));
-    Spine.trigger('create:albumJoin', target, albums);
-    return target.save();
+    return Spine.trigger('create:albumJoin', target, albums);
   };
   SidebarView.prototype.newAttributes = function() {
     return {

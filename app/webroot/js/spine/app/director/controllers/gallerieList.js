@@ -22,7 +22,7 @@ Spine.GalleryList = (function() {
   GalleryList.prototype.elements = {
     '.item': 'item'
   };
-  GalleryList.prototype.selectFirst = true;
+  GalleryList.prototype.selectFirst = false;
   function GalleryList() {
     this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
   }
@@ -30,43 +30,38 @@ Spine.GalleryList = (function() {
     return arguments[0];
   };
   GalleryList.prototype.change = function(item, mode, e) {
-    var changed, cmdKey, dblclick, newId, oldId, _ref;
+    var cmdKey, dblclick;
     console.log('GalleryList::change');
     if (e) {
       cmdKey = e.metaKey || e.ctrlKey;
+    }
+    if (e) {
       dblclick = e.type === 'dblclick';
     }
-    if (!(item != null ? item.destroyed : void 0) && (item != null ? item.reload() : void 0)) {
-      oldId = (_ref = this.current) != null ? _ref.id : void 0;
-      newId = item.id;
-      changed = !(oldId === newId) || !oldId;
-      this.children().removeClass("active");
-      if (!cmdKey) {
+    this.children().removeClass("active");
+    if (!cmdKey && item) {
+      if (mode !== 'update') {
         this.current = item;
-        this.children().forItem(this.current).addClass("active");
-      } else {
-        this.current = false;
       }
-      Gallery.current(this.current);
-      if (!this.current || dblclick) {
-        changed = true;
-      }
-      if (changed) {
-        return Spine.trigger('change:selectedGallery', this.current, mode);
-      }
+      this.children().forItem(this.current).addClass("active");
+    } else {
+      this.current = false;
     }
+    Gallery.current(this.current);
+    return Spine.trigger('change:selectedGallery', this.current, mode);
   };
-  GalleryList.prototype.render = function(items, item) {
+  GalleryList.prototype.render = function(items, item, mode) {
     var record, _i, _len;
     console.log('GalleryList::render');
+    console.log(mode);
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       record = items[_i];
       record.count = Album.filter(record.id).length;
     }
     this.items = items;
     this.html(this.template(this.items));
-    this.change(this.current);
-    if (this.selectFirst) {
+    this.change(item, mode);
+    if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
       if (!this.children(".active").length) {
         return this.children(":first").click();
       }

@@ -104,8 +104,7 @@ Model.Extender =
       selected: ->
         @record
         
-      toId: (records = @records) ->
-        #return null unless records.length
+      toID: (records = @records) ->
         ids = for record in records
           record.id
       
@@ -120,6 +119,15 @@ Model.Extender =
       emptySelection: (list) ->
         @constructor.updateSelection list, @id
 
+      addRemoveSelection: (model, isMetaKey) ->
+        list = model.selectionList()
+        return unless list
+        unless isMetaKey
+          @addUnique(list)
+        else
+          @addRemove(list)
+        list
+
       #prevents an update if model hasn't changed
       updateChangedAttributes: (atts) ->
         origAtts = @attributes()
@@ -129,23 +137,14 @@ Model.Extender =
             @[key] = value
 
         @save() if invalid
-
-      addRemoveSelection: (model, isMetaKey) ->
-        list = model.selectionList()
-        return unless list
-        unless isMetaKey
-          @addUnique(model, list)
-        else
-          @addRemove(model, list)
-        list
       
 
       #private
       
-      addUnique: (model, list) ->
+      addUnique: (list) ->
         list[0...list.length] = [@id]
 
-      addRemove: (model, list) ->
+      addRemove: (list) ->
         unless @id in list
           list.push @id
         else

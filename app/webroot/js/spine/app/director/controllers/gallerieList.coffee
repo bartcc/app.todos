@@ -9,49 +9,43 @@ class Spine.GalleryList extends Spine.Controller
   elements:
     '.item'         : 'item'
 
-  selectFirst: true
+  selectFirst: false
     
   constructor: ->
     super
+    
 
   template: -> arguments[0]
 
   change: (item, mode, e) =>
     console.log 'GalleryList::change'
+    
+    cmdKey = e.metaKey || e.ctrlKey if e
+    dblclick = e.type is 'dblclick' if e
 
-    #alert item if item
+    @children().removeClass("active")
+    if (!cmdKey and item)
+      @current = item unless mode is 'update'
+      @children().forItem(@current).addClass("active")
+    else
+      @current = false
 
-    if e
-      cmdKey = e.metaKey || e.ctrlKey
-      dblclick = e.type is 'dblclick'
+    Gallery.current(@current)
 
-    if !(item?.destroyed) and item?.reload()
-      oldId = @current?.id
-      newId = item.id
-      changed = !(oldId is newId) or !(oldId)
-      @children().removeClass("active")
-      unless cmdKey
-        @current = item
-        @children().forItem(@current).addClass("active")
-      else
-        @current = false
-
-      Gallery.current(@current)
-      
-      changed = true if !(@current) or dblclick
-      
-      Spine.trigger('change:selectedGallery', @current, mode) if changed
+    Spine.trigger('change:selectedGallery', @current, mode)# unless mode is 'update'
   
-  render: (items, item) ->
+  render: (items, item, mode) ->
     console.log 'GalleryList::render'
+    console.log mode
+    
     #inject counter
     for record in items
       record.count = Album.filter(record.id).length
     
     @items = items
     @html @template(@items)
-    @change @current
-    if @selectFirst
+    @change item, mode
+    if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
         @children(":first").click()
 

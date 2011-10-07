@@ -49,7 +49,7 @@ Builder = (function() {
       parent = Spine.Model[key.parent];
       records = model.filter(this.record.id);
       selected = this.newWrapper(model);
-      selected[model.className] = this.model.toId(records);
+      selected[model.className] = this.model.toID(records);
       this.data[model.className] = selected;
     }
     this.data[this.model.className] = this.record;

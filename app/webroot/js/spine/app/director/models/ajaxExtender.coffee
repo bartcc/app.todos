@@ -26,7 +26,7 @@ class Builder
       records = model.filter(@record.id)
 
       selected = @newWrapper model
-      selected[model.className] = @model.toId(records)
+      selected[model.className] = @model.toID(records)
       @data[model.className] = selected
 
     @data[@model.className] = @record

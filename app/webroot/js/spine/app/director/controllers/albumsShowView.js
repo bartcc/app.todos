@@ -65,7 +65,6 @@ AlbumsShowView = (function() {
     Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));
     Spine.bind("create:albumJoin", this.proxy(this.createJoin));
     Album.bind("change", this.proxy(this.render));
-    Gallery.bind("update", this.proxy(this.renderHeader));
     Spine.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     GalleriesAlbum.bind("change", this.proxy(this.render));
@@ -90,7 +89,7 @@ AlbumsShowView = (function() {
     this.render();
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
   };
-  AlbumsShowView.prototype.render = function(album) {
+  AlbumsShowView.prototype.render = function(item) {
     var items;
     console.log('AlbumsShowView::render');
     Spine.trigger('render:count');
@@ -100,7 +99,7 @@ AlbumsShowView = (function() {
       items = Album.filter();
     }
     this.renderHeader(items);
-    return this.list.render(items);
+    return this.list.render(items, item);
   };
   AlbumsShowView.prototype.renderHeader = function(items) {
     var values;
@@ -131,7 +130,7 @@ AlbumsShowView = (function() {
     return Spine.trigger('destroyAlbum');
   };
   AlbumsShowView.prototype.createJoin = function(target, albums) {
-    var ga, record, records, _i, _len, _results;
+    var ga, record, records, _i, _len;
     console.log('AlbumsShowView::createJoin');
     if (!(target instanceof Gallery)) {
       return;
@@ -142,25 +141,34 @@ AlbumsShowView = (function() {
     } else {
       records = albums;
     }
-    _results = [];
     for (_i = 0, _len = records.length; _i < _len; _i++) {
       record = records[_i];
       ga = new GalleriesAlbum({
         gallery_id: target.id,
         album_id: record.id
       });
-      _results.push(ga.save());
+      ga.save();
     }
-    return _results;
+    return target.save();
   };
-  AlbumsShowView.prototype.destroyJoin = function(target, album) {
+  AlbumsShowView.prototype.destroyJoin = function(target, albums) {
+    var ga, gas, records, _i, _len;
     console.log('AlbumsShowView::destroyJoin');
-    return GalleriesAlbum.each(function(record) {
-      if (record.gallery_id === target.id && album.id === record.album_id) {
-        record.destroy();
-        return target.emptySelection();
+    if (!Album.isArray(albums)) {
+      records = [];
+      records.push(albums);
+    } else {
+      records = albums;
+    }
+    albums = Album.toID(albums);
+    gas = GalleriesAlbum.filter(target.id);
+    for (_i = 0, _len = gas.length; _i < _len; _i++) {
+      ga = gas[_i];
+      if (albums.indexOf(ga.album_id) !== -1) {
+        ga.destroy();
       }
-    });
+    }
+    return target.save();
   };
   AlbumsShowView.prototype.edit = function() {
     App.albumsEditView.render();

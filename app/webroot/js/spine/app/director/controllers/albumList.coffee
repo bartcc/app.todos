@@ -26,6 +26,7 @@ class Spine.AlbumList extends Spine.Controller
     console.log 'AlbumList::change'
     
     list = Gallery.selectionList()
+
     @children().removeClass("active")
     if list
       for id in list
@@ -37,8 +38,6 @@ class Spine.AlbumList extends Spine.Controller
         item = selected
 
     Spine.trigger('change:selectedAlbum', item)
-      
-      
   
   render: (items, newAlbum) ->
     console.log 'AlbumList::render'
@@ -48,7 +47,7 @@ class Spine.AlbumList extends Spine.Controller
       @html 'This Gallery has no Albums&nbsp;<button class="optCreate">New Album</button>'
       @refreshElements()
 
-    newAlbum.addRemoveSelection(Gallery) if newAlbum
+    Gallery.updateSelection([newAlbum.id]) if newAlbum and newAlbum instanceof Album
     @change()
     @
   
@@ -68,19 +67,18 @@ class Spine.AlbumList extends Spine.Controller
 
   destroy: ->
     console.log 'AlbumList::destroy'
-    list = Gallery.selectionList().slice()
+    list = Gallery.selectionList().slice(0)
+    Gallery.removeFromSelection(id) for id in list
+
+    albums = []
+    Album.each (record) =>
+      albums.push record unless list.indexOf(record.id) is -1
+
     if Gallery.record
-      for id in list
-        album = Album.find(id)
-        Gallery.removeFromSelection(id)
-        Gallery.record.save()
-        Spine.trigger('destroy:albumJoin', Gallery.record, album)
+      Spine.trigger('destroy:albumJoin', Gallery.record, albums)
     else
-      for id in list
-        alb = Album.find(id) if Album.exists(id)
-        Gallery.removeFromSelection(id)
-        alb.destroy() if alb
-        Spine.trigger('destroy:albumJoin', Gallery.record, album)
+      for album in albums
+        album.destroy() if Album.exists(album.id)
 
   click: (e) ->
     console.log 'AlbumList::click'

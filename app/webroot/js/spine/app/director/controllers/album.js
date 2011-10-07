@@ -32,7 +32,7 @@ AlbumView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
   }
-  AlbumView.prototype.change = function(item) {
+  AlbumView.prototype.change = function(item, mode) {
     console.log('Album::change');
     if (item instanceof Album) {
       this.current = item;

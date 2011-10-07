@@ -6,7 +6,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 if (typeof Spine !== "undefined" && Spine !== null) {
   Spine;
 } else {
@@ -66,8 +66,8 @@ Spine.AlbumList = (function() {
       this.html('This Gallery has no Albums&nbsp;<button class="optCreate">New Album</button>');
       this.refreshElements();
     }
-    if (newAlbum) {
-      newAlbum.addRemoveSelection(Gallery);
+    if (newAlbum && newAlbum instanceof Album) {
+      Gallery.updateSelection([newAlbum.id]);
     }
     this.change();
     return this;
@@ -90,33 +90,28 @@ Spine.AlbumList = (function() {
     return Spine.trigger('create:albumJoin', Gallery.record, album);
   };
   AlbumList.prototype.destroy = function() {
-    var alb, album, id, list, _i, _j, _len, _len2, _results, _results2;
+    var album, albums, id, list, _i, _j, _len, _len2, _results;
     console.log('AlbumList::destroy');
-    list = Gallery.selectionList().slice();
+    list = Gallery.selectionList().slice(0);
+    for (_i = 0, _len = list.length; _i < _len; _i++) {
+      id = list[_i];
+      Gallery.removeFromSelection(id);
+    }
+    albums = [];
+    Album.each(__bind(function(record) {
+      if (list.indexOf(record.id) !== -1) {
+        return albums.push(record);
+      }
+    }, this));
     if (Gallery.record) {
+      return Spine.trigger('destroy:albumJoin', Gallery.record, albums);
+    } else {
       _results = [];
-      for (_i = 0, _len = list.length; _i < _len; _i++) {
-        id = list[_i];
-        album = Album.find(id);
-        Gallery.removeFromSelection(id);
-        Gallery.record.save();
-        _results.push(Spine.trigger('destroy:albumJoin', Gallery.record, album));
+      for (_j = 0, _len2 = albums.length; _j < _len2; _j++) {
+        album = albums[_j];
+        _results.push(Album.exists(album.id) ? album.destroy() : void 0);
       }
       return _results;
-    } else {
-      _results2 = [];
-      for (_j = 0, _len2 = list.length; _j < _len2; _j++) {
-        id = list[_j];
-        if (Album.exists(id)) {
-          alb = Album.find(id);
-        }
-        Gallery.removeFromSelection(id);
-        if (alb) {
-          alb.destroy();
-        }
-        _results2.push(Spine.trigger('destroy:albumJoin', Gallery.record, album));
-      }
-      return _results2;
     }
   };
   AlbumList.prototype.click = function(e) {

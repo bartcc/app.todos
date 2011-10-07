@@ -44,12 +44,12 @@ class SidebarView extends Spine.Controller
     @query = @input.val();
     @render();
 
-  render: (item) ->
+  render: (item, mode) ->
     console.log 'Sidebar::render'
     items = Gallery.filter @query, 'searchSelect'
     items = items.sort Gallery.nameSort
     @galleryItems = items
-    @list.render items, item
+    @list.render items, item, mode
 
   renderCount: ->
     for item in @galleryItems
@@ -94,18 +94,10 @@ class SidebarView extends Spine.Controller
         alert 'Album already exists in Gallery'
         return
 
-    
-#    selection = Gallery.selectionList()
-#    newSelection = selection.slice(0)
-#    newSelection.push source.id unless source.id in selection
-      
     albums = []
     Album.each (record) =>
       albums.push record unless @newSelection.indexOf(record.id) is -1
-    
-    #currentTarget = Gallery.record
     Spine.trigger('create:albumJoin', target, albums)
-    target.save()
     
   newAttributes: ->
     name: 'New Gallery'

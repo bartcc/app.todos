@@ -50,12 +50,9 @@ class AlbumsShowView extends Spine.Controller
     @list = new Spine.AlbumList
       el: @items,
       template: @albumsTemplate
-    #Album.bind("create", @proxy @createJoin)
-    #Album.bind("destroy", @proxy @destroyJoin)
     Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
     Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("change", @proxy @render)
-    Gallery.bind("update", @proxy @renderHeader)
     Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
     GalleriesAlbum.bind("change", @proxy @render)
@@ -81,7 +78,7 @@ class AlbumsShowView extends Spine.Controller
     @render()
     @[mode]?(item)
 
-  render: (album) ->
+  render: (item) ->
     console.log 'AlbumsShowView::render'
     Spine.trigger('render:count')
     
@@ -91,7 +88,7 @@ class AlbumsShowView extends Spine.Controller
       items = Album.filter()
     
     @renderHeader(items)
-    @list.render items#, (album if album and album instanceof Album)
+    @list.render items, item
     #@initSortables()
    
   renderHeader: (items) ->
@@ -119,22 +116,36 @@ class AlbumsShowView extends Spine.Controller
   createJoin: (target, albums) ->
     console.log 'AlbumsShowView::createJoin'
     return unless target instanceof Gallery
+
     unless Album.isArray albums
       records = []
       records.push(albums)
     else records = albums
+
     for record in records
       ga = new GalleriesAlbum
         gallery_id: target.id
         album_id: record.id
       ga.save()
+
+    target.save()
   
-  destroyJoin: (target, album) ->
+  destroyJoin: (target, albums) ->
     console.log 'AlbumsShowView::destroyJoin'
-    GalleriesAlbum.each (record) ->
-      if record.gallery_id is target.id and album.id is record.album_id
-        record.destroy()
-        target.emptySelection()
+
+    unless Album.isArray albums
+      records = []
+      records.push(albums)
+    else records = albums
+
+    albums = Album.toID(albums)
+
+    gas = GalleriesAlbum.filter(target.id)
+    for ga in gas
+      ga.destroy() unless albums.indexOf(ga.album_id) is -1
+      
+
+    target.save()
 
   edit: ->
     App.albumsEditView.render()

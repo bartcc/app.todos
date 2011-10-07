@@ -20,9 +20,8 @@ class AlbumView extends Spine.Controller
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)
 
-  change: (item) ->
+  change: (item, mode) ->
     console.log 'Album::change'
-    # render only if event came from Album
     if item instanceof Album
       @current = item
     else

@@ -122,7 +122,7 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.initSortables = function() {
     var sortOptions;
     sortOptions = {};
-    return this.sortable.sortable(sortOptions);
+    return this.items.sortable(sortOptions);
   };
   AlbumsShowView.prototype.create = function() {
     return Spine.trigger('createAlbum');

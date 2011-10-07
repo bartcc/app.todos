@@ -108,7 +108,7 @@ class AlbumsShowView extends Spine.Controller
   
   initSortables: ->
     sortOptions = {}
-    @sortable.sortable sortOptions
+    @items.sortable sortOptions
 
   create: ->
     Spine.trigger('createAlbum')

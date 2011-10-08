@@ -90,7 +90,7 @@ Spine.AlbumList = (function() {
     return Spine.trigger('create:albumJoin', Gallery.record, album);
   };
   AlbumList.prototype.destroy = function() {
-    var album, albums, id, list, _i, _j, _len, _len2, _results;
+    var album, albums, list, _i, _len, _results;
     console.log('AlbumList::destroy');
     list = Gallery.selectionList().slice(0);
     albums = [];
@@ -100,15 +100,11 @@ Spine.AlbumList = (function() {
       }
     }, this));
     if (Gallery.record) {
-      for (_i = 0, _len = list.length; _i < _len; _i++) {
-        id = list[_i];
-        Album.removeFromSelection(Gallery, id);
-      }
       return Spine.trigger('destroy:albumJoin', Gallery.record, albums);
     } else {
       _results = [];
-      for (_j = 0, _len2 = albums.length; _j < _len2; _j++) {
-        album = albums[_j];
+      for (_i = 0, _len = albums.length; _i < _len; _i++) {
+        album = albums[_i];
         _results.push(Album.exists(album.id) ? album.destroy() : void 0);
       }
       return _results;

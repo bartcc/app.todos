@@ -144,8 +144,8 @@ class AlbumsShowView extends Spine.Controller
     gas = GalleriesAlbum.filter(target.id)
     for ga in gas
       unless albums.indexOf(ga.album_id) is -1
+        Album.removeFromSelection Gallery, ga.album_id
         ga.destroy()
-        
 
     target.save()
 

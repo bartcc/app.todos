@@ -168,6 +168,7 @@ AlbumsShowView = (function() {
     for (_i = 0, _len = gas.length; _i < _len; _i++) {
       ga = gas[_i];
       if (albums.indexOf(ga.album_id) !== -1) {
+        Album.removeFromSelection(Gallery, ga.album_id);
         ga.destroy();
       }
     }

@@ -141,10 +141,16 @@ Model.Extender = {
         [].splice.apply(originalList, [0, originalList.length - 0].concat(list)), list;
         return originalList;
       },
-      removeFromSelection: function(id) {
-        var album;
-        album = Album.find(id);
-        return album.addRemoveSelection(this, true);
+      removeFromSelection: function(model, id) {
+        var list, record;
+        if (this.exists(id)) {
+          record = this.find(id);
+        }
+        if (!record) {
+          return;
+        }
+        list = model.selectionList();
+        return record.remove(list);
       },
       isArray: function(value) {
         return Object.prototype.toString.call(value) === "[object Array]";
@@ -227,6 +233,16 @@ Model.Extender = {
           list.push(this.id);
         } else {
           index = list.indexOf(this.id);
+          if (index !== -1) {
+            list.splice(index, 1);
+          }
+        }
+        return list;
+      },
+      remove: function(list) {
+        var index;
+        index = list.indexOf(this.id);
+        if (index !== -1) {
           list.splice(index, 1);
         }
         return list;

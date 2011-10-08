@@ -85,9 +85,11 @@ Model.Extender =
         originalList[0...originalList.length] = list
         originalList
 
-      removeFromSelection: (id) ->
-        album = Album.find(id)
-        album.addRemoveSelection @, true
+      removeFromSelection: (model, id) ->
+        record = @find(id) if @exists(id)
+        return unless record
+        list = model.selectionList()
+        record.remove list
 
       isArray: (value) ->
         Object::toString.call(value) is "[object Array]"
@@ -149,9 +151,13 @@ Model.Extender =
           list.push @id
         else
           index = list.indexOf(@id)
-          list.splice(index, 1)
+          list.splice(index, 1) unless index is -1
         list
 
+      remove: (list) ->
+        index = list.indexOf(@id)
+        list.splice(index, 1) unless index is -1
+        list
  
 
     @extend Extend

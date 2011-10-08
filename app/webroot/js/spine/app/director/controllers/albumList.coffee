@@ -68,13 +68,13 @@ class Spine.AlbumList extends Spine.Controller
   destroy: ->
     console.log 'AlbumList::destroy'
     list = Gallery.selectionList().slice(0)
-    Gallery.removeFromSelection(id) for id in list
 
     albums = []
     Album.each (record) =>
       albums.push record unless list.indexOf(record.id) is -1
 
     if Gallery.record
+      Album.removeFromSelection(Gallery, id) for id in list
       Spine.trigger('destroy:albumJoin', Gallery.record, albums)
     else
       for album in albums

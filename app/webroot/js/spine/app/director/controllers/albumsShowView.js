@@ -163,7 +163,7 @@ AlbumsShowView = (function() {
     } else {
       records = albums;
     }
-    albums = Album.toID(albums);
+    albums = Album.toID(records);
     gas = GalleriesAlbum.filter(target.id);
     for (_i = 0, _len = gas.length; _i < _len; _i++) {
       ga = gas[_i];

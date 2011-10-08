@@ -51,6 +51,5 @@ class Album extends Spine.Model
     ga = GalleriesAlbum.filter(id)
     for record in ga
       return true if record.album_id is @id
-        
 
 Spine.Model.Album = Album

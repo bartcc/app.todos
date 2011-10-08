@@ -139,12 +139,13 @@ class AlbumsShowView extends Spine.Controller
       records.push(albums)
     else records = albums
 
-    albums = Album.toID(albums)
+    albums = Album.toID(records)
 
     gas = GalleriesAlbum.filter(target.id)
     for ga in gas
-      ga.destroy() unless albums.indexOf(ga.album_id) is -1
-      
+      unless albums.indexOf(ga.album_id) is -1
+        ga.destroy()
+        
 
     target.save()
 

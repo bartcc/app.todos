@@ -31,6 +31,7 @@ class AlbumView extends Spine.Controller
   render: (item) ->
     console.log 'Album::render'
     selection = Gallery.selectionList()
+    console.log selection
 
     if selection?.length is 0
       @item.html $("#noSelectionTemplate").tmpl({type: 'Select or Create an Album!'})
@@ -55,5 +56,7 @@ class AlbumView extends Spine.Controller
 
   click: ->
     console.log 'click'
+
+  
 
 module?.exports = AlbumView

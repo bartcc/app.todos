@@ -93,10 +93,6 @@ Spine.AlbumList = (function() {
     var album, albums, id, list, _i, _j, _len, _len2, _results;
     console.log('AlbumList::destroy');
     list = Gallery.selectionList().slice(0);
-    for (_i = 0, _len = list.length; _i < _len; _i++) {
-      id = list[_i];
-      Gallery.removeFromSelection(id);
-    }
     albums = [];
     Album.each(__bind(function(record) {
       if (list.indexOf(record.id) !== -1) {
@@ -104,6 +100,10 @@ Spine.AlbumList = (function() {
       }
     }, this));
     if (Gallery.record) {
+      for (_i = 0, _len = list.length; _i < _len; _i++) {
+        id = list[_i];
+        Album.removeFromSelection(Gallery, id);
+      }
       return Spine.trigger('destroy:albumJoin', Gallery.record, albums);
     } else {
       _results = [];

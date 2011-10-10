@@ -31,7 +31,7 @@ Builder = (function() {
     return data;
   };
   Builder.prototype.exec = function() {
-    var key, model, parent, records, selected, value, _i, _len, _ref;
+    var key, model, records, selected, value, _i, _len, _ref;
     this.fModels = (function() {
       var _ref, _results;
       _ref = this.foreignModels;
@@ -46,7 +46,6 @@ Builder = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       key = _ref[_i];
       model = Spine.Model[key.className];
-      parent = Spine.Model[key.parent];
       records = model.filter(this.record.id);
       selected = this.newWrapper(model);
       selected[model.className] = this.model.toID(records);

@@ -39,8 +39,7 @@ Gallery = (function() {
         className: 'Album',
         joinTable: 'GalleriesAlbum',
         foreignKey: 'gallery_id',
-        associationForeignKey: 'album_id',
-        parent: 'Gallery'
+        associationForeignKey: 'album_id'
       }
     };
   };

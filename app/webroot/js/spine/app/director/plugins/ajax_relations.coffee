@@ -22,7 +22,6 @@ class Builder
 
     for key in @fModels
       model = Spine.Model[key.className]
-      parent = Spine.Model[key.parent]
       records = model.filter(@record.id)
 
       selected = @newWrapper model

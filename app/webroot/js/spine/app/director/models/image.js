@@ -24,8 +24,7 @@ Image = (function() {
         className: 'Album',
         joinTable: 'AlbumsImage',
         foreignKey: 'image_id',
-        associationForeignKey: 'album_id',
-        parent: 'Gallery'
+        associationForeignKey: 'album_id'
       }
     };
   };

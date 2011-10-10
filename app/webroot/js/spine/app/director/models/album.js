@@ -39,15 +39,13 @@ Album = (function() {
         className: 'Gallery',
         joinTable: 'GalleriesAlbum',
         foreignKey: 'album_id',
-        associationForeignKey: 'gallery_id',
-        parent: 'Gallery'
+        associationForeignKey: 'gallery_id'
       },
       'Image': {
         className: 'Image',
         joinTable: 'AlbumsImage',
         foreignKey: 'album_id',
-        associationForeignKey: 'image_id',
-        parent: 'Album'
+        associationForeignKey: 'image_id'
       }
     };
   };

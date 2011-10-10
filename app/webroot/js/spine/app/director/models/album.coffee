@@ -19,17 +19,15 @@ class Album extends Spine.Model
 
   @foreignModels: ->
     'Gallery':
-      className: 'Gallery'
-      joinTable: 'GalleriesAlbum'
-      foreignKey: 'album_id'
-      associationForeignKey: 'gallery_id'
-      parent: 'Gallery'
+      className             : 'Gallery'
+      joinTable             : 'GalleriesAlbum'
+      foreignKey            : 'album_id'
+      associationForeignKey : 'gallery_id'
     'Image':
-      className: 'Image'
-      joinTable: 'AlbumsImage'
-      foreignKey: 'album_id'
-      associationForeignKey: 'image_id'
-      parent: 'Album'
+      className             : 'Image'
+      joinTable             : 'AlbumsImage'
+      foreignKey            : 'album_id'
+      associationForeignKey : 'image_id'
 
   @joinTables: ->
     fModels = @foreignModels()

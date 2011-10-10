@@ -66,14 +66,25 @@
 </div>
 
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
-  <li class="item droppable" title="Deselect   Cmd-Click">
-    <img src="/img/gallery.png" />
+  <li id="${id}" class="item droppable" title="Deselect   Cmd-Click">
+    <div class="item-expander"></div>
+    <div class="item-content">
+      {{if name}}
+      <span class="name">${name}</span>
+      {{else}}
+      <span class="name empty">No Name</span>
+      {{/if}}
+      <span class="cta">${count}</span>
+    </div>
+  </li>
+  <ul id="sub-${id}" class="sublist vbox" style="display: none;"></ul>
+</script>
+
+<script type="text/x-jquery-tmpl" id="albumsSubListTemplate">
+  <li class="sublist-item">
     {{if name}}
     <span class="name">${name}</span>
-    {{else}}
-    <span class="name empty">No Name</span>
     {{/if}}
-    <span id="${id}" class="cta">${count}</span>
   </li>
 </script>
 

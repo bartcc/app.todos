@@ -70,8 +70,10 @@ class SidebarView extends Spine.Controller
       raw = $(e.target).parent()[0].id
       id = raw.replace ///(^sub-)()///, ''
       Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
+      selection = []
+    else
+      selection = Gallery.selectionList()
 
-    selection = Gallery.selectionList()
     newSelection = selection.slice(0)
     newSelection.push Spine.dragItem.source.id unless Spine.dragItem.source.id in selection
     @newSelection = newSelection
@@ -79,8 +81,7 @@ class SidebarView extends Spine.Controller
 
   dragOver: (e) ->
     target = $(e.target).item()
-    return if target.id is @oldtargetID
-    @oldtargetID = target.id
+    $(e.target).removeClass('nodrop')
     items = GalleriesAlbum.filter(target.id)
     for item in items
       if item.album_id in @newSelection
@@ -88,11 +89,7 @@ class SidebarView extends Spine.Controller
         
 
   dragLeave: (e) ->
-    target = $(e.target).item()
-    return if target.id is @oldtargetID
-    @oldtargetID = target.id
-    $('li').removeClass('nodrop')
-
+    return
 
   dropComplete: (target, e) ->
     console.log 'dropComplete'

@@ -94,8 +94,10 @@ SidebarView = (function() {
       if (id && Gallery.exists(id)) {
         Spine.dragItem.origin = Gallery.find(id);
       }
+      selection = [];
+    } else {
+      selection = Gallery.selectionList();
     }
-    selection = Gallery.selectionList();
     newSelection = selection.slice(0);
     if (_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) < 0) {
       newSelection.push(Spine.dragItem.source.id);
@@ -106,10 +108,7 @@ SidebarView = (function() {
   SidebarView.prototype.dragOver = function(e) {
     var item, items, target, _i, _len, _ref, _results;
     target = $(e.target).item();
-    if (target.id === this.oldtargetID) {
-      return;
-    }
-    this.oldtargetID = target.id;
+    $(e.target).removeClass('nodrop');
     items = GalleriesAlbum.filter(target.id);
     _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
@@ -118,15 +117,7 @@ SidebarView = (function() {
     }
     return _results;
   };
-  SidebarView.prototype.dragLeave = function(e) {
-    var target;
-    target = $(e.target).item();
-    if (target.id === this.oldtargetID) {
-      return;
-    }
-    this.oldtargetID = target.id;
-    return $('li').removeClass('nodrop');
-  };
+  SidebarView.prototype.dragLeave = function(e) {};
   SidebarView.prototype.dropComplete = function(target, e) {
     var albums, item, items, origin, source, _i, _len;
     console.log('dropComplete');

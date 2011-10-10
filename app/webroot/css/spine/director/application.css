@@ -436,6 +436,9 @@ textarea {
   margin: 0 8px -21px 0;
   padding: 17px 0 0 5px;
 }
+#sidebar .sublist-item {
+  cursor: move
+}
 #sidebar .sublist-item .name {
   padding-left: 20px
 }

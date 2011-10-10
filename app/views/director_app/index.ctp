@@ -85,7 +85,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsSubListTemplate">
-  <li class="sublist-item" draggable="true" title="Hold Cmd-Key to Copy">
+  <li class="sublist-item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
     {{if name}}
     <span class="name">${name}</span>
     {{/if}}

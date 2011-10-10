@@ -69,9 +69,6 @@ class AlbumsShowView extends Spine.Controller
   children: (sel) ->
     @el.children(sel)
 
-  loadJoinTables: ->
-    AlbumsImage.records = Album.joinTableRecords
-
   change: (item, mode) ->
     console.log 'AlbumsShowView::change'
     console.log mode if mode

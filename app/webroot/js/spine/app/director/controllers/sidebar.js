@@ -118,7 +118,7 @@ SidebarView = (function() {
   SidebarView.prototype.dragLeave = function(e) {};
   SidebarView.prototype.dropComplete = function(target, e) {
     var albums, item, items, origin, source, _i, _len;
-    console.log('dropComplete');
+    console.log('Sidebar::dropComplete');
     source = Spine.dragItem.source;
     origin = Spine.dragItem.origin || Gallery.record;
     if (!(source instanceof Album)) {

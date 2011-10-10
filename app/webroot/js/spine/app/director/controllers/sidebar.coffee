@@ -89,7 +89,7 @@ class SidebarView extends Spine.Controller
     return
 
   dropComplete: (target, e) ->
-    console.log 'dropComplete'
+    console.log 'Sidebar::dropComplete'
 
     source = Spine.dragItem.source
     origin = Spine.dragItem.origin or Gallery.record

@@ -78,9 +78,6 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.children = function(sel) {
     return this.el.children(sel);
   };
-  AlbumsShowView.prototype.loadJoinTables = function() {
-    return AlbumsImage.records = Album.joinTableRecords;
-  };
   AlbumsShowView.prototype.change = function(item, mode) {
     console.log('AlbumsShowView::change');
     if (mode) {

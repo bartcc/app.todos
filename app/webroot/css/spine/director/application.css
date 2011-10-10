@@ -139,18 +139,18 @@ button {
 .left {
   float: left
 }
-div.content label div, #sidebar span.name {
+div.content label div, #sidebar span {
     font-family: serif;
+}
+div.content label div, #sidebar span.name {
     font-style: italic
 }
-
 div.show div.content label:nth-child(1) span {
   font-size: 0.7em;
   font-weight: normal;
   font-family: serif;
   font-style: italic
 }
-
 button:active {
   background: #e3e3e3;
   background: -webkit-gradient(linear, left top, left bottom, from(#e3e3e3), to(#f9f9f9));
@@ -337,7 +337,7 @@ textarea {
   padding: 0;
 }
 
-#sidebar li {
+#sidebar li.item {
   cursor: move;
   border-top: 1px solid #d2d2d1;
   border-bottom: 1px solid #d2d2d1;
@@ -346,6 +346,7 @@ textarea {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  height: 50px;
 }
 #sidebar li.item {
   background: url("img/task-item.png") repeat-x  0 0;
@@ -419,23 +420,25 @@ textarea {
 
 #sidebar li img {
   float: left;
-  width: 32px;
-  height: 32px;
+  width: 23px;
+  height: 23px;
   margin: 8px;
   
-  -moz-border-radius: 5px;
+/*  -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);*/
 }
-
-#sidebar .name {
+#sidebar .item-content .name {
   float: left;
-  margin: 15px 8px 8px 5px;
+  margin: 0 8px -21px 0;
+  padding: 17px 0 0 5px;
 }
-
+#sidebar .sublist-item .name {
+  padding-left: 20px
+}
 #sidebar footer {
   padding: 6px;
   border-top: 1px solid #c5c5c5;
@@ -463,6 +466,36 @@ textarea {
 }
 #sidebar .empty {
   font-style: italic;
+}
+#sidebar .items .expander {
+  float: left;
+  top: 10px
+}
+#sidebar .items .item.dragged {
+  opacity: 0.5;
+}
+#sidebar ul.sublist {
+  line-height: 3em;
+  background: #CCCCBB;
+  margin-left: 40px;
+}
+#sidebar ul.sublist li.sublist-item {
+  border-bottom: 1px solid #B6B3A3;
+  border-left: 1px solid #B6B3A3;
+}
+#sidebar .item .item-expander {
+  width: 23px;
+  height: 23px;
+  float: left;
+  margin-top: 14px;
+  margin-left: 10px;
+  cursor: pointer
+}
+#sidebar .item .item-expander {
+  background: url('img/arrow.png') no-repeat 0 0
+}
+#sidebar .item .item-expander.expand {
+  background: url('img/arrow.png') no-repeat 0 -23px
 }
 #albums .items li {
   float: left;
@@ -576,7 +609,4 @@ textarea {
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-}
-.items .item.dragged {
-  opacity: 0.5;
 }

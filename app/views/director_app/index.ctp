@@ -81,7 +81,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsSubListTemplate">
-  <li class="sublist-item">
+  <li class="sublist-item" draggable="true">
     {{if name}}
     <span class="name">${name}</span>
     {{/if}}

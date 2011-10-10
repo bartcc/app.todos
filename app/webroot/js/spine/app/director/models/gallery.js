@@ -14,7 +14,7 @@ Gallery = (function() {
   }
   Gallery.configure("Gallery", "name", 'author', "description");
   Gallery.extend(Spine.Model.Ajax);
-  Gallery.extend(Spine.Model.AjaxExtender);
+  Gallery.extend(Spine.Model.AjaxRelations);
   Gallery.extend(Spine.Model.Filter);
   Gallery.extend(Spine.Model.Extender);
   Gallery.selectAttributes = ["name", 'author', "description"];
@@ -59,13 +59,16 @@ Gallery = (function() {
     return joinTables;
   };
   Gallery.prototype.init = function(instance) {
-    var empty;
+    var newSelection;
     if (!instance) {
       return;
     }
-    empty = {};
-    empty[instance.id] = [];
-    return this.constructor.selection.push(empty);
+    newSelection = {};
+    if (!instance.id) {
+      throw 'No instance ID';
+    }
+    newSelection[instance.id] = [];
+    return this.constructor.selection.push(newSelection);
   };
   Gallery.prototype.updateAttributes = function(atts, options) {
     if (options == null) {

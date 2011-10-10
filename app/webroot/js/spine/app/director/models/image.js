@@ -14,7 +14,7 @@ Image = (function() {
   }
   Image.configure("Image", 'title', "description", "exif");
   Image.extend(Spine.Model.Ajax);
-  Image.extend(Spine.Model.AjaxExtender);
+  Image.extend(Spine.Model.AjaxRelations);
   Image.extend(Spine.Model.Filter);
   Image.extend(Spine.Model.Extender);
   Image.selectAttributes = ['title', "description", "exif"];

@@ -2,7 +2,7 @@ class Image extends Spine.Model
   @configure "Image", 'title', "description", "exif"
 
   @extend Spine.Model.Ajax
-  @extend Spine.Model.AjaxExtender
+  @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 

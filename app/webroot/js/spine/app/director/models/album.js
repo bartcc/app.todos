@@ -14,7 +14,7 @@ Album = (function() {
   }
   Album.configure("Album", "name", 'title', 'description');
   Album.extend(Spine.Model.Ajax);
-  Album.extend(Spine.Model.AjaxExtender);
+  Album.extend(Spine.Model.AjaxRelations);
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Extender);
   Album.selectAttributes = ["name", 'title', "description"];

@@ -84,7 +84,7 @@ Request = (function() {
   };
   return Request;
 })();
-Model.AjaxExtender = {
+Model.AjaxRelations = {
   extended: function() {
     var Include;
     Include = {

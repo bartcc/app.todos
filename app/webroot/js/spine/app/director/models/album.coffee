@@ -3,7 +3,7 @@ class Album extends Spine.Model
   @configure "Album", "name", 'title', 'description'
 
   @extend Spine.Model.Ajax
-  @extend Spine.Model.AjaxExtender
+  @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 

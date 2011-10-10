@@ -57,7 +57,7 @@ class Request extends Singleton
       ).success(@recordResponse)
        .error(@errorResponse)
 
-Model.AjaxExtender =
+Model.AjaxRelations =
   
   extended: ->
     

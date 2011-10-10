@@ -22,10 +22,7 @@
     <div class="show view vbox flex">
       <ul class="options hbox">
         <li class="disabled">Properties:</li>
-        <li class="opt optGallery">Gallery</li>
-        <li class="opt optAlbum">Album</li>
-        <li class="opt optUpload">Upload Photo</li>
-        <li class="opt optGrid">Thumb Grid</li>
+        <li class="opt optOverview">Overview</li>
         <li class="splitter disabled flex"></li>
         <ul class="toolbar hbox"></ul>
       </ul>
@@ -52,6 +49,13 @@
           </div>
         </div>
       </div>  
+      <ul class="options hbox">
+        <li class="disabled">Properties:</li>
+        <li class="opt optGallery">Gallery</li>
+        <li class="opt optAlbum">Album</li>
+        <li class="opt optUpload">Upload Photo</li>
+        <li class="opt optGrid">Thumb Grid</li>
+      </ul>
     </div>
     <div class="edit view vbox flex">
       <ul class="tools options hbox">
@@ -81,7 +85,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsSubListTemplate">
-  <li class="sublist-item" draggable="true">
+  <li class="sublist-item" draggable="true" title="Hold Cmd-Key to Copy">
     {{if name}}
     <span class="name">${name}</span>
     {{/if}}

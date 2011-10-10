@@ -86,7 +86,7 @@ SidebarView = (function() {
     return $('#sub-' + id).html(this.subListTemplate(albums));
   };
   SidebarView.prototype.dragStart = function(e) {
-    var id, newSelection, raw, selection, _ref;
+    var id, raw, selection, _ref;
     console.log('Sidebar::dragStart');
     if ($(e.target).parent()[0].id) {
       raw = $(e.target).parent()[0].id;
@@ -98,12 +98,10 @@ SidebarView = (function() {
     } else {
       selection = Gallery.selectionList();
     }
-    newSelection = selection.slice(0);
+    this.newSelection = selection.slice(0);
     if (_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) < 0) {
-      newSelection.push(Spine.dragItem.source.id);
+      return this.newSelection.push(Spine.dragItem.source.id);
     }
-    this.newSelection = newSelection;
-    return this.oldtargetID = null;
   };
   SidebarView.prototype.dragOver = function(e) {
     var item, items, target, _i, _len, _ref, _results;
@@ -144,7 +142,6 @@ SidebarView = (function() {
         return albums.push(record);
       }
     }, this));
-    console.log(e);
     Spine.trigger('create:albumJoin', target, albums);
     if (!e.metaKey) {
       return Spine.trigger('destroy:albumJoin', origin, albums);

@@ -74,10 +74,8 @@ class SidebarView extends Spine.Controller
     else
       selection = Gallery.selectionList()
 
-    newSelection = selection.slice(0)
-    newSelection.push Spine.dragItem.source.id unless Spine.dragItem.source.id in selection
-    @newSelection = newSelection
-    @oldtargetID = null
+    @newSelection = selection.slice(0)
+    @newSelection.push Spine.dragItem.source.id unless Spine.dragItem.source.id in selection
 
   dragOver: (e) ->
     target = $(e.target).item()
@@ -86,7 +84,6 @@ class SidebarView extends Spine.Controller
     for item in items
       if item.album_id in @newSelection
         $(e.target).addClass('nodrop')
-        
 
   dragLeave: (e) ->
     return
@@ -113,7 +110,6 @@ class SidebarView extends Spine.Controller
     Album.each (record) =>
       albums.push record unless @newSelection.indexOf(record.id) is -1
     
-    console.log e
     Spine.trigger('create:albumJoin', target, albums)
     Spine.trigger('destroy:albumJoin', origin, albums) unless e.metaKey
     

@@ -16,7 +16,6 @@ class App extends Spine.Controller
   constructor: ->
     super
 
-
     @sidebar = new SidebarView
       el: @sidebarEl
     @gallery = new GalleryView
@@ -31,8 +30,6 @@ class App extends Spine.Controller
       el: @albumsShowEl
     @albumsEditView = new AlbumsEditView
       el: @albumsEditEl
-#    @albums = new AlbumsView
-#      el: @albumsEl
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
@@ -63,4 +60,3 @@ $ ->
   
   App.albumsManager.change(App.albumsShowView)
   #App.albumsShowView.btnGallery.click()
-  #Gallery.fetch()

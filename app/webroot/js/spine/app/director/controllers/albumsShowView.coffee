@@ -60,6 +60,7 @@ class AlbumsShowView extends Spine.Controller
     @bind("toggle:view", @proxy @toggleView)
 
     @toolBarList = []
+    @activeControl = @btnGallery
 
     @create = @edit
 

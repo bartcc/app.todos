@@ -71,6 +71,7 @@ AlbumsShowView = (function() {
     this.bind('save:gallery', this.proxy(this.save));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.toolBarList = [];
+    this.activeControl = this.btnGallery;
     this.create = this.edit;
     $(this.views).queue("fx");
   }

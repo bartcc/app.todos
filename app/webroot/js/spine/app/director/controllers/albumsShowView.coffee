@@ -80,7 +80,7 @@ class AlbumsShowView extends Spine.Controller
 
   render: (item) ->
     console.log 'AlbumsShowView::render'
-    Spine.trigger('render:count')
+    Spine.trigger('render:galleryItem')
     
     if @current
       items = Album.filter(@current.id)

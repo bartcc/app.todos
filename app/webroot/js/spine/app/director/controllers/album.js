@@ -45,7 +45,6 @@ AlbumView = (function() {
     var selection;
     console.log('Album::render');
     selection = Gallery.selectionList();
-    console.log(selection);
     if ((selection != null ? selection.length : void 0) === 0) {
       this.item.html($("#noSelectionTemplate").tmpl({
         type: 'Select or Create an Album!'

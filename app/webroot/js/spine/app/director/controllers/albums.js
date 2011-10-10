@@ -68,9 +68,6 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.change = function(item, mode) {
     console.log('Albums::change');
-    if (mode) {
-      console.log(mode);
-    }
     this.current = item;
     this.render(item);
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
@@ -198,7 +195,6 @@ AlbumsView = (function() {
   AlbumsView.prototype.save = function(el) {
     var atts;
     console.log('Albums::save');
-    console.log(this.current);
     if (this.current) {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
       this.current.updateChangedAttributes(atts);

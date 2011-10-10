@@ -7,8 +7,8 @@ class Spine.AlbumList extends Spine.Controller
     '.optCreate'         : 'btnCreateAlbum'
 
   events:
-    "click .item"             : "click"
-    "dblclick .item"          : "dblclick"
+    'click .item'             : "click"    
+    'dblclick .item'          : 'dblclick'
     'click .optCreate'        : 'create'
     
   selectFirst: true
@@ -82,7 +82,7 @@ class Spine.AlbumList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumList::click'
     item = $(e.target).item()
-    
+
     if App.hmanager.hasActive()
       @preserveEditorOpen('album', App.albumsShowView.btnAlbum)
     
@@ -91,7 +91,7 @@ class Spine.AlbumList extends Spine.Controller
 
   dblclick: (e) ->
     @preserveEditorOpen('album', App.albumsShowView.btnAlbum)
-
+  
   edit: (e) ->
     console.log 'AlbumList::edit'
     item = $(e.target).item()

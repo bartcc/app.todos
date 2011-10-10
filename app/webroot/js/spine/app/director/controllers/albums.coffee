@@ -56,7 +56,6 @@ class AlbumsView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'Albums::change'
-    console.log mode if mode
     @current = item
     @render item
     @[mode]?(item)
@@ -162,7 +161,6 @@ class AlbumsView extends Spine.Controller
 
   save: (el) ->
     console.log 'Albums::save'
-    console.log @current
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)

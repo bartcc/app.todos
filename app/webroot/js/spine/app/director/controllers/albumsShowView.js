@@ -92,7 +92,7 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.render = function(item) {
     var items;
     console.log('AlbumsShowView::render');
-    Spine.trigger('render:count');
+    Spine.trigger('render:galleryItem');
     if (this.current) {
       items = Album.filter(this.current.id);
     } else {

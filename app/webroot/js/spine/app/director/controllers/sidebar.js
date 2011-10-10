@@ -40,6 +40,9 @@ SidebarView = (function() {
   SidebarView.prototype.template = function(items) {
     return $("#galleriesTemplate").tmpl(items);
   };
+  SidebarView.prototype.subListTemplate = function(items) {
+    return $('#albumsSubListTemplate').tmpl(items);
+  };
   function SidebarView() {
     SidebarView.__super__.constructor.apply(this, arguments);
     this.list = new Spine.GalleryList({
@@ -47,7 +50,8 @@ SidebarView = (function() {
       template: this.template
     });
     Gallery.bind("refresh change", this.proxy(this.render));
-    Spine.bind('render:count', this.proxy(this.renderCount));
+    Spine.bind('render:galleryItem', this.proxy(this.renderItem));
+    Spine.bind('render:subList', this.proxy(this.renderSubList));
     Spine.bind('drag:start', this.proxy(this.dragStart));
     Spine.bind('drag:over', this.proxy(this.dragOver));
     Spine.bind('drag:leave', this.proxy(this.dragLeave));
@@ -65,15 +69,22 @@ SidebarView = (function() {
     this.galleryItems = items;
     return this.list.render(items, item, mode);
   };
-  SidebarView.prototype.renderCount = function() {
-    var item, _i, _len, _ref, _results;
+  SidebarView.prototype.renderItem = function() {
+    var albums, item, _i, _len, _ref, _results;
     _ref = this.galleryItems;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       item = _ref[_i];
-      _results.push($('#' + item.id).html(Album.filter(item.id).length));
+      albums = Album.filter(item.id);
+      $('#' + item.id + ' span.cta').html(Album.filter(item.id).length);
+      _results.push(this.renderSubList(item.id));
     }
     return _results;
+  };
+  SidebarView.prototype.renderSubList = function(id) {
+    var albums;
+    albums = Album.filter(id);
+    return $('#sub-' + id).html(this.subListTemplate(albums));
   };
   SidebarView.prototype.dragStart = function() {
     var newSelection, selection, _ref;
@@ -135,8 +146,9 @@ SidebarView = (function() {
         return albums.push(record);
       }
     }, this));
+    console.log(e);
     Spine.trigger('create:albumJoin', target, albums);
-    if (!e.altKey) {
+    if (!e.metaKey) {
       return Spine.trigger('destroy:albumJoin', origin, albums);
     }
   };
@@ -152,6 +164,16 @@ SidebarView = (function() {
     this.preserveEditorOpen('gallery', App.albumsShowView.btnGallery);
     gallery = new Gallery(this.newAttributes());
     return gallery.save();
+  };
+  SidebarView.prototype.destroy_ = function(item) {
+    console.log('AlbumsEditView::destroy');
+    if (!Gallery.record) {
+      return;
+    }
+    item.destroy();
+    if (!Gallery.count()) {
+      return Gallery.current();
+    }
   };
   SidebarView.prototype.toggleDraghandle = function() {
     var width;

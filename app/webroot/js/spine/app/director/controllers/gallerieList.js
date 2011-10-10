@@ -17,7 +17,8 @@ Spine.GalleryList = (function() {
   __extends(GalleryList, Spine.Controller);
   GalleryList.prototype.events = {
     "dblclick .item": "edit",
-    "click .item": "click"
+    "click .item": "click",
+    "click .item-expander": "expand"
   };
   GalleryList.prototype.elements = {
     '.item': 'item'
@@ -51,21 +52,35 @@ Spine.GalleryList = (function() {
     return Spine.trigger('change:selectedGallery', this.current, mode);
   };
   GalleryList.prototype.render = function(items, item, mode) {
-    var record, _i, _len;
+    var data, record, _i, _len;
     console.log('GalleryList::render');
-    console.log(mode);
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      record = items[_i];
-      record.count = Album.filter(record.id).length;
+    if (!item) {
+      for (_i = 0, _len = items.length; _i < _len; _i++) {
+        record = items[_i];
+        record.count = Album.filter(record.id).length;
+      }
+      this.items = items;
+      this.html(this.template(this.items));
+    } else if (mode === 'update') {
+      data = $('#' + item.id).item();
+      $('.item-content .name', '#' + item.id).html(data.name);
+    } else if (mode === 'create') {
+      this.append(this.template(item));
+    } else if (mode === 'destroy') {
+      $('#sub-' + item.id).remove();
+      $('#' + item.id).remove();
     }
-    this.items = items;
-    this.html(this.template(this.items));
     this.change(item, mode);
     if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
       if (!this.children(".active").length) {
         return this.children(":first").click();
       }
     }
+  };
+  GalleryList.prototype.renderAlbumSubList = function(id) {
+    var albums;
+    albums = Album.filter(id);
+    return $('#sub-' + id).html(this.subListTemplate(albums));
   };
   GalleryList.prototype.children = function(sel) {
     return this.el.children(sel);
@@ -81,6 +96,22 @@ Spine.GalleryList = (function() {
     console.log('GalleryList::edit');
     item = $(e.target).item();
     return this.change(item, 'edit', e);
+  };
+  GalleryList.prototype.expand = function(e) {
+    var content, gallery, icon;
+    gallery = $(e.target).parent().next().item();
+    icon = $('.item-expander', '#' + gallery.id);
+    content = $('#sub-' + gallery.id);
+    icon.toggleClass('expand');
+    if ($('#' + gallery.id + ' .expand').length) {
+      Spine.trigger('render:subList', gallery.id);
+      content.show();
+    } else {
+      content.hide();
+    }
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   return GalleryList;
 })();

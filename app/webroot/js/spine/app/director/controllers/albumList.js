@@ -19,8 +19,8 @@ Spine.AlbumList = (function() {
     '.optCreate': 'btnCreateAlbum'
   };
   AlbumList.prototype.events = {
-    "click .item": "click",
-    "dblclick .item": "dblclick",
+    'click .item': "click",
+    'dblclick .item': 'dblclick',
     'click .optCreate': 'create'
   };
   AlbumList.prototype.selectFirst = true;

@@ -27,6 +27,8 @@ class SidebarView extends Spine.Controller
   template: (items) ->
     $("#galleriesTemplate").tmpl(items)
 
+  subListTemplate: (items) -> $('#albumsSubListTemplate').tmpl(items)
+
   constructor: ->
     super
     @list = new Spine.GalleryList
@@ -34,7 +36,8 @@ class SidebarView extends Spine.Controller
       template: @template
 
     Gallery.bind("refresh change", @proxy @render)
-    Spine.bind('render:count', @proxy @renderCount)
+    Spine.bind('render:galleryItem', @proxy @renderItem)
+    Spine.bind('render:subList', @proxy @renderSubList)
     Spine.bind('drag:start', @proxy @dragStart)
     Spine.bind('drag:over', @proxy @dragOver)
     Spine.bind('drag:leave', @proxy @dragLeave)
@@ -51,9 +54,15 @@ class SidebarView extends Spine.Controller
     @galleryItems = items
     @list.render items, item, mode
 
-  renderCount: ->
+  renderItem: ->
     for item in @galleryItems
-      $('#'+item.id).html(Album.filter(item.id).length)
+      albums = Album.filter(item.id)
+      $('#'+item.id+' span.cta').html(Album.filter(item.id).length)
+      @renderSubList item.id
+
+  renderSubList: (id) ->
+    albums = Album.filter(id)
+    $('#sub-'+id).html @subListTemplate(albums)
 
   dragStart: ->
     selection = Gallery.selectionList()
@@ -100,9 +109,10 @@ class SidebarView extends Spine.Controller
     albums = []
     Album.each (record) =>
       albums.push record unless @newSelection.indexOf(record.id) is -1
-
+    
+    console.log e
     Spine.trigger('create:albumJoin', target, albums)
-    Spine.trigger('destroy:albumJoin', origin, albums) unless e.altKey
+    Spine.trigger('destroy:albumJoin', origin, albums) unless e.metaKey
     
   newAttributes: ->
     name: 'New Gallery'
@@ -114,7 +124,13 @@ class SidebarView extends Spine.Controller
     @preserveEditorOpen('gallery', App.albumsShowView.btnGallery)
     gallery = new Gallery @newAttributes()
     gallery.save()
-  
+
+  destroy_: (item) ->
+    console.log 'AlbumsEditView::destroy'
+    return unless Gallery.record
+    item.destroy()
+    Gallery.current() if !Gallery.count()
+
   toggleDraghandle: ->
     width = =>
       width =  @el.width()

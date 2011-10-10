@@ -8,8 +8,8 @@ class AlbumView extends Spine.Controller
     '.editAlbum'  : 'editEl'
 
   events:
-    "click .item"  : "click"
-    'keydown'         : 'saveOnEnter'
+    "click .item" : "click"
+    'keydown'     : 'saveOnEnter'
   
   template: (item) ->
     $('#editAlbumTemplate').tmpl item
@@ -31,7 +31,6 @@ class AlbumView extends Spine.Controller
   render: (item) ->
     console.log 'Album::render'
     selection = Gallery.selectionList()
-    console.log selection
 
     if selection?.length is 0
       @item.html $("#noSelectionTemplate").tmpl({type: 'Select or Create an Album!'})

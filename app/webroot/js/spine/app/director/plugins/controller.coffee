@@ -12,7 +12,7 @@ Spine.Controller.include
     target.click()
 
   isCtrlClick: (e) ->
-    e.metaKey or e.ctrlKey
+    e.metaKey or e.ctrlKey or e.altKey
 
 Spine.Controller.extend
   empty: ->

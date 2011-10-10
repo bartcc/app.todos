@@ -20,7 +20,7 @@ Spine.Controller.include({
     return target.click();
   },
   isCtrlClick: function(e) {
-    return e.metaKey || e.ctrlKey;
+    return e.metaKey || e.ctrlKey || e.altKey;
   }
 });
 Spine.Controller.extend({

@@ -12,14 +12,8 @@ Model.Extender =
 
       selection: [global:[]]
 
-      joinTableRecords: {}
-
       fromJSON: (objects) ->
-        Spine.joinTableRecords = @createJoinTables objects
-        #@createJoinTables objects
-        #console.log @joinTableRecords
-        #@createJoinTables objects
-        #json = @__super__.constructor.fromJSON.call @, objects
+        @createJoinTables objects
         key = @className
         json = @fromArray(objects, key) if @isArray(objects) #test for READ or PUT !
         json || @__super__.constructor.fromJSON.call @, objects
@@ -30,7 +24,6 @@ Model.Extender =
         table = {}
         res = @createJoin arr, table for table in @joinTables
         table[item.id] = item for item in res
-        console.log table
         table
 
       createJoinTables: (arr) ->

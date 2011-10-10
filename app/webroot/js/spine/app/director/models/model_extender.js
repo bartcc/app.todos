@@ -22,10 +22,9 @@ Model.Extender = {
           global: []
         }
       ],
-      joinTableRecords: {},
       fromJSON: function(objects) {
         var json, key;
-        Spine.joinTableRecords = this.createJoinTables(objects);
+        this.createJoinTables(objects);
         key = this.className;
         if (this.isArray(objects)) {
           json = this.fromArray(objects, key);
@@ -48,7 +47,6 @@ Model.Extender = {
           item = res[_j];
           table[item.id] = item;
         }
-        console.log(table);
         return table;
       },
       createJoinTables: function(arr) {

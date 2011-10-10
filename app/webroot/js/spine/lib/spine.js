@@ -1,4 +1,4 @@
-var $, Controller, Events, Log, Model, Module, Spine, guid, isArray, makeArray, moduleKeywords;
+var $, Controller, Events, Log, Model, Module, Spine, guid, isArray, isBlank, makeArray, moduleKeywords;
 var __slice = Array.prototype.slice, __indexOf = Array.prototype.indexOf || function(item) {
   for (var i = 0, l = this.length; i < l; i++) {
     if (this[i] === item) return i;
@@ -15,8 +15,8 @@ var __slice = Array.prototype.slice, __indexOf = Array.prototype.indexOf || func
 Events = {
   bind: function(ev, callback) {
     var calls, evs, name, _i, _len;
-    evs = ev.split(" ");
-    calls = this.hasOwnProperty("_callbacks") && this._callbacks || (this._callbacks = {});
+    evs = ev.split(' ');
+    calls = this.hasOwnProperty('_callbacks') && this._callbacks || (this._callbacks = {});
     for (_i = 0, _len = evs.length; _i < _len; _i++) {
       name = evs[_i];
       calls[name] || (calls[name] = []);
@@ -28,7 +28,7 @@ Events = {
     var args, callback, ev, list, _i, _len, _ref;
     args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
     ev = args.shift();
-    list = this.hasOwnProperty("_callbacks") && ((_ref = this._callbacks) != null ? _ref[ev] : void 0);
+    list = this.hasOwnProperty('_callbacks') && ((_ref = this._callbacks) != null ? _ref[ev] : void 0);
     if (!list) {
       return false;
     }
@@ -68,14 +68,14 @@ Events = {
 };
 Log = {
   trace: true,
-  logPrefix: "(App)",
+  logPrefix: '(App)',
   log: function() {
     var args;
     args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
     if (!this.trace) {
       return;
     }
-    if (typeof console === "undefined") {
+    if (typeof console === 'undefined') {
       return;
     }
     if (this.logPrefix) {
@@ -85,17 +85,12 @@ Log = {
     return this;
   }
 };
-moduleKeywords = ["included", "extended"];
+moduleKeywords = ['included', 'extended'];
 Module = (function() {
-  function Module() {
-    if (this.init) {
-      this.init.apply(this, arguments);
-    }
-  }
   Module.include = function(obj) {
     var included, key, value;
     if (!obj) {
-      throw "include(obj) requires obj";
+      throw 'include(obj) requires obj';
     }
     for (key in obj) {
       value = obj[key];
@@ -112,7 +107,7 @@ Module = (function() {
   Module.extend = function(obj) {
     var extended, key, value;
     if (!obj) {
-      throw "extend(obj) requires obj";
+      throw 'extend(obj) requires obj';
     }
     for (key in obj) {
       value = obj[key];
@@ -136,6 +131,11 @@ Module = (function() {
       return func.apply(this, arguments);
     }, this);
   };
+  function Module() {
+    if (typeof this.init === "function") {
+      this.init.apply(this, arguments);
+    }
+  }
   return Module;
 })();
 Model = (function() {
@@ -163,7 +163,7 @@ Model = (function() {
     var record;
     record = this.records[id];
     if (!record) {
-      throw "Unknown record: " + id;
+      throw 'Unknown record';
     }
     return record.clone();
   };
@@ -189,7 +189,7 @@ Model = (function() {
       record.id || (record.id = guid());
       this.records[record.id] = record;
     }
-    this.trigger("refresh");
+    this.trigger('refresh');
     return this;
   };
   Model.select = function(callback) {
@@ -283,20 +283,17 @@ Model = (function() {
     return this.find(id).destroy();
   };
   Model.change = function(callbackOrParams) {
-    console.log('Spine::change');
-    if (typeof callbackOrParams === "function") {
-      console.log(callbackOrParams);
-      return this.bind("change", callbackOrParams);
+    if (typeof callbackOrParams === 'function') {
+      return this.bind('change', callbackOrParams);
     } else {
-      console.log(callbackOrParams);
-      return this.trigger("change", callbackOrParams);
+      return this.trigger('change', callbackOrParams);
     }
   };
   Model.fetch = function(callbackOrParams) {
-    if (typeof callbackOrParams === "function") {
-      return this.bind("fetch", callbackOrParams);
+    if (typeof callbackOrParams === 'function') {
+      return this.bind('fetch', callbackOrParams);
     } else {
-      return this.trigger("fetch", callbackOrParams);
+      return this.trigger('fetch', callbackOrParams);
     }
   };
   Model.toJSON = function() {
@@ -307,7 +304,7 @@ Model = (function() {
     if (!objects) {
       return;
     }
-    if (typeof objects === "string") {
+    if (typeof objects === 'string') {
       objects = JSON.parse(objects);
     }
     if (isArray(objects)) {
@@ -370,7 +367,9 @@ Model = (function() {
     _ref = this.constructor.attributes;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       key = _ref[_i];
-      result[key] = this[key];
+      if (key in this) {
+        result[key] = this[key];
+      }
     }
     result.id = this.id;
     return result;
@@ -383,16 +382,16 @@ Model = (function() {
     var error;
     error = this.validate();
     if (error) {
-      this.trigger("error", this, error);
+      this.trigger('error', this, error);
       return false;
     }
-    this.trigger("beforeSave", this);
+    this.trigger('beforeSave', this);
     if (this.newRecord) {
       this.create();
     } else {
       this.update();
     }
-    this.trigger("save", this);
+    this.trigger('save', this);
     return this;
   };
   Model.prototype.updateAttribute = function(name, value) {
@@ -413,11 +412,11 @@ Model = (function() {
     return this.save();
   };
   Model.prototype.destroy = function() {
-    this.trigger("beforeDestroy", this);
+    this.trigger('beforeDestroy', this);
     delete this.constructor.records[this.id];
     this.destroyed = true;
-    this.trigger("destroy", this);
-    this.trigger("change", this, "destroy");
+    this.trigger('destroy', this);
+    this.trigger('change', this, 'destroy');
     this.unbind();
     return this;
   };
@@ -454,17 +453,16 @@ Model = (function() {
   };
   Model.prototype.update = function() {
     var clone, records;
-    this.trigger("beforeUpdate", this);
+    this.trigger('beforeUpdate', this);
     records = this.constructor.records;
     records[this.id].load(this.attributes());
     clone = records[this.id].clone();
-    this.trigger("update", clone);
-    return this.trigger("change", clone, "update");
+    this.trigger('update', clone);
+    return this.trigger('change', clone, 'update');
   };
   Model.prototype.create = function() {
     var clone, records;
-    console.log('Spine::create');
-    this.trigger("beforeCreate", this);
+    this.trigger('beforeCreate', this);
     if (!this.id) {
       this.id = guid();
     }
@@ -472,8 +470,8 @@ Model = (function() {
     records = this.constructor.records;
     records[this.id] = this.dup(false);
     clone = records[this.id].clone();
-    this.trigger("create", clone);
-    return this.trigger("change", clone, "create");
+    this.trigger('create', clone);
+    return this.trigger('change', clone, 'create');
   };
   Model.prototype.bind = function(events, callback) {
     var binder, unbinder;
@@ -482,10 +480,10 @@ Model = (function() {
         return callback.apply(this, arguments);
       }
     }, this));
-    this.constructor.bind("unbind", unbinder = __bind(function(record) {
+    this.constructor.bind('unbind', unbinder = __bind(function(record) {
       if (record && this.eql(record)) {
         this.constructor.unbind(events, binder);
-        return this.constructor.unbind("unbind", unbinder);
+        return this.constructor.unbind('unbind', unbinder);
       }
     }, this));
     return binder;
@@ -495,7 +493,7 @@ Model = (function() {
     return (_ref = this.constructor).trigger.apply(_ref, arguments);
   };
   Model.prototype.unbind = function() {
-    return this.trigger("unbind", this);
+    return this.trigger('unbind', this);
   };
   return Model;
 })();
@@ -504,9 +502,9 @@ Controller = (function() {
   Controller.include(Events);
   Controller.include(Log);
   Controller.prototype.eventSplitter = /^(\w+)\s*(.*)$/;
-  Controller.prototype.tag = "div";
+  Controller.prototype.tag = 'div';
   function Controller(options) {
-    var key, value, _ref;
+    this.release = __bind(this.release, this);    var key, value, _ref;
     this.options = options;
     _ref = this.options;
     for (key in _ref) {
@@ -520,6 +518,9 @@ Controller = (function() {
     if (this.className) {
       this.el.addClass(this.className);
     }
+    this.release(function() {
+      return this.el.remove();
+    });
     if (!this.events) {
       this.events = this.constructor.events;
     }
@@ -534,8 +535,12 @@ Controller = (function() {
     }
     Controller.__super__.constructor.apply(this, arguments);
   }
-  Controller.prototype.destroy = function() {
-    return this.trigger("destroy");
+  Controller.prototype.release = function(callback) {
+    if (typeof callback === 'function') {
+      return this.bind('release', callback);
+    } else {
+      return this.trigger('release');
+    }
   };
   Controller.prototype.$ = function(selector) {
     return $(selector, this.el);
@@ -546,17 +551,13 @@ Controller = (function() {
     _results = [];
     for (key in _ref) {
       method = _ref[key];
-      if (typeof method !== "function") {
+      if (typeof method !== 'function') {
         method = this.proxy(this[method]);
       }
       match = key.match(this.eventSplitter);
       eventName = match[1];
       selector = match[2];
-      _results.push(selector === '' ? (this.el.bind(eventName, method), this.bind("destroy", function() {
-        return this.el.unbind(eventName, method);
-      })) : (this.el.delegate(selector, eventName, method), this.bind("destroy", function() {
-        return this.el.undelegate(selector, eventName, method);
-      })));
+      _results.push(selector === '' ? this.el.bind(eventName, method) : this.el.delegate(selector, eventName, method));
     }
     return _results;
   };
@@ -590,10 +591,14 @@ Controller = (function() {
       }
       return _results;
     })();
-    return (_ref = this.el).append.apply(_ref, elements);
+    (_ref = this.el).append.apply(_ref, elements);
+    this.refreshElements();
+    return this.el;
   };
   Controller.prototype.appendTo = function(element) {
-    return this.el.appendTo(element.el || element);
+    this.el.appendTo(element.el || element);
+    this.refreshElements();
+    return this.el;
   };
   Controller.prototype.prepend = function() {
     var e, elements, _ref;
@@ -607,7 +612,9 @@ Controller = (function() {
       }
       return _results;
     })();
-    return (_ref = this.el).prepend.apply(_ref, elements);
+    (_ref = this.el).prepend.apply(_ref, elements);
+    this.refreshElements();
+    return this.el;
   };
   Controller.prototype.replace = function(element) {
     var previous, _ref;
@@ -622,7 +629,7 @@ Controller = (function() {
 $ = this.jQuery || this.Zepto || function(element) {
   return element;
 };
-if (typeof Object.create !== "function") {
+if (typeof Object.create !== 'function') {
   Object.create = function(o) {
     var Func;
     Func = function() {};
@@ -631,7 +638,17 @@ if (typeof Object.create !== "function") {
   };
 }
 isArray = function(value) {
-  return Object.prototype.toString.call(value) === "[object Array]";
+  return Object.prototype.toString.call(value) === '[object Array]';
+};
+isBlank = function(value) {
+  var key;
+  if (!value) {
+    return true;
+  }
+  for (key in value) {
+    return false;
+  }
+  return true;
 };
 makeArray = function(args) {
   return Array.prototype.slice.call(args, 0);
@@ -648,14 +665,16 @@ Spine = this.Spine = {};
 if (typeof module !== "undefined" && module !== null) {
   module.exports = Spine;
 }
-Spine.version = "2.0.0";
+Spine.version = '0.0.9';
 Spine.isArray = isArray;
+Spine.isBlank = isBlank;
 Spine.$ = $;
 Spine.Events = Events;
 Spine.Log = Log;
 Spine.Module = Module;
 Spine.Controller = Controller;
 Spine.Model = Model;
+Module.extend.call(Spine, Events);
 Module.create = Module.sub = Controller.create = Controller.sub = Model.sub = function(instances, statics) {
   var result;
   result = (function() {
@@ -694,5 +713,4 @@ Model.setup = function(name, attributes) {
 Module.init = Controller.init = Model.init = function(a1, a2, a3, a4, a5) {
   return new this(a1, a2, a3, a4, a5);
 };
-Spine.App = new Controller;
 Spine.Class = Module;

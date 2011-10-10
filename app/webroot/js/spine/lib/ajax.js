@@ -1,4 +1,4 @@
-var $, Ajax, Base, Collection, Include, Model, Singleton;
+var $, Ajax, Base, Collection, Extend, Include, Model, Singleton;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -15,12 +15,12 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 $ = Spine.$;
 Model = Spine.Model;
 Ajax = {
-  enabled: true,
-  pending: false,
-  requests: [],
   getURL: function(object) {
     return object && (typeof object.url === "function" ? object.url() : void 0) || object.url;
   },
+  enabled: true,
+  pending: false,
+  requests: [],
   disable: function(callback) {
     this.enabled = false;
     callback();
@@ -30,43 +30,27 @@ Ajax = {
     var next;
     next = this.requests.shift();
     if (next) {
-      return this.request.apply(this, next);
+      return this.request(next);
     } else {
       return this.pending = false;
     }
   },
-  request: function(params) {
-    var error, success;
-    console.log('Ajax::request');
-    if (params) {
-      console.log(params);
-    }
-    success = params.success;
-    error = params.error;
-    params.error = __bind(function() {
-      if (typeof error === "function") {
-        error.apply(null, arguments);
-      }
+  request: function(callback) {
+    return (callback()).complete(__bind(function() {
       return this.requestNext();
-    }, this);
-    params.success = __bind(function() {
-      if (typeof success === "function") {
-        success.apply(null, arguments);
-      }
-      return this.requestNext();
-    }, this);
-    return $.ajax(params);
+    }, this));
   },
-  send: function() {
+  queue: function(callback) {
     if (!this.enabled) {
       return;
     }
     if (this.pending) {
-      return this.requests.push(arguments);
+      this.requests.push(callback);
     } else {
       this.pending = true;
-      return this.request.apply(this, arguments);
+      this.request(callback);
     }
+    return callback;
   }
 };
 Base = (function() {
@@ -76,12 +60,11 @@ Base = (function() {
     dataType: "json",
     processData: false
   };
-  Base.prototype.send = function(params, defaults) {
-    console.log('Base::send');
-    if (params) {
-      console.log(params);
-    }
-    return Ajax.send($.extend({}, this.defaults, defaults, params));
+  Base.prototype.ajax = function(params, defaults) {
+    return $.ajax($.extend({}, this.defaults, defaults, params));
+  };
+  Base.prototype.queue = function(callback) {
+    return Ajax.queue(callback);
   };
   return Base;
 })();
@@ -91,45 +74,23 @@ Collection = (function() {
     this.model = model;
     this.errorResponse = __bind(this.errorResponse, this);
     this.recordsResponse = __bind(this.recordsResponse, this);
-    Collection.__super__.constructor.apply(this, arguments);
-    this.url = Ajax.getURL(this.model);
   }
   Collection.prototype.findAll = function(params) {
-    return this.send(params, {
+    return this.ajax(params, {
       type: "GET",
-      url: this.url,
-      success: this.recordsResponse(params),
-      error: this.errorResponse(params)
-    });
+      url: Ajax.getURL(this.model)
+    }).success(this.recordsResponse).error(this.errorResponse);
   };
-  Collection.prototype.fetch = function() {
-    return this.findAll({
-      success: __bind(function(records) {
-        return this.model.refresh(records);
-      }, this)
-    });
+  Collection.prototype.fetch = function(params) {
+    return this.findAll(params).success(__bind(function(records) {
+      return this.model.refresh(records);
+    }, this));
   };
-  Collection.prototype.recordsResponse = function(params) {
-    var success;
-    if (params) {
-      console.log(params);
-    }
-    success = params.success;
-    return __bind(function(data, status, xhr) {
-      this.model.trigger("ajaxSuccess", null, status, xhr);
-      return typeof success === "function" ? success(this.model.fromJSON(data)) : void 0;
-    }, this);
+  Collection.prototype.recordsResponse = function(data, status, xhr) {
+    return this.model.trigger("ajaxSuccess", null, status, xhr);
   };
-  Collection.prototype.errorResponse = function(params) {
-    var error;
-    if (params == null) {
-      params = {};
-    }
-    error = params.error;
-    return __bind(function(jqXHR, statusText, error) {
-      this.model.trigger("ajaxError", null, jqXHR, statusText, error);
-      return typeof error === "function" ? error(this.model) : void 0;
-    }, this);
+  Collection.prototype.errorResponse = function(xhr, statusText, error) {
+    return this.model.trigger("ajaxError", null, xhr, statusText, error);
   };
   return Collection;
 })();
@@ -140,98 +101,58 @@ Singleton = (function() {
     this.errorResponse = __bind(this.errorResponse, this);
     this.blankResponse = __bind(this.blankResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
-    Singleton.__super__.constructor.apply(this, arguments);
-    console.log('Singleton::constructor');
-    console.log(this.record);
     this.model = this.record.constructor;
-    this.url = Ajax.getURL(this.record);
-    this.base = Ajax.getURL(this.model);
   }
   Singleton.prototype.find = function(params) {
-    return this.send(params, {
+    return this.ajax(params, {
       type: "GET",
       url: this.url
     });
   };
   Singleton.prototype.create = function(params) {
-    console.log('Singleton:create');
-    if (params) {
-      console.log(params);
-    }
-    return this.send(params, {
-      type: "POST",
-      data: JSON.stringify(this.records),
-      url: this.base,
-      success: this.recordResponse(params),
-      error: this.errorResponse(params)
-    });
+    return this.queue(__bind(function() {
+      return this.ajax(params, {
+        type: "POST",
+        data: JSON.stringify(this.record),
+        url: Ajax.getURL(this.model)
+      }).success(this.recordResponse).error(this.errorResponse);
+    }, this));
   };
   Singleton.prototype.update = function(params) {
-    return this.send(params, {
-      type: "PUT",
-      data: JSON.stringify(this.records),
-      url: this.url,
-      success: this.recordResponse(params),
-      error: this.errorResponse(params)
-    });
+    return this.queue(__bind(function() {
+      return this.ajax(params, {
+        type: "PUT",
+        data: JSON.stringify(this.record),
+        url: Ajax.getURL(this.record)
+      }).success(this.recordResponse).error(this.errorResponse);
+    }, this));
   };
   Singleton.prototype.destroy = function(params) {
-    console.log('Singleton:destroy');
-    if (params) {
-      console.log(params);
-    }
-    return this.send(params, {
-      type: "DELETE",
-      url: this.url,
-      success: this.blankResponse(params),
-      error: this.errorResponse(params)
-    });
+    return this.queue(__bind(function() {
+      return this.ajax(params, {
+        type: "DELETE",
+        url: Ajax.getURL(this.record)
+      }).success(this.recordResponse).error(this.errorResponse);
+    }, this));
   };
-  Singleton.prototype.recordResponse = function(params) {
-    var success;
-    if (params == null) {
-      params = {};
+  Singleton.prototype.recordResponse = function(data, status, xhr) {
+    this.record.trigger("ajaxSuccess", this.record, status, xhr);
+    if (Spine.isBlank(data)) {
+      return;
     }
-    if (params) {
-      console.log(params);
-    }
-    success = params.success;
-    return __bind(function(data, status, xhr) {
-      this.record.trigger("ajaxSuccess", this.record, status, xhr);
-      if (!data || params.data === data) {
-        return;
+    data = this.model.fromJSON(data);
+    return Ajax.disable(__bind(function() {
+      if (data.id && this.record.id !== data.id) {
+        this.record.changeID(data.id);
       }
-      data = this.model.fromJSON(data);
-      Ajax.disable(__bind(function() {
-        if (data.id && this.record.id !== data.id) {
-          this.record.changeID(data.id);
-        }
-        return this.record.updateAttributes(data.attributes());
-      }, this));
-      return typeof success === "function" ? success(this.record) : void 0;
-    }, this);
+      return this.record.updateAttributes(data.attributes());
+    }, this));
   };
-  Singleton.prototype.blankResponse = function(params) {
-    var success;
-    if (params == null) {
-      params = {};
-    }
-    success = params.success;
-    return __bind(function(data, status, xhr) {
-      this.record.trigger("ajaxSuccess", this.record, status, xhr);
-      return typeof success === "function" ? success(this.record) : void 0;
-    }, this);
+  Singleton.prototype.blankResponse = function(data, status, xhr) {
+    return this.record.trigger("ajaxSuccess", this.record, status, xhr);
   };
-  Singleton.prototype.errorResponse = function(params) {
-    var error;
-    if (params == null) {
-      params = {};
-    }
-    error = params.error;
-    return __bind(function(jqXHR, statusText, error) {
-      this.record.trigger("ajaxError", this.record, jqXHR, statusText, error);
-      return typeof error === "function" ? error(this.record) : void 0;
-    }, this);
+  Singleton.prototype.errorResponse = function(xhr, statusText, error) {
+    return this.record.trigger("ajaxError", this.record, xhr, statusText, error);
   };
   return Singleton;
 })();
@@ -250,22 +171,31 @@ Include = {
     return base;
   }
 };
-Model.Ajax = {
+Extend = {
   ajax: function() {
     return new Collection(this);
   },
+  url: function() {
+    return "" + Model.host + "/" + (this.className.toLowerCase()) + "s";
+  }
+};
+Model.Ajax = {
   extended: function() {
     this.change(function(record, type) {
-      return record.ajax()[type](params);
+      return record.ajax()[type]();
     });
     this.fetch(function() {
       var _ref;
       return (_ref = this.ajax()).fetch.apply(_ref, arguments);
     });
+    this.extend(Extend);
     return this.include(Include);
-  },
-  url: function() {
-    return "" + Model.host + "/" + (this.className.toLowerCase()) + "s";
+  }
+};
+Model.Ajax.Methods = {
+  extended: function() {
+    this.extend(Extend);
+    return this.include(Include);
   }
 };
 Spine.Ajax = Ajax;

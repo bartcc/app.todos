@@ -143,7 +143,7 @@ SidebarView = (function() {
       }
     }, this));
     Spine.trigger('create:albumJoin', target, albums);
-    if (!e.metaKey) {
+    if (!this.isCtrlClick(e)) {
       return Spine.trigger('destroy:albumJoin', origin, albums);
     }
   };

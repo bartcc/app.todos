@@ -111,7 +111,7 @@ class SidebarView extends Spine.Controller
       albums.push record unless @newSelection.indexOf(record.id) is -1
     
     Spine.trigger('create:albumJoin', target, albums)
-    Spine.trigger('destroy:albumJoin', origin, albums) unless e.metaKey
+    Spine.trigger('destroy:albumJoin', origin, albums) unless @isCtrlClick(e)
     
   newAttributes: ->
     name: 'New Gallery'

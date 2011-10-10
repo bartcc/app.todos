@@ -15,10 +15,17 @@ if (typeof Spine !== "undefined" && Spine !== null) {
 $ = Spine.$;
 Spine.GalleryList = (function() {
   __extends(GalleryList, Spine.Controller);
+  GalleryList.extend(Spine.Controller.Drag);
   GalleryList.prototype.events = {
     "dblclick .item": "edit",
     "click .item": "click",
-    "click .item-expander": "expand"
+    "click .item-expander": "expand",
+    'dragstart          .sublist-item': 'dragstart',
+    'dragenter          .sublist-item': 'dragenter',
+    'dragover           .sublist-item': 'dragover',
+    'dragleave          .sublist-item': 'dragleave',
+    'drop               .sublist-item': 'drop',
+    'dragend            .sublist-item': 'dragend'
   };
   GalleryList.prototype.elements = {
     '.item': 'item'
@@ -76,11 +83,6 @@ Spine.GalleryList = (function() {
         return this.children(":first").click();
       }
     }
-  };
-  GalleryList.prototype.renderAlbumSubList = function(id) {
-    var albums;
-    albums = Album.filter(id);
-    return $('#sub-' + id).html(this.subListTemplate(albums));
   };
   GalleryList.prototype.children = function(sel) {
     return this.el.children(sel);

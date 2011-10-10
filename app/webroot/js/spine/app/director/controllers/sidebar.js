@@ -70,12 +70,11 @@ SidebarView = (function() {
     return this.list.render(items, item, mode);
   };
   SidebarView.prototype.renderItem = function() {
-    var albums, item, _i, _len, _ref, _results;
+    var item, _i, _len, _ref, _results;
     _ref = this.galleryItems;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       item = _ref[_i];
-      albums = Album.filter(item.id);
       $('#' + item.id + ' span.cta').html(Album.filter(item.id).length);
       _results.push(this.renderSubList(item.id));
     }
@@ -86,12 +85,20 @@ SidebarView = (function() {
     albums = Album.filter(id);
     return $('#sub-' + id).html(this.subListTemplate(albums));
   };
-  SidebarView.prototype.dragStart = function() {
-    var newSelection, selection, _ref;
+  SidebarView.prototype.dragStart = function(e) {
+    var id, newSelection, raw, selection, _ref;
+    console.log('Sidebar::dragStart');
+    if ($(e.target).parent()[0].id) {
+      raw = $(e.target).parent()[0].id;
+      id = raw.replace(/(^sub-)()/, '');
+      if (id && Gallery.exists(id)) {
+        Spine.dragItem.origin = Gallery.find(id);
+      }
+    }
     selection = Gallery.selectionList();
     newSelection = selection.slice(0);
-    if (_ref = Spine.dragItem.id, __indexOf.call(selection, _ref) < 0) {
-      newSelection.push(Spine.dragItem.id);
+    if (_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) < 0) {
+      newSelection.push(Spine.dragItem.source.id);
     }
     this.newSelection = newSelection;
     return this.oldtargetID = null;
@@ -123,8 +130,8 @@ SidebarView = (function() {
   SidebarView.prototype.dropComplete = function(target, e) {
     var albums, item, items, origin, source, _i, _len;
     console.log('dropComplete');
-    source = Spine.dragItem;
-    origin = Gallery.record;
+    source = Spine.dragItem.source;
+    origin = Spine.dragItem.origin || Gallery.record;
     if (!(source instanceof Album)) {
       alert('You can only drop Albums here');
       return;
@@ -164,16 +171,6 @@ SidebarView = (function() {
     this.preserveEditorOpen('gallery', App.albumsShowView.btnGallery);
     gallery = new Gallery(this.newAttributes());
     return gallery.save();
-  };
-  SidebarView.prototype.destroy_ = function(item) {
-    console.log('AlbumsEditView::destroy');
-    if (!Gallery.record) {
-      return;
-    }
-    item.destroy();
-    if (!Gallery.count()) {
-      return Gallery.current();
-    }
   };
   SidebarView.prototype.toggleDraghandle = function() {
     var width;

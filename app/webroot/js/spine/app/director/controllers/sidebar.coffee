@@ -56,7 +56,6 @@ class SidebarView extends Spine.Controller
 
   renderItem: ->
     for item in @galleryItems
-      albums = Album.filter(item.id)
       $('#'+item.id+' span.cta').html(Album.filter(item.id).length)
       @renderSubList item.id
 
@@ -64,10 +63,17 @@ class SidebarView extends Spine.Controller
     albums = Album.filter(id)
     $('#sub-'+id).html @subListTemplate(albums)
 
-  dragStart: ->
+  dragStart: (e) ->
+    console.log 'Sidebar::dragStart'
+    # check for drags from sublist
+    if $(e.target).parent()[0].id
+      raw = $(e.target).parent()[0].id
+      id = raw.replace ///(^sub-)()///, ''
+      Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
+
     selection = Gallery.selectionList()
     newSelection = selection.slice(0)
-    newSelection.push Spine.dragItem.id unless Spine.dragItem.id in selection
+    newSelection.push Spine.dragItem.source.id unless Spine.dragItem.source.id in selection
     @newSelection = newSelection
     @oldtargetID = null
 
@@ -91,8 +97,8 @@ class SidebarView extends Spine.Controller
   dropComplete: (target, e) ->
     console.log 'dropComplete'
 
-    source = Spine.dragItem
-    origin = Gallery.record
+    source = Spine.dragItem.source
+    origin = Spine.dragItem.origin or Gallery.record
 
     unless source instanceof Album
       alert 'You can only drop Albums here'
@@ -124,12 +130,6 @@ class SidebarView extends Spine.Controller
     @preserveEditorOpen('gallery', App.albumsShowView.btnGallery)
     gallery = new Gallery @newAttributes()
     gallery.save()
-
-  destroy_: (item) ->
-    console.log 'AlbumsEditView::destroy'
-    return unless Gallery.record
-    item.destroy()
-    Gallery.current() if !Gallery.count()
 
   toggleDraghandle: ->
     width = =>

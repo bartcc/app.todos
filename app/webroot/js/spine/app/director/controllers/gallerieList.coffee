@@ -2,10 +2,19 @@ Spine ?= require("spine")
 $      = Spine.$
 
 class Spine.GalleryList extends Spine.Controller
+
+  @extend Spine.Controller.Drag
+
   events:
-    "dblclick .item"          : "edit"
-    "click .item"             : "click",
-    "click .item-expander"    : "expand"
+    "dblclick .item"                          : "edit"
+    "click .item"                             : "click",
+    "click .item-expander"                    : "expand"
+    'dragstart          .sublist-item'        : 'dragstart'
+    'dragenter          .sublist-item'        : 'dragenter'
+    'dragover           .sublist-item'        : 'dragover'
+    'dragleave          .sublist-item'        : 'dragleave'
+    'drop               .sublist-item'        : 'drop'
+    'dragend            .sublist-item'        : 'dragend'
 
   elements:
     '.item'                   : 'item'
@@ -57,10 +66,6 @@ class Spine.GalleryList extends Spine.Controller
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
         @children(":first").click()
-
-  renderAlbumSubList: (id) ->
-    albums = Album.filter(id)
-    $('#sub-'+id).html @subListTemplate(albums)
 
   children: (sel) ->
     @el.children(sel)

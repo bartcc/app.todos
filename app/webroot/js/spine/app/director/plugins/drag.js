@@ -18,7 +18,8 @@ Controller.Drag = {
         var event;
         event = e.originalEvent;
         $(e.target).addClass('dragged');
-        Spine.dragItem = $(e.target).item();
+        Spine.dragItem = {};
+        Spine.dragItem.source = $(e.target).item();
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/html', Spine.dragItem);
         return Spine.trigger('drag:start', e);

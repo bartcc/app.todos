@@ -30,7 +30,6 @@ class Album extends Spine.Model
       associationForeignKey : 'image_id'
 
   init: (instance) ->
-    console.log instance
     return unless instance
   
   selectAttributes: ->

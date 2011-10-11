@@ -50,7 +50,6 @@ Album = (function() {
     };
   };
   Album.prototype.init = function(instance) {
-    console.log(instance);
     if (!instance) {
       ;
     }

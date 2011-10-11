@@ -45,7 +45,6 @@ Gallery = (function() {
   };
   Gallery.prototype.init = function(instance) {
     var newSelection;
-    console.log(instance);
     if (!instance.id) {
       return;
     }

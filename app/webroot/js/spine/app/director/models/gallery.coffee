@@ -25,7 +25,6 @@ class Gallery extends Spine.Model
       associationForeignKey : 'album_id'
 
   init: (instance) ->
-    console.log instance
     return unless instance.id
     newSelection = {}
     newSelection[instance.id] = []

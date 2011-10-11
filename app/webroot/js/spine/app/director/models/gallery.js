@@ -43,29 +43,13 @@ Gallery = (function() {
       }
     };
   };
-  Gallery.joinTables = function() {
-    var fModels, joinTables, key, value;
-    fModels = this.foreignModels();
-    joinTables = (function() {
-      var _results;
-      _results = [];
-      for (key in fModels) {
-        value = fModels[key];
-        _results.push(fModels[key]['joinTable']);
-      }
-      return _results;
-    })();
-    return joinTables;
-  };
   Gallery.prototype.init = function(instance) {
     var newSelection;
-    if (!instance) {
+    console.log(instance);
+    if (!instance.id) {
       return;
     }
     newSelection = {};
-    if (!instance.id) {
-      throw 'No instance ID';
-    }
     newSelection[instance.id] = [];
     return this.constructor.selection.push(newSelection);
   };

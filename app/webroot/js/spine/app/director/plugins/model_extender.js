@@ -31,24 +31,6 @@ Model.Extender = {
         }
         return json || this.__super__.constructor.fromJSON.call(this, objects);
       },
-      createJoinTables_: function(arr) {
-        var item, res, table, _i, _j, _len, _len2, _ref;
-        console.log('ModelExtender::createJoinTable');
-        if (!(this.isArray(arr) || this.isArray(this.joinTables))) {
-          return;
-        }
-        table = {};
-        _ref = this.joinTables;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          table = _ref[_i];
-          res = this.createJoin(arr, table);
-        }
-        for (_j = 0, _len2 = res.length; _j < _len2; _j++) {
-          item = res[_j];
-          table[item.id] = item;
-        }
-        return table;
-      },
       createJoinTables: function(arr) {
         var joinTables, key, table, _i, _len, _results;
         if (!this.isArray(arr)) {
@@ -62,6 +44,20 @@ Model.Extender = {
           _results.push(Spine.Model[key].refresh(this.createJoin(arr, key)));
         }
         return _results;
+      },
+      joinTables: function() {
+        var fModels, joinTables, key, value;
+        fModels = this.foreignModels();
+        joinTables = (function() {
+          var _results;
+          _results = [];
+          for (key in fModels) {
+            value = fModels[key];
+            _results.push(fModels[key]['joinTable']);
+          }
+          return _results;
+        })();
+        return joinTables;
       },
       fromArray: function(arr, key) {
         var extract, obj, res, _i, _len;

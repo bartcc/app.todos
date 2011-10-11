@@ -28,20 +28,6 @@ Image = (function() {
       }
     };
   };
-  Image.joinTables = function() {
-    var fModels, joinTables, key, value;
-    fModels = this.foreignModels();
-    joinTables = (function() {
-      var _results;
-      _results = [];
-      for (key in fModels) {
-        value = fModels[key];
-        _results.push(fModels[key]['joinTable']);
-      }
-      return _results;
-    })();
-    return joinTables;
-  };
   Image.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
   };

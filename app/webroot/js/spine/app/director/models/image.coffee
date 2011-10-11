@@ -15,13 +15,6 @@ class Image extends Spine.Model
       foreignKey            : 'image_id'
       associationForeignKey : 'album_id'
 
-  @joinTables: ->
-    fModels = @foreignModels()
-    joinTables = for key, value of fModels
-      fModels[key]['joinTable']
-    joinTables
-
-
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'
 

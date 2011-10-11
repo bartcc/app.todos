@@ -18,14 +18,6 @@ Model.Extender =
         json = @fromArray(objects, key) if @isArray(objects) #test for READ or PUT !
         json || @__super__.constructor.fromJSON.call @, objects
 
-      createJoinTables_: (arr) ->
-        console.log 'ModelExtender::createJoinTable'
-        return unless @isArray(arr) or @isArray(@joinTables)
-        table = {}
-        res = @createJoin arr, table for table in @joinTables
-        table[item.id] = item for item in res
-        table
-
       createJoinTables: (arr) ->
         return unless @isArray(arr)
         table = {}
@@ -34,6 +26,11 @@ Model.Extender =
         for key in joinTables
           Spine.Model[key].refresh(@createJoin arr, key )
         
+      joinTables: ->
+        fModels = @foreignModels()
+        joinTables = for key, value of fModels
+          fModels[key]['joinTable']
+        joinTables
 
       fromArray: (arr, key) ->
         res = []

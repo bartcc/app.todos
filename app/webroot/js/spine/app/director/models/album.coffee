@@ -29,14 +29,8 @@ class Album extends Spine.Model
       foreignKey            : 'album_id'
       associationForeignKey : 'image_id'
 
-  @joinTables: ->
-    fModels = @foreignModels()
-    joinTables = for key, value of fModels
-      fModels[key]['joinTable']
-    joinTables
-
   init: (instance) ->
-    @constructor.counter = 0
+    console.log instance
     return unless instance
   
   selectAttributes: ->

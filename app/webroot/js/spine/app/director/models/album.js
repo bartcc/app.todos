@@ -49,22 +49,8 @@ Album = (function() {
       }
     };
   };
-  Album.joinTables = function() {
-    var fModels, joinTables, key, value;
-    fModels = this.foreignModels();
-    joinTables = (function() {
-      var _results;
-      _results = [];
-      for (key in fModels) {
-        value = fModels[key];
-        _results.push(fModels[key]['joinTable']);
-      }
-      return _results;
-    })();
-    return joinTables;
-  };
   Album.prototype.init = function(instance) {
-    this.constructor.counter = 0;
+    console.log(instance);
     if (!instance) {
       ;
     }

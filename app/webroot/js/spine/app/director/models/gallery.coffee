@@ -24,16 +24,10 @@ class Gallery extends Spine.Model
       foreignKey            : 'gallery_id'
       associationForeignKey : 'album_id'
 
-  @joinTables: ->
-    fModels = @foreignModels()
-    joinTables = for key, value of fModels
-      fModels[key]['joinTable']
-    joinTables
-
   init: (instance) ->
-    return unless instance
+    console.log instance
+    return unless instance.id
     newSelection = {}
-    throw 'No instance ID' unless instance.id
     newSelection[instance.id] = []
     @constructor.selection.push(newSelection)
     

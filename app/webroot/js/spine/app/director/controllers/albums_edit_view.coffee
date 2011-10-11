@@ -50,12 +50,7 @@ class AlbumsEditView extends Spine.Controller
   destroy: ->
     console.log 'AlbumsEditView::destroy'
     return unless Gallery.record
-    console.log Gallery.record
     Spine.trigger('destroy:gallery')
-
-  email: ->
-    return if ( !@current.email ) 
-    window.location = "mailto:" + @current.email
   
   save: (el) ->
     console.log 'AlbumsEditView::save'

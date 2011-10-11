@@ -73,14 +73,7 @@ AlbumsEditView = (function() {
     if (!Gallery.record) {
       return;
     }
-    console.log(Gallery.record);
     return Spine.trigger('destroy:gallery');
-  };
-  AlbumsEditView.prototype.email = function() {
-    if (!this.current.email) {
-      return;
-    }
-    return window.location = "mailto:" + this.current.email;
   };
   AlbumsEditView.prototype.save = function(el) {
     var atts;

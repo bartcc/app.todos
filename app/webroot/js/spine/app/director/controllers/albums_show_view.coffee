@@ -66,7 +66,8 @@ class AlbumsShowView extends Spine.Controller
 
     @toolBarList = []
     @activeControl = @btnGallery
-    @create = @editGallery
+    @create = @edit = @editGallery
+
     $(@views).queue("fx")
 
   children: (sel) ->

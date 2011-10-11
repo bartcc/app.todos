@@ -6,7 +6,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+};
 if (typeof Spine !== "undefined" && Spine !== null) {
   Spine;
 } else {
@@ -16,7 +16,7 @@ $ = Spine.$;
 Spine.AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
   AlbumList.prototype.elements = {
-    '.optCreate': 'btnCreateAlbum'
+    '.optCreate': 'btnCreate'
   };
   AlbumList.prototype.events = {
     'click .item': "click",
@@ -28,8 +28,6 @@ Spine.AlbumList = (function() {
     AlbumList.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
     this.record = Gallery.record;
-    Spine.bind('createAlbum', this.proxy(this.create));
-    Spine.bind('destroyAlbum', this.proxy(this.destroy));
   }
   AlbumList.prototype.template = function() {
     return arguments[0];
@@ -63,7 +61,7 @@ Spine.AlbumList = (function() {
     if (items.length) {
       this.html(this.template(items));
     } else {
-      this.html('This Gallery has no Albums&nbsp;<button class="optCreate">New Album</button>');
+      this.html('This Gallery has no Albums&nbsp;<button class="optCreateAlbum">New Album</button>');
       this.refreshElements();
     }
     if (newAlbum && newAlbum instanceof Album) {
@@ -75,53 +73,21 @@ Spine.AlbumList = (function() {
   AlbumList.prototype.children = function(sel) {
     return this.el.children(sel);
   };
-  AlbumList.prototype.newAttributes = function() {
-    return {
-      title: 'New Title',
-      name: 'New Album'
-    };
-  };
   AlbumList.prototype.create = function() {
-    var album;
-    console.log('AlbumList::create');
-    this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
-    album = new Album(this.newAttributes());
-    album.save();
-    return Spine.trigger('create:albumJoin', Gallery.record, album);
-  };
-  AlbumList.prototype.destroy = function() {
-    var album, albums, list, _i, _len, _results;
-    console.log('AlbumList::destroy');
-    list = Gallery.selectionList().slice(0);
-    albums = [];
-    Album.each(__bind(function(record) {
-      if (list.indexOf(record.id) !== -1) {
-        return albums.push(record);
-      }
-    }, this));
-    if (Gallery.record) {
-      return Spine.trigger('destroy:albumJoin', Gallery.record, albums);
-    } else {
-      _results = [];
-      for (_i = 0, _len = albums.length; _i < _len; _i++) {
-        album = albums[_i];
-        _results.push(Album.exists(album.id) ? album.destroy() : void 0);
-      }
-      return _results;
-    }
+    return Spine.trigger('create:album');
   };
   AlbumList.prototype.click = function(e) {
     var item;
     console.log('AlbumList::click');
     item = $(e.target).item();
     if (App.hmanager.hasActive()) {
-      this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
+      this.openPanel('album', App.albumsShowView.btnAlbum);
     }
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
     return this.change(item);
   };
   AlbumList.prototype.dblclick = function(e) {
-    return this.preserveEditorOpen('album', App.albumsShowView.btnAlbum);
+    return this.openPanel('album', App.albumsShowView.btnAlbum);
   };
   AlbumList.prototype.edit = function(e) {
     var item;

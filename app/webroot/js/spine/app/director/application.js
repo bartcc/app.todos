@@ -39,10 +39,12 @@ App = (function() {
       el: this.gridEl
     });
     this.albumsShowView = new AlbumsShowView({
-      el: this.albumsShowEl
+      el: this.albumsShowEl,
+      name: 'AlbumsShowView'
     });
     this.albumsEditView = new AlbumsEditView({
-      el: this.albumsEditEl
+      el: this.albumsEditEl,
+      name: 'AlbumsEditView'
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {

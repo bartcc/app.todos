@@ -4,8 +4,8 @@ $      = Spine.$
 class AlbumsEditView extends Spine.Controller
 
   elements:
-    ".content"                : "editContent"
-    '.optDestroy'             : 'btnDestroy'
+    ".content"            : "editContent"
+    '.optDestroy'         : 'btnDestroy'
     
   events:
     "click .optEdit"      : "edit"
@@ -50,8 +50,8 @@ class AlbumsEditView extends Spine.Controller
   destroy: ->
     console.log 'AlbumsEditView::destroy'
     return unless Gallery.record
-    @current.destroy()
-    Gallery.current() if !Gallery.count()
+    console.log Gallery.record
+    Spine.trigger('destroy:gallery')
 
   email: ->
     return if ( !@current.email ) 
@@ -63,8 +63,10 @@ class AlbumsEditView extends Spine.Controller
       atts = el.serializeForm?() or @el.serializeForm()
       @current.updateChangedAttributes(atts)
     App.albumsManager.change(App.albumsShowView)
+    @openPanel('album', App.albumsShowView.btnAlbum)
 
   saveOnEnter: (e) =>
+    console.log 'AlbumsEditView::saveOnEnter'
     return if(e.keyCode != 13)
     @trigger('save:gallery', @)
 

@@ -54,8 +54,8 @@ AlbumsView = (function() {
       editor: this.albumEditor
     });
     Album.bind("change", this.proxy(this.render));
-    Spine.bind('save:gallery', this.proxy(this.save));
-    this.bind('save:gallery', this.proxy(this.save));
+    Spine.bind('save:album', this.proxy(this.save));
+    this.bind('save:album', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Gallery.bind("change", this.proxy(this.renderGalleryEditor));
     Gallery.bind("change", this.proxy(this.renderHeader));

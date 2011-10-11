@@ -6,9 +6,9 @@ class SidebarView extends Spine.Controller
   @extend Spine.Controller.Drag
 
   elements:
-    'input'   : 'input'
-    '.items'  : 'items'
-    '.droppable':  'droppable'
+    'input'                 : 'input'
+    '.items'                : 'items'
+    '.droppable'            : 'droppable'
 
   #Attach event delegation
   events:
@@ -38,6 +38,8 @@ class SidebarView extends Spine.Controller
     Gallery.bind("refresh change", @proxy @render)
     Spine.bind('render:galleryItem', @proxy @renderItem)
     Spine.bind('render:subList', @proxy @renderSubList)
+    Spine.bind('create:gallery', @proxy @create)
+    Spine.bind('destroy:gallery', @proxy @destroy)
     Spine.bind('drag:start', @proxy @dragStart)
     Spine.bind('drag:over', @proxy @dragOver)
     Spine.bind('drag:leave', @proxy @dragLeave)
@@ -117,12 +119,16 @@ class SidebarView extends Spine.Controller
     name: 'New Gallery'
     author: 'No Author'
 
-  #Called when 'Create' button is clicked
-  create: (e) ->
-    e.preventDefault()
-    @preserveEditorOpen('gallery', App.albumsShowView.btnGallery)
+  create: ->
+    console.log 'Sidebar::create'
+    @openPanel('gallery', App.albumsShowView.btnGallery)
     gallery = new Gallery @newAttributes()
     gallery.save()
+
+  destroy: ->
+    console.log 'Sidebar::destroy'
+    Gallery.record.destroy()
+    Gallery.current() if !Gallery.count()
 
   toggleDraghandle: ->
     width = =>

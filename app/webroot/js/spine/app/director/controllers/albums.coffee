@@ -41,8 +41,8 @@ class AlbumsView extends Spine.Controller
       template: @template
       editor: @albumEditor
     Album.bind("change", @proxy @render)
-    Spine.bind('save:gallery', @proxy @save)
-    @bind('save:gallery', @proxy @save)
+    Spine.bind('save:album', @proxy @save)
+    @bind('save:album', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
     Gallery.bind "change", @proxy @renderGalleryEditor
     Gallery.bind "change", @proxy @renderHeader

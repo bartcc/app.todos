@@ -6,7 +6,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 if (typeof Spine !== "undefined" && Spine !== null) {
   Spine;
 } else {
@@ -20,6 +20,9 @@ AlbumsShowView = (function() {
     ".content": "showContent",
     "#views .views": "views",
     ".content .sortable": "sortable",
+    '.optEditGallery': 'btnEditGallery',
+    '.optCreateGallery': 'btnCreateGallery',
+    '.optDestroyGallery': 'btnDestroyGallery',
     '.optGallery': 'btnGallery',
     '.optAlbum': 'btnAlbum',
     '.optUpload': 'btnUpload',
@@ -30,9 +33,11 @@ AlbumsShowView = (function() {
     '.toolbar': 'toolBar'
   };
   AlbumsShowView.prototype.events = {
-    "click .optCreateAlbum": "create",
-    "click .optDeleteAlbum": "destroy",
-    "click .optEdit": "edit",
+    "click .optCreateAlbum": "createAlbum",
+    "click .optDestroyAlbum": "destroyAlbum",
+    "click .optEditGallery": "editGallery",
+    "click .optCreateGallery": "createGallery",
+    "click .optDestroyGallery": "destroyGallery",
     "click .optEmail": "email",
     "click .optGallery": "toggleGallery",
     "click .optAlbum": "toggleAlbum",
@@ -62,17 +67,17 @@ AlbumsShowView = (function() {
       el: this.items,
       template: this.albumsTemplate
     });
+    Spine.bind('create:album', this.proxy(this.create));
+    Spine.bind('destroy:album', this.proxy(this.destroy));
     Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));
     Spine.bind("create:albumJoin", this.proxy(this.createJoin));
     Album.bind("change", this.proxy(this.render));
-    Spine.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     GalleriesAlbum.bind("change", this.proxy(this.render));
-    this.bind('save:gallery', this.proxy(this.save));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.toolBarList = [];
     this.activeControl = this.btnGallery;
-    this.create = this.edit;
+    this.create = this.editGallery;
     $(this.views).queue("fx");
   }
   AlbumsShowView.prototype.children = function(sel) {
@@ -121,11 +126,40 @@ AlbumsShowView = (function() {
     sortOptions = {};
     return this.items.sortable(sortOptions);
   };
+  AlbumsShowView.prototype.newAttributes = function() {
+    return {
+      title: 'New Title',
+      name: 'New Album'
+    };
+  };
   AlbumsShowView.prototype.create = function() {
-    return Spine.trigger('createAlbum');
+    var album;
+    console.log('AlbumList::create');
+    this.openPanel('album', App.albumsShowView.btnAlbum);
+    album = new Album(this.newAttributes());
+    album.save();
+    return Spine.trigger('create:albumJoin', Gallery.record, album);
   };
   AlbumsShowView.prototype.destroy = function() {
-    return Spine.trigger('destroyAlbum');
+    var album, albums, list, _i, _len, _results;
+    console.log('AlbumList::destroy');
+    list = Gallery.selectionList().slice(0);
+    albums = [];
+    Album.each(__bind(function(record) {
+      if (list.indexOf(record.id) !== -1) {
+        return albums.push(record);
+      }
+    }, this));
+    if (Gallery.record) {
+      return Spine.trigger('destroy:albumJoin', Gallery.record, albums);
+    } else {
+      _results = [];
+      for (_i = 0, _len = albums.length; _i < _len; _i++) {
+        album = albums[_i];
+        _results.push(Album.exists(album.id) ? album.destroy() : void 0);
+      }
+      return _results;
+    }
   };
   AlbumsShowView.prototype.createJoin = function(target, albums) {
     var ga, record, records, _i, _len;
@@ -172,9 +206,21 @@ AlbumsShowView = (function() {
     }
     return target.save();
   };
-  AlbumsShowView.prototype.edit = function() {
+  AlbumsShowView.prototype.createAlbum = function() {
+    return Spine.trigger('create:album');
+  };
+  AlbumsShowView.prototype.destroyAlbum = function() {
+    return Spine.trigger('destroy:album');
+  };
+  AlbumsShowView.prototype.editGallery = function() {
     App.albumsEditView.render();
     return App.albumsManager.change(App.albumsEditView);
+  };
+  AlbumsShowView.prototype.createGallery = function() {
+    return Spine.trigger('create:gallery');
+  };
+  AlbumsShowView.prototype.destroyGallery = function() {
+    return Spine.trigger('destroy:gallery');
   };
   AlbumsShowView.prototype.email = function() {
     if (!this.current.email) {
@@ -218,11 +264,14 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.toggleGallery = function(e) {
     this.toolBarList = [
       {
-        name: 'Show Gallery',
-        klass: 'optEdit'
-      }, {
         name: 'Edit Gallery',
-        klass: 'optEdit'
+        klass: 'optEditGallery'
+      }, {
+        name: 'New Gallery',
+        klass: 'optCreateGallery'
+      }, {
+        name: 'Delete Gallery',
+        klass: 'optDestroyGallery'
       }
     ];
     return this.trigger("toggle:view", App.gallery, e.target);
@@ -230,11 +279,11 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.toggleAlbum = function(e) {
     this.toolBarList = [
       {
-        name: 'Create Album',
+        name: 'New Album',
         klass: 'optCreateAlbum'
       }, {
         name: 'Delete Album',
-        klass: 'optDeleteAlbum'
+        klass: 'optDestroyAlbum'
       }
     ];
     return this.trigger("toggle:view", App.album, e.target);
@@ -243,10 +292,10 @@ AlbumsShowView = (function() {
     this.toolBarList = [
       {
         name: 'Show Upload',
-        klass: 'optEdit'
+        klass: ''
       }, {
         name: 'Edit Upload',
-        klass: 'optEdit'
+        klass: ''
       }
     ];
     return this.trigger("toggle:view", App.upload, e.target);
@@ -255,10 +304,10 @@ AlbumsShowView = (function() {
     this.toolBarList = [
       {
         name: 'Show Grid',
-        klass: 'optEdit'
+        klass: ''
       }, {
         name: 'Edit Grid',
-        klass: 'optEdit'
+        klass: ''
       }
     ];
     return this.trigger("toggle:view", App.grid, e.target);

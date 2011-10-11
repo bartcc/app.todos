@@ -28,8 +28,10 @@ class App extends Spine.Controller
       el: @gridEl
     @albumsShowView = new AlbumsShowView
       el: @albumsShowEl
+      name: 'AlbumsShowView'
     @albumsEditView = new AlbumsEditView
       el: @albumsEditEl
+      name: 'AlbumsEditView'
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,

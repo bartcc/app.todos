@@ -9,6 +9,9 @@ class AlbumsShowView extends Spine.Controller
     ".content"                : "showContent"
     "#views .views"           : "views"
     ".content .sortable"      : "sortable"
+    '.optEditGallery'         : 'btnEditGallery'
+    '.optCreateGallery'       : 'btnCreateGallery'
+    '.optDestroyGallery'      : 'btnDestroyGallery'
     '.optGallery'             : 'btnGallery'
     '.optAlbum'               : 'btnAlbum'
     '.optUpload'              : 'btnUpload'
@@ -19,9 +22,11 @@ class AlbumsShowView extends Spine.Controller
     '.toolbar'                : 'toolBar'
     
   events:
-    "click .optCreateAlbum"                   : "create"
-    "click .optDeleteAlbum"                   : "destroy"
-    "click .optEdit"                          : "edit"
+    "click .optCreateAlbum"                   : "createAlbum"
+    "click .optDestroyAlbum"                  : "destroyAlbum"
+    "click .optEditGallery"                   : "editGallery"
+    "click .optCreateGallery"                 : "createGallery"
+    "click .optDestroyGallery"                : "destroyGallery"
     "click .optEmail"                         : "email"
     "click .optGallery"                       : "toggleGallery"
     "click .optAlbum"                         : "toggleAlbum"
@@ -50,20 +55,18 @@ class AlbumsShowView extends Spine.Controller
     @list = new Spine.AlbumList
       el: @items,
       template: @albumsTemplate
+    Spine.bind('create:album', @proxy @create)
+    Spine.bind('destroy:album', @proxy @destroy)
     Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
     Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("change", @proxy @render)
-    Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
     GalleriesAlbum.bind("change", @proxy @render)
-    @bind('save:gallery', @proxy @save)
     @bind("toggle:view", @proxy @toggleView)
 
     @toolBarList = []
     @activeControl = @btnGallery
-
-    @create = @edit
-
+    @create = @editGallery
     $(@views).queue("fx")
 
   children: (sel) ->
@@ -87,7 +90,7 @@ class AlbumsShowView extends Spine.Controller
     
     @renderHeader(items)
     @list.render items, item
-    #@initSortables()
+    #@initSortables() #interferes with html5 dnd!
    
   renderHeader: (items) ->
     console.log 'AlbumsShowView::renderHeader'
@@ -105,12 +108,31 @@ class AlbumsShowView extends Spine.Controller
     sortOptions = {}
     @items.sortable sortOptions
 
+  newAttributes: ->
+    title: 'New Title'
+    name: 'New Album'
+
   create: ->
-    Spine.trigger('createAlbum')
-  
+    console.log 'AlbumList::create'
+    @openPanel('album', App.albumsShowView.btnAlbum)
+    album = new Album(@newAttributes())
+    album.save()
+    Spine.trigger('create:albumJoin', Gallery.record, album)
+
   destroy: ->
-    Spine.trigger('destroyAlbum')
-  
+    console.log 'AlbumList::destroy'
+    list = Gallery.selectionList().slice(0)
+
+    albums = []
+    Album.each (record) =>
+      albums.push record unless list.indexOf(record.id) is -1
+
+    if Gallery.record
+      Spine.trigger('destroy:albumJoin', Gallery.record, albums)
+    else
+      for album in albums
+        album.destroy() if Album.exists(album.id)
+
   createJoin: (target, albums) ->
     console.log 'AlbumsShowView::createJoin'
     return unless target and target instanceof Gallery
@@ -147,10 +169,22 @@ class AlbumsShowView extends Spine.Controller
 
     target.save()
 
-  edit: ->
+  createAlbum: ->
+    Spine.trigger('create:album')
+  
+  destroyAlbum: ->
+    Spine.trigger('destroy:album')
+
+  editGallery: ->
     App.albumsEditView.render()
     App.albumsManager.change(App.albumsEditView)
 
+  createGallery: ->
+    Spine.trigger('create:gallery')
+  
+  destroyGallery: ->
+    Spine.trigger('destroy:gallery')
+  
   email: ->
     return if ( !@current.email ) 
     window.location = "mailto:" + @current.email
@@ -182,29 +216,30 @@ class AlbumsShowView extends Spine.Controller
 
   toggleGallery: (e) ->
     @toolBarList = [
-      {name: 'Show Gallery', klass: 'optEdit'}
-      {name: 'Edit Gallery', klass: 'optEdit'}
+      {name: 'Edit Gallery', klass: 'optEditGallery'}
+      {name: 'New Gallery', klass: 'optCreateGallery'}
+      {name: 'Delete Gallery', klass: 'optDestroyGallery'}
     ]
     @trigger("toggle:view", App.gallery, e.target)
 
   toggleAlbum: (e) ->
     @toolBarList = [
-      {name: 'Create Album', klass: 'optCreateAlbum'}
-      {name: 'Delete Album', klass: 'optDeleteAlbum'}
+      {name: 'New Album', klass: 'optCreateAlbum'}
+      {name: 'Delete Album', klass: 'optDestroyAlbum'}
     ]
     @trigger("toggle:view", App.album, e.target)
 
   toggleUpload: (e) ->
     @toolBarList = [
-      {name: 'Show Upload', klass: 'optEdit'}
-      {name: 'Edit Upload', klass: 'optEdit'}
+      {name: 'Show Upload', klass: ''}
+      {name: 'Edit Upload', klass: ''}
     ]
     @trigger("toggle:view", App.upload, e.target)
 
   toggleGrid: (e) ->
     @toolBarList = [
-      {name: 'Show Grid', klass: 'optEdit'}
-      {name: 'Edit Grid', klass: 'optEdit'}
+      {name: 'Show Grid', klass: ''}
+      {name: 'Edit Grid', klass: ''}
     ]
     @trigger("toggle:view", App.grid, e.target)
 

@@ -51,18 +51,11 @@ GalleryView = (function() {
     }
     return this;
   };
-  GalleryView.prototype.save = function(el) {
-    var atts;
-    if (this.current) {
-      atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
-      return this.current.updateChangedAttributes(atts);
-    }
-  };
   GalleryView.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {
       return;
     }
-    return this.save(this.editEl);
+    return Spine.trigger('save:gallery', this.editEl);
   };
   return GalleryView;
 })();

@@ -33,13 +33,9 @@ class GalleryView extends Spine.Controller
       @editEl.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missing else missingGallery})
     @
 
-  save: (el) ->
-    if @current
-      atts = el.serializeForm?() or @editEl.serializeForm()
-      @current.updateChangedAttributes(atts)
-
   saveOnEnter: (e) ->
     return if(e.keyCode != 13)
-    @save @editEl
+    Spine.trigger('save:gallery', @editEl)
+    
 
 module?.exports = EditorView

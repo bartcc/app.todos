@@ -73,10 +73,8 @@ AlbumsEditView = (function() {
     if (!Gallery.record) {
       return;
     }
-    this.current.destroy();
-    if (!Gallery.count()) {
-      return Gallery.current();
-    }
+    console.log(Gallery.record);
+    return Spine.trigger('destroy:gallery');
   };
   AlbumsEditView.prototype.email = function() {
     if (!this.current.email) {
@@ -91,9 +89,11 @@ AlbumsEditView = (function() {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.el.serializeForm();
       this.current.updateChangedAttributes(atts);
     }
-    return App.albumsManager.change(App.albumsShowView);
+    App.albumsManager.change(App.albumsShowView);
+    return this.openPanel('album', App.albumsShowView.btnAlbum);
   };
   AlbumsEditView.prototype.saveOnEnter = function(e) {
+    console.log('AlbumsEditView::saveOnEnter');
     if (e.keyCode !== 13) {
       return;
     }

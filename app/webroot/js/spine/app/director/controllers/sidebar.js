@@ -52,6 +52,8 @@ SidebarView = (function() {
     Gallery.bind("refresh change", this.proxy(this.render));
     Spine.bind('render:galleryItem', this.proxy(this.renderItem));
     Spine.bind('render:subList', this.proxy(this.renderSubList));
+    Spine.bind('create:gallery', this.proxy(this.create));
+    Spine.bind('destroy:gallery', this.proxy(this.destroy));
     Spine.bind('drag:start', this.proxy(this.dragStart));
     Spine.bind('drag:over', this.proxy(this.dragOver));
     Spine.bind('drag:leave', this.proxy(this.dragLeave));
@@ -153,12 +155,19 @@ SidebarView = (function() {
       author: 'No Author'
     };
   };
-  SidebarView.prototype.create = function(e) {
+  SidebarView.prototype.create = function() {
     var gallery;
-    e.preventDefault();
-    this.preserveEditorOpen('gallery', App.albumsShowView.btnGallery);
+    console.log('Sidebar::create');
+    this.openPanel('gallery', App.albumsShowView.btnGallery);
     gallery = new Gallery(this.newAttributes());
     return gallery.save();
+  };
+  SidebarView.prototype.destroy = function() {
+    console.log('Sidebar::destroy');
+    Gallery.record.destroy();
+    if (!Gallery.count()) {
+      return Gallery.current();
+    }
   };
   SidebarView.prototype.toggleDraghandle = function() {
     var width;

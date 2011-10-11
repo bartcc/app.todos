@@ -15,7 +15,7 @@ Spine.Controller.include({
     }
     return el;
   },
-  preserveEditorOpen: function(controller, target) {
+  openPanel: function(controller, target) {
     App[controller].deactivate();
     return target.click();
   },

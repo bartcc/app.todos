@@ -6,6 +6,7 @@ class AlbumsEditView extends Spine.Controller
   elements:
     ".content"            : "editContent"
     '.optDestroy'         : 'btnDestroy'
+    'input name'
     
   events:
     "click .optEdit"      : "edit"
@@ -23,7 +24,6 @@ class AlbumsEditView extends Spine.Controller
     Spine.bind('save:gallery', @proxy @save)
     @bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
-    @create = @edit
 
   change: (item, mode) ->
     console.log 'AlbumsEditView::change'
@@ -44,7 +44,6 @@ class AlbumsEditView extends Spine.Controller
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
       else
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
-        
     @
 
   destroy: ->

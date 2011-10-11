@@ -35,7 +35,6 @@ AlbumsEditView = (function() {
     Spine.bind('save:gallery', this.proxy(this.save));
     this.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
-    this.create = this.edit;
   }
   AlbumsEditView.prototype.change = function(item, mode) {
     console.log('AlbumsEditView::change');

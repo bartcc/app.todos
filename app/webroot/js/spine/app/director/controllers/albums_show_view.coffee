@@ -179,6 +179,7 @@ class AlbumsShowView extends Spine.Controller
   editGallery: ->
     App.albumsEditView.render()
     App.albumsManager.change(App.albumsEditView)
+    @focusFirstInput App.albumsEditView.el
 
   createGallery: ->
     Spine.trigger('create:gallery')

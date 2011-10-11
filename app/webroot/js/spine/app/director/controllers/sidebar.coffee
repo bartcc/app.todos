@@ -34,7 +34,6 @@ class SidebarView extends Spine.Controller
     @list = new Spine.GalleryList
       el: @items,
       template: @template
-
     Gallery.bind("refresh change", @proxy @render)
     Spine.bind('render:galleryItem', @proxy @renderItem)
     Spine.bind('render:subList', @proxy @renderSubList)

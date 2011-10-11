@@ -214,7 +214,8 @@ AlbumsShowView = (function() {
   };
   AlbumsShowView.prototype.editGallery = function() {
     App.albumsEditView.render();
-    return App.albumsManager.change(App.albumsEditView);
+    App.albumsManager.change(App.albumsEditView);
+    return this.focusFirstInput(App.albumsEditView.el);
   };
   AlbumsShowView.prototype.createGallery = function() {
     return Spine.trigger('create:gallery');

@@ -21,7 +21,6 @@
   <div id="albums" class="views vbox flex">
     <div class="show view vbox flex">
       <ul class="options hbox">
-        <li class="disabled">Properties:</li>
         <li class="opt optOverview">Overview</li>
         <li class="splitter disabled flex"></li>
         <ul class="toolbar hbox"></ul>

@@ -251,16 +251,13 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.renderViewControl = function(controller, controlEl) {
     var active;
     active = controller.isActive();
-    $(".options .opt").each(function() {
+    return $(".options .opt").each(function() {
       if (this === controlEl) {
         return $(this).toggleClass("active", active);
       } else {
         return $(this).removeClass("active");
       }
     });
-    if (!App.hmanager.hasActive()) {
-      return this.toolBar.empty();
-    }
   };
   AlbumsShowView.prototype.animateView = function() {
     var hasActive, height;

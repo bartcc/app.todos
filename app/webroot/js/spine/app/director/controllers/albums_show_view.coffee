@@ -207,8 +207,6 @@ class AlbumsShowView extends Spine.Controller
       else
         $(@).removeClass("active")
 
-    @toolBar.empty() unless App.hmanager.hasActive()
-
   animateView: ->
     hasActive = ->
       if App.hmanager.hasActive()

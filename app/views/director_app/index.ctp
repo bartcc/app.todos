@@ -78,6 +78,9 @@
       <span class="name empty">No Name</span>
       {{/if}}
       <span class="cta">${count}</span>
+      {{if author}}
+      <span class="author">(${author})</span>
+      {{/if}}
     </div>
   </li>
   <ul id="sub-${id}" class="sublist vbox" style="display: none;"></ul>

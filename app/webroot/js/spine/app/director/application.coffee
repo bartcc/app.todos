@@ -15,7 +15,6 @@ class App extends Spine.Controller
 
   constructor: ->
     super
-
     @sidebar = new SidebarView
       el: @sidebarEl
     @gallery = new GalleryView
@@ -36,22 +35,28 @@ class App extends Spine.Controller
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
       initSize: @proxy ->
-        $(@sidebar.el).width()/2
+        $(@sidebar.el).width()
       disabled: false
       axis: 'x'
-      min: 250
+      min: -> 0
       max: @proxy ->
         $(@el).width()/2
+      goSleep: @proxy ->
+        @sidebar.search.hide()
+        @sidebar.footer.hide()
+      awake: @proxy ->
+        @sidebar.search.show()
+        @sidebar.footer.show()
 
     @hmanager = new Spine.Manager(@gallery, @album, @upload, @grid)
     @hmanager.initDrag @hDrag,
       initSize: @proxy ->
-        $(@.el).height()/2
+        $(@el).height()/2
       disabled: false
       axis: 'y'
-      min: 30
+      min: -> 30
       max: @proxy ->
-        @.el.height()*2/3
+        @el.height()*2/3
       goSleep: @proxy ->
         @albumsShowView.activeControl?.click()
 

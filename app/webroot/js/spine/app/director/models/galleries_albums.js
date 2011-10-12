@@ -21,6 +21,11 @@ GalleriesAlbum = (function() {
     }
     return false;
   };
+  GalleriesAlbum.prototype.selectAlbum = function(query) {
+    if (this.album_id === query) {
+      return true;
+    }
+  };
   return GalleriesAlbum;
 })();
 Spine.Model.GalleriesAlbum = GalleriesAlbum;

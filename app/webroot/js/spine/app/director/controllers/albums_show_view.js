@@ -141,9 +141,9 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.create = function() {
     var album;
     console.log('AlbumList::create');
-    this.openPanel('album', App.albumsShowView.btnAlbum);
     album = new Album(this.newAttributes());
     album.save();
+    this.openPanel('album', App.albumsShowView.btnAlbum);
     return Spine.trigger('create:albumJoin', Gallery.record, album);
   };
   AlbumsShowView.prototype.destroy = function() {
@@ -272,15 +272,15 @@ AlbumsShowView = (function() {
       if (hasActive()) {
         return parseInt(App.hmanager.currentDim) + "px";
       } else {
-        return "7px";
+        return "0px";
       }
     };
     return this.views.animate({
       height: height()
     }, 400);
   };
-  AlbumsShowView.prototype.changeSelection = function(instanceName) {
-    switch (instanceName) {
+  AlbumsShowView.prototype.changeSelection = function(modelName) {
+    switch (modelName) {
       case 'Gallery':
         this.toolBarList = function() {
           return [

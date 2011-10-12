@@ -49,13 +49,23 @@ App = (function() {
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
       initSize: this.proxy(function() {
-        return $(this.sidebar.el).width() / 2;
+        return $(this.sidebar.el).width();
       }),
       disabled: false,
       axis: 'x',
-      min: 250,
+      min: function() {
+        return 0;
+      },
       max: this.proxy(function() {
         return $(this.el).width() / 2;
+      }),
+      goSleep: this.proxy(function() {
+        this.sidebar.search.hide();
+        return this.sidebar.footer.hide();
+      }),
+      awake: this.proxy(function() {
+        this.sidebar.search.show();
+        return this.sidebar.footer.show();
       })
     });
     this.hmanager = new Spine.Manager(this.gallery, this.album, this.upload, this.grid);
@@ -65,7 +75,9 @@ App = (function() {
       }),
       disabled: false,
       axis: 'y',
-      min: 30,
+      min: function() {
+        return 30;
+      },
       max: this.proxy(function() {
         return this.el.height() * 2 / 3;
       }),

@@ -9,6 +9,8 @@ class SidebarView extends Spine.Controller
     'input'                 : 'input'
     '.items'                : 'items'
     '.droppable'            : 'droppable'
+    '.footer'               : 'footer'
+    '.search'               : 'search'
 
   #Attach event delegation
   events:
@@ -31,6 +33,7 @@ class SidebarView extends Spine.Controller
 
   constructor: ->
     super
+    @el.width(300)
     @list = new Spine.GalleryList
       el: @items,
       template: @template
@@ -116,7 +119,6 @@ class SidebarView extends Spine.Controller
     
   newAttributes: ->
     name: 'New Gallery'
-    author: 'No Author'
 
   create: ->
     console.log 'Sidebar::create'
@@ -130,17 +132,20 @@ class SidebarView extends Spine.Controller
     Gallery.current() if !Gallery.count()
 
   toggleDraghandle: ->
+    
     width = =>
+      max = App.vmanager.currentDim
+      min = App.vmanager.min()
       width =  @el.width()
-      max = App.vmanager.max()
-      min = App.vmanager.min
-      if width >= min and width < max-20
-        max+"px"
+      if width > min and width < max
+        App.vmanager.awake()
+        max+1+"px"
       else
+        App.vmanager.goSleep()
         min+'px'
     
     @el.animate
       width: width()
-      400
+      400#speed
 
 module?.exports = SidebarView

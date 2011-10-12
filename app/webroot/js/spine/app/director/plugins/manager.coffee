@@ -16,9 +16,10 @@ Spine.Manager.include
       disabled: true
       axis: 'x'
       min: 20
-      max: -> 500
+      max: -> 300
       handle: '.draghandle'
       goSleep: ->
+      awake: ->
     options = $.extend({}, defaults, opts)
     ori = if options.axis is 'y' then 'top' else 'left'
     dim = if options.axis is 'y' then 'height' else 'width'
@@ -30,6 +31,8 @@ Spine.Manager.include
         @el.css({position: 'inherit'})
         @disableDrag() if options.disabled
         @currentDim = options.initSize.call @
+        @goSleep = options.goSleep
+        @awake = options.awake
         @min = min
         @max = max
       axis: options.axis
@@ -41,15 +44,16 @@ Spine.Manager.include
         _pos = ui.position[ori]
         _cur = @currentDim
         _max = max.call @
+        _min = min.call @
         $(ui.helper)[dim] =>
           d = (_cur+_ori)-(_pos*rev)
-          if d >= min and d <= _max
+          if d >= _min and d <= _max
             return d
-          if d < min
-            unless @el.draggable("option", "disabled")
-              options.goSleep()
-              return min
+          if d < _min
+            options.goSleep() unless @el.draggable("option", "disabled")
+            return _min
           if d > _max
+            options.awake() unless @el.draggable("option", "disabled")
             return _max
       stop: (e, ui) =>
         @currentDim = $(ui.helper)[dim]() unless @el.draggable("option", "disabled")

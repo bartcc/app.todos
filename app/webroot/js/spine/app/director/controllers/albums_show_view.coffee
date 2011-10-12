@@ -120,9 +120,9 @@ class AlbumsShowView extends Spine.Controller
 
   create: ->
     console.log 'AlbumList::create'
-    @openPanel('album', App.albumsShowView.btnAlbum)
     album = new Album(@newAttributes())
     album.save()
+    @openPanel('album', App.albumsShowView.btnAlbum)
     Spine.trigger('create:albumJoin', Gallery.record, album)
 
   destroy: ->
@@ -217,14 +217,14 @@ class AlbumsShowView extends Spine.Controller
     
     
     height = ->
-      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "7px"
+      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "0px"
     
     @views.animate
       height: height()
       400
 
-  changeSelection: (instanceName) ->
-    switch instanceName
+  changeSelection: (modelName) ->
+    switch modelName
       when 'Gallery'
         @toolBarList = -> [
           {name: 'Edit Gallery', klass: 'optEditGallery', disabled: !Gallery.record}

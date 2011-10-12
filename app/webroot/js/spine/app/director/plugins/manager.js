@@ -29,10 +29,11 @@ Spine.Manager.include({
       axis: 'x',
       min: 20,
       max: function() {
-        return 500;
+        return 300;
       },
       handle: '.draghandle',
-      goSleep: function() {}
+      goSleep: function() {},
+      awake: function() {}
     };
     options = $.extend({}, defaults, opts);
     ori = options.axis === 'y' ? 'top' : 'left';
@@ -49,6 +50,8 @@ Spine.Manager.include({
           this.disableDrag();
         }
         this.currentDim = options.initSize.call(this);
+        this.goSleep = options.goSleep;
+        this.awake = options.awake;
         this.min = min;
         return this.max = max;
       }, this),
@@ -58,24 +61,28 @@ Spine.Manager.include({
         return this.currentDim = $(ui.helper)[dim]();
       }, this),
       drag: __bind(function(e, ui) {
-        var _cur, _max, _ori, _pos;
+        var _cur, _max, _min, _ori, _pos;
         _ori = ui.originalPosition[ori];
         _pos = ui.position[ori];
         _cur = this.currentDim;
         _max = max.call(this);
+        _min = min.call(this);
         return $(ui.helper)[dim](__bind(function() {
           var d;
           d = (_cur + _ori) - (_pos * rev);
-          if (d >= min && d <= _max) {
+          if (d >= _min && d <= _max) {
             return d;
           }
-          if (d < min) {
+          if (d < _min) {
             if (!this.el.draggable("option", "disabled")) {
               options.goSleep();
-              return min;
             }
+            return _min;
           }
           if (d > _max) {
+            if (!this.el.draggable("option", "disabled")) {
+              options.awake();
+            }
             return _max;
           }
         }, this));

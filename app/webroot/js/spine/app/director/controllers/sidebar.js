@@ -24,7 +24,9 @@ SidebarView = (function() {
   SidebarView.prototype.elements = {
     'input': 'input',
     '.items': 'items',
-    '.droppable': 'droppable'
+    '.droppable': 'droppable',
+    '.footer': 'footer',
+    '.search': 'search'
   };
   SidebarView.prototype.events = {
     "click button": "create",
@@ -45,6 +47,7 @@ SidebarView = (function() {
   };
   function SidebarView() {
     SidebarView.__super__.constructor.apply(this, arguments);
+    this.el.width(300);
     this.list = new Spine.GalleryList({
       el: this.items,
       template: this.template
@@ -151,8 +154,7 @@ SidebarView = (function() {
   };
   SidebarView.prototype.newAttributes = function() {
     return {
-      name: 'New Gallery',
-      author: 'No Author'
+      name: 'New Gallery'
     };
   };
   SidebarView.prototype.create = function() {
@@ -173,12 +175,14 @@ SidebarView = (function() {
     var width;
     width = __bind(function() {
       var max, min;
+      max = App.vmanager.currentDim;
+      min = App.vmanager.min();
       width = this.el.width();
-      max = App.vmanager.max();
-      min = App.vmanager.min;
-      if (width >= min && width < max - 20) {
-        return max + "px";
+      if (width > min && width < max) {
+        App.vmanager.awake();
+        return max + 1 + "px";
       } else {
+        App.vmanager.goSleep();
         return min + 'px';
       }
     }, this);

@@ -33,6 +33,7 @@ class Spine.AlbumList extends Spine.Controller
 
       selected = Album.find(list[0]) if Album.exists(list[0])
       if selected and !selected.destroyed
+        Album.current(selected)
         item = selected
 
     Spine.trigger('change:selectedAlbum', item)
@@ -58,6 +59,7 @@ class Spine.AlbumList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumList::click'
     item = $(e.target).item()
+    Spine.trigger('change:selection', item.constructor.className) unless @isCtrlClick(e)
 
     if App.hmanager.hasActive()
       @openPanel('album', App.albumsShowView.btnAlbum)

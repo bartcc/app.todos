@@ -73,6 +73,7 @@ class Spine.GalleryList extends Spine.Controller
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.target).item()
+    Spine.trigger('change:selection', item.constructor.className) unless @isCtrlClick(e)
     @change item, 'show', e
 
   edit: (e) ->

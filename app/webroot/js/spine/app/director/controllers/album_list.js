@@ -51,6 +51,7 @@ Spine.AlbumList = (function() {
         selected = Album.find(list[0]);
       }
       if (selected && !selected.destroyed) {
+        Album.current(selected);
         item = selected;
       }
     }
@@ -80,6 +81,9 @@ Spine.AlbumList = (function() {
     var item;
     console.log('AlbumList::click');
     item = $(e.target).item();
+    if (!this.isCtrlClick(e)) {
+      Spine.trigger('change:selection', item.constructor.className);
+    }
     if (App.hmanager.hasActive()) {
       this.openPanel('album', App.albumsShowView.btnAlbum);
     }

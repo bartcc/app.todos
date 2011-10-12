@@ -91,6 +91,9 @@ Spine.GalleryList = (function() {
     var item;
     console.log('GalleryList::click');
     item = $(e.target).item();
+    if (!this.isCtrlClick(e)) {
+      Spine.trigger('change:selection', item.constructor.className);
+    }
     return this.change(item, 'show', e);
   };
   GalleryList.prototype.edit = function(e) {

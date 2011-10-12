@@ -73,7 +73,8 @@ AlbumsShowView = (function() {
     Spine.bind("create:albumJoin", this.proxy(this.createJoin));
     Album.bind("change", this.proxy(this.render));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
-    Spine.bind('change:selection', this.proxy(this.renderToolbar));
+    Spine.bind('change:selectedAlbum', this.proxy(this.renderToolbar));
+    Spine.bind('change:selection', this.proxy(this.changeSelection));
     GalleriesAlbum.bind("change", this.proxy(this.render));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.activeControl = this.btnGallery;
@@ -119,6 +120,7 @@ AlbumsShowView = (function() {
     }
   };
   AlbumsShowView.prototype.renderToolbar = function() {
+    console.log('AlbumsShowView::renderToolbar');
     this.toolBar.html(this.toolsTemplate(this.toolBarList()));
     return this.refreshElements();
   };
@@ -278,38 +280,51 @@ AlbumsShowView = (function() {
       height: height()
     }, 400);
   };
+  AlbumsShowView.prototype.changeSelection = function(instanceName) {
+    console.log('AlbumsShowView::changeSelection');
+    switch (instanceName) {
+      case 'Gallery':
+        console.log('instanceof Gallery');
+        this.toolBarList = function() {
+          return [
+            {
+              name: 'Edit Gallery',
+              klass: 'optEditGallery',
+              disabled: !Gallery.record
+            }, {
+              name: 'New Gallery',
+              klass: 'optCreateGallery'
+            }, {
+              name: 'Delete Gallery',
+              klass: 'optDestroyGallery',
+              disabled: !Gallery.record
+            }
+          ];
+        };
+        break;
+      case 'Album':
+        console.log('instanceof Album');
+        this.toolBarList = function() {
+          return [
+            {
+              name: 'New Album',
+              klass: 'optCreateAlbum'
+            }, {
+              name: 'Delete Album',
+              klass: 'optDestroyAlbum ',
+              disabled: !Gallery.selectionList().length
+            }
+          ];
+        };
+    }
+    return this.renderToolbar();
+  };
   AlbumsShowView.prototype.toggleGallery = function(e) {
-    this.toolBarList = function() {
-      return [
-        {
-          name: 'Edit Gallery',
-          klass: 'optEditGallery',
-          disabled: !Gallery.record
-        }, {
-          name: 'New Gallery',
-          klass: 'optCreateGallery'
-        }, {
-          name: 'Delete Gallery',
-          klass: 'optDestroyGallery',
-          disabled: !Gallery.record
-        }
-      ];
-    };
+    Spine.trigger('change:selection', 'Gallery');
     return this.trigger("toggle:view", App.gallery, e.target);
   };
   AlbumsShowView.prototype.toggleAlbum = function(e) {
-    this.toolBarList = function() {
-      return [
-        {
-          name: 'New Album',
-          klass: 'optCreateAlbum'
-        }, {
-          name: 'Delete Album',
-          klass: 'optDestroyAlbum ',
-          disabled: !Gallery.selectionList().length
-        }
-      ];
-    };
+    Spine.trigger('change:selection', 'Album');
     return this.trigger("toggle:view", App.album, e.target);
   };
   AlbumsShowView.prototype.toggleUpload = function(e) {
@@ -349,7 +364,6 @@ AlbumsShowView = (function() {
       this.activeControl = $(control);
       App.hmanager.trigger("change", controller);
     }
-    this.renderToolbar();
     this.renderViewControl(controller, control);
     return this.animateView();
   };

@@ -61,7 +61,8 @@ class AlbumsShowView extends Spine.Controller
     Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("change", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
-    Spine.bind('change:selection', @proxy @renderToolbar)
+    Spine.bind('change:selectedAlbum', @proxy @renderToolbar)
+    Spine.bind('change:selection', @proxy @changeSelection)
     GalleriesAlbum.bind("change", @proxy @render)
     @bind("toggle:view", @proxy @toggleView)
 
@@ -103,6 +104,7 @@ class AlbumsShowView extends Spine.Controller
       @header.html '<h3>Album Originals</h3><h2>All Albums</h2>'
 
   renderToolbar: ->
+    console.log 'AlbumsShowView::renderToolbar'
     @toolBar.html @toolsTemplate @toolBarList()
     @refreshElements()
   
@@ -221,19 +223,30 @@ class AlbumsShowView extends Spine.Controller
       height: height()
       400
 
+  changeSelection: (instanceName) ->
+    console.log 'AlbumsShowView::changeSelection'
+    switch instanceName
+      when 'Gallery'
+        console.log 'instanceof Gallery'
+        @toolBarList = -> [
+          {name: 'Edit Gallery', klass: 'optEditGallery', disabled: !Gallery.record}
+          {name: 'New Gallery', klass: 'optCreateGallery'}
+          {name: 'Delete Gallery', klass: 'optDestroyGallery', disabled: !Gallery.record}
+        ]
+      when 'Album'
+        console.log 'instanceof Album'
+        @toolBarList = -> [
+          {name: 'New Album', klass: 'optCreateAlbum'}
+          {name: 'Delete Album', klass: 'optDestroyAlbum ', disabled: !Gallery.selectionList().length}
+        ]
+    @renderToolbar()
+
   toggleGallery: (e) ->
-    @toolBarList = -> [
-      {name: 'Edit Gallery', klass: 'optEditGallery', disabled: !Gallery.record}
-      {name: 'New Gallery', klass: 'optCreateGallery'}
-      {name: 'Delete Gallery', klass: 'optDestroyGallery', disabled: !Gallery.record}
-    ]
+    Spine.trigger('change:selection', 'Gallery')
     @trigger("toggle:view", App.gallery, e.target)
 
   toggleAlbum: (e) ->
-    @toolBarList = -> [
-      {name: 'New Album', klass: 'optCreateAlbum'}
-      {name: 'Delete Album', klass: 'optDestroyAlbum ', disabled: !Gallery.selectionList().length}
-    ]
+    Spine.trigger('change:selection', 'Album')
     @trigger("toggle:view", App.album, e.target)
 
   toggleUpload: (e) ->
@@ -259,7 +272,6 @@ class AlbumsShowView extends Spine.Controller
       @activeControl = $(control)
       App.hmanager.trigger("change", controller)
     
-    @renderToolbar()
     @renderViewControl controller, control
     @animateView()
   

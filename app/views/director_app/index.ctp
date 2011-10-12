@@ -3,19 +3,16 @@
 </header>
 
 <div id="wrapper" class="hbox flex">
-  <div id="sidebar-wrapper" class="hbox vdraggable">
-    <div id="sidebar" class="vbox flex">
+  <div id="sidebar" class="hbox vdraggable">
+    <div id="sidebar-inner" class="vbox flex">
       <div class="search">
         <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
       </div>
-
       <ul class="items vbox flex autoflow"></ul>
-
-      <footer>
+      <footer class="footer">
         <button>New Gallery</button>
       </footer>
     </div>
-
     <div class="vdivide draghandle"></div>
   </div>
   <div id="albums" class="views vbox flex">
@@ -41,10 +38,10 @@
             </div>
           </div>
           <div id="upload" class="view flex autoflow" style="">
-            <div>Not quite there yet</div>
+            <div class="dimmed">Not quite there yet</div>
           </div>
           <div id="grid" class="view flex autoflow" style="">
-            <div>Not quite there yet</div>
+            <div class="dimmed">Not quite there yet</div>
           </div>
         </div>
       </div>  
@@ -80,6 +77,8 @@
       <span class="cta">${count}</span>
       {{if author}}
       <span class="author">(${author})</span>
+      {{else}}
+      <span class="author">(no author)</span>
       {{/if}}
     </div>
   </li>
@@ -155,7 +154,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="noSelectionTemplate">
-  <div>${type}</div>
+  <div class="dimmed">${type}</div>
 </script>
 
 <script type="text/x-jquery-tmpl" id="headerTemplate">

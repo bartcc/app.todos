@@ -229,8 +229,7 @@ AlbumsShowView = (function() {
       return;
     }
     App.albumsEditView.render();
-    App.albumsManager.change(App.albumsEditView);
-    return this.focusFirstInput(App.albumsEditView.el);
+    return App.albumsManager.change(App.albumsEditView);
   };
   AlbumsShowView.prototype.createGallery = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {
@@ -281,10 +280,8 @@ AlbumsShowView = (function() {
     }, 400);
   };
   AlbumsShowView.prototype.changeSelection = function(instanceName) {
-    console.log('AlbumsShowView::changeSelection');
     switch (instanceName) {
       case 'Gallery':
-        console.log('instanceof Gallery');
         this.toolBarList = function() {
           return [
             {
@@ -303,7 +300,6 @@ AlbumsShowView = (function() {
         };
         break;
       case 'Album':
-        console.log('instanceof Album');
         this.toolBarList = function() {
           return [
             {

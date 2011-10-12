@@ -12,12 +12,12 @@ Gallery = (function() {
   function Gallery() {
     Gallery.__super__.constructor.apply(this, arguments);
   }
-  Gallery.configure("Gallery", "name", 'author', "description");
+  Gallery.configure('Gallery', 'name', 'author', "description");
   Gallery.extend(Spine.Model.Ajax);
   Gallery.extend(Spine.Model.AjaxRelations);
   Gallery.extend(Spine.Model.Filter);
   Gallery.extend(Spine.Model.Extender);
-  Gallery.selectAttributes = ["name", 'author', "description"];
+  Gallery.selectAttributes = ['name', 'author'];
   Gallery.url = function() {
     return '' + base_url + 'galleries';
   };
@@ -85,12 +85,13 @@ Gallery = (function() {
     return result;
   };
   Gallery.prototype.select = function(query) {
+    console.log('select');
     return this.id === this.constructor.record.id;
   };
   Gallery.prototype.searchSelect = function(query) {
     var atts, key, value;
     query = query.toLowerCase();
-    atts = (this.selectAttributes || this.attributes).apply(this);
+    atts = this.selectAttributes.apply(this);
     for (key in atts) {
       value = atts[key];
       value = value.toLowerCase();

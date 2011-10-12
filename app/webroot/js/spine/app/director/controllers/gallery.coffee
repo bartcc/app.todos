@@ -26,7 +26,7 @@ class GalleryView extends Spine.Controller
     console.log 'Gallery::render'
     if @current and !(@current.destroyed)
       @editEl.html @template @current
-      @focusFirstInput(@editEl)
+      #@focusFirstInput(@editEl)
     else
       missing         = 'Select a Gallery and an Album!'
       missingGallery  = if Gallery.count() then 'Select a Gallery!' else 'Create a Gallery'

@@ -2,7 +2,7 @@
 class App extends Spine.Controller
   
   elements:
-    '#sidebar-wrapper'    : 'sidebarEl'
+    '#sidebar'    : 'sidebarEl'
     '#albums'             : 'albumsEl'
     '#albums .show'       : 'albumsShowEl'
     '#albums .edit'       : 'albumsEditEl'

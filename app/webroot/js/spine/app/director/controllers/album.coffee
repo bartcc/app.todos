@@ -40,7 +40,7 @@ class AlbumView extends Spine.Controller
       @item.html $("#noSelectionTemplate").tmpl({type: 'Select an Gallery!'})
     else
       @item.html @template item
-      @focusFirstInput(@editEl)
+      #@focusFirstInput(@editEl)
     @
 
   save: (el) ->

@@ -10,7 +10,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
 App = (function() {
   __extends(App, Spine.Controller);
   App.prototype.elements = {
-    '#sidebar-wrapper': 'sidebarEl',
+    '#sidebar': 'sidebarEl',
     '#albums': 'albumsEl',
     '#albums .show': 'albumsShowEl',
     '#albums .edit': 'albumsEditEl',

@@ -41,7 +41,6 @@ GalleryView = (function() {
     console.log('Gallery::render');
     if (this.current && !this.current.destroyed) {
       this.editEl.html(this.template(this.current));
-      this.focusFirstInput(this.editEl);
     } else {
       missing = 'Select a Gallery and an Album!';
       missingGallery = Gallery.count() ? 'Select a Gallery!' : 'Create a Gallery';

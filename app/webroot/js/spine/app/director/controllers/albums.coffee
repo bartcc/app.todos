@@ -78,7 +78,7 @@ class AlbumsView extends Spine.Controller
     @current = item if item
     if @current
       @editContent.html $("#editGalleryTemplate").tmpl @current
-      @focusFirstInput(@editEl)
+      #@focusFirstInput(@editEl)
     else
       @editContent.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
     @
@@ -99,7 +99,7 @@ class AlbumsView extends Spine.Controller
   edit: (item) ->
     @editEl.show 0, @proxy ->
       @showEl.hide()
-      @focusFirstInput(@editEl)
+      #@focusFirstInput(@editEl)
 
   destroy: ->
     @current.destroy()

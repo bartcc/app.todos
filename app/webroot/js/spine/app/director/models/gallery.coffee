@@ -1,13 +1,13 @@
 
 class Gallery extends Spine.Model
-  @configure "Gallery", "name", 'author', "description"
+  @configure 'Gallery', 'name', 'author', "description"
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
-  @selectAttributes: ["name", 'author', "description"]
+  @selectAttributes: ['name', 'author']
   
   @url: ->
     '' + base_url + 'galleries'
@@ -48,11 +48,12 @@ class Gallery extends Spine.Model
     result
 
   select: (query) ->
+    console.log 'select'
     @id is @constructor.record.id
 
   searchSelect: (query) ->
     query = query.toLowerCase()
-    atts = (@selectAttributes or @attributes).apply @
+    atts = @selectAttributes.apply @
     for key, value of atts
       value = value.toLowerCase()
       unless (value?.indexOf(query) is -1)

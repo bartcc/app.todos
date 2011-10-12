@@ -99,7 +99,6 @@ AlbumsView = (function() {
     }
     if (this.current) {
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
-      this.focusFirstInput(this.editEl);
     } else {
       this.editContent.html($("#noSelectionTemplate").tmpl({
         type: 'Select a Gallery!'
@@ -122,8 +121,7 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.edit = function(item) {
     return this.editEl.show(0, this.proxy(function() {
-      this.showEl.hide();
-      return this.focusFirstInput(this.editEl);
+      return this.showEl.hide();
     }));
   };
   AlbumsView.prototype.destroy = function() {

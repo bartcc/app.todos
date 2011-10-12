@@ -59,7 +59,6 @@ AlbumView = (function() {
       }));
     } else {
       this.item.html(this.template(item));
-      this.focusFirstInput(this.editEl);
     }
     return this;
   };

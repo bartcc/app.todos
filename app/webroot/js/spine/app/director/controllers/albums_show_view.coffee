@@ -186,7 +186,7 @@ class AlbumsShowView extends Spine.Controller
     return if $(e.currentTarget).hasClass('disabled')
     App.albumsEditView.render()
     App.albumsManager.change(App.albumsEditView)
-    @focusFirstInput App.albumsEditView.el
+    #@focusFirstInput App.albumsEditView.el
 
   createGallery: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
@@ -224,17 +224,14 @@ class AlbumsShowView extends Spine.Controller
       400
 
   changeSelection: (instanceName) ->
-    console.log 'AlbumsShowView::changeSelection'
     switch instanceName
       when 'Gallery'
-        console.log 'instanceof Gallery'
         @toolBarList = -> [
           {name: 'Edit Gallery', klass: 'optEditGallery', disabled: !Gallery.record}
           {name: 'New Gallery', klass: 'optCreateGallery'}
           {name: 'Delete Gallery', klass: 'optDestroyGallery', disabled: !Gallery.record}
         ]
       when 'Album'
-        console.log 'instanceof Album'
         @toolBarList = -> [
           {name: 'New Album', klass: 'optCreateAlbum'}
           {name: 'Delete Album', klass: 'optDestroyAlbum ', disabled: !Gallery.selectionList().length}

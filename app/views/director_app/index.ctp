@@ -146,8 +146,8 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="toolsTemplate">
-  
-    <li class="${klass}">${name}</li>
+    
+    <li class="{{if disabled}}disabled{{/if}} ${klass}">${name}</li>
   
 </script>
 

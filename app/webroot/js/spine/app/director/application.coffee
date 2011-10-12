@@ -61,4 +61,4 @@ $ ->
   window.App = new App(el: $('body'))
   
   App.albumsManager.change(App.albumsShowView)
-  #App.albumsShowView.btnGallery.click()
+  App.albumsShowView.btnGallery.click()

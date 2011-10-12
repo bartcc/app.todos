@@ -118,6 +118,7 @@ Model.Extender =
           @addUnique(list)
         else
           @addRemove(list)
+        Spine.trigger('change:selection', list.length)
         list
 
       #prevents an update if model hasn't changed

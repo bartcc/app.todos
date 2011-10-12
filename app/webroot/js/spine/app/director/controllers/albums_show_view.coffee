@@ -61,10 +61,10 @@ class AlbumsShowView extends Spine.Controller
     Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("change", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selection', @proxy @renderToolbar)
     GalleriesAlbum.bind("change", @proxy @render)
     @bind("toggle:view", @proxy @toggleView)
 
-    @toolBarList = []
     @activeControl = @btnGallery
     @create = @edit = @editGallery
 
@@ -90,6 +90,7 @@ class AlbumsShowView extends Spine.Controller
       items = Album.filter()
     
     @renderHeader(items)
+    @renderToolbar()
     @list.render items, item
     #@initSortables() #interferes with html5 dnd!
    
@@ -101,10 +102,12 @@ class AlbumsShowView extends Spine.Controller
     else
       @header.html '<h3>Album Originals</h3><h2>All Albums</h2>'
 
-  renderToolBar: ->
-    @toolBar.html @toolsTemplate @toolBarList
+  renderToolbar: ->
+    @toolBar.html @toolsTemplate @toolBarList()
     @refreshElements()
   
+  toolBarList: -> arguments[0]
+
   initSortables: ->
     sortOptions = {}
     @items.sortable sortOptions
@@ -123,7 +126,6 @@ class AlbumsShowView extends Spine.Controller
   destroy: ->
     console.log 'AlbumList::destroy'
     list = Gallery.selectionList().slice(0)
-
     albums = []
     Album.each (record) =>
       albums.push record unless list.indexOf(record.id) is -1
@@ -170,21 +172,26 @@ class AlbumsShowView extends Spine.Controller
 
     target.save()
 
-  createAlbum: ->
+  createAlbum: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:album')
   
-  destroyAlbum: ->
+  destroyAlbum: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:album')
 
-  editGallery: ->
+  editGallery: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
     App.albumsEditView.render()
     App.albumsManager.change(App.albumsEditView)
     @focusFirstInput App.albumsEditView.el
 
-  createGallery: ->
+  createGallery: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:gallery')
   
-  destroyGallery: ->
+  destroyGallery: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
   email: ->
@@ -217,29 +224,29 @@ class AlbumsShowView extends Spine.Controller
       400
 
   toggleGallery: (e) ->
-    @toolBarList = [
-      {name: 'Edit Gallery', klass: 'optEditGallery'}
+    @toolBarList = -> [
+      {name: 'Edit Gallery', klass: 'optEditGallery', disabled: !Gallery.record}
       {name: 'New Gallery', klass: 'optCreateGallery'}
-      {name: 'Delete Gallery', klass: 'optDestroyGallery'}
+      {name: 'Delete Gallery', klass: 'optDestroyGallery', disabled: !Gallery.record}
     ]
     @trigger("toggle:view", App.gallery, e.target)
 
   toggleAlbum: (e) ->
-    @toolBarList = [
+    @toolBarList = -> [
       {name: 'New Album', klass: 'optCreateAlbum'}
-      {name: 'Delete Album', klass: 'optDestroyAlbum'}
+      {name: 'Delete Album', klass: 'optDestroyAlbum ', disabled: !Gallery.selectionList().length}
     ]
     @trigger("toggle:view", App.album, e.target)
 
   toggleUpload: (e) ->
-    @toolBarList = [
+    @toolBarList = -> [
       {name: 'Show Upload', klass: ''}
       {name: 'Edit Upload', klass: ''}
     ]
     @trigger("toggle:view", App.upload, e.target)
 
   toggleGrid: (e) ->
-    @toolBarList = [
+    @toolBarList = -> [
       {name: 'Show Grid', klass: ''}
       {name: 'Edit Grid', klass: ''}
     ]
@@ -254,7 +261,7 @@ class AlbumsShowView extends Spine.Controller
       @activeControl = $(control)
       App.hmanager.trigger("change", controller)
     
-    @renderToolBar()
+    @renderToolbar()
     @renderViewControl controller, control
     @animateView()
   

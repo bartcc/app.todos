@@ -201,6 +201,7 @@ Model.Extender = {
         } else {
           this.addRemove(list);
         }
+        Spine.trigger('change:selection', list.length);
         return list;
       },
       updateChangedAttributes: function(atts) {

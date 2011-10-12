@@ -1,10 +1,10 @@
 Filter =
   ->
     extend =
-      filter: (query, select = 'select') ->
+      filter: (query, func = 'select') ->
         return @all() unless query
         @select (item) ->
-          item[select] query
+          item[func] query
 
     include =
       select: (query) ->

@@ -53,9 +53,9 @@ class Spine.GalleryList extends Spine.Controller
       @items = items
       @html @template(@items)
     else if mode is 'update'
-      data = $('#'+item.id).item()
-      $('.item-content .name', '#'+item.id).html data.name
-      #@renderAlbumSubList item.id
+      old_content = $('.item-content', '#'+item.id)
+      new_content = $('.item-content', @template item)
+      old_content.html new_content
     else if mode is 'create'
       @append @template(item)
     else if mode is 'destroy'

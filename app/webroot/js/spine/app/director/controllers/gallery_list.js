@@ -59,7 +59,7 @@ Spine.GalleryList = (function() {
     return Spine.trigger('change:selectedGallery', this.current, mode);
   };
   GalleryList.prototype.render = function(items, item, mode) {
-    var data, record, _i, _len;
+    var new_content, old_content, record, _i, _len;
     console.log('GalleryList::render');
     if (!item) {
       for (_i = 0, _len = items.length; _i < _len; _i++) {
@@ -69,8 +69,9 @@ Spine.GalleryList = (function() {
       this.items = items;
       this.html(this.template(this.items));
     } else if (mode === 'update') {
-      data = $('#' + item.id).item();
-      $('.item-content .name', '#' + item.id).html(data.name);
+      old_content = $('.item-content', '#' + item.id);
+      new_content = $('.item-content', this.template(item));
+      old_content.html(new_content);
     } else if (mode === 'create') {
       this.append(this.template(item));
     } else if (mode === 'destroy') {

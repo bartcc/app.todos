@@ -4,7 +4,7 @@
 
 <div id="wrapper" class="hbox flex">
   <div id="sidebar" class="hbox vdraggable">
-    <div id="sidebar-inner" class="vbox flex">
+    <div class="vbox flex inner">
       <div class="search">
         <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
       </div>

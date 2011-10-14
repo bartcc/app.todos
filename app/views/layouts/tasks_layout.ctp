@@ -44,9 +44,9 @@
     echo $this->Html->script('lib/jquery/ui/jquery.ui.dialog');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
 
-    echo $this->Html->script('spine/lib/spine2');
+    echo $this->Html->script('spine/lib/spine');
     echo $this->Html->script('spine/lib/local');
-    echo $this->Html->script('spine/lib/ajax2');
+    echo $this->Html->script('spine/lib/ajax');
     
     echo $this->Html->script('spine/app/todos/controllers/sidebar');
     echo $this->Html->script('spine/app/todos/controllers/main');

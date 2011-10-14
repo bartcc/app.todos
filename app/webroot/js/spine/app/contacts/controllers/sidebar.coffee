@@ -38,7 +38,6 @@ class Sidebar extends Spine.Controller
     first_name: ''
     last_name: ''
 
-  #Called when 'Create' button is clicked
   create: (e) ->
     e.preventDefault()
     contact = new Contact @newAttributes()

@@ -272,7 +272,7 @@ AlbumsShowView = (function() {
       if (hasActive()) {
         return parseInt(App.hmanager.currentDim) + "px";
       } else {
-        return "0px";
+        return "8px";
       }
     };
     return this.views.animate({

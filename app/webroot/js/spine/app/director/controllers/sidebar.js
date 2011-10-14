@@ -25,8 +25,7 @@ SidebarView = (function() {
     'input': 'input',
     '.items': 'items',
     '.droppable': 'droppable',
-    '.footer': 'footer',
-    '.search': 'search'
+    '.inner': 'inner'
   };
   SidebarView.prototype.events = {
     "click button": "create",
@@ -122,10 +121,10 @@ SidebarView = (function() {
   };
   SidebarView.prototype.dragLeave = function(e) {};
   SidebarView.prototype.dropComplete = function(target, e) {
-    var albums, item, items, origin, source, _i, _len;
+    var albums, item, items, origin, source, _i, _len, _ref, _ref2;
     console.log('Sidebar::dropComplete');
-    source = Spine.dragItem.source;
-    origin = Spine.dragItem.origin || Gallery.record;
+    source = (_ref = Spine.dragItem) != null ? _ref.source : void 0;
+    origin = ((_ref2 = Spine.dragItem) != null ? _ref2.origin : void 0) || Gallery.record;
     if (!(source instanceof Album)) {
       alert('You can only drop Albums here');
       return;
@@ -172,23 +171,27 @@ SidebarView = (function() {
     }
   };
   SidebarView.prototype.toggleDraghandle = function() {
-    var width;
+    var speed, w, width;
     width = __bind(function() {
-      var max, min;
+      var max, w;
       max = App.vmanager.currentDim;
-      min = App.vmanager.min();
-      width = this.el.width();
-      if (width > min && width < max) {
+      w = this.el.width();
+      if (App.vmanager.sleep) {
         App.vmanager.awake();
-        return max + 1 + "px";
+        this.clb = function() {};
+        return max + "px";
       } else {
-        App.vmanager.goSleep();
-        return min + 'px';
+        this.clb = App.vmanager.goSleep;
+        return '8px';
       }
     }, this);
+    w = width();
+    speed = 500;
     return this.el.animate({
-      width: width()
-    }, 400);
+      width: w
+    }, speed, __bind(function() {
+      return this.clb();
+    }, this));
   };
   return SidebarView;
 })();

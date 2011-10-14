@@ -9,8 +9,7 @@ class SidebarView extends Spine.Controller
     'input'                 : 'input'
     '.items'                : 'items'
     '.droppable'            : 'droppable'
-    '.footer'               : 'footer'
-    '.search'               : 'search'
+    '.inner'               : 'inner'
 
   #Attach event delegation
   events:
@@ -95,8 +94,8 @@ class SidebarView extends Spine.Controller
   dropComplete: (target, e) ->
     console.log 'Sidebar::dropComplete'
 
-    source = Spine.dragItem.source
-    origin = Spine.dragItem.origin or Gallery.record
+    source = Spine.dragItem?.source
+    origin = Spine.dragItem?.origin or Gallery.record
 
     unless source instanceof Album
       alert 'You can only drop Albums here'
@@ -135,17 +134,20 @@ class SidebarView extends Spine.Controller
     
     width = =>
       max = App.vmanager.currentDim
-      min = App.vmanager.min()
-      width =  @el.width()
-      if width > min and width < max
+      w =  @el.width()
+      if App.vmanager.sleep
         App.vmanager.awake()
-        max+1+"px"
+        @clb = ->
+        max+"px"
       else
-        App.vmanager.goSleep()
-        min+'px'
+        @clb = App.vmanager.goSleep
+        '8px'
     
+    w = width()
+    speed = 500
     @el.animate
-      width: width()
-      400#speed
+      width: w
+      speed#speed
+      => @clb()
 
 module?.exports = SidebarView

@@ -217,7 +217,7 @@ class AlbumsShowView extends Spine.Controller
     
     
     height = ->
-      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "0px"
+      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "8px"
     
     @views.animate
       height: height()

@@ -34,31 +34,23 @@ class App extends Spine.Controller
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
-      initSize: @proxy ->
-        $(@sidebar.el).width()
+      initSize: @proxy -> $(@sidebar.el).width()
       disabled: false
       axis: 'x'
-      min: -> 0
-      max: @proxy ->
-        $(@el).width()/2
-      goSleep: @proxy ->
-        @sidebar.search.hide()
-        @sidebar.footer.hide()
-      awake: @proxy ->
-        @sidebar.search.show()
-        @sidebar.footer.show()
+      min: -> 8
+      tol: -> 20
+      max: @proxy -> $(@el).width()/2
+      goSleep: @proxy -> @sidebar.inner.hide()
+      awake: @proxy -> @sidebar.inner.show()
 
     @hmanager = new Spine.Manager(@gallery, @album, @upload, @grid)
     @hmanager.initDrag @hDrag,
-      initSize: @proxy ->
-        $(@el).height()/2
+      initSize: @proxy -> $(@el).height()/2
       disabled: false
       axis: 'y'
       min: -> 30
-      max: @proxy ->
-        @el.height()*2/3
-      goSleep: @proxy ->
-        @albumsShowView.activeControl?.click()
+      max: @proxy -> @el.height()*2/3
+      goSleep: @proxy -> @albumsShowView.activeControl?.click()
 
     @albumsManager = new Spine.Manager(@albumsShowView, @albumsEditView)
       

@@ -54,18 +54,19 @@ App = (function() {
       disabled: false,
       axis: 'x',
       min: function() {
-        return 0;
+        return 8;
+      },
+      tol: function() {
+        return 20;
       },
       max: this.proxy(function() {
         return $(this.el).width() / 2;
       }),
       goSleep: this.proxy(function() {
-        this.sidebar.search.hide();
-        return this.sidebar.footer.hide();
+        return this.sidebar.inner.hide();
       }),
       awake: this.proxy(function() {
-        this.sidebar.search.show();
-        return this.sidebar.footer.show();
+        return this.sidebar.inner.show();
       })
     });
     this.hmanager = new Spine.Manager(this.gallery, this.album, this.upload, this.grid);

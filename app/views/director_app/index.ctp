@@ -76,7 +76,7 @@
       {{/if}}
       <span class="cta">${count}</span>
       {{if author}}
-      <span class="author">(${author})</span>
+      <span class="author"> by ${author}</span>
       {{else}}
       <span class="author">(no author)</span>
       {{/if}}

@@ -6,7 +6,6 @@ class AlbumsEditView extends Spine.Controller
   elements:
     ".content"            : "editContent"
     '.optDestroy'         : 'btnDestroy'
-    'input name'
     
   events:
     "click .optEdit"      : "edit"
@@ -36,6 +35,7 @@ class AlbumsEditView extends Spine.Controller
     if @current and !(@current.destroyed)
       @btnDestroy.removeClass('disabled')
       @editContent.html $("#editGalleryTemplate").tmpl @current
+      #@focusFirstInput @el
     else
       @btnDestroy.addClass('disabled')
       @btnDestroy.unbind('click')

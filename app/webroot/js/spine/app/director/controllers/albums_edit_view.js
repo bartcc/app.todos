@@ -51,7 +51,6 @@ AlbumsEditView = (function() {
     if (this.current && !this.current.destroyed) {
       this.btnDestroy.removeClass('disabled');
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
-      this.focusFirstInput(this.el);
     } else {
       this.btnDestroy.addClass('disabled');
       this.btnDestroy.unbind('click');

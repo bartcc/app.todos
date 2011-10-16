@@ -7,11 +7,9 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 AlbumsShowView = (function() {
   __extends(AlbumsShowView, Spine.Controller);
@@ -143,8 +141,8 @@ AlbumsShowView = (function() {
     console.log('AlbumList::create');
     album = new Album(this.newAttributes());
     album.save();
-    this.openPanel('album', App.albumsShowView.btnAlbum);
-    return Spine.trigger('create:albumJoin', Gallery.record, album);
+    Spine.trigger('create:albumJoin', Gallery.record, album);
+    return this.openPanel('album', App.albumsShowView.btnAlbum);
   };
   AlbumsShowView.prototype.destroy = function() {
     var album, albums, list, _i, _len, _results;

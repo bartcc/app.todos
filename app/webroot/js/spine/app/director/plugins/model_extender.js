@@ -6,11 +6,9 @@
     }
     return -1;
   };
-    if (typeof Spine !== "undefined" && Spine !== null) {
-    Spine;
-  } else {
+  if (typeof Spine === "undefined" || Spine === null) {
     Spine = require("spine");
-  };
+  }
   $ = Spine.$;
   Model = Spine.Model;
   Model.Extender = {

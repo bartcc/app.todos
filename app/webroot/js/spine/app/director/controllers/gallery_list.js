@@ -1,123 +1,123 @@
-var $;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-  function ctor() { this.constructor = child; }
-  ctor.prototype = parent.prototype;
-  child.prototype = new ctor;
-  child.__super__ = parent.prototype;
-  return child;
-};
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
-  Spine = require("spine");
-};
-$ = Spine.$;
-Spine.GalleryList = (function() {
-  __extends(GalleryList, Spine.Controller);
-  GalleryList.extend(Spine.Controller.Drag);
-  GalleryList.prototype.events = {
-    "dblclick .item": "edit",
-    "click .item": "click",
-    "click .item-expander": "expand",
-    'dragstart          .sublist-item': 'dragstart',
-    'dragenter          .sublist-item': 'dragenter',
-    'dragover           .sublist-item': 'dragover',
-    'dragleave          .sublist-item': 'dragleave',
-    'drop               .sublist-item': 'drop',
-    'dragend            .sublist-item': 'dragend'
+(function() {
+  var $;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
   };
-  GalleryList.prototype.elements = {
-    '.item': 'item'
-  };
-  GalleryList.prototype.selectFirst = false;
-  function GalleryList() {
-    this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
+  if (typeof Spine === "undefined" || Spine === null) {
+    Spine = require("spine");
   }
-  GalleryList.prototype.template = function() {
-    return arguments[0];
-  };
-  GalleryList.prototype.change = function(item, mode, e) {
-    var cmdKey, dblclick;
-    console.log('GalleryList::change');
-    if (e) {
-      cmdKey = e.metaKey || e.ctrlKey;
+  $ = Spine.$;
+  Spine.GalleryList = (function() {
+    __extends(GalleryList, Spine.Controller);
+    GalleryList.extend(Spine.Controller.Drag);
+    GalleryList.prototype.events = {
+      "dblclick .item": "edit",
+      "click .item": "click",
+      "click .item-expander": "expand",
+      'dragstart          .sublist-item': 'dragstart',
+      'dragenter          .sublist-item': 'dragenter',
+      'dragover           .sublist-item': 'dragover',
+      'dragleave          .sublist-item': 'dragleave',
+      'drop               .sublist-item': 'drop',
+      'dragend            .sublist-item': 'dragend'
+    };
+    GalleryList.prototype.elements = {
+      '.item': 'item'
+    };
+    GalleryList.prototype.selectFirst = false;
+    function GalleryList() {
+      this.change = __bind(this.change, this);      GalleryList.__super__.constructor.apply(this, arguments);
     }
-    if (e) {
-      dblclick = e.type === 'dblclick';
-    }
-    this.children().removeClass("active");
-    if (!cmdKey && item) {
-      if (mode !== 'update') {
-        this.current = item;
+    GalleryList.prototype.template = function() {
+      return arguments[0];
+    };
+    GalleryList.prototype.change = function(item, mode, e) {
+      var cmdKey, dblclick;
+      console.log('GalleryList::change');
+      if (e) {
+        cmdKey = e.metaKey || e.ctrlKey;
       }
-      this.children().forItem(this.current).addClass("active");
-    } else {
-      this.current = false;
-    }
-    Gallery.current(this.current);
-    return Spine.trigger('change:selectedGallery', this.current, mode);
-  };
-  GalleryList.prototype.render = function(items, item, mode) {
-    var new_content, old_content, record, _i, _len;
-    console.log('GalleryList::render');
-    if (!item) {
-      for (_i = 0, _len = items.length; _i < _len; _i++) {
-        record = items[_i];
-        record.count = Album.filter(record.id).length;
+      if (e) {
+        dblclick = e.type === 'dblclick';
       }
-      this.items = items;
-      this.html(this.template(this.items));
-    } else if (mode === 'update') {
-      old_content = $('.item-content', '#' + item.id);
-      new_content = $('.item-content', this.template(item));
-      old_content.html(new_content);
-    } else if (mode === 'create') {
-      this.append(this.template(item));
-    } else if (mode === 'destroy') {
-      $('#sub-' + item.id).remove();
-      $('#' + item.id).remove();
-    }
-    this.change(item, mode);
-    if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
-      if (!this.children(".active").length) {
-        return this.children(":first").click();
+      this.children().removeClass("active");
+      if (!cmdKey && item) {
+        if (mode !== 'update') {
+          this.current = item;
+        }
+        this.children().forItem(this.current).addClass("active");
+      } else {
+        this.current = false;
       }
-    }
-  };
-  GalleryList.prototype.children = function(sel) {
-    return this.el.children(sel);
-  };
-  GalleryList.prototype.click = function(e) {
-    var item;
-    console.log('GalleryList::click');
-    item = $(e.target).item();
-    return this.change(item, 'show', e);
-  };
-  GalleryList.prototype.edit = function(e) {
-    var item;
-    console.log('GalleryList::edit');
-    item = $(e.target).item();
-    return this.change(item, 'edit', e);
-  };
-  GalleryList.prototype.expand = function(e) {
-    var content, gallery, icon;
-    gallery = $(e.target).parent().next().item();
-    icon = $('.item-expander', '#' + gallery.id);
-    content = $('#sub-' + gallery.id);
-    icon.toggleClass('expand');
-    if ($('#' + gallery.id + ' .expand').length) {
-      Spine.trigger('render:subList', gallery.id);
-      content.show();
-    } else {
-      content.hide();
-    }
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
-  };
-  return GalleryList;
-})();
-if (typeof module !== "undefined" && module !== null) {
-  module.exports = Spine.GalleryList;
-}
+      Gallery.current(this.current);
+      return Spine.trigger('change:selectedGallery', this.current, mode);
+    };
+    GalleryList.prototype.render = function(items, item, mode) {
+      var new_content, old_content, record, _i, _len;
+      console.log('GalleryList::render');
+      if (!item) {
+        for (_i = 0, _len = items.length; _i < _len; _i++) {
+          record = items[_i];
+          record.count = Album.filter(record.id).length;
+        }
+        this.items = items;
+        this.html(this.template(this.items));
+      } else if (mode === 'update') {
+        old_content = $('.item-content', '#' + item.id);
+        new_content = $('.item-content', this.template(item));
+        old_content.html(new_content);
+      } else if (mode === 'create') {
+        this.append(this.template(item));
+      } else if (mode === 'destroy') {
+        $('#sub-' + item.id).remove();
+        $('#' + item.id).remove();
+      }
+      this.change(item, mode);
+      if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
+        if (!this.children(".active").length) {
+          return this.children(":first").click();
+        }
+      }
+    };
+    GalleryList.prototype.children = function(sel) {
+      return this.el.children(sel);
+    };
+    GalleryList.prototype.click = function(e) {
+      var item;
+      console.log('GalleryList::click');
+      item = $(e.target).item();
+      return this.change(item, 'show', e);
+    };
+    GalleryList.prototype.edit = function(e) {
+      var item;
+      console.log('GalleryList::edit');
+      item = $(e.target).item();
+      return this.change(item, 'edit', e);
+    };
+    GalleryList.prototype.expand = function(e) {
+      var content, gallery, icon;
+      gallery = $(e.target).parent().next().item();
+      icon = $('.item-expander', '#' + gallery.id);
+      content = $('#sub-' + gallery.id);
+      icon.toggleClass('expand');
+      if ($('#' + gallery.id + ' .expand').length) {
+        Spine.trigger('render:subList', gallery.id);
+        content.show();
+      } else {
+        content.hide();
+      }
+      e.stopPropagation();
+      e.preventDefault();
+      return false;
+    };
+    return GalleryList;
+  })();
+  if (typeof module !== "undefined" && module !== null) {
+    module.exports = Spine.GalleryList;
+  }
+}).call(this);

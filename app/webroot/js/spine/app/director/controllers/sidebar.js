@@ -12,11 +12,9 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   }
   return -1;
 }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 SidebarView = (function() {
   __extends(SidebarView, Spine.Controller);
@@ -75,11 +73,12 @@ SidebarView = (function() {
   };
   SidebarView.prototype.renderItem = function() {
     var item, _i, _len, _ref, _results;
+    console.log('Sidebar::renderItem');
     _ref = this.galleryItems;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       item = _ref[_i];
-      $('#' + item.id + ' span.cta').html(Album.filter(item.id).length);
+      $('.cta', '#' + item.id).html(Album.filter(item.id).length);
       _results.push(this.renderSubList(item.id));
     }
     return _results;

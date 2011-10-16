@@ -30,13 +30,12 @@ class Spine.AlbumList extends Spine.Controller
       for id in list
         item = Album.find(id) if Album.exists(id)
         @children().forItem(item).addClass("active") if item
-
+        
       selected = Album.find(list[0]) if Album.exists(list[0])
       if selected and !selected.destroyed
         Album.current(selected)
-        item = selected
 
-    Spine.trigger('change:selectedAlbum', item)
+    Spine.trigger('change:selectedAlbum', selected)
   
   render: (items, newAlbum) ->
     console.log 'AlbumList::render'

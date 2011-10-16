@@ -58,8 +58,9 @@ class SidebarView extends Spine.Controller
     @list.render items, item, mode
 
   renderItem: ->
+    console.log 'Sidebar::renderItem'
     for item in @galleryItems
-      $('#'+item.id+' span.cta').html(Album.filter(item.id).length)
+      $('.cta', '#'+item.id).html(Album.filter(item.id).length)
       @renderSubList item.id
 
   renderSubList: (id) ->

@@ -48,7 +48,6 @@ class Gallery extends Spine.Model
     result
 
   select: (query) ->
-    console.log 'select'
     @id is @constructor.record.id
 
   searchSelect: (query) ->

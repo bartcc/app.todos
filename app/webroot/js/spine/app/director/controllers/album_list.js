@@ -7,11 +7,9 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 Spine.AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
@@ -52,10 +50,9 @@ Spine.AlbumList = (function() {
       }
       if (selected && !selected.destroyed) {
         Album.current(selected);
-        item = selected;
       }
     }
-    return Spine.trigger('change:selectedAlbum', item);
+    return Spine.trigger('change:selectedAlbum', selected);
   };
   AlbumList.prototype.render = function(items, newAlbum) {
     console.log('AlbumList::render');

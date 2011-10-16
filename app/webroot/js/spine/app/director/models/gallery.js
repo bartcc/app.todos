@@ -85,7 +85,6 @@ Gallery = (function() {
     return result;
   };
   Gallery.prototype.select = function(query) {
-    console.log('select');
     return this.id === this.constructor.record.id;
   };
   Gallery.prototype.searchSelect = function(query) {

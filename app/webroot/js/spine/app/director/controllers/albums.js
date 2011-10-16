@@ -8,11 +8,9 @@
     child.__super__ = parent.prototype;
     return child;
   };
-    if (typeof Spine !== "undefined" && Spine !== null) {
-    Spine;
-  } else {
+  if (typeof Spine === "undefined" || Spine === null) {
     Spine = require("spine");
-  };
+  }
   $ = Spine.$;
   AlbumsView = (function() {
     __extends(AlbumsView, Spine.Controller);

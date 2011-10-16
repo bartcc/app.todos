@@ -50,9 +50,7 @@ Album = (function() {
     };
   };
   Album.prototype.init = function(instance) {
-    if (!instance) {
-      ;
-    }
+    if (!instance) {}
   };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

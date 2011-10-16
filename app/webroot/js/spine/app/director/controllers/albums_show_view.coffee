@@ -122,8 +122,8 @@ class AlbumsShowView extends Spine.Controller
     console.log 'AlbumList::create'
     album = new Album(@newAttributes())
     album.save()
-    @openPanel('album', App.albumsShowView.btnAlbum)
     Spine.trigger('create:albumJoin', Gallery.record, album)
+    @openPanel('album', App.albumsShowView.btnAlbum)
 
   destroy: ->
     console.log 'AlbumList::destroy'

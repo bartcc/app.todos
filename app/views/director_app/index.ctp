@@ -94,18 +94,20 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsTemplate">
-  <li class="item thumbnail" draggable="true">
-    <span style="font-size: 0.6em">ID: ${id}</span>
-    {{if name}}
-    <div class="name">${name}</div>
-    {{else}}
-    <div class="name empty">No Name</div>
-    {{/if}}
-    {{if title}}
-    <div class="name">${title}</div>
-    {{else}}
-    <div class="name empty">No Title</div>
-    {{/if}}
+  <li class="item" draggable="true">
+    <div class="thumbnail">
+      <span style="font-size: 0.6em">ID: ${id}</span>
+      {{if name}}
+      <div class="name">${name}</div>
+      {{else}}
+      <div class="name empty">No Name</div>
+      {{/if}}
+      {{if title}}
+      <div class="name">${title}</div>
+      {{else}}
+      <div class="name empty">No Title</div>
+      {{/if}}
+    </div>
   </li>
 </script>  
 
@@ -113,7 +115,7 @@
   
   <label>
     <span>Gallery name</span>
-    <input type="text" name="name" value="${name}" autofocus>
+    <input type="text" name="name" value="${name}">
   </label>
 
   <label>
@@ -125,14 +127,14 @@
     <span>Description</span>
     <textarea name="description">${description}</textarea>
   </label>
-  <input type="hidden" name="id" value="${id}" autofocus>
+  <input type="hidden" name="id" value="${id}">
 </script>
 
 <script type="text/x-jquery-tmpl" id="editAlbumTemplate">
   
   <label>
     <span>Album name</span>
-    <input type="text" name="name" value="${name}" autofocus>
+    <input type="text" name="name" value="${name}" {{if newRecord}}autofocus{{/if}}>
   </label>
 
   <label>

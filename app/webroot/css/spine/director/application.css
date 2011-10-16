@@ -516,9 +516,9 @@ textarea {
   background: linear-gradient(top, #FFB399, #FF6633);
 }
 .content, #views .views .view {
+  box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   padding: 20px;
   -webkit-user-select: text;
 }
@@ -538,13 +538,46 @@ textarea {
   display: none !important;
 }
 #albums .content .items .item:not(.thumbnail) {
-  font-weight: lighter;
-  font-size: 3em
+
 }
 #albums .content .items {
   margin-top: 20px;
 }
-#albums .content li.thumbnail {
+#albums .content li.item {
+  margin: 0 15px 15px 0;
+  padding: 15px;
+  border-radius: 15px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;
+  
+  box-shadow: 0 1px 2px #333333 inset;
+  -moz-box-shadow: 0 1px 2px #333333 inset;
+  -webkit-box-shadow: 0 1px 2px #333333 inset;
+  
+  box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 1px #777777 inset, 1px 0 2px #FFFFFF, 0 0 1px #888888 inset;
+}
+#albums .content li.item {
+  outline: #121212;
+/*  background: #FEEEE6;
+  background: url("img/bauer.png") no-repeat 0 0;
+  background: -webkit-gradient(linear, left top, left bottom, from(#EEEEE6), to(#DDDDCC));
+  background: -moz-linear-gradient(top, #EEEEE6, #DDDDCC);
+  background: linear-gradient(top, #EEEEE6, #DDDDCC);
+  border: 4px solid rgba(156, 120, 0, 0.5);
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  box-shadow: 1px 2px 4px #444444;
+  -moz-box-shadow: 0 1px 1px #444444;
+  -webkit-box-shadow: 0 1px 1px #444444;
+  margin: 0 5px 5px 0;
+  padding: 10px;
+  color: rgba(200, 200, 200, 0.5);
+  width: 140px;
+  height: 140px;
+  line-height: 1.2em*/
+}
+#albums .content div.thumbnail {
   outline: none;
   background: url("img/bauer.png") no-repeat 0 0;
 /*  background: #EEEEE6;
@@ -558,22 +591,15 @@ textarea {
   box-shadow: 1px 2px 4px #444444;
   -moz-box-shadow: 0 1px 1px #444444;
   -webkit-box-shadow: 0 1px 1px #444444;*/
-  margin: 0 5px 5px 0;
   padding: 10px;
   color: rgba(200, 200, 200, 0.5);
   width: 140px;
   height: 140px;
   line-height: 1.2em
 }
-#albums .content li.thumbnail.active {
-  outline:none;
-  background: url("img/bauer.png") no-repeat 0 -160px;
-  color: rgba(140, 100, 0, 0.5);
-/*  transition: all 0.25s ease-in-out;
-  -webkit-transition: all 0.25s ease-in-out;
-  -moz-transition: all 0.25s ease-in-out;
-  
-  border: 4px solid rgba(255, 128, 0, 0.8);*/
+#albums .content li.item.active {
+  background-color: #E9D6B5;
+  box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
 
 }
 [draggable] {

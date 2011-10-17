@@ -3,11 +3,9 @@
 class GalleriesController extends AppController {
 
   var $name = 'Galleries';
-  var $helpers = array('Ajax', 'Js');
-  var $components = array('RequestHandler');
 
   function beforeFilter() {
-    $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
+    //$this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
     parent::beforeFilter();
   }
 
@@ -26,8 +24,6 @@ class GalleriesController extends AppController {
 
   function add() {
     if (!empty($this->data)) {
-      $this->log('Galleries::add', LOG_DEBUG);
-      $this->log($this->data, LOG_DEBUG);
       $this->Gallery->create();
       if ($this->Gallery->save($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));

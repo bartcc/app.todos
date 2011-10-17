@@ -31,13 +31,15 @@ class UsersController extends AppController {
   }
 
   function logout() {
-    if ($this->params['isAjax']) {
-      $this->Auth->logout();
+    $this->Auth->logout();
+    if (!$this->params['isAjax']) {
+      $this->redirect(array('controller' => 'users', 'action' => 'login'));
+    } else {
+      $merged = array_merge($this->data['User'], array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => '', 'flash' => '<strong>You\'re logged out successfully</strong>'));
+      $json = $merged;
+      $this->set(compact('json'));
+      $this->render(SIMPLE_JSON);
     }
-    $merged = array_merge($this->data['User'], array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => '', 'flash' => '<strong>You\'re logged out successfully</strong>'));
-    $json = $merged;
-    $this->set(compact('json'));
-    $this->render(SIMPLE_JSON);
   }
 
   function auth() {

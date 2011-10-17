@@ -214,6 +214,24 @@ footer div#storage-mode span {
   left: 10px;
   position: relative;
 }
+#messenger footer {
+  -webkit-border-top-left-radius:0px ;
+  -webkit-border-top-right-radius:0px ;
+  -webkit-border-bottom-right-radius:8px ;
+  -webkit-border-bottom-left-radius:8px ;
+  -khtml-border-top-left-radius:0px ;
+  -khtml-border-top-right-radius:0px ;
+  -khtml-border-bottom-right-radius:8px ;
+  -khtml-border-bottom-left-radius:8px ;
+  -moz-border-radius-topleft:0px ;
+  -moz-border-radius-topright:0px ;
+  -moz-border-radius-bottomright:8px ;
+  -moz-border-radius-bottomleft:8px ;
+  border-top-left-radius:0px ;
+  border-top-right-radius:0px ;
+  border-bottom-right-radius:8px ;
+  border-bottom-left-radius:8px ;
+}
 .right {
   float: right;
 }
@@ -567,9 +585,9 @@ div.bg div {
   margin: 9px;
 }
 div.dialogue-content div.bg {
-  -moz-border-radius: 0;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
   -moz-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
-  -webkit-border-radius: 0;
   -webkit-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
   background: none repeat scroll 0 0 #E3E3E3;
   float: left;

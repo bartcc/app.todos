@@ -33,7 +33,7 @@
  */
 class AppController extends Controller {
 
-  var $helpers = array('Session', 'Html', 'Js');
+  var $helpers = array('Ajax', 'Session', 'Html', 'Js');
   var $components = array('RequestHandler', 'Session', 'Auth', 'Cookie');
   
   function beforeFilter() {
@@ -46,7 +46,7 @@ class AppController extends Controller {
       $data = $this->getPayLoad();
       if(!empty($data)) {
         //$this->log('Payload', LOG_DEBUG);
-        $this->log($data, LOG_DEBUG);
+        //$this->log($data, LOG_DEBUG);
         $data = $this->object2Array($data);
         if(empty($data[$this->modelClass])) {
           $this->data[$this->modelClass] = $data;

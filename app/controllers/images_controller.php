@@ -5,7 +5,7 @@ class ImagesController extends AppController {
   var $name = 'Images';
 
   function beforeFilter() {
-    $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
+    //$this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
     parent::beforeFilter();
   }
   

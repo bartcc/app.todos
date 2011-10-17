@@ -85,8 +85,6 @@
       var galleries = <?php echo $js->object($galleries); ?>;
       var albums = <?php echo $js->object($albums); ?>;
       var images = <?php echo $js->object($images); ?>;
-      //var galleries_album = <?php echo $js->object($galleries_album); ?>;
-      //var albums_image = <?php echo $js->object($albums_image); ?>;
       Image.refresh(images);
       Album.refresh(albums);
       Gallery.refresh(galleries);

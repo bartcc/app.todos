@@ -32,6 +32,7 @@ Router::connectNamed(array('passed'));
 Router::connect('/q/*', array('controller' => 'kodaks', 'action' => 'develop'));
 Router::connect('/git/*', array('controller' => 'gits', 'action' => 'exec'));
 Router::connect('/mysql/*', array('controller' => 'mysql', 'action' => 'exec'));
+Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 
 /**
  * ...and connect the rest of 'Pages' controller's urls.

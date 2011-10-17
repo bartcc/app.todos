@@ -28,7 +28,7 @@
     <?php
     echo $this->Html->meta('icon');
     echo $this->Html->css('backbone/todos/application_boxmodel');
-   
+
     //$this->log($js->object($galleries), LOG_DEBUG);
     echo $this->Html->script('lib/jquery/jquery-1.6.2');
     echo $this->Html->script('spine/lib/spine');
@@ -36,20 +36,19 @@
     echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/app/director/plugins/main_login');
-    
+
     echo $html->scriptStart();
     ?>
-    
+
     var base_url = '<?php echo $html->url('/'); ?>';
-    
+
     <?php
     echo $html->scriptEnd();
     echo $scripts_for_layout;
-    
     ?>
   </head>
   <body>
-<?php echo $content_for_layout; ?>
+    <?php echo $content_for_layout; ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>
 </html>

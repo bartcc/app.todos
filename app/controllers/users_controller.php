@@ -6,19 +6,30 @@ class UsersController extends AppController {
 
   function beforeFilter() {
     $this->disableCache();
-    $this->Auth->allowedActions = array('login', 'logout', 'auth');
+    $this->Auth->allowedActions = array('login', 'logout', 'auth', 'hash');
 
     $this->Cookie->name = 'TODOS';
     $this->Cookie->time = 3600; // 1 hour
 
     parent::beforeFilter();
   }
-
+  
+  function hash($name = '') {
+    App::import('Core', 'Security');
+    $this->log(Security::hash($name, null, true), LOG_DEBUG);
+    die();
+  }
+    
   function login() {
     $user = $this->Auth->user();
     if($this->RequestHandler->isAjax()) {
       if ($user) {
-        $merged = array_merge($this->data['User'], array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'flash' => '<strong style="color:green">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>'));
+//        $group_id = $this->Session->read('Auth.User.group_id');
+//        $this->log($group_id, LOG_DEBUG);
+        $this->User->Group->recursive = 0;
+        $group = $this->User->Group->findById($this->Auth->user('group_id'));
+        $groupname = $group['Group']['name'];
+        $merged = array_merge($this->data['User'], array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'groupname' => $groupname, 'flash' => '<strong style="color:green">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>'));
         $json = $merged;
         $this->set(compact('json'));
         $this->render(SIMPLE_JSON);

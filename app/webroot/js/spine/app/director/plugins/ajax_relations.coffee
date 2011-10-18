@@ -10,13 +10,13 @@ class Builder
     @foreignModels = @model.foreignModels()
 
   newWrapper: (key) ->
-    throw('No Classname found') unless key.className
+    throw('No classname found') unless key.className
     data = {}
     data[key.className] = {}
     data
     
 
-  exec: ->
+  build: ->
     @fModels = for key, value of @foreignModels
       @foreignModels[key]
 
@@ -34,7 +34,7 @@ class Builder
 class Request extends Singleton
   constructor: (@record) ->
     super
-    @data = new Builder(@record).exec()
+    @data = new Builder(@record).build()
   
   create: (params) ->
     @queue =>

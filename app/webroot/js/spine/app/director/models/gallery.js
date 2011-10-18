@@ -12,7 +12,7 @@ Gallery = (function() {
   function Gallery() {
     Gallery.__super__.constructor.apply(this, arguments);
   }
-  Gallery.configure('Gallery', 'name', 'author', "description");
+  Gallery.configure('Gallery', 'name', 'author', "description", 'user_id');
   Gallery.extend(Spine.Model.Ajax);
   Gallery.extend(Spine.Model.AjaxRelations);
   Gallery.extend(Spine.Model.Filter);

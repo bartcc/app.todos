@@ -15,7 +15,6 @@ class Spine.AlbumList extends Spine.Controller
     
   constructor: ->
     super
-    @bind("change", @change)
     @record = Gallery.record
     
   template: -> arguments[0]
@@ -43,11 +42,10 @@ class Spine.AlbumList extends Spine.Controller
       @html @template items
     else
       @html 'This Gallery has no Albums&nbsp;<button class="optCreateAlbum">New Album</button>'
-      @refreshElements()
-
-    Gallery.updateSelection([newAlbum.id]) if newAlbum and newAlbum instanceof Album
+    
+    #Gallery.updateSelection([newAlbum.id]) if newAlbum and newAlbum instanceof Album
     @change()
-    @
+    @el
   
   children: (sel) ->
     @el.children(sel)

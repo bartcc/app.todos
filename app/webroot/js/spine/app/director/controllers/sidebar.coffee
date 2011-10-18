@@ -9,7 +9,7 @@ class SidebarView extends Spine.Controller
     'input'                 : 'input'
     '.items'                : 'items'
     '.droppable'            : 'droppable'
-    '.inner'               : 'inner'
+    '.inner'                : 'inner'
 
   #Attach event delegation
   events:
@@ -17,12 +17,12 @@ class SidebarView extends Spine.Controller
     "keyup input"           : "filter"
     "dblclick .draghandle"  : 'toggleDraghandle'
 
-    'dragstart          .items .item'         : 'dragstart'
-    'dragenter          .items .item'         : 'dragenter'
-    'dragover           .items .item'         : 'dragover'
-    'dragleave          .items .item'         : 'dragleave'
-    'drop               .items .item'         : 'drop'
-    'dragend            .items .item'         : 'dragend'
+    'dragstart .items .item'         : 'dragstart'
+    'dragenter .items .item'         : 'dragenter'
+    'dragover  .items .item'         : 'dragover'
+    'dragleave .items .item'         : 'dragleave'
+    'drop      .items .item'         : 'drop'
+    'dragend   .items .item'         : 'dragend'
 
   #Render template
   template: (items) ->
@@ -37,6 +37,7 @@ class SidebarView extends Spine.Controller
       el: @items,
       template: @template
     Gallery.bind("refresh change", @proxy @render)
+    Gallery.bind("ajaxError", @proxy @error)
     Spine.bind('render:galleryItem', @proxy @renderItem)
     Spine.bind('render:subList', @proxy @renderSubList)
     Spine.bind('create:gallery', @proxy @create)
@@ -67,6 +68,10 @@ class SidebarView extends Spine.Controller
     albums = Album.filter(id)
     $('#sub-'+id).html @subListTemplate(albums)
 
+  error: ->
+    window.location = base_url + 'director_app'
+    false
+
   dragStart: (e) ->
     console.log 'Sidebar::dragStart'
     # check for drags from sublist
@@ -83,11 +88,12 @@ class SidebarView extends Spine.Controller
 
   dragOver: (e) ->
     target = $(e.target).item()
-    $(e.target).removeClass('nodrop')
-    items = GalleriesAlbum.filter(target.id)
-    for item in items
-      if item.album_id in @newSelection
-        $(e.target).addClass('nodrop')
+    if target
+      $(e.target).removeClass('nodrop')
+      items = GalleriesAlbum.filter(target.id)
+      for item in items
+        if item.album_id in @newSelection
+          $(e.target).addClass('nodrop')
 
   dragLeave: (e) ->
     return
@@ -99,9 +105,11 @@ class SidebarView extends Spine.Controller
     origin = Spine.dragItem?.origin or Gallery.record
 
     unless source instanceof Album
-      alert 'You can only drop Albums here'
+      alert 'You should only drop Albums here'
       return
-    unless target instanceof Gallery
+    unless (target instanceof Gallery)
+      return
+    unless (origin.id != target.id)
       return
 
     items = GalleriesAlbum.filter(target.id)

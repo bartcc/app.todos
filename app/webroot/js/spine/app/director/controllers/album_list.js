@@ -24,7 +24,6 @@ Spine.AlbumList = (function() {
   AlbumList.prototype.selectFirst = true;
   function AlbumList() {
     AlbumList.__super__.constructor.apply(this, arguments);
-    this.bind("change", this.change);
     this.record = Gallery.record;
   }
   AlbumList.prototype.template = function() {
@@ -60,13 +59,9 @@ Spine.AlbumList = (function() {
       this.html(this.template(items));
     } else {
       this.html('This Gallery has no Albums&nbsp;<button class="optCreateAlbum">New Album</button>');
-      this.refreshElements();
-    }
-    if (newAlbum && newAlbum instanceof Album) {
-      Gallery.updateSelection([newAlbum.id]);
     }
     this.change();
-    return this;
+    return this.el;
   };
   AlbumList.prototype.children = function(sel) {
     return this.el.children(sel);

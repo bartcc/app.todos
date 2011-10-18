@@ -2,7 +2,7 @@
 class App extends Spine.Controller
   
   elements:
-    '#sidebar'    : 'sidebarEl'
+    '#sidebar'            : 'sidebarEl'
     '#albums'             : 'albumsEl'
     '#albums .show'       : 'albumsShowEl'
     '#albums .edit'       : 'albumsEditEl'
@@ -10,6 +10,7 @@ class App extends Spine.Controller
     '#album'              : 'albumEl'
     '#upload'             : 'uploadEl'
     '#grid'               : 'gridEl'
+    '#login'              : 'loginEl'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
 
@@ -31,6 +32,8 @@ class App extends Spine.Controller
     @albumsEditView = new AlbumsEditView
       el: @albumsEditEl
       name: 'AlbumsEditView'
+    @loginView = new LoginView
+      el: @loginEl
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
@@ -57,5 +60,7 @@ class App extends Spine.Controller
 $ ->
   window.App = new App(el: $('body'))
   
+  User.fetch()
+  App.loginView.render User.first()
   App.albumsManager.change(App.albumsShowView)
-  App.albumsShowView.btnGallery.click()
+  #App.albumsShowView.btnGallery.click()

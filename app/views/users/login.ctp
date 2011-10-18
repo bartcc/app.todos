@@ -13,7 +13,7 @@
             <div class="drag-handle">
               <div>
                 <h1>Login</h1>
-                <p class="_flash"><span>
+                <p class="flash"><span>
                     Enter Username and Password
                   </span></p>
               </div>

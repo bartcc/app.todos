@@ -55,9 +55,6 @@ AlbumView = (function() {
         type: 'Select an Gallery!'
       }));
     } else {
-      if (mode === 'create') {
-        item.newRecord = true;
-      }
       this.item.html(this.template(item));
     }
     return this;

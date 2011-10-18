@@ -1,5 +1,6 @@
-<header id="title">
+<header id="title" class="hbox">
   <h1>Spine Director</h1>
+  <div id="login" class="flex tright" style="margin-top: 8px;"></div>
 </header>
 
 <div id="wrapper" class="hbox flex">
@@ -10,7 +11,7 @@
       </div>
       <ul class="items vbox flex autoflow"></ul>
       <footer class="footer">
-        <button>New Gallery</button>
+        <button class="">New Gallery</button>
       </footer>
     </div>
     <div class="vdivide draghandle"></div>
@@ -24,7 +25,7 @@
       </ul>
       <div class="content vbox flex autoflow">
         <div class="header"></div>
-        <div class="items sortable">No Albums found!</div>
+        <div class="items sortable"></div>
       </div>
       <div id="views" class="hbox autoflow">
         <div class="views vbox flex hdraggable">
@@ -94,8 +95,8 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsTemplate">
-  <li class="item" draggable="true">
-    <div class="thumbnail">
+  <li class="item">
+    <div class="thumbnail" draggable="true">
       <span style="font-size: 0.6em">ID: ${id}</span>
       {{if name}}
       <div class="name">${name}</div>
@@ -163,3 +164,8 @@
   <h3>Gallery: ${record.name} <span style="color: #D0D0D0; font-style: normal; font-weight: 100; font-size: 1.2em;">&nbsp;||&nbsp;</span> Author: ${record.author}</h3>
   <h2>{{if count}}${count} Album{{if count>1}}s{{/if}}{{else}}No Albums{{/if}}</h2>
 </script>
+
+<script type="text/x-jquery-tmpl" id="loginTemplate">
+  <button class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
+</script>
+

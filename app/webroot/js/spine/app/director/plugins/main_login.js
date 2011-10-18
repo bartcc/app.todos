@@ -18,7 +18,7 @@ MainLogin = (function() {
     this.complete = __bind(this.complete, this);
     this.submit = __bind(this.submit, this);
     MainLogin.__super__.constructor.apply(this, arguments);
-    this.displayField = $('._flash');
+    this.displayField = $('.flash');
     this.passwordField = $('#UserPassword');
   }
   MainLogin.prototype.submit = function() {
@@ -36,15 +36,17 @@ MainLogin = (function() {
     return this.passwordField.val('').focus();
   };
   MainLogin.prototype.success = function(json) {
-    var delayedFunc, redirect_url;
-    console.log('success');
-    console.log(json);
+    var delayedFunc, redirect_url, user;
+    User.fetch();
+    User.deleteAll();
+    user = new User(this.newAttributes(json));
+    user.save();
     redirect_url = base_url + 'director_app';
     this.displayField.html(json.flash);
     delayedFunc = function() {
       return window.location = redirect_url;
     };
-    return this.delay(delayedFunc, 2000);
+    return this.delay(delayedFunc, 1000);
   };
   MainLogin.prototype.error = function(xhr) {
     var delayedFunc, json, oldMessage;
@@ -55,6 +57,15 @@ MainLogin = (function() {
     };
     this.displayField.html(json.flash);
     return this.delay(delayedFunc, 2000);
+  };
+  MainLogin.prototype.newAttributes = function(json) {
+    return {
+      id: json.id,
+      username: json.username,
+      name: json.name,
+      groupname: json.groupname,
+      sessionid: json.sessionid
+    };
   };
   return MainLogin;
 })();

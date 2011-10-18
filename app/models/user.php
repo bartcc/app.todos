@@ -2,7 +2,8 @@
 class User extends AppModel {
   
 	var $name = 'User';
-	var $useDbConfig = 'todos_backbone';
+	var $useDbConfig = 'director_spine';
+	//var $useDbConfig = 'todos_backbone';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $belongsTo = array(

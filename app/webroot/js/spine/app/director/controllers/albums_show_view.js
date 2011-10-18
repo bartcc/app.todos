@@ -15,7 +15,7 @@ AlbumsShowView = (function() {
   __extends(AlbumsShowView, Spine.Controller);
   AlbumsShowView.extend(Spine.Controller.Drag);
   AlbumsShowView.prototype.elements = {
-    ".content": "showContent",
+    ".content": "content",
     "#views .views": "views",
     ".content .sortable": "sortable",
     '.optEditGallery': 'btnEditGallery',
@@ -42,13 +42,20 @@ AlbumsShowView = (function() {
     "click .optUpload": "toggleUpload",
     "click .optGrid": "toggleGrid",
     'dblclick .draghandle': 'toggleDraghandle',
-    'sortupdate         .items': 'sortupdate',
-    'dragstart          .items .item': 'dragstart',
-    'dragenter          .items .item': 'dragenter',
-    'dragover           .items .item': 'dragover',
-    'dragleave          .items .item': 'dragleave',
-    'drop               .items .item': 'drop',
-    'dragend            .items .item': 'dragend'
+    'sortupdate .items': 'sortupdate',
+    'dragstart  .items .thumbnail': 'dragstart',
+    'dragenter  .items .thumbnail': 'dragenter',
+    'dragover   .items .thumbnail': 'dragover',
+    'dragleave  .items .thumbnail': 'dragleave',
+    'drop       .items .thumbnail': 'drop',
+    'dragend    .items .thumbnail': 'dragend',
+    'dragenter  .content': 'dragenter',
+    'dragover   .content': 'dragover',
+    'dragleave  .content': 'dragleave',
+    'drop       .content': 'drop',
+    'dragend    .content': 'dragend',
+    'drop       .content': 'drop',
+    'dragend    .content': 'dragend'
   };
   AlbumsShowView.prototype.albumsTemplate = function(items) {
     return $("#albumsTemplate").tmpl(items);
@@ -65,11 +72,12 @@ AlbumsShowView = (function() {
       el: this.items,
       template: this.albumsTemplate
     });
+    Spine.list = this.list;
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
     Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));
     Spine.bind("create:albumJoin", this.proxy(this.createJoin));
-    Album.bind("change", this.proxy(this.render));
+    Album.bind("update", this.proxy(this.render));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('change:selectedAlbum', this.proxy(this.renderToolbar));
     Spine.bind('change:selection', this.proxy(this.changeSelection));
@@ -84,25 +92,23 @@ AlbumsShowView = (function() {
   };
   AlbumsShowView.prototype.change = function(item, mode) {
     console.log('AlbumsShowView::change');
-    if (mode) {
-      console.log(mode);
-    }
     this.current = item;
     this.render();
     return typeof this[mode] === "function" ? this[mode](item) : void 0;
   };
-  AlbumsShowView.prototype.render = function(item) {
-    var items;
-    console.log('AlbumsShowView::render');
+  AlbumsShowView.prototype.render = function(items, mode) {
+    var tmplItem;
+    console.log('AlbumsShowView::renderContent');
     Spine.trigger('render:galleryItem');
     if (this.current) {
       items = Album.filter(this.current.id);
     } else {
       items = Album.filter();
     }
-    this.renderHeader(items);
-    this.renderToolbar();
-    return this.list.render(items, item);
+    tmplItem = $.tmplItem(this.content);
+    tmplItem.data = Gallery.record || {};
+    this.list.render(items);
+    return this.renderHeader(items);
   };
   AlbumsShowView.prototype.renderHeader = function(items) {
     var values;
@@ -138,15 +144,16 @@ AlbumsShowView = (function() {
   };
   AlbumsShowView.prototype.create = function() {
     var album;
-    console.log('AlbumList::create');
+    console.log('AlbumsShowView::create');
     album = new Album(this.newAttributes());
     album.save();
+    Gallery.updateSelection([album.id]);
     Spine.trigger('create:albumJoin', Gallery.record, album);
     return this.openPanel('album', App.albumsShowView.btnAlbum);
   };
   AlbumsShowView.prototype.destroy = function() {
     var album, albums, list, _i, _len, _results;
-    console.log('AlbumList::destroy');
+    console.log('AlbumsShowView::destroy');
     list = Gallery.selectionList().slice(0);
     albums = [];
     Album.each(__bind(function(record) {
@@ -211,16 +218,15 @@ AlbumsShowView = (function() {
     return target.save();
   };
   AlbumsShowView.prototype.createAlbum = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
+    console.log('AlbumsShowView::createAlbum');
+    if (!$(e.currentTarget).hasClass('disabled')) {
+      return Spine.trigger('create:album');
     }
-    return Spine.trigger('create:album');
   };
   AlbumsShowView.prototype.destroyAlbum = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
+    if (!$(e.currentTarget).hasClass('disabled')) {
+      return Spine.trigger('destroy:album');
     }
-    return Spine.trigger('destroy:album');
   };
   AlbumsShowView.prototype.editGallery = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {

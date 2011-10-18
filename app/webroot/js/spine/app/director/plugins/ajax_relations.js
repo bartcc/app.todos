@@ -22,13 +22,13 @@ Builder = (function() {
   Builder.prototype.newWrapper = function(key) {
     var data;
     if (!key.className) {
-      throw 'No Classname found';
+      throw 'No classname found';
     }
     data = {};
     data[key.className] = {};
     return data;
   };
-  Builder.prototype.exec = function() {
+  Builder.prototype.build = function() {
     var key, model, records, selected, value, _i, _len, _ref;
     this.fModels = (function() {
       var _ref, _results;
@@ -59,7 +59,7 @@ Request = (function() {
   function Request(record) {
     this.record = record;
     Request.__super__.constructor.apply(this, arguments);
-    this.data = new Builder(this.record).exec();
+    this.data = new Builder(this.record).build();
   }
   Request.prototype.create = function(params) {
     return this.queue(__bind(function() {

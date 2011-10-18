@@ -18,6 +18,7 @@ App = (function() {
     '#album': 'albumEl',
     '#upload': 'uploadEl',
     '#grid': 'gridEl',
+    '#login': 'loginEl',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag'
   };
@@ -45,6 +46,9 @@ App = (function() {
     this.albumsEditView = new AlbumsEditView({
       el: this.albumsEditEl,
       name: 'AlbumsEditView'
+    });
+    this.loginView = new LoginView({
+      el: this.loginEl
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
@@ -95,6 +99,7 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  App.albumsManager.change(App.albumsShowView);
-  return App.albumsShowView.btnGallery.click();
+  User.fetch();
+  App.loginView.render(User.first());
+  return App.albumsManager.change(App.albumsShowView);
 });

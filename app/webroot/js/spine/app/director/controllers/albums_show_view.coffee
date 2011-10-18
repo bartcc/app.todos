@@ -6,7 +6,7 @@ class AlbumsShowView extends Spine.Controller
   @extend Spine.Controller.Drag
   
   elements:
-    ".content"                : "showContent"
+    ".content"                : "content"
     "#views .views"           : "views"
     ".content .sortable"      : "sortable"
     '.optEditGallery'         : 'btnEditGallery'
@@ -22,24 +22,31 @@ class AlbumsShowView extends Spine.Controller
     '.toolbar'                : 'toolBar'
     
   events:
-    "click .optCreateAlbum"                   : "createAlbum"
-    "click .optDestroyAlbum"                  : "destroyAlbum"
-    "click .optEditGallery"                   : "editGallery"
-    "click .optCreateGallery"                 : "createGallery"
-    "click .optDestroyGallery"                : "destroyGallery"
-    "click .optEmail"                         : "email"
-    "click .optGallery"                       : "toggleGallery"
-    "click .optAlbum"                         : "toggleAlbum"
-    "click .optUpload"                        : "toggleUpload"
-    "click .optGrid"                          : "toggleGrid"
-    'dblclick .draghandle'                    : 'toggleDraghandle'
-    'sortupdate         .items'               : 'sortupdate'
-    'dragstart          .items .item'         : 'dragstart'
-    'dragenter          .items .item'         : 'dragenter'
-    'dragover           .items .item'         : 'dragover'
-    'dragleave          .items .item'         : 'dragleave'
-    'drop               .items .item'         : 'drop'
-    'dragend            .items .item'         : 'dragend'
+    "click .optCreateAlbum"           : "createAlbum"
+    "click .optDestroyAlbum"          : "destroyAlbum"
+    "click .optEditGallery"           : "editGallery"
+    "click .optCreateGallery"         : "createGallery"
+    "click .optDestroyGallery"        : "destroyGallery"
+    "click .optEmail"                 : "email"
+    "click .optGallery"               : "toggleGallery"
+    "click .optAlbum"                 : "toggleAlbum"
+    "click .optUpload"                : "toggleUpload"
+    "click .optGrid"                  : "toggleGrid"
+    'dblclick .draghandle'            : 'toggleDraghandle'
+    'sortupdate .items'               : 'sortupdate'
+    'dragstart  .items .thumbnail'    : 'dragstart'
+    'dragenter  .items .thumbnail'    : 'dragenter'
+    'dragover   .items .thumbnail'    : 'dragover'
+    'dragleave  .items .thumbnail'    : 'dragleave'
+    'drop       .items .thumbnail'    : 'drop'
+    'dragend    .items .thumbnail'    : 'dragend'
+    'dragenter  .content'             : 'dragenter'
+    'dragover   .content'             : 'dragover'
+    'dragleave  .content'             : 'dragleave'
+    'drop       .content'             : 'drop'
+    'dragend    .content'             : 'dragend'
+    'drop       .content'             : 'drop'
+    'dragend    .content'             : 'dragend'
 
   albumsTemplate: (items) ->
     $("#albumsTemplate").tmpl items
@@ -49,17 +56,18 @@ class AlbumsShowView extends Spine.Controller
 
   headerTemplate: (items) ->
     $("#headerTemplate").tmpl items
-
+ 
   constructor: ->
     super
     @list = new Spine.AlbumList
-      el: @items,
+      el: @items
       template: @albumsTemplate
+    Spine.list = @list
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
     Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
     Spine.bind("create:albumJoin", @proxy @createJoin)
-    Album.bind("change", @proxy @render)
+    Album.bind("update", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @renderToolbar)
     Spine.bind('change:selection', @proxy @changeSelection)
@@ -76,13 +84,13 @@ class AlbumsShowView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'AlbumsShowView::change'
-    console.log mode if mode
     @current = item
     @render()
     @[mode]?(item)
 
-  render: (item) ->
-    console.log 'AlbumsShowView::render'
+  render: (items, mode) ->
+    console.log 'AlbumsShowView::renderContent'
+    
     Spine.trigger('render:galleryItem')
     
     if @current
@@ -90,9 +98,12 @@ class AlbumsShowView extends Spine.Controller
     else
       items = Album.filter()
     
-    @renderHeader(items)
-    @renderToolbar()
-    @list.render items, item
+    # make .content element sensitive for drop by injecting target of type Gallery
+    tmplItem = $.tmplItem(@content)
+    tmplItem.data = Gallery.record or {}
+    
+    @list.render items
+    @renderHeader items
     #@initSortables() #interferes with html5 dnd!
    
   renderHeader: (items) ->
@@ -108,6 +119,7 @@ class AlbumsShowView extends Spine.Controller
     @toolBar.html @toolsTemplate @toolBarList()
     @refreshElements()
   
+    
   toolBarList: -> arguments[0]
 
   initSortables: ->
@@ -119,14 +131,15 @@ class AlbumsShowView extends Spine.Controller
     name: 'New Album'
 
   create: ->
-    console.log 'AlbumList::create'
+    console.log 'AlbumsShowView::create'
     album = new Album(@newAttributes())
     album.save()
+    Gallery.updateSelection([album.id])
     Spine.trigger('create:albumJoin', Gallery.record, album)
     @openPanel('album', App.albumsShowView.btnAlbum)
 
   destroy: ->
-    console.log 'AlbumList::destroy'
+    console.log 'AlbumsShowView::destroy'
     list = Gallery.selectionList().slice(0)
     albums = []
     Album.each (record) =>
@@ -175,12 +188,11 @@ class AlbumsShowView extends Spine.Controller
     target.save()
 
   createAlbum: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('create:album')
+    console.log 'AlbumsShowView::createAlbum'
+    Spine.trigger('create:album') unless $(e.currentTarget).hasClass('disabled')
   
   destroyAlbum: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('destroy:album')
+    Spine.trigger('destroy:album') unless $(e.currentTarget).hasClass('disabled')
 
   editGallery: (e) ->
     return if $(e.currentTarget).hasClass('disabled')

@@ -16,7 +16,6 @@ class AlbumView extends Spine.Controller
 
   constructor: ->
     super
-    #Album.bind('change', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)
 
@@ -39,7 +38,6 @@ class AlbumView extends Spine.Controller
     else unless item
       @item.html $("#noSelectionTemplate").tmpl({type: 'Select an Gallery!'})
     else
-      item.newRecord = true if mode is 'create'
       @item.html @template item
     @
 

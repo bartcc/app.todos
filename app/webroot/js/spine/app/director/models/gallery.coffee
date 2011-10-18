@@ -1,6 +1,6 @@
 
 class Gallery extends Spine.Model
-  @configure 'Gallery', 'name', 'author', "description"
+  @configure 'Gallery', 'name', 'author', "description", 'user_id'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations

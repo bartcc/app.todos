@@ -35,7 +35,7 @@
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/app/director/models/user');
-    echo $this->Html->script('spine/app/director/plugins/main_login');
+    //echo $this->Html->script('spine/app/director/plugins/main_login');
 
     echo $html->scriptStart();
     ?>

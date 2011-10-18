@@ -37,7 +37,7 @@ class SidebarView extends Spine.Controller
       el: @items,
       template: @template
     Gallery.bind("refresh change", @proxy @render)
-    Gallery.bind("ajaxError", @proxy @error)
+    Gallery.bind("ajaxError", Gallery.errorHandler)
     Spine.bind('render:galleryItem', @proxy @renderItem)
     Spine.bind('render:subList', @proxy @renderSubList)
     Spine.bind('create:gallery', @proxy @create)
@@ -67,10 +67,6 @@ class SidebarView extends Spine.Controller
   renderSubList: (id) ->
     albums = Album.filter(id)
     $('#sub-'+id).html @subListTemplate(albums)
-
-  error: ->
-    window.location = base_url + 'director_app'
-    false
 
   dragStart: (e) ->
     console.log 'Sidebar::dragStart'

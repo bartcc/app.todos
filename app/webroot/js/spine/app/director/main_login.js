@@ -9,21 +9,43 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
 };
 MainLogin = (function() {
   __extends(MainLogin, Spine.Controller);
-  function MainLogin(form, displayField) {
-    if (displayField == null) {
-      displayField = '._flash';
-    }
+  MainLogin.prototype.elements = {
+    'form': 'form',
+    '.flash': 'flashEl',
+    '.info': 'infoEl',
+    '#UserPassword': 'passwordEl',
+    '#UserUsername': 'usernameEl',
+    '#flashTemplate': 'flashTemplate',
+    '#infoTemplate': 'infoTemplate'
+  };
+  MainLogin.prototype.template = function(el, item) {
+    return el.tmpl(item);
+  };
+  function MainLogin(form) {
     this.error = __bind(this.error, this);
     this.success = __bind(this.success, this);
     this.complete = __bind(this.complete, this);
     this.submit = __bind(this.submit, this);
+    var lastError;
     MainLogin.__super__.constructor.apply(this, arguments);
-    this.displayField = $('.flash');
-    this.passwordField = $('#UserPassword');
+    Error.fetch();
+    if (Error.count()) {
+      lastError = Error.last();
+    }
+    if (lastError) {
+      this.render(this.flashEl, this.flashTemplate, lastError);
+    }
+    if (lastError != null ? lastError.record : void 0) {
+      this.render(this.infoEl, this.infoTemplate, lastError);
+    }
+    Error.destroyAll();
   }
+  MainLogin.prototype.render = function(el, tmpl, item) {
+    return el.html(this.template(tmpl, item));
+  };
   MainLogin.prototype.submit = function() {
     return $.ajax({
-      data: this.el.serialize(),
+      data: this.form.serialize(),
       type: 'POST',
       success: this.success,
       error: this.error,
@@ -33,16 +55,17 @@ MainLogin = (function() {
   MainLogin.prototype.complete = function(xhr) {
     var json;
     json = xhr.responseText;
-    return this.passwordField.val('').focus();
+    this.passwordEl.val('');
+    return this.usernameEl.val('').focus();
   };
   MainLogin.prototype.success = function(json) {
     var delayedFunc, redirect_url, user;
     User.fetch();
-    User.deleteAll();
+    User.destroyAll();
     user = new User(this.newAttributes(json));
     user.save();
     redirect_url = base_url + 'director_app';
-    this.displayField.html(json.flash);
+    this.render(this.flashEl, this.flashTemplate, json);
     delayedFunc = function() {
       return window.location = redirect_url;
     };
@@ -51,11 +74,11 @@ MainLogin = (function() {
   MainLogin.prototype.error = function(xhr) {
     var delayedFunc, json, oldMessage;
     json = $.parseJSON(xhr.responseText);
-    oldMessage = this.displayField.html();
+    oldMessage = this.flashEl.html();
     delayedFunc = function() {
-      return this.displayField.html(oldMessage);
+      return this.flashEl.html(oldMessage);
     };
-    this.displayField.html(json.flash);
+    this.render(this.flashEl, this.flashTemplate, json);
     return this.delay(delayedFunc, 2000);
   };
   MainLogin.prototype.newAttributes = function(json) {
@@ -69,3 +92,8 @@ MainLogin = (function() {
   };
   return MainLogin;
 })();
+$(function() {
+  return window.MainLogin = new MainLogin({
+    el: $('body')
+  });
+});

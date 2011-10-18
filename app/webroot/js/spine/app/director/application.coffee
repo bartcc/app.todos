@@ -16,6 +16,7 @@ class App extends Spine.Controller
 
   constructor: ->
     super
+    
     @sidebar = new SidebarView
       el: @sidebarEl
     @gallery = new GalleryView

@@ -10,7 +10,8 @@ Spine.Model.Local =
     localStorage[@className] = result
 
   loadLocal: ->
+    console.log 'fetch'
     result = localStorage[@className]
-    this.refresh(result or [], clear: true)
+    @refresh(result or [], clear: true)
     
 module?.exports = Spine.Model.Local

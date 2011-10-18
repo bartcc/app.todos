@@ -16,13 +16,12 @@ class UsersController extends AppController {
     
   function login() {
     $user = $this->Auth->user();
-    $this->log($user, LOG_DEBUG);
     if($this->RequestHandler->isAjax()) {
       if ($user) {
         $this->User->Group->recursive = 0;
         $group = $this->User->Group->findById($this->Auth->user('group_id'));
         $groupname = $group['Group']['name'];
-        $merged = array_merge($this->data['User'], array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'groupname' => $groupname, 'flash' => '<strong style="color:green">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>'));
+        $merged = array_merge($this->data['User'], array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'groupname' => $groupname, 'flash' => '<strong style="color:green">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>', 'success' => 'true'));
         $json = $merged;
         $this->set(compact('json'));
         $this->render(SIMPLE_JSON);

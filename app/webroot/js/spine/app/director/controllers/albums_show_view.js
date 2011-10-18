@@ -72,7 +72,7 @@ AlbumsShowView = (function() {
       el: this.items,
       template: this.albumsTemplate
     });
-    Spine.list = this.list;
+    Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
     Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));

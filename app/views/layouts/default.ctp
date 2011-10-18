@@ -31,11 +31,13 @@
 
     //$this->log($js->object($galleries), LOG_DEBUG);
     echo $this->Html->script('lib/jquery/jquery-1.6.2');
+    echo $this->Html->script('lib/jquery/jquery.tmpl');
     echo $this->Html->script('spine/lib/spine');
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/app/director/models/user');
-    echo $this->Html->script('spine/app/director/plugins/main_login');
+    echo $this->Html->script('spine/app/director/models/error');
+    echo $this->Html->script('spine/app/director/main_login');
 
     echo $html->scriptStart();
     ?>

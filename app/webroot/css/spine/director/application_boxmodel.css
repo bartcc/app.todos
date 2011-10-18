@@ -28,7 +28,6 @@ body {
   color: #333333;
 }
 h1, h2 {
-  font-weight: bold;
   text-shadow: 0 1px 1px #ffffff;
 }
 h1 {
@@ -218,24 +217,6 @@ footer div#storage-mode span {
   bottom: -7px;
   left: 10px;
   position: relative;
-}
-#messenger footer {
-  -webkit-border-top-left-radius:0px ;
-  -webkit-border-top-right-radius:0px ;
-  -webkit-border-bottom-right-radius:8px ;
-  -webkit-border-bottom-left-radius:8px ;
-  -khtml-border-top-left-radius:0px ;
-  -khtml-border-top-right-radius:0px ;
-  -khtml-border-bottom-right-radius:8px ;
-  -khtml-border-bottom-left-radius:8px ;
-  -moz-border-radius-topleft:0px ;
-  -moz-border-radius-topright:0px ;
-  -moz-border-radius-bottomright:8px ;
-  -moz-border-radius-bottomleft:8px ;
-  border-top-left-radius:0px ;
-  border-top-right-radius:0px ;
-  border-bottom-right-radius:8px ;
-  border-bottom-left-radius:8px ;
 }
 .right {
   float: right;
@@ -522,6 +503,13 @@ fieldset {
 fieldset button {
   margin: 0 10px
 }
+
+fieldset label {
+  padding: 0 10px 0 0
+}
+fieldset > div:nth-child(2) {
+  padding-left: 10px
+}
 #tasks li {
   margin-top: 2px
 }
@@ -552,16 +540,34 @@ li.hover {
   background: url('img/mode.png') no-repeat center -50px transparent;
 }
 #messenger {
-		z-index:998
-}
-#messenger h1, #messenger p, #messenger label {
+		z-index:998;
   color: #767676;
   font: 1.5em;
   text-shadow: 0 1px 0 #FFFFFF;
 }
 #messenger h1 {
   font-size: 2em;
+}
+#messenger h3 {
   color: #565656;
+}
+#messenger footer {
+  -webkit-border-top-left-radius:0px ;
+  -webkit-border-top-right-radius:0px ;
+  -webkit-border-bottom-right-radius:8px ;
+  -webkit-border-bottom-left-radius:8px ;
+  -khtml-border-top-left-radius:0px ;
+  -khtml-border-top-right-radius:0px ;
+  -khtml-border-bottom-right-radius:8px ;
+  -khtml-border-bottom-left-radius:8px ;
+  -moz-border-radius-topleft:0px ;
+  -moz-border-radius-topright:0px ;
+  -moz-border-radius-bottomright:8px ;
+  -moz-border-radius-bottomleft:8px ;
+  border-top-left-radius:0px ;
+  border-top-right-radius:0px ;
+  border-bottom-right-radius:8px ;
+  border-bottom-left-radius:8px ;
 }
 div.dialogue {
   display: table-cell;
@@ -586,8 +592,8 @@ div.dialogue-content {
   margin: 0 auto 0;
   width: 400px;
 }
-div.bg div {
-  margin: 9px;
+div.bg > div:nth-child(2) {
+  margin: 20px;
 }
 div.dialogue-content div.bg {
   -moz-border-radius: 8px;
@@ -602,7 +608,7 @@ div.dialogue-content div.bg {
 }
 div.dialogue div.dialogue-scroll {
   position: relative;
-  padding: 10px 25px;
+  padding: 10px 0;
   margin: 0 auto;
 }
 .input.window {
@@ -611,6 +617,16 @@ div.dialogue div.dialogue-scroll {
   margin-right: 10px;
   padding: 2px 8px;
 }
-._flash span {
-  font-size: 1em;
+.flash {
+  position: relative;
+}
+.flash img {
+  position: absolute;
+  right: 100px;
+  top: 0
+}
+.info {
+  color: rgba(20, 20, 20, 0.4);
+  float: left;
+  padding: 8px 0 0 20px;
 }

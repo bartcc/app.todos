@@ -50,7 +50,7 @@ SidebarView = (function() {
       template: this.template
     });
     Gallery.bind("refresh change", this.proxy(this.render));
-    Gallery.bind("ajaxError", this.proxy(this.error));
+    Gallery.bind("ajaxError", Gallery.errorHandler);
     Spine.bind('render:galleryItem', this.proxy(this.renderItem));
     Spine.bind('render:subList', this.proxy(this.renderSubList));
     Spine.bind('create:gallery', this.proxy(this.create));
@@ -88,10 +88,6 @@ SidebarView = (function() {
     var albums;
     albums = Album.filter(id);
     return $('#sub-' + id).html(this.subListTemplate(albums));
-  };
-  SidebarView.prototype.error = function() {
-    window.location = base_url + 'director_app';
-    return false;
   };
   SidebarView.prototype.dragStart = function(e) {
     var id, raw, selection, _ref;

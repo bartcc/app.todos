@@ -57,8 +57,8 @@
             <div class="drag-handle">
               <div>
                 <h1>Login</h1>
-                <p class="_flash"><span></span></p>
-                <p><span><small>(guest / guest) or (admin / admin)</small></span></p>
+                <div class="_flash"><span></span></div>
+                <label><small>(guest / guest) or (admin / admin)</small></label>
               </div>
               <div class="clearfix"></div>
             </div>

@@ -100,6 +100,18 @@ Model.Extender =
         ids = for record in records
           record.id
       
+      errorHandler: (record, xhr, statusText, error) ->
+        error = new Error
+          record      : record
+          xhr         : xhr
+          statusText  : statusText
+          error       : error
+          
+        error.save()
+        window.location = base_url + 'director_app'
+        false
+        
+        
     Include =
       
       selectionList: ->
@@ -129,8 +141,7 @@ Model.Extender =
             @[key] = value
 
         @save() if invalid
-      
-
+        
       #private
       
       addUnique: (list) ->

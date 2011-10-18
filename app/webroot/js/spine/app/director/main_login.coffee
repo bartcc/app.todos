@@ -1,0 +1,65 @@
+class MainLogin extends Spine.Controller
+
+  elements:
+    'form'              : 'form'
+    '.flash'            : 'flashEl'
+    '.info'             : 'infoEl'
+    '#UserPassword'     : 'passwordEl'
+    '#UserUsername'     : 'usernameEl'
+    '#flashTemplate'    : 'flashTemplate'
+    '#infoTemplate'     : 'infoTemplate'
+
+  template: (el, item) ->
+    el.tmpl(item)
+    
+  constructor: (form) ->
+    super
+    Error.fetch()
+    lastError = Error.last() if Error.count()
+    @render @flashEl, @flashTemplate, lastError if lastError
+    @render @infoEl, @infoTemplate, lastError if lastError?.record
+    Error.destroyAll()
+    
+  render: (el, tmpl, item) ->  
+    el.html @template tmpl, item
+    
+  submit: =>
+    $.ajax
+      data: @form.serialize()
+      type: 'POST'
+      success: @success
+      error: @error
+      complete: @complete
+      
+  complete: (xhr) =>
+    json = xhr.responseText
+    @passwordEl.val('')
+    @usernameEl.val('').focus()
+    
+  success: (json) =>
+    User.fetch()
+    User.destroyAll()
+    user = new User @newAttributes(json)
+    user.save()
+    redirect_url = base_url + 'director_app'
+    @render @flashEl, @flashTemplate, json
+    delayedFunc = -> 
+      window.location = redirect_url
+    @delay delayedFunc, 1000
+
+  error: (xhr) =>
+    json = $.parseJSON(xhr.responseText)
+    oldMessage = @flashEl.html()
+    delayedFunc = -> @flashEl.html oldMessage
+    @render @flashEl, @flashTemplate, json
+    @delay delayedFunc, 2000
+    
+  newAttributes: (json) ->
+      id: json.id
+      username: json.username
+      name: json.name
+      groupname: json.groupname
+      sessionid: json.sessionid
+    
+$ ->
+  window.MainLogin = new MainLogin el: $('body')

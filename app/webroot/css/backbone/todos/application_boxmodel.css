@@ -517,6 +517,14 @@ fieldset {
 fieldset button {
   margin: 0 10px
 }
+fieldset label {
+  padding: 0 10px 0 0
+}
+fieldset > div:nth-child(2) {
+  padding-left: 10px
+}
+#messenger .dialogue-scroll fieldset {
+}
 #tasks li {
   margin-top: 2px
 }
@@ -550,7 +558,7 @@ li.hover {
 		z-index:998
 }
 #messenger h1, #messenger p, #messenger label {
-  color: #767676;
+  color: #454545;
   font: 1.5em;
   text-shadow: 0 1px 0 #FFFFFF;
 }
@@ -581,8 +589,8 @@ div.dialogue-content {
   margin: 0 auto 0;
   width: 400px;
 }
-div.bg div {
-  margin: 9px;
+div.bg > div:nth-child(2) {
+  margin: 20px;
 }
 div.dialogue-content div.bg {
   -moz-border-radius: 8px;
@@ -597,7 +605,7 @@ div.dialogue-content div.bg {
 }
 div.dialogue div.dialogue-scroll {
   position: relative;
-  padding: 10px 25px;
+  padding: 10px 0;
   margin: 0 auto;
 }
 .input.window {

@@ -63,6 +63,7 @@
     echo $this->Html->script('spine/app/director/models/image');
     echo $this->Html->script('spine/app/director/models/album');
     echo $this->Html->script('spine/app/director/models/user');
+    echo $this->Html->script('spine/app/director/models/error');
     echo $this->Html->script('spine/app/director/controllers/login');
     echo $this->Html->script('spine/app/director/controllers/gallery_list');
     echo $this->Html->script('spine/app/director/controllers/album_list');

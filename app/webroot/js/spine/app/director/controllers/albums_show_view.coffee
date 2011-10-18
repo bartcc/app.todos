@@ -62,7 +62,7 @@ class AlbumsShowView extends Spine.Controller
     @list = new Spine.AlbumList
       el: @items
       template: @albumsTemplate
-    Spine.list = @list
+    Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
     Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
@@ -286,5 +286,6 @@ class AlbumsShowView extends Spine.Controller
   
   toggleDraghandle: ->
     @activeControl.click()
+    
 
 module?.exports = AlbumsView

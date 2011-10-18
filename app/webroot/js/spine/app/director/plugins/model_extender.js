@@ -176,6 +176,17 @@ Model.Extender = {
           }
           return _results;
         })();
+      },
+      errorHandler: function(record, xhr, statusText, error) {
+        error = new Error({
+          record: record,
+          xhr: xhr,
+          statusText: statusText,
+          error: error
+        });
+        error.save();
+        window.location = base_url + 'director_app';
+        return false;
       }
     };
     Include = {

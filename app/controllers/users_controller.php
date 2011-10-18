@@ -13,12 +13,6 @@ class UsersController extends AppController {
 
     parent::beforeFilter();
   }
-  
-  function hash($name = '') {
-    App::import('Core', 'Security');
-    $this->log(Security::hash($name, null, true), LOG_DEBUG);
-    die();
-  }
     
   function login() {
     $user = $this->Auth->user();

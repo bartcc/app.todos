@@ -162,7 +162,8 @@ SidebarView = (function() {
   };
   SidebarView.prototype.newAttributes = function() {
     return {
-      name: 'New Gallery'
+      name: 'New Gallery',
+      user_id: User.first().id
     };
   };
   SidebarView.prototype.create = function() {

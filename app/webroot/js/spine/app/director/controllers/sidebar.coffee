@@ -126,7 +126,8 @@ class SidebarView extends Spine.Controller
     Spine.trigger('destroy:albumJoin', origin, albums) unless @isCtrlClick(e)
     
   newAttributes: ->
-    name: 'New Gallery'
+    name    : 'New Gallery'
+    user_id : User.first().id
 
   create: ->
     console.log 'Sidebar::create'

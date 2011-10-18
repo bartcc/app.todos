@@ -19,14 +19,14 @@ class MainLogin extends Spine.Controller
     
   success: (json) =>
     User.fetch()
-    User.deleteAll()
-    user = new User @newAttributes(json)
-    user.save()
-    redirect_url = base_url + 'director_app'
-    @displayField.html json.flash
-    delayedFunc = -> 
-      alert 'Hi'#window.location = redirect_url
-    @delay delayedFunc, 1000
+#    User.deleteAll()
+#    user = new User @newAttributes(json)
+#    user.save()
+#    redirect_url = base_url + 'director_app'
+#    @displayField.html json.flash
+#    delayedFunc = -> 
+#      alert 'Hi'#window.location = redirect_url
+#    @delay delayedFunc, 1000
 
   error: (xhr) =>
     json = $.parseJSON(xhr.responseText)

@@ -50,8 +50,8 @@ if (!defined('APP_DIR')) {
  *
  */
 if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-  //define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . APP_DIR);
-  define('CAKE_CORE_INCLUDE_PATH',  DS . 'Sites' . DS . 'anito' . DS . 'subdomains' . DS . 'cakephp-cakephp-5092013');
+  define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . APP_DIR);
+  //define('CAKE_CORE_INCLUDE_PATH',  DS . 'Sites' . DS . 'anito' . DS . 'subdomains' . DS . 'cakephp-cakephp-5092013');
   //define('CAKE_CORE_INCLUDE_PATH', DS . 'Library' . DS . 'WebServer' . DS . 'Sites' . DS . 'cake.anito.dev');
 }
 

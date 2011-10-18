@@ -6,7 +6,7 @@ class UsersController extends AppController {
 
   function beforeFilter() {
     $this->disableCache();
-    $this->Auth->allowedActions = array('login', 'logout', 'auth', 'hash');
+    $this->Auth->allowedActions = array('login', 'logout', 'auth');
 
     $this->Cookie->name = 'TODOS';
     $this->Cookie->time = 3600; // 1 hour

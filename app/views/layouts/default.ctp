@@ -47,7 +47,7 @@
     ?>
   </head>
   <body class="body">
-    <?php echo $content_for_layout; ?>
+    <?php echo $title_for_layout; ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>
 </html>

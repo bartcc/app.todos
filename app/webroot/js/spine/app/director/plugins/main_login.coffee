@@ -25,7 +25,7 @@ class MainLogin extends Spine.Controller
     redirect_url = base_url + 'director_app'
     @displayField.html json.flash
     delayedFunc = -> 
-      window.location = redirect_url
+      alert 'Hi'#window.location = redirect_url
     @delay delayedFunc, 1000
 
   error: (xhr) =>

@@ -36,17 +36,7 @@ MainLogin = (function() {
     return this.passwordField.val('').focus();
   };
   MainLogin.prototype.success = function(json) {
-    var delayedFunc, redirect_url, user;
-    User.fetch();
-    User.deleteAll();
-    user = new User(this.newAttributes(json));
-    user.save();
-    redirect_url = base_url + 'director_app';
-    this.displayField.html(json.flash);
-    delayedFunc = function() {
-      return window.location = redirect_url;
-    };
-    return this.delay(delayedFunc, 1000);
+    return User.fetch();
   };
   MainLogin.prototype.error = function(xhr) {
     var delayedFunc, json, oldMessage;

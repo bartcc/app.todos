@@ -568,7 +568,7 @@ div.dialogue {
 }
 div.dialogue-wrap {
   position:fixed;
-  background: url(img/msg_bg_dark.png);
+  background: transparent;
   width:100%;
   height:100%;
   top:0;
@@ -578,7 +578,7 @@ div.dialogue-wrap {
 div.dialogue-wrap-inner {
   position: absolute;
   z-index: 1005;
-  background: url(img/msg_bg_dark.png);
+  background: transparent;
   text-align: center;
 }
 div.dialogue-content {

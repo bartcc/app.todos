@@ -6,10 +6,9 @@ class DirectorAppController extends AppController {
   var $uses = array('Gallery', 'Album', 'Image');
 
   function beforeFilter() {
-    Configure::write('debug', 0);
     $this->autoRender = true;
     $this->layout = 'director_layout';
-    $this->Auth->allowedActions = array('index');
+    //$this->Auth->allowedActions = array('index');
   }
 
   function index() {

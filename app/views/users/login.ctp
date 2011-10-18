@@ -1,7 +1,6 @@
 <div style="" id="login">
   <div id="messenger" class="dialogue-wrap transparent">
     <div class="dialogue">
-      <?php echo $form->create('User', array('onsubmit' => 'new MainLogin({el:this}).submit(); return false; ')); ?>
       <div id="morph_messenger-wrap" class="morph dialogue-content" style="width:525px; min-width:500px;">
         <div id="draggable-messenger-wrap" class="bg verticaltop">
           <header>

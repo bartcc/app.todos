@@ -9,7 +9,7 @@ class DirectorAppController extends AppController {
     Configure::write('debug', 0);
     $this->autoRender = true;
     $this->layout = 'director_layout';
-    //$this->Auth->allowedActions = array('index');
+    $this->Auth->allowedActions = array('index');
   }
 
   function index() {

@@ -23,6 +23,7 @@ class GalleriesController extends AppController {
   }
 
   function add() {
+    $this->log($this->data, LOG_DEBUG);
     if (!empty($this->data)) {
       $this->Gallery->create();
       if ($this->Gallery->save($this->data)) {

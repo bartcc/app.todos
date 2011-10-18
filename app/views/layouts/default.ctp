@@ -17,7 +17,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <?php echo $this->Html->charset(); ?>
@@ -29,6 +29,7 @@
     echo $this->Html->meta('icon');
     echo $this->Html->css('spine/director/application_boxmodel');
 
+    //$this->log($js->object($galleries), LOG_DEBUG);
     echo $this->Html->script('lib/jquery/jquery-1.6.2');
     echo $this->Html->script('spine/lib/spine');
     echo $this->Html->script('spine/lib/local');
@@ -47,7 +48,7 @@
     ?>
   </head>
   <body class="body">
-    <?php echo $title_for_layout; ?>
+    <?php echo $content_for_layout; ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>
 </html>

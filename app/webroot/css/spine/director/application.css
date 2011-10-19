@@ -81,6 +81,8 @@ h2 {
   margin: 0;
 }
 h3 {
+  padding: 0;
+  margin: 0;
   font-size: 15px;
   color: #606060;
   text-shadow: 0 1px 1px #ffffff;
@@ -379,11 +381,12 @@ textarea {
   -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: inset 0px 0px 1px rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
-  padding: 0 10px 10px 15px;
+  padding: 10px 10px 10px 15px;
   margin-top: 1px;
 }
 #sidebar {
   width: 300px;
+  background-image: url("img/pattern.png");
 }
 
 #sidebar ul {
@@ -393,8 +396,8 @@ textarea {
 
 #sidebar li.item {
   cursor: move;
-  border-top: 1px solid #d2d2d1;
-  border-bottom: 3px solid #d2d2d1;
+  border-top: 1px solid;
+  border-bottom: 3px solid;
   position: relative;  
   color: #606060;
   text-overflow: ellipsis;
@@ -463,7 +466,6 @@ textarea {
 #sidebar .item-content .author {
   font-style: italic;
   font-size: 0.8em;
-  color: #A0A0A0
 }
 #sidebar .sublist-item {
   cursor: move
@@ -548,10 +550,10 @@ textarea {
   background: linear-gradient(top, #ffffff, #e0e0e1);
   -moz-box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.8);
   -webkit-box-shadow: 1px -1px 3px rgba(0, 0, 0, 0.8);
-  box-shadow: 1px -1px 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 .options li {
-  border-right: 1px solid rgba(0, 0, 0, 0.3);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   line-height: 30px;
   height: 30px;
   padding: 0 20px;

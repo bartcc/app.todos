@@ -1,5 +1,5 @@
 html, body {
-  background: none repeat scroll 0 0 #DDDDCC;
+  background: none repeat scroll 0 0 #A9A9A9;
   
   display: -webkit-box;
   -webkit-box-align: stretch;
@@ -19,30 +19,24 @@ html, body {
   margin: 0;
   padding: 0;
 }
-
 body {
 /*  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;*/
-  font:14px/20px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+  font:14px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
   font-size: 16px;
   color: #414141;
   -webkit-user-select: none;
-  line-height: 1.2em;
 }
-
 header, footer {
   display: block;
 }
-
 .autoflow {
   overflow: auto;
 }
-
 .flex, flex1 {
   -moz-box-flex: 1;
   -webkit-box-flex: 1;
   box-flex: 1;
 }
-
 .hbox {
   display: -webkit-box;
   -webkit-box-align: stretch;
@@ -56,7 +50,6 @@ header, footer {
   box-align: stretch;
   box-orient: horizontal;
 }
-
 .vbox {
   display: -webkit-box;
   -webkit-box-align: stretch;
@@ -70,41 +63,38 @@ header, footer {
   box-align: stretch;
   box-orient: vertical;
 }
-
 h1, h2 {
   font-weight: bold;
   text-shadow: 0 1px 1px #ffffff;
 }
-
+h1, h2 {
+  color: #565656;
+  text-shadow: 0 1px 0 #DDDDDD;
+}
 h1 {
   font-size: 21pt;
   color: #606060;
 }
-
 h2 {
   font-size: 24pt;
   color: #606060;
-  margin: 0.4em 0 0 0;
+  margin: 0;
 }
-
 h3 {
   font-size: 15px;
   color: #606060;
   text-shadow: 0 1px 1px #ffffff;
 }
-
 h4 {
   font-size: 14pt;
   color: #7e7f7e;
   text-shadow: 0 1px 1px #ffffff;
 }
-
 a {
   color: #363636;
   cursor: move;
   text-decoration: underline;
 }
-
 pre { 
   margin: 0;
   font-family: serif, Helvetica, Arial, "MS Trebuchet", sans-serif;
@@ -382,6 +372,16 @@ textarea {
 #albums .content.over.nodrop {
   background: url(img/nodrop_content.png) repeat-x 0 0
 }
+#albums .header {
+  background: linear-gradient(center top, #B9B9B9, #979797);
+  background: -moz-linear-gradient(center top, #B9B9B9, #979797);
+  background: -webkit-gradient(linear, center top, center bottom, from(#B9B9B9), to(#979797));
+  -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: inset 0px 0px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  padding: 0 10px 10px 15px;
+  margin-top: 1px;
+}
 #sidebar {
   width: 300px;
 }
@@ -546,10 +546,9 @@ textarea {
   background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e0e0e1));
   background: -moz-linear-gradient(top, #ffffff, #e0e0e1);
   background: linear-gradient(top, #ffffff, #e0e0e1);
-  -moz-box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: inset -1px -1px 3px #eeeeee, 1px 1px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.8);
+  -webkit-box-shadow: 1px -1px 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 1px -1px 3px rgba(0, 0, 0, 0.8);
 }
 .options li {
   border-right: 1px solid rgba(0, 0, 0, 0.3);
@@ -574,6 +573,7 @@ textarea {
   background: linear-gradient(top, #FFB399, #FF6633);
 }
 .content, #views .views .view {
+  background-image: url("img/pattern.png");
   box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
@@ -601,6 +601,10 @@ textarea {
 #albums .content .items {
   margin-top: 20px;
 }
+#albums .content li.item:hover {
+  box-shadow: 1px -1px 1px #777777 inset, 0 0 2px #FFFFFF, 1px 1px 3px #333333 ;
+  /*box-shadow: 0 1px 2px #333333 inset;*/
+}
 #albums .content li.item {
   margin: 0 15px 15px 0;
   padding: 15px;
@@ -608,16 +612,14 @@ textarea {
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
   
-  box-shadow: 0 1px 2px #333333 inset;
+/*  box-shadow: 0 1px 2px #333333 inset;
   -moz-box-shadow: 0 1px 2px #333333 inset;
-  -webkit-box-shadow: 0 1px 2px #333333 inset;
-  
-  box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 1px #777777 inset, 1px 0 2px #FFFFFF, 0 0 1px #888888 inset;
+  -webkit-box-shadow: 0 1px 2px #333333 inset;*/
 }
 #albums .content li.item {
   outline: #121212;
-/*  background: #FEEEE6;
-  background: url("img/bauer.png") no-repeat 0 0;
+ /* background: #FEEEE6;
+  background: url("img/pattern.png") no-repeat 0 0;
   background: -webkit-gradient(linear, left top, left bottom, from(#EEEEE6), to(#DDDDCC));
   background: -moz-linear-gradient(top, #EEEEE6, #DDDDCC);
   background: linear-gradient(top, #EEEEE6, #DDDDCC);
@@ -656,7 +658,8 @@ textarea {
   line-height: 1.2em
 }
 #albums .content li.item.active {
-  background-color: #E9D6B5;
+  background: url("img/pattern.png") 0 0;
+  background-color: #FFBB66;
   box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
 
 }
@@ -669,9 +672,10 @@ textarea {
 .dimmed {
 }
 #views label span, .dimmed {
-  color: #AAAAAA;
+  color: #676767;
   font-family: serif;
   font-size: 1.3em;
   font-style: italic;
-  text-shadow: 0 2px 0 #FFFFFF;
+  text-shadow: 0 1px 0 #DDDDDD;
 }
+

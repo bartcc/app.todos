@@ -18,6 +18,10 @@ Spine.Controller.include({
     App[controller].deactivate();
     return target.click();
   },
+  closePanel: function(controller, target) {
+    App[controller].activate();
+    return target.click();
+  },
   isCtrlClick: function(e) {
     return e.metaKey || e.ctrlKey || e.altKey;
   }

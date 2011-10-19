@@ -78,6 +78,7 @@ AlbumsShowView = (function() {
     Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));
     Spine.bind("create:albumJoin", this.proxy(this.createJoin));
     Album.bind("update", this.proxy(this.render));
+    Album.bind("destroy", this.proxy(this.render));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('change:selectedAlbum', this.proxy(this.renderToolbar));
     Spine.bind('change:selection', this.proxy(this.changeSelection));

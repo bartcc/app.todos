@@ -64,4 +64,8 @@ $ ->
   User.fetch()
   App.loginView.render User.first()
   App.albumsManager.change(App.albumsShowView)
-  #App.albumsShowView.btnGallery.click()
+  App.albumsShowView.btnGallery.click()
+  callback = ->
+    App.closePanel('gallery', App.albumsShowView.btnGallery)
+  App.openPanel('gallery', App.albumsShowView.btnGallery)
+  App.delay callback, 1000

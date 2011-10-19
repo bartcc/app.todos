@@ -68,6 +68,7 @@ class AlbumsShowView extends Spine.Controller
     Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
     Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("update", @proxy @render)
+    Album.bind("destroy", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @renderToolbar)
     Spine.bind('change:selection', @proxy @changeSelection)
@@ -144,7 +145,7 @@ class AlbumsShowView extends Spine.Controller
     albums = []
     Album.each (record) =>
       albums.push record unless list.indexOf(record.id) is -1
-
+      
     if Gallery.record
       Spine.trigger('destroy:albumJoin', Gallery.record, albums)
     else

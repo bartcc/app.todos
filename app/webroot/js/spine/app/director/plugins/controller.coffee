@@ -11,6 +11,10 @@ Spine.Controller.include
   openPanel: (controller, target) ->
     App[controller].deactivate()
     target.click()
+    
+  closePanel: (controller, target) ->
+    App[controller].activate()
+    target.click()
 
   isCtrlClick: (e) ->
     e.metaKey or e.ctrlKey or e.altKey

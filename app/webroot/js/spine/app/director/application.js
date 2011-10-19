@@ -96,10 +96,17 @@ App = (function() {
   return App;
 })();
 $(function() {
+  var callback;
   window.App = new App({
     el: $('body')
   });
   User.fetch();
   App.loginView.render(User.first());
-  return App.albumsManager.change(App.albumsShowView);
+  App.albumsManager.change(App.albumsShowView);
+  App.albumsShowView.btnGallery.click();
+  callback = function() {
+    return App.closePanel('gallery', App.albumsShowView.btnGallery);
+  };
+  App.openPanel('gallery', App.albumsShowView.btnGallery);
+  return App.delay(callback, 1000);
 });

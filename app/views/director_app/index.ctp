@@ -23,8 +23,8 @@
         <li class="splitter disabled flex"></li>
         <ul class="toolbar hbox"></ul>
       </ul>
+      <div class="header"></div>
       <div class="content vbox flex autoflow">
-        <div class="header"></div>
         <div class="items sortable"></div>
       </div>
       <div id="views" class="hbox autoflow">
@@ -161,7 +161,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="headerTemplate">
-  <h3>Gallery: ${record.name} <span style="color: #D0D0D0; font-style: normal; font-weight: 100; font-size: 1.2em;">&nbsp;||&nbsp;</span> Author: ${record.author}</h3>
+  <h3>Gallery: ${record.name} <span>&nbsp;||&nbsp;</span> Author: ${record.author}</h3>
   <h2>{{if count}}${count} Album{{if count>1}}s{{/if}}{{else}}No Albums{{/if}}</h2>
 </script>
 

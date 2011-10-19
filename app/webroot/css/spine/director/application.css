@@ -412,7 +412,7 @@ textarea {
   background: url("img/yesdrop_content.png") repeat-x  0 0;
 }
 #sidebar li.item.active {
-  background: url("img/task-item.png") repeat-x  0 -90px;
+  background: url("img/active_content.png") #FFFFFF;
 }
 #sidebar li.item.over.nodrop {
   background: url("img/nodrop_content.png") repeat-x  0 0;
@@ -510,7 +510,7 @@ textarea {
 }
 #sidebar ul.sublist {
   line-height: 3em;
-  background: #CCCCBB;
+  background: url("img/drop_content.png");
   margin-left: 40px;
 }
 #sidebar ul.sublist li.sublist-item {

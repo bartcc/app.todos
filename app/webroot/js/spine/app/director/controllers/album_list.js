@@ -48,17 +48,12 @@ Spine.AlbumList = (function() {
   };
   AlbumList.prototype.exposeSelection = function(list) {
     var id, item, _i, _len, _results;
-    if (list) {
-      _results = [];
-      for (_i = 0, _len = list.length; _i < _len; _i++) {
-        id = list[_i];
-        if (Album.exists(id)) {
-          item = Album.find(id);
-        }
-        _results.push(item ? this.children().forItem(item).addClass("active") : void 0);
-      }
-      return _results;
+    _results = [];
+    for (_i = 0, _len = list.length; _i < _len; _i++) {
+      id = list[_i];
+      _results.push(Album.exists(id) ? (item = Album.find(id), this.children().forItem(item).addClass("active")) : void 0);
     }
+    return _results;
   };
   AlbumList.prototype.render = function(items, newAlbum) {
     console.log('AlbumList::render');

@@ -37,10 +37,10 @@ class Spine.AlbumList extends Spine.Controller
     Spine.trigger('change:selectedAlbum', selected)
   
   exposeSelection: (list) ->
-    if list
-      for id in list
-        item = Album.find(id) if Album.exists(id)
-        @children().forItem(item).addClass("active") if item
+    for id in list
+      if Album.exists(id)
+        item = Album.find(id) 
+        @children().forItem(item).addClass("active")
   
   render: (items, newAlbum) ->
     console.log 'AlbumList::render'

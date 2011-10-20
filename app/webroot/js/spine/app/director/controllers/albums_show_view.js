@@ -147,10 +147,14 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.create = function() {
     var album;
     console.log('AlbumsShowView::create');
+    Gallery.emptySelection();
     album = new Album(this.newAttributes());
     album.save();
     Gallery.updateSelection([album.id]);
-    Spine.trigger('create:albumJoin', Gallery.record, album);
+    this.render(album);
+    if (Gallery.record) {
+      Spine.trigger('create:albumJoin', Gallery.record, album);
+    }
     return this.openPanel('album', App.albumsShowView.btnAlbum);
   };
   AlbumsShowView.prototype.destroy = function() {

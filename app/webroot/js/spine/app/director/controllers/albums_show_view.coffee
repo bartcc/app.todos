@@ -69,6 +69,7 @@ class AlbumsShowView extends Spine.Controller
     Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("update", @proxy @render)
     Album.bind("destroy", @proxy @render)
+#    Album.bind("change", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @renderToolbar)
     Spine.bind('change:selection', @proxy @changeSelection)
@@ -134,10 +135,12 @@ class AlbumsShowView extends Spine.Controller
 
   create: ->
     console.log 'AlbumsShowView::create'
+    Gallery.emptySelection()
     album = new Album(@newAttributes())
     album.save()
     Gallery.updateSelection([album.id])
-    Spine.trigger('create:albumJoin', Gallery.record, album)
+    @render(album)
+    Spine.trigger('create:albumJoin', Gallery.record, album) if Gallery.record
     @openPanel('album', App.albumsShowView.btnAlbum)
 
   destroy: ->

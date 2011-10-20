@@ -15,8 +15,7 @@ exports.NS('Todos.Collections').Todos = (function() {
     setStorageMode: function(mode) {
       for(var key in this.persistModes) {
         if(mode === this.persistModes[key]) {
-          this.storageMode = mode;
-          return this.storageMode;
+          return this.storageMode = mode;
         }
       }
     },
@@ -128,7 +127,7 @@ exports.NS('Todos.Collections').Todos = (function() {
 
     // Todos are sorted by their original insertion order.
     comparator: function(todo) {
-      return todo.get('order');
+      return Number(todo.get('order'));
     },
     
     empty: function() {

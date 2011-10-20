@@ -46,16 +46,15 @@ jQuery(function() {
       },
       
       render: function() {
-        
         this.$('#button-checkall').html(this.buttonCheckallTemplate({
           value:      'Mark all Done',
           remaining:  Todos.Collections.Todos.remaining().length
         }));
+        
         this.$('#button-uncheckall').html(this.buttonUncheckallTemplate({
           value:      'Mark all Undone',
           done:       Todos.Collections.Todos.done().length
         }));
-        
       },
       
       refresh : function() {
@@ -80,7 +79,7 @@ jQuery(function() {
             }
           },
           error: function(e, xhr) {
-            // ensable refresh button
+            // enable refresh button
             that.renderRefreshState();
             if(xhr.status >= 400) {
               Todos.Views.App.Login.trigger('error:auth');

@@ -13,7 +13,7 @@ Spine.Model.Local = {
   },
   loadLocal: function() {
     var result;
-    console.log('fetch');
+    console.log(this.className + '.fetch()');
     result = localStorage[this.className];
     return this.refresh(result || [], {
       clear: true

@@ -108,7 +108,11 @@ Model.Extender =
           error       : error
           
         error.save()
-        window.location = base_url + 'director_app'
+        console.log record
+        console.log xhr
+        console.log statusText
+        console.log error
+        window.location = base_url + 'users/login' unless xhr.status is 200
         false
         
         

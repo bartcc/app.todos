@@ -8,10 +8,10 @@ Filter =
 
     include =
       select: (query) ->
-        query = query.toLowerCase()
+        query = query?.toLowerCase()
         atts = (@selectAttributes or @attributes).apply @
         for key, value of atts
-          value = value.toLowerCase()
+          value = value?.toLowerCase()
           unless (value?.indexOf(query) is -1)
             return true
         false

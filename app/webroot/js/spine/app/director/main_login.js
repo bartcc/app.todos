@@ -34,9 +34,9 @@ MainLogin = (function() {
     }
     if (lastError) {
       this.render(this.flashEl, this.flashTemplate, lastError);
-    }
-    if (lastError != null ? lastError.record : void 0) {
-      this.render(this.infoEl, this.infoTemplate, lastError);
+      if (lastError.record) {
+        this.render(this.infoEl, this.infoTemplate, lastError);
+      }
     }
     Error.destroyAll();
   }

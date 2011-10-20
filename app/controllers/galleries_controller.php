@@ -23,11 +23,11 @@ class GalleriesController extends AppController {
   }
 
   function add() {
-    $this->log($this->data, LOG_DEBUG);
     if (!empty($this->data)) {
       $this->Gallery->create();
       if ($this->Gallery->save($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));
+        $this->render(BLANK_RESPONSE);
       } else {
         $this->Session->setFlash(__('The gallery could not be saved. Please, try again.', true));
       }
@@ -45,6 +45,7 @@ class GalleriesController extends AppController {
       $this->log($this->data, LOG_DEBUG);
       if ($this->Gallery->save($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));
+        $this->render(BLANK_RESPONSE);
       } else {
         $this->Session->setFlash(__('The gallery could not be saved. Please, try again.', true));
       }
@@ -63,7 +64,6 @@ class GalleriesController extends AppController {
     }
     if ($this->Gallery->delete($id)) {
       $this->Session->setFlash(__('Gallery deleted', true));
-      $this->redirect(array('action' => 'index'));
     }
     $this->Session->setFlash(__('Gallery was not deleted', true));
     $this->redirect(array('action' => 'index'));

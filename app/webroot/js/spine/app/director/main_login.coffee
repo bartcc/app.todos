@@ -16,8 +16,9 @@ class MainLogin extends Spine.Controller
     super
     Error.fetch()
     lastError = Error.last() if Error.count()
-    @render @flashEl, @flashTemplate, lastError if lastError
-    @render @infoEl, @infoTemplate, lastError if lastError?.record
+    if lastError
+      @render @flashEl, @flashTemplate, lastError 
+      @render @infoEl, @infoTemplate, lastError if lastError.record
     Error.destroyAll()
     
   render: (el, tmpl, item) ->  

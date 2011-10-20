@@ -12,12 +12,12 @@ Album = (function() {
   function Album() {
     Album.__super__.constructor.apply(this, arguments);
   }
-  Album.configure("Album", "name", 'title', 'description');
+  Album.configure("Album", "name", 'title', 'description', 'user_id');
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Extender);
-  Album.selectAttributes = ["name", 'title', "description"];
+  Album.selectAttributes = ["name"];
   Album.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
   };

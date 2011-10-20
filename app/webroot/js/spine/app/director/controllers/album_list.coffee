@@ -16,6 +16,7 @@ class Spine.AlbumList extends Spine.Controller
   constructor: ->
     super
     @record = Gallery.record
+    Spine.bind('exposeSelection', @proxy @exposeSelection)
     
   template: -> arguments[0]
   
@@ -23,25 +24,30 @@ class Spine.AlbumList extends Spine.Controller
     console.log 'AlbumList::change'
     
     list = Gallery.selectionList()
-
+    
     @children().removeClass("active")
     if list
-      for id in list
-        item = Album.find(id) if Album.exists(id)
-        @children().forItem(item).addClass("active") if item
+      @exposeSelection(list)
         
+      # highlight first element in list
       selected = Album.find(list[0]) if Album.exists(list[0])
       if selected and !selected.destroyed
         Album.current(selected)
 
     Spine.trigger('change:selectedAlbum', selected)
   
+  exposeSelection: (list) ->
+    if list
+      for id in list
+        item = Album.find(id) if Album.exists(id)
+        @children().forItem(item).addClass("active") if item
+  
   render: (items, newAlbum) ->
     console.log 'AlbumList::render'
     if items.length
       @html @template items
     else
-      @html 'This Gallery has no Albums&nbsp;<button class="optCreateAlbum">New Album</button>'
+      @html '<span class="enlightened">Time to create a new album.&nbsp;</span><button class="optCreateAlbum dark">New Album</button>'
     
     #Gallery.updateSelection([newAlbum.id]) if newAlbum and newAlbum instanceof Album
     @change()

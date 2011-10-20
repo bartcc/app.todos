@@ -10,7 +10,7 @@ Spine.Model.Local =
     localStorage[@className] = result
 
   loadLocal: ->
-    console.log 'fetch'
+    console.log @className+'.fetch()'
     result = localStorage[@className]
     @refresh(result or [], clear: true)
     

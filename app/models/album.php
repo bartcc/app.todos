@@ -32,7 +32,7 @@ class Album extends AppModel {
 			'finderQuery' => '',
 			'deleteQuery' => '',
 			'insertQuery' => ''
-		),
+		),  
 		'Gallery' => array(
 			'className' => 'Gallery',
 			'joinTable' => 'galleries_albums',

@@ -23,16 +23,16 @@ class AlbumsController extends AppController {
 
   function add() {
     if (!empty($this->data)) {
+      $this->log('AlbumsController:add', LOG_DEBUG);
       $this->Album->create();
       if ($this->Album->save($this->data)) {
+        $this->log($this->data, LOG_DEBUG);
         $this->Session->setFlash(__('The album has been saved', true));
+        $this->render(BLANK_RESPONSE);
       } else {
         $this->Session->setFlash(__('The album could not be saved. Please, try again.', true));
       }
     }
-    $images = $this->Album->Image->find('list');
-    $galleries = $this->Album->Gallery->find('list');
-    $this->set(compact('images', 'galleries'));
   }
 
   function edit($id = null) {
@@ -43,7 +43,7 @@ class AlbumsController extends AppController {
     if (!empty($this->data)) {
       if ($this->Album->save($this->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
-        $this->redirect(array('action' => 'index'));
+        $this->render(BLANK_RESPONSE);
       } else {
         $this->Session->setFlash(__('The album could not be saved. Please, try again.', true));
       }
@@ -63,7 +63,6 @@ class AlbumsController extends AppController {
     }
     if ($this->Album->delete($id)) {
       $this->Session->setFlash(__('Album deleted', true));
-      $this->redirect(array('action' => 'index'));
     }
     $this->Session->setFlash(__('Album was not deleted', true));
     $this->redirect(array('action' => 'index'));

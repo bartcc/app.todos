@@ -12,12 +12,12 @@ Image = (function() {
   function Image() {
     Image.__super__.constructor.apply(this, arguments);
   }
-  Image.configure("Image", 'title', "description", "exif");
+  Image.configure("Image", 'title', "description", "exif", 'user_id');
   Image.extend(Spine.Model.Ajax);
   Image.extend(Spine.Model.AjaxRelations);
   Image.extend(Spine.Model.Filter);
   Image.extend(Spine.Model.Extender);
-  Image.selectAttributes = ['title', "description", "exif"];
+  Image.selectAttributes = ['title', "description", "exif", 'user_id'];
   Image.foreignModels = function() {
     return {
       'Album': {

@@ -25,25 +25,18 @@ Spine.AlbumList = (function() {
   function AlbumList() {
     AlbumList.__super__.constructor.apply(this, arguments);
     this.record = Gallery.record;
+    Spine.bind('exposeSelection', this.proxy(this.exposeSelection));
   }
   AlbumList.prototype.template = function() {
     return arguments[0];
   };
   AlbumList.prototype.change = function() {
-    var id, item, list, selected, _i, _len;
+    var list, selected;
     console.log('AlbumList::change');
     list = Gallery.selectionList();
     this.children().removeClass("active");
     if (list) {
-      for (_i = 0, _len = list.length; _i < _len; _i++) {
-        id = list[_i];
-        if (Album.exists(id)) {
-          item = Album.find(id);
-        }
-        if (item) {
-          this.children().forItem(item).addClass("active");
-        }
-      }
+      this.exposeSelection(list);
       if (Album.exists(list[0])) {
         selected = Album.find(list[0]);
       }
@@ -53,12 +46,26 @@ Spine.AlbumList = (function() {
     }
     return Spine.trigger('change:selectedAlbum', selected);
   };
+  AlbumList.prototype.exposeSelection = function(list) {
+    var id, item, _i, _len, _results;
+    if (list) {
+      _results = [];
+      for (_i = 0, _len = list.length; _i < _len; _i++) {
+        id = list[_i];
+        if (Album.exists(id)) {
+          item = Album.find(id);
+        }
+        _results.push(item ? this.children().forItem(item).addClass("active") : void 0);
+      }
+      return _results;
+    }
+  };
   AlbumList.prototype.render = function(items, newAlbum) {
     console.log('AlbumList::render');
     if (items.length) {
       this.html(this.template(items));
     } else {
-      this.html('This Gallery has no Albums&nbsp;<button class="optCreateAlbum">New Album</button>');
+      this.html('<span class="enlightened">Time to create a new album.&nbsp;</span><button class="optCreateAlbum dark">New Album</button>');
     }
     this.change();
     return this.el;

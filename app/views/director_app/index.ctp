@@ -75,12 +75,8 @@
       {{else}}
       <span class="name empty">No Name</span>
       {{/if}}
+      <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
       <span class="cta">${count}</span>
-      {{if author}}
-      <span class="author"> by ${author}</span>
-      {{else}}
-      <span class="author">(no author)</span>
-      {{/if}}
     </div>
   </li>
   <ul id="sub-${id}" class="sublist vbox" style="display: none;"></ul>
@@ -97,16 +93,15 @@
 <script type="text/x-jquery-tmpl" id="albumsTemplate">
   <li class="item">
     <div class="thumbnail" draggable="true">
-      <span style="font-size: 0.6em">ID: ${id}</span>
       {{if name}}
       <div class="name">${name}</div>
       {{else}}
-      <div class="name empty">No Name</div>
+      <div class="name empty">No name</div>
       {{/if}}
       {{if title}}
       <div class="name">${title}</div>
       {{else}}
-      <div class="name empty">No Title</div>
+      <div class="name empty">No title</div>
       {{/if}}
     </div>
   </li>
@@ -115,13 +110,17 @@
 <script type="text/x-jquery-tmpl" id="editGalleryTemplate">
   
   <label>
-    <span>Gallery name</span>
+    <span>Gallery Name</span>
     <input type="text" name="name" value="${name}">
   </label>
 
   <label>
     <span>Author</span>
-    <input type="text" name="author" value="${author}">
+    {{if author}}
+    <div class="name" >${author}</div>
+    {{else}}
+      <div class="name">No author</div>
+    {{/if}}
   </label>
 
   <label>
@@ -134,7 +133,7 @@
 <script type="text/x-jquery-tmpl" id="editAlbumTemplate">
   
   <label>
-    <span>Album name</span>
+    <span>Album Name</span>
     <input type="text" name="name" value="${name}" {{if newRecord}}autofocus{{/if}}>
   </label>
 
@@ -157,12 +156,13 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="noSelectionTemplate">
-  <div class="dimmed">${type}</div>
+  <label><span class="dimmed">${type}</span></label>
 </script>
 
 <script type="text/x-jquery-tmpl" id="headerTemplate">
-  <h3>Gallery: ${record.name} <span>&nbsp;||&nbsp;</span> Author: ${record.author}</h3>
-  <h2>{{if count}}${count} Album{{if count>1}}s{{/if}}{{else}}No Albums{{/if}}</h2>
+  <h3>Gallery: ${record.name} <span>Author: ${record.author}</span> </h3>
+  <h2>Albums</h2>
+  <span class="cta right"><h2>${count}</h2></span>
 </script>
 
 <script type="text/x-jquery-tmpl" id="loginTemplate">

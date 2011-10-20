@@ -90,10 +90,11 @@ SidebarView = (function() {
     return $('#sub-' + id).html(this.subListTemplate(albums));
   };
   SidebarView.prototype.dragStart = function(e) {
-    var id, raw, selection, _ref;
+    var el, id, raw, selection, _ref;
     console.log('Sidebar::dragStart');
-    if ($(e.target).parent()[0].id) {
-      raw = $(e.target).parent()[0].id;
+    el = $(e.target);
+    if (el.parent()[0].id) {
+      raw = el.parent()[0].id;
       id = raw.replace(/(^sub-)()/, '');
       if (id && Gallery.exists(id)) {
         Spine.dragItem.origin = Gallery.find(id);
@@ -102,10 +103,11 @@ SidebarView = (function() {
     } else {
       selection = Gallery.selectionList();
     }
-    this.newSelection = selection.slice(0);
     if (_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) < 0) {
-      return this.newSelection.push(Spine.dragItem.source.id);
+      selection.push(Spine.dragItem.source.id);
+      Spine.trigger('exposeSelection', selection);
     }
+    return this.newSelection = selection.slice(0);
   };
   SidebarView.prototype.dragOver = function(e) {
     var item, items, target, _i, _len, _ref, _results;
@@ -159,6 +161,7 @@ SidebarView = (function() {
   SidebarView.prototype.newAttributes = function() {
     return {
       name: 'New Gallery',
+      author: User.first().name,
       user_id: User.first().id
     };
   };

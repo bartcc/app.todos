@@ -140,7 +140,8 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.newAttributes = function() {
     return {
       title: 'New Title',
-      name: 'New Album'
+      name: 'New Album',
+      user_id: User.first().id
     };
   };
   AlbumsShowView.prototype.create = function() {

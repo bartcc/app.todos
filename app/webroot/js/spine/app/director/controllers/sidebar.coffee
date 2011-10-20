@@ -70,17 +70,22 @@ class SidebarView extends Spine.Controller
 
   dragStart: (e) ->
     console.log 'Sidebar::dragStart'
+    el = $(e.target)
     # check for drags from sublist
-    if $(e.target).parent()[0].id
-      raw = $(e.target).parent()[0].id
+    if el.parent()[0].id
+      raw = el.parent()[0].id
       id = raw.replace ///(^sub-)()///, ''
       Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
       selection = []
     else
       selection = Gallery.selectionList()
 
+    # make an unselected item part of selection
+    unless Spine.dragItem.source.id in selection
+      selection.push Spine.dragItem.source.id
+      Spine.trigger('exposeSelection', selection)
+      
     @newSelection = selection.slice(0)
-    @newSelection.push Spine.dragItem.source.id unless Spine.dragItem.source.id in selection
 
   dragOver: (e) ->
     target = $(e.target).item()
@@ -123,6 +128,7 @@ class SidebarView extends Spine.Controller
     
   newAttributes: ->
     name    : 'New Gallery'
+    author  : User.first().name
     user_id : User.first().id
 
   create: ->

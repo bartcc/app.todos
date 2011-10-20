@@ -17,11 +17,11 @@ Filter = function() {
   include = {
     select: function(query) {
       var atts, key, value;
-      query = query.toLowerCase();
+      query = query != null ? query.toLowerCase() : void 0;
       atts = (this.selectAttributes || this.attributes).apply(this);
       for (key in atts) {
         value = atts[key];
-        value = value.toLowerCase();
+        value = value != null ? value.toLowerCase() : void 0;
         if (!((value != null ? value.indexOf(query) : void 0) === -1)) {
           return true;
         }

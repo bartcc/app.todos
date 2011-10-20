@@ -128,8 +128,9 @@ class AlbumsShowView extends Spine.Controller
     @items.sortable sortOptions
 
   newAttributes: ->
-    title: 'New Title'
-    name: 'New Album'
+    title   : 'New Title'
+    name    : 'New Album'
+    user_id : User.first().id
 
   create: ->
     console.log 'AlbumsShowView::create'

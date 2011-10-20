@@ -55,3 +55,6 @@ define('WEB_URL', '/' . APP_DIR . '/' . WEBROOT_DIR);
 if (!defined('SIMPLE_JSON')) {
 	define('SIMPLE_JSON', '/elements/simple_json');
 }
+if (!defined('BLANK_RESPONSE')) {
+	define('BLANK_RESPONSE', '/elements/blank_json');
+}

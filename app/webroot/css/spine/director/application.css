@@ -1,5 +1,5 @@
 html, body {
-  background: none repeat scroll 0 0 #A9A9A9;
+  background: none repeat scroll 0 0 #606067;
   
   display: -webkit-box;
   -webkit-box-align: stretch;
@@ -184,14 +184,14 @@ button.dark:active {
 button.dark {
   border: 1px solid #555555;
   color: #9C9C9C;
-  text-shadow: 0 -1px 1px #333333;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4);
   background: #494949;
   background: -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333333));
   background: -moz-linear-gradient(top, #494949, #333333);
   background: linear-gradient(top, #494949, #333333);
-  -moz-box-shadow: 0 1px 1px #333333;
-  -webkit-box-shadow: 0 1px 1px #333333;
-  box-shadow: 0 1px 1px #333333;
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 label {
   display: block;
@@ -226,7 +226,20 @@ label input[type="text"] {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-
+.view .enlightened {
+  font-size: 1.1em;
+  color: #B1B6B6;
+  text-shadow: 1px -1px 0 rgba(0, 0, 0, 0.7);
+}
+.view label span, .dimmed{
+  color: #676767;
+  text-shadow: 0 1px 0 #DDDDDD;
+}
+.view label span {
+  font-family: serif;
+  font-size: 1.3em;
+  font-style: italic;
+}
 label input[type="password"] {
   width: 220px;
   margin: 0 2px 0 0;
@@ -378,9 +391,9 @@ textarea {
   background: linear-gradient(center top, #B9B9B9, #979797);
   background: -moz-linear-gradient(center top, #B9B9B9, #979797);
   background: -webkit-gradient(linear, center top, center bottom, from(#B9B9B9), to(#979797));
-  -moz-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: inset 0px 0px 1px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 1px 4px 1px -4px rgba(0, 0, 0, 0.8) inset;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 1px 4px 1px -4px rgba(0, 0, 0, 0.8) inset;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 1px 4px 1px -4px rgba(0, 0, 0, 0.8) inset;
   padding: 10px 10px 10px 15px;
   margin-top: 1px;
 }
@@ -404,6 +417,7 @@ textarea {
   overflow: hidden;
   white-space: nowrap;
   height: 50px;
+  line-height: 3em;
 }
 #sidebar li.item {
   background: url("img/drop_content.png") repeat-x  0 0;
@@ -424,9 +438,13 @@ textarea {
   border-top: 2px dotted rgba(0, 0, 0, 0.3);
   border-bottom: 2px dotted rgba(0, 0, 0, 0.3);
 }
-#sidebar .item-content .cta {
-  float: right;
-  margin-top: 13px;
+#sidebar li.item .cta {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  line-height: 21px;
+}
+.cta {
   padding: 0 6px 0 6px;
   color: #ffffff;
   font-size: 12px;
@@ -445,7 +463,27 @@ textarea {
   background: linear-gradient(top, #FF563A, #FF533A);
   background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), color-stop(0.5, #FF563A), color-stop(0.5, #FF533A), to(#FF533A))
 }
-
+.header {
+  height: 100px;
+  position: relative;
+}
+.header h2 {
+  margin: 10px 0;
+}
+.header .cta {
+  position: absolute;
+  right: 20px;
+  top: 23px;
+}
+.header .cta h2 {
+  color: #FFFFFF;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);
+  padding: 0 3px;
+  margin: 0;
+}
+.header h3 span:first-child {
+  margin-left: 30px
+}
 #sidebar li img {
   float: left;
   width: 23px;
@@ -460,12 +498,14 @@ textarea {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);*/
 }
 #sidebar .item-content span {
-  float: left;
-  margin: 18px 8px 0 0;
+/*  float: left;*/
+  margin: 0;
 }
 #sidebar .item-content .author {
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 0.7em;
   font-style: italic;
-  font-size: 0.8em;
+  margin-top: 23px;
 }
 #sidebar .sublist-item {
   cursor: move
@@ -550,7 +590,7 @@ textarea {
   background: linear-gradient(top, #ffffff, #e0e0e1);
   -moz-box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.8);
   -webkit-box-shadow: 1px -1px 3px rgba(0, 0, 0, 0.8);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 5px rgba(0, 0, 0, 0.8);
 }
 .options li {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -671,13 +711,6 @@ textarea {
   -webkit-user-select: none;
   user-select: none;
 }
-.dimmed {
+.box-shadow {
+  box-shadow: 0px -1px 3px 5px rgba(0, 0, 0, 0.8)
 }
-#views label span, .dimmed {
-  color: #676767;
-  font-family: serif;
-  font-size: 1.3em;
-  font-style: italic;
-  text-shadow: 0 1px 0 #DDDDDD;
-}
-

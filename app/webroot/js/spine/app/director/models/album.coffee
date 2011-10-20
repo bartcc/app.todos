@@ -1,13 +1,14 @@
 
 class Album extends Spine.Model
-  @configure "Album", "name", 'title', 'description'
+  @configure "Album", "name", 'title', 'description', 'user_id'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
-  @selectAttributes: ["name", 'title', "description"]
+  @selectAttributes: ["name"]
+  #@selectAttributes: ["name", 'title', "description"]
 
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'

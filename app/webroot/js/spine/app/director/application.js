@@ -106,7 +106,9 @@ $(function() {
   App.albumsManager.change(App.albumsShowView);
   App.albumsShowView.btnGallery.click();
   callback = function() {
-    return App.closePanel('gallery', App.albumsShowView.btnGallery);
+    if (Gallery.count()) {
+      return App.closePanel('gallery', App.albumsShowView.btnGallery);
+    }
   };
   App.openPanel('gallery', App.albumsShowView.btnGallery);
   return App.delay(callback, 1000);

@@ -67,6 +67,6 @@ $ ->
   App.albumsManager.change(App.albumsShowView)
   App.albumsShowView.btnGallery.click()
   callback = ->
-    App.closePanel('gallery', App.albumsShowView.btnGallery)
+    App.closePanel('gallery', App.albumsShowView.btnGallery) if Gallery.count()
   App.openPanel('gallery', App.albumsShowView.btnGallery)
   App.delay callback, 1000

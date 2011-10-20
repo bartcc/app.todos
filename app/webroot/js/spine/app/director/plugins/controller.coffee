@@ -4,7 +4,6 @@ $      = Spine.$
 Spine.Controller.include
   focusFirstInput: (el) ->
     return unless el
-    alert 'focusFirstInput'
     $('input', el).first().focus().select() if el.is(':visible')
     el
 

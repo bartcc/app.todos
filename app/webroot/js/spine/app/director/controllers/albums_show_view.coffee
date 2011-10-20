@@ -92,14 +92,15 @@ class AlbumsShowView extends Spine.Controller
     @[mode]?(item)
 
   render: (items, mode) ->
-    console.log 'AlbumsShowView::renderContent'
+    console.log 'AlbumsShowView::render'
     
     Spine.trigger('render:galleryItem')
     
-    if @current
-      items = Album.filter(@current.id)
-    else
+    if (!@current) or (@current.destroyed)
       items = Album.filter()
+    else
+      items = Album.filter(@current.id)
+      
     
     # make .content element sensitive for drop by injecting target of type Gallery
     tmplItem = $.tmplItem(@content)
@@ -112,10 +113,7 @@ class AlbumsShowView extends Spine.Controller
   renderHeader: (items) ->
     console.log 'AlbumsShowView::renderHeader'
     values = {record: Gallery.record, count: items.length}
-    if Gallery.record
-      @header.html @headerTemplate values
-    else
-      @header.html '<h3>Album Originals</h3><h2>All Albums</h2>'
+    @header.html @headerTemplate values
 
   renderToolbar: ->
     console.log 'AlbumsShowView::renderToolbar'
@@ -139,7 +137,7 @@ class AlbumsShowView extends Spine.Controller
     album = new Album(@newAttributes())
     album.save()
     Gallery.updateSelection([album.id])
-    @render(album)
+    @render album
     Spine.trigger('create:albumJoin', Gallery.record, album) if Gallery.record
     @openPanel('album', App.albumsShowView.btnAlbum)
 
@@ -151,10 +149,14 @@ class AlbumsShowView extends Spine.Controller
       albums.push record unless list.indexOf(record.id) is -1
       
     if Gallery.record
+      Gallery.emptySelection()
       Spine.trigger('destroy:albumJoin', Gallery.record, albums)
     else
       for album in albums
-        album.destroy() if Album.exists(album.id)
+        if Album.exists(album.id)
+          Album.removeFromSelection(Gallery, album.id)
+          album.destroy() 
+        
 
   createJoin: (target, albums) ->
     console.log 'AlbumsShowView::createJoin'

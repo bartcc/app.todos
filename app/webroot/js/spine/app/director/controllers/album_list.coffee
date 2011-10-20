@@ -49,7 +49,6 @@ class Spine.AlbumList extends Spine.Controller
     else
       @html '<span class="enlightened">Time to create a new album.&nbsp;</span><button class="optCreateAlbum dark">New Album</button>'
     
-    #Gallery.updateSelection([newAlbum.id]) if newAlbum and newAlbum instanceof Album
     @change()
     @el
   

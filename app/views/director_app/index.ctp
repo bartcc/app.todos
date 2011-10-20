@@ -169,8 +169,13 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="headerTemplate">
-  <h3>Gallery: ${record.name} <span>Author: ${record.author}</span> </h3>
+  {{if record}}
+  <h3>Gallery: ${record.name} <span>Author: ${record.author}</span></h3>
   <h2>Albums</h2>
+  {{else}}
+  <h3>Album Originals</h3>
+  <h2>All Albums</h2>
+  {{/if}}
   <span class="cta right"><h2>${count}</h2></span>
 </script>
 

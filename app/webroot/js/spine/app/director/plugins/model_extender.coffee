@@ -80,6 +80,7 @@ Model.Extender =
         return unless record
         list = model.selectionList()
         record.remove list
+        list
 
       isArray: (value) ->
         Object::toString.call(value) is "[object Array]"

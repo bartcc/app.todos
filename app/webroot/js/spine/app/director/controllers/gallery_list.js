@@ -68,7 +68,7 @@ Spine.GalleryList = (function() {
       this.html(this.template(this.items));
     } else if (mode === 'update') {
       old_content = $('.item-content', '#' + item.id);
-      new_content = $('.item-content', this.template(item));
+      new_content = $('.item-content', this.template(item)).html();
       old_content.html(new_content);
     } else if (mode === 'create') {
       this.append(this.template(item));

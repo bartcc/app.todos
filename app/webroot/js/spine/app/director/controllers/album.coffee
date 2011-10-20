@@ -39,7 +39,10 @@ class AlbumView extends Spine.Controller
     else if selection?.length > 1
       @item.html $("#noSelectionTemplate").tmpl({type: 'Multiple Selection'})
     else unless item
-      @item.html $("#noSelectionTemplate").tmpl({type: 'Select an Gallery!'})
+      unless Gallery.count()
+        @item.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
+      else
+        @item.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
     else
       @item.html @template item
     @

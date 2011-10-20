@@ -8,7 +8,6 @@ Spine.Controller.include({
     if (!el) {
       return;
     }
-    alert('focusFirstInput');
     if (el.is(':visible')) {
       $('input', el).first().focus().select();
     }

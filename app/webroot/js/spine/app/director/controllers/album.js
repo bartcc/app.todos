@@ -53,9 +53,15 @@ AlbumView = (function() {
         type: 'Multiple Selection'
       }));
     } else if (!item) {
-      this.item.html($("#noSelectionTemplate").tmpl({
-        type: 'Select an Gallery!'
-      }));
+      if (!Gallery.count()) {
+        this.item.html($("#noSelectionTemplate").tmpl({
+          type: 'Create a Gallery!'
+        }));
+      } else {
+        this.item.html($("#noSelectionTemplate").tmpl({
+          type: 'Select a Gallery!'
+        }));
+      }
     } else {
       this.item.html(this.template(item));
     }

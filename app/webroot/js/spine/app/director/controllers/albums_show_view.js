@@ -100,12 +100,12 @@ AlbumsShowView = (function() {
   };
   AlbumsShowView.prototype.render = function(items, mode) {
     var tmplItem;
-    console.log('AlbumsShowView::renderContent');
+    console.log('AlbumsShowView::render');
     Spine.trigger('render:galleryItem');
-    if (this.current) {
-      items = Album.filter(this.current.id);
-    } else {
+    if ((!this.current) || this.current.destroyed) {
       items = Album.filter();
+    } else {
+      items = Album.filter(this.current.id);
     }
     tmplItem = $.tmplItem(this.content);
     tmplItem.data = Gallery.record || {};
@@ -119,11 +119,7 @@ AlbumsShowView = (function() {
       record: Gallery.record,
       count: items.length
     };
-    if (Gallery.record) {
-      return this.header.html(this.headerTemplate(values));
-    } else {
-      return this.header.html('<h3>Album Originals</h3><h2>All Albums</h2>');
-    }
+    return this.header.html(this.headerTemplate(values));
   };
   AlbumsShowView.prototype.renderToolbar = function() {
     console.log('AlbumsShowView::renderToolbar');
@@ -169,12 +165,13 @@ AlbumsShowView = (function() {
       }
     }, this));
     if (Gallery.record) {
+      Gallery.emptySelection();
       return Spine.trigger('destroy:albumJoin', Gallery.record, albums);
     } else {
       _results = [];
       for (_i = 0, _len = albums.length; _i < _len; _i++) {
         album = albums[_i];
-        _results.push(Album.exists(album.id) ? album.destroy() : void 0);
+        _results.push(Album.exists(album.id) ? (Album.removeFromSelection(Gallery, album.id), album.destroy()) : void 0);
       }
       return _results;
     }

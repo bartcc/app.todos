@@ -51,13 +51,13 @@ class Spine.GalleryList extends Spine.Controller
         record.count = Album.filter(record.id).length
 
       @items = items
-      @html @template(@items)
+      @html @template @items
     else if mode is 'update'
       old_content = $('.item-content', '#'+item.id)
-      new_content = $('.item-content', @template item)
+      new_content = $('.item-content', @template item).html()
       old_content.html new_content
     else if mode is 'create'
-      @append @template(item)
+      @append @template item
     else if mode is 'destroy'
       $('#sub-'+item.id).remove()
       $('#'+item.id).remove()
@@ -66,6 +66,7 @@ class Spine.GalleryList extends Spine.Controller
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
         @children(":first").click()
+      
 
   children: (sel) ->
     @el.children(sel)

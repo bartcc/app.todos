@@ -29,22 +29,23 @@ GalleryView = (function() {
   }
   GalleryView.prototype.change = function(item) {
     console.log('Gallery::change');
-    if (!(item != null ? item.destroyed : void 0)) {
-      this.current = item;
-    }
+    this.current = item;
     return this.render();
   };
   GalleryView.prototype.render = function() {
-    var missing, missingGallery;
     console.log('Gallery::render');
     if (this.current && !this.current.destroyed) {
       this.editEl.html(this.template(this.current));
     } else {
-      missing = 'Select a Gallery and an Album!';
-      missingGallery = Gallery.count() ? 'Select a Gallery!' : 'Create a Gallery';
-      this.editEl.html($("#noSelectionTemplate").tmpl({
-        type: Gallery.record ? missing : missingGallery
-      }));
+      if (!Gallery.count()) {
+        this.editEl.html($("#noSelectionTemplate").tmpl({
+          type: 'Create a Gallery!'
+        }));
+      } else {
+        this.editEl.html($("#noSelectionTemplate").tmpl({
+          type: 'Select a Gallery!'
+        }));
+      }
     }
     return this;
   };

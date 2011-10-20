@@ -19,7 +19,7 @@ class GalleryView extends Spine.Controller
 
   change: (item) ->
     console.log 'Gallery::change'
-    @current = item if !(item?.destroyed)
+    @current = item# if !(item?.destroyed)
     @render()
 
   render: ->
@@ -28,9 +28,13 @@ class GalleryView extends Spine.Controller
       @editEl.html @template @current
       #@focusFirstInput(@editEl)
     else
-      missing         = 'Select a Gallery and an Album!'
-      missingGallery  = if Gallery.count() then 'Select a Gallery!' else 'Create a Gallery'
-      @editEl.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missing else missingGallery})
+      unless Gallery.count()
+        @editEl.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
+      else
+        @editEl.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
+#      missing         = 'Select a Gallery and an Album!'
+#      missingGallery  = if Gallery.count() then 'Select a Gallery!' else 'Create a Gallery'
+#      @editEl.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missing else missingGallery})
     @
 
   saveOnEnter: (e) ->

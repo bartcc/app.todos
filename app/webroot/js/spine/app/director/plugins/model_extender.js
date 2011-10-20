@@ -142,7 +142,8 @@ Model.Extender = {
           return;
         }
         list = model.selectionList();
-        return record.remove(list);
+        record.remove(list);
+        return list;
       },
       isArray: function(value) {
         return Object.prototype.toString.call(value) === "[object Array]";

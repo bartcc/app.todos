@@ -31,7 +31,7 @@
             </div>
           </div>
           <footer>
-            <span class="info"><label>no messages</label></span
+            <span class="info"><label>no error messages</label></span
             <span>
               <fieldset>
                 <?php echo $this->Form->button('Login', array('type'=>'submit', 'class' => 'light')); ?>

@@ -5,7 +5,9 @@ class AlbumsEditView extends Spine.Controller
 
   elements:
     ".content"            : "editContent"
-    '.optDestroy'         : 'btnDestroy'
+    '.optDestroy'         : 'destroyBtn'
+    '.optSave'            : 'saveBtn'
+    '.toolbar'            : 'toolBar'
     
   events:
     "click .optEdit"      : "edit"
@@ -17,12 +19,29 @@ class AlbumsEditView extends Spine.Controller
   template: (item) ->
     $("#editGalleryTemplate").tmpl item
 
+  toolsTemplate: (items) ->
+    $("#toolsTemplate").tmpl items
+    
   constructor: ->
     super
     Gallery.bind "change", @proxy @change
     Spine.bind('save:gallery', @proxy @save)
     @bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
+    @toolBarList = (item) -> [
+      {
+        name: 'Save and Close'
+        klass: 'optSave default'
+        disabled: -> !item
+      }
+      {
+        name: 'Delete Gallery'
+        klass: 'optDestroy'
+        disabled: -> !item
+      }
+    ]
+
+  toolBarList: -> arguments[0]
 
   change: (item, mode) ->
     console.log 'AlbumsEditView::change'
@@ -33,26 +52,36 @@ class AlbumsEditView extends Spine.Controller
     console.log 'AlbumsEditView::render'
     @current = item if item
     if @current and !(@current.destroyed)
-      @btnDestroy.removeClass('disabled')
+      @destroyBtn.removeClass('disabled')
       @editContent.html $("#editGalleryTemplate").tmpl @current
       #@focusFirstInput @el
     else
-      @btnDestroy.addClass('disabled')
-      @btnDestroy.unbind('click')
+      @destroyBtn.addClass('disabled')
+      @destroyBtn.unbind('click')
       if Gallery.count()
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
       else
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
+        
+    @renderToolbar()
     @
 
-  destroy: ->
+  
+  renderToolbar: ->
+    console.log 'AlbumsEditView::renderToolbar'
+    @toolBar.html @toolsTemplate @toolBarList Gallery.record
+    @refreshElements()
+    
+  destroy: (e) ->
     console.log 'AlbumsEditView::destroy'
-    return unless Gallery.record
+    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
   save: (el) ->
     console.log 'AlbumsEditView::save'
-    if @current
+    return if $(el.currentTarget).hasClass('disabled')
+    if @current and Gallery.record
+      console.log @current
       atts = el.serializeForm?() or @el.serializeForm()
       @current.updateChangedAttributes(atts)
     App.albumsManager.change(App.albumsShowView)

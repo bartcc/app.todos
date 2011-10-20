@@ -43,7 +43,7 @@ class SidebarView extends Spine.Controller
     Spine.bind('create:gallery', @proxy @create)
     Spine.bind('destroy:gallery', @proxy @destroy)
     Spine.bind('drag:start', @proxy @dragStart)
-    Spine.bind('drag:over', @proxy @dragOver)
+    Spine.bind('drag:enter', @proxy @dragEnter)
     Spine.bind('drag:leave', @proxy @dragLeave)
     Spine.bind('drag:drop', @proxy @dropComplete)
 
@@ -87,16 +87,18 @@ class SidebarView extends Spine.Controller
       
     @newSelection = selection.slice(0)
 
-  dragOver: (e) ->
-    target = $(e.target).item()
+  dragEnter: (e) ->
+    el = $(e.target)
+    target = el.item()
     if target
-      console.log target.id
       #$(e.target).removeClass('nodrop')
       items = GalleriesAlbum.filter(target.id)
       for item in items
         if item.album_id in @newSelection
-          $(e.target).addClass('nodrop')
-    else console.log 'no target.id'
+          el.addClass('nodrop')
+    else
+      console.log 'no target.id'
+      console.log el
 
   dragLeave: (e) ->
     return
@@ -141,7 +143,7 @@ class SidebarView extends Spine.Controller
 
   destroy: ->
     console.log 'Sidebar::destroy'
-    Gallery.record.destroy()
+    Gallery.record.destroy() if Gallery.record
     Gallery.current() if !Gallery.count()
 
   toggleDraghandle: ->

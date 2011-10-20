@@ -36,12 +36,10 @@ class AlbumsShowView extends Spine.Controller
     'sortupdate .items'               : 'sortupdate'
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragenter  .items .thumbnail'    : 'dragenter'
-    'dragover   .items .thumbnail'    : 'dragover'
     'dragleave  .items .thumbnail'    : 'dragleave'
     'drop       .items .thumbnail'    : 'drop'
     'dragend    .items .thumbnail'    : 'dragend'
     'dragenter  .content'             : 'dragenter'
-    'dragover   .content'             : 'dragover'
     'dragleave  .content'             : 'dragleave'
     'drop       .content'             : 'drop'
     'dragend    .content'             : 'dragend'
@@ -69,7 +67,6 @@ class AlbumsShowView extends Spine.Controller
     Spine.bind("create:albumJoin", @proxy @createJoin)
     Album.bind("update", @proxy @render)
     Album.bind("destroy", @proxy @render)
-#    Album.bind("change", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @renderToolbar)
     Spine.bind('change:selection', @proxy @changeSelection)

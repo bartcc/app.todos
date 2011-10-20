@@ -12,17 +12,20 @@ Controller.Drag =
         Spine.dragItem = null
 
       dragstart: (e, data) =>
-        event = e.originalEvent
-        $(e.target).addClass('dragged')
+        el = $(e.target)
+        target = el.item()
+        el.addClass('dragged')
         Spine.dragItem = {}
-        Spine.dragItem.source = $(e.target).item()
+        Spine.dragItem.source = el.item()
         #Spine.dragItem.origin = $(e.target).item()
+        event = e.originalEvent
         event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/html', Spine.dragItem);
         Spine.trigger('drag:start', e)
 
       dragenter: (e, data) ->
         $(e.target).addClass('over')
+        Spine.trigger('drag:enter', e)
 
       dragover: (e, data) ->
         event = e.originalEvent
@@ -32,17 +35,20 @@ Controller.Drag =
         false
 
       dragleave: (e, data) ->
-        $(e.target).removeClass('over')
-        Spine.trigger('drag:over', e)
+        el = $(e.target)
+        target = el.item()
+        el.removeClass('over')
+        Spine.trigger('drag:leave', e)
 
       dragend: (e, data) ->
         $(e.target).removeClass('dragged')
 
       drop: (e) =>
+        el = $(e.target)
+        target = el.item()
         event = e.originalEvent
         event.stopPropagation() if event.stopPropagation
-        target = $(e.target).item()
-        $(e.target).removeClass('over')
+        el.removeClass('over')
         Spine.trigger('drag:drop', target, e)
         Spine.dragItem = null
         false

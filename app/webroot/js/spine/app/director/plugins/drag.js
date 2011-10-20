@@ -13,17 +13,20 @@ Controller.Drag = {
         return Spine.dragItem = null;
       },
       dragstart: __bind(function(e, data) {
-        var event;
-        event = e.originalEvent;
-        $(e.target).addClass('dragged');
+        var el, event, target;
+        el = $(e.target);
+        target = el.item();
+        el.addClass('dragged');
         Spine.dragItem = {};
-        Spine.dragItem.source = $(e.target).item();
+        Spine.dragItem.source = el.item();
+        event = e.originalEvent;
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/html', Spine.dragItem);
         return Spine.trigger('drag:start', e);
       }, this),
       dragenter: function(e, data) {
-        return $(e.target).addClass('over');
+        $(e.target).addClass('over');
+        return Spine.trigger('drag:enter', e);
       },
       dragover: function(e, data) {
         var event;
@@ -36,20 +39,24 @@ Controller.Drag = {
         return false;
       },
       dragleave: function(e, data) {
-        $(e.target).removeClass('over');
-        return Spine.trigger('drag:over', e);
+        var el, target;
+        el = $(e.target);
+        target = el.item();
+        el.removeClass('over');
+        return Spine.trigger('drag:leave', e);
       },
       dragend: function(e, data) {
         return $(e.target).removeClass('dragged');
       },
       drop: __bind(function(e) {
-        var event, target;
+        var el, event, target;
+        el = $(e.target);
+        target = el.item();
         event = e.originalEvent;
         if (event.stopPropagation) {
           event.stopPropagation();
         }
-        target = $(e.target).item();
-        $(e.target).removeClass('over');
+        el.removeClass('over');
         Spine.trigger('drag:drop', target, e);
         Spine.dragItem = null;
         return false;

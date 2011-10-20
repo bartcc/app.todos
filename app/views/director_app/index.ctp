@@ -60,9 +60,9 @@
     </div>
     <div class="edit view vbox flex">
       <ul class="tools options hbox">
+        <li class="optOptions opt">Options</li>
         <li class="splitter disabled flex"></li>
-        <li class="optSave default">Save and Close</li>
-        <li class="optDestroy">Delete Gallery</li>
+        <ul class="toolbar hbox"></ul>
       </ul>
       <div class="content vbox flex autoflow"></div>
     </div>
@@ -159,9 +159,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="toolsTemplate">
-    
     <li class="{{if disabled}}disabled{{/if}} ${klass}">${name}</li>
-  
 </script>
 
 <script type="text/x-jquery-tmpl" id="noSelectionTemplate">

@@ -15,7 +15,9 @@ AlbumsEditView = (function() {
   __extends(AlbumsEditView, Spine.Controller);
   AlbumsEditView.prototype.elements = {
     ".content": "editContent",
-    '.optDestroy': 'btnDestroy'
+    '.optDestroy': 'destroyBtn',
+    '.optSave': 'saveBtn',
+    '.toolbar': 'toolBar'
   };
   AlbumsEditView.prototype.events = {
     "click .optEdit": "edit",
@@ -27,13 +29,36 @@ AlbumsEditView = (function() {
   AlbumsEditView.prototype.template = function(item) {
     return $("#editGalleryTemplate").tmpl(item);
   };
+  AlbumsEditView.prototype.toolsTemplate = function(items) {
+    return $("#toolsTemplate").tmpl(items);
+  };
   function AlbumsEditView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumsEditView.__super__.constructor.apply(this, arguments);
     Gallery.bind("change", this.proxy(this.change));
     Spine.bind('save:gallery', this.proxy(this.save));
     this.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
+    this.toolBarList = function(item) {
+      return [
+        {
+          name: 'Save and Close',
+          klass: 'optSave default',
+          disabled: function() {
+            return !item;
+          }
+        }, {
+          name: 'Delete Gallery',
+          klass: 'optDestroy',
+          disabled: function() {
+            return !item;
+          }
+        }
+      ];
+    };
   }
+  AlbumsEditView.prototype.toolBarList = function() {
+    return arguments[0];
+  };
   AlbumsEditView.prototype.change = function(item, mode) {
     console.log('AlbumsEditView::change');
     if (!(item != null ? item.destroyed : void 0)) {
@@ -47,11 +72,11 @@ AlbumsEditView = (function() {
       this.current = item;
     }
     if (this.current && !this.current.destroyed) {
-      this.btnDestroy.removeClass('disabled');
+      this.destroyBtn.removeClass('disabled');
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
     } else {
-      this.btnDestroy.addClass('disabled');
-      this.btnDestroy.unbind('click');
+      this.destroyBtn.addClass('disabled');
+      this.destroyBtn.unbind('click');
       if (Gallery.count()) {
         this.editContent.html($("#noSelectionTemplate").tmpl({
           type: 'Select a Gallery!'
@@ -62,11 +87,17 @@ AlbumsEditView = (function() {
         }));
       }
     }
+    this.renderToolbar();
     return this;
   };
-  AlbumsEditView.prototype.destroy = function() {
+  AlbumsEditView.prototype.renderToolbar = function() {
+    console.log('AlbumsEditView::renderToolbar');
+    this.toolBar.html(this.toolsTemplate(this.toolBarList(Gallery.record)));
+    return this.refreshElements();
+  };
+  AlbumsEditView.prototype.destroy = function(e) {
     console.log('AlbumsEditView::destroy');
-    if (!Gallery.record) {
+    if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('destroy:gallery');
@@ -74,7 +105,11 @@ AlbumsEditView = (function() {
   AlbumsEditView.prototype.save = function(el) {
     var atts;
     console.log('AlbumsEditView::save');
-    if (this.current) {
+    if ($(el.currentTarget).hasClass('disabled')) {
+      return;
+    }
+    if (this.current && Gallery.record) {
+      console.log(this.current);
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.el.serializeForm();
       this.current.updateChangedAttributes(atts);
     }

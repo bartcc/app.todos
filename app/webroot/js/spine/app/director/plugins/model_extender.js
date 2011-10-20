@@ -178,19 +178,20 @@ Model.Extender = {
         })();
       },
       errorHandler: function(record, xhr, statusText, error) {
-        error = new Error({
-          record: record,
-          xhr: xhr,
-          statusText: statusText,
-          error: error
-        });
-        error.save();
-        console.log(record);
-        console.log(xhr);
-        console.log(statusText);
-        console.log(error);
         if (xhr.status !== 200) {
+          error = new Error({
+            record: record,
+            xhr: xhr,
+            statusText: statusText,
+            error: error
+          });
+          error.save();
+          console.log(record);
+          console.log(xhr);
+          console.log(statusText);
+          console.log(error);
           window.location = base_url + 'users/login';
+          false;
         }
         return false;
       }

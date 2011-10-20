@@ -618,15 +618,14 @@ div.dialogue div.dialogue-scroll {
   padding: 2px 8px;
 }
 .flash {
-  position: relative;
 }
 .flash img {
   position: absolute;
-  right: 100px;
-  top: 0
+  left: 10px;
+  bottom: 10px
 }
 .info {
   color: rgba(20, 20, 20, 0.4);
   float: left;
-  padding: 8px 0 0 20px;
+  padding: 8px 0 0 40px;
 }

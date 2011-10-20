@@ -33,7 +33,7 @@ class Spine.AlbumList extends Spine.Controller
       selected = Album.find(list[0]) if Album.exists(list[0])
       if selected and !selected.destroyed
         Album.current(selected)
-
+    
     Spine.trigger('change:selectedAlbum', selected)
   
   exposeSelection: (list) ->

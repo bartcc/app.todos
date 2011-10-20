@@ -628,8 +628,8 @@ textarea {
 .empty {
   font-style: italic;
 }
-#views .views {
-  background: #EFEFEF;
+#views .views, .edit.view .content {
+  background-color: #EFEFEF;
 }
 #views .views .view {
   height: 0;
@@ -713,4 +713,7 @@ textarea {
 }
 .box-shadow {
   box-shadow: 0px -1px 3px 5px rgba(0, 0, 0, 0.8)
+}
+.views .view div.left:nth-child(2) {
+  padding-left: 50px;
 }

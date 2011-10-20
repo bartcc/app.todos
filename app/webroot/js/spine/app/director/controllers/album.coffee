@@ -12,6 +12,8 @@ class AlbumView extends Spine.Controller
     'keydown'     : 'saveOnEnter'
   
   template: (item) ->
+    console.log 'Album::template'
+    console.log item.id
     $('#editAlbumTemplate').tmpl item
 
   constructor: ->

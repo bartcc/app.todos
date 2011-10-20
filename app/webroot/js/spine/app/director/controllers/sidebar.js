@@ -113,7 +113,7 @@ SidebarView = (function() {
     var item, items, target, _i, _len, _ref, _results;
     target = $(e.target).item();
     if (target) {
-      $(e.target).removeClass('nodrop');
+      console.log(target.id);
       items = GalleriesAlbum.filter(target.id);
       _results = [];
       for (_i = 0, _len = items.length; _i < _len; _i++) {
@@ -121,6 +121,8 @@ SidebarView = (function() {
         _results.push((_ref = item.album_id, __indexOf.call(this.newSelection, _ref) >= 0) ? $(e.target).addClass('nodrop') : void 0);
       }
       return _results;
+    } else {
+      return console.log('no target.id');
     }
   };
   SidebarView.prototype.dragLeave = function(e) {};

@@ -39,10 +39,14 @@
             </div>
           </div>
           <div id="upload" class="view flex autoflow" style="">
-            <div class="dimmed">Not quite there yet</div>
+            <label>
+              <span class="dimmed">Not quite there yet</span>
+            </label>
           </div>
           <div id="grid" class="view flex autoflow" style="">
-            <div class="dimmed">Not quite there yet</div>
+            <label>
+              <span class="dimmed">Not quite there yet</span>
+            </label>
           </div>
         </div>
       </div>  
@@ -108,45 +112,50 @@
 </script>  
 
 <script type="text/x-jquery-tmpl" id="editGalleryTemplate">
-  
-  <label>
-    <span>Gallery Name</span>
-    <input type="text" name="name" value="${name}">
-  </label>
+  <div class="flex">
+    <div class="left">
+      <label>
+        <span>Gallery Name</span>
+        <input type="text" name="name" value="${name}">
+      </label>
 
-  <label>
-    <span>Author</span>
-    {{if author}}
-    <div class="name" >${author}</div>
-    {{else}}
-      <div class="name">No author</div>
-    {{/if}}
-  </label>
-
-  <label>
-    <span>Description</span>
-    <textarea name="description">${description}</textarea>
-  </label>
-  <input type="hidden" name="id" value="${id}">
+      <label>
+        <span>Author</span>
+        {{if author}}
+        <div class="name" >${author}</div>
+        {{else}}
+          <div class="name">No author</div>
+        {{/if}}
+      </label>
+    </div>
+    <div class="left">
+      <label>
+        <span>Description</span>
+        <textarea name="description">${description}</textarea>
+      </label>
+    </div>
+    <input type="hidden" name="id" value="${id}">
+  </div>
 </script>
 
 <script type="text/x-jquery-tmpl" id="editAlbumTemplate">
-  
-  <label>
-    <span>Album Name</span>
-    <input type="text" name="name" value="${name}" {{if newRecord}}autofocus{{/if}}>
-  </label>
+  <div class="left">
+    <label>
+      <span>Album Name</span>
+      <input type="text" name="name" value="${name}" {{if newRecord}}autofocus{{/if}}>
+    </label>
 
-  <label>
-    <span>Album Title</span>
-    <input type="text" name="title" value="${title}">
-  </label>
-
-  <label>
-    <span>Description</span>
-    <textarea name="description">${description}</textarea>
-  </label>
-  
+    <label>
+      <span>Album Title</span>
+      <input type="text" name="title" value="${title}">
+    </label>
+  </div>
+  <div class="left">
+    <label>
+      <span>Description</span>
+      <textarea name="description">${description}</textarea>
+    </label>
+  </div>
 </script>
 
 <script type="text/x-jquery-tmpl" id="toolsTemplate">

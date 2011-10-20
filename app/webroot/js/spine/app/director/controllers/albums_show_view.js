@@ -86,6 +86,7 @@ AlbumsShowView = (function() {
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.activeControl = this.btnGallery;
     this.create = this.edit = this.editGallery;
+    this.show = this.showGallery;
     $(this.views).queue("fx");
   }
   AlbumsShowView.prototype.children = function(sel) {
@@ -234,6 +235,9 @@ AlbumsShowView = (function() {
       return Spine.trigger('destroy:album');
     }
   };
+  AlbumsShowView.prototype.showGallery = function() {
+    return App.albumsManager.change(App.albumsShowView);
+  };
   AlbumsShowView.prototype.editGallery = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
@@ -279,6 +283,7 @@ AlbumsShowView = (function() {
       return App.hmanager.disableDrag();
     };
     height = function() {
+      App.hmanager.currentDim;
       if (hasActive()) {
         return parseInt(App.hmanager.currentDim) + "px";
       } else {

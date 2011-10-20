@@ -22,6 +22,8 @@ AlbumView = (function() {
     'keydown': 'saveOnEnter'
   };
   AlbumView.prototype.template = function(item) {
+    console.log('Album::template');
+    console.log(item.id);
     return $('#editAlbumTemplate').tmpl(item);
   };
   function AlbumView() {

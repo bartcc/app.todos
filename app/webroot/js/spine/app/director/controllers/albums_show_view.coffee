@@ -78,6 +78,7 @@ class AlbumsShowView extends Spine.Controller
 
     @activeControl = @btnGallery
     @create = @edit = @editGallery
+    @show = @showGallery
 
     $(@views).queue("fx")
 
@@ -121,7 +122,6 @@ class AlbumsShowView extends Spine.Controller
     @toolBar.html @toolsTemplate @toolBarList()
     @refreshElements()
   
-    
   toolBarList: -> arguments[0]
 
   initSortables: ->
@@ -199,6 +199,9 @@ class AlbumsShowView extends Spine.Controller
   destroyAlbum: (e) ->
     Spine.trigger('destroy:album') unless $(e.currentTarget).hasClass('disabled')
 
+  showGallery: ->
+    App.albumsManager.change(App.albumsShowView)
+
   editGallery: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
     App.albumsEditView.render()
@@ -234,6 +237,7 @@ class AlbumsShowView extends Spine.Controller
     
     
     height = ->
+      App.hmanager.currentDim
       if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "8px"
     
     @views.animate

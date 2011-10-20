@@ -55,6 +55,8 @@ Spine.Manager.include
             if d < _min
               @goSleep() unless @el.draggable("option", "disabled")
               return _min
+            if d > _max
+              return _max
           else if d >= _min
             @awake() unless @el.draggable("option", "disabled")
             return d

@@ -85,6 +85,9 @@ Spine.Manager.include({
               }
               return _min;
             }
+            if (d > _max) {
+              return _max;
+            }
           } else if (d >= _min) {
             if (!this.el.draggable("option", "disabled")) {
               this.awake();

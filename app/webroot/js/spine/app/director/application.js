@@ -6,7 +6,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 App = (function() {
   __extends(App, Spine.Controller);
   App.prototype.elements = {
@@ -20,7 +20,8 @@ App = (function() {
     '#grid': 'gridEl',
     '#login': 'loginEl',
     '.vdraggable': 'vDrag',
-    '.hdraggable': 'hDrag'
+    '.hdraggable': 'hDrag',
+    '.show .content': 'content'
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
@@ -52,9 +53,9 @@ App = (function() {
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
-      initSize: this.proxy(function() {
-        return $(this.sidebar.el).width();
-      }),
+      initSize: __bind(function() {
+        return this.sidebar.el.width();
+      }, this),
       disabled: false,
       axis: 'x',
       min: function() {
@@ -63,33 +64,33 @@ App = (function() {
       tol: function() {
         return 20;
       },
-      max: this.proxy(function() {
-        return $(this.el).width() / 2;
-      }),
-      goSleep: this.proxy(function() {
+      max: __bind(function() {
+        return this.el.width() / 2;
+      }, this),
+      goSleep: __bind(function() {
         return this.sidebar.inner.hide();
-      }),
-      awake: this.proxy(function() {
+      }, this),
+      awake: __bind(function() {
         return this.sidebar.inner.show();
-      })
+      }, this)
     });
     this.hmanager = new Spine.Manager(this.gallery, this.album, this.upload, this.grid);
     this.hmanager.initDrag(this.hDrag, {
-      initSize: this.proxy(function() {
-        return $(this.el).height() / 2;
-      }),
+      initSize: __bind(function() {
+        return this.el.height() / 3;
+      }, this),
       disabled: false,
       axis: 'y',
       min: function() {
-        return 30;
+        return 20;
       },
-      max: this.proxy(function() {
-        return this.el.height() * 2 / 3;
-      }),
-      goSleep: this.proxy(function() {
+      max: __bind(function() {
+        return this.el.height() / 3;
+      }, this),
+      goSleep: __bind(function() {
         var _ref;
         return (_ref = this.albumsShowView.activeControl) != null ? _ref.click() : void 0;
-      })
+      }, this)
     });
     this.albumsManager = new Spine.Manager(this.albumsShowView, this.albumsEditView);
   }

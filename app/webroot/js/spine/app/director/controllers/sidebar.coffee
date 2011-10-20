@@ -90,11 +90,13 @@ class SidebarView extends Spine.Controller
   dragOver: (e) ->
     target = $(e.target).item()
     if target
-      $(e.target).removeClass('nodrop')
+      console.log target.id
+      #$(e.target).removeClass('nodrop')
       items = GalleriesAlbum.filter(target.id)
       for item in items
         if item.album_id in @newSelection
           $(e.target).addClass('nodrop')
+    else console.log 'no target.id'
 
   dragLeave: (e) ->
     return

@@ -18,6 +18,7 @@ class App extends Spine.Controller
   constructor: ->
     super
     User.bind('pinger', @proxy @userconfirmation)
+    
     @sidebar = new SidebarView
       el: @sidebarEl
       className: 'SidebarView'
@@ -68,7 +69,9 @@ class App extends Spine.Controller
     
   userconfirmation: (user, json) ->
     console.log 'Server ping has finished'
-    unless user.sessionid is json.User.sessionid
+    valid = user.sessionid is json.User.sessionid
+    valid = user.id is json.User.id and valid
+    unless valid
       alert 'Invalid Session, Please login again'
       User.shred()
       window.location = base_url + 'users/login'

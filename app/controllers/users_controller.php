@@ -157,11 +157,9 @@ class UsersController extends AppController {
   function ping() {
     $user = $this->Auth->user();
     if($this->RequestHandler->isAjax()) {
-      if(!empty($this->data) && $user) {
-        $this->data['User'] = array_merge($this->data['User'], array('sessionid' => $this->Session->id(), 'success' => true));
+      if(!empty($this->data) && !empty($user)) {
+        $this->data['User'] = array_merge($this->data['User'], array('id' => $this->Auth->user('id'), 'sessionid' => $this->Session->id(), 'success' => true));
         $this->set('json', $this->data);
-  //      $this->log('User::ping', LOG_DEBUG);
-  //      $this->log($json, LOG_DEBUG);
         $this->render(SIMPLE_JSON);
       } else {
         $json = array('User' => array('success' => false));

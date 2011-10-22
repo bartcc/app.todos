@@ -103,8 +103,11 @@ App = (function() {
     this.albumsManager = new Spine.Manager(this.albumsShowView, this.albumsEditView);
   }
   App.prototype.userconfirmation = function(user, json) {
+    var valid;
     console.log('Server ping has finished');
-    if (user.sessionid !== json.User.sessionid) {
+    valid = user.sessionid === json.User.sessionid;
+    valid = user.id === json.User.id && valid;
+    if (!valid) {
       alert('Invalid Session, Please login again');
       User.shred();
       return window.location = base_url + 'users/login';

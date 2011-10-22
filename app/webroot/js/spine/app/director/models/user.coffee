@@ -10,7 +10,6 @@ class User extends Spine.Model
     user.confirm()
     user
     
-
   @shred: ->
     User.destroyAll()
 

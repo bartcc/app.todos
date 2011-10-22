@@ -1,4 +1,4 @@
-var $;
+var $, AlbumList;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -11,7 +11,7 @@ if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
-Spine.AlbumList = (function() {
+AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
   AlbumList.prototype.elements = {
     '.optCreate': 'btnCreate'
@@ -44,7 +44,8 @@ Spine.AlbumList = (function() {
         Album.current(selected);
       }
     }
-    return Spine.trigger('change:selectedAlbum', selected);
+    Spine.trigger('change:selectedAlbum', selected);
+    return Spine.trigger('change:toolbar', 'Album');
   };
   AlbumList.prototype.exposeSelection = function(list) {
     var id, item, _i, _len, _results;
@@ -75,13 +76,14 @@ Spine.AlbumList = (function() {
     var item;
     console.log('AlbumList::click');
     item = $(e.target).item();
-    if (!this.isCtrlClick(e)) {
-      Spine.trigger('change:selection', item.constructor.className);
-    }
     if (App.hmanager.hasActive()) {
       this.openPanel('album', App.albumsShowView.btnAlbum);
     }
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
+    if (!this.isCtrlClick(e)) {
+      Spine.trigger('change:selected', item.constructor.className);
+    }
+    Spine.trigger('change:toolbar', item.constructor.className);
     return this.change(item);
   };
   AlbumList.prototype.dblclick = function(e) {
@@ -96,5 +98,5 @@ Spine.AlbumList = (function() {
   return AlbumList;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Spine.AlbumList;
+  module.exports = AlbumList;
 }

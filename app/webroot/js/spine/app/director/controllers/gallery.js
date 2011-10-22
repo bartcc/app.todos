@@ -27,21 +27,21 @@ GalleryView = (function() {
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Gallery.bind("change", this.proxy(this.change));
   }
-  GalleryView.prototype.change = function(item) {
+  GalleryView.prototype.change = function(item, mode) {
     console.log('Gallery::change');
-    this.current = item;
     return this.render();
   };
   GalleryView.prototype.render = function() {
     console.log('Gallery::render');
-    if (this.current && !this.current.destroyed) {
-      this.editEl.html(this.template(this.current));
+    if (Gallery.record) {
+      this.editEl.html(this.template(Gallery.record));
     } else {
       if (!Gallery.count()) {
         this.editEl.html($("#noSelectionTemplate").tmpl({
           type: 'Create a Gallery!'
         }));
       } else {
+        console.log(Gallery.count());
         this.editEl.html($("#noSelectionTemplate").tmpl({
           type: 'Select a Gallery!'
         }));
@@ -58,5 +58,5 @@ GalleryView = (function() {
   return GalleryView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = EditorView;
+  module.exports = GalleryView;
 }

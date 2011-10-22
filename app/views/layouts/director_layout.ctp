@@ -57,6 +57,7 @@
     echo $this->Html->script('spine/app/director/plugins/drag');
     echo $this->Html->script('spine/app/director/plugins/model_extender');
     echo $this->Html->script('spine/app/director/plugins/ajax_relations');
+    echo $this->Html->script('spine/app/director/plugins/toolbars');
     echo $this->Html->script('spine/app/director/models/galleries_albums');
     echo $this->Html->script('spine/app/director/models/albums_images');
     echo $this->Html->script('spine/app/director/models/gallery');

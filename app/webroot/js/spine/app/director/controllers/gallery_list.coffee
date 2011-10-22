@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Spine.GalleryList extends Spine.Controller
+class GalleryList extends Spine.Controller
 
   @extend Spine.Controller.Drag
 
@@ -42,6 +42,7 @@ class Spine.GalleryList extends Spine.Controller
     Gallery.current(@current)
 
     Spine.trigger('change:selectedGallery', @current, mode)
+    Spine.trigger('change:toolbar', 'Gallery')
   
   render: (items, item, mode) ->
     console.log 'GalleryList::render'
@@ -74,7 +75,7 @@ class Spine.GalleryList extends Spine.Controller
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.target).item()
-    #Spine.trigger('change:selection', item.constructor.className) unless @isCtrlClick(e)
+    Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)
     @change item, 'show', e
 
   edit: (e) ->
@@ -97,4 +98,4 @@ class Spine.GalleryList extends Spine.Controller
     e.preventDefault()
     false
 
-module?.exports = Spine.GalleryList
+module?.exports = GalleryList

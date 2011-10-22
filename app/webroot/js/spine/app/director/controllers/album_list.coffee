@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class Spine.AlbumList extends Spine.Controller
+class AlbumList extends Spine.Controller
   
   elements:
     '.optCreate'              : 'btnCreate'
@@ -35,6 +35,7 @@ class Spine.AlbumList extends Spine.Controller
         Album.current(selected)
     
     Spine.trigger('change:selectedAlbum', selected)
+    Spine.trigger('change:toolbar', 'Album')
   
   exposeSelection: (list) ->
     for id in list
@@ -61,12 +62,15 @@ class Spine.AlbumList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumList::click'
     item = $(e.target).item()
-    Spine.trigger('change:selection', item.constructor.className) unless @isCtrlClick(e)
-
+    
     if App.hmanager.hasActive()
       @openPanel('album', App.albumsShowView.btnAlbum)
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
+    
+    Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)
+    Spine.trigger('change:toolbar', item.constructor.className)
+    
     @change item 
 
   dblclick: (e) ->
@@ -77,4 +81,4 @@ class Spine.AlbumList extends Spine.Controller
     item = $(e.target).item()
     @change item
 
-module?.exports = Spine.AlbumList
+module?.exports = AlbumList

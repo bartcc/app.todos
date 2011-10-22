@@ -126,5 +126,5 @@ AlbumsEditView = (function() {
   return AlbumsEditView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = AlbumsView;
+  module.exports = AlbumsEditView;
 }

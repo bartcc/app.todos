@@ -18,6 +18,7 @@ class AlbumView extends Spine.Controller
 
   constructor: ->
     super
+    @className = 'AlbumView'
     #Album.bind("ajaxError", @proxy @error)
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)

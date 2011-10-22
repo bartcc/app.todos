@@ -28,6 +28,7 @@ AlbumView = (function() {
   };
   function AlbumView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumView.__super__.constructor.apply(this, arguments);
+    this.className = 'AlbumView';
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
   }

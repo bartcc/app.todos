@@ -33,7 +33,7 @@ class SidebarView extends Spine.Controller
   constructor: ->
     super
     @el.width(300)
-    @list = new Spine.GalleryList
+    @list = new GalleryList
       el: @items,
       template: @template
     Gallery.bind("refresh change", @proxy @render)
@@ -131,9 +131,12 @@ class SidebarView extends Spine.Controller
     Spine.trigger('destroy:albumJoin', origin, albums) unless @isCtrlClick(e)
     
   newAttributes: ->
-    name    : 'New Gallery'
-    author  : User.first().name
-    user_id : User.first().id
+    if User.first()
+      name    : 'New Gallery'
+      author  : User.first().name
+      user_id : User.first().id
+    else
+      User.ping()
 
   create: ->
     console.log 'Sidebar::create'

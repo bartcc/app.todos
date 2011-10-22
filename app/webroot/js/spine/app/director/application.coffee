@@ -17,25 +17,32 @@ class App extends Spine.Controller
 
   constructor: ->
     super
-    
+    User.bind('pinger', @proxy @userconfirmation)
     @sidebar = new SidebarView
       el: @sidebarEl
+      className: 'SidebarView'
     @gallery = new GalleryView
       el: @galleryEl
+      className: 'GalleryView'
     @album = new AlbumView
       el: @albumEl
+      className: 'AlbumView'
     @upload = new UploadView
       el: @uploadEl
+      className: 'UploadView'
     @grid = new GridView
       el: @gridEl
+      className: 'GridView'
     @albumsShowView = new AlbumsShowView
       el: @albumsShowEl
-      name: 'AlbumsShowView'
+      toolbar: 'Gallery'
+      className: 'AlbumsShowView'
     @albumsEditView = new AlbumsEditView
       el: @albumsEditEl
-      name: 'AlbumsEditView'
+      className: 'AlbumsEditView'
     @loginView = new LoginView
       el: @loginEl
+      className: 'LoginView'
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
@@ -58,15 +65,24 @@ class App extends Spine.Controller
       goSleep: => @albumsShowView.activeControl?.click()
 
     @albumsManager = new Spine.Manager(@albumsShowView, @albumsEditView)
+    
+  userconfirmation: (user, json) ->
+    console.log 'Server ping has finished'
+    unless user.sessionid is json.User.sessionid
+      alert 'Invalid Session, Please login again'
+      User.shred()
+      window.location = base_url + 'users/login'
+    
       
 $ ->
   window.App = new App(el: $('body'))
   
-  User.fetch()
+  # verify current session
+  User.ping()
+  
   App.loginView.render User.first()
   App.albumsManager.change(App.albumsShowView)
-  App.albumsShowView.btnGallery.click()
-  callback = ->
-    App.closePanel('gallery', App.albumsShowView.btnGallery) if Gallery.count()
-  App.openPanel('gallery', App.albumsShowView.btnGallery)
-  App.delay callback, 1000
+#  cb = ->
+#    App.closePanel('gallery', App.albumsShowView.btnGallery) if Gallery.count()
+  App.openPanel('gallery', App.albumsShowView.btnGallery) unless Gallery.count()
+#  App.delay cb, 1000

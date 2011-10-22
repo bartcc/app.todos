@@ -45,7 +45,7 @@ class AlbumsEditView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'AlbumsEditView::change'
-    @current = item if !(item?.destroyed)
+    @current = item unless item?.destroyed
     @render @current
 
   render: (item) ->
@@ -92,4 +92,4 @@ class AlbumsEditView extends Spine.Controller
     return if(e.keyCode != 13)
     @trigger('save:gallery', @)
 
-module?.exports = AlbumsView
+module?.exports = AlbumsEditView

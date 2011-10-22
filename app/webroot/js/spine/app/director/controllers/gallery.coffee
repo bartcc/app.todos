@@ -17,20 +17,19 @@ class GalleryView extends Spine.Controller
     Spine.bind('change:selectedGallery', @proxy @change)
     Gallery.bind "change", @proxy @change
 
-  change: (item) ->
+  change: (item, mode) ->
     console.log 'Gallery::change'
-    @current = item# if !(item?.destroyed)
     @render()
 
   render: ->
     console.log 'Gallery::render'
-    if @current and !(@current.destroyed)
-      @editEl.html @template @current
-      #@focusFirstInput(@editEl)
+    if Gallery.record
+      @editEl.html @template Gallery.record
     else
       unless Gallery.count()
         @editEl.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
       else
+        console.log Gallery.count()
         @editEl.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
 #      missing         = 'Select a Gallery and an Album!'
 #      missingGallery  = if Gallery.count() then 'Select a Gallery!' else 'Create a Gallery'
@@ -42,4 +41,4 @@ class GalleryView extends Spine.Controller
     Spine.trigger('save:gallery', @editEl)
     
 
-module?.exports = EditorView
+module?.exports = GalleryView

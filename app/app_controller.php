@@ -45,8 +45,8 @@ class AppController extends Controller {
     if ($this->RequestHandler->isAjax()) {
       $data = $this->getPayLoad();
       if(!empty($data)) {
-        //$this->log('Payload', LOG_DEBUG);
-        //$this->log($data, LOG_DEBUG);
+//        $this->log('Payload', LOG_DEBUG);
+//        $this->log($data, LOG_DEBUG);
         $data = $this->object2Array($data);
         if(empty($data[$this->modelClass])) {
           $this->data[$this->modelClass] = $data;

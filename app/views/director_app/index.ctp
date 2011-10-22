@@ -51,7 +51,7 @@
         </div>
       </div>  
       <ul class="options hbox">
-        <li class="disabled">Properties:</li>
+        <li class="disabled">…</li>
         <li class="opt optGallery">Gallery</li>
         <li class="opt optAlbum">Album</li>
         <li class="opt optUpload">Upload Photo</li>

@@ -5,5 +5,8 @@ header('Content-Type: text/x-json; charset=utf-8');
 header("X-JSON: ");
 $json = compact('json');
 $json = $json['json'];
-echo $js->object($json);
+$json = $js->object($json);
+//$this->log('SIMPLEJSON', LOG_DEBUG);
+//$this->log($json, LOG_DEBUG);
+echo $json;
 ?>

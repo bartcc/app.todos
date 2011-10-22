@@ -4,6 +4,7 @@ $      = Spine.$
 class AlbumsShowView extends Spine.Controller
   
   @extend Spine.Controller.Drag
+  @extend Spine.Controller.Toolbars
   
   elements:
     ".content"                : "content"
@@ -57,9 +58,10 @@ class AlbumsShowView extends Spine.Controller
  
   constructor: ->
     super
-    @list = new Spine.AlbumList
+    @list = new AlbumList
       el: @items
       template: @albumsTemplate
+            
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
@@ -68,11 +70,12 @@ class AlbumsShowView extends Spine.Controller
     Album.bind("update", @proxy @render)
     Album.bind("destroy", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
-    Spine.bind('change:selectedAlbum', @proxy @renderToolbar)
-    Spine.bind('change:selection', @proxy @changeSelection)
+    Spine.bind('change:toolbar', @proxy @changeToolbar)
     GalleriesAlbum.bind("change", @proxy @render)
     @bind("toggle:view", @proxy @toggleView)
-
+    @bind('render:toolbar', @proxy @renderToolbar)
+    
+    @changeToolbar @toolbar if @toolbar
     @activeControl = @btnGallery
     @create = @edit = @editGallery
     @show = @showGallery
@@ -114,20 +117,21 @@ class AlbumsShowView extends Spine.Controller
 
   renderToolbar: ->
     console.log 'AlbumsShowView::renderToolbar'
-    @toolBar.html @toolsTemplate @toolBarList()
+    @toolBar.html @toolsTemplate @currentToolBar
     @refreshElements()
   
-  toolBarList: -> arguments[0]
-
   initSortables: ->
     sortOptions = {}
     @items.sortable sortOptions
 
   newAttributes: ->
-    title   : 'New Title'
-    name    : 'New Album'
-    user_id : User.first().id
-
+    if User.first()
+      title   : 'New Title'
+      name    : 'New Album'
+      user_id : User.first().id
+    else
+      User.ping()
+  
   create: ->
     console.log 'AlbumsShowView::create'
     Gallery.emptySelection()
@@ -243,41 +247,20 @@ class AlbumsShowView extends Spine.Controller
       height: height()
       400
 
-  changeSelection: (modelName) ->
-    switch modelName
-      when 'Gallery'
-        @toolBarList = -> [
-          {name: 'Edit Gallery', klass: 'optEditGallery', disabled: !Gallery.record}
-          {name: 'New Gallery', klass: 'optCreateGallery'}
-          {name: 'Delete Gallery', klass: 'optDestroyGallery', disabled: !Gallery.record}
-        ]
-      when 'Album'
-        @toolBarList = -> [
-          {name: 'New Album', klass: 'optCreateAlbum'}
-          {name: 'Delete Album', klass: 'optDestroyAlbum ', disabled: !Gallery.selectionList().length}
-        ]
-    @renderToolbar()
-
   toggleGallery: (e) ->
-    Spine.trigger('change:selection', 'Gallery')
+    @changeToolbar Gallery
     @trigger("toggle:view", App.gallery, e.target)
 
   toggleAlbum: (e) ->
-    Spine.trigger('change:selection', 'Album')
+    @changeToolbar Album
     @trigger("toggle:view", App.album, e.target)
 
   toggleUpload: (e) ->
-    @toolBarList = -> [
-      {name: 'Show Upload', klass: ''}
-      {name: 'Edit Upload', klass: ''}
-    ]
+    @changeToolbar 'Upload'
     @trigger("toggle:view", App.upload, e.target)
 
   toggleGrid: (e) ->
-    @toolBarList = -> [
-      {name: 'Show Grid', klass: ''}
-      {name: 'Edit Grid', klass: ''}
-    ]
+    @changeToolbar 'Grid'
     @trigger("toggle:view", App.grid, e.target)
 
   toggleView: (controller, control) ->

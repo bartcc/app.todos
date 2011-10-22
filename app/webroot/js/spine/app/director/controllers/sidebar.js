@@ -45,7 +45,7 @@ SidebarView = (function() {
   function SidebarView() {
     SidebarView.__super__.constructor.apply(this, arguments);
     this.el.width(300);
-    this.list = new Spine.GalleryList({
+    this.list = new GalleryList({
       el: this.items,
       template: this.template
     });
@@ -162,11 +162,15 @@ SidebarView = (function() {
     }
   };
   SidebarView.prototype.newAttributes = function() {
-    return {
-      name: 'New Gallery',
-      author: User.first().name,
-      user_id: User.first().id
-    };
+    if (User.first()) {
+      return {
+        name: 'New Gallery',
+        author: User.first().name,
+        user_id: User.first().id
+      };
+    } else {
+      return User.ping();
+    }
   };
   SidebarView.prototype.create = function() {
     var gallery;

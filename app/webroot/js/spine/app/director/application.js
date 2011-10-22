@@ -25,31 +25,39 @@ App = (function() {
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
+    User.bind('pinger', this.proxy(this.userconfirmation));
     this.sidebar = new SidebarView({
-      el: this.sidebarEl
+      el: this.sidebarEl,
+      className: 'SidebarView'
     });
     this.gallery = new GalleryView({
-      el: this.galleryEl
+      el: this.galleryEl,
+      className: 'GalleryView'
     });
     this.album = new AlbumView({
-      el: this.albumEl
+      el: this.albumEl,
+      className: 'AlbumView'
     });
     this.upload = new UploadView({
-      el: this.uploadEl
+      el: this.uploadEl,
+      className: 'UploadView'
     });
     this.grid = new GridView({
-      el: this.gridEl
+      el: this.gridEl,
+      className: 'GridView'
     });
     this.albumsShowView = new AlbumsShowView({
       el: this.albumsShowEl,
-      name: 'AlbumsShowView'
+      toolbar: 'Gallery',
+      className: 'AlbumsShowView'
     });
     this.albumsEditView = new AlbumsEditView({
       el: this.albumsEditEl,
-      name: 'AlbumsEditView'
+      className: 'AlbumsEditView'
     });
     this.loginView = new LoginView({
-      el: this.loginEl
+      el: this.loginEl,
+      className: 'LoginView'
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
@@ -94,22 +102,24 @@ App = (function() {
     });
     this.albumsManager = new Spine.Manager(this.albumsShowView, this.albumsEditView);
   }
+  App.prototype.userconfirmation = function(user, json) {
+    console.log('Server ping has finished');
+    if (user.sessionid !== json.User.sessionid) {
+      alert('Invalid Session, Please login again');
+      User.shred();
+      return window.location = base_url + 'users/login';
+    }
+  };
   return App;
 })();
 $(function() {
-  var callback;
   window.App = new App({
     el: $('body')
   });
-  User.fetch();
+  User.ping();
   App.loginView.render(User.first());
   App.albumsManager.change(App.albumsShowView);
-  App.albumsShowView.btnGallery.click();
-  callback = function() {
-    if (Gallery.count()) {
-      return App.closePanel('gallery', App.albumsShowView.btnGallery);
-    }
-  };
-  App.openPanel('gallery', App.albumsShowView.btnGallery);
-  return App.delay(callback, 1000);
+  if (!Gallery.count()) {
+    return App.openPanel('gallery', App.albumsShowView.btnGallery);
+  }
 });

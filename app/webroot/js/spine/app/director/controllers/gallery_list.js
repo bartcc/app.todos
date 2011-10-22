@@ -1,4 +1,4 @@
-var $;
+var $, GalleryList;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -11,7 +11,7 @@ if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
-Spine.GalleryList = (function() {
+GalleryList = (function() {
   __extends(GalleryList, Spine.Controller);
   GalleryList.extend(Spine.Controller.Drag);
   GalleryList.prototype.events = {
@@ -54,7 +54,8 @@ Spine.GalleryList = (function() {
       this.current = false;
     }
     Gallery.current(this.current);
-    return Spine.trigger('change:selectedGallery', this.current, mode);
+    Spine.trigger('change:selectedGallery', this.current, mode);
+    return Spine.trigger('change:toolbar', 'Gallery');
   };
   GalleryList.prototype.render = function(items, item, mode) {
     var new_content, old_content, record, _i, _len;
@@ -90,6 +91,9 @@ Spine.GalleryList = (function() {
     var item;
     console.log('GalleryList::click');
     item = $(e.target).item();
+    if (!this.isCtrlClick(e)) {
+      Spine.trigger('change:selected', item.constructor.className);
+    }
     return this.change(item, 'show', e);
   };
   GalleryList.prototype.edit = function(e) {
@@ -117,5 +121,5 @@ Spine.GalleryList = (function() {
   return GalleryList;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = Spine.GalleryList;
+  module.exports = GalleryList;
 }

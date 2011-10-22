@@ -6,7 +6,7 @@ class UsersController extends AppController {
 
   function beforeFilter() {
     $this->disableCache();
-    $this->Auth->allowedActions = array('login', 'logout', 'auth');
+    $this->Auth->allowedActions = array('login', 'logout', 'auth', 'ping');
 
     $this->Cookie->name = 'TODOS';
     $this->Cookie->time = 3600; // 1 hour
@@ -153,7 +153,23 @@ class UsersController extends AppController {
     $this->Session->setFlash(__('User was not deleted', true));
     $this->redirect(array('action' => 'index'));
   }
-
+  
+  function ping() {
+    $user = $this->Auth->user();
+    if($this->RequestHandler->isAjax()) {
+      if(!empty($this->data) && $user) {
+        $this->data['User'] = array_merge($this->data['User'], array('sessionid' => $this->Session->id(), 'success' => true));
+        $this->set('json', $this->data);
+  //      $this->log('User::ping', LOG_DEBUG);
+  //      $this->log($json, LOG_DEBUG);
+        $this->render(SIMPLE_JSON);
+      } else {
+        $json = array('User' => array('success' => false));
+        $json = $this->set(compact('json'));
+        $this->render(SIMPLE_JSON);
+      }
+    }
+  }
 }
 
 ?>

@@ -7,9 +7,11 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 AlbumsEditView = (function() {
   __extends(AlbumsEditView, Spine.Controller);
@@ -109,7 +111,6 @@ AlbumsEditView = (function() {
       return;
     }
     if (this.current && Gallery.record) {
-      console.log(this.current);
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.el.serializeForm();
       this.current.updateChangedAttributes(atts);
     }

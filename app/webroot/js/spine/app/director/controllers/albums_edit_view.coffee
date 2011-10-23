@@ -81,7 +81,6 @@ class AlbumsEditView extends Spine.Controller
     console.log 'AlbumsEditView::save'
     return if $(el.currentTarget).hasClass('disabled')
     if @current and Gallery.record
-      console.log @current
       atts = el.serializeForm?() or @el.serializeForm()
       @current.updateChangedAttributes(atts)
     App.albumsManager.change(App.albumsShowView)

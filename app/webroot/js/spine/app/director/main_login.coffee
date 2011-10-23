@@ -42,10 +42,9 @@ class MainLogin extends Spine.Controller
     User.destroyAll()
     user = new User @newAttributes(json)
     user.save()
-    redirect_url = base_url + 'director_app'
     @render @flashEl, @flashTemplate, json
     delayedFunc = -> 
-      window.location = redirect_url
+      User.redirect base_url + 'director_app'
     @delay delayedFunc, 1000
 
   error: (xhr) =>

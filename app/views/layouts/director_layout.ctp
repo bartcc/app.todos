@@ -18,7 +18,7 @@
  */
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html class="smheight" xmlns="http://www.w3.org/1999/xhtml" >
   <head>
     <?php echo $this->Html->charset(); ?>
     <title>
@@ -29,6 +29,7 @@
     echo $this->Html->meta('icon');
 
     echo $this->Html->css('spine/director/application');
+    echo $this->Html->css('spine/director/window');
 
     //echo $this->Html->script('lib/json2');
 
@@ -65,6 +66,8 @@
     echo $this->Html->script('spine/app/director/models/album');
     echo $this->Html->script('spine/app/director/models/user');
     echo $this->Html->script('spine/app/director/models/error');
+    echo $this->Html->script('spine/app/director/controllers/loader');
+    echo $this->Html->script('spine/app/director/controllers/main');
     echo $this->Html->script('spine/app/director/controllers/login');
     echo $this->Html->script('spine/app/director/controllers/gallery_list');
     echo $this->Html->script('spine/app/director/controllers/album_list');
@@ -99,7 +102,7 @@
     echo $scripts_for_layout;
     ?>
   </head>
-  <body>
+  <body class="views smheight">
     <?php echo $content_for_layout; ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>

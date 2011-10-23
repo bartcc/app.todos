@@ -19,15 +19,17 @@ User = (function() {
   User.ping = function() {
     var user;
     User.fetch();
-    user = User.first();
-    user.confirm();
-    return user;
+    if (user = User.first()) {
+      return user.confirm();
+    } else {
+      return User.redirect(base_url + 'users/login');
+    }
   };
-  User.shred = function() {
+  User.logout = function() {
     return User.destroyAll();
   };
-  User.login = function() {
-    return window.location = base_url + 'users/login';
+  User.redirect = function(url) {
+    return window.location = url;
   };
   User.prototype.confirm = function() {
     return $.ajax({
@@ -38,11 +40,6 @@ User = (function() {
       error: this.error
     });
   };
-  User.prototype.complete = function(xhr) {
-    var json;
-    console.log('Ajax::complete');
-    return json = $.parseJSON(xhr.responseText);
-  };
   User.prototype.success = function(json) {
     console.log('Ajax::success');
     return User.trigger('pinger', this, json);
@@ -50,8 +47,8 @@ User = (function() {
   User.prototype.error = function(xhr) {
     console.log('Ajax::error');
     console.log(xhr);
-    this.constructor.shred();
-    return this.constructor.login();
+    this.constructor.logout();
+    return this.constructor.redirect(base_url + 'users/login');
   };
   return User;
 })();

@@ -14,10 +14,13 @@ class App extends Spine.Controller
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '.show .content'      : 'content'
+    '#loader'             : 'loaderEl'
+    '#main'               : 'mainEl'
+    'body'               : 'bodyEl'
 
   constructor: ->
     super
-    User.bind('pinger', @proxy @userconfirmation)
+    User.bind('pinger', @proxy @validationComplete)
     
     @sidebar = new SidebarView
       el: @sidebarEl
@@ -44,6 +47,10 @@ class App extends Spine.Controller
     @loginView = new LoginView
       el: @loginEl
       className: 'LoginView'
+    @mainView = new MainView
+      el: @mainEl
+    @loaderView = new LoaderView
+      el: @loaderEl
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.initDrag @vDrag,
@@ -67,21 +74,26 @@ class App extends Spine.Controller
 
     @albumsManager = new Spine.Manager(@albumsShowView, @albumsEditView)
     
-  userconfirmation: (user, json) ->
-    console.log 'Server ping has finished'
+    @appManager = new Spine.Manager(@mainView, @loaderView)
+    @appManager.change @loaderView
+
+  validationComplete: (user, json) ->
+    console.log user
+    console.log json
+    console.log 'Pinger done'
     valid = user.sessionid is json.User.sessionid
     valid = user.id is json.User.id and valid
     unless valid
-      alert 'Invalid Session, Please login again'
-      User.shred()
-      window.location = base_url + 'users/login'
-    
+      User.logout()
+      User.redirect base_url + 'users/login'
+    else
+      @el.removeClass 'smheight'
+      @bodyEl.removeClass 'smheight'
+      @appManager.change @mainView
       
 $ ->
-  window.App = new App(el: $('body'))
-  
-  # verify current session
   User.ping()
+  window.App = new App(el: $('html'))
   
   App.loginView.render User.first()
   App.albumsManager.change(App.albumsShowView)

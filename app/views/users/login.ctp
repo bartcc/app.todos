@@ -1,9 +1,9 @@
 <div style="" id="login">
-  <div id="messenger" class="dialogue-wrap transparent">
+  <div id="messenger" class="dialogue-wrap">
     <div class="dialogue">
       <?php echo $form->create('User', array('onsubmit' => 'MainLogin.submit(); return false;')); ?>
-      <div id="morph_messenger-wrap" class="morph dialogue-content" style="width:525px; min-width:500px;">
-        <div id="draggable-messenger-wrap" class="bg verticaltop">
+      <div class="dialogue-content" style="width:525px; min-width:500px;">
+        <div class="bg">
           <header>
             <fieldset class="right">
               <button class="_close light window input">x</button>
@@ -49,7 +49,7 @@
   {{if flash}}
   <h3>{{html flash}}</h3>
   {{if success}}
-  <img src="/img/ajax-loader.gif">
+  <img src="/img/ajax-loader-light.gif">
   {{/if}}
   {{/if}}
   {{if error}}

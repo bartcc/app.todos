@@ -32,6 +32,9 @@ header, footer {
 .autoflow {
   overflow: auto;
 }
+.smheight {
+  height: 80%;
+}
 .flex, flex1 {
   -moz-box-flex: 1;
   -webkit-box-flex: 1;

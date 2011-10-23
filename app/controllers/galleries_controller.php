@@ -42,7 +42,6 @@ class GalleriesController extends AppController {
       $this->redirect(array('action' => 'index'));
     }
     if (!empty($this->data)) {
-      $this->log($this->data, LOG_DEBUG);
       if ($this->Gallery->save($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));
         $this->render(BLANK_RESPONSE);

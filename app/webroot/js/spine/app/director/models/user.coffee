@@ -6,16 +6,17 @@ class User extends Spine.Model
   
   @ping: ->
     User.fetch()
-    user = User.first()
-    user.confirm()
-    user
+    if user = User.first()
+      user.confirm()
+    else
+      User.redirect base_url + 'users/login'
     
-  @shred: ->
+  @logout: ->
     User.destroyAll()
-
-  @login: ->
-    window.location = base_url + 'users/login'
   
+  @redirect: (url) ->
+    window.location = url;
+
   confirm: ->
     $.ajax
       url: base_url + 'users/ping'
@@ -23,11 +24,7 @@ class User extends Spine.Model
       type: 'POST'
       success: @success
       error: @error
-      
-  complete: (xhr) ->
-    console.log 'Ajax::complete'
-    json = $.parseJSON(xhr.responseText)
-    
+  
   success: (json) =>
     console.log 'Ajax::success'
     User.trigger('pinger', @, json)
@@ -35,7 +32,8 @@ class User extends Spine.Model
   error: (xhr) =>
     console.log 'Ajax::error'
     console.log xhr
-    @constructor.shred()
-    @constructor.login()
+    @constructor.logout()
+    @constructor.redirect base_url + 'users/login'
       
+
 Spine.Model.User = User

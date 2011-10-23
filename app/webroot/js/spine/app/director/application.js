@@ -21,11 +21,14 @@ App = (function() {
     '#login': 'loginEl',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag',
-    '.show .content': 'content'
+    '.show .content': 'content',
+    '#loader': 'loaderEl',
+    '#main': 'mainEl',
+    'body': 'bodyEl'
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
-    User.bind('pinger', this.proxy(this.userconfirmation));
+    User.bind('pinger', this.proxy(this.validationComplete));
     this.sidebar = new SidebarView({
       el: this.sidebarEl,
       className: 'SidebarView'
@@ -58,6 +61,12 @@ App = (function() {
     this.loginView = new LoginView({
       el: this.loginEl,
       className: 'LoginView'
+    });
+    this.mainView = new MainView({
+      el: this.mainEl
+    });
+    this.loaderView = new LoaderView({
+      el: this.loaderEl
     });
     this.vmanager = new Spine.Manager(this.sidebar);
     this.vmanager.initDrag(this.vDrag, {
@@ -101,25 +110,32 @@ App = (function() {
       }, this)
     });
     this.albumsManager = new Spine.Manager(this.albumsShowView, this.albumsEditView);
+    this.appManager = new Spine.Manager(this.mainView, this.loaderView);
+    this.appManager.change(this.loaderView);
   }
-  App.prototype.userconfirmation = function(user, json) {
+  App.prototype.validationComplete = function(user, json) {
     var valid;
-    console.log('Server ping has finished');
+    console.log(user);
+    console.log(json);
+    console.log('Pinger done');
     valid = user.sessionid === json.User.sessionid;
     valid = user.id === json.User.id && valid;
     if (!valid) {
-      alert('Invalid Session, Please login again');
-      User.shred();
-      return window.location = base_url + 'users/login';
+      User.logout();
+      return User.redirect(base_url + 'users/login');
+    } else {
+      this.el.removeClass('smheight');
+      this.bodyEl.removeClass('smheight');
+      return this.appManager.change(this.mainView);
     }
   };
   return App;
 })();
 $(function() {
-  window.App = new App({
-    el: $('body')
-  });
   User.ping();
+  window.App = new App({
+    el: $('html')
+  });
   App.loginView.render(User.first());
   App.albumsManager.change(App.albumsShowView);
   if (!Gallery.count()) {

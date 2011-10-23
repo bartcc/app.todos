@@ -23,10 +23,8 @@ class AlbumsController extends AppController {
 
   function add() {
     if (!empty($this->data)) {
-      $this->log('AlbumsController:add', LOG_DEBUG);
       $this->Album->create();
       if ($this->Album->save($this->data)) {
-        $this->log($this->data, LOG_DEBUG);
         $this->Session->setFlash(__('The album has been saved', true));
         $this->render(BLANK_RESPONSE);
       } else {

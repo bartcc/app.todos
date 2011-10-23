@@ -87,7 +87,7 @@
     //$this->log($js->object($albums), LOG_DEBUG) ;
     ?>
     var base_url = '<?php echo $html->url('/'); ?>';
-    
+    alert base_url
     $(function() {
       var galleries = <?php echo $js->object($galleries); ?>;
       var albums = <?php echo $js->object($albums); ?>;

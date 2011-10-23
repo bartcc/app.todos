@@ -7,9 +7,11 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 AlbumView = (function() {
   __extends(AlbumView, Spine.Controller);
@@ -47,20 +49,20 @@ AlbumView = (function() {
     selection = Gallery.selectionList();
     if ((selection != null ? selection.length : void 0) === 0) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: 'Select or Create an Album!'
+        type: '<label><span class="dimmed">Select or Create an Album!</span></label>'
       }));
     } else if ((selection != null ? selection.length : void 0) > 1) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: 'Multiple Selection'
+        type: '<label><span class="dimmed">Multiple Selection</span></label>'
       }));
     } else if (!item) {
       if (!Gallery.count()) {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: 'Create a Gallery!'
+          type: '<label><span class="dimmed">Create a Gallery!</span></label>'
         }));
       } else {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: 'Select a Gallery!'
+          type: '<label><span class="dimmed">Select a Gallery!</span></label>'
         }));
       }
     } else {

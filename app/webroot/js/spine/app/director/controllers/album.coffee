@@ -36,14 +36,14 @@ class AlbumView extends Spine.Controller
     selection = Gallery.selectionList()
 
     if selection?.length is 0
-      @item.html $("#noSelectionTemplate").tmpl({type: 'Select or Create an Album!'})
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Select or Create an Album!</span></label>'})
     else if selection?.length > 1
-      @item.html $("#noSelectionTemplate").tmpl({type: 'Multiple Selection'})
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Multiple Selection</span></label>'})
     else unless item
       unless Gallery.count()
-        @item.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
+        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Create a Gallery!</span></label>'})
       else
-        @item.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
+        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Select a Gallery!</span></label>'})
     else
       @item.html @template item
     @

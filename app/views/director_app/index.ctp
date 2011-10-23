@@ -176,7 +176,7 @@
 </script>
 
 <script type="text/x-jquery-tmpl" id="noSelectionTemplate">
-  <label><span class="dimmed">${type}</span></label>
+  {{html type}}
 </script>
 
 <script type="text/x-jquery-tmpl" id="headerTemplate">

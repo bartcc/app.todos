@@ -21,7 +21,6 @@ class UsersController extends AppController {
   function login() {
     if ($this->RequestHandler->isAjax()) {$user = $this->Auth->user();
       if ($user) {
-        $this->log('User logged in!', LOG_DEBUG);
         $this->User->Group->recursive = 0;
         $group = $this->User->Group->findById($this->Auth->user('group_id'));
         $groupname = $group['Group']['name'];

@@ -7,17 +7,21 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 GalleryView = (function() {
   __extends(GalleryView, Spine.Controller);
   GalleryView.prototype.elements = {
-    '.editGallery': 'editEl'
+    '.editGallery': 'editEl',
+    '.optCreateGallery': 'createGalleryEl'
   };
   GalleryView.prototype.events = {
-    "keydown": "saveOnEnter"
+    "keydown": "saveOnEnter",
+    'click .optCreateGallery': 'createGallery'
   };
   GalleryView.prototype.template = function(item) {
     return $('#editGalleryTemplate').tmpl(item);
@@ -38,12 +42,12 @@ GalleryView = (function() {
     } else {
       if (!Gallery.count()) {
         this.editEl.html($("#noSelectionTemplate").tmpl({
-          type: 'Create a Gallery!'
+          type: '<label><span class="dimmed">Director has no gallery yet &nbsp;<button class="optCreateGallery dark">New Gallery</button></span></label>'
         }));
       } else {
         console.log(Gallery.count());
         this.editEl.html($("#noSelectionTemplate").tmpl({
-          type: 'Select a Gallery!'
+          type: '<label><span class="dimmed">Select a gallery!</span></label>'
         }));
       }
     }
@@ -54,6 +58,9 @@ GalleryView = (function() {
       return;
     }
     return Spine.trigger('save:gallery', this.editEl);
+  };
+  GalleryView.prototype.createGallery = function() {
+    return Spine.trigger('create:gallery');
   };
   return GalleryView;
 })();

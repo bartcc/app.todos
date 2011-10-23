@@ -91,7 +91,6 @@ class App extends Spine.Controller
       
 $ ->
   User.ping()
-  alert base_url
   window.App = new App(el: $('html'))
   
   App.loginView.render User.first()

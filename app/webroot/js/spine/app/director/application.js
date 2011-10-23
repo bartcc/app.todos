@@ -131,7 +131,6 @@ App = (function() {
 })();
 $(function() {
   User.ping();
-  alert(base_url);
   window.App = new App({
     el: $('html')
   });

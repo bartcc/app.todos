@@ -13,6 +13,7 @@ class User extends Spine.Model
     
   @logout: ->
     User.destroyAll()
+    User.redirect 'logout'
   
   @redirect: (url) ->
     window.location = base_url + url;

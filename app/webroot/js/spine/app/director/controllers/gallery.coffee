@@ -27,10 +27,10 @@ class GalleryView extends Spine.Controller
       @editEl.html @template Gallery.record
     else
       unless Gallery.count()
-        @editEl.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
+        @editEl.html $("#noSelectionTemplate").tmpl({type: 'You should first create a gallery!'})
       else
         console.log Gallery.count()
-        @editEl.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
+        @editEl.html $("#noSelectionTemplate").tmpl({type: 'Select a gallery!'})
 #      missing         = 'Select a Gallery and an Album!'
 #      missingGallery  = if Gallery.count() then 'Select a Gallery!' else 'Create a Gallery'
 #      @editEl.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missing else missingGallery})

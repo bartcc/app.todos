@@ -84,7 +84,6 @@ class App extends Spine.Controller
     valid = user.id is json.User.id and valid
     unless valid
       User.logout()
-      User.redirect 'users/login'
     else
       @el.removeClass 'smheight'
       @bodyEl.removeClass 'smheight'

@@ -120,8 +120,7 @@ App = (function() {
     valid = user.sessionid === json.User.sessionid;
     valid = user.id === json.User.id && valid;
     if (!valid) {
-      User.logout();
-      return User.redirect('users/login');
+      return User.logout();
     } else {
       this.el.removeClass('smheight');
       this.bodyEl.removeClass('smheight');

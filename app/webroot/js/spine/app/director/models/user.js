@@ -26,7 +26,8 @@ User = (function() {
     }
   };
   User.logout = function() {
-    return User.destroyAll();
+    User.destroyAll();
+    return User.redirect('logout');
   };
   User.redirect = function(url) {
     return window.location = base_url + url;

@@ -115,8 +115,6 @@ App = (function() {
   }
   App.prototype.validationComplete = function(user, json) {
     var valid;
-    console.log(user);
-    console.log(json);
     console.log('Pinger done');
     valid = user.sessionid === json.User.sessionid;
     valid = user.id === json.User.id && valid;
@@ -133,6 +131,7 @@ App = (function() {
 })();
 $(function() {
   User.ping();
+  alert(base_url);
   window.App = new App({
     el: $('html')
   });

@@ -92,7 +92,7 @@ SidebarView = (function() {
     return $('#sub-' + id).html(this.subListTemplate(albums));
   };
   SidebarView.prototype.dragStart = function(e) {
-    var el, fromSidebar, id, parent_id, selection;
+    var el, fromSidebar, id, parent_id, selection, _ref;
     console.log('Sidebar::dragStart');
     el = $(e.target);
     if (el.parent()[0].id) {
@@ -105,6 +105,12 @@ SidebarView = (function() {
       selection = [];
     } else {
       selection = Gallery.selectionList();
+    }
+    if (!((_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) >= 0) && selection.length)) {
+      selection.push(Spine.dragItem.source.id);
+      if (!fromSidebar) {
+        Spine.trigger('exposeSelection', selection);
+      }
     }
     return this.clonedSelection = selection.slice(0);
   };

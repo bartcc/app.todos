@@ -22,14 +22,14 @@ User = (function() {
     if (user = User.first()) {
       return user.confirm();
     } else {
-      return User.redirect(base_url + 'users/login');
+      return User.redirect('users/login');
     }
   };
   User.logout = function() {
     return User.destroyAll();
   };
   User.redirect = function(url) {
-    return window.location = url;
+    return window.location = base_url + url;
   };
   User.prototype.confirm = function() {
     return $.ajax({
@@ -46,9 +46,8 @@ User = (function() {
   };
   User.prototype.error = function(xhr) {
     console.log('Ajax::error');
-    console.log(xhr);
     this.constructor.logout();
-    return this.constructor.redirect(base_url + 'users/login');
+    return this.constructor.redirect('users/login');
   };
   return User;
 })();

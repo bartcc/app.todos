@@ -5,9 +5,11 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   }
   return -1;
 };
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 Model = Spine.Model;
 Model.Extender = {
@@ -191,7 +193,7 @@ Model.Extender = {
           console.log(xhr);
           console.log(statusText);
           console.log(error);
-          window.location = base_url + 'users/login';
+          User.redirect('users/login');
           false;
         }
         return false;

@@ -14,7 +14,7 @@ class LoginView extends Spine.Controller
     
   logout: ->
     console.log 'click'
-    window.location = base_url + 'logout'
+    User.redirect 'logout'
     
   render: (item) ->
     @html @template item

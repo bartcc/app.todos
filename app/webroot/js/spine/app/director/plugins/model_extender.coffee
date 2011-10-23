@@ -114,7 +114,7 @@ Model.Extender =
           console.log xhr
           console.log statusText
           console.log error
-          window.location = base_url + 'users/login'
+          User.redirect 'users/login'
           false
         false
         

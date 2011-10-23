@@ -23,7 +23,7 @@ LoginView = (function() {
   };
   LoginView.prototype.logout = function() {
     console.log('click');
-    return window.location = base_url + 'logout';
+    return User.redirect('logout');
   };
   LoginView.prototype.render = function(item) {
     return this.html(this.template(item));

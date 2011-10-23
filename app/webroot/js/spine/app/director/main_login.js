@@ -25,8 +25,7 @@ MainLogin = (function() {
     this.error = __bind(this.error, this);
     this.success = __bind(this.success, this);
     this.complete = __bind(this.complete, this);
-    this.submit = __bind(this.submit, this);
-    var lastError;
+    this.submit = __bind(this.submit, this);    var lastError;
     MainLogin.__super__.constructor.apply(this, arguments);
     Error.fetch();
     if (Error.count()) {
@@ -59,15 +58,14 @@ MainLogin = (function() {
     return this.usernameEl.val('').focus();
   };
   MainLogin.prototype.success = function(json) {
-    var delayedFunc, redirect_url, user;
+    var delayedFunc, user;
     User.fetch();
     User.destroyAll();
     user = new User(this.newAttributes(json));
     user.save();
-    redirect_url = base_url + 'director_app';
     this.render(this.flashEl, this.flashTemplate, json);
     delayedFunc = function() {
-      return window.location = redirect_url;
+      return User.redirect('director_app');
     };
     return this.delay(delayedFunc, 1000);
   };

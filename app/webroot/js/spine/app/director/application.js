@@ -122,7 +122,7 @@ App = (function() {
     valid = user.id === json.User.id && valid;
     if (!valid) {
       User.logout();
-      return User.redirect(base_url + 'users/login');
+      return User.redirect('users/login');
     } else {
       this.el.removeClass('smheight');
       this.bodyEl.removeClass('smheight');

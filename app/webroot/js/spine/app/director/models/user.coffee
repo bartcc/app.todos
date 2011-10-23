@@ -9,13 +9,13 @@ class User extends Spine.Model
     if user = User.first()
       user.confirm()
     else
-      User.redirect base_url + 'users/login'
+      User.redirect 'users/login'
     
   @logout: ->
     User.destroyAll()
   
   @redirect: (url) ->
-    window.location = url;
+    window.location = base_url + url;
 
   confirm: ->
     $.ajax
@@ -31,9 +31,8 @@ class User extends Spine.Model
 
   error: (xhr) =>
     console.log 'Ajax::error'
-    console.log xhr
     @constructor.logout()
-    @constructor.redirect base_url + 'users/login'
+    @constructor.redirect 'users/login'
       
 
 Spine.Model.User = User

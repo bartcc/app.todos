@@ -19,7 +19,7 @@ Controller.Drag =
         Spine.dragItem.source = el.item()
         #Spine.dragItem.origin = $(e.target).item()
         event = e.originalEvent
-        event.dataTransfer.effectAllowed = 'move'
+        #event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/html', Spine.dragItem);
         Spine.trigger('drag:start', e)
 

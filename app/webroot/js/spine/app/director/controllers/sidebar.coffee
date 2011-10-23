@@ -73,19 +73,20 @@ class SidebarView extends Spine.Controller
     el = $(e.target)
     # check for drags from sublist
     if el.parent()[0].id
-      raw = el.parent()[0].id
-      id = raw.replace ///(^sub-)()///, ''
+      fromSidebar = true
+      parent_id = el.parent()[0].id
+      id = parent_id.replace ///(^sub-)()///, ''
       Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
       selection = []
     else
       selection = Gallery.selectionList()
 
     # make an unselected item part of selection
-    unless Spine.dragItem.source.id in selection
-      selection.push Spine.dragItem.source.id
-      Spine.trigger('exposeSelection', selection)
+    #unless Spine.dragItem.source.id in selection
+      #selection.push Spine.dragItem.source.id
+      #Spine.trigger('exposeSelection', selection) unless fromSidebar
       
-    @newSelection = selection.slice(0)
+    @clonedSelection = selection.slice(0)
 
   dragEnter: (e) ->
     el = $(e.target)
@@ -94,7 +95,7 @@ class SidebarView extends Spine.Controller
       #$(e.target).removeClass('nodrop')
       items = GalleriesAlbum.filter(target.id)
       for item in items
-        if item.album_id in @newSelection
+        if item.album_id in @clonedSelection
           el.addClass('nodrop')
     else
       console.log 'no target.id'
@@ -125,7 +126,7 @@ class SidebarView extends Spine.Controller
 
     albums = []
     Album.each (record) =>
-      albums.push record unless @newSelection.indexOf(record.id) is -1
+      albums.push record unless @clonedSelection.indexOf(record.id) is -1
     
     Spine.trigger('create:albumJoin', target, albums)
     Spine.trigger('destroy:albumJoin', origin, albums) unless @isCtrlClick(e)

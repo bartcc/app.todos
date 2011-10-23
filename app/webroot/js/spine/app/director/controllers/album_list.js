@@ -7,9 +7,11 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
@@ -73,13 +75,14 @@ AlbumList = (function() {
     return Spine.trigger('create:album');
   };
   AlbumList.prototype.click = function(e) {
-    var item;
+    var item, list;
     console.log('AlbumList::click');
     item = $(e.target).item();
     if (App.hmanager.hasActive()) {
       this.openPanel('album', App.albumsShowView.btnAlbum);
     }
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
+    list = Gallery.selectionList();
     if (!this.isCtrlClick(e)) {
       Spine.trigger('change:selected', item.constructor.className);
     }

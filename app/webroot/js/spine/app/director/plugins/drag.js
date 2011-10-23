@@ -1,8 +1,10 @@
 var $, Controller;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 Controller = Spine.Controller;
 Controller.Drag = {
@@ -20,7 +22,6 @@ Controller.Drag = {
         Spine.dragItem = {};
         Spine.dragItem.source = el.item();
         event = e.originalEvent;
-        event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/html', Spine.dragItem);
         return Spine.trigger('drag:start', e);
       }, this),

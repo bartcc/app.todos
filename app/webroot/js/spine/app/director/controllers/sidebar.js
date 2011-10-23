@@ -12,9 +12,11 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   }
   return -1;
 }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 SidebarView = (function() {
   __extends(SidebarView, Spine.Controller);
@@ -90,12 +92,13 @@ SidebarView = (function() {
     return $('#sub-' + id).html(this.subListTemplate(albums));
   };
   SidebarView.prototype.dragStart = function(e) {
-    var el, id, raw, selection, _ref;
+    var el, fromSidebar, id, parent_id, selection;
     console.log('Sidebar::dragStart');
     el = $(e.target);
     if (el.parent()[0].id) {
-      raw = el.parent()[0].id;
-      id = raw.replace(/(^sub-)()/, '');
+      fromSidebar = true;
+      parent_id = el.parent()[0].id;
+      id = parent_id.replace(/(^sub-)()/, '');
       if (id && Gallery.exists(id)) {
         Spine.dragItem.origin = Gallery.find(id);
       }
@@ -103,11 +106,7 @@ SidebarView = (function() {
     } else {
       selection = Gallery.selectionList();
     }
-    if (_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) < 0) {
-      selection.push(Spine.dragItem.source.id);
-      Spine.trigger('exposeSelection', selection);
-    }
-    return this.newSelection = selection.slice(0);
+    return this.clonedSelection = selection.slice(0);
   };
   SidebarView.prototype.dragEnter = function(e) {
     var el, item, items, target, _i, _len, _ref, _results;
@@ -118,7 +117,7 @@ SidebarView = (function() {
       _results = [];
       for (_i = 0, _len = items.length; _i < _len; _i++) {
         item = items[_i];
-        _results.push((_ref = item.album_id, __indexOf.call(this.newSelection, _ref) >= 0) ? el.addClass('nodrop') : void 0);
+        _results.push((_ref = item.album_id, __indexOf.call(this.clonedSelection, _ref) >= 0) ? el.addClass('nodrop') : void 0);
       }
       return _results;
     } else {
@@ -152,7 +151,7 @@ SidebarView = (function() {
     }
     albums = [];
     Album.each(__bind(function(record) {
-      if (this.newSelection.indexOf(record.id) !== -1) {
+      if (this.clonedSelection.indexOf(record.id) !== -1) {
         return albums.push(record);
       }
     }, this));

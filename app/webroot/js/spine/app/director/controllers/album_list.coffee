@@ -67,8 +67,9 @@ class AlbumList extends Spine.Controller
       @openPanel('album', App.albumsShowView.btnAlbum)
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
-    
-    Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)
+    list = Gallery.selectionList()
+
+    Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)# or list.length > 1
     Spine.trigger('change:toolbar', item.constructor.className)
     
     @change item 

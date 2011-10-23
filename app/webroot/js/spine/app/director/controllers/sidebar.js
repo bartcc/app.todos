@@ -106,7 +106,7 @@ SidebarView = (function() {
     } else {
       selection = Gallery.selectionList();
     }
-    if (!((_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) >= 0) && selection.length)) {
+    if (!(_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) >= 0) && !selection.length) {
       selection.push(Spine.dragItem.source.id);
       if (!fromSidebar) {
         Spine.trigger('exposeSelection', selection);

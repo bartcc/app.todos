@@ -82,7 +82,7 @@ class SidebarView extends Spine.Controller
       selection = Gallery.selectionList()
 
     # make an unselected item part of selection
-    unless Spine.dragItem.source.id in selection and selection.length
+    if !(Spine.dragItem.source.id in selection) and !(selection.length)
       selection.push Spine.dragItem.source.id
       Spine.trigger('exposeSelection', selection) unless fromSidebar
       

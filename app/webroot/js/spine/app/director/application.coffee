@@ -78,8 +78,6 @@ class App extends Spine.Controller
     @appManager.change @loaderView
 
   validationComplete: (user, json) ->
-    console.log user
-    console.log json
     console.log 'Pinger done'
     valid = user.sessionid is json.User.sessionid
     valid = user.id is json.User.id and valid
@@ -93,6 +91,7 @@ class App extends Spine.Controller
       
 $ ->
   User.ping()
+  alert base_url
   window.App = new App(el: $('html'))
   
   App.loginView.render User.first()

@@ -22,6 +22,7 @@ Controller.Drag = {
         Spine.dragItem = {};
         Spine.dragItem.source = el.item();
         event = e.originalEvent;
+        event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/html', Spine.dragItem);
         return Spine.trigger('drag:start', e);
       }, this),

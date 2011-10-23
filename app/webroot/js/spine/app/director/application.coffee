@@ -21,6 +21,7 @@ class App extends Spine.Controller
   constructor: ->
     super
     User.bind('pinger', @proxy @validationComplete)
+    Gallery.bind('refresh', @proxy @setupView)
     
     @sidebar = new SidebarView
       el: @sidebarEl
@@ -89,13 +90,12 @@ class App extends Spine.Controller
       @bodyEl.removeClass 'smheight'
       @appManager.change @mainView
       
+  setupView: ->
+    @albumsManager.change(@albumsShowView)
+    @openPanel('gallery', @albumsShowView.btnGallery) unless Gallery.count()
+    @loginView.render User.first()
+
 $ ->
   User.ping()
   window.App = new App(el: $('html'))
   
-  App.loginView.render User.first()
-  App.albumsManager.change(App.albumsShowView)
-#  cb = ->
-#    App.closePanel('gallery', App.albumsShowView.btnGallery) if Gallery.count()
-  App.openPanel('gallery', App.albumsShowView.btnGallery) unless Gallery.count()
-#  App.delay cb, 1000

@@ -29,6 +29,7 @@ App = (function() {
   function App() {
     App.__super__.constructor.apply(this, arguments);
     User.bind('pinger', this.proxy(this.validationComplete));
+    Gallery.bind('refresh', this.proxy(this.setupView));
     this.sidebar = new SidebarView({
       el: this.sidebarEl,
       className: 'SidebarView'
@@ -127,16 +128,18 @@ App = (function() {
       return this.appManager.change(this.mainView);
     }
   };
+  App.prototype.setupView = function() {
+    this.albumsManager.change(this.albumsShowView);
+    if (!Gallery.count()) {
+      this.openPanel('gallery', this.albumsShowView.btnGallery);
+    }
+    return this.loginView.render(User.first());
+  };
   return App;
 })();
 $(function() {
   User.ping();
-  window.App = new App({
+  return window.App = new App({
     el: $('html')
   });
-  App.loginView.render(User.first());
-  App.albumsManager.change(App.albumsShowView);
-  if (!Gallery.count()) {
-    return App.openPanel('gallery', App.albumsShowView.btnGallery);
-  }
 });

@@ -17,11 +17,11 @@ GalleryView = (function() {
   __extends(GalleryView, Spine.Controller);
   GalleryView.prototype.elements = {
     '.editGallery': 'editEl',
-    '.optCreateGallery': 'createGalleryEl'
+    '.optCreate': 'createGalleryEl'
   };
   GalleryView.prototype.events = {
     "keydown": "saveOnEnter",
-    'click .optCreateGallery': 'createGallery'
+    'click .optCreate': 'createGallery'
   };
   GalleryView.prototype.template = function(item) {
     return $('#editGalleryTemplate').tmpl(item);
@@ -42,10 +42,9 @@ GalleryView = (function() {
     } else {
       if (!Gallery.count()) {
         this.editEl.html($("#noSelectionTemplate").tmpl({
-          type: '<label><span class="dimmed">Director has no gallery yet &nbsp;<button class="optCreateGallery dark">New Gallery</button></span></label>'
+          type: '<label><span class="dimmed">Director has no gallery yet &nbsp;<button class="optCreate dark">New Gallery</button></span></label>'
         }));
       } else {
-        console.log(Gallery.count());
         this.editEl.html($("#noSelectionTemplate").tmpl({
           type: '<label><span class="dimmed">Select a gallery!</span></label>'
         }));

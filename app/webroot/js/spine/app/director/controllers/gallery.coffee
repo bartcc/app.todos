@@ -5,11 +5,11 @@ class GalleryView extends Spine.Controller
   
   elements:
     '.editGallery'            : 'editEl'
-    '.optCreateGallery' : 'createGalleryEl'
+    '.optCreate'       : 'createGalleryEl'
 
   events:
     "keydown"                 : "saveOnEnter"
-    'click .optCreateGallery' : 'createGallery'
+    'click .optCreate' : 'createGallery'
     
   template: (item) ->
     $('#editGalleryTemplate').tmpl item
@@ -29,13 +29,9 @@ class GalleryView extends Spine.Controller
       @editEl.html @template Gallery.record
     else
       unless Gallery.count()
-        @editEl.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Director has no gallery yet &nbsp;<button class="optCreateGallery dark">New Gallery</button></span></label>'})
+        @editEl.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Director has no gallery yet &nbsp;<button class="optCreate dark">New Gallery</button></span></label>'})
       else
-        console.log Gallery.count()
         @editEl.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Select a gallery!</span></label>'})
-#      missing         = 'Select a Gallery and an Album!'
-#      missingGallery  = if Gallery.count() then 'Select a Gallery!' else 'Create a Gallery'
-#      @editEl.html $("#noSelectionTemplate").tmpl({type: if Gallery.record then missing else missingGallery})
     @
 
   saveOnEnter: (e) ->

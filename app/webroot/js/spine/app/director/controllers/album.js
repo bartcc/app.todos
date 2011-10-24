@@ -49,20 +49,20 @@ AlbumView = (function() {
     selection = Gallery.selectionList();
     if ((selection != null ? selection.length : void 0) === 0) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: '<label><span class="dimmed">Select or Create an Album!</span></label>'
+        type: '<label><span class="dimmed">Select or create an album!</span></label>'
       }));
     } else if ((selection != null ? selection.length : void 0) > 1) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: '<label><span class="dimmed">Multiple Selection</span></label>'
+        type: '<label><span class="dimmed">Multiple selection</span></label>'
       }));
     } else if (!item) {
       if (!Gallery.count()) {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: '<label><span class="dimmed">Create a Gallery!</span></label>'
+          type: '<label><span class="dimmed">Create a gallery!</span></label>'
         }));
       } else {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: '<label><span class="dimmed">Select a Gallery!</span></label>'
+          type: '<label><span class="dimmed">Select a gallery!</span></label>'
         }));
       }
     } else {

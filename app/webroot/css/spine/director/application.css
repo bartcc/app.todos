@@ -450,7 +450,7 @@ textarea {
   right: 10px;
   line-height: 1.7em;*/
 }
-#sidebar li.item.active .cta {
+#sidebar li.item.active .cta, .cta.active {
   background-color: #FF5522;
 }
 .cta {

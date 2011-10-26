@@ -37,4 +37,13 @@ div.dialogue div {
   font-family: georgia;
   font-size: 21px;
   text-shadow: 0 -1px 0 #000000;
+  position: relative;
 }
+.status-symbol.verified {
+   padding-left: 81px;
+   margin: 0
+}
+.status-symbol {
+   margin: 10px;
+}
+

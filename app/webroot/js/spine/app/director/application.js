@@ -25,8 +25,9 @@ App = (function() {
     '#loader': 'loaderEl',
     '#main': 'mainEl',
     'body': 'bodyEl',
-    '#icon': 'icon',
-    '#status': 'status'
+    '.status-symbol img': 'icon',
+    '.status-text': 'statusText',
+    '.status-symbol': 'statusSymbol'
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
@@ -125,13 +126,13 @@ App = (function() {
       return User.logout();
     } else {
       this.icon[0].src = '/img/validated.png';
-      this.status.text('User verified');
-      cb = function() {
+      this.statusText.text('Account verified');
+      this.statusSymbol.toggleClass('verified');
+      return cb = function() {
         this.appManager.change(this.mainView);
         this.el.removeClass('smheight');
         return this.bodyEl.removeClass('smheight');
       };
-      return this.delay(cb, 1000);
     }
   };
   App.prototype.setupView = function() {

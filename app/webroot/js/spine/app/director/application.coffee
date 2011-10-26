@@ -17,8 +17,9 @@ class App extends Spine.Controller
     '#loader'             : 'loaderEl'
     '#main'               : 'mainEl'
     'body'                : 'bodyEl'
-    '#icon'               : 'icon'
-    '#status'             : 'status'
+    '.status-symbol img'  : 'icon'
+    '.status-text'        : 'statusText'
+    '.status-symbol'      : 'statusSymbol'
 
   constructor: ->
     super
@@ -88,12 +89,13 @@ class App extends Spine.Controller
       User.logout()
     else
       @icon[0].src = '/img/validated.png'
-      @status.text 'User verified'
+      @statusText.text 'Account verified'
+      @statusSymbol.toggleClass('verified')
       cb = ->
         @appManager.change @mainView
         @el.removeClass 'smheight'
         @bodyEl.removeClass 'smheight'
-      @delay cb, 1000
+      #@delay cb, 1000
       
   setupView: ->
     @albumsManager.change(@albumsShowView)

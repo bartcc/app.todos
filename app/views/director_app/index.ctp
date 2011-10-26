@@ -74,9 +74,11 @@
   <div class="dialogue-wrap">
     <div class="dialogue">
       <div class="dialogue-content">
-        <div class="bg transparent" style="height: 100px;">
-          <img id="icon" src="/img/ajax-loader.gif">
-          <div id="status">Verifying User...</div>
+        <div class="bg transparent" style="line-height: 0.5em;">
+          <div class="status-symbol" style="z-index: 2;">
+            <img src="/img/ajax-loader.gif" style="">
+          </div>
+          <div class="status-text">Verifying Account</div>
         </div>
       </div>
     </div>
@@ -179,7 +181,7 @@
   <h3>Album Originals</h3>
   <h2>All Albums</h2>
   {{/if}}
-  <span class="cta right"><h2>${count}</h2></span>
+  <span class="cta active right"><h2>${count}</h2></span>
 </script>
 
 <script type="text/x-jquery-tmpl" id="loginTemplate">

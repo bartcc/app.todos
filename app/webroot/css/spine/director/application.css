@@ -504,8 +504,12 @@ textarea {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);*/
 }
+#sidebar .item span.name {
+  font-size: 1.1em;
+}
 #sidebar .item.active span.name {
   color: rgba(255, 255, 255, 1);
+  font-size: 1.1em;
 }
 #sidebar .item-content span {
 /*  float: left;*/
@@ -521,9 +525,9 @@ textarea {
 #sidebar .sublist-item {
   cursor: move;
   margin: 5px 0 0;
-}
-#sidebar .sublist-item {
-  
+  font-size: 1.1em;
+  color: rgba(255, 255, 255, 0.2);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
 }
 #sidebar .sublist-item .title {
   padding-left: 70px

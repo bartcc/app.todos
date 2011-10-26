@@ -95,7 +95,7 @@ class App extends Spine.Controller
         @appManager.change @mainView
         @el.removeClass 'smheight'
         @bodyEl.removeClass 'smheight'
-      #@delay cb, 1000
+      @delay cb, 1000
       
   setupView: ->
     @albumsManager.change(@albumsShowView)

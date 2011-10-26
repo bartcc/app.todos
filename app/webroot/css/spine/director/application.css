@@ -496,13 +496,6 @@ textarea {
   width: 23px;
   height: 23px;
   margin: 8px;
-  
-/*  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);*/
 }
 #sidebar .item span.name {
   font-size: 1.1em;
@@ -674,46 +667,13 @@ textarea {
   border-radius: 15px;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
-  
-/*  box-shadow: 0 1px 2px #333333 inset;
-  -moz-box-shadow: 0 1px 2px #333333 inset;
-  -webkit-box-shadow: 0 1px 2px #333333 inset;*/
 }
 #albums .content li.item {
   outline: #121212;
- /* background: #FEEEE6;
-  background: url("img/pattern.png") no-repeat 0 0;
-  background: -webkit-gradient(linear, left top, left bottom, from(#EEEEE6), to(#DDDDCC));
-  background: -moz-linear-gradient(top, #EEEEE6, #DDDDCC);
-  background: linear-gradient(top, #EEEEE6, #DDDDCC);
-  border: 4px solid rgba(156, 120, 0, 0.5);
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  box-shadow: 1px 2px 4px #444444;
-  -moz-box-shadow: 0 1px 1px #444444;
-  -webkit-box-shadow: 0 1px 1px #444444;
-  margin: 0 5px 5px 0;
-  padding: 10px;
-  color: rgba(200, 200, 200, 0.5);
-  width: 140px;
-  height: 140px;
-  line-height: 1.2em*/
 }
 #albums .content div.thumbnail {
   outline: none;
   background: url("img/bauer.png") no-repeat 0 0;
-/*  background: #EEEEE6;
-  background: -webkit-gradient(linear, left top, left bottom, from(#EEEEE6), to(#DDDDCC));
-  background: -moz-linear-gradient(top, #EEEEE6, #DDDDCC);
-  background: linear-gradient(top, #EEEEE6, #DDDDCC);
-  border: 4px solid rgba(156, 120, 0, 0.5);
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  box-shadow: 1px 2px 4px #444444;
-  -moz-box-shadow: 0 1px 1px #444444;
-  -webkit-box-shadow: 0 1px 1px #444444;*/
   padding: 10px;
   color: rgba(200, 200, 200, 0.5);
   width: 140px;

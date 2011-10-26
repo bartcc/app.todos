@@ -73,10 +73,10 @@
 <div id="loader" class="view">
   <div class="dialogue-wrap">
     <div class="dialogue">
-      <div class="dialogue-content" style="">
-        <div class="bg transparent">
-          <img src="/img/ajax-loader.gif">
-          <div>Verifying User...</div>
+      <div class="dialogue-content">
+        <div class="bg transparent" style="height: 100px;">
+          <img id="icon" src="/img/ajax-loader.gif">
+          <div id="status">Verifying User...</div>
         </div>
       </div>
     </div>
@@ -84,25 +84,27 @@
 </div>
 
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
-  <li id="${id}" class="item droppable" title="Deselect   Cmd-Click">
-    <div class="item-expander"></div>
-    <div class="item-content">
-      {{if name}}
-      <span class="name">${name}</span>
-      {{else}}
-      <span class="name empty">No Name</span>
-      {{/if}}
-      <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
-      <span class="cta">${count}</span>
+  <li id="${id}" class="item" title="Deselect   Cmd-Click">
+    <div class="item-expander">
+      <div class="expander"></div>
+      <div class="item-content">
+        {{if name}}
+        <span class="name">${name}</span>
+        {{else}}
+        <span class="name empty">No Name</span>
+        {{/if}}
+        <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
+        <span class="cta">${count}</span>
+      </div>
     </div>
   </li>
   <ul id="sub-${id}" class="sublist vbox" style="display: none;"></ul>
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsSubListTemplate">
-  <li class="sublist-item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
-    {{if name}}
-    <span class="name">${name}</span>
+  <li class="sublist-item item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
+    {{if title}}
+    <span class="title">${title}</span>
     {{/if}}
   </li>
 </script>
@@ -110,11 +112,6 @@
 <script type="text/x-jquery-tmpl" id="albumsTemplate">
   <li class="item">
     <div class="thumbnail" draggable="true">
-      {{if name}}
-      <div class="name">${name}</div>
-      {{else}}
-      <div class="name empty">No name</div>
-      {{/if}}
       {{if title}}
       <div class="name">${title}</div>
       {{else}}
@@ -154,13 +151,8 @@
 <script type="text/x-jquery-tmpl" id="editAlbumTemplate">
   <div class="left">
     <label>
-      <span>Album Name</span>
-      <input type="text" name="name" value="${name}" {{if newRecord}}autofocus{{/if}}>
-    </label>
-
-    <label>
       <span>Album Title</span>
-      <input type="text" name="title" value="${title}">
+      <input type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
     </label>
   </div>
   <div class="left">

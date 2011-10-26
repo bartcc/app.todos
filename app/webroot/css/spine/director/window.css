@@ -21,7 +21,6 @@ div.dialogue-content {
   margin: 0 auto 0;
 }
 div.bg > div:nth-child(2) {
-  margin: 20px;
 }
 div.dialogue-content div.bg {
   background: none repeat scroll 0 0 transparent;

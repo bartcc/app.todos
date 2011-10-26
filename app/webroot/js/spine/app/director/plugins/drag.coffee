@@ -24,7 +24,7 @@ Controller.Drag =
         Spine.trigger('drag:start', e)
 
       dragenter: (e, data) ->
-        $(e.target).addClass('over')
+#        $(e.target).addClass('over')
         Spine.trigger('drag:enter', e)
 
       dragover: (e, data) ->
@@ -35,9 +35,9 @@ Controller.Drag =
         false
 
       dragleave: (e, data) ->
-        el = $(e.target)
-        target = el.item()
-        el.removeClass('over')
+#        el = $(e.target)
+#        target = el.item()
+#        el.removeClass('over')
         Spine.trigger('drag:leave', e)
 
       dragend: (e, data) ->
@@ -48,7 +48,7 @@ Controller.Drag =
         target = el.item()
         event = e.originalEvent
         event.stopPropagation() if event.stopPropagation
-        el.removeClass('over')
+        el.removeClass('over nodrop')
         Spine.trigger('drag:drop', target, e)
         Spine.dragItem = null
         false

@@ -8,7 +8,6 @@ class DirectorAppController extends AppController {
   function beforeFilter() {
     $this->autoRender = true;
     $this->layout = 'director_layout';
-    Cache::clear();
     //$this->Auth->allowedActions = array('index');
   }
 

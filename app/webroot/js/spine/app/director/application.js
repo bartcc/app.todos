@@ -24,11 +24,13 @@ App = (function() {
     '.show .content': 'content',
     '#loader': 'loaderEl',
     '#main': 'mainEl',
-    'body': 'bodyEl'
+    'body': 'bodyEl',
+    '#icon': 'icon',
+    '#status': 'status'
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
-    User.bind('pinger', this.proxy(this.validationComplete));
+    User.bind('pinger', this.proxy(this.validate));
     Gallery.bind('refresh', this.proxy(this.setupView));
     this.sidebar = new SidebarView({
       el: this.sidebarEl,
@@ -114,17 +116,22 @@ App = (function() {
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
   }
-  App.prototype.validationComplete = function(user, json) {
-    var valid;
+  App.prototype.validate = function(user, json) {
+    var cb, valid;
     console.log('Pinger done');
     valid = user.sessionid === json.User.sessionid;
     valid = user.id === json.User.id && valid;
     if (!valid) {
       return User.logout();
     } else {
-      this.el.removeClass('smheight');
-      this.bodyEl.removeClass('smheight');
-      return this.appManager.change(this.mainView);
+      this.icon[0].src = '/img/validated.png';
+      this.status.text('User verified');
+      cb = function() {
+        this.appManager.change(this.mainView);
+        this.el.removeClass('smheight');
+        return this.bodyEl.removeClass('smheight');
+      };
+      return this.delay(cb, 1000);
     }
   };
   App.prototype.setupView = function() {

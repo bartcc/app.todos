@@ -1,12 +1,11 @@
 <div style="" id="login">
   <div id="messenger" class="dialogue-wrap">
     <div class="dialogue">
-      <?php echo $form->create('User', array('onsubmit' => 'MainLogin.submit(); return false;')); ?>
+      <?php echo $form->create('User', array('onsubmit' => 'Login.submit(); return false;')); ?>
       <div class="dialogue-content" style="width:525px; min-width:500px;">
         <div class="bg">
           <header>
             <fieldset class="right">
-              <button class="_close light window input">x</button>
             </fieldset>
           </header>
           <div class="dialogue-inner-wrap">

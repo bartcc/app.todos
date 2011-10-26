@@ -8,7 +8,7 @@ class GalleryList extends Spine.Controller
   events:
     "dblclick .item"                          : "edit"
     "click .item"                             : "click",
-    "click .item-expander"                    : "expand"
+    "click      .expander"                    : "expand"
     'dragstart          .sublist-item'        : 'dragstart'
     'dragenter          .sublist-item'        : 'dragenter'
     'dragover           .sublist-item'        : 'dragover'
@@ -84,8 +84,11 @@ class GalleryList extends Spine.Controller
     @change item, 'edit', e
 
   expand: (e) ->
-    gallery = $(e.target).parent().next().item()
-    icon = $('.item-expander', '#'+gallery.id)
+    console.log $(e.target)
+    console.log $(e.target).parents('li')
+    console.log $(e.target).parents('li').item()
+    gallery = $(e.target).parents('li').item()
+    icon = $('.expander', '#'+gallery.id)
     content = $('#sub-'+gallery.id)
     icon.toggleClass('expand')
     if $('#'+gallery.id+' .expand').length

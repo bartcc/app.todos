@@ -1,4 +1,4 @@
-class MainLogin extends Spine.Controller
+class Login extends Spine.Controller
 
   elements:
     'form'              : 'form'
@@ -45,12 +45,12 @@ class MainLogin extends Spine.Controller
     @render @flashEl, @flashTemplate, json
     delayedFunc = -> 
       User.redirect 'director_app'
-    @delay delayedFunc, 1000
+    @delay delayedFunc, 500
 
   error: (xhr) =>
     json = $.parseJSON(xhr.responseText)
-    oldMessage = @flashEl.html()
-    delayedFunc = -> @flashEl.html oldMessage
+    @oldMessage = @flashEl.html() unless @oldMessage
+    delayedFunc = -> @flashEl.html @oldMessage
     @render @flashEl, @flashTemplate, json
     @delay delayedFunc, 2000
     
@@ -62,4 +62,4 @@ class MainLogin extends Spine.Controller
       sessionid: json.sessionid
     
 $ ->
-  window.MainLogin = new MainLogin el: $('body')
+  window.Login = new Login el: $('body')

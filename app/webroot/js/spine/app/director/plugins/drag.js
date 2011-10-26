@@ -27,7 +27,6 @@ Controller.Drag = {
         return Spine.trigger('drag:start', e);
       }, this),
       dragenter: function(e, data) {
-        $(e.target).addClass('over');
         return Spine.trigger('drag:enter', e);
       },
       dragover: function(e, data) {
@@ -41,10 +40,6 @@ Controller.Drag = {
         return false;
       },
       dragleave: function(e, data) {
-        var el, target;
-        el = $(e.target);
-        target = el.item();
-        el.removeClass('over');
         return Spine.trigger('drag:leave', e);
       },
       dragend: function(e, data) {
@@ -58,7 +53,7 @@ Controller.Drag = {
         if (event.stopPropagation) {
           event.stopPropagation();
         }
-        el.removeClass('over');
+        el.removeClass('over nodrop');
         Spine.trigger('drag:drop', target, e);
         Spine.dragItem = null;
         return false;

@@ -127,7 +127,6 @@ class AlbumsShowView extends Spine.Controller
   newAttributes: ->
     if User.first()
       title   : 'New Title'
-      name    : 'New Album'
       user_id : User.first().id
     else
       User.ping()

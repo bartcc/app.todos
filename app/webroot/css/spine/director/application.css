@@ -138,9 +138,8 @@ button {
 .tright {
   text-align: right;
 }
-div.content label div, #sidebar span {
-}
-div.content label div, #sidebar span.name {
+div.content label div {
+  color: rgba(0, 0, 0, 0.6);
 }
 div.show div.content label:nth-child(1) span {
   font-size: 0.7em;
@@ -390,7 +389,7 @@ textarea {
   background: url(img/yesdrop_content.png) repeat-x 0 0
 }
 #albums .content.over.nodrop {
-  background: url(img/nodrop_content.png) repeat-x 0 0
+  background: url(img/gradient-nodrop.png) repeat-x 0 0
 }
 #albums .header {
   background: linear-gradient(center top, #B9B9B9, #979797);
@@ -406,48 +405,53 @@ textarea {
   width: 300px;
   background-image: url("img/pattern.png");
 }
-
 #sidebar ul {
   margin: 0;
   padding: 0;
 }
-
-#sidebar li.item {
+#sidebar li.item:not(.sublist-item) {
   cursor: move;
-  border-top: 1px solid;
-  border-bottom: 3px solid;
   position: relative;  
-  color: #606060;
+  color: #D4D4D4;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  height: 50px;
-  line-height: 3em;
-}
-#sidebar li.item {
-  background: url("img/drop_content.png") repeat-x  0 0;
-}
-#sidebar li.item.over {
-  background: url("img/yesdrop_content.png") repeat-x  0 0;
+  margin-top: 5px;
+  padding: 15px 0;
 }
 #sidebar li.item.active {
-  background: url("img/active_content.png") #FFFFFF;
+  color: #D4D4D4;
 }
-#sidebar li.item.over.nodrop {
-  background: url("img/nodrop_content.png") repeat-x  0 0;
+#sidebar li.item {
+  background: url("img/gradient-normal.png") repeat-x  0 0;
 }
-#sidebar li.active {
-  color: #121212;
+#sidebar li.item.active {
+  background: url("img/gradient-active.png") repeat-x  0 0;
 }
 #sidebar li.item.over {
-  border-top: 2px dotted rgba(0, 0, 0, 0.3);
-  border-bottom: 2px dotted rgba(0, 0, 0, 0.3);
+  background: url("img/gradient-over.png") repeat-x  0 0;
+}
+#sidebar li.item.over.nodrop {
+  background: url("img/gradient-nodrop.png") repeat-x  0 0;
 }
 #sidebar li.item .cta {
+  color: #FFFFFF;
+  font-size: 1.5em;
+  line-height: 1.7em;
+  margin-top: -11px;
+  padding-bottom: 0;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 0;
   position: absolute;
-  top: 12px;
   right: 10px;
-  line-height: 21px;
+/*  color: #FFFFFF;
+  position: absolute;
+  right: 10px;
+  line-height: 1.7em;*/
+}
+#sidebar li.item.active .cta {
+  background-color: #FF5522;
 }
 .cta {
   padding: 0 6px 0 6px;
@@ -458,15 +462,15 @@ textarea {
   -moz-border-radius: 30px;
   -webkit-border-radius: 30px;
   border-radius: 30px;
-  -moz-box-shadow: 0 0 2px #7f7f7f;
-  -webkit-box-shadow: 0 0 2px #7f7f7f;
-  box-shadow: 0 0 2px #7f7f7f;
-  text-shadow: 0 -1px 1px #7f7f7f;
-  background: #FF563A;
+  -moz-box-shadow: 0 1px 3px #666666 inset;
+  -webkit-box-shadow: 0 1px 3px #666666 inset;
+  box-shadow: 0 1px 3px #666666 inset;
+  text-shadow: 0 1px 3px #666666 inset;
+/*  background: #FF563A;
   background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), to(#FF533A));
   background: -moz-linear-gradient(top, #FF563A, #FF533A);
   background: linear-gradient(top, #FF563A, #FF533A);
-  background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), color-stop(0.5, #FF563A), color-stop(0.5, #FF533A), to(#FF533A))
+  background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), color-stop(0.5, #FF563A), color-stop(0.5, #FF533A), to(#FF533A))*/
 }
 .header {
   height: 80px;
@@ -502,21 +506,29 @@ textarea {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);*/
 }
+#sidebar .item.active span.name {
+  color: rgba(255, 255, 255, 1);
+}
 #sidebar .item-content span {
 /*  float: left;*/
+  color: rgba(250, 250, 250, 0.6);
   margin: 0;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
 }
 #sidebar .item-content .author {
-  color: rgba(0, 0, 0, 0.3);
+  color: rgba(200, 200, 200, 0.3);
   font-size: 0.7em;
   font-style: italic;
-  margin-top: 23px;
 }
 #sidebar .sublist-item {
-  cursor: move
+  cursor: move;
+  margin: 5px 0 0;
 }
-#sidebar .sublist-item .name {
-  padding-left: 20px
+#sidebar .sublist-item {
+  
+}
+#sidebar .sublist-item .title {
+  padding-left: 70px
 }
 #sidebar footer {
   padding: 6px;
@@ -546,34 +558,36 @@ textarea {
 #sidebar .empty {
   font-style: italic;
 }
-#sidebar .items .expander {
-  float: left;
-  top: 10px
-}
 #sidebar .items .item.dragged {
   opacity: 0.5;
 }
 #sidebar ul.sublist {
   line-height: 3em;
-  background: url("img/drop_content.png");
-  margin-left: 40px;
+  margin-left: 12px;
 }
 #sidebar ul.sublist li.sublist-item {
-  border-bottom: 1px solid #B6B3A3;
-  border-left: 1px solid #B6B3A3;
+  background-image: url(img/gradient-normal.png), url(img/bauer-small.png);
+	 -moz-background-size: 100% 50px, 48px 96px;
+	 -webkit-background-size: 100% 50px, 48px 96px;
+	 background-size: 100% 50px, 48px 96px;
+	 -moz-background-position: 56px 0px, 0 0;
+	 -webkit-background-position: 56px 0px, 0 0;
+	 background-position: 56px 0px, 0 0;
+  background-repeat: no-repeat, no-repeat;
+/*  border-bottom: 1px solid #B6B3A3;
+  border-left: 1px solid #B6B3A3;*/
 }
-#sidebar .item .item-expander {
+#sidebar .expander {
   width: 23px;
   height: 23px;
   float: left;
-  margin-top: 14px;
   margin-left: 10px;
   cursor: pointer
 }
-#sidebar .item .item-expander {
+#sidebar .expander {
   background: url('img/arrow.png') no-repeat 0 0
 }
-#sidebar .item .item-expander.expand {
+#sidebar .expander.expand {
   background: url('img/arrow.png') no-repeat 0 -23px
 }
 #albums .items li {

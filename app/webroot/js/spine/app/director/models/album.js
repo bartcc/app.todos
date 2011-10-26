@@ -12,19 +12,19 @@ Album = (function() {
   function Album() {
     Album.__super__.constructor.apply(this, arguments);
   }
-  Album.configure("Album", "name", 'title', 'description', 'user_id');
+  Album.configure("Album", 'title', 'description', 'user_id');
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Extender);
-  Album.selectAttributes = ["name"];
+  Album.selectAttributes = ['title'];
   Album.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
   };
   Album.nameSort = function(a, b) {
     var aa, bb, _ref, _ref2;
-    aa = (_ref = (a || '').name) != null ? _ref.toLowerCase() : void 0;
-    bb = (_ref2 = (b || '').name) != null ? _ref2.toLowerCase() : void 0;
+    aa = (_ref = (a || '').title) != null ? _ref.toLowerCase() : void 0;
+    bb = (_ref2 = (b || '').title) != null ? _ref2.toLowerCase() : void 0;
     if (aa === bb) {
       return 0;
     } else if (aa < bb) {
@@ -50,7 +50,9 @@ Album = (function() {
     };
   };
   Album.prototype.init = function(instance) {
-    if (!instance) {}
+    if (!instance) {
+      ;
+    }
   };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

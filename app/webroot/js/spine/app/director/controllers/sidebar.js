@@ -1,5 +1,5 @@
 var $, SidebarView;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -11,7 +11,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
     if (this[i] === item) return i;
   }
   return -1;
-}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+};
 if (typeof Spine !== "undefined" && Spine !== null) {
   Spine;
 } else {
@@ -45,7 +45,11 @@ SidebarView = (function() {
     return $('#albumsSubListTemplate').tmpl(items);
   };
   function SidebarView() {
-    SidebarView.__super__.constructor.apply(this, arguments);
+    this.validateDrop = __bind(this.validateDrop, this);
+    this.dropComplete = __bind(this.dropComplete, this);
+    this.dragLeave = __bind(this.dragLeave, this);
+    this.dragOver = __bind(this.dragOver, this);
+    this.dragEnter = __bind(this.dragEnter, this);    SidebarView.__super__.constructor.apply(this, arguments);
     this.el.width(300);
     this.list = new GalleryList({
       el: this.items,
@@ -59,6 +63,7 @@ SidebarView = (function() {
     Spine.bind('destroy:gallery', this.proxy(this.destroy));
     Spine.bind('drag:start', this.proxy(this.dragStart));
     Spine.bind('drag:enter', this.proxy(this.dragEnter));
+    Spine.bind('drag:over', this.proxy(this.dragOver));
     Spine.bind('drag:leave', this.proxy(this.dragLeave));
     Spine.bind('drag:drop', this.proxy(this.dropComplete));
   }
@@ -94,6 +99,7 @@ SidebarView = (function() {
   SidebarView.prototype.dragStart = function(e) {
     var el, fromSidebar, id, parent_id, selection, _ref;
     console.log('Sidebar::dragStart');
+    Spine.dragItem.targetEl = null;
     el = $(e.target);
     if (el.parent()[0].id) {
       fromSidebar = true;
@@ -115,45 +121,43 @@ SidebarView = (function() {
     return this.clonedSelection = selection.slice(0);
   };
   SidebarView.prototype.dragEnter = function(e) {
-    var el, item, items, target, _i, _len, _ref, _results;
+    var closest, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4;
+    console.log('Sidebar::dragEnter');
     el = $(e.target);
-    target = el.item();
-    if (target) {
-      items = GalleriesAlbum.filter(target.id);
-      _results = [];
-      for (_i = 0, _len = items.length; _i < _len; _i++) {
-        item = items[_i];
-        _results.push((_ref = item.album_id, __indexOf.call(this.clonedSelection, _ref) >= 0) ? el.addClass('nodrop') : void 0);
+    closest = (el.hasClass('item') ? el : void 0) || (el.closest('.item')) || [];
+    if (closest.length) {
+      id = closest.attr('id');
+      target = closest.item();
+      source = (_ref = Spine.dragItem) != null ? _ref.source : void 0;
+      origin = ((_ref2 = Spine.dragItem) != null ? _ref2.origin : void 0) || Gallery.record;
+      if ((_ref3 = Spine.dragItem.closest) != null) {
+        _ref3.removeClass('over nodrop');
       }
-      return _results;
-    } else {
-      console.log('no target.id');
-      return console.log(el);
+      Spine.dragItem.closest = closest;
+      if (this.validateDrop(target, source, origin)) {
+        Spine.dragItem.closest.addClass('over');
+      } else {
+        Spine.dragItem.closest.addClass('over nodrop');
+      }
+    }
+    if (id && this._id !== id) {
+      this._id = id;
+      console.log('Sidebar::dropComplete');
+      return (_ref4 = Spine.dragItem.closest) != null ? _ref4.removeClass('over') : void 0;
     }
   };
+  SidebarView.prototype.dragOver = function(e) {};
   SidebarView.prototype.dragLeave = function(e) {};
   SidebarView.prototype.dropComplete = function(target, e) {
-    var albums, item, items, origin, source, _i, _len, _ref, _ref2;
+    var albums, origin, source, _ref, _ref2, _ref3;
     console.log('Sidebar::dropComplete');
-    source = (_ref = Spine.dragItem) != null ? _ref.source : void 0;
-    origin = ((_ref2 = Spine.dragItem) != null ? _ref2.origin : void 0) || Gallery.record;
-    if (!(source instanceof Album)) {
-      alert('You should only drop Albums here');
-      return;
+    if ((_ref = Spine.dragItem.closest) != null) {
+      _ref.removeClass('over nodrop');
     }
-    if (!(target instanceof Gallery)) {
+    source = (_ref2 = Spine.dragItem) != null ? _ref2.source : void 0;
+    origin = ((_ref3 = Spine.dragItem) != null ? _ref3.origin : void 0) || Gallery.record;
+    if (!this.validateDrop(target, source, origin)) {
       return;
-    }
-    if (!(origin.id !== target.id)) {
-      return;
-    }
-    items = GalleriesAlbum.filter(target.id);
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      item = items[_i];
-      if (item.album_id === source.id) {
-        alert('Album already exists in Gallery');
-        return;
-      }
     }
     albums = [];
     Album.each(__bind(function(record) {
@@ -166,16 +170,48 @@ SidebarView = (function() {
       return Spine.trigger('destroy:albumJoin', origin, albums);
     }
   };
+  SidebarView.prototype.validateDrop = function(target, source, origin) {
+    var item, items, _i, _len;
+    if (!(source instanceof Album)) {
+      return false;
+    }
+    if (!(target instanceof Gallery)) {
+      return false;
+    }
+    if (!(origin.id !== target.id)) {
+      return false;
+    }
+    items = GalleriesAlbum.filter(target.id);
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      item = items[_i];
+      if (item.album_id === source.id) {
+        return false;
+      }
+    }
+    return true;
+  };
   SidebarView.prototype.newAttributes = function() {
     if (User.first()) {
       return {
-        name: 'New Gallery',
+        name: this.galleryName(),
         author: User.first().name,
         user_id: User.first().id
       };
     } else {
       return User.ping();
     }
+  };
+  SidebarView.prototype.galleryName = function(proposal) {
+    if (proposal == null) {
+      proposal = 'Gallery ' + Number(Gallery.count() + 1);
+    }
+    Gallery.each(__bind(function(record) {
+      if (record.name === proposal) {
+        proposal = this.galleryName(proposal + '_1');
+        return proposal;
+      }
+    }, this));
+    return proposal;
   };
   SidebarView.prototype.create = function() {
     var gallery;

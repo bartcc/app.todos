@@ -44,6 +44,7 @@ class SidebarView extends Spine.Controller
     Spine.bind('destroy:gallery', @proxy @destroy)
     Spine.bind('drag:start', @proxy @dragStart)
     Spine.bind('drag:enter', @proxy @dragEnter)
+    Spine.bind('drag:over', @proxy @dragOver)
     Spine.bind('drag:leave', @proxy @dragLeave)
     Spine.bind('drag:drop', @proxy @dropComplete)
 
@@ -70,6 +71,7 @@ class SidebarView extends Spine.Controller
 
   dragStart: (e) ->
     console.log 'Sidebar::dragStart'
+    Spine.dragItem.targetEl = null
     el = $(e.target)
     # check for drags from sublist
     if el.parent()[0].id
@@ -88,41 +90,54 @@ class SidebarView extends Spine.Controller
       
     @clonedSelection = selection.slice(0)
 
-  dragEnter: (e) ->
+  dragEnter: (e) =>
+    console.log 'Sidebar::dragEnter'
     el = $(e.target)
-    target = el.item()
-    if target
-      #$(e.target).removeClass('nodrop')
-      items = GalleriesAlbum.filter(target.id)
-      for item in items
-        if item.album_id in @clonedSelection
-          el.addClass('nodrop')
-    else
-      console.log 'no target.id'
-      console.log el
+    closest = (el if el.hasClass('item')) or (el.closest('.item')) or []
+    if closest.length
+      id = closest.attr('id')
+      target = closest.item()
+      source = Spine.dragItem?.source
+      origin = Spine.dragItem?.origin or Gallery.record
 
-  dragLeave: (e) ->
-    return
+      Spine.dragItem.closest?.removeClass('over nodrop')
+      Spine.dragItem.closest = closest
+      if @validateDrop target, source, origin
+        Spine.dragItem.closest.addClass('over')
+      else
+        Spine.dragItem.closest.addClass('over nodrop')
+        
 
-  dropComplete: (target, e) ->
+    if id and @_id != id
+      @_id = id
+      console.log 'Sidebar::dropComplete'
+      Spine.dragItem.closest?.removeClass('over')
+
+  dragOver: (e) =>
+
+  dragLeave: (e) =>
+
+  dropComplete: (target, e) =>
     console.log 'Sidebar::dropComplete'
-
+    Spine.dragItem.closest?.removeClass('over nodrop')
     source = Spine.dragItem?.source
     origin = Spine.dragItem?.origin or Gallery.record
+    
+    return unless @validateDrop target, source, origin
 
-    unless source instanceof Album
-      alert 'You should only drop Albums here'
-      return
-    unless (target instanceof Gallery)
-      return
-    unless (origin.id != target.id)
-      return
-
-    items = GalleriesAlbum.filter(target.id)
-    for item in items
-      if item.album_id is source.id
-        alert 'Album already exists in Gallery'
-        return
+#    unless source instanceof Album
+#      alert 'You should only drop Albums here'
+#      return
+#    unless (target instanceof Gallery)
+#      return
+#    unless (origin.id != target.id)
+#      return
+#
+#    items = GalleriesAlbum.filter(target.id)
+#    for item in items
+#      if item.album_id is source.id
+#        alert 'Album already exists in Gallery'
+#        return
 
     albums = []
     Album.each (record) =>
@@ -131,13 +146,34 @@ class SidebarView extends Spine.Controller
     Spine.trigger('create:albumJoin', target, albums)
     Spine.trigger('destroy:albumJoin', origin, albums) unless @isCtrlClick(e)
     
+  validateDrop: (target, source, origin) =>
+    unless source instanceof Album
+      return false
+    unless (target instanceof Gallery)
+      return false
+    unless (origin.id != target.id)
+      return false
+
+    items = GalleriesAlbum.filter(target.id)
+    for item in items
+      if item.album_id is source.id
+        return false
+    return true
+
   newAttributes: ->
     if User.first()
-      name    : 'New Gallery'
+      name    : @galleryName()
       author  : User.first().name
       user_id : User.first().id
     else
       User.ping()
+      
+  galleryName: (proposal = 'Gallery ' + (Number)(Gallery.count()+1)) ->
+    Gallery.each (record) =>
+      if record.name is proposal
+        proposal = @galleryName(proposal + '_1')
+        return proposal
+    return proposal
 
   create: ->
     console.log 'Sidebar::create'

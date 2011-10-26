@@ -16,11 +16,13 @@ class App extends Spine.Controller
     '.show .content'      : 'content'
     '#loader'             : 'loaderEl'
     '#main'               : 'mainEl'
-    'body'               : 'bodyEl'
+    'body'                : 'bodyEl'
+    '#icon'               : 'icon'
+    '#status'             : 'status'
 
   constructor: ->
     super
-    User.bind('pinger', @proxy @validationComplete)
+    User.bind('pinger', @proxy @validate)
     Gallery.bind('refresh', @proxy @setupView)
     
     @sidebar = new SidebarView
@@ -78,16 +80,20 @@ class App extends Spine.Controller
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
 
-  validationComplete: (user, json) ->
+  validate: (user, json) ->
     console.log 'Pinger done'
     valid = user.sessionid is json.User.sessionid
     valid = user.id is json.User.id and valid
     unless valid
       User.logout()
     else
-      @el.removeClass 'smheight'
-      @bodyEl.removeClass 'smheight'
-      @appManager.change @mainView
+      @icon[0].src = '/img/validated.png'
+      @status.text 'User verified'
+      cb = ->
+        @appManager.change @mainView
+        @el.removeClass 'smheight'
+        @bodyEl.removeClass 'smheight'
+      @delay cb, 1000
       
   setupView: ->
     @albumsManager.change(@albumsShowView)

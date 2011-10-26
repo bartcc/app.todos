@@ -2,7 +2,7 @@
 class Album extends AppModel {
 	var $name = 'Album';
 	var $useDbConfig = 'director_spine';
-	var $displayField = 'name';
+	var $displayField = 'title';
 	var $validate = array(
 		'name' => array(
 			'notempty' => array(

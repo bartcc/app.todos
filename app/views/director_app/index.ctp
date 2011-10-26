@@ -96,7 +96,7 @@
         <span class="name empty">No Name</span>
         {{/if}}
         <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
-        <span class="cta">${count}</span>
+        <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
       </div>
     </div>
   </li>
@@ -175,13 +175,13 @@
 
 <script type="text/x-jquery-tmpl" id="headerTemplate">
   {{if record}}
-  <h3>Gallery: ${record.name} <span>Author: ${record.author}</span></h3>
+  <h3>Name of Gallery: <label>${record.name}</label></h3><h3>Author: <label> ${record.author}</label></h3>
   <h2>Albums</h2>
   {{else}}
   <h3>Album Originals</h3>
   <h2>All Albums</h2>
   {{/if}}
-  <span class="cta {{if record}}active{{/if}} right"><h2>${count}</h2></span>
+  <span class="cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
 </script>
 
 <script type="text/x-jquery-tmpl" id="loginTemplate">

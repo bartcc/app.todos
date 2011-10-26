@@ -435,16 +435,13 @@ textarea {
   background: url("img/gradient-nodrop.png") repeat-x  0 0;
 }
 #sidebar li.item .cta {
-  color: #FFFFFF;
+  color: rgba(255, 255, 255, 0.2);
   font-size: 1.5em;
-  line-height: 1.7em;
-  margin-top: -11px;
-  padding-bottom: 0;
-  padding-left: 13px;
-  padding-right: 13px;
-  padding-top: 0;
+  line-height: 1.2em;
+  padding: 0 7px;
   position: absolute;
   right: 10px;
+  border: 0 none;
 /*  color: #FFFFFF;
   position: absolute;
   right: 10px;
@@ -452,19 +449,20 @@ textarea {
 }
 #sidebar li.item.active .cta, .cta.active {
   background-color: #FF5522;
+  color: rgba(255, 255, 255, 0.9);
 }
 .cta {
+  color: rgba(255, 255, 255, 0.2);
   padding: 0 6px 0 6px;
-  color: #ffffff;
   font-size: 12px;
   font-weight: bold;
   border: 2px solid #ffffff;
   -moz-border-radius: 30px;
   -webkit-border-radius: 30px;
   border-radius: 30px;
-  -moz-box-shadow: 0 1px 3px #666666 inset;
-  -webkit-box-shadow: 0 1px 3px #666666 inset;
-  box-shadow: 0 1px 3px #666666 inset;
+  -moz-box-shadow: 0 1px 0.1px #666666 inset;
+  -webkit-box-shadow: 0 1px 0.1px #666666 inset;
+  box-shadow: 0 1px 0.1px #666666 inset;
   text-shadow: 0 1px 3px #666666 inset;
 /*  background: #FF563A;
   background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), to(#FF533A));
@@ -723,6 +721,17 @@ textarea {
   background-color: #FFBB66;
   box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
 
+}
+#albums .header label, #albums .header h3 {
+  display: inline;
+}
+#albums .header h3:nth-child(2) {
+  margin-left: 20px;
+}
+#albums .header label {
+  padding: 0 10px;
+  text-shadow: 0 0 0px white;
+  color: rgba(70, 70, 70, 1)
 }
 [draggable] {
   -moz-user-select: none;

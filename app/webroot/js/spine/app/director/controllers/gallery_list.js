@@ -106,9 +106,6 @@ GalleryList = (function() {
   };
   GalleryList.prototype.expand = function(e) {
     var content, gallery, icon;
-    console.log($(e.target));
-    console.log($(e.target).parents('li'));
-    console.log($(e.target).parents('li').item());
     gallery = $(e.target).parents('li').item();
     icon = $('.expander', '#' + gallery.id);
     content = $('#sub-' + gallery.id);

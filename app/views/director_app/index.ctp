@@ -181,7 +181,7 @@
   <h3>Album Originals</h3>
   <h2>All Albums</h2>
   {{/if}}
-  <span class="cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+  <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
 </script>
 
 <script type="text/x-jquery-tmpl" id="loginTemplate">

@@ -572,7 +572,7 @@ textarea {
 }
 #sidebar ul.sublist {
   line-height: 3em;
-  margin: 24px 0 0;
+  margin: 24px 0 0 30px;
 }
 #sidebar ul.sublist li.sublist-item {
   background-image: url(img/bauer-small.png);

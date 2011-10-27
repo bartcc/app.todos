@@ -456,7 +456,7 @@ textarea {
 }
 #sidebar li.item.active .cta, .cta.active {
   color: rgba(255, 255, 255, 0.9);
-  background: #FF563A;
+  background: #898989;
   background-image: -moz-radial-gradient(15px 20px, #BDBDBD, #898989);
   background-image: -webkit-gradient(radial, 15px 20px , #BDBDBD, #898989);
   background-image: radial-gradient(15px 20px, #BDBDBD, #898989);
@@ -595,7 +595,7 @@ textarea {
   width: 23px;
   height: 23px;
   float: left;
-  margin-left: 10px;
+  margin: 0 10px;
   cursor: pointer
 }
 #sidebar .expander {

@@ -87,7 +87,7 @@
 
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
   <li id="${id}" class="item" title="Deselect   Cmd-Click">
-    <div class="item-expander">
+    <div class="item-header">
       <div class="expander"></div>
       <div class="item-content">
         {{if name}}
@@ -99,8 +99,8 @@
         <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
       </div>
     </div>
+    <ul id="sub-${id}" class="sublist vbox" style="display: none;"></ul>
   </li>
-  <ul id="sub-${id}" class="sublist vbox" style="display: none;"></ul>
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsSubListTemplate">

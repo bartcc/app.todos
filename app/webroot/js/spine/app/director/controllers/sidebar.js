@@ -207,8 +207,7 @@ SidebarView = (function() {
     }
     Gallery.each(__bind(function(record) {
       if (record.name === proposal) {
-        proposal = this.galleryName(proposal + '_1');
-        return proposal;
+        return this.galleryName(proposal + '_1');
       }
     }, this));
     return proposal;

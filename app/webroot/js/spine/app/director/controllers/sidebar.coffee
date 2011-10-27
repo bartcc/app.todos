@@ -125,20 +125,6 @@ class SidebarView extends Spine.Controller
     
     return unless @validateDrop target, source, origin
 
-#    unless source instanceof Album
-#      alert 'You should only drop Albums here'
-#      return
-#    unless (target instanceof Gallery)
-#      return
-#    unless (origin.id != target.id)
-#      return
-#
-#    items = GalleriesAlbum.filter(target.id)
-#    for item in items
-#      if item.album_id is source.id
-#        alert 'Album already exists in Gallery'
-#        return
-
     albums = []
     Album.each (record) =>
       albums.push record unless @clonedSelection.indexOf(record.id) is -1
@@ -171,8 +157,7 @@ class SidebarView extends Spine.Controller
   galleryName: (proposal = 'Gallery ' + (Number)(Gallery.count()+1)) ->
     Gallery.each (record) =>
       if record.name is proposal
-        proposal = @galleryName(proposal + '_1')
-        return proposal
+        return @galleryName(proposal + '_1')
     return proposal
 
   create: ->

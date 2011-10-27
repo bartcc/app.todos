@@ -105,12 +105,13 @@ GalleryList = (function() {
     return this.change(item, 'edit', e);
   };
   GalleryList.prototype.expand = function(e) {
-    var content, gallery, icon;
-    gallery = $(e.target).parents('li').item();
-    icon = $('.expander', '#' + gallery.id);
-    content = $('#sub-' + gallery.id);
+    var content, gallery, icon, parent;
+    parent = $(e.target).parents('li');
+    gallery = parent.item();
+    icon = $('.expander', parent);
+    content = $('.sublist', parent);
     icon.toggleClass('expand');
-    if ($('#' + gallery.id + ' .expand').length) {
+    if ($('.expand', parent).length) {
       Spine.trigger('render:subList', gallery.id);
       content.show();
     } else {

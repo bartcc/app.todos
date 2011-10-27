@@ -66,24 +66,27 @@ class SidebarView extends Spine.Controller
       @renderSubList item.id
 
   renderSubList: (id) ->
+    console.log 'Sidebar::renderSubList'
     albums = Album.filter(id)
-    $('#sub-'+id).html @subListTemplate(albums)
+    # inject albums count
+    albums.push {flash: 'no albums'} unless albums.length
+    $('#'+id+' ul').html @subListTemplate(albums)
 
   dragStart: (e) ->
     console.log 'Sidebar::dragStart'
-    Spine.dragItem.targetEl = null
     el = $(e.target)
-    # check for drags from sublist
-    if el.parent()[0].id
-      fromSidebar = true
-      parent_id = el.parent()[0].id
-      id = parent_id.replace ///(^sub-)()///, ''
+    Spine.dragItem.targetEl = null
+
+    # check for drags from sublist and set its origin
+    if el.parents('ul.sublist').length
+      id = el.parents('li.item')[0].id
       Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
+      fromSidebar = true
       selection = []
     else
       selection = Gallery.selectionList()
 
-    # make an unselected item part of selection
+    # make an unselected item part of selection only if there is nothing selected yet
     if !(Spine.dragItem.source.id in selection) and !(selection.length)
       selection.push Spine.dragItem.source.id
       Spine.trigger('exposeSelection', selection) unless fromSidebar
@@ -110,7 +113,6 @@ class SidebarView extends Spine.Controller
 
     if id and @_id != id
       @_id = id
-      console.log 'Sidebar::dropComplete'
       Spine.dragItem.closest?.removeClass('over')
 
   dragOver: (e) =>
@@ -188,7 +190,7 @@ class SidebarView extends Spine.Controller
     speed = 500
     @el.animate
       width: w
-      speed#speed
+      speed
       => @clb()
 
 module?.exports = SidebarView

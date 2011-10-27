@@ -93,21 +93,26 @@ SidebarView = (function() {
   };
   SidebarView.prototype.renderSubList = function(id) {
     var albums;
+    console.log('Sidebar::renderSubList');
     albums = Album.filter(id);
-    return $('#sub-' + id).html(this.subListTemplate(albums));
+    if (!albums.length) {
+      albums.push({
+        flash: 'no albums'
+      });
+    }
+    return $('#' + id + ' ul').html(this.subListTemplate(albums));
   };
   SidebarView.prototype.dragStart = function(e) {
-    var el, fromSidebar, id, parent_id, selection, _ref;
+    var el, fromSidebar, id, selection, _ref;
     console.log('Sidebar::dragStart');
-    Spine.dragItem.targetEl = null;
     el = $(e.target);
-    if (el.parent()[0].id) {
-      fromSidebar = true;
-      parent_id = el.parent()[0].id;
-      id = parent_id.replace(/(^sub-)()/, '');
+    Spine.dragItem.targetEl = null;
+    if (el.parents('ul.sublist').length) {
+      id = el.parents('li.item')[0].id;
       if (id && Gallery.exists(id)) {
         Spine.dragItem.origin = Gallery.find(id);
       }
+      fromSidebar = true;
       selection = [];
     } else {
       selection = Gallery.selectionList();
@@ -142,7 +147,6 @@ SidebarView = (function() {
     }
     if (id && this._id !== id) {
       this._id = id;
-      console.log('Sidebar::dropComplete');
       return (_ref4 = Spine.dragItem.closest) != null ? _ref4.removeClass('over') : void 0;
     }
   };

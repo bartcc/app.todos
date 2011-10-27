@@ -100,15 +100,14 @@
       </div>
     </div>
     <hr>
-    <ul id="sub-${id}" class="sublist vbox" style="display: none;"></ul>
+    <ul class="sublist vbox" style="display: none;"></ul>
   </li>
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsSubListTemplate">
+  {{if flash}}<span class="author">${flash}</span>{{/if}}
   <li class="sublist-item item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
-    {{if title}}
-    <span class="title">${title}</span>
-    {{/if}}
+    {{if title}}<span class="title">${title}</span>{{/if}}
   </li>
 </script>
 

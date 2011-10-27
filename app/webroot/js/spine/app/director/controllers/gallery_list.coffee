@@ -67,7 +67,6 @@ class GalleryList extends Spine.Controller
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
         @children(":first").click()
-      
 
   children: (sel) ->
     @el.children(sel)
@@ -84,11 +83,12 @@ class GalleryList extends Spine.Controller
     @change item, 'edit', e
 
   expand: (e) ->
-    gallery = $(e.target).parents('li').item()
-    icon = $('.expander', '#'+gallery.id)
-    content = $('#sub-'+gallery.id)
+    parent = $(e.target).parents('li')
+    gallery = parent.item()
+    icon = $('.expander', parent)
+    content = $('.sublist', parent)
     icon.toggleClass('expand')
-    if $('#'+gallery.id+' .expand').length
+    if $('.expand', parent).length
       Spine.trigger('render:subList', gallery.id)
       content.show()
     else

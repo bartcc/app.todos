@@ -129,7 +129,7 @@ SidebarView = (function() {
     var closest, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4;
     console.log('Sidebar::dragEnter');
     el = $(e.target);
-    closest = (el.hasClass('item') ? el : void 0) || (el.closest('.item')) || [];
+    closest = (el.closest('.item')) || [];
     if (closest.length) {
       id = closest.attr('id');
       target = closest.item();

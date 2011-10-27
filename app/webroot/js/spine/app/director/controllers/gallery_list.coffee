@@ -5,6 +5,11 @@ class GalleryList extends Spine.Controller
 
   @extend Spine.Controller.Drag
 
+  elements:
+    '.item'                   : 'item'
+    '.expander'               : 'expander'
+    
+
   events:
     "dblclick .item"                          : "edit"
     "click .item"                             : "click",
@@ -16,13 +21,14 @@ class GalleryList extends Spine.Controller
     'drop               .sublist-item'        : 'drop'
     'dragend            .sublist-item'        : 'dragend'
 
-  elements:
-    '.item'                   : 'item'
-
   selectFirst: false
     
   constructor: ->
     super
+    Spine.bind('drag:timeout', @proxy @expandExpander)
+#    @sublist = new SubList
+#      el: @items,
+#      template: @template
 
   template: -> arguments[0]
 
@@ -60,7 +66,6 @@ class GalleryList extends Spine.Controller
     else if mode is 'create'
       @append @template item
     else if mode is 'destroy'
-      $('#sub-'+item.id).remove()
       $('#'+item.id).remove()
 
     @change item, mode
@@ -82,12 +87,25 @@ class GalleryList extends Spine.Controller
     item = $(e.target).item()
     @change item, 'edit', e
 
-  expand: (e) ->
+  expandExpander: (e) ->
+    el = $(e.target)
+    closest = (el.closest('.item')) or []
+    if closest.length
+      expander = $('.expander', closest)
+      if expander.length
+        @expand(e, true)
+
+  expand: (e, force = false) ->
     parent = $(e.target).parents('li')
     gallery = parent.item()
     icon = $('.expander', parent)
     content = $('.sublist', parent)
-    icon.toggleClass('expand')
+
+    if force
+      icon.toggleClass('expand', force)
+    else
+      icon.toggleClass('expand')
+      
     if $('.expand', parent).length
       Spine.trigger('render:subList', gallery.id)
       content.show()

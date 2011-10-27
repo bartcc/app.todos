@@ -16,6 +16,10 @@ $ = Spine.$;
 GalleryList = (function() {
   __extends(GalleryList, Spine.Controller);
   GalleryList.extend(Spine.Controller.Drag);
+  GalleryList.prototype.elements = {
+    '.item': 'item',
+    '.expander': 'expander'
+  };
   GalleryList.prototype.events = {
     "dblclick .item": "edit",
     "click .item": "click",
@@ -27,12 +31,10 @@ GalleryList = (function() {
     'drop               .sublist-item': 'drop',
     'dragend            .sublist-item': 'dragend'
   };
-  GalleryList.prototype.elements = {
-    '.item': 'item'
-  };
   GalleryList.prototype.selectFirst = false;
   function GalleryList() {
     this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
+    Spine.bind('drag:timeout', this.proxy(this.expandExpander));
   }
   GalleryList.prototype.template = function() {
     return arguments[0];
@@ -76,7 +78,6 @@ GalleryList = (function() {
     } else if (mode === 'create') {
       this.append(this.template(item));
     } else if (mode === 'destroy') {
-      $('#sub-' + item.id).remove();
       $('#' + item.id).remove();
     }
     this.change(item, mode);
@@ -104,13 +105,31 @@ GalleryList = (function() {
     item = $(e.target).item();
     return this.change(item, 'edit', e);
   };
-  GalleryList.prototype.expand = function(e) {
+  GalleryList.prototype.expandExpander = function(e) {
+    var closest, el, expander;
+    el = $(e.target);
+    closest = (el.closest('.item')) || [];
+    if (closest.length) {
+      expander = $('.expander', closest);
+      if (expander.length) {
+        return this.expand(e, true);
+      }
+    }
+  };
+  GalleryList.prototype.expand = function(e, force) {
     var content, gallery, icon, parent;
+    if (force == null) {
+      force = false;
+    }
     parent = $(e.target).parents('li');
     gallery = parent.item();
     icon = $('.expander', parent);
     content = $('.sublist', parent);
-    icon.toggleClass('expand');
+    if (force) {
+      icon.toggleClass('expand', force);
+    } else {
+      icon.toggleClass('expand');
+    }
     if ($('.expand', parent).length) {
       Spine.trigger('render:subList', gallery.id);
       content.show();

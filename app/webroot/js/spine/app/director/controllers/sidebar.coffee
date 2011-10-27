@@ -11,7 +11,6 @@ class SidebarView extends Spine.Controller
     '.droppable'            : 'droppable'
     '.inner'                : 'inner'
 
-  #Attach event delegation
   events:
     "click button"          : "create"
     "keyup input"           : "filter"
@@ -24,7 +23,6 @@ class SidebarView extends Spine.Controller
     'drop      .items .item': 'drop'
     'dragend   .items .item': 'dragend'
 
-  #Render template
   template: (items) ->
     $("#galleriesTemplate").tmpl(items)
 
@@ -96,7 +94,9 @@ class SidebarView extends Spine.Controller
   dragEnter: (e) =>
     console.log 'Sidebar::dragEnter'
     el = $(e.target)
-    closest = (el if el.hasClass('item')) or (el.closest('.item')) or []
+
+    # hack because e.relaedTarget is not implemented in webkit's dragleave event
+    closest = (el.closest('.item')) or []
     if closest.length
       id = closest.attr('id')
       target = closest.item()
@@ -135,7 +135,7 @@ class SidebarView extends Spine.Controller
     Spine.trigger('destroy:albumJoin', origin, albums) unless @isCtrlClick(e)
     
   validateDrop: (target, source, origin) =>
-    unless source instanceof Album
+    unless (source instanceof Album)
       return false
     unless (target instanceof Gallery)
       return false

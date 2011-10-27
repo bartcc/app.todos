@@ -27,6 +27,12 @@ Controller.Drag = {
         return Spine.trigger('drag:start', e);
       }, this),
       dragenter: function(e, data) {
+        var func;
+        func = function() {
+          return Spine.trigger('drag:timeout', e);
+        };
+        clearTimeout(Spine.timer);
+        Spine.timer = setTimeout(func, 1000);
         return Spine.trigger('drag:enter', e);
       },
       dragover: function(e, data) {
@@ -47,6 +53,7 @@ Controller.Drag = {
       },
       drop: __bind(function(e) {
         var el, event, target;
+        clearTimeout(Spine.timer);
         el = $(e.target);
         target = el.item();
         event = e.originalEvent;

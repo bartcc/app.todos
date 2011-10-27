@@ -1,7 +1,7 @@
 <?php
 class Group extends AppModel {
 	var $name = 'Group';
-	var $useDbConfig = 'todos_backbone';
+	var $useDbConfig = 'director_spine';
 	var $displayField = 'name';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 

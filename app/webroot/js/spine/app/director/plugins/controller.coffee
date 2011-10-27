@@ -18,7 +18,14 @@ Spine.Controller.include
   isCtrlClick: (e) ->
     e.metaKey or e.ctrlKey or e.altKey
 
+
 Spine.Controller.extend
+
+  createImage: (url) ->
+    img = new Image()
+    img.src = url
+    img
+
   empty: ->
     console.log 'empty'
     @constructor.apply @, arguments

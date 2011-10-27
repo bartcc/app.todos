@@ -6,11 +6,11 @@ class Tag extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $hasAndBelongsToMany = array(
-		'Image' => array(
-			'className' => 'Image',
-			'joinTable' => 'images_tags',
+		'Bitmap' => array(
+			'className' => 'Bitmap',
+			'joinTable' => 'bitmaps_tags',
 			'foreignKey' => 'tag_id',
-			'associationForeignKey' => 'image_id',
+			'associationForeignKey' => 'bitmap_id',
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',

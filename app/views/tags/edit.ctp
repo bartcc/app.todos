@@ -5,7 +5,7 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('name');
-		echo $this->Form->input('Image');
+		echo $this->Form->input('Bitmap');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

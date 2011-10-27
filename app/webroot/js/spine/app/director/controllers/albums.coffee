@@ -52,7 +52,7 @@ class AlbumsView extends Spine.Controller
     $(@views).queue("fx")
     
   loadJoinTables: ->
-    AlbumsImage.records = Album.joinTableRecords
+    AlbumsBitmap.records = Album.joinTableRecords
 
   change: (item, mode) ->
     console.log 'Albums::change'

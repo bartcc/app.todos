@@ -102,10 +102,11 @@ SidebarView = (function() {
     }
     return $('#' + id + ' ul').html(this.subListTemplate(albums));
   };
-  SidebarView.prototype.dragStart = function(e) {
-    var el, fromSidebar, id, selection, _ref;
+  SidebarView.prototype.dragStart = function(e, controller) {
+    var el, event, fromSidebar, id, selection, _ref;
     console.log('Sidebar::dragStart');
     el = $(e.target);
+    event = e.originalEvent;
     Spine.dragItem.targetEl = null;
     if (el.parents('ul.sublist').length) {
       id = el.parents('li.item')[0].id;
@@ -123,7 +124,21 @@ SidebarView = (function() {
         Spine.trigger('exposeSelection', selection);
       }
     }
-    return this.clonedSelection = selection.slice(0);
+    this.clonedSelection = selection.slice(0);
+    if (this.clonedSelection.length > 1) {
+      if (this.isCtrlClick(e)) {
+        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_COPY, 60, 60);
+      } else {
+        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_MOVE, 60, 60);
+      }
+    }
+    if (this.clonedSelection.length === 1) {
+      if (this.isCtrlClick(e)) {
+        return event.dataTransfer.setDragImage(App.ALBUM_SINGLE_COPY, 60, 60);
+      } else {
+        return event.dataTransfer.setDragImage(App.ALBUM_SINGLE_MOVE, 60, 60);
+      }
+    }
   };
   SidebarView.prototype.dragEnter = function(e) {
     var closest, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4;

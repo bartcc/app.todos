@@ -24,7 +24,7 @@ Controller.Drag = {
         event = e.originalEvent;
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/html', Spine.dragItem);
-        return Spine.trigger('drag:start', e);
+        return Spine.trigger('drag:start', e, this);
       }, this),
       dragenter: function(e, data) {
         var func;
@@ -33,7 +33,7 @@ Controller.Drag = {
         };
         clearTimeout(Spine.timer);
         Spine.timer = setTimeout(func, 1000);
-        return Spine.trigger('drag:enter', e);
+        return Spine.trigger('drag:enter', e, this);
       },
       dragover: function(e, data) {
         var event;
@@ -42,11 +42,11 @@ Controller.Drag = {
           event.stopPropagation();
         }
         event.dataTransfer.dropEffect = 'move';
-        Spine.trigger('drag:over', e);
+        Spine.trigger('drag:over', e, this);
         return false;
       },
       dragleave: function(e, data) {
-        return Spine.trigger('drag:leave', e);
+        return Spine.trigger('drag:leave', e, this);
       },
       dragend: function(e, data) {
         return $(e.target).removeClass('dragged');

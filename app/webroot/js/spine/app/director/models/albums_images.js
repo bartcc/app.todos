@@ -1,4 +1,4 @@
-var AlbumsImage;
+var AlbumsBitmap;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -7,19 +7,19 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-AlbumsImage = (function() {
-  __extends(AlbumsImage, Spine.Model);
-  function AlbumsImage() {
-    AlbumsImage.__super__.constructor.apply(this, arguments);
+AlbumsBitmap = (function() {
+  __extends(AlbumsBitmap, Spine.Model);
+  function AlbumsBitmap() {
+    AlbumsBitmap.__super__.constructor.apply(this, arguments);
   }
-  AlbumsImage.configure("AlbumsImage", "album_id", 'image_id');
-  AlbumsImage.extend(Spine.Model.Local);
-  AlbumsImage.extend(Spine.Model.Filter);
-  AlbumsImage.prototype.select = function(query) {
+  AlbumsBitmap.configure("AlbumsBitmap", "album_id", 'image_id');
+  AlbumsBitmap.extend(Spine.Model.Local);
+  AlbumsBitmap.extend(Spine.Model.Filter);
+  AlbumsBitmap.prototype.select = function(query) {
     if (this.album_id === query) {
       return true;
     }
   };
-  return AlbumsImage;
+  return AlbumsBitmap;
 })();
-Spine.Model.AlbumsImage = AlbumsImage;
+Spine.Model.AlbumsBitmap = AlbumsBitmap;

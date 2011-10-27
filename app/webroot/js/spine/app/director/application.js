@@ -31,40 +31,36 @@ App = (function() {
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
+    this.ALBUM_SINGLE_MOVE = this.constructor.createImage('/img/dragndrop/album_single_move.png');
+    this.ALBUM_SINGLE_COPY = this.constructor.createImage('/img/dragndrop/album_single_copy.png');
+    this.ALBUM_DOUBLE_MOVE = this.constructor.createImage('/img/dragndrop/album_double_move.png');
+    this.ALBUM_DOUBLE_COPY = this.constructor.createImage('/img/dragndrop/album_double_copy.png');
     User.bind('pinger', this.proxy(this.validate));
     Gallery.bind('refresh', this.proxy(this.setupView));
     this.sidebar = new SidebarView({
-      el: this.sidebarEl,
-      className: 'SidebarView'
+      el: this.sidebarEl
     });
     this.gallery = new GalleryView({
-      el: this.galleryEl,
-      className: 'GalleryView'
+      el: this.galleryEl
     });
     this.album = new AlbumView({
-      el: this.albumEl,
-      className: 'AlbumView'
+      el: this.albumEl
     });
     this.upload = new UploadView({
-      el: this.uploadEl,
-      className: 'UploadView'
+      el: this.uploadEl
     });
     this.grid = new GridView({
-      el: this.gridEl,
-      className: 'GridView'
+      el: this.gridEl
     });
     this.albumsShowView = new AlbumsShowView({
       el: this.albumsShowEl,
-      toolbar: 'Gallery',
-      className: 'AlbumsShowView'
+      toolbar: 'Gallery'
     });
     this.albumsEditView = new AlbumsEditView({
-      el: this.albumsEditEl,
-      className: 'AlbumsEditView'
+      el: this.albumsEditEl
     });
     this.loginView = new LoginView({
-      el: this.loginEl,
-      className: 'LoginView'
+      el: this.loginEl
     });
     this.mainView = new MainView({
       el: this.mainEl

@@ -23,34 +23,31 @@ class App extends Spine.Controller
 
   constructor: ->
     super
+    @ALBUM_SINGLE_MOVE = @constructor.createImage('/img/dragndrop/album_single_move.png')
+    @ALBUM_SINGLE_COPY = @constructor.createImage('/img/dragndrop/album_single_copy.png')
+    @ALBUM_DOUBLE_MOVE = @constructor.createImage('/img/dragndrop/album_double_move.png')
+    @ALBUM_DOUBLE_COPY = @constructor.createImage('/img/dragndrop/album_double_copy.png')
+
     User.bind('pinger', @proxy @validate)
     Gallery.bind('refresh', @proxy @setupView)
     
     @sidebar = new SidebarView
       el: @sidebarEl
-      className: 'SidebarView'
     @gallery = new GalleryView
       el: @galleryEl
-      className: 'GalleryView'
     @album = new AlbumView
       el: @albumEl
-      className: 'AlbumView'
     @upload = new UploadView
       el: @uploadEl
-      className: 'UploadView'
     @grid = new GridView
       el: @gridEl
-      className: 'GridView'
     @albumsShowView = new AlbumsShowView
       el: @albumsShowEl
       toolbar: 'Gallery'
-      className: 'AlbumsShowView'
     @albumsEditView = new AlbumsEditView
       el: @albumsEditEl
-      className: 'AlbumsEditView'
     @loginView = new LoginView
       el: @loginEl
-      className: 'LoginView'
     @mainView = new MainView
       el: @mainEl
     @loaderView = new LoaderView

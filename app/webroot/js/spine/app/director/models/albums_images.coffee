@@ -1,6 +1,6 @@
 
-class AlbumsImage extends Spine.Model
-  @configure "AlbumsImage", "album_id", 'image_id'
+class AlbumsBitmap extends Spine.Model
+  @configure "AlbumsBitmap", "album_id", 'image_id'
 
   @extend Spine.Model.Local
   @extend Spine.Model.Filter
@@ -8,4 +8,4 @@ class AlbumsImage extends Spine.Model
   select: (query) ->
     return true if @.album_id is query
 
-Spine.Model.AlbumsImage = AlbumsImage
+Spine.Model.AlbumsBitmap = AlbumsBitmap

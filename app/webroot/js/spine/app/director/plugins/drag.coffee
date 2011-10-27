@@ -10,7 +10,7 @@ Controller.Drag =
     Include =
       init: ->
         Spine.dragItem = null
-
+        
       dragstart: (e, data) =>
         el = $(e.target)
         target = el.item()
@@ -21,27 +21,27 @@ Controller.Drag =
         event = e.originalEvent
         event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/html', Spine.dragItem);
-        Spine.trigger('drag:start', e)
+        Spine.trigger('drag:start', e, @)
 
       dragenter: (e, data) ->
 #        $(e.target).addClass('over')
         func =  -> Spine.trigger('drag:timeout', e)
         clearTimeout Spine.timer
         Spine.timer = setTimeout(func, 1000)
-        Spine.trigger('drag:enter', e)
+        Spine.trigger('drag:enter', e, @)
 
       dragover: (e, data) ->
         event = e.originalEvent
         event.stopPropagation() if event.stopPropagation
         event.dataTransfer.dropEffect = 'move'
-        Spine.trigger('drag:over', e)
+        Spine.trigger('drag:over', e, @)
         false
 
       dragleave: (e, data) ->
 #        el = $(e.target)
 #        target = el.item()
 #        el.removeClass('over')
-        Spine.trigger('drag:leave', e)
+        Spine.trigger('drag:leave', e, @)
 
       dragend: (e, data) ->
         $(e.target).removeClass('dragged')

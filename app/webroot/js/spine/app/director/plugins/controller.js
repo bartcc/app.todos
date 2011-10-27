@@ -1,7 +1,9 @@
 var $;
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 Spine.Controller.include({
   focusFirstInput: function(el) {
@@ -26,6 +28,12 @@ Spine.Controller.include({
   }
 });
 Spine.Controller.extend({
+  createImage: function(url) {
+    var img;
+    img = new Image();
+    img.src = url;
+    return img;
+  },
   empty: function() {
     console.log('empty');
     return this.constructor.apply(this, arguments);

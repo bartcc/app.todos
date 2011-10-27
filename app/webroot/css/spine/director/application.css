@@ -731,3 +731,9 @@ textarea {
 #sidebar .item-header {
   background-size: 50px 50px;
 }
+.copycursor {
+  cursor: url("img/cursor-copy.png"), auto;
+}
+.movecursor {
+  cursor: url("img/cursor-move.png"), auto;
+}

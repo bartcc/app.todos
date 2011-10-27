@@ -1,5 +1,5 @@
 <div class="images form">
-<?php echo $this->Form->create('Image');?>
+<?php echo $this->Form->create('Bitmap');?>
 	<fieldset>
  		<legend><?php __('Add Image'); ?></legend>
 	<?php

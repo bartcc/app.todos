@@ -1,6 +1,6 @@
   <?php
-class Image extends AppModel {
-	var $name = 'Image';
+class Bitmap extends AppModel {
+	var $name = 'Bitmap';
 	var $useDbConfig = 'director_spine';
 	var $displayField = 'title';
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
@@ -8,8 +8,8 @@ class Image extends AppModel {
 	var $hasAndBelongsToMany = array(
 		'Album' => array(
 			'className' => 'Album',
-			'joinTable' => 'albums_images',
-			'foreignKey' => 'image_id',
+			'joinTable' => 'albums_bitmaps',
+			'foreignKey' => 'bitmap_id',
 			'associationForeignKey' => 'album_id',
 			'unique' => true,
 			'conditions' => '',
@@ -23,8 +23,8 @@ class Image extends AppModel {
 		),
 		'Tag' => array(
 			'className' => 'Tag',
-			'joinTable' => 'images_tags',
-			'foreignKey' => 'image_id',
+			'joinTable' => 'bitmaps_tags',
+			'foreignKey' => 'bitmap_id',
 			'associationForeignKey' => 'tag_id',
 			'unique' => true,
 			'conditions' => '',

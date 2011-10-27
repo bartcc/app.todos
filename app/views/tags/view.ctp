@@ -36,7 +36,7 @@
 </div>
 <div class="related">
 	<h3><?php __('Related Images');?></h3>
-	<?php if (!empty($tag['Image'])):?>
+	<?php if (!empty($tag['Bitmap'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Id'); ?></th>
@@ -49,23 +49,23 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($tag['Image'] as $image):
+		foreach ($tag['Bitmap'] as $bitmap):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';
 			}
 		?>
 		<tr<?php echo $class;?>>
-			<td><?php echo $image['id'];?></td>
-			<td><?php echo $image['title'];?></td>
-			<td><?php echo $image['description'];?></td>
-			<td><?php echo $image['exif'];?></td>
-			<td><?php echo $image['created'];?></td>
-			<td><?php echo $image['modified'];?></td>
+			<td><?php echo $bitmap['id'];?></td>
+			<td><?php echo $bitmap['title'];?></td>
+			<td><?php echo $bitmap['description'];?></td>
+			<td><?php echo $bitmap['exif'];?></td>
+			<td><?php echo $bitmap['created'];?></td>
+			<td><?php echo $bitmap['modified'];?></td>
 			<td class="actions">
-				<?php echo $this->Html->link(__('View', true), array('controller' => 'images', 'action' => 'view', $image['id'])); ?>
-				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'images', 'action' => 'edit', $image['id'])); ?>
-				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'images', 'action' => 'delete', $image['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $image['id'])); ?>
+				<?php echo $this->Html->link(__('View', true), array('controller' => 'images', 'action' => 'view', $bitmap['id'])); ?>
+				<?php echo $this->Html->link(__('Edit', true), array('controller' => 'images', 'action' => 'edit', $bitmap['id'])); ?>
+				<?php echo $this->Html->link(__('Delete', true), array('controller' => 'images', 'action' => 'delete', $bitmap['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $bitmap['id'])); ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>

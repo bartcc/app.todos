@@ -70,9 +70,10 @@ class SidebarView extends Spine.Controller
     albums.push {flash: 'no albums'} unless albums.length
     $('#'+id+' ul').html @subListTemplate(albums)
 
-  dragStart: (e) ->
+  dragStart: (e, controller) ->
     console.log 'Sidebar::dragStart'
     el = $(e.target)
+    event = e.originalEvent
     Spine.dragItem.targetEl = null
 
     # check for drags from sublist and set its origin
@@ -90,6 +91,17 @@ class SidebarView extends Spine.Controller
       Spine.trigger('exposeSelection', selection) unless fromSidebar
       
     @clonedSelection = selection.slice(0)
+    if @clonedSelection.length > 1
+      if @isCtrlClick(e)
+        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_COPY, 60, 60)
+      else
+        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_MOVE, 60, 60)
+    if @clonedSelection.length == 1
+      if @isCtrlClick(e)
+        event.dataTransfer.setDragImage(App.ALBUM_SINGLE_COPY, 60, 60)
+      else
+        event.dataTransfer.setDragImage(App.ALBUM_SINGLE_MOVE, 60, 60)
+        
 
   dragEnter: (e) =>
     console.log 'Sidebar::dragEnter'

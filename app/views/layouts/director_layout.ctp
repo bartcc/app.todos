@@ -91,8 +91,8 @@
     $(function() {
       var galleries = <?php echo $js->object($galleries); ?>;
       var albums = <?php echo $js->object($albums); ?>;
-      var images = <?php echo $js->object($images); ?>;
-      Image.refresh(images);
+      var images = <?php echo $js->object($bitmaps); ?>;
+      Bitmap.refresh(images);
       Album.refresh(albums);
       Gallery.refresh(galleries);
     })

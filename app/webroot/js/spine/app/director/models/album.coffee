@@ -23,9 +23,9 @@ class Album extends Spine.Model
       joinTable             : 'GalleriesAlbum'
       foreignKey            : 'album_id'
       associationForeignKey : 'gallery_id'
-    'Image':
-      className             : 'Image'
-      joinTable             : 'AlbumsImage'
+    'Bitmap':
+      className             : 'Bitmap'
+      joinTable             : 'AlbumsBitmap'
       foreignKey            : 'album_id'
       associationForeignKey : 'image_id'
 

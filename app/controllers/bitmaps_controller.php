@@ -1,8 +1,8 @@
 <?php
 
-class ImagesController extends AppController {
+class BitmapsController extends AppController {
 
-  var $name = 'Images';
+  var $name = 'Bitmaps';
 
   function beforeFilter() {
     //$this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
@@ -10,47 +10,47 @@ class ImagesController extends AppController {
   }
   
   function index() {
-    $this->Image->recursive = 0;
-    $this->set('images', $this->paginate());
+    $this->Bitmap->recursive = 0;
+    $this->set('bitmaps', $this->paginate());
   }
 
   function view($id = null) {
     if (!$id) {
-      $this->flash(__('Invalid image', true), array('action' => 'index'));
+      $this->flash(__('Invalid bitmap', true), array('action' => 'index'));
     }
-    $this->set('image', $this->Image->read(null, $id));
+    $this->set('bitmap', $this->Bitmap->read(null, $id));
   }
 
   function add() {
     if (!empty($this->data)) {
-      $this->Image->create();
-      if ($this->Image->save($this->data)) {
+      $this->Bitmap->create();
+      if ($this->Bitmap->save($this->data)) {
         $this->flash(__('Image saved.', true), array('action' => 'index'));
       } else {
         
       }
     }
-    $albums = $this->Image->Album->find('list');
-    $tags = $this->Image->Tag->find('list');
+    $albums = $this->Bitmap->Album->find('list');
+    $tags = $this->Bitmap->Tag->find('list');
     $this->set(compact('albums', 'tags'));
   }
 
   function edit($id = null) {
     if (!$id && empty($this->data)) {
-      $this->flash(sprintf(__('Invalid image', true)), array('action' => 'index'));
+      $this->flash(sprintf(__('Invalid bitmap', true)), array('action' => 'index'));
     }
     if (!empty($this->data)) {
-      if ($this->Image->save($this->data)) {
+      if ($this->Bitmap->save($this->data)) {
         $this->flash(__('The image has been saved.', true), array('action' => 'index'));
       } else {
         
       }
     }
     if (empty($this->data)) {
-      $this->data = $this->Image->read(null, $id);
+      $this->data = $this->Bitmap->read(null, $id);
     }
-    $albums = $this->Image->Album->find('list');
-    $tags = $this->Image->Tag->find('list');
+    $albums = $this->Bitmap->Album->find('list');
+    $tags = $this->Bitmap->Tag->find('list');
     $this->set(compact('albums', 'tags'));
   }
 
@@ -58,7 +58,7 @@ class ImagesController extends AppController {
     if (!$id) {
       $this->flash(sprintf(__('Invalid image', true)), array('action' => 'index'));
     }
-    if ($this->Image->delete($id)) {
+    if ($this->Bitmap->delete($id)) {
       $this->flash(__('Image deleted', true), array('action' => 'index'));
     }
     $this->flash(__('Image was not deleted', true), array('action' => 'index'));

@@ -7,9 +7,11 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine === "undefined" || Spine === null) {
+if (typeof Spine !== "undefined" && Spine !== null) {
+  Spine;
+} else {
   Spine = require("spine");
-}
+};
 $ = Spine.$;
 AlbumsView = (function() {
   __extends(AlbumsView, Spine.Controller);
@@ -62,7 +64,7 @@ AlbumsView = (function() {
     $(this.views).queue("fx");
   }
   AlbumsView.prototype.loadJoinTables = function() {
-    return AlbumsImage.records = Album.joinTableRecords;
+    return AlbumsBitmap.records = Album.joinTableRecords;
   };
   AlbumsView.prototype.change = function(item, mode) {
     console.log('Albums::change');

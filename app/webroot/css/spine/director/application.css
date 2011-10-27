@@ -138,6 +138,11 @@ button {
 .tright {
   text-align: right;
 }
+li hr {
+  margin: 19px 1px -41px;
+  border-width: 1px;
+  border-color: #5D5D5D;
+}
 div.content label div {
   color: rgba(0, 0, 0, 0.6);
 }
@@ -572,7 +577,7 @@ textarea {
 }
 #sidebar ul.sublist {
   line-height: 3em;
-  margin: 24px 0 0 30px;
+  margin: 50px 0 0 30px;
 }
 #sidebar ul.sublist li.sublist-item {
   background-image: url(img/bauer-small.png);

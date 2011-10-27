@@ -99,6 +99,7 @@
         <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
       </div>
     </div>
+    <hr>
     <ul id="sub-${id}" class="sublist vbox" style="display: none;"></ul>
   </li>
 </script>

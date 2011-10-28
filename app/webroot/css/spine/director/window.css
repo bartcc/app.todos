@@ -39,10 +39,6 @@ div.dialogue div {
   text-shadow: 0 -1px 0 #000000;
   position: relative;
 }
-.status-symbol.verified {
-   padding-left: 81px;
-   margin: 0
-}
 .status-symbol {
    margin: 10px;
 }

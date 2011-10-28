@@ -419,7 +419,7 @@ textarea {
   background: -webkit-gradient(linear, center top, center bottom, from(#B9B9B9), to(#979797));
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   padding: 10px 10px 10px 15px;
   margin-top: 1px;
 }
@@ -461,7 +461,7 @@ textarea {
   color: rgba(255, 255, 255, 0.2);
   font-size: 1.5em;
   line-height: 1.2em;
-  padding: 0 7px;
+  padding: 0 10px;
   position: absolute;
   right: 10px;
   border: 0 none;
@@ -474,12 +474,13 @@ textarea {
   color: rgba(255, 255, 255, 0.9);
   background: #898989;
   background-image: radial-gradient(15px 20px, #BDBDBD, #898989);
-  border: 2px solid #ffffff;
+  border: 1px solid #575757;
   -moz-border-radius: 30px;
   -webkit-border-radius: 30px;
   border-radius: 30px;
-  -moz-box-shadow: 0 1px 3px #666666 inset;
-  -webkit-box-shadow: 0 1px 3px #666666 inset;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   top: 10px;
 }
 .cta {
@@ -510,7 +511,7 @@ textarea {
 .header .cta h2 {
   color: #FFFFFF;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);
-  padding: 0 3px;
+  padding: 0 10px;
   margin: 0;
 }
 .header h3 span:first-child {
@@ -635,6 +636,7 @@ textarea {
   background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e0e0e1));
   background: -moz-linear-gradient(top, #ffffff, #e0e0e1);
   background: linear-gradient(top, #ffffff, #e0e0e1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 .options li {
   border-right: 1px solid rgba(0, 0, 0, 0.1);

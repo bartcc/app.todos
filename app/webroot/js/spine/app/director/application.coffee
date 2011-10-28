@@ -88,10 +88,9 @@ class App extends Spine.Controller
     else
       @icon[0].src = '/img/validated.png'
       @statusText.text 'Account verified'
-      @statusSymbol.toggleClass('verified')
       cb = ->
         @appManager.change @mainView
-      @delay cb, 1000
+      @delay cb, 2000
       
   setupView: ->
     @albumsManager.change(@albumsShowView)

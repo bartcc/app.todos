@@ -124,11 +124,10 @@ App = (function() {
     } else {
       this.icon[0].src = '/img/validated.png';
       this.statusText.text('Account verified');
-      this.statusSymbol.toggleClass('verified');
       cb = function() {
         return this.appManager.change(this.mainView);
       };
-      return this.delay(cb, 1000);
+      return this.delay(cb, 2000);
     }
   };
   App.prototype.setupView = function() {

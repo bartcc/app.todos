@@ -55,6 +55,7 @@
           <li class="disabled">…</li>
           <li class="opt optGallery">Gallery</li>
           <li class="opt optAlbum">Album</li>
+          <li class="opt optPhoto">Photo</li>
           <li class="opt optUpload">Upload Photo</li>
           <li class="opt optGrid">Thumb Grid</li>
         </ul>
@@ -100,15 +101,16 @@
       </div>
     </div>
     <hr>
-    <ul class="sublist vbox" style="display: none;"></ul>
+    <ul class="sublist" style="display: none;"></ul>
   </li>
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsSubListTemplate">
-  {{if flash}}<span class="author">${flash}</span>{{/if}}
+  {{if flash}}<span class="author">${flash}</span>{{else}}
   <li class="sublist-item item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
-    {{if title}}<span class="title">${title}</span>{{/if}}
+    {{if title}}<span class="title">{{html title}}</span>{{/if}}
   </li>
+  {{/if}}
 </script>
 
 <script type="text/x-jquery-tmpl" id="albumsTemplate">

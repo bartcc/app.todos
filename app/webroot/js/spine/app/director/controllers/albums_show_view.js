@@ -125,7 +125,7 @@ AlbumsShowView = (function() {
   };
   AlbumsShowView.prototype.renderToolbar = function() {
     console.log('AlbumsShowView::renderToolbar');
-    this.toolBar.html(this.toolsTemplate(this.currentToolBar));
+    this.toolBar.html(this.toolsTemplate(this.currentToolbar));
     return this.refreshElements();
   };
   AlbumsShowView.prototype.initSortables = function() {
@@ -300,6 +300,10 @@ AlbumsShowView = (function() {
   AlbumsShowView.prototype.toggleAlbum = function(e) {
     this.changeToolbar(Album);
     return this.trigger("toggle:view", App.album, e.target);
+  };
+  AlbumsShowView.prototype.togglePhoto = function(e) {
+    this.changeToolbar(Photo);
+    return this.trigger("toggle:view", App.photo, e.target);
   };
   AlbumsShowView.prototype.toggleUpload = function(e) {
     this.changeToolbar('Upload');

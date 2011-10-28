@@ -117,7 +117,7 @@ class AlbumsShowView extends Spine.Controller
 
   renderToolbar: ->
     console.log 'AlbumsShowView::renderToolbar'
-    @toolBar.html @toolsTemplate @currentToolBar
+    @toolBar.html @toolsTemplate @currentToolbar
     @refreshElements()
   
   initSortables: ->
@@ -253,6 +253,10 @@ class AlbumsShowView extends Spine.Controller
   toggleAlbum: (e) ->
     @changeToolbar Album
     @trigger("toggle:view", App.album, e.target)
+    
+  togglePhoto: (e) ->
+    @changeToolbar Photo
+    @trigger("toggle:view", App.photo, e.target)
 
   toggleUpload: (e) ->
     @changeToolbar 'Upload'

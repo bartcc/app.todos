@@ -144,6 +144,7 @@ SidebarView = (function() {
     el = $(e.target);
     closest = (el.closest('.item')) || [];
     if (closest.length) {
+      console.log(closest);
       id = closest.attr('id');
       target = closest.item();
       source = (_ref = Spine.dragItem) != null ? _ref.source : void 0;

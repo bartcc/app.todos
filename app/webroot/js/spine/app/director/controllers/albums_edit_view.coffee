@@ -3,6 +3,8 @@ $      = Spine.$
 
 class AlbumsEditView extends Spine.Controller
 
+  @extend Spine.Controller.Toolbars
+
   elements:
     ".content"            : "editContent"
     '.optDestroy'         : 'destroyBtn'
@@ -20,6 +22,7 @@ class AlbumsEditView extends Spine.Controller
     $("#editGalleryTemplate").tmpl item
 
   toolsTemplate: (items) ->
+    console.log items
     $("#toolsTemplate").tmpl items
     
   constructor: ->
@@ -28,20 +31,7 @@ class AlbumsEditView extends Spine.Controller
     Spine.bind('save:gallery', @proxy @save)
     @bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
-    @toolBarList = (item) -> [
-      {
-        name: 'Save and Close'
-        klass: 'optSave default'
-        disabled: -> !item
-      }
-      {
-        name: 'Delete Gallery'
-        klass: 'optDestroy'
-        disabled: -> !item
-      }
-    ]
-
-  toolBarList: -> arguments[0]
+    @bind('render:toolbar', @proxy @renderToolbar)
 
   change: (item, mode) ->
     console.log 'AlbumsEditView::change'
@@ -63,13 +53,12 @@ class AlbumsEditView extends Spine.Controller
       else
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
         
-    @renderToolbar()
+    @changeToolbar 'Gallery2'
     @
 
-  
   renderToolbar: ->
     console.log 'AlbumsEditView::renderToolbar'
-    @toolBar.html @toolsTemplate @toolBarList Gallery.record
+    @toolBar.html @toolsTemplate @currentToolbar
     @refreshElements()
     
   destroy: (e) ->

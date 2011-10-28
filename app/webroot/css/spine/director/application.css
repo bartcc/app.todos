@@ -422,7 +422,7 @@ textarea {
   overflow: hidden;
   white-space: nowrap;
   margin-top: 5px;
-  padding: 15px 0;
+  padding: 15px 0 15px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 #sidebar li.item.active {
@@ -577,7 +577,7 @@ textarea {
 }
 #sidebar ul.sublist {
   line-height: 3em;
-  margin-top: 50px;
+  margin: 55px 5px 0 40px;
 }
 #sidebar ul.sublist li.sublist-item {
   background-image: url(img/bauer-small.png);

@@ -46,6 +46,7 @@ class App extends Spine.Controller
       toolbar: 'Gallery'
     @albumsEditView = new AlbumsEditView
       el: @albumsEditEl
+      className: 'AlbumsEditView'
     @loginView = new LoginView
       el: @loginEl
     @mainView = new MainView

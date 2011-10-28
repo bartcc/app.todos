@@ -107,9 +107,10 @@ class SidebarView extends Spine.Controller
     console.log 'Sidebar::dragEnter'
     el = $(e.target)
 
-    # hack because e.relaedTarget is not implemented in webkit's dragleave event
+    # hack because webkit lackks of e.relaedTarget implementation which is curr. null
     closest = (el.closest('.item')) or []
     if closest.length
+      console.log closest
       id = closest.attr('id')
       target = closest.item()
       source = Spine.dragItem?.source

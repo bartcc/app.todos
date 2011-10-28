@@ -25,6 +25,21 @@ Controller.Toolbars = {
               }
             }
           ],
+          Gallery2: [
+            {
+              name: 'Save and Close',
+              klass: 'optSave default',
+              disabled: function() {
+                return !Gallery.record;
+              }
+            }, {
+              name: 'Delete Gallery',
+              klass: 'optDestroy',
+              disabled: function() {
+                return !Gallery.record;
+              }
+            }
+          ],
           Album: [
             {
               name: 'New Album',
@@ -35,6 +50,15 @@ Controller.Toolbars = {
               disabled: function() {
                 return !Gallery.selectionList().length;
               }
+            }
+          ],
+          Photo: [
+            {
+              name: 'New Phot',
+              klass: 'optCreatePhoto'
+            }, {
+              name: 'Delete Photo',
+              klass: 'optDestroyPhoto '
             }
           ],
           Upload: [
@@ -57,11 +81,11 @@ Controller.Toolbars = {
       },
       selectTool: function(model) {
         console.log('Toolbars::selectTool');
-        return this.currentToolBar = this.toolBarList((model != null ? model.className : void 0) || model);
+        return this.currentToolbar = this.toolBarList((model != null ? model.className : void 0) || model);
       },
-      changeToolbar: function(model) {
+      changeToolbar: function(nameOrModel) {
         var toolbar;
-        toolbar = this.selectTool(model);
+        toolbar = this.selectTool(nameOrModel);
         return this.trigger('render:toolbar', toolbar);
       }
     };

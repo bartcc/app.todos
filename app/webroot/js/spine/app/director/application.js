@@ -57,7 +57,8 @@ App = (function() {
       toolbar: 'Gallery'
     });
     this.albumsEditView = new AlbumsEditView({
-      el: this.albumsEditEl
+      el: this.albumsEditEl,
+      className: 'AlbumsEditView'
     });
     this.loginView = new LoginView({
       el: this.loginEl

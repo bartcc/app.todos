@@ -21,6 +21,16 @@ Controller.Toolbars =
               disabled: -> !Gallery.record
             ]
           ,
+          Gallery2:
+            [
+              name: 'Save and Close'
+              klass: 'optSave default'
+              disabled: -> !Gallery.record
+            ,
+              name: 'Delete Gallery'
+              klass: 'optDestroy'
+              disabled: -> !Gallery.record
+            ]
           Album:
             [
               name: 'New Album'
@@ -29,6 +39,16 @@ Controller.Toolbars =
               name: 'Delete Album'
               klass: 'optDestroyAlbum '
               disabled: -> !Gallery.selectionList().length
+            ]
+          ,
+          Photo:
+            [
+              name: 'New Phot'
+              klass: 'optCreatePhoto'
+            ,
+              name: 'Delete Photo'
+              klass: 'optDestroyPhoto '
+              #disabled: -> !Gallery.selectionList().length
             ]
           ,
           Upload:
@@ -49,10 +69,10 @@ Controller.Toolbars =
         
       selectTool: (model) ->
         console.log 'Toolbars::selectTool'
-        @currentToolBar = @toolBarList(model?.className or model)
+        @currentToolbar = @toolBarList(model?.className or model)
 
-      changeToolbar: (model) ->
-        toolbar = @selectTool model
+      changeToolbar: (nameOrModel) ->
+        toolbar = @selectTool nameOrModel
         @trigger('render:toolbar', toolbar)
         
         

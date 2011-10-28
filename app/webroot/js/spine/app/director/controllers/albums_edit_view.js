@@ -13,6 +13,7 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 AlbumsEditView = (function() {
   __extends(AlbumsEditView, Spine.Controller);
+  AlbumsEditView.extend(Spine.Controller.Toolbars);
   AlbumsEditView.prototype.elements = {
     ".content": "editContent",
     '.optDestroy': 'destroyBtn',
@@ -30,6 +31,7 @@ AlbumsEditView = (function() {
     return $("#editGalleryTemplate").tmpl(item);
   };
   AlbumsEditView.prototype.toolsTemplate = function(items) {
+    console.log(items);
     return $("#toolsTemplate").tmpl(items);
   };
   function AlbumsEditView() {
@@ -38,27 +40,8 @@ AlbumsEditView = (function() {
     Spine.bind('save:gallery', this.proxy(this.save));
     this.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
-    this.toolBarList = function(item) {
-      return [
-        {
-          name: 'Save and Close',
-          klass: 'optSave default',
-          disabled: function() {
-            return !item;
-          }
-        }, {
-          name: 'Delete Gallery',
-          klass: 'optDestroy',
-          disabled: function() {
-            return !item;
-          }
-        }
-      ];
-    };
+    this.bind('render:toolbar', this.proxy(this.renderToolbar));
   }
-  AlbumsEditView.prototype.toolBarList = function() {
-    return arguments[0];
-  };
   AlbumsEditView.prototype.change = function(item, mode) {
     console.log('AlbumsEditView::change');
     if (!(item != null ? item.destroyed : void 0)) {
@@ -87,12 +70,12 @@ AlbumsEditView = (function() {
         }));
       }
     }
-    this.renderToolbar();
+    this.changeToolbar('Gallery2');
     return this;
   };
   AlbumsEditView.prototype.renderToolbar = function() {
     console.log('AlbumsEditView::renderToolbar');
-    this.toolBar.html(this.toolsTemplate(this.toolBarList(Gallery.record)));
+    this.toolBar.html(this.toolsTemplate(this.currentToolbar));
     return this.refreshElements();
   };
   AlbumsEditView.prototype.destroy = function(e) {

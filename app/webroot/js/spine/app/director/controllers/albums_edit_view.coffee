@@ -67,7 +67,7 @@ class AlbumsEditView extends Spine.Controller
     @
 
   
-  renderToolbar: ->
+  renderToolbars: ->
     console.log 'AlbumsEditView::renderToolbar'
     @toolBar.html @toolsTemplate @toolBarList Gallery.record
     @refreshElements()

@@ -277,5 +277,4 @@ class AlbumsShowView extends Spine.Controller
   toggleDraghandle: ->
     @activeControl.click()
     
-
-module?.exports = AlbumsView
+module?.exports = AlbumsShowView

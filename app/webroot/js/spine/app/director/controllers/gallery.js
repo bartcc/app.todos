@@ -7,11 +7,9 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 GalleryView = (function() {
   __extends(GalleryView, Spine.Controller);

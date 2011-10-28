@@ -18,11 +18,11 @@ class Album extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 	var $hasAndBelongsToMany = array(
-		'Bitmap' => array(
-			'className' => 'Bitmap',
-			'joinTable' => 'albums_bitmaps',
+		'Photo' => array(
+			'className' => 'Photo',
+			'joinTable' => 'albums_photos',
 			'foreignKey' => 'album_id',
-			'associationForeignKey' => 'bitmap_id',
+			'associationForeignKey' => 'photo_id',
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',

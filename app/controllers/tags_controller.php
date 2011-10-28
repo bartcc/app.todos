@@ -30,8 +30,8 @@ class TagsController extends AppController {
         
       }
     }
-    $bitmaps = $this->Tag->Bitmap->find('list');
-    $this->set(compact('bitmaps'));
+    $photos = $this->Tag->Photo->find('list');
+    $this->set(compact('photos'));
   }
 
   function edit($id = null) {
@@ -48,8 +48,8 @@ class TagsController extends AppController {
     if (empty($this->data)) {
       $this->data = $this->Tag->read(null, $id);
     }
-    $bitmaps = $this->Tag->Bitmap->find('list');
-    $this->set(compact('bitmaps'));
+    $photos = $this->Tag->Photo->find('list');
+    $this->set(compact('photos'));
   }
 
   function delete($id = null) {

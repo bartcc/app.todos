@@ -6,7 +6,7 @@
 		echo $this->Form->input('name');
 		echo $this->Form->input('title');
 		echo $this->Form->input('description');
-		echo $this->Form->input('Bitmap');
+		echo $this->Form->input('Photo');
 		echo $this->Form->input('Gallery');
 	?>
 	</fieldset>

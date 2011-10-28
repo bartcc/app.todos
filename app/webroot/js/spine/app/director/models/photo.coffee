@@ -1,5 +1,5 @@
-class Bitmap extends Spine.Model
-  @configure "Bitmap", 'title', "description", "exif", 'user_id'
+class Photo extends Spine.Model
+  @configure "Photo", 'title', "description", "exif", 'user_id'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
@@ -11,8 +11,8 @@ class Bitmap extends Spine.Model
   @foreignModels: ->
     'Album':
       className             : 'Album'
-      joinTable             : 'AlbumsBitmap'
-      foreignKey            : 'bitmap_id'
+      joinTable             : 'AlbumsPhoto'
+      foreignKey            : 'photo_id'
       associationForeignKey : 'album_id'
 
   @url: ->
@@ -28,4 +28,5 @@ class Bitmap extends Spine.Model
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
-Spine.Model.Bitmap = Bitmap
+
+Spine.Model.Photo = Photo

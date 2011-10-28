@@ -7,11 +7,9 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 AlbumsEditView = (function() {
   __extends(AlbumsEditView, Spine.Controller);
@@ -92,7 +90,7 @@ AlbumsEditView = (function() {
     this.renderToolbar();
     return this;
   };
-  AlbumsEditView.prototype.renderToolbar = function() {
+  AlbumsEditView.prototype.renderToolbars = function() {
     console.log('AlbumsEditView::renderToolbar');
     this.toolBar.html(this.toolsTemplate(this.toolBarList(Gallery.record)));
     return this.refreshElements();

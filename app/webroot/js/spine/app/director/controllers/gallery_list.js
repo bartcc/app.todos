@@ -7,11 +7,9 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 GalleryList = (function() {
   __extends(GalleryList, Spine.Controller);

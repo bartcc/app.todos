@@ -60,24 +60,24 @@
     echo $this->Html->script('spine/app/director/plugins/ajax_relations');
     echo $this->Html->script('spine/app/director/plugins/toolbars');
     echo $this->Html->script('spine/app/director/models/galleries_albums');
-    echo $this->Html->script('spine/app/director/models/albums_images');
+    echo $this->Html->script('spine/app/director/models/albums_photos');
     echo $this->Html->script('spine/app/director/models/gallery');
-    echo $this->Html->script('spine/app/director/models/image');
+    echo $this->Html->script('spine/app/director/models/photo');
     echo $this->Html->script('spine/app/director/models/album');
     echo $this->Html->script('spine/app/director/models/user');
     echo $this->Html->script('spine/app/director/models/error');
     echo $this->Html->script('spine/app/director/controllers/loader');
+    echo $this->Html->script('spine/app/director/controllers/albums_show_view');
+    echo $this->Html->script('spine/app/director/controllers/albums_edit_view');
     echo $this->Html->script('spine/app/director/controllers/main');
     echo $this->Html->script('spine/app/director/controllers/login');
+    echo $this->Html->script('spine/app/director/controllers/sidebar');
     echo $this->Html->script('spine/app/director/controllers/gallery_list');
     echo $this->Html->script('spine/app/director/controllers/album_list');
-    echo $this->Html->script('spine/app/director/controllers/sidebar');
     echo $this->Html->script('spine/app/director/controllers/gallery');
     echo $this->Html->script('spine/app/director/controllers/album');
     echo $this->Html->script('spine/app/director/controllers/upload');
     echo $this->Html->script('spine/app/director/controllers/grid');
-    echo $this->Html->script('spine/app/director/controllers/albums_show_view');
-    echo $this->Html->script('spine/app/director/controllers/albums_edit_view');
     echo $this->Html->script('spine/app/director/application');
     ?>
 
@@ -86,13 +86,14 @@
     echo $html->scriptStart();
     //$this->log($js->object($albums), LOG_DEBUG) ;
     ?>
-    var base_url = '<?php echo $html->url('/'); ?>';
+      var base_url = '<?php echo $html->url('/'); ?>';
     
     $(function() {
+      console.log(Album)
       var galleries = <?php echo $js->object($galleries); ?>;
       var albums = <?php echo $js->object($albums); ?>;
-      var images = <?php echo $js->object($bitmaps); ?>;
-      Bitmap.refresh(images);
+      var photos = <?php echo $js->object($photos); ?>;
+      Photo.refresh(photos);
       Album.refresh(albums);
       Gallery.refresh(galleries);
     })

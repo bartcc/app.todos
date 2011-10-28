@@ -3,32 +3,32 @@
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $bitmap['Image']['id']; ?>
+			<?php echo $photo['Image']['id']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Title'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $bitmap['Image']['title']; ?>
+			<?php echo $photo['Image']['title']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Description'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $bitmap['Image']['description']; ?>
+			<?php echo $photo['Image']['description']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Exif'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $bitmap['Image']['exif']; ?>
+			<?php echo $photo['Image']['exif']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Created'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $bitmap['Image']['created']; ?>
+			<?php echo $photo['Image']['created']; ?>
 			&nbsp;
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Modified'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $bitmap['Image']['modified']; ?>
+			<?php echo $photo['Image']['modified']; ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -36,8 +36,8 @@
 <div class="actions">
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
-		<li><?php echo $this->Html->link(__('Edit Image', true), array('action' => 'edit', $bitmap['Image']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('Delete Image', true), array('action' => 'delete', $bitmap['Image']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $bitmap['Image']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('Edit Image', true), array('action' => 'edit', $photo['Image']['id'])); ?> </li>
+		<li><?php echo $this->Html->link(__('Delete Image', true), array('action' => 'delete', $photo['Image']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $photo['Image']['id'])); ?> </li>
 		<li><?php echo $this->Html->link(__('List Images', true), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Image', true), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Albums', true), array('controller' => 'albums', 'action' => 'index')); ?> </li>
@@ -48,7 +48,7 @@
 </div>
 <div class="related">
 	<h3><?php __('Related Albums');?></h3>
-	<?php if (!empty($bitmap['Album'])):?>
+	<?php if (!empty($photo['Album'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Id'); ?></th>
@@ -61,7 +61,7 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($bitmap['Album'] as $album):
+		foreach ($photo['Album'] as $album):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';
@@ -92,7 +92,7 @@
 </div>
 <div class="related">
 	<h3><?php __('Related Tags');?></h3>
-	<?php if (!empty($bitmap['Tag'])):?>
+	<?php if (!empty($photo['Tag'])):?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
 		<th><?php __('Id'); ?></th>
@@ -103,7 +103,7 @@
 	</tr>
 	<?php
 		$i = 0;
-		foreach ($bitmap['Tag'] as $tag):
+		foreach ($photo['Tag'] as $tag):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';

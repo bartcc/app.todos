@@ -7,11 +7,9 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   child.__super__ = parent.prototype;
   return child;
 };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 AlbumView = (function() {
   __extends(AlbumView, Spine.Controller);
@@ -30,7 +28,6 @@ AlbumView = (function() {
   };
   function AlbumView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumView.__super__.constructor.apply(this, arguments);
-    this.className = 'AlbumView';
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
   }

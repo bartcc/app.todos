@@ -5,11 +5,9 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   }
   return -1;
 };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 Model = Spine.Model;
 Model.Extender = {

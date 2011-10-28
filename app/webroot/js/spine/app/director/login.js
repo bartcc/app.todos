@@ -25,7 +25,8 @@ Login = (function() {
     this.error = __bind(this.error, this);
     this.success = __bind(this.success, this);
     this.complete = __bind(this.complete, this);
-    this.submit = __bind(this.submit, this);    var lastError;
+    this.submit = __bind(this.submit, this);
+    var lastError;
     Login.__super__.constructor.apply(this, arguments);
     Error.fetch();
     if (Error.count()) {

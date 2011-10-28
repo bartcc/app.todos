@@ -41,18 +41,16 @@ Album = (function() {
         foreignKey: 'album_id',
         associationForeignKey: 'gallery_id'
       },
-      'Bitmap': {
-        className: 'Bitmap',
-        joinTable: 'AlbumsBitmap',
+      'Photo': {
+        className: 'Photo',
+        joinTable: 'AlbumsPhoto',
         foreignKey: 'album_id',
         associationForeignKey: 'image_id'
       }
     };
   };
   Album.prototype.init = function(instance) {
-    if (!instance) {
-      ;
-    }
+    if (!instance) {}
   };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

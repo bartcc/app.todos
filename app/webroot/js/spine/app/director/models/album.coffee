@@ -23,9 +23,9 @@ class Album extends Spine.Model
       joinTable             : 'GalleriesAlbum'
       foreignKey            : 'album_id'
       associationForeignKey : 'gallery_id'
-    'Bitmap':
-      className             : 'Bitmap'
-      joinTable             : 'AlbumsBitmap'
+    'Photo':
+      className             : 'Photo'
+      joinTable             : 'AlbumsPhoto'
       foreignKey            : 'album_id'
       associationForeignKey : 'image_id'
 
@@ -42,5 +42,5 @@ class Album extends Spine.Model
     ga = GalleriesAlbum.filter(id)
     for record in ga
       return true if record.album_id is @id
-
+      
 Spine.Model.Album = Album

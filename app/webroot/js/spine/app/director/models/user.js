@@ -32,6 +32,9 @@ User = (function() {
   User.redirect = function(url) {
     return window.location = base_url + url;
   };
+  User.prototype.init = function(instance) {
+    if (!instance) {}
+  };
   User.prototype.confirm = function() {
     return $.ajax({
       url: base_url + 'users/ping',

@@ -3,7 +3,7 @@
 class DirectorAppController extends AppController {
 
   var $name = 'DirectorApp';
-  var $uses = array('Gallery', 'Album', 'Bitmap');
+  var $uses = array('Gallery', 'Album', 'Photo');
 
   function beforeFilter() {
     $this->autoRender = true;
@@ -20,12 +20,12 @@ class DirectorAppController extends AppController {
     
     $this->Gallery->recursive = 1;
     $this->Album->recursive = 1;
-    $this->Bitmap->recursive = 1;
+    $this->Photo->recursive = 1;
     
     $galleries = $this->Gallery->findAllByUser_id((string) $this->Auth->user('id'));
     $albums = $this->Album->findAllByUser_id((string)($this->Auth->user('id')));
-    $bitmaps = $this->Bitmap->findAllByUser_id((string)($this->Auth->user('id')));
-    $this->set(compact('galleries', 'albums', 'bitmaps'));
+    $photos = $this->Photo->findAllByUser_id((string)($this->Auth->user('id')));
+    $this->set(compact('galleries', 'albums', 'photos'));
   }
 }
 

@@ -31,12 +31,12 @@ class App extends Spine.Controller
     User.bind('pinger', @proxy @validate)
     Gallery.bind('refresh', @proxy @setupView)
     
-    @sidebar = new SidebarView
-      el: @sidebarEl
     @gallery = new GalleryView
       el: @galleryEl
     @album = new AlbumView
       el: @albumEl
+    @sidebar = new SidebarView
+      el: @sidebarEl
     @upload = new UploadView
       el: @uploadEl
     @grid = new GridView
@@ -102,4 +102,3 @@ class App extends Spine.Controller
 $ ->
   User.ping()
   window.App = new App(el: $('html'))
-  

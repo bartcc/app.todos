@@ -1,9 +1,7 @@
 var $;
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 Spine.Controller.include({
   focusFirstInput: function(el) {

@@ -7,11 +7,9 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-if (typeof Spine !== "undefined" && Spine !== null) {
-  Spine;
-} else {
+if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
-};
+}
 $ = Spine.$;
 AlbumsShowView = (function() {
   __extends(AlbumsShowView, Spine.Controller);
@@ -329,5 +327,5 @@ AlbumsShowView = (function() {
   return AlbumsShowView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = AlbumsView;
+  module.exports = AlbumsShowView;
 }

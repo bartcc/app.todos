@@ -1,8 +1,9 @@
 <div class="images form">
-<?php echo $this->Form->create('Bitmap');?>
+<?php echo $this->Form->create('Photo');?>
 	<fieldset>
- 		<legend><?php __('Add Image'); ?></legend>
+ 		<legend><?php __('Edit Image'); ?></legend>
 	<?php
+		echo $this->Form->input('id');
 		echo $this->Form->input('title');
 		echo $this->Form->input('description');
 		echo $this->Form->input('exif');
@@ -16,6 +17,7 @@
 	<h3><?php __('Actions'); ?></h3>
 	<ul>
 
+		<li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Photo.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Photo.id'))); ?></li>
 		<li><?php echo $this->Html->link(__('List Images', true), array('action' => 'index'));?></li>
 		<li><?php echo $this->Html->link(__('List Albums', true), array('controller' => 'albums', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Album', true), array('controller' => 'albums', 'action' => 'add')); ?> </li>

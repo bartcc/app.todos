@@ -59,5 +59,4 @@ class Gallery extends Spine.Model
         return true
     false
     
-
 Spine.Model.Gallery = Gallery

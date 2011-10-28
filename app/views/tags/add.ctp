@@ -4,7 +4,7 @@
  		<legend><?php __('Add Tag'); ?></legend>
 	<?php
 		echo $this->Form->input('name');
-		echo $this->Form->input('Bitmap');
+		echo $this->Form->input('Photo');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>

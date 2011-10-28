@@ -18,6 +18,9 @@ class User extends Spine.Model
   @redirect: (url) ->
     window.location = base_url + url;
 
+  init: (instance) ->
+    return unless instance
+    
   confirm: ->
     $.ajax
       url: base_url + 'users/ping'
@@ -35,5 +38,4 @@ class User extends Spine.Model
     @constructor.logout()
     @constructor.redirect 'users/login'
       
-
 Spine.Model.User = User

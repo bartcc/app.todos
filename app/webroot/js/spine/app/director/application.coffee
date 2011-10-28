@@ -9,14 +9,14 @@ class App extends Spine.Controller
     '#gallery'            : 'galleryEl'
     '#album'              : 'albumEl'
     '#upload'             : 'uploadEl'
+    '#loader'             : 'loaderEl'
     '#grid'               : 'gridEl'
+    '#main'               : 'mainEl'
     '#login'              : 'loginEl'
+    'body'                : 'bodyEl'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '.show .content'      : 'content'
-    '#loader'             : 'loaderEl'
-    '#main'               : 'mainEl'
-    'body'                : 'bodyEl'
     '.status-symbol img'  : 'icon'
     '.status-text'        : 'statusText'
     '.status-symbol'      : 'statusSymbol'
@@ -91,8 +91,6 @@ class App extends Spine.Controller
       @statusSymbol.toggleClass('verified')
       cb = ->
         @appManager.change @mainView
-        @el.removeClass 'smheight'
-        @bodyEl.removeClass 'smheight'
       @delay cb, 1000
       
   setupView: ->
@@ -102,4 +100,4 @@ class App extends Spine.Controller
 
 $ ->
   User.ping()
-  window.App = new App(el: $('html'))
+  window.App = new App(el: $('body'))

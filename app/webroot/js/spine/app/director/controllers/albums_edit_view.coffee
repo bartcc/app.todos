@@ -22,7 +22,6 @@ class AlbumsEditView extends Spine.Controller
     $("#editGalleryTemplate").tmpl item
 
   toolsTemplate: (items) ->
-    console.log items
     $("#toolsTemplate").tmpl items
     
   constructor: ->

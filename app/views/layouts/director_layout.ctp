@@ -18,7 +18,7 @@
  */
 ?>
 <!DOCTYPE html>
-<html class="smheight" xmlns="http://www.w3.org/1999/xhtml" >
+<html xmlns="http://www.w3.org/1999/xhtml" >
   <head>
     <?php echo $this->Html->charset(); ?>
     <title>
@@ -104,7 +104,7 @@
     echo $scripts_for_layout;
     ?>
   </head>
-  <body class="views smheight">
+  <body class="views">
     <?php echo $content_for_layout; ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>

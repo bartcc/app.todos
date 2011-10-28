@@ -15,19 +15,20 @@ GalleryList = (function() {
   __extends(GalleryList, Spine.Controller);
   GalleryList.extend(Spine.Controller.Drag);
   GalleryList.prototype.elements = {
-    '.item': 'item',
+    '.gal.item': 'item',
     '.expander': 'expander'
   };
   GalleryList.prototype.events = {
-    "dblclick .item": "edit",
-    "click .item": "click",
+    "dblclick   .gal.item": "edit",
+    "click      .gal.item": "click",
+    "click      .alb.item": "clickAlb",
     "click      .expander": "expand",
-    'dragstart          .sublist-item': 'dragstart',
-    'dragenter          .sublist-item': 'dragenter',
-    'dragover           .sublist-item': 'dragover',
-    'dragleave          .sublist-item': 'dragleave',
-    'drop               .sublist-item': 'drop',
-    'dragend            .sublist-item': 'dragend'
+    'dragstart  .sublist-item': 'dragstart',
+    'dragenter  .sublist-item': 'dragenter',
+    'dragover   .sublist-item': 'dragover',
+    'dragleave  .sublist-item': 'dragleave',
+    'drop       .sublist-item': 'drop',
+    'dragend    .sublist-item': 'dragend'
   };
   GalleryList.prototype.selectFirst = false;
   function GalleryList() {
@@ -88,20 +89,28 @@ GalleryList = (function() {
   GalleryList.prototype.children = function(sel) {
     return this.el.children(sel);
   };
+  GalleryList.prototype.clickAlb = function(e) {
+    console.log('GalleryList::albclick');
+    return false;
+  };
   GalleryList.prototype.click = function(e) {
     var item;
     console.log('GalleryList::click');
+    console.log(e.currentTarget);
+    console.log($(e.target));
     item = $(e.target).item();
     if (!this.isCtrlClick(e)) {
       Spine.trigger('change:selected', item.constructor.className);
     }
-    return this.change(item, 'show', e);
+    this.change(item, 'show', e);
+    return false;
   };
   GalleryList.prototype.edit = function(e) {
     var item;
     console.log('GalleryList::edit');
     item = $(e.target).item();
-    return this.change(item, 'edit', e);
+    this.change(item, 'edit', e);
+    return false;
   };
   GalleryList.prototype.expandExpander = function(e) {
     var closest, el, expander;

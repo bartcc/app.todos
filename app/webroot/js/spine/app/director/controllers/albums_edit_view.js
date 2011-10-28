@@ -31,7 +31,6 @@ AlbumsEditView = (function() {
     return $("#editGalleryTemplate").tmpl(item);
   };
   AlbumsEditView.prototype.toolsTemplate = function(items) {
-    console.log(items);
     return $("#toolsTemplate").tmpl(items);
   };
   function AlbumsEditView() {

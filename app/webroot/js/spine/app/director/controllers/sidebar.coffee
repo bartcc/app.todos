@@ -105,23 +105,25 @@ class SidebarView extends Spine.Controller
 
   dragEnter: (e) =>
     console.log 'Sidebar::dragEnter'
-    el = $(e.target)
-
+    el = $(e.currentTarget)
+    closest = el
+#    el = $(e.target)
     # hack because webkit lackks of e.relaedTarget implementation which is curr. null
-    closest = (el.closest('.item')) or []
-    if closest.length
-      console.log closest
-      id = closest.attr('id')
-      target = closest.item()
-      source = Spine.dragItem?.source
-      origin = Spine.dragItem?.origin or Gallery.record
+    #closest = (el.closest('.item')) or []
+#    console.log el
+#    if closest.length
+#    console.log closest
+    id = closest.attr('id')
+    target = closest.item()
+    source = Spine.dragItem?.source
+    origin = Spine.dragItem?.origin or Gallery.record
 
-      Spine.dragItem.closest?.removeClass('over nodrop')
-      Spine.dragItem.closest = closest
-      if @validateDrop target, source, origin
-        Spine.dragItem.closest.addClass('over')
-      else
-        Spine.dragItem.closest.addClass('over nodrop')
+    Spine.dragItem.closest?.removeClass('over nodrop')
+    Spine.dragItem.closest = closest
+    if @validateDrop target, source, origin
+      Spine.dragItem.closest.addClass('over')
+    else
+      Spine.dragItem.closest.addClass('over nodrop')
         
 
     if id and @_id != id

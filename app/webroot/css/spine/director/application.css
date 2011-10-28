@@ -29,6 +29,9 @@ body {
 header, footer {
   display: block;
 }
+#main {
+/*  background: url("img/pattern.png") repeat  0 0;*/
+}
 .autoflow {
   overflow: auto;
 }
@@ -143,8 +146,12 @@ li hr {
   border-width: 1px;
   border-color: #5D5D5D;
 }
-div.content label div {
+.content label div {
   color: rgba(0, 0, 0, 0.6);
+}
+.content, #views .views .view {
+  padding: 20px;
+  -webkit-user-select: none;
 }
 div.show div.content label:nth-child(1) span {
   font-size: 0.7em;
@@ -390,11 +397,21 @@ textarea {
   font-weight: bold;
 }*/
 
+.canvas {
+  background: url("img/pattern.png") repeat  0 0;
+}
+.canvas-bg-light {
+  background-color: #EFEFEF;
+}
+.canvas-bg-medium {
+  background-color: #606067;
+}
 #albums .content.over {
-  background: url(img/yesdrop_content.png) repeat-x 0 0
+  background: url("img/pattern.png") url("img/gradient-over.png") repeat 0 0;
+  background-size: 100% 100%;
 }
 #albums .content.over.nodrop {
-  background: url(img/gradient-nodrop.png) repeat-x 0 0
+  background-image: url(img/gradient-nodrop.png)
 }
 #albums .header {
   background: linear-gradient(center top, #B9B9B9, #979797);
@@ -408,7 +425,6 @@ textarea {
 }
 #sidebar {
   width: 300px;
-  background-image: url("img/pattern.png");
 }
 #sidebar ul {
   margin: 0;
@@ -647,28 +663,20 @@ textarea {
   background: -moz-linear-gradient(top, #FFB399, #FF6633);
   background: linear-gradient(top, #FFB399, #FF6633);
 }
-.content, #views .views .view {
-  background-image: url("img/pattern.png");
-  box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  -webkit-user-select: text;
-}
-.content span {
-  -webkit-user-select: none;
-}
 .empty {
   font-style: italic;
 }
 #views .views, .edit.view .content {
-  background-color: #EFEFEF;
+  
 }
 #views .views .view {
   height: 0;
 }
 .views > .view:not(.active) {
   display: none !important;
+}
+#albums {
+  
 }
 #albums .content .items .item:not(.thumbnail) {
 

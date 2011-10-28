@@ -6,20 +6,21 @@ class GalleryList extends Spine.Controller
   @extend Spine.Controller.Drag
 
   elements:
-    '.item'                   : 'item'
+    '.gal.item'               : 'item'
     '.expander'               : 'expander'
     
 
   events:
-    "dblclick .item"                          : "edit"
-    "click .item"                             : "click",
-    "click      .expander"                    : "expand"
-    'dragstart          .sublist-item'        : 'dragstart'
-    'dragenter          .sublist-item'        : 'dragenter'
-    'dragover           .sublist-item'        : 'dragover'
-    'dragleave          .sublist-item'        : 'dragleave'
-    'drop               .sublist-item'        : 'drop'
-    'dragend            .sublist-item'        : 'dragend'
+    "dblclick   .gal.item"            : "edit"
+    "click      .gal.item"            : "click",
+    "click      .alb.item"            : "clickAlb",
+    "click      .expander"            : "expand"
+    'dragstart  .sublist-item'        : 'dragstart'
+    'dragenter  .sublist-item'        : 'dragenter'
+    'dragover   .sublist-item'        : 'dragover'
+    'dragleave  .sublist-item'        : 'dragleave'
+    'drop       .sublist-item'        : 'drop'
+    'dragend    .sublist-item'        : 'dragend'
 
   selectFirst: false
     
@@ -76,16 +77,26 @@ class GalleryList extends Spine.Controller
   children: (sel) ->
     @el.children(sel)
 
+  clickAlb: (e) ->
+    console.log 'GalleryList::albclick'
+    
+    false
+    
   click: (e) ->
     console.log 'GalleryList::click'
+    console.log e.currentTarget
+    console.log $(e.target)
+    
     item = $(e.target).item()
     Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)
     @change item, 'show', e
+    false
 
   edit: (e) ->
     console.log 'GalleryList::edit'
     item = $(e.target).item()
     @change item, 'edit', e
+    false
 
   expandExpander: (e) ->
     el = $(e.target)

@@ -5,12 +5,12 @@
   </header>
 
   <div id="wrapper" class="hbox flex">
-    <div id="sidebar" class="hbox vdraggable">
+    <div id="sidebar" class="views canvas-bg-medium hbox vdraggable">
       <div class="vbox flex inner">
         <div class="search">
           <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
         </div>
-        <ul class="items vbox flex autoflow"></ul>
+        <ul class="items canvas vbox flex autoflow"></ul>
         <footer class="footer">
           <button class="">New Gallery</button>
         </footer>
@@ -18,18 +18,18 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="albums" class="views vbox flex">
-      <div class="show view vbox flex">
+      <div class="show canvas-bg-dark view vbox flex">
         <ul class="options hbox">
           <li class="opt optOverview">Overview</li>
           <li class="splitter disabled flex"></li>
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="header"></div>
-        <div class="content vbox flex autoflow">
+        <div class="content canvas vbox flex autoflow">
           <div class="items sortable"></div>
         </div>
-        <div id="views" class="hbox autoflow">
-          <div class="views vbox flex hdraggable">
+        <div id="views" class="canvas-bg-light hbox autoflow">
+          <div class="views canvas vbox flex hdraggable">
             <div class="hdivide draghandle"></div>
             <div id="gallery" class="view flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
@@ -60,13 +60,13 @@
           <li class="opt optGrid">Thumb Grid</li>
         </ul>
       </div>
-      <div class="edit view vbox flex">
+      <div class="edit canvas-bg-light view vbox flex">
         <ul class="tools options hbox">
           <li class="optOptions opt">Options</li>
           <li class="splitter disabled flex"></li>
           <ul class="toolbar hbox"></ul>
         </ul>
-        <div class="content vbox flex autoflow"></div>
+        <div class="content canvas vbox flex autoflow"></div>
       </div>
     </div>
   </div>
@@ -87,7 +87,7 @@
 </div>
 
 <script type="text/x-jquery-tmpl" id="galleriesTemplate">
-  <li id="${id}" class="item" title="Deselect   Cmd-Click">
+  <li id="${id}" class="gal item" title="Deselect   Cmd-Click">
     <div class="item-header">
       <div class="expander"></div>
       <div class="item-content">
@@ -107,7 +107,7 @@
 
 <script type="text/x-jquery-tmpl" id="albumsSubListTemplate">
   {{if flash}}<span class="author">${flash}</span>{{else}}
-  <li class="sublist-item item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
+  <li class="sublist-item alb item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
     {{if title}}<span class="title">{{html title}}</span>{{/if}}
   </li>
   {{/if}}

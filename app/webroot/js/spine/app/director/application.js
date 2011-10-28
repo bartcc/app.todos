@@ -17,14 +17,14 @@ App = (function() {
     '#gallery': 'galleryEl',
     '#album': 'albumEl',
     '#upload': 'uploadEl',
+    '#loader': 'loaderEl',
     '#grid': 'gridEl',
+    '#main': 'mainEl',
     '#login': 'loginEl',
+    'body': 'bodyEl',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag',
     '.show .content': 'content',
-    '#loader': 'loaderEl',
-    '#main': 'mainEl',
-    'body': 'bodyEl',
     '.status-symbol img': 'icon',
     '.status-text': 'statusText',
     '.status-symbol': 'statusSymbol'
@@ -126,9 +126,7 @@ App = (function() {
       this.statusText.text('Account verified');
       this.statusSymbol.toggleClass('verified');
       cb = function() {
-        this.appManager.change(this.mainView);
-        this.el.removeClass('smheight');
-        return this.bodyEl.removeClass('smheight');
+        return this.appManager.change(this.mainView);
       };
       return this.delay(cb, 1000);
     }
@@ -145,6 +143,6 @@ App = (function() {
 $(function() {
   User.ping();
   return window.App = new App({
-    el: $('html')
+    el: $('body')
   });
 });

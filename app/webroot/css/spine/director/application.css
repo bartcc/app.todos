@@ -339,7 +339,6 @@ textarea {
 }
 #title {
   overflow: hidden;
-  height: 50px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -352,7 +351,7 @@ textarea {
   background: linear-gradient(top, #474747, #303030);
 }
 #title h1 {
-  line-height: 50px;
+  line-height: 2.5em;
   font-size: 1.5em;
   text-align: center;
   margin: 0;
@@ -366,39 +365,8 @@ textarea {
   font-weight: bold;
   width: 200px
 }
-/*
-#title {
-  overflow: hidden;
-  height: 50px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -moz-box-shadow: inset 0px -1px 3px #1d1d1d;
-  -webkit-box-shadow: inset 0px -1px 3px #1d1d1d;
-  box-shadow: inset 0px -1px 3px #1d1d1d;
-  background: #474747;
-  background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#303030));
-  background: -moz-linear-gradient(top, #474747, #303030);
-  background: linear-gradient(top, #474747, #303030);
-}
-
-#title h1 {
-  line-height: 50px;
-  float: left;
-  padding: 0 20px;
-  font-size: 18px;
-  margin: 0;
-  color: #FFF;
-  border-right: 1px solid #181818;
-  -moz-box-shadow: 1px 0px 1px #525252;
-  -webkit-box-shadow: 1px 0px 1px #525252;
-  box-shadow: 1px 0px 1px #525252;
-  text-shadow: 0 -1px 1px black;
-  font-weight: bold;
-}*/
-
 .canvas {
-  background: url("img/pattern.png") repeat  0 0;
+  background: url(img/pattern.png) repeat  0 0;
 }
 .canvas-bg-light {
   background-color: #EFEFEF;
@@ -407,7 +375,7 @@ textarea {
   background-color: #606067;
 }
 #albums .content.over {
-  background: url("img/pattern.png") url("img/gradient-over.png") repeat 0 0;
+  background: url(img/gradient-over.png) repeat 0 0;
   background-size: 100% 100%;
 }
 #albums .content.over.nodrop {
@@ -490,11 +458,6 @@ textarea {
   font-weight: bold;
   box-shadow: 0 1px 3px #666666 inset;
   text-shadow: 0 1px 0.1px #666666 inset;
-/*  background: #FF563A;
-  background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), to(#FF533A));
-  background: -moz-linear-gradient(top, #FF563A, #FF533A);
-  background: linear-gradient(top, #FF563A, #FF533A);
-  background: -webkit-gradient(linear, left top, left bottom, from(#FF563A), color-stop(0.5, #FF563A), color-stop(0.5, #FF533A), to(#FF533A))*/
 }
 .header {
   height: 80px;

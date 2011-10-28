@@ -90,7 +90,7 @@ AlbumsEditView = (function() {
     this.renderToolbar();
     return this;
   };
-  AlbumsEditView.prototype.renderToolbars = function() {
+  AlbumsEditView.prototype.renderToolbar = function() {
     console.log('AlbumsEditView::renderToolbar');
     this.toolBar.html(this.toolsTemplate(this.toolBarList(Gallery.record)));
     return this.refreshElements();

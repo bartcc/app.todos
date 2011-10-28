@@ -32,7 +32,7 @@ SidebarView = (function() {
     'dragstart .items .item': 'dragstart',
     'dragenter .items .item': 'dragenter',
     'dragover  .items .item': 'dragover',
-    'dragleave .items .item': 'dragleave',
+    'dragleave': 'dragleave',
     'drop      .items .item': 'drop',
     'dragend   .items .item': 'dragend'
   };
@@ -139,23 +139,22 @@ SidebarView = (function() {
     }
   };
   SidebarView.prototype.dragEnter = function(e) {
-    var closest, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4;
+    var el, id, origin, source, target, _ref, _ref2, _ref3, _ref4;
     console.log('Sidebar::dragEnter');
     el = $(e.currentTarget);
-    closest = el;
-    id = closest.attr('id');
-    target = closest.item();
+    target = el.item();
     source = (_ref = Spine.dragItem) != null ? _ref.source : void 0;
     origin = ((_ref2 = Spine.dragItem) != null ? _ref2.origin : void 0) || Gallery.record;
     if ((_ref3 = Spine.dragItem.closest) != null) {
       _ref3.removeClass('over nodrop');
     }
-    Spine.dragItem.closest = closest;
+    Spine.dragItem.closest = el;
     if (this.validateDrop(target, source, origin)) {
       Spine.dragItem.closest.addClass('over');
     } else {
       Spine.dragItem.closest.addClass('over nodrop');
     }
+    id = el.attr('id');
     if (id && this._id !== id) {
       this._id = id;
       return (_ref4 = Spine.dragItem.closest) != null ? _ref4.removeClass('over') : void 0;

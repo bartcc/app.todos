@@ -19,7 +19,7 @@ class SidebarView extends Spine.Controller
     'dragstart .items .item': 'dragstart'
     'dragenter .items .item': 'dragenter'
     'dragover  .items .item': 'dragover'
-    'dragleave .items .item': 'dragleave'
+    'dragleave'             : 'dragleave'
     'drop      .items .item': 'drop'
     'dragend   .items .item': 'dragend'
 
@@ -106,26 +106,20 @@ class SidebarView extends Spine.Controller
   dragEnter: (e) =>
     console.log 'Sidebar::dragEnter'
     el = $(e.currentTarget)
-    closest = el
-#    el = $(e.target)
-    # hack because webkit lackks of e.relaedTarget implementation which is curr. null
-    #closest = (el.closest('.item')) or []
-#    console.log el
-#    if closest.length
-#    console.log closest
-    id = closest.attr('id')
-    target = closest.item()
+    
+    target = el.item()
     source = Spine.dragItem?.source
     origin = Spine.dragItem?.origin or Gallery.record
 
     Spine.dragItem.closest?.removeClass('over nodrop')
-    Spine.dragItem.closest = closest
+    Spine.dragItem.closest = el
     if @validateDrop target, source, origin
       Spine.dragItem.closest.addClass('over')
     else
       Spine.dragItem.closest.addClass('over nodrop')
         
 
+    id = el.attr('id')
     if id and @_id != id
       @_id = id
       Spine.dragItem.closest?.removeClass('over')
@@ -133,6 +127,7 @@ class SidebarView extends Spine.Controller
   dragOver: (e) =>
 
   dragLeave: (e) =>
+#    console.log 'Sidebar::dragLeave'
 
   dropComplete: (target, e) =>
     console.log 'Sidebar::dropComplete'

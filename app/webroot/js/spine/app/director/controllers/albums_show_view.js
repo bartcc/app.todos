@@ -47,12 +47,11 @@ AlbumsShowView = (function() {
     'dragstart  .items .thumbnail': 'dragstart',
     'dragenter  .items .thumbnail': 'dragenter',
     'dragover   .items .thumbnail': 'dragover',
-    'dragleave  .items .thumbnail': 'dragleave',
     'drop       .items .thumbnail': 'drop',
     'dragend    .items .thumbnail': 'dragend',
     'dragenter  .content': 'dragenter',
     'dragover   .content': 'dragover',
-    'dragleave  .content': 'dragleave',
+    'dragleave  #albums': 'dragleave',
     'drop       .content': 'drop',
     'dragend    .content': 'dragend'
   };

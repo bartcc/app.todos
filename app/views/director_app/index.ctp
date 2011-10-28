@@ -17,15 +17,15 @@
       </div>
       <div class="vdivide draghandle"></div>
     </div>
-    <div id="albums" class="views vbox flex">
-      <div class="show canvas-bg-dark view vbox flex">
+    <div id="albums" class="views canvas-bg-dark vbox flex">
+      <div class="show view canvas vbox flex">
         <ul class="options hbox">
           <li class="opt optOverview">Overview</li>
           <li class="splitter disabled flex"></li>
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="header"></div>
-        <div class="content canvas vbox flex autoflow">
+        <div class="content vbox flex autoflow">
           <div class="items sortable"></div>
         </div>
         <div id="views" class="canvas-bg-light hbox autoflow">
@@ -177,8 +177,8 @@
 
 <script type="text/x-jquery-tmpl" id="headerTemplate">
   {{if record}}
-  <h3>Name of Gallery: <label>${record.name}</label></h3><h3>Author: <label> ${record.author}</label></h3>
-  <h2>Albums</h2>
+  <h3>Author: <label> ${record.author}</label></h3>
+  <h2>${record.name}</h2>
   {{else}}
   <h3>Album Originals</h3>
   <h2>All Albums</h2>

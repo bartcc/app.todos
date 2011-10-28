@@ -97,6 +97,7 @@
       Album.refresh(albums);
       Gallery.refresh(galleries);
     })
+    
     <?php
     echo $html->scriptEnd();
 

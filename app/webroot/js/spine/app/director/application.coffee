@@ -2,18 +2,20 @@
 class App extends Spine.Controller
   
   elements:
+    '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
-    '#albums'             : 'albumsEl'
-    '#albums .show'       : 'albumsShowEl'
-    '#albums .edit'       : 'albumsEditEl'
+    '#content .show'      : 'showEl'
+#    '#content .content.images'       : 'imagesContentEl'
+    '#content .edit'      : 'galleryEditEl'
+    '.contents .albums'   : 'albumsEl'
+    '.contents .images'   : 'imagesEl'
     '#gallery'            : 'galleryEl'
     '#album'              : 'albumEl'
     '#upload'             : 'uploadEl'
-    '#loader'             : 'loaderEl'
+    '#photo'              : 'photoEl'
     '#grid'               : 'gridEl'
-    '#main'               : 'mainEl'
+    '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
-    'body'                : 'bodyEl'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '.show .content'      : 'content'
@@ -31,22 +33,41 @@ class App extends Spine.Controller
     User.bind('pinger', @proxy @validate)
     Gallery.bind('refresh', @proxy @setupView)
     
+    @sidebar = new SidebarView
+      el: @sidebarEl
     @gallery = new GalleryView
       el: @galleryEl
     @album = new AlbumView
       el: @albumEl
-    @sidebar = new SidebarView
-      el: @sidebarEl
+    @photo = new PhotoView
+      el: @photoEl
     @upload = new UploadView
       el: @uploadEl
     @grid = new GridView
       el: @gridEl
-    @albumsShowView = new AlbumsShowView
-      el: @albumsShowEl
+#    @gallery = new GalleryView
+#      el: @galleryEl
+#    @album = new AlbumView
+#      el: @albumEl
+#    @upload = new UploadView
+#      el: @uploadEl
+#    @grid = new GridView
+#      el: @gridEl
+#    @albumsView = new AlbumsView
+#      el: @albumsContentEl
+#      toolbar: 'Gallery'
+#    @imagesView = new ImagesView
+#      el: @imagesContentEl
+    @showView = new ShowView
+      el: @showEl
+      toolbar: 'ALbum'
+    @albumsView = new AlbumsView
+      el: @albumsEl
       toolbar: 'Gallery'
-    @albumsEditView = new AlbumsEditView
-      el: @albumsEditEl
-      className: 'AlbumsEditView'
+    @photosView = new PhotosView
+      el: @imagesEl
+    @galleryEditView = new GalleryEditView
+      el: @galleryEditEl
     @loginView = new LoginView
       el: @loginEl
     @mainView = new MainView
@@ -65,16 +86,25 @@ class App extends Spine.Controller
       goSleep: => @sidebar.inner.hide()
       awake: => @sidebar.inner.show()
 
-    @hmanager = new Spine.Manager(@gallery, @album, @upload, @grid)
+    @hmanager = new Spine.Manager(@gallery, @album, @photo, @upload, @grid)
     @hmanager.initDrag @hDrag,
       initSize: => @el.height()/3
       disabled: false
       axis: 'y'
       min: -> 20
       max: => @el.height()/3
-      goSleep: => @albumsShowView.activeControl?.click()
+      goSleep: => @showView.activeControl?.click()
 
-    @albumsManager = new Spine.Manager(@albumsShowView, @albumsEditView)
+    @contentManager = new Spine.Manager(@showView, @galleryEditView)
+    @contentManager.change @albumsView
+    
+    @canvasManager = new Spine.Manager(@albumsView, @photosView)
+#    @contentManager = new Spine.Manager(@contentView, @galleryEditView)
+#    @contentManager.change @albumsView
+    
+    
+#    @contentManager = new Spine.Manager(@albumsView, @imagesView)
+#    @contentManager.change @albumsView
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
@@ -90,11 +120,12 @@ class App extends Spine.Controller
       @statusText.text 'Account verified'
       cb = ->
         @appManager.change @mainView
+        @canvasManager.change @albumsView
       @delay cb, 2000
       
   setupView: ->
-    @albumsManager.change(@albumsShowView)
-    @openPanel('gallery', @albumsShowView.btnGallery) unless Gallery.count()
+    @contentManager.change(@showView)
+    @openPanel('gallery', @showView.btnGallery) unless Gallery.count()
     @loginView.render User.first()
 
 $ ->

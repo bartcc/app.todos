@@ -72,6 +72,7 @@ class SidebarView extends Spine.Controller
 
   dragStart: (e, controller) ->
     console.log 'Sidebar::dragStart'
+    return unless Spine.dragItem
     el = $(e.target)
     event = e.originalEvent
     Spine.dragItem.targetEl = null
@@ -105,6 +106,7 @@ class SidebarView extends Spine.Controller
 
   dragEnter: (e) =>
     console.log 'Sidebar::dragEnter'
+    return unless Spine.dragItem
     el = $(e.currentTarget)
     
     target = el.item()
@@ -131,9 +133,10 @@ class SidebarView extends Spine.Controller
 
   dropComplete: (target, e) =>
     console.log 'Sidebar::dropComplete'
-    Spine.dragItem.closest?.removeClass('over nodrop')
-    source = Spine.dragItem?.source
-    origin = Spine.dragItem?.origin or Gallery.record
+    return unless Spine.dragItem
+    Spine.dragItem.closest.removeClass('over nodrop')
+    source = Spine.dragItem.source
+    origin = Spine.dragItem.origin or Gallery.record
     
     return unless @validateDrop target, source, origin
 
@@ -169,12 +172,12 @@ class SidebarView extends Spine.Controller
   galleryName: (proposal = 'Gallery ' + (Number)(Gallery.count()+1)) ->
     Gallery.each (record) =>
       if record.name is proposal
-        return @galleryName(proposal + '_1')
+        return proposal = @galleryName(proposal + '_1')
     return proposal
 
   create: ->
     console.log 'Sidebar::create'
-    @openPanel('gallery', App.albumsShowView.btnGallery)
+    @openPanel('gallery', App.showView.btnGallery)
     gallery = new Gallery @newAttributes()
     gallery.save()
 

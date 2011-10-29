@@ -13,12 +13,8 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 PhotoView = (function() {
   __extends(PhotoView, Spine.Controller);
-  PhotoView.prototype.events = {
-    "click .item": "click"
-  };
   function PhotoView() {
     PhotoView.__super__.constructor.apply(this, arguments);
-    this.bind("change", this.change);
   }
   return PhotoView;
 })();

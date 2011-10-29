@@ -103,6 +103,9 @@ SidebarView = (function() {
   SidebarView.prototype.dragStart = function(e, controller) {
     var el, event, fromSidebar, id, selection, _ref;
     console.log('Sidebar::dragStart');
+    if (!Spine.dragItem) {
+      return;
+    }
     el = $(e.target);
     event = e.originalEvent;
     Spine.dragItem.targetEl = null;
@@ -141,6 +144,9 @@ SidebarView = (function() {
   SidebarView.prototype.dragEnter = function(e) {
     var el, id, origin, source, target, _ref, _ref2, _ref3, _ref4;
     console.log('Sidebar::dragEnter');
+    if (!Spine.dragItem) {
+      return;
+    }
     el = $(e.currentTarget);
     target = el.item();
     source = (_ref = Spine.dragItem) != null ? _ref.source : void 0;
@@ -163,13 +169,14 @@ SidebarView = (function() {
   SidebarView.prototype.dragOver = function(e) {};
   SidebarView.prototype.dragLeave = function(e) {};
   SidebarView.prototype.dropComplete = function(target, e) {
-    var albums, origin, source, _ref, _ref2, _ref3;
+    var albums, origin, source;
     console.log('Sidebar::dropComplete');
-    if ((_ref = Spine.dragItem.closest) != null) {
-      _ref.removeClass('over nodrop');
+    if (!Spine.dragItem) {
+      return;
     }
-    source = (_ref2 = Spine.dragItem) != null ? _ref2.source : void 0;
-    origin = ((_ref3 = Spine.dragItem) != null ? _ref3.origin : void 0) || Gallery.record;
+    Spine.dragItem.closest.removeClass('over nodrop');
+    source = Spine.dragItem.source;
+    origin = Spine.dragItem.origin || Gallery.record;
     if (!this.validateDrop(target, source, origin)) {
       return;
     }
@@ -221,7 +228,7 @@ SidebarView = (function() {
     }
     Gallery.each(__bind(function(record) {
       if (record.name === proposal) {
-        return this.galleryName(proposal + '_1');
+        return proposal = this.galleryName(proposal + '_1');
       }
     }, this));
     return proposal;
@@ -229,7 +236,7 @@ SidebarView = (function() {
   SidebarView.prototype.create = function() {
     var gallery;
     console.log('Sidebar::create');
-    this.openPanel('gallery', App.albumsShowView.btnGallery);
+    this.openPanel('gallery', App.showView.btnGallery);
     gallery = new Gallery(this.newAttributes());
     return gallery.save();
   };

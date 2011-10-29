@@ -17,16 +17,23 @@
       </div>
       <div class="vdivide draghandle"></div>
     </div>
-    <div id="albums" class="views canvas-bg-dark vbox flex">
+    <div id="content" class="views canvas-bg-dark vbox flex">
       <div class="show view canvas vbox flex">
         <ul class="options hbox">
           <li class="opt optOverview">Overview</li>
+          <li class="opt optAlbums">Albums</li>
+          <li class="opt optPhotos">Images</li>
           <li class="splitter disabled flex"></li>
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="header"></div>
-        <div class="content vbox flex autoflow">
-          <div class="items sortable"></div>
+        <div class="contents views vbox flex autoflow" class="views">
+          <div class="view albums content flex">
+            <div class="items sortable"></div>
+          </div>
+          <div class="view images content flex">
+            <div class="items sortable"></div>
+          </div>
         </div>
         <div id="views" class="canvas-bg-light hbox autoflow">
           <div class="views canvas vbox flex hdraggable">
@@ -38,6 +45,11 @@
               <div class="editAlbum">
                 <div class="item">No Albums found!</div>
               </div>
+            </div>
+            <div id="photo" class="view flex autoflow" style="">
+              <label>
+                <span class="dimmed">Not quite there yet</span>
+              </label>
             </div>
             <div id="upload" class="view flex autoflow" style="">
               <label>
@@ -55,9 +67,9 @@
           <li class="disabled">…</li>
           <li class="opt optGallery">Gallery</li>
           <li class="opt optAlbum">Album</li>
-          <li class="opt optPhoto">Photo</li>
-          <li class="opt optUpload">Upload Photo</li>
-          <li class="opt optGrid">Thumb Grid</li>
+          <li class="opt optPhoto">Image</li>
+          <li class="opt optUpload">Upload</li>
+          <li class="opt optGrid">Grid</li>
         </ul>
       </div>
       <div class="edit canvas-bg-light view vbox flex">
@@ -135,11 +147,7 @@
 
       <label>
         <span>Author</span>
-        {{if author}}
-        <div class="name" >${author}</div>
-        {{else}}
-          <div class="name">No author</div>
-        {{/if}}
+        <label>{{if author}}${author}{{else}}No author{{/if}}</label>
       </label>
     </div>
     <div class="left">

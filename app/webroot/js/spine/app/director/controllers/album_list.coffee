@@ -64,7 +64,7 @@ class AlbumList extends Spine.Controller
     item = $(e.target).item()
     
     if App.hmanager.hasActive()
-      @openPanel('album', App.albumsShowView.btnAlbum)
+      @openPanel('album', App.showView.btnAlbum)
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
     list = Gallery.selectionList()
@@ -75,7 +75,7 @@ class AlbumList extends Spine.Controller
     @change item 
 
   dblclick: (e) ->
-    @openPanel('album', App.albumsShowView.btnAlbum)
+    @openPanel('album', App.showView.btnAlbum)
   
   edit: (e) ->
     console.log 'AlbumList::edit'

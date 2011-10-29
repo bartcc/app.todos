@@ -27,7 +27,7 @@ class GalleryList extends Spine.Controller
   constructor: ->
     super
     Spine.bind('drag:timeout', @proxy @expandExpander)
-#    @sublist = new SubList
+#    @sublist = new ImageList
 #      el: @items,
 #      template: @template
 
@@ -36,8 +36,9 @@ class GalleryList extends Spine.Controller
   change: (item, mode, e) =>
     console.log 'GalleryList::change'
     
-    cmdKey = e.metaKey || e.ctrlKey if e
-    dblclick = e.type is 'dblclick' if e
+    if e
+      cmdKey = @isCtrlClick(e)
+      dblclick = e.type is 'dblclick' 
 
     @children().removeClass("active")
     if (!cmdKey and item)
@@ -47,9 +48,9 @@ class GalleryList extends Spine.Controller
       @current = false
 
     Gallery.current(@current)
-
     Spine.trigger('change:selectedGallery', @current, mode)
     Spine.trigger('change:toolbar', 'Gallery')
+
   
   render: (items, item, mode) ->
     console.log 'GalleryList::render'
@@ -84,10 +85,9 @@ class GalleryList extends Spine.Controller
     
   click: (e) ->
     console.log 'GalleryList::click'
-    console.log e.currentTarget
-    console.log $(e.target)
     
     item = $(e.target).item()
+    Spine.trigger('show:albums')
     Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)
     @change item, 'show', e
     false

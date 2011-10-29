@@ -54,11 +54,17 @@ Controller.Toolbars = {
           ],
           Photo: [
             {
-              name: 'New Phot',
+              name: 'Show Images',
+              klass: 'optShowPhotos'
+            }, {
+              name: 'New Image',
               klass: 'optCreatePhoto'
             }, {
-              name: 'Delete Photo',
-              klass: 'optDestroyPhoto '
+              name: 'Delete Image',
+              klass: 'optDestroyPhoto ',
+              disabled: function() {
+                return !Album.selectionList().length;
+              }
             }
           ],
           Upload: [

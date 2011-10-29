@@ -29,14 +29,8 @@ body {
 header, footer {
   display: block;
 }
-#main {
-/*  background: url("img/pattern.png") repeat  0 0;*/
-}
 .autoflow {
   overflow: auto;
-}
-.smheight {
-  height: 80%;
 }
 .flex, flex1 {
   -moz-box-flex: 1;
@@ -211,6 +205,8 @@ label {
   display: block;
   margin: 0 0 20px 0;
   overflow: visible;
+  color: rgba(0, 0, 0, 0.7);
+  font-family: serif
 }
 
 label span {
@@ -374,14 +370,14 @@ textarea {
 .canvas-bg-medium {
   background-color: #606067;
 }
-#albums .content.over {
+#content .content.over {
   background: url(img/gradient-over.png) repeat 0 0;
   background-size: 100% 100%;
 }
-#albums .content.over.nodrop {
+#content .content.over.nodrop {
   background-image: url(img/gradient-nodrop.png)
 }
-#albums .header {
+#content .header {
   background: linear-gradient(center top, #B9B9B9, #979797);
   background: -moz-linear-gradient(center top, #B9B9B9, #979797);
   background: -webkit-gradient(linear, center top, center bottom, from(#B9B9B9), to(#979797));
@@ -582,11 +578,11 @@ textarea {
 #sidebar .expander.expand {
   background: url('img/arrow.png') no-repeat 0 -23px
 }
-#albums .items li {
+#content .items li {
   float: left;
   cursor: move;
 }
-#albums .options {
+#content .options {
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -610,13 +606,13 @@ textarea {
 .options li:not(.disabled) {
   cursor: pointer;
 }
-.options li:not(.disabled):active, #albums .options li.active:not(.disabled) {
+.options li:not(.disabled):active, #content .options li.active:not(.disabled) {
   background: #FFB399;
   -moz-box-shadow: inset 0 0 10px #9c9c9c;
   -webkit-box-shadow: inset 0 0 10px #9c9c9c;
   box-shadow: inset 0 0 10px #9c9c9c;
 }
-.options li.default, #albums .options li.active:not(.disabled), #albums .options li.default:active {
+.options li.default, #content .options li.active:not(.disabled), #content .options li.default:active {
   text-shadow: 0 -1px 1px #FFB399;
   background: #FFB399;
   background: -webkit-gradient(linear, left top, left bottom, from(#FFB399), to(#FF6633));
@@ -635,30 +631,30 @@ textarea {
 .views > .view:not(.active) {
   display: none !important;
 }
-#albums {
+#content {
   
 }
-#albums .content .items .item:not(.thumbnail) {
+#content .content .items .item:not(.thumbnail) {
 
 }
-#albums .content .items {
+#content .content .items {
   margin-top: 20px;
 }
-#albums .content li.item:hover {
+#content .content li.item:hover {
 /*  box-shadow: 1px -1px 1px #777777 inset, 0 0 2px #FFFFFF, 1px 1px 3px #333333 ;
   box-shadow: 0 1px 2px #333333 inset;*/
 }
-#albums .content li.item {
+#content .content li.item {
   margin: 0 15px 15px 0;
   padding: 15px;
   border-radius: 15px;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
 }
-#albums .content li.item {
+#content .content li.item {
   outline: #121212;
 }
-#albums .content div.thumbnail {
+#content .content .thumbnail {
   outline: none;
   background: url("img/bauer.png") no-repeat 0 0;
   padding: 10px;
@@ -667,22 +663,26 @@ textarea {
   height: 140px;
   line-height: 1.2em
 }
-#albums .content li.item.active {
+#content .content .item.active .thumbnail .name {
+  color: rgba(250, 192, 150, 0.4);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);
+  font-family: Verdana, sans-serif;
+}
+#content .content li.item.active {
   background: url("img/pattern.png") 0 0;
   background-color: #FFBB66;
   box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
 
 }
-#albums .header label, #albums .header h3 {
+#content .header label, #content .header h3 {
   display: inline;
 }
-#albums .header h3:nth-child(2) {
+#content .header h3:nth-child(2) {
   margin-left: 20px;
 }
-#albums .header label {
+#content .header label {
   padding: 0 10px;
   text-shadow: 0 0 0px white;
-  color: rgba(70, 70, 70, 1)
 }
 [draggable] {
   -moz-user-select: none;

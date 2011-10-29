@@ -77,7 +77,7 @@ AlbumList = (function() {
     console.log('AlbumList::click');
     item = $(e.target).item();
     if (App.hmanager.hasActive()) {
-      this.openPanel('album', App.albumsShowView.btnAlbum);
+      this.openPanel('album', App.showView.btnAlbum);
     }
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
     list = Gallery.selectionList();
@@ -88,7 +88,7 @@ AlbumList = (function() {
     return this.change(item);
   };
   AlbumList.prototype.dblclick = function(e) {
-    return this.openPanel('album', App.albumsShowView.btnAlbum);
+    return this.openPanel('album', App.showView.btnAlbum);
   };
   AlbumList.prototype.edit = function(e) {
     var item;

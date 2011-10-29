@@ -4,7 +4,7 @@ $      = Spine.$
 class GalleryView extends Spine.Controller
   
   elements:
-    '.editGallery'            : 'editEl'
+    '.editGallery'     : 'editEl'
     '.optCreate'       : 'createGalleryEl'
 
   events:

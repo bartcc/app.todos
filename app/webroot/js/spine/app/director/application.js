@@ -10,18 +10,19 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
 App = (function() {
   __extends(App, Spine.Controller);
   App.prototype.elements = {
+    '#main': 'mainEl',
     '#sidebar': 'sidebarEl',
-    '#albums': 'albumsEl',
-    '#albums .show': 'albumsShowEl',
-    '#albums .edit': 'albumsEditEl',
+    '#content .show': 'showEl',
+    '#content .edit': 'galleryEditEl',
+    '.contents .albums': 'albumsEl',
+    '.contents .images': 'imagesEl',
     '#gallery': 'galleryEl',
     '#album': 'albumEl',
     '#upload': 'uploadEl',
-    '#loader': 'loaderEl',
+    '#photo': 'photoEl',
     '#grid': 'gridEl',
-    '#main': 'mainEl',
+    '#loader': 'loaderEl',
     '#login': 'loginEl',
-    'body': 'bodyEl',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag',
     '.show .content': 'content',
@@ -37,14 +38,17 @@ App = (function() {
     this.ALBUM_DOUBLE_COPY = this.constructor.createImage('/img/dragndrop/album_double_copy.png');
     User.bind('pinger', this.proxy(this.validate));
     Gallery.bind('refresh', this.proxy(this.setupView));
+    this.sidebar = new SidebarView({
+      el: this.sidebarEl
+    });
     this.gallery = new GalleryView({
       el: this.galleryEl
     });
     this.album = new AlbumView({
       el: this.albumEl
     });
-    this.sidebar = new SidebarView({
-      el: this.sidebarEl
+    this.photo = new PhotoView({
+      el: this.photoEl
     });
     this.upload = new UploadView({
       el: this.uploadEl
@@ -52,13 +56,19 @@ App = (function() {
     this.grid = new GridView({
       el: this.gridEl
     });
-    this.albumsShowView = new AlbumsShowView({
-      el: this.albumsShowEl,
+    this.showView = new ShowView({
+      el: this.showEl,
+      toolbar: 'ALbum'
+    });
+    this.albumsView = new AlbumsView({
+      el: this.albumsEl,
       toolbar: 'Gallery'
     });
-    this.albumsEditView = new AlbumsEditView({
-      el: this.albumsEditEl,
-      className: 'AlbumsEditView'
+    this.photosView = new PhotosView({
+      el: this.imagesEl
+    });
+    this.galleryEditView = new GalleryEditView({
+      el: this.galleryEditEl
     });
     this.loginView = new LoginView({
       el: this.loginEl
@@ -92,7 +102,7 @@ App = (function() {
         return this.sidebar.inner.show();
       }, this)
     });
-    this.hmanager = new Spine.Manager(this.gallery, this.album, this.upload, this.grid);
+    this.hmanager = new Spine.Manager(this.gallery, this.album, this.photo, this.upload, this.grid);
     this.hmanager.initDrag(this.hDrag, {
       initSize: __bind(function() {
         return this.el.height() / 3;
@@ -107,10 +117,12 @@ App = (function() {
       }, this),
       goSleep: __bind(function() {
         var _ref;
-        return (_ref = this.albumsShowView.activeControl) != null ? _ref.click() : void 0;
+        return (_ref = this.showView.activeControl) != null ? _ref.click() : void 0;
       }, this)
     });
-    this.albumsManager = new Spine.Manager(this.albumsShowView, this.albumsEditView);
+    this.contentManager = new Spine.Manager(this.showView, this.galleryEditView);
+    this.contentManager.change(this.albumsView);
+    this.canvasManager = new Spine.Manager(this.albumsView, this.photosView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
   }
@@ -125,15 +137,16 @@ App = (function() {
       this.icon[0].src = '/img/validated.png';
       this.statusText.text('Account verified');
       cb = function() {
-        return this.appManager.change(this.mainView);
+        this.appManager.change(this.mainView);
+        return this.canvasManager.change(this.albumsView);
       };
       return this.delay(cb, 2000);
     }
   };
   App.prototype.setupView = function() {
-    this.albumsManager.change(this.albumsShowView);
+    this.contentManager.change(this.showView);
     if (!Gallery.count()) {
-      this.openPanel('gallery', this.albumsShowView.btnGallery);
+      this.openPanel('gallery', this.showView.btnGallery);
     }
     return this.loginView.render(User.first());
   };

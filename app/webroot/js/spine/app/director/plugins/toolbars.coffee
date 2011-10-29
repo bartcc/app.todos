@@ -43,12 +43,15 @@ Controller.Toolbars =
           ,
           Photo:
             [
-              name: 'New Phot'
+              name: 'Show Images'
+              klass: 'optShowPhotos'
+            ,
+              name: 'New Image'
               klass: 'optCreatePhoto'
             ,
-              name: 'Delete Photo'
+              name: 'Delete Image'
               klass: 'optDestroyPhoto '
-              #disabled: -> !Gallery.selectionList().length
+              disabled: -> !Album.selectionList().length
             ]
           ,
           Upload:

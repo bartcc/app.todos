@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class AlbumsEditView extends Spine.Controller
+class GalleryEditView extends Spine.Controller
 
   @extend Spine.Controller.Toolbars
 
@@ -28,17 +28,17 @@ class AlbumsEditView extends Spine.Controller
     super
     Gallery.bind "change", @proxy @change
     Spine.bind('save:gallery', @proxy @save)
-    @bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
+    @bind('save:gallery', @proxy @save)
     @bind('render:toolbar', @proxy @renderToolbar)
 
   change: (item, mode) ->
-    console.log 'AlbumsEditView::change'
+    console.log 'GalleryEditView::change'
     @current = item unless item?.destroyed
     @render @current
 
   render: (item) ->
-    console.log 'AlbumsEditView::render'
+    console.log 'GalleryEditView::render'
     @current = item if item
     if @current and !(@current.destroyed)
       @destroyBtn.removeClass('disabled')
@@ -56,27 +56,27 @@ class AlbumsEditView extends Spine.Controller
     @
 
   renderToolbar: ->
-    console.log 'AlbumsEditView::renderToolbar'
+    console.log 'GalleryEditView::renderToolbar'
     @toolBar.html @toolsTemplate @currentToolbar
     @refreshElements()
     
   destroy: (e) ->
-    console.log 'AlbumsEditView::destroy'
+    console.log 'GalleryEditView::destroy'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
   save: (el) ->
-    console.log 'AlbumsEditView::save'
+    console.log 'GalleryEditView::save'
     return if $(el.currentTarget).hasClass('disabled')
     if @current and Gallery.record
       atts = el.serializeForm?() or @el.serializeForm()
       @current.updateChangedAttributes(atts)
-    App.albumsManager.change(App.albumsShowView)
-    @openPanel('album', App.albumsShowView.btnAlbum)
+    App.contentManager.change(App.showView)
+    #@openPanel('album', App.showView.btnAlbum)
 
   saveOnEnter: (e) =>
-    console.log 'AlbumsEditView::saveOnEnter'
+    console.log 'GalleryEditView::saveOnEnter'
     return if(e.keyCode != 13)
     @trigger('save:gallery', @)
 
-module?.exports = AlbumsEditView
+module?.exports = GalleryEditView

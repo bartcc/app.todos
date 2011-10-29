@@ -1,4 +1,4 @@
-var $, AlbumsEditView;
+var $, GalleryEditView;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -11,45 +11,45 @@ if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
-AlbumsEditView = (function() {
-  __extends(AlbumsEditView, Spine.Controller);
-  AlbumsEditView.extend(Spine.Controller.Toolbars);
-  AlbumsEditView.prototype.elements = {
+GalleryEditView = (function() {
+  __extends(GalleryEditView, Spine.Controller);
+  GalleryEditView.extend(Spine.Controller.Toolbars);
+  GalleryEditView.prototype.elements = {
     ".content": "editContent",
     '.optDestroy': 'destroyBtn',
     '.optSave': 'saveBtn',
     '.toolbar': 'toolBar'
   };
-  AlbumsEditView.prototype.events = {
+  GalleryEditView.prototype.events = {
     "click .optEdit": "edit",
     "click .optEmail": "email",
     "click .optDestroy": "destroy",
     "click .optSave": "save",
     "keydown": "saveOnEnter"
   };
-  AlbumsEditView.prototype.template = function(item) {
+  GalleryEditView.prototype.template = function(item) {
     return $("#editGalleryTemplate").tmpl(item);
   };
-  AlbumsEditView.prototype.toolsTemplate = function(items) {
+  GalleryEditView.prototype.toolsTemplate = function(items) {
     return $("#toolsTemplate").tmpl(items);
   };
-  function AlbumsEditView() {
-    this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumsEditView.__super__.constructor.apply(this, arguments);
+  function GalleryEditView() {
+    this.saveOnEnter = __bind(this.saveOnEnter, this);    GalleryEditView.__super__.constructor.apply(this, arguments);
     Gallery.bind("change", this.proxy(this.change));
     Spine.bind('save:gallery', this.proxy(this.save));
-    this.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
+    this.bind('save:gallery', this.proxy(this.save));
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
   }
-  AlbumsEditView.prototype.change = function(item, mode) {
-    console.log('AlbumsEditView::change');
+  GalleryEditView.prototype.change = function(item, mode) {
+    console.log('GalleryEditView::change');
     if (!(item != null ? item.destroyed : void 0)) {
       this.current = item;
     }
     return this.render(this.current);
   };
-  AlbumsEditView.prototype.render = function(item) {
-    console.log('AlbumsEditView::render');
+  GalleryEditView.prototype.render = function(item) {
+    console.log('GalleryEditView::render');
     if (item) {
       this.current = item;
     }
@@ -72,21 +72,21 @@ AlbumsEditView = (function() {
     this.changeToolbar('Gallery2');
     return this;
   };
-  AlbumsEditView.prototype.renderToolbar = function() {
-    console.log('AlbumsEditView::renderToolbar');
+  GalleryEditView.prototype.renderToolbar = function() {
+    console.log('GalleryEditView::renderToolbar');
     this.toolBar.html(this.toolsTemplate(this.currentToolbar));
     return this.refreshElements();
   };
-  AlbumsEditView.prototype.destroy = function(e) {
-    console.log('AlbumsEditView::destroy');
+  GalleryEditView.prototype.destroy = function(e) {
+    console.log('GalleryEditView::destroy');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('destroy:gallery');
   };
-  AlbumsEditView.prototype.save = function(el) {
+  GalleryEditView.prototype.save = function(el) {
     var atts;
-    console.log('AlbumsEditView::save');
+    console.log('GalleryEditView::save');
     if ($(el.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -94,18 +94,17 @@ AlbumsEditView = (function() {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.el.serializeForm();
       this.current.updateChangedAttributes(atts);
     }
-    App.albumsManager.change(App.albumsShowView);
-    return this.openPanel('album', App.albumsShowView.btnAlbum);
+    return App.contentManager.change(App.showView);
   };
-  AlbumsEditView.prototype.saveOnEnter = function(e) {
-    console.log('AlbumsEditView::saveOnEnter');
+  GalleryEditView.prototype.saveOnEnter = function(e) {
+    console.log('GalleryEditView::saveOnEnter');
     if (e.keyCode !== 13) {
       return;
     }
     return this.trigger('save:gallery', this);
   };
-  return AlbumsEditView;
+  return GalleryEditView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = AlbumsEditView;
+  module.exports = GalleryEditView;
 }

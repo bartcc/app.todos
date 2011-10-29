@@ -50,7 +50,13 @@ Album = (function() {
     };
   };
   Album.prototype.init = function(instance) {
-    if (!instance) {}
+    var newSelection;
+    if (!instance) {
+      return;
+    }
+    newSelection = {};
+    newSelection[instance.id] = [];
+    return this.constructor.selection.push(newSelection);
   };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

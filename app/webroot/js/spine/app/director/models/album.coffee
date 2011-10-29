@@ -31,6 +31,9 @@ class Album extends Spine.Model
 
   init: (instance) ->
     return unless instance
+    newSelection = {}
+    newSelection[instance.id] = []
+    @constructor.selection.push(newSelection)
   
   selectAttributes: ->
     result = {}

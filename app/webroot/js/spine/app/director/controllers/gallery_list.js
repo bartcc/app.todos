@@ -42,9 +42,7 @@ GalleryList = (function() {
     var cmdKey, dblclick;
     console.log('GalleryList::change');
     if (e) {
-      cmdKey = e.metaKey || e.ctrlKey;
-    }
-    if (e) {
+      cmdKey = this.isCtrlClick(e);
       dblclick = e.type === 'dblclick';
     }
     this.children().removeClass("active");
@@ -96,9 +94,8 @@ GalleryList = (function() {
   GalleryList.prototype.click = function(e) {
     var item;
     console.log('GalleryList::click');
-    console.log(e.currentTarget);
-    console.log($(e.target));
     item = $(e.target).item();
+    Spine.trigger('show:albums');
     if (!this.isCtrlClick(e)) {
       Spine.trigger('change:selected', item.constructor.className);
     }

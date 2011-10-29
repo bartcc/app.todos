@@ -61,12 +61,10 @@ AlbumList = (function() {
     if (items.length) {
       this.html(this.template(items));
     } else {
-      if (Album.count() === 0) {
-        this.html('<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button></div>');
-      } else if (Album.count()) {
+      if (Album.count()) {
         this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>');
       } else {
-        this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><button class="optCreateAlbum dark invite">New Album</button></label>');
+        this.html('<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button></div>');
       }
     }
     this.change();

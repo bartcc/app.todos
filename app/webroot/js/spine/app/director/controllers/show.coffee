@@ -27,6 +27,7 @@ class ShowView extends Spine.Controller
     "click .optDestroyPhoto"          : "destroyPhoto"
     "click .optShowPhotos"            : "showPhotos"
     "click .optCreateAlbum"           : "createAlbum"
+    "click .optShowAllAlbums"         : "showAllAlbums"
     "click .optDestroyAlbum"          : "destroyAlbum"
     "click .optEditGallery"           : "editGallery"
     "click .optCreateGallery"         : "createGallery"
@@ -135,6 +136,10 @@ class ShowView extends Spine.Controller
   
   showGallery: ->
     App.contentManager.change(App.showView)
+  
+  showAllAlbums: ->
+    Gallery.record = false
+    Spine.trigger('change:selectedGallery', false)
   
   animateView: ->
     hasActive = ->

@@ -28,6 +28,7 @@ ShowView = (function() {
     "click .optDestroyPhoto": "destroyPhoto",
     "click .optShowPhotos": "showPhotos",
     "click .optCreateAlbum": "createAlbum",
+    "click .optShowAllAlbums": "showAllAlbums",
     "click .optDestroyAlbum": "destroyAlbum",
     "click .optEditGallery": "editGallery",
     "click .optCreateGallery": "createGallery",
@@ -148,6 +149,10 @@ ShowView = (function() {
   };
   ShowView.prototype.showGallery = function() {
     return App.contentManager.change(App.showView);
+  };
+  ShowView.prototype.showAllAlbums = function() {
+    Gallery.record = false;
+    return Spine.trigger('change:selectedGallery', false);
   };
   ShowView.prototype.animateView = function() {
     var hasActive, height;

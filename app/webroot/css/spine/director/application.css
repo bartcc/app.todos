@@ -206,6 +206,7 @@ button.invite {
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   border-radius: 20px;
+  margin: 5px;
 }
 .invite {
   text-align: center

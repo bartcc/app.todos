@@ -4,7 +4,7 @@ $      = Spine.$
 class GalleryEditView extends Spine.Controller
 
   @extend Spine.Controller.Toolbars
-
+  
   elements:
     ".content"            : "editContent"
     '.optDestroy'         : 'destroyBtn'
@@ -51,8 +51,7 @@ class GalleryEditView extends Spine.Controller
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
       else
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
-        
-    @changeToolbar 'Gallery2'
+    @changeToolbar 'GalleryEdit'
     @
 
   renderToolbar: ->

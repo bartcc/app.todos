@@ -25,7 +25,7 @@ Controller.Toolbars = {
               }
             }
           ],
-          Gallery2: [
+          GalleryEdit: [
             {
               name: 'Save and Close',
               klass: 'optSave default',

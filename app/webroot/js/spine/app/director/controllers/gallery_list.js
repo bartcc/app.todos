@@ -56,7 +56,7 @@ GalleryList = (function() {
     }
     Gallery.current(this.current);
     Spine.trigger('change:selectedGallery', this.current, mode);
-    return Spine.trigger('change:toolbar', 'Gallery');
+    return App.showView.trigger('change:toolbar', 'Gallery');
   };
   GalleryList.prototype.render = function(items, item, mode) {
     var new_content, old_content, record, _i, _len;
@@ -95,10 +95,6 @@ GalleryList = (function() {
     var item;
     console.log('GalleryList::click');
     item = $(e.target).item();
-    Spine.trigger('show:albums');
-    if (!this.isCtrlClick(e)) {
-      Spine.trigger('change:selected', item.constructor.className);
-    }
     this.change(item, 'show', e);
     return false;
   };

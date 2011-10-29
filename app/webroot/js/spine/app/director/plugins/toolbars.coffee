@@ -21,7 +21,7 @@ Controller.Toolbars =
               disabled: -> !Gallery.record
             ]
           ,
-          Gallery2:
+          GalleryEdit:
             [
               name: 'Save and Close'
               klass: 'optSave default'
@@ -75,6 +75,7 @@ Controller.Toolbars =
         @currentToolbar = @toolBarList(model?.className or model)
 
       changeToolbar: (nameOrModel) ->
+        #alert 'changing toolbar to: ' + nameOrModel
         toolbar = @selectTool nameOrModel
         @trigger('render:toolbar', toolbar)
         

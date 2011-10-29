@@ -48,15 +48,16 @@ ShowView = (function() {
   };
   function ShowView() {
     ShowView.__super__.constructor.apply(this, arguments);
-    this.bind("toggle:view", this.proxy(this.toggleView));
-    this.bind('render:toolbar', this.proxy(this.renderToolbar));
-    Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
     Spine.bind('render:albums', this.proxy(this.renderHeader));
-    this.activeControl = this.btnGallery;
-    this.edit = this.editGallery;
-    if (this.toolbar) {
-      this.changeToolbar(this.toolbar);
+    this.bind('change:toolbar', this.proxy(this.changeToolbar));
+    this.bind('render:toolbar', this.proxy(this.renderToolbar));
+    this.bind("toggle:view", this.proxy(this.toggleView));
+    if (this.activeControl) {
+      this.initControl(this.activeControl);
+    } else {
+      throw 'need initial control';
     }
+    this.edit = this.editGallery;
   }
   ShowView.prototype.changeToAlbumsView = function() {
     return Spine.trigger('show:albums');
@@ -202,6 +203,13 @@ ShowView = (function() {
   };
   ShowView.prototype.toggleDraghandle = function() {
     return this.activeControl.click();
+  };
+  ShowView.prototype.initControl = function(control) {
+    if (Object.prototype.toString.call(control) === "[object String]") {
+      return this.activeControl = this[control];
+    } else {
+      return this.activeControl = control;
+    }
   };
   return ShowView;
 })();

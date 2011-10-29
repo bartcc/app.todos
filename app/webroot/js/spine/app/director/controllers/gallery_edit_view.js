@@ -69,7 +69,7 @@ GalleryEditView = (function() {
         }));
       }
     }
-    this.changeToolbar('Gallery2');
+    this.changeToolbar('GalleryEdit');
     return this;
   };
   GalleryEditView.prototype.renderToolbar = function() {

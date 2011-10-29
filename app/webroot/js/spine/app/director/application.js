@@ -58,14 +58,15 @@ App = (function() {
     });
     this.showView = new ShowView({
       el: this.showEl,
-      toolbar: 'ALbum'
+      activeControl: 'btnGallery'
     });
     this.albumsView = new AlbumsView({
       el: this.albumsEl,
-      toolbar: 'Gallery'
+      parent: this.showView
     });
     this.photosView = new PhotosView({
-      el: this.imagesEl
+      el: this.imagesEl,
+      parent: this.showView
     });
     this.galleryEditView = new GalleryEditView({
       el: this.galleryEditEl

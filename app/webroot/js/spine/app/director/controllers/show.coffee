@@ -48,11 +48,11 @@ class ShowView extends Spine.Controller
     
   constructor: ->
     super
-    @bind("toggle:view", @proxy @toggleView)
-    @bind('render:toolbar', @proxy @renderToolbar)
-
-    Spine.bind('change:toolbar', @proxy @changeToolbar)
     Spine.bind('render:albums', @proxy @renderHeader)
+    @bind('change:toolbar', @proxy @changeToolbar)
+    @bind('render:toolbar', @proxy @renderToolbar)
+    @bind("toggle:view", @proxy @toggleView)
+
     
 #    @albumsView = new AlbumsView
 #      el: @albumsEl
@@ -60,10 +60,11 @@ class ShowView extends Spine.Controller
 #    @imagesView = new ImagesView
 #      el: @imagesEl
       
-      
-    @activeControl = @btnGallery
+    if @activeControl
+      @initControl @activeControl
+    else throw 'need initial control'
     @edit = @editGallery
-    @changeToolbar @toolbar if @toolbar
+    
 #    @contentManager = new Spine.Manager(@albumsView, @imagesView)
     
       
@@ -184,3 +185,9 @@ class ShowView extends Spine.Controller
   
   toggleDraghandle: ->
     @activeControl.click()
+    
+  initControl: (control) ->
+    if Object::toString.call(control) is "[object String]"
+      @activeControl = @[control]
+    else
+      @activeControl = control

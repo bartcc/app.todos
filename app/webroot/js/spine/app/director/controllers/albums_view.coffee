@@ -7,8 +7,8 @@ class AlbumsView extends Spine.Controller
 #  @extend Spine.Controller.Toolbars
   
   elements:
-    '.content .sortable'      : 'sortable'
     '.items'                  : 'items'
+    '.content .sortable'      : 'sortable'
 #    '#views .views'           : 'views'
 #    '.optEditGallery'         : 'btnEditGallery'
 #    '.optCreateGallery'       : 'btnCreateGallery'

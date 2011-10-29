@@ -1,6 +1,10 @@
 
 class App extends Spine.Controller
   
+  # Note:
+  # you can change tollbar like so
+  # Spine.trigger('change:toolbar', 'Album')
+  
   elements:
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
@@ -60,12 +64,13 @@ class App extends Spine.Controller
 #      el: @imagesContentEl
     @showView = new ShowView
       el: @showEl
-      toolbar: 'ALbum'
+      activeControl: 'btnGallery'
     @albumsView = new AlbumsView
       el: @albumsEl
-      toolbar: 'Gallery'
+      parent: @showView
     @photosView = new PhotosView
       el: @imagesEl
+      parent: @showView
     @galleryEditView = new GalleryEditView
       el: @galleryEditEl
     @loginView = new LoginView

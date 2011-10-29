@@ -58,7 +58,7 @@
               <div>
                 <h1>Login</h1>
                 <div class="_flash"><span></span></div>
-                <label><small>(guest / guest) or (admin / admin)</small></label>
+                <label><small>(guest/guest, manager/manager, admin/admin)</small></label>
               </div>
               <div class="clearfix"></div>
             </div>

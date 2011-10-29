@@ -45,7 +45,7 @@ AlbumList = (function() {
       }
     }
     Spine.trigger('change:selectedAlbum', selected);
-    return Spine.trigger('change:toolbar', 'Album');
+    return App.showView.trigger('change:toolbar', 'Album');
   };
   AlbumList.prototype.exposeSelection = function(list) {
     var id, item, _i, _len, _results;
@@ -61,7 +61,7 @@ AlbumList = (function() {
     if (items.length) {
       this.html(this.template(items));
     } else {
-      this.html('<span class="enlightened">Time to create a new album.&nbsp;</span><button class="optCreateAlbum dark">New Album</button>');
+      this.html('<label class="invite"><span class="enlightened">Time to create a new album.&nbsp;</span><button class="optCreateAlbum dark invite">New Album</button></label>');
     }
     this.change();
     return this.el;
@@ -81,10 +81,6 @@ AlbumList = (function() {
     }
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
     list = Gallery.selectionList();
-    if (!this.isCtrlClick(e)) {
-      Spine.trigger('change:selected', item.constructor.className);
-    }
-    Spine.trigger('change:toolbar', item.constructor.className);
     return this.change(item);
   };
   AlbumList.prototype.dblclick = function(e) {

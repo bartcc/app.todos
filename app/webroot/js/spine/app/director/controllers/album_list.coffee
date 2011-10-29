@@ -35,7 +35,7 @@ class AlbumList extends Spine.Controller
         Album.current(selected)
     
     Spine.trigger('change:selectedAlbum', selected)
-    Spine.trigger('change:toolbar', 'Album')
+    App.showView.trigger('change:toolbar', 'Album')
   
   exposeSelection: (list) ->
     for id in list
@@ -48,7 +48,7 @@ class AlbumList extends Spine.Controller
     if items.length
       @html @template items
     else
-      @html '<span class="enlightened">Time to create a new album.&nbsp;</span><button class="optCreateAlbum dark">New Album</button>'
+      @html '<label class="invite"><span class="enlightened">Time to create a new album.&nbsp;</span><button class="optCreateAlbum dark invite">New Album</button></label>'
     
     @change()
     @el
@@ -68,10 +68,6 @@ class AlbumList extends Spine.Controller
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
     list = Gallery.selectionList()
-
-    Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)# or list.length > 1
-    Spine.trigger('change:toolbar', item.constructor.className)
-    
     @change item 
 
   dblclick: (e) ->

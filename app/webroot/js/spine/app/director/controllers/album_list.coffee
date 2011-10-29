@@ -48,12 +48,10 @@ class AlbumList extends Spine.Controller
     if items.length
       @html @template items
     else
-      if Album.count() == 0
-        @html '<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button></div>'
-      else if Album.count()
+      if Album.count()
         @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>'
       else
-        @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><button class="optCreateAlbum dark invite">New Album</button></label>'
+        @html '<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button></div>'
     
     @change()
     @el

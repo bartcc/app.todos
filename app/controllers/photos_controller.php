@@ -24,9 +24,14 @@ class PhotosController extends AppController {
   function add() {
     if (!empty($this->data)) {
       $this->Photo->create();
-      if ($this->Photo->save($this->data)) {
-        $this->flash(__('Image saved.', true), array('action' => 'index'));
-      } else {
+      if($this->Auth->user()) {
+        $merged = array_merge($this->data['Photo'], array('user_id' => $this->Auth->user('id')));
+        $this->data = $merged;
+        if ($this->Photo->save($this->data)) {
+          $this->flash(__('Image saved.', true), array('action' => 'index'));
+        } else {
+
+        }
         
       }
     }

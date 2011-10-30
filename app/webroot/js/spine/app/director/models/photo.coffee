@@ -28,5 +28,11 @@ class Photo extends Spine.Model
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
+  # loops over each record
+  select: (id) ->
+    #id should be album.id
+    ap = AlbumsPhoto.filter(id)
+    for record in ap
+      return true if record.photo_id is @id
 
 Spine.Model.Photo = Photo

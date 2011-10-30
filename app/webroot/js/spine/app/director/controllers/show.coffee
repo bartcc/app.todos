@@ -12,6 +12,7 @@ class ShowView extends Spine.Controller
 #    '#upload'             : 'uploadEl'
 #    '#loader'             : 'loaderEl'
 #    '#grid'               : 'gridEl'
+    '.optEditGallery'         : 'btnEditGallery'
     '.optGallery'             : 'btnGallery'
     '.optAlbum'               : 'btnAlbum'
     '.optUpload'              : 'btnUpload'
@@ -21,8 +22,8 @@ class ShowView extends Spine.Controller
     
     
   events:
-    "click .optPhotos"                : "changeToPhotosView"
-    "click .optAlbums"                : "changeToAlbumsView"
+    "click .optPhotos"                : "showPhotos"
+    "click .optAlbums"                : "showAlbums"
     "click .optCreatePhoto"           : "createPhoto"
     "click .optDestroyPhoto"          : "destroyPhoto"
     "click .optShowPhotos"            : "showPhotos"
@@ -50,10 +51,11 @@ class ShowView extends Spine.Controller
   constructor: ->
     super
     Spine.bind('render:albums', @proxy @renderHeader)
+    Spine.bind('change:canvas', @proxy @changeCanvas)
     @bind('change:toolbar', @proxy @changeToolbar)
     @bind('render:toolbar', @proxy @renderToolbar)
     @bind("toggle:view", @proxy @toggleView)
-
+    
     
 #    @albumsView = new AlbumsView
 #      el: @albumsEl
@@ -68,13 +70,10 @@ class ShowView extends Spine.Controller
     
 #    @contentManager = new Spine.Manager(@albumsView, @imagesView)
     
+  changeCanvas: (controller) ->
+    App.canvasManager.trigger('change', controller)
+    @current = controller
       
-  changeToAlbumsView: ->
-    Spine.trigger('show:albums')
-    
-  changeToPhotosView: ->
-    Spine.trigger('show:photos')
-    
   renderHeader: (items) ->
     console.log 'ShowView::renderHeader'
     values = {record: Gallery.record, count: items.length}
@@ -95,52 +94,56 @@ class ShowView extends Spine.Controller
         $(@).removeClass("active")
     
   
+  showGallery: ->
+    App.contentManager.change(App.showView)
+  
+  showAlbums: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
+    Spine.trigger('show:albums')
+  
+  showAllAlbums: ->
+    Gallery.record = false
+    Spine.trigger('change:selectedGallery', false)
+  
   showPhotos: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('show:photos')
   
+  createGallery: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
+    Spine.trigger('create:gallery')
+  
   createPhoto: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:photo')
-  
-  destroyPhoto: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('destroy:photo')  
-
-  editAlbum: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('edit:album')
   
   createAlbum: (e) ->
     console.log e
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:album')
   
-  destroyAlbum: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('destroy:album')  
-
   editGallery: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
     App.galleryEditView.render()
     App.contentManager.change(App.galleryEditView)
     #@focusFirstInput App.galleryEditView.el
 
-  createGallery: (e) ->
+  editAlbum: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('create:gallery')
-  
+    Spine.trigger('edit:album')
+
   destroyGallery: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')  
   
-  showGallery: ->
-    App.contentManager.change(App.showView)
-  
-  showAllAlbums: ->
-    Gallery.record = false
-    Spine.trigger('change:selectedGallery', false)
-  
+  destroyAlbum: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
+    Spine.trigger('destroy:album')  
+
+  destroyPhoto: (e) ->
+    return if $(e.currentTarget).hasClass('disabled')
+    Spine.trigger('destroy:photo')  
+
   animateView: ->
     hasActive = ->
       if App.hmanager.hasActive()

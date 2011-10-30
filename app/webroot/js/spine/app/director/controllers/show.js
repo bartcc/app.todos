@@ -14,6 +14,7 @@ ShowView = (function() {
     '.content.albums': 'albumsEl',
     '.content.images': 'imagesEl',
     '#views .views': 'views',
+    '.optEditGallery': 'btnEditGallery',
     '.optGallery': 'btnGallery',
     '.optAlbum': 'btnAlbum',
     '.optUpload': 'btnUpload',
@@ -22,8 +23,8 @@ ShowView = (function() {
     '.toolbar': 'toolBar'
   };
   ShowView.prototype.events = {
-    "click .optPhotos": "changeToPhotosView",
-    "click .optAlbums": "changeToAlbumsView",
+    "click .optPhotos": "showPhotos",
+    "click .optAlbums": "showAlbums",
     "click .optCreatePhoto": "createPhoto",
     "click .optDestroyPhoto": "destroyPhoto",
     "click .optShowPhotos": "showPhotos",
@@ -50,6 +51,7 @@ ShowView = (function() {
   function ShowView() {
     ShowView.__super__.constructor.apply(this, arguments);
     Spine.bind('render:albums', this.proxy(this.renderHeader));
+    Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
     this.bind("toggle:view", this.proxy(this.toggleView));
@@ -60,11 +62,9 @@ ShowView = (function() {
     }
     this.edit = this.editGallery;
   }
-  ShowView.prototype.changeToAlbumsView = function() {
-    return Spine.trigger('show:albums');
-  };
-  ShowView.prototype.changeToPhotosView = function() {
-    return Spine.trigger('show:photos');
+  ShowView.prototype.changeCanvas = function(controller) {
+    App.canvasManager.trigger('change', controller);
+    return this.current = controller;
   };
   ShowView.prototype.renderHeader = function(items) {
     var values;
@@ -91,29 +91,36 @@ ShowView = (function() {
       }
     });
   };
+  ShowView.prototype.showGallery = function() {
+    return App.contentManager.change(App.showView);
+  };
+  ShowView.prototype.showAlbums = function(e) {
+    if ($(e.currentTarget).hasClass('disabled')) {
+      return;
+    }
+    return Spine.trigger('show:albums');
+  };
+  ShowView.prototype.showAllAlbums = function() {
+    Gallery.record = false;
+    return Spine.trigger('change:selectedGallery', false);
+  };
   ShowView.prototype.showPhotos = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('show:photos');
   };
+  ShowView.prototype.createGallery = function(e) {
+    if ($(e.currentTarget).hasClass('disabled')) {
+      return;
+    }
+    return Spine.trigger('create:gallery');
+  };
   ShowView.prototype.createPhoto = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('create:photo');
-  };
-  ShowView.prototype.destroyPhoto = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
-    return Spine.trigger('destroy:photo');
-  };
-  ShowView.prototype.editAlbum = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
-    return Spine.trigger('edit:album');
   };
   ShowView.prototype.createAlbum = function(e) {
     console.log(e);
@@ -122,12 +129,6 @@ ShowView = (function() {
     }
     return Spine.trigger('create:album');
   };
-  ShowView.prototype.destroyAlbum = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
-    return Spine.trigger('destroy:album');
-  };
   ShowView.prototype.editGallery = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
@@ -135,11 +136,11 @@ ShowView = (function() {
     App.galleryEditView.render();
     return App.contentManager.change(App.galleryEditView);
   };
-  ShowView.prototype.createGallery = function(e) {
+  ShowView.prototype.editAlbum = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
-    return Spine.trigger('create:gallery');
+    return Spine.trigger('edit:album');
   };
   ShowView.prototype.destroyGallery = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {
@@ -147,12 +148,17 @@ ShowView = (function() {
     }
     return Spine.trigger('destroy:gallery');
   };
-  ShowView.prototype.showGallery = function() {
-    return App.contentManager.change(App.showView);
+  ShowView.prototype.destroyAlbum = function(e) {
+    if ($(e.currentTarget).hasClass('disabled')) {
+      return;
+    }
+    return Spine.trigger('destroy:album');
   };
-  ShowView.prototype.showAllAlbums = function() {
-    Gallery.record = false;
-    return Spine.trigger('change:selectedGallery', false);
+  ShowView.prototype.destroyPhoto = function(e) {
+    if ($(e.currentTarget).hasClass('disabled')) {
+      return;
+    }
+    return Spine.trigger('destroy:photo');
   };
   ShowView.prototype.animateView = function() {
     var hasActive, height;

@@ -60,7 +60,7 @@ class AlbumsView extends Spine.Controller
     @list = new AlbumList
       el: @items
       template: @albumsTemplate
-            
+      
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
@@ -119,7 +119,7 @@ class AlbumsView extends Spine.Controller
 #    @refreshElements()
   
   show: ->
-    App.canvasManager.trigger('change', @)
+    Spine.trigger('change:canvas', @)
     
   initSortables: ->
     sortOptions = {}

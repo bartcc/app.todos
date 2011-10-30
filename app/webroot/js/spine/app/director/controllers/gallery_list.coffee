@@ -11,8 +11,8 @@ class GalleryList extends Spine.Controller
     
 
   events:
-    "dblclick   .gal.item"            : "edit"
     "click      .gal.item"            : "click",
+    "dblclick   .gal.item"            : "dblclick"
     "click      .alb.item"            : "clickAlb",
     "click      .expander"            : "expand"
     'dragstart  .sublist-item'        : 'dragstart'
@@ -27,7 +27,6 @@ class GalleryList extends Spine.Controller
   constructor: ->
     super
     Spine.bind('drag:timeout', @proxy @expandExpander)
-    
 #    @sublist = new ImageList
 #      el: @items,
 #      template: @template
@@ -43,6 +42,7 @@ class GalleryList extends Spine.Controller
 
     @children().removeClass("active")
     if (!cmdKey and item)
+      # don't touch @current if we're just updating
       @current = item unless mode is 'update'
       @children().forItem(@current).addClass("active")
     else
@@ -50,6 +50,11 @@ class GalleryList extends Spine.Controller
 
     Gallery.current(@current)
     Spine.trigger('change:selectedGallery', @current, mode)
+    
+    if mode is 'edit'
+      App.showView.btnEditGallery.click() 
+      
+      
     App.showView.trigger('change:toolbar', 'Gallery')
 
   
@@ -70,6 +75,7 @@ class GalleryList extends Spine.Controller
       @append @template item
     else if mode is 'destroy'
       $('#'+item.id).remove()
+      
 
     @change item, mode
     if (!@current or @current.destroyed) and !(mode is 'update')
@@ -81,7 +87,12 @@ class GalleryList extends Spine.Controller
 
   clickAlb: (e) ->
     console.log 'GalleryList::albclick'
-    
+    album = $(e.currentTarget).item()
+    gallery = $(e.currentTarget).closest('li.gal').item()
+    @change gallery
+    Gallery.updateSelection [album.id]
+    Spine.trigger('change:selectedAlbum', album)
+    Spine.trigger('show:photos', album)
     false
     
   click: (e) ->
@@ -90,12 +101,15 @@ class GalleryList extends Spine.Controller
     #Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)
     # Note: don't trigger toolbar here - since Spine.trigger('change:toolbar', 'Gallery')
     @change item, 'show', e
+    Spine.trigger('show:albums')
     false
 
-  edit: (e) ->
+  dblclick: (e) ->
     console.log 'GalleryList::edit'
     item = $(e.target).item()
+    App.showView.lockToolbar()
     @change item, 'edit', e
+    App.showView.unlockToolbar()
     false
 
   expandExpander: (e) ->

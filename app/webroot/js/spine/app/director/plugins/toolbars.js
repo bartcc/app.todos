@@ -85,14 +85,24 @@ Controller.Toolbars = {
         };
         return list[item];
       },
+      lockToolbar: function() {
+        return this.locked = true;
+      },
+      unlockToolbar: function() {
+        return this.locked = false;
+      },
       selectTool: function(model) {
         console.log('Toolbars::selectTool');
-        return this.currentToolbar = this.toolBarList((model != null ? model.className : void 0) || model);
+        if (!this.locked) {
+          return this.currentToolbar = this.toolBarList((model != null ? model.className : void 0) || model);
+        }
       },
       changeToolbar: function(nameOrModel) {
         var toolbar;
         toolbar = this.selectTool(nameOrModel);
-        return this.trigger('render:toolbar', toolbar);
+        if (toolbar) {
+          return this.trigger('render:toolbar', toolbar);
+        }
       }
     };
     Extend = {};

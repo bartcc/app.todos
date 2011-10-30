@@ -70,14 +70,20 @@ Controller.Toolbars =
             ]
         list[item]
         
+      lockToolbar: ->
+        @locked = true
+      
+      unlockToolbar: ->
+        @locked = false
+        
       selectTool: (model) ->
         console.log 'Toolbars::selectTool'
-        @currentToolbar = @toolBarList(model?.className or model)
+        return @currentToolbar = @toolBarList(model?.className or model) unless @locked
+        return
 
       changeToolbar: (nameOrModel) ->
-        #alert 'changing toolbar to: ' + nameOrModel
         toolbar = @selectTool nameOrModel
-        @trigger('render:toolbar', toolbar)
+        @trigger('render:toolbar', toolbar) if toolbar
         
         
         

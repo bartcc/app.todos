@@ -75,7 +75,7 @@ AlbumsView = (function() {
     return Spine.trigger('render:albums', items);
   };
   AlbumsView.prototype.show = function() {
-    return App.canvasManager.trigger('change', this);
+    return Spine.trigger('change:canvas', this);
   };
   AlbumsView.prototype.initSortables = function() {
     var sortOptions;

@@ -23,8 +23,10 @@ class UsersController extends AppController {
     header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
     header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
     
-    if ($this->RequestHandler->isAjax()) {$user = $this->Auth->user();
+    if ($this->RequestHandler->isAjax()) {
+      $user = $this->Auth->user();
       if ($user) {
+        $this->User->saveField('lastlogin', date('Y-m-d H:i:s'));
         $this->User->Group->recursive = 0;
         $group = $this->User->Group->findById($this->Auth->user('group_id'));
         $groupname = $group['Group']['name'];

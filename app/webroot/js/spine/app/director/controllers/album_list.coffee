@@ -16,6 +16,7 @@ class AlbumList extends Spine.Controller
   constructor: ->
     super
     @record = Gallery.record
+    
     Spine.bind('exposeSelection', @proxy @exposeSelection)
     
   template: -> arguments[0]
@@ -31,8 +32,7 @@ class AlbumList extends Spine.Controller
         
       # highlight first element in list
       selected = Album.find(list[0]) if Album.exists(list[0])
-      if selected and !selected.destroyed
-        Album.current(selected)
+      Album.current(selected) if selected and !selected.destroyed
     
     Spine.trigger('change:selectedAlbum', selected)
     App.showView.trigger('change:toolbar', 'Album')
@@ -49,7 +49,7 @@ class AlbumList extends Spine.Controller
       @html @template items
     else
       if Album.count()
-        @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>'
+        @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>'
       else
         @html '<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button></div>'
     
@@ -74,7 +74,9 @@ class AlbumList extends Spine.Controller
     @change item 
 
   dblclick: (e) ->
-    @openPanel('album', App.showView.btnAlbum)
+    #@openPanel('album', App.showView.btnAlbum)
+    album = $(e.currentTarget).item()
+    Spine.trigger('show:photos', album)
   
   edit: (e) ->
     console.log 'AlbumList::edit'

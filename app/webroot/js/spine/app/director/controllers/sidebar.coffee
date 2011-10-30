@@ -34,6 +34,7 @@ class SidebarView extends Spine.Controller
     @list = new GalleryList
       el: @items,
       template: @template
+      
     Gallery.bind("refresh change", @proxy @render)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Spine.bind('render:galleryItem', @proxy @renderItem)
@@ -180,6 +181,7 @@ class SidebarView extends Spine.Controller
     @openPanel('gallery', App.showView.btnGallery)
     gallery = new Gallery @newAttributes()
     gallery.save()
+    Spine.trigger('show:albums')
 
   destroy: ->
     console.log 'Sidebar::destroy'

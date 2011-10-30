@@ -31,8 +31,8 @@
           <div class="view albums content flex">
             <div class="items sortable"></div>
           </div>
-          <div class="view images content flex">
-            <div class="items sortable"></div>
+          <div class="view photos content flex">
+            <div class="items sortable">Images</div>
           </div>
         </div>
         <div id="views" class="canvas-bg-light hbox autoflow">
@@ -196,5 +196,17 @@
 
 <script type="text/x-jquery-tmpl" id="loginTemplate">
   <button class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
+</script>
+
+<script type="text/x-jquery-tmpl" id="photosTemplate">
+  <li class="item">
+    <div class="thumbnail" draggable="true">
+      {{if title}}
+      <div class="name">${title}</div>
+      {{else}}
+      <div class="name empty">No title</div>
+      {{/if}}
+    </div>
+  </li>
 </script>
 

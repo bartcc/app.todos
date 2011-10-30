@@ -15,7 +15,7 @@ App = (function() {
     '#content .show': 'showEl',
     '#content .edit': 'galleryEditEl',
     '.contents .albums': 'albumsEl',
-    '.contents .images': 'imagesEl',
+    '.contents .photos': 'photosEl',
     '#gallery': 'galleryEl',
     '#album': 'albumEl',
     '#upload': 'uploadEl',
@@ -62,11 +62,11 @@ App = (function() {
     });
     this.albumsView = new AlbumsView({
       el: this.albumsEl,
-      parent: this.showView
+      className: 'items'
     });
     this.photosView = new PhotosView({
-      el: this.imagesEl,
-      parent: this.showView
+      el: this.photosEl,
+      className: 'items'
     });
     this.galleryEditView = new GalleryEditView({
       el: this.galleryEditEl

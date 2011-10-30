@@ -238,7 +238,8 @@ SidebarView = (function() {
     console.log('Sidebar::create');
     this.openPanel('gallery', App.showView.btnGallery);
     gallery = new Gallery(this.newAttributes());
-    return gallery.save();
+    gallery.save();
+    return Spine.trigger('show:albums');
   };
   SidebarView.prototype.destroy = function() {
     console.log('Sidebar::destroy');

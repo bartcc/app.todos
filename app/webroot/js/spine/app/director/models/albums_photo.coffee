@@ -6,6 +6,10 @@ class AlbumsPhoto extends Spine.Model
   @extend Spine.Model.Filter
   
   select: (query) ->
-    return true if @.album_id is query
+    return true if @album_id is query and @constructor.records[@id]
+    return false
+    
+  selectPhoto: (query) ->
+    return true if @photo_id is query
 
 Spine.Model.AlbumsPhoto = AlbumsPhoto

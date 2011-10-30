@@ -59,8 +59,8 @@
     echo $this->Html->script('spine/app/director/plugins/model_extender');
     echo $this->Html->script('spine/app/director/plugins/ajax_relations');
     echo $this->Html->script('spine/app/director/plugins/toolbars');
-    echo $this->Html->script('spine/app/director/models/galleries_albums');
-    echo $this->Html->script('spine/app/director/models/albums_photos');
+    echo $this->Html->script('spine/app/director/models/galleries_album');
+    echo $this->Html->script('spine/app/director/models/albums_photo');
     echo $this->Html->script('spine/app/director/models/gallery');
     echo $this->Html->script('spine/app/director/models/photo');
     echo $this->Html->script('spine/app/director/models/album');
@@ -93,7 +93,6 @@
       var base_url = '<?php echo $html->url('/'); ?>';
     
     $(function() {
-      console.log(Album)
       var galleries = <?php echo $js->object($galleries); ?>;
       var albums = <?php echo $js->object($albums); ?>;
       var photos = <?php echo $js->object($photos); ?>;

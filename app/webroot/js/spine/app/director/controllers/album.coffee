@@ -28,7 +28,7 @@ class AlbumView extends Spine.Controller
       @current = item
     else
       @current = null
-    @render @current, mode# unless @current?.id is item?.id
+    @render @current, mode
 
   render: (item, mode) ->
     console.log 'Album::render'
@@ -45,7 +45,7 @@ class AlbumView extends Spine.Controller
         @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Select a gallery!</span></label>'})
     else
       @item.html @template item
-    @
+    @el
 
   save: (el) ->
     console.log 'Album::save'

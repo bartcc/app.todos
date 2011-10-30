@@ -65,7 +65,7 @@ AlbumView = (function() {
     } else {
       this.item.html(this.template(item));
     }
-    return this;
+    return this.el;
   };
   AlbumView.prototype.save = function(el) {
     var atts;

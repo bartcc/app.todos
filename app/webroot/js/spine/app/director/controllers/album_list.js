@@ -62,7 +62,7 @@ AlbumList = (function() {
       this.html(this.template(items));
     } else {
       if (Album.count()) {
-        this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>');
+        this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>');
       } else {
         this.html('<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button></div>');
       }
@@ -88,7 +88,9 @@ AlbumList = (function() {
     return this.change(item);
   };
   AlbumList.prototype.dblclick = function(e) {
-    return this.openPanel('album', App.showView.btnAlbum);
+    var album;
+    album = $(e.currentTarget).item();
+    return Spine.trigger('show:photos', album);
   };
   AlbumList.prototype.edit = function(e) {
     var item;

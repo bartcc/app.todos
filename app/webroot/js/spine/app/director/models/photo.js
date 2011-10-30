@@ -53,6 +53,16 @@ Photo = (function() {
     }
     return result;
   };
+  Photo.prototype.select = function(id) {
+    var ap, record, _i, _len;
+    ap = AlbumsPhoto.filter(id);
+    for (_i = 0, _len = ap.length; _i < _len; _i++) {
+      record = ap[_i];
+      if (record.photo_id === this.id) {
+        return true;
+      }
+    }
+  };
   return Photo;
 })();
 Spine.Model.Photo = Photo;

@@ -16,7 +16,13 @@ AlbumsPhoto = (function() {
   AlbumsPhoto.extend(Spine.Model.Local);
   AlbumsPhoto.extend(Spine.Model.Filter);
   AlbumsPhoto.prototype.select = function(query) {
-    if (this.album_id === query) {
+    if (this.album_id === query && this.constructor.records[this.id]) {
+      return true;
+    }
+    return false;
+  };
+  AlbumsPhoto.prototype.selectPhoto = function(query) {
+    if (this.photo_id === query) {
       return true;
     }
   };

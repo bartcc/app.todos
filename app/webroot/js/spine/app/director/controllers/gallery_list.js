@@ -19,8 +19,8 @@ GalleryList = (function() {
     '.expander': 'expander'
   };
   GalleryList.prototype.events = {
-    "dblclick   .gal.item": "edit",
     "click      .gal.item": "click",
+    "dblclick   .gal.item": "dblclick",
     "click      .alb.item": "clickAlb",
     "click      .expander": "expand",
     'dragstart  .sublist-item': 'dragstart',
@@ -56,6 +56,9 @@ GalleryList = (function() {
     }
     Gallery.current(this.current);
     Spine.trigger('change:selectedGallery', this.current, mode);
+    if (mode === 'edit') {
+      App.showView.btnEditGallery.click();
+    }
     return App.showView.trigger('change:toolbar', 'Gallery');
   };
   GalleryList.prototype.render = function(items, item, mode) {
@@ -88,7 +91,14 @@ GalleryList = (function() {
     return this.el.children(sel);
   };
   GalleryList.prototype.clickAlb = function(e) {
+    var album, gallery;
     console.log('GalleryList::albclick');
+    album = $(e.currentTarget).item();
+    gallery = $(e.currentTarget).closest('li.gal').item();
+    this.change(gallery);
+    Gallery.updateSelection([album.id]);
+    Spine.trigger('change:selectedAlbum', album);
+    Spine.trigger('show:photos', album);
     return false;
   };
   GalleryList.prototype.click = function(e) {
@@ -96,13 +106,16 @@ GalleryList = (function() {
     console.log('GalleryList::click');
     item = $(e.target).item();
     this.change(item, 'show', e);
+    Spine.trigger('show:albums');
     return false;
   };
-  GalleryList.prototype.edit = function(e) {
+  GalleryList.prototype.dblclick = function(e) {
     var item;
     console.log('GalleryList::edit');
     item = $(e.target).item();
+    App.showView.lockToolbar();
     this.change(item, 'edit', e);
+    App.showView.unlockToolbar();
     return false;
   };
   GalleryList.prototype.expandExpander = function(e) {

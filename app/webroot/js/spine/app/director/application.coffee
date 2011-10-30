@@ -12,7 +12,7 @@ class App extends Spine.Controller
 #    '#content .content.images'       : 'imagesContentEl'
     '#content .edit'      : 'galleryEditEl'
     '.contents .albums'   : 'albumsEl'
-    '.contents .images'   : 'imagesEl'
+    '.contents .photos'   : 'photosEl'
     '#gallery'            : 'galleryEl'
     '#album'              : 'albumEl'
     '#upload'             : 'uploadEl'
@@ -67,10 +67,10 @@ class App extends Spine.Controller
       activeControl: 'btnGallery'
     @albumsView = new AlbumsView
       el: @albumsEl
-      parent: @showView
+      className: 'items'
     @photosView = new PhotosView
-      el: @imagesEl
-      parent: @showView
+      el: @photosEl
+      className: 'items'
     @galleryEditView = new GalleryEditView
       el: @galleryEditEl
     @loginView = new LoginView

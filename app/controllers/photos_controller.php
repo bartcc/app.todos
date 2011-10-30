@@ -45,6 +45,10 @@ class PhotosController extends AppController {
       $this->flash(sprintf(__('Invalid photo', true)), array('action' => 'index'));
     }
     if (!empty($this->data)) {
+      if($this->Auth->user()) {
+        $merged = array_merge($this->data['Photo'], array('user_id' => $this->Auth->user('id')));
+        $this->data = $merged;
+      }
       if ($this->Photo->save($this->data)) {
         $this->flash(__('The image has been saved.', true), array('action' => 'index'));
       } else {

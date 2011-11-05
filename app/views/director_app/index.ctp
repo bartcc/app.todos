@@ -21,8 +21,6 @@
       <div class="show view canvas vbox flex">
         <ul class="options hbox">
           <li class="opt optOverview">Overview</li>
-          <li class="opt optAlbums">Albums</li>
-          <li class="opt optPhotos">Images</li>
           <li class="splitter disabled flex"></li>
           <ul class="toolbar hbox"></ul>
         </ul>

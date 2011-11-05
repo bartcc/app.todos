@@ -54,7 +54,6 @@
     echo $this->Html->script('lib/jquery/fileupload/jquery.iframe-transport');
     echo $this->Html->script('lib/jquery/fileupload/jquery.fileupload');
     echo $this->Html->script('lib/jquery/fileupload/jquery.fileupload-ui');
-    echo $this->Html->script('lib/underscore');
 
     #echo $this->Html->script('spine/lib/spine_0.0.9');
     echo $this->Html->script('spine/lib/spine_1.0.5');

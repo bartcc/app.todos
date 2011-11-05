@@ -26,7 +26,7 @@
     $.widget('blueimp.fileupload', {
         
         options: {
-            url: base_url + '/uploads/image',
+            url: (function() { return window.base_url + 'uploads/image'})(),
             // The namespace used for event handler binding on the dropZone and
             // fileInput collections.
             // If not set, the name of the widget ("fileupload") is used.

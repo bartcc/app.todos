@@ -15,9 +15,10 @@ class ShowView extends Spine.Controller
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery'             : 'btnGallery'
     '.optAlbum'               : 'btnAlbum'
+    '.optPhoto'               : 'btnPhoto'
     '.optUpload'              : 'btnUpload'
     '.optGrid'                : 'btnGrid'
-    '.header'                 : 'header'
+#    '.header'                 : 'header'
     '.toolbar'                : 'toolBar'
     
     
@@ -40,17 +41,24 @@ class ShowView extends Spine.Controller
     "click .optUpload"                : "toggleUpload"
     "click .optGrid"                  : "toggleGrid"
     'dblclick .draghandle'            : 'toggleDraghandle'
+    'click .items'                    : "deselect" 
     
     
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
 
-  headerTemplate: (items) ->
-    $("#headerTemplate").tmpl items
+#  headerTemplate: (className, items) ->
+#    switch className
+#      when 'Album'
+#        items.gallery = Gallery.record
+#        $("#headerAlbumTemplate").tmpl items
+#      when 'Gallery'
+#        $("#headerGalleryTemplate").tmpl items
+      
     
   constructor: ->
     super
-    Spine.bind('render:albums', @proxy @renderHeader)
+    Spine.bind('render:header', @proxy @renderHeader)
     Spine.bind('change:canvas', @proxy @changeCanvas)
     @bind('change:toolbar', @proxy @changeToolbar)
     @bind('render:toolbar', @proxy @renderToolbar)
@@ -74,10 +82,10 @@ class ShowView extends Spine.Controller
     App.canvasManager.trigger('change', controller)
     @current = controller
       
-  renderHeader: (items) ->
-    console.log 'ShowView::renderHeader'
-    values = {record: Gallery.record, count: items.length}
-    @header.html @headerTemplate values
+#  renderHeader: (model, items) ->
+#    console.log 'ShowView::renderHeader'
+#    values = {record: model.record, count: items.length}
+#    @header.html @headerTemplate model.className, values
 
   renderToolbar: ->
     console.log 'ShowView::renderToolbar'
@@ -150,7 +158,6 @@ class ShowView extends Spine.Controller
         return App.hmanager.enableDrag()
       App.hmanager.disableDrag()
     
-    
     height = ->
       App.hmanager.currentDim
       if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "8px"
@@ -199,3 +206,14 @@ class ShowView extends Spine.Controller
       @activeControl = @[control]
     else
       @activeControl = control
+      
+  deselect: (e) ->
+    item = $(e.currentTarget).item()
+    item?.emptySelection()
+    $('.item', @current.el).removeClass('active')
+    console.log item
+    Spine.trigger('expose:sublistSelection', Gallery.record) if item instanceof Gallery
+    
+    e.stopPropagation()
+    e.preventDefault()
+    false

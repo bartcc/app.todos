@@ -16,7 +16,8 @@ AlbumsView = (function() {
   AlbumsView.extend(Spine.Controller.Drag);
   AlbumsView.prototype.elements = {
     '.items': 'items',
-    '.content .sortable': 'sortable'
+    '.content .sortable': 'sortable',
+    '.header': 'header'
   };
   AlbumsView.prototype.events = {
     'sortupdate .items': 'sortupdate',
@@ -32,6 +33,9 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.albumsTemplate = function(items) {
     return $("#albumsTemplate").tmpl(items);
+  };
+  AlbumsView.prototype.headerTemplate = function(items) {
+    return $("#headerGalleryTemplate").tmpl(items);
   };
   function AlbumsView() {
     AlbumsView.__super__.constructor.apply(this, arguments);
@@ -49,6 +53,7 @@ AlbumsView = (function() {
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('show:albums', this.proxy(this.show));
     GalleriesAlbum.bind("change", this.proxy(this.render));
+    this.bind("render:header", this.proxy(this.renderHeader));
     this.show = this.showGallery;
     $(this.views).queue("fx");
   }
@@ -68,11 +73,22 @@ AlbumsView = (function() {
     } else {
       items = Album.filter(this.current.id);
     }
-    tmplItem = $.tmplItem(this.el);
-    tmplItem.data = Gallery.record || {};
+    if (this.current) {
+      tmplItem = $.tmplItem(this.el);
+      tmplItem.data = this.current || {};
+    }
     this.list.render(items);
     Spine.trigger('render:galleryItem');
-    return Spine.trigger('render:albums', items);
+    return this.trigger('render:header', items);
+  };
+  AlbumsView.prototype.renderHeader = function(items) {
+    var values;
+    console.log('AlbumsView::renderHeader');
+    values = {
+      record: Gallery.record,
+      count: items.length
+    };
+    return this.header.html(this.headerTemplate(values));
   };
   AlbumsView.prototype.show = function() {
     return Spine.trigger('change:canvas', this);

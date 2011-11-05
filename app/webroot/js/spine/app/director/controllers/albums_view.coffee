@@ -18,7 +18,7 @@ class AlbumsView extends Spine.Controller
 #    '.optUpload'              : 'btnUpload'
 #    '.optGrid'                : 'btnGrid'
 #    '.content .items .item'   : 'item'
-#    '.header'                 : 'header'
+    '.header'                 : 'header'
 #    '.toolbar'                : 'toolBar'
     
   events:
@@ -52,8 +52,8 @@ class AlbumsView extends Spine.Controller
 #  toolsTemplate: (items) ->
 #    $("#toolsTemplate").tmpl items
 #
-#  headerTemplate: (items) ->
-#    $("#headerTemplate").tmpl items
+  headerTemplate: (items) ->
+    $("#headerGalleryTemplate").tmpl items
  
   constructor: ->
     super
@@ -70,11 +70,11 @@ class AlbumsView extends Spine.Controller
     Album.bind("destroy", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('show:albums', @proxy @show)
-#    Spine.bind('change:toolbar', @proxy @changeToolbar)
     GalleriesAlbum.bind("change", @proxy @render)
-#    @bind("toggle:view", @proxy @toggleView)
-#    @bind('render:toolbar', @proxy @renderToolbar)
+    @bind("render:header", @proxy @renderHeader)
     
+#    Spine.bind('change:toolbar', @proxy @changeToolbar)
+#    @bind('render:toolbar', @proxy @renderToolbar)
 #    @changeToolbar @toolbar if @toolbar
 #    @activeControl = @btnGallery
 #    @create = @edit = @editGallery
@@ -99,24 +99,20 @@ class AlbumsView extends Spine.Controller
       items = Album.filter(@current.id)
     
     # make containing element sensitive for drop by injecting target of type Gallery
-    tmplItem = $.tmplItem(@el)
-    tmplItem.data = Gallery.record or {}
-    
+    if @current
+      tmplItem = $.tmplItem(@el)
+      tmplItem.data = @current or {}
+      
     @list.render items
     
     Spine.trigger('render:galleryItem')
-    Spine.trigger('render:albums', items)
+    @trigger('render:header', items)
     #@initSortables() #interferes with html5 dnd!
    
-#  renderHeader: (items) ->
-#    console.log 'AlbumsView::renderHeader'
-#    values = {record: Gallery.record, count: items.length}
-#    @header.html @headerTemplate values
-#
-#  renderToolbar: ->
-#    console.log 'AlbumsView::renderToolbar'
-#    @toolBar.html @toolsTemplate @currentToolbar
-#    @refreshElements()
+  renderHeader: (items) ->
+    console.log 'AlbumsView::renderHeader'
+    values = {record: Gallery.record, count: items.length}
+    @header.html @headerTemplate values
   
   show: ->
     Spine.trigger('change:canvas', @)
@@ -156,7 +152,7 @@ class AlbumsView extends Spine.Controller
       for album in albums
         if Album.exists(album.id)
           Album.removeFromSelection(Gallery, album.id)
-          album.destroy() 
+          album.destroy()
         
 
   createJoin: (target, albums) ->

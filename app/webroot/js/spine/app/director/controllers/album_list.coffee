@@ -17,22 +17,21 @@ class AlbumList extends Spine.Controller
     super
     @record = Gallery.record
     
-    Spine.bind('exposeSelection', @proxy @exposeSelection)
+    Spine.bind('album:exposeSelection', @proxy @exposeSelection)
     
   template: -> arguments[0]
   
-  change: ->
+  change: (item) ->
     console.log 'AlbumList::change'
     
     list = Gallery.selectionList()
     
     @children().removeClass("active")
-    if list
-      @exposeSelection(list)
+    @exposeSelection(list)
         
-      # highlight first element in list
-      selected = Album.find(list[0]) if Album.exists(list[0])
-      Album.current(selected) if selected and !selected.destroyed
+    # highlight first element in list
+    selected = Album.find(list[0]) if Album.exists(list[0])
+    Album.current(selected) if selected and !selected.destroyed
     
     Spine.trigger('change:selectedAlbum', selected)
     App.showView.trigger('change:toolbar', 'Album')
@@ -42,6 +41,7 @@ class AlbumList extends Spine.Controller
       if Album.exists(id)
         item = Album.find(id) 
         @children().forItem(item).addClass("active")
+    Spine.trigger('expose:sublistSelection', Gallery.record) if Gallery.record
   
   render: (items, newAlbum) ->
     console.log 'AlbumList::render'
@@ -70,13 +70,21 @@ class AlbumList extends Spine.Controller
       @openPanel('album', App.showView.btnAlbum)
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
-    list = Gallery.selectionList()
-    @change item 
+    @change item
+    
+    e.stopPropagation()
+    e.preventDefault()
+    false
 
   dblclick: (e) ->
     #@openPanel('album', App.showView.btnAlbum)
-    album = $(e.currentTarget).item()
-    Spine.trigger('show:photos', album)
+    item = $(e.currentTarget).item()
+    @change item
+    Spine.trigger('show:photos', item)
+    
+    e.stopPropagation()
+    e.preventDefault()
+    false
   
   edit: (e) ->
     console.log 'AlbumList::edit'

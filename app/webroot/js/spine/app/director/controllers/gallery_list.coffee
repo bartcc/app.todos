@@ -24,9 +24,14 @@ class GalleryList extends Spine.Controller
 
   selectFirst: false
     
+  sublistTemplate: (items) ->
+    $('#albumsSublistTemplate').tmpl(items)
+    
   constructor: ->
     super
     Spine.bind('drag:timeout', @proxy @expandExpander)
+    Spine.bind('render:sublist', @proxy @renderSublist)
+    Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
 #    @sublist = new ImageList
 #      el: @items,
 #      template: @template
@@ -54,7 +59,6 @@ class GalleryList extends Spine.Controller
     if mode is 'edit'
       App.showView.btnEditGallery.click() 
       
-      
     App.showView.trigger('change:toolbar', 'Gallery')
 
   
@@ -75,24 +79,55 @@ class GalleryList extends Spine.Controller
       @append @template item
     else if mode is 'destroy'
       $('#'+item.id).remove()
-      
 
     @change item, mode
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
         @children(":first").click()
 
+  renderSublist: (gallery) ->
+    console.log 'GalleryList::renderSublist'
+    albums = Album.filter(gallery.id)
+    # inject albums extras
+    albums.push {flash: 'no albums'} unless albums.length
+    $('#'+gallery.id+' ul').html @sublistTemplate(albums)
+    
+    @exposeSublistSelection(gallery)
+    
+  exposeSublistSelection: (gallery) ->
+    console.log 'GalleryList::exposeSublistSelection'
+    gallery = @children().forItem(gallery)
+    albums = gallery.find('li')
+    albums.removeClass('active')
+    for id in Gallery.selectionList()
+      album = Album.find(id)
+      albums.forItem(album).addClass('active') 
+
   children: (sel) ->
     @el.children(sel)
 
   clickAlb: (e) ->
     console.log 'GalleryList::albclick'
-    album = $(e.currentTarget).item()
-    gallery = $(e.currentTarget).closest('li.gal').item()
-    @change gallery
+    albumEl = $(e.currentTarget)
+    galleryEl = $(e.currentTarget).closest('li.gal')
+    
+    album = albumEl.item()
+    gallery = galleryEl.item()
+    
+    Gallery.current(gallery)
+    Album.current(album)
+    
     Gallery.updateSelection [album.id]
+    
+    if App.hmanager.hasActive()
+      @openPanel('album', App.showView.btnAlbum)
+      
+    @change gallery
     Spine.trigger('change:selectedAlbum', album)
     Spine.trigger('show:photos', album)
+    
+    e.stopPropagation()
+    e.preventDefault()
     false
     
   click: (e) ->
@@ -102,6 +137,9 @@ class GalleryList extends Spine.Controller
     # Note: don't trigger toolbar here - since Spine.trigger('change:toolbar', 'Gallery')
     @change item, 'show', e
     Spine.trigger('show:albums')
+    
+    e.stopPropagation()
+    e.preventDefault()
     false
 
   dblclick: (e) ->
@@ -110,6 +148,9 @@ class GalleryList extends Spine.Controller
     App.showView.lockToolbar()
     @change item, 'edit', e
     App.showView.unlockToolbar()
+    
+    e.stopPropagation()
+    e.preventDefault()
     false
 
   expandExpander: (e) ->
@@ -132,7 +173,7 @@ class GalleryList extends Spine.Controller
       icon.toggleClass('expand')
       
     if $('.expand', parent).length
-      Spine.trigger('render:subList', gallery.id)
+      @renderSublist gallery
       content.show()
     else
       content.hide()

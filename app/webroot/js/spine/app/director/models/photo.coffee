@@ -1,12 +1,12 @@
 class Photo extends Spine.Model
-  @configure "Photo", 'title', "description", "exif", 'user_id'
+  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
-  @selectAttributes: ['title', "description", "exif", 'user_id']
+  @selectAttributes: ['title', "description", 'user_id']
 
   @foreignModels: ->
     'Album':

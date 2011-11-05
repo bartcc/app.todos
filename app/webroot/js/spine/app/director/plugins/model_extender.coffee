@@ -15,16 +15,15 @@ Model.Extender =
       fromJSON: (objects) ->
         @createJoinTables objects
         key = @className
-        json = @fromArray(objects, key) if @isArray(objects) #test for READ or PUT !
+        json = @fromArray(objects, key) if @isArray(objects)# and objects[key]#test for READ or PUT !
         json || @__super__.constructor.fromJSON.call @, objects
 
       createJoinTables: (arr) ->
         return unless @isArray(arr)
-        table = {}
         joinTables = @joinTables()
  
         for key in joinTables
-          Spine.Model[key].refresh(@createJoin arr, key )
+          Spine.Model[key].refresh(@createJoin arr, key)
         
       joinTables: ->
         fModels = @foreignModels()
@@ -37,8 +36,7 @@ Model.Extender =
         extract = (obj) =>
           unless @isArray obj[key]
             item = =>
-              inst = new @(obj[key])
-              res.push inst
+              res.push new @(obj[key])
             itm = item()
         
         extract(obj) for obj in arr
@@ -49,7 +47,9 @@ Model.Extender =
         introspect = (obj) =>
           if @isObject(obj)
             for key, val of obj
-              if key is tableName then res.push(new Spine.Model[tableName](obj[key]))
+              if key is tableName
+                #res.push(new Spine.Model[tableName](obj[key]))
+                res.push obj[key]
               else introspect obj[key]
           
           if @isArray(obj)
@@ -102,7 +102,7 @@ Model.Extender =
           record.id
       
       errorHandler: (record, xhr, statusText, error) ->
-        unless xhr.status is 200
+        unless statusText.status is 200
           error = new Error
             record      : record
             xhr         : xhr
@@ -110,13 +110,12 @@ Model.Extender =
             error       : error
 
           error.save()
-          console.log record
-          console.log xhr
-          console.log statusText
-          console.log error
           User.redirect 'users/login'
-          false
-        false
+          
+        console.log record
+        console.log xhr
+        console.log statusText
+        console.log error
         
         
     Include =

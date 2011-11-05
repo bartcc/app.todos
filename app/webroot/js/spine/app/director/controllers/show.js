@@ -17,9 +17,9 @@ ShowView = (function() {
     '.optEditGallery': 'btnEditGallery',
     '.optGallery': 'btnGallery',
     '.optAlbum': 'btnAlbum',
+    '.optPhoto': 'btnPhoto',
     '.optUpload': 'btnUpload',
     '.optGrid': 'btnGrid',
-    '.header': 'header',
     '.toolbar': 'toolBar'
   };
   ShowView.prototype.events = {
@@ -40,17 +40,15 @@ ShowView = (function() {
     "click .optPhoto": "togglePhoto",
     "click .optUpload": "toggleUpload",
     "click .optGrid": "toggleGrid",
-    'dblclick .draghandle': 'toggleDraghandle'
+    'dblclick .draghandle': 'toggleDraghandle',
+    'click .items': "deselect"
   };
   ShowView.prototype.toolsTemplate = function(items) {
     return $("#toolsTemplate").tmpl(items);
   };
-  ShowView.prototype.headerTemplate = function(items) {
-    return $("#headerTemplate").tmpl(items);
-  };
   function ShowView() {
     ShowView.__super__.constructor.apply(this, arguments);
-    Spine.bind('render:albums', this.proxy(this.renderHeader));
+    Spine.bind('render:header', this.proxy(this.renderHeader));
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
@@ -65,15 +63,6 @@ ShowView = (function() {
   ShowView.prototype.changeCanvas = function(controller) {
     App.canvasManager.trigger('change', controller);
     return this.current = controller;
-  };
-  ShowView.prototype.renderHeader = function(items) {
-    var values;
-    console.log('ShowView::renderHeader');
-    values = {
-      record: Gallery.record,
-      count: items.length
-    };
-    return this.header.html(this.headerTemplate(values));
   };
   ShowView.prototype.renderToolbar = function() {
     console.log('ShowView::renderToolbar');
@@ -221,6 +210,21 @@ ShowView = (function() {
     } else {
       return this.activeControl = control;
     }
+  };
+  ShowView.prototype.deselect = function(e) {
+    var item;
+    item = $(e.currentTarget).item();
+    if (item != null) {
+      item.emptySelection();
+    }
+    $('.item', this.current.el).removeClass('active');
+    console.log(item);
+    if (item instanceof Gallery) {
+      Spine.trigger('expose:sublistSelection', Gallery.record);
+    }
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   return ShowView;
 })();

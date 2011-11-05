@@ -1,5 +1,7 @@
 Events = 
   bind: (ev, callback) ->
+    console.log @
+    console.log ev
     evs   = ev.split(' ')
     calls = @hasOwnProperty('_callbacks') and @_callbacks or= {}
   

@@ -27,11 +27,10 @@
     </title>
     <?php
     echo $this->Html->meta('icon');
-
-    echo $this->Html->css('spine/director/application');
+    
+    echo $this->Html->css('spine/director/jquery.fileupload-ui');
     echo $this->Html->css('spine/director/window');
-
-    //echo $this->Html->script('lib/json2');
+    echo $this->Html->css('spine/director/application');
 
     echo $this->Html->script('lib/jquery/jquery-1.6.2');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
@@ -42,11 +41,17 @@
     echo $this->Html->script('lib/jquery/ui/jquery.ui.draggable');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.droppable');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.progressbar');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.button');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.core');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
+    echo $this->Html->script('lib/jquery/fileupload/jquery.iframe-transport');
+    echo $this->Html->script('lib/jquery/fileupload/jquery.fileupload');
+    echo $this->Html->script('lib/jquery/fileupload/jquery.fileupload-ui');
     echo $this->Html->script('lib/underscore');
 
-    echo $this->Html->script('spine/lib/spine');
+    #echo $this->Html->script('spine/lib/spine_0.0.9');
+    echo $this->Html->script('spine/lib/spine_1.0.5');
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/ajax');
     echo $this->Html->script('spine/lib/filter');
@@ -76,19 +81,19 @@
     echo $this->Html->script('spine/app/director/controllers/show');
     echo $this->Html->script('spine/app/director/controllers/gallery_list');
     echo $this->Html->script('spine/app/director/controllers/album_list');
-    echo $this->Html->script('spine/app/director/controllers/image_list');
+    echo $this->Html->script('spine/app/director/controllers/photo_list');
     echo $this->Html->script('spine/app/director/controllers/gallery');
     echo $this->Html->script('spine/app/director/controllers/album');
     echo $this->Html->script('spine/app/director/controllers/photo');
     echo $this->Html->script('spine/app/director/controllers/upload');
     echo $this->Html->script('spine/app/director/controllers/grid');
+    echo $this->Html->script('spine/app/director/application_');
     echo $this->Html->script('spine/app/director/application');
     ?>
 
     <?php
-    //$this->log($js->object($galleries), LOG_DEBUG);
+    //$this->log($galleries, LOG_DEBUG);
     echo $html->scriptStart();
-    //$this->log($js->object($albums), LOG_DEBUG) ;
     ?>
       var base_url = '<?php echo $html->url('/'); ?>';
     
@@ -96,12 +101,14 @@
       var galleries = <?php echo $js->object($galleries); ?>;
       var albums = <?php echo $js->object($albums); ?>;
       var photos = <?php echo $js->object($photos); ?>;
-      Photo.refresh(photos);
-      Album.refresh(albums);
-      Gallery.refresh(galleries);
+      Photo.refresh(photos, {clear: true});
+      Album.refresh(albums, {clear: true});
+      Gallery.refresh(galleries, {clear: true});
     })
     
     <?php
+    $this->log($galleries, LOG_DEBUG);
+    //$this->log($js->object($galleries), LOG_DEBUG) ;
     echo $html->scriptEnd();
 
     echo $scripts_for_layout;

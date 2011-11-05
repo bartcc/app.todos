@@ -15,7 +15,7 @@ class App extends Spine.Controller
     '.contents .photos'   : 'photosEl'
     '#gallery'            : 'galleryEl'
     '#album'              : 'albumEl'
-    '#upload'             : 'uploadEl'
+    '#fileupload'         : 'uploadEl'
     '#photo'              : 'photoEl'
     '#grid'               : 'gridEl'
     '#loader'             : 'loaderEl'

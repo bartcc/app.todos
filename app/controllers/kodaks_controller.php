@@ -40,8 +40,10 @@ class KodaksController extends AppController {
   function develop() {
     $this->autoRender = false;
     $this->layout = false;
+    
     $val = $this->params['named']['a'];
-    //$this->log($this->params, LOG_DEBUG);
+    $this->log($this->params, LOG_DEBUG);
+    
     if (strpos($val, 'http://') !== false || substr($val, 0, 1) == '/') {
       header('Location: ' . $val);
       exit;
@@ -49,12 +51,10 @@ class KodaksController extends AppController {
       $val = str_replace(' ', '.2B', $val);
     }
 
-    if (!defined('UPLOAD_DIR')) {
-      define('UPLOAD_DIR', 'uploads');
-    }
-
     App::import('Component', 'Salt');
+    
     $salt = new SaltComponent();
+    
     $val = str_replace(' ', '.2B', $val);
     $crypt = $salt->convert($val, false);
     $a = explode(',', $crypt);
@@ -66,35 +66,29 @@ class KodaksController extends AppController {
       exit;
     }
 
-    $id = $a[1];
-    $w = $this->n($a[2]);
-    $h = $this->n($a[3]);
-    $q = $this->n($a[4], 100);
-    $sq = $this->n($a[5]);
-    $sh = $this->n($a[6], 0);
-    $x = $this->n($a[7], 50);
-    $y = $this->n($a[8], 50);
-    $force = $this->n($a[9], 0);
+    $uid = $a[1];
+    $iid = $a[2];
+    $w = $this->n($a[3]);
+    $h = $this->n($a[4]);
+    $q = $this->n($a[5], 100);
+    $sq = $this->n($a[6]);
+    $sh = $this->n($a[7], 0);
+    $x = $this->n($a[8], 50);
+    $y = $this->n($a[9], 50);
+    $force = $this->n($a[10], 0);
 
     if ($sq != 1) {
-      list($w, $h) = computeSize(PRODUCTIMAGES . DS . $id . DS . $fn, $w, $h, $sq);
+      list($w, $h) = computeSize(PHOTOS . DS . $uid . DS . $iid . DS . $fn, $w, $h, $sq);
       $w = $this->n($w);
       $h = $this->n($h);
     }
 
     $ext = $this->returnExt($file);
 
-    if (strpos($id, 'avatar') !== false) {
-      $bits = explode('-', $id);
-      $id = $bits[1];
-      define('PATH', PRODUCTIMAGES . DS . 'avatars' . DS . $id);
-      $original = PATH . DS . $file;
-      $base_dir = PATH;
-    } else {
-      define('PATH', PRODUCTIMAGES . DS . $id);
-      $original = PATH . DS . $file;
-      $base_dir = PATH . DS . 'cache';
-    }
+    define('PATH', PHOTOS . DS . $uid. DS . $iid);
+    
+    $original = PATH . DS . $file;
+    $base_dir = PATH . DS . 'cache';
 
     if ($sq == 2) {
       $base_dir = PATH;

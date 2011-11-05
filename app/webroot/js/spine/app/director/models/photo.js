@@ -12,12 +12,12 @@ Photo = (function() {
   function Photo() {
     Photo.__super__.constructor.apply(this, arguments);
   }
-  Photo.configure("Photo", 'title', "description", "exif", 'user_id');
+  Photo.configure("Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id');
   Photo.extend(Spine.Model.Ajax);
   Photo.extend(Spine.Model.AjaxRelations);
   Photo.extend(Spine.Model.Filter);
   Photo.extend(Spine.Model.Extender);
-  Photo.selectAttributes = ['title', "description", "exif", 'user_id'];
+  Photo.selectAttributes = ['title', "description", 'user_id'];
   Photo.foreignModels = function() {
     return {
       'Album': {

@@ -32,7 +32,7 @@
     //$this->log($js->object($galleries), LOG_DEBUG);
     echo $this->Html->script('lib/jquery/jquery-1.6.2');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
-    echo $this->Html->script('spine/lib/spine');
+    echo $this->Html->script('spine/lib/spine_1.0.5');
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/app/director/models/user');

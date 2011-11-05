@@ -6,7 +6,6 @@ header("X-JSON: ");
 $json = compact('json');
 $json = $json['json'];
 $json = $js->object($json);
-//$this->log('SIMPLEJSON', LOG_DEBUG);
 //$this->log($json, LOG_DEBUG);
 echo $json;
 ?>

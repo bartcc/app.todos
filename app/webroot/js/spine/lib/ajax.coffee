@@ -1,4 +1,4 @@
-Spine ?= require("spine")
+Spine ?= require('spine')
 $      = Spine.$
 Model  = Spine.Model
 
@@ -36,9 +36,10 @@ Ajax =
     
 class Base
   defaults:
-    contentType: "application/json"
-    dataType: "text json"
+    contentType: 'application/json'
+    dataType: 'json'
     processData: false
+    headers: {'X-Requested-With': 'XMLHttpRequest'}
   
   ajax: (params, defaults) ->
     $.ajax($.extend({}, @defaults, defaults, params))
@@ -49,40 +50,56 @@ class Base
 class Collection extends Base
   constructor: (@model) -> 
     
-  findAll: (params) ->
+  find: (id, params) ->
+    record = new @model(id: id)
     @ajax(
       params,
-      type: "GET",
+      type: 'GET',
+      url:  Ajax.getURL(record)
+    ).success(@recordsResponse)
+     .error(@errorResponse)
+    
+  all: (params) ->
+    @ajax(
+      params,
+      type: 'GET',
       url:  Ajax.getURL(@model)
     ).success(@recordsResponse)
      .error(@errorResponse)
     
-  fetch: (params) ->
-    @findAll(params).success (records) =>
-      @model.refresh(records)
+  fetch: (params = {}) ->
+    if id = params.id
+      delete params.id
+      @find(id, params).success (record) =>
+        @model.refresh(record)
+    else
+      @all(params).success (records) =>
+        @model.refresh(records)
     
   recordsResponse: (data, status, xhr) =>
-    @model.trigger("ajaxSuccess", null, status, xhr)
+    @model.trigger('ajaxSuccess', null, status, xhr)
 
   errorResponse: (xhr, statusText, error) =>
-    @model.trigger("ajaxError", null, xhr, statusText, error)
+    @model.trigger('ajaxError', null, xhr, statusText, error)
 
 class Singleton extends Base
   constructor: (@record) ->
     @model = @record.constructor
   
-  find: (params) ->
-    @ajax(
-      params,
-      type: "GET"
-      url:  @url
-    )
+  reload: (params) ->
+    @queue =>
+      @ajax(
+        params,
+        type: 'GET'
+        url:  Ajax.getURL(@record)
+      ).success(@recordResponse)
+       .error(@errorResponse)
   
   create: (params) ->
     @queue =>
       @ajax(
         params,
-        type: "POST"
+        type: 'POST'
         data: JSON.stringify(@record)
         url:  Ajax.getURL(@model)
       ).success(@recordResponse)
@@ -92,7 +109,7 @@ class Singleton extends Base
     @queue =>
       @ajax(
         params,
-        type: "PUT"
+        type: 'PUT'
         data: JSON.stringify(@record)
         url:  Ajax.getURL(@record)
       ).success(@recordResponse)
@@ -102,7 +119,7 @@ class Singleton extends Base
     @queue =>
       @ajax(
         params,
-        type: "DELETE"
+        type: 'DELETE'
         url:  Ajax.getURL(@record)
       ).success(@recordResponse)
        .error(@errorResponse)  
@@ -110,7 +127,7 @@ class Singleton extends Base
   # Private
 
   recordResponse: (data, status, xhr) =>
-    @record.trigger("ajaxSuccess", @record, status, xhr)
+    @record.trigger('ajaxSuccess', status, xhr)
     
     return if Spine.isBlank(data)
     data = @model.fromJSON(data)
@@ -124,20 +141,20 @@ class Singleton extends Base
       @record.updateAttributes(data.attributes())      
       
   blankResponse: (data, status, xhr) =>
-    @record.trigger("ajaxSuccess", @record, status, xhr)
+    @record.trigger('ajaxSuccess', status, xhr)
 
   errorResponse: (xhr, statusText, error) =>
-    @record.trigger("ajaxError", @record, xhr, statusText, error)
+    @record.trigger('ajaxError', xhr, statusText, error)
 
 # Ajax endpoint
-Model.host = ""
+Model.host = ''
 
 Include =
   ajax: -> new Singleton(this)
 
   url: ->
     base = Ajax.getURL(@constructor)
-    base += "/" unless base.charAt(base.length - 1) is "/"
+    base += '/' unless base.charAt(base.length - 1) is '/'
     base += encodeURIComponent(@id)
     base
     
@@ -149,14 +166,17 @@ Extend =
       
 Model.Ajax =
   extended: ->
-    @change (record, type) ->
-      record.ajax()[type]()
-      
-    @fetch ->
-      @ajax().fetch(arguments...)
+    @fetch @ajaxFetch
+    @change @ajaxChange
     
     @extend Extend
     @include Include
+    
+  ajaxFetch: ->
+    @ajax().fetch(arguments...)
+    
+  ajaxChange: (record, type) ->
+    record.ajax()[type]()
     
 Model.Ajax.Methods = 
   extended: ->
@@ -165,4 +185,5 @@ Model.Ajax.Methods =
     
 # Globals
 Spine.Ajax      = Ajax
+Spine.Singleton = Singleton
 module?.exports = Ajax

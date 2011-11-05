@@ -144,7 +144,6 @@ li hr {
   color: rgba(0, 0, 0, 0.6);
 }
 .content, #views .views .view {
-  padding: 20px;
   -webkit-user-select: none;
 }
 div.show div.content label:nth-child(1) span {
@@ -575,6 +574,11 @@ textarea {
 /*  border-bottom: 1px solid #B6B3A3;
   border-left: 1px solid #B6B3A3;*/
 }
+#sidebar ul.sublist li.sublist-item.active {
+  -moz-background-position: 0 -48px;
+	 -webkit-background-position: 0 -48px;
+	 background-position: 0 -48px;
+}
 #sidebar .expander {
   width: 23px;
   height: 23px;
@@ -648,7 +652,7 @@ textarea {
 
 }
 #content .content .items {
-  margin-top: 20px;
+  padding: 20px;
 }
 #content .content li.item:hover {
 /*  box-shadow: 1px -1px 1px #777777 inset, 0 0 2px #FFFFFF, 1px 1px 3px #333333 ;

@@ -1,6 +1,3 @@
-Spine ?= require("spine")
-$      = Spine.$
-
 class SidebarView extends Spine.Controller
 
   @extend Spine.Controller.Drag
@@ -26,8 +23,6 @@ class SidebarView extends Spine.Controller
   template: (items) ->
     $("#galleriesTemplate").tmpl(items)
 
-  subListTemplate: (items) -> $('#albumsSubListTemplate').tmpl(items)
-
   constructor: ->
     super
     @el.width(300)
@@ -38,7 +33,7 @@ class SidebarView extends Spine.Controller
     Gallery.bind("refresh change", @proxy @render)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Spine.bind('render:galleryItem', @proxy @renderItem)
-    Spine.bind('render:subList', @proxy @renderSubList)
+#    Spine.bind('render:sublist', @proxy @renderSubList)
     Spine.bind('create:gallery', @proxy @create)
     Spine.bind('destroy:gallery', @proxy @destroy)
     Spine.bind('drag:start', @proxy @dragStart)
@@ -62,14 +57,9 @@ class SidebarView extends Spine.Controller
     console.log 'Sidebar::renderItem'
     for item in @galleryItems
       $('.cta', '#'+item.id).html(Album.filter(item.id).length)
-      @renderSubList item.id
+      @list.renderSublist item
 
-  renderSubList: (id) ->
-    console.log 'Sidebar::renderSubList'
-    albums = Album.filter(id)
-    # inject albums count
-    albums.push {flash: 'no albums'} unless albums.length
-    $('#'+id+' ul').html @subListTemplate(albums)
+  
 
   dragStart: (e, controller) ->
     console.log 'Sidebar::dragStart'
@@ -90,7 +80,7 @@ class SidebarView extends Spine.Controller
     # make an unselected item part of selection only if there is nothing selected yet
     if !(Spine.dragItem.source.id in selection) and !(selection.length)
       selection.push Spine.dragItem.source.id
-      Spine.trigger('exposeSelection', selection) unless fromSidebar
+      Spine.trigger('album:exposeSelection', selection) unless fromSidebar
       
     @clonedSelection = selection.slice(0)
     if @clonedSelection.length > 1
@@ -207,5 +197,3 @@ class SidebarView extends Spine.Controller
       width: w
       speed
       => @clb()
-
-module?.exports = SidebarView

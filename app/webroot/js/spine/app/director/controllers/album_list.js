@@ -25,36 +25,38 @@ AlbumList = (function() {
   function AlbumList() {
     AlbumList.__super__.constructor.apply(this, arguments);
     this.record = Gallery.record;
-    Spine.bind('exposeSelection', this.proxy(this.exposeSelection));
+    Spine.bind('album:exposeSelection', this.proxy(this.exposeSelection));
   }
   AlbumList.prototype.template = function() {
     return arguments[0];
   };
-  AlbumList.prototype.change = function() {
+  AlbumList.prototype.change = function(item) {
     var list, selected;
     console.log('AlbumList::change');
     list = Gallery.selectionList();
     this.children().removeClass("active");
-    if (list) {
-      this.exposeSelection(list);
-      if (Album.exists(list[0])) {
-        selected = Album.find(list[0]);
-      }
-      if (selected && !selected.destroyed) {
-        Album.current(selected);
-      }
+    this.exposeSelection(list);
+    if (Album.exists(list[0])) {
+      selected = Album.find(list[0]);
+    }
+    if (selected && !selected.destroyed) {
+      Album.current(selected);
     }
     Spine.trigger('change:selectedAlbum', selected);
     return App.showView.trigger('change:toolbar', 'Album');
   };
   AlbumList.prototype.exposeSelection = function(list) {
-    var id, item, _i, _len, _results;
-    _results = [];
+    var id, item, _i, _len;
     for (_i = 0, _len = list.length; _i < _len; _i++) {
       id = list[_i];
-      _results.push(Album.exists(id) ? (item = Album.find(id), this.children().forItem(item).addClass("active")) : void 0);
+      if (Album.exists(id)) {
+        item = Album.find(id);
+        this.children().forItem(item).addClass("active");
+      }
     }
-    return _results;
+    if (Gallery.record) {
+      return Spine.trigger('expose:sublistSelection', Gallery.record);
+    }
   };
   AlbumList.prototype.render = function(items, newAlbum) {
     console.log('AlbumList::render');
@@ -77,20 +79,26 @@ AlbumList = (function() {
     return Spine.trigger('create:album');
   };
   AlbumList.prototype.click = function(e) {
-    var item, list;
+    var item;
     console.log('AlbumList::click');
     item = $(e.target).item();
     if (App.hmanager.hasActive()) {
       this.openPanel('album', App.showView.btnAlbum);
     }
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
-    list = Gallery.selectionList();
-    return this.change(item);
+    this.change(item);
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   AlbumList.prototype.dblclick = function(e) {
-    var album;
-    album = $(e.currentTarget).item();
-    return Spine.trigger('show:photos', album);
+    var item;
+    item = $(e.currentTarget).item();
+    this.change(item);
+    Spine.trigger('show:photos', item);
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   AlbumList.prototype.edit = function(e) {
     var item;

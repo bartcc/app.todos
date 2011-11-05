@@ -30,11 +30,10 @@ Model.Extender = {
         return json || this.__super__.constructor.fromJSON.call(this, objects);
       },
       createJoinTables: function(arr) {
-        var joinTables, key, table, _i, _len, _results;
+        var joinTables, key, _i, _len, _results;
         if (!this.isArray(arr)) {
           return;
         }
-        table = {};
         joinTables = this.joinTables();
         _results = [];
         for (_i = 0, _len = joinTables.length; _i < _len; _i++) {
@@ -64,9 +63,7 @@ Model.Extender = {
           var item, itm;
           if (!this.isArray(obj[key])) {
             item = __bind(function() {
-              var inst;
-              inst = new this(obj[key]);
-              return res.push(inst);
+              return res.push(new this(obj[key]));
             }, this);
             return itm = item();
           }
@@ -86,7 +83,7 @@ Model.Extender = {
             for (key in obj) {
               val = obj[key];
               if (key === tableName) {
-                res.push(new Spine.Model[tableName](obj[key]));
+                res.push(obj[key]);
               } else {
                 introspect(obj[key]);
               }
@@ -179,7 +176,7 @@ Model.Extender = {
         })();
       },
       errorHandler: function(record, xhr, statusText, error) {
-        if (xhr.status !== 200) {
+        if (statusText.status !== 200) {
           error = new Error({
             record: record,
             xhr: xhr,
@@ -187,14 +184,12 @@ Model.Extender = {
             error: error
           });
           error.save();
-          console.log(record);
-          console.log(xhr);
-          console.log(statusText);
-          console.log(error);
           User.redirect('users/login');
-          false;
         }
-        return false;
+        console.log(record);
+        console.log(xhr);
+        console.log(statusText);
+        return console.log(error);
       }
     };
     Include = {

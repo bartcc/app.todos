@@ -1,4 +1,4 @@
-var $, SidebarView;
+var SidebarView;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -12,10 +12,6 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   }
   return -1;
 };
-if (typeof Spine === "undefined" || Spine === null) {
-  Spine = require("spine");
-}
-$ = Spine.$;
 SidebarView = (function() {
   __extends(SidebarView, Spine.Controller);
   SidebarView.extend(Spine.Controller.Drag);
@@ -39,9 +35,6 @@ SidebarView = (function() {
   SidebarView.prototype.template = function(items) {
     return $("#galleriesTemplate").tmpl(items);
   };
-  SidebarView.prototype.subListTemplate = function(items) {
-    return $('#albumsSubListTemplate').tmpl(items);
-  };
   function SidebarView() {
     this.validateDrop = __bind(this.validateDrop, this);
     this.dropComplete = __bind(this.dropComplete, this);
@@ -56,7 +49,6 @@ SidebarView = (function() {
     Gallery.bind("refresh change", this.proxy(this.render));
     Gallery.bind("ajaxError", Gallery.errorHandler);
     Spine.bind('render:galleryItem', this.proxy(this.renderItem));
-    Spine.bind('render:subList', this.proxy(this.renderSubList));
     Spine.bind('create:gallery', this.proxy(this.create));
     Spine.bind('destroy:gallery', this.proxy(this.destroy));
     Spine.bind('drag:start', this.proxy(this.dragStart));
@@ -85,20 +77,9 @@ SidebarView = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       item = _ref[_i];
       $('.cta', '#' + item.id).html(Album.filter(item.id).length);
-      _results.push(this.renderSubList(item.id));
+      _results.push(this.list.renderSublist(item));
     }
     return _results;
-  };
-  SidebarView.prototype.renderSubList = function(id) {
-    var albums;
-    console.log('Sidebar::renderSubList');
-    albums = Album.filter(id);
-    if (!albums.length) {
-      albums.push({
-        flash: 'no albums'
-      });
-    }
-    return $('#' + id + ' ul').html(this.subListTemplate(albums));
   };
   SidebarView.prototype.dragStart = function(e, controller) {
     var el, event, fromSidebar, id, selection, _ref;
@@ -122,7 +103,7 @@ SidebarView = (function() {
     if (!(_ref = Spine.dragItem.source.id, __indexOf.call(selection, _ref) >= 0) && !selection.length) {
       selection.push(Spine.dragItem.source.id);
       if (!fromSidebar) {
-        Spine.trigger('exposeSelection', selection);
+        Spine.trigger('album:exposeSelection', selection);
       }
     }
     this.clonedSelection = selection.slice(0);
@@ -275,6 +256,3 @@ SidebarView = (function() {
   };
   return SidebarView;
 })();
-if (typeof module !== "undefined" && module !== null) {
-  module.exports = SidebarView;
-}

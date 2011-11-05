@@ -31,9 +31,14 @@ GalleryList = (function() {
     'dragend    .sublist-item': 'dragend'
   };
   GalleryList.prototype.selectFirst = false;
+  GalleryList.prototype.sublistTemplate = function(items) {
+    return $('#albumsSublistTemplate').tmpl(items);
+  };
   function GalleryList() {
     this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
+    Spine.bind('render:sublist', this.proxy(this.renderSublist));
+    Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
   }
   GalleryList.prototype.template = function() {
     return arguments[0];
@@ -87,18 +92,54 @@ GalleryList = (function() {
       }
     }
   };
+  GalleryList.prototype.renderSublist = function(gallery) {
+    var albums;
+    console.log('GalleryList::renderSublist');
+    albums = Album.filter(gallery.id);
+    if (!albums.length) {
+      albums.push({
+        flash: 'no albums'
+      });
+    }
+    $('#' + gallery.id + ' ul').html(this.sublistTemplate(albums));
+    return this.exposeSublistSelection(gallery);
+  };
+  GalleryList.prototype.exposeSublistSelection = function(gallery) {
+    var album, albums, id, _i, _len, _ref, _results;
+    console.log('GalleryList::exposeSublistSelection');
+    gallery = this.children().forItem(gallery);
+    albums = gallery.find('li');
+    albums.removeClass('active');
+    _ref = Gallery.selectionList();
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      id = _ref[_i];
+      album = Album.find(id);
+      _results.push(albums.forItem(album).addClass('active'));
+    }
+    return _results;
+  };
   GalleryList.prototype.children = function(sel) {
     return this.el.children(sel);
   };
   GalleryList.prototype.clickAlb = function(e) {
-    var album, gallery;
+    var album, albumEl, gallery, galleryEl;
     console.log('GalleryList::albclick');
-    album = $(e.currentTarget).item();
-    gallery = $(e.currentTarget).closest('li.gal').item();
-    this.change(gallery);
+    albumEl = $(e.currentTarget);
+    galleryEl = $(e.currentTarget).closest('li.gal');
+    album = albumEl.item();
+    gallery = galleryEl.item();
+    Gallery.current(gallery);
+    Album.current(album);
     Gallery.updateSelection([album.id]);
+    if (App.hmanager.hasActive()) {
+      this.openPanel('album', App.showView.btnAlbum);
+    }
+    this.change(gallery);
     Spine.trigger('change:selectedAlbum', album);
     Spine.trigger('show:photos', album);
+    e.stopPropagation();
+    e.preventDefault();
     return false;
   };
   GalleryList.prototype.click = function(e) {
@@ -107,6 +148,8 @@ GalleryList = (function() {
     item = $(e.target).item();
     this.change(item, 'show', e);
     Spine.trigger('show:albums');
+    e.stopPropagation();
+    e.preventDefault();
     return false;
   };
   GalleryList.prototype.dblclick = function(e) {
@@ -116,6 +159,8 @@ GalleryList = (function() {
     App.showView.lockToolbar();
     this.change(item, 'edit', e);
     App.showView.unlockToolbar();
+    e.stopPropagation();
+    e.preventDefault();
     return false;
   };
   GalleryList.prototype.expandExpander = function(e) {
@@ -144,7 +189,7 @@ GalleryList = (function() {
       icon.toggleClass('expand');
     }
     if ($('.expand', parent).length) {
-      Spine.trigger('render:subList', gallery.id);
+      this.renderSublist(gallery);
       content.show();
     } else {
       content.hide();

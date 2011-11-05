@@ -53,7 +53,7 @@
               </label>
             </div>
             <div id="fileupload" class="view items flex autoflow" style="">
-              <form action="" method="POST" enctype="multipart/form-data">
+              <form action="/uploads/image" method="POST" enctype="multipart/form-data">
                 <div class="fileupload-buttonbar">
                   <label class="fileinput-button">
                     <span>Add files...</span>

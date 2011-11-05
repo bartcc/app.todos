@@ -32,6 +32,12 @@
     echo $this->Html->css('spine/director/window');
     echo $this->Html->css('spine/director/application');
 
+    echo $html->scriptStart();
+    ?>
+      var base_url = '<?php echo $html->url('/'); ?>';
+    <?php
+    echo $html->scriptEnd();
+    
     echo $this->Html->script('lib/jquery/jquery-1.6.2');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
     echo $this->Html->script('lib/jquery/ui/jquery-ui-1.8.16');
@@ -95,7 +101,6 @@
     //$this->log($galleries, LOG_DEBUG);
     echo $html->scriptStart();
     ?>
-      var base_url = '<?php echo $html->url('/'); ?>';
     
     $(function() {
       var galleries = <?php echo $js->object($galleries); ?>;
@@ -107,7 +112,6 @@
     })
     
     <?php
-    $this->log($galleries, LOG_DEBUG);
     //$this->log($js->object($galleries), LOG_DEBUG) ;
     echo $html->scriptEnd();
 

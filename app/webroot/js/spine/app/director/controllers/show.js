@@ -218,7 +218,6 @@ ShowView = (function() {
       item.emptySelection();
     }
     $('.item', this.current.el).removeClass('active');
-    console.log(item);
     if (item instanceof Gallery) {
       Spine.trigger('expose:sublistSelection', Gallery.record);
     }

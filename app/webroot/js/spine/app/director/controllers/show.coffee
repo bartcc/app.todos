@@ -211,7 +211,6 @@ class ShowView extends Spine.Controller
     item = $(e.currentTarget).item()
     item?.emptySelection()
     $('.item', @current.el).removeClass('active')
-    console.log item
     Spine.trigger('expose:sublistSelection', Gallery.record) if item instanceof Gallery
     
     e.stopPropagation()

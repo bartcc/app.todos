@@ -31,8 +31,7 @@ UploadView = (function() {
     });
   };
   UploadView.prototype.submit = function(e, data) {
-    console.log('UploadView::submit');
-    return console.log(data);
+    return console.log('UploadView::submit');
   };
   return UploadView;
 })();

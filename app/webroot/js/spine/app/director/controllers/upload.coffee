@@ -21,4 +21,3 @@ class UploadView extends Spine.Controller
     
   submit: (e, data) ->
     console.log 'UploadView::submit'
-    console.log data

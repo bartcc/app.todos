@@ -40,10 +40,13 @@ class KodaksController extends AppController {
   function develop() {
     $this->autoRender = false;
     $this->layout = false;
-    
+//    if($this->Auth->user()) {
+//      $user_id = $this->Auth->user('id');
+      
     $val = $this->params['named']['a'];
-    $this->log($this->params, LOG_DEBUG);
-    
+    $this->log("Kodaks::develop", LOG_DEBUG);
+//    $this->log($this->params, LOG_DEBUG);
+
     if (strpos($val, 'http://') !== false || substr($val, 0, 1) == '/') {
       header('Location: ' . $val);
       exit;
@@ -52,52 +55,52 @@ class KodaksController extends AppController {
     }
 
     App::import('Component', 'Salt');
-    
+
     $salt = new SaltComponent();
-    
+
     $val = str_replace(' ', '.2B', $val);
     $crypt = $salt->convert($val, false);
     $a = explode(',', $crypt);
-    //$this->log($a, LOG_DEBUG);
-    $file = $fn = basename($a[0]);
+    $this->log($a, LOG_DEBUG);
+    $file = $fn = basename($a[2]);
     // Make sure supplied filename contains only approved chars
     if (preg_match("/[^A-Za-z0-9._-]/", $file)) {
       header('HTTP/1.1 403 Forbidden');
       exit;
     }
 
-    $uid = $a[1];
-    $iid = $a[2];
+    $uid = $a[0];
+    $id = $a[1];
     $w = $this->n($a[3]);
     $h = $this->n($a[4]);
-    $q = $this->n($a[5], 100);
-    $sq = $this->n($a[6]);
+    $sq = $this->n($a[5]);
+    $q = $this->n($a[6], 100);
     $sh = $this->n($a[7], 0);
     $x = $this->n($a[8], 50);
     $y = $this->n($a[9], 50);
     $force = $this->n($a[10], 0);
 
     if ($sq != 1) {
-      list($w, $h) = computeSize(PHOTOS . DS . $uid . DS . $iid . DS . $fn, $w, $h, $sq);
+      list($w, $h) = computeSize(PHOTOS . DS . $uid . DS . $id . DS . 'lg' . DS . $fn, $w, $h, $sq);
       $w = $this->n($w);
       $h = $this->n($h);
     }
 
     $ext = $this->returnExt($file);
 
-    define('PATH', PHOTOS . DS . $uid. DS . $iid);
-    
-    $original = PATH . DS . $file;
+    define('PATH', PHOTOS . DS . $uid. DS . $id);
+
+    $original = PATH . DS . 'lg' . DS . $file;
     $base_dir = PATH . DS . 'cache';
 
     if ($sq == 2) {
-      $base_dir = PATH;
+      $base_dir = PATH . DS . 'lg';
       $path_to_cache = $original;
     } else {
       $fn .= "_{$w}_{$h}_{$sq}_{$q}_{$sh}_{$x}_{$y}";
       $fn .= ".$ext";
       $base_dir = PATH . DS . 'cache';
-      $path_to_cache = PATH . DS . 'cache' . DS . $fn;
+      $path_to_cache = $base_dir . DS . $fn;
     }
 
     // Make sure dirname of the cached copy is sane
@@ -166,8 +169,8 @@ class KodaksController extends AppController {
     } else {
       die(file_get_contents($path_to_cache));
     }
+//    }
   }
-
 }
 
 ?>

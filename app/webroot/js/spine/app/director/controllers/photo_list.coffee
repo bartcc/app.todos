@@ -13,20 +13,21 @@ class PhotoList extends Spine.Controller
   constructor: ->
     super
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
+    Photo.bind('uri', @proxy @develop)
     
   template: -> arguments[0]
   
   render: (items) ->
     console.log 'PhotoList::render'
-    @html @template items
-    @change()
-    @el
+    console.log items
+    @items = items
+    Photo.develop items
   
   change: (item) ->
     list = Album.selectionList()
     @children().removeClass("active")
     @exposeSelection(list)
-    App.showView.trigger('change:toolbar', 'Photo')
+#    App.showView.trigger('change:toolbar', 'Photo')
     
   exposeSelection: (list) ->
     console.log 'PhotoList::exposeSelection'
@@ -63,5 +64,14 @@ class PhotoList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     false
+    
+  develop: (json) ->
+#    alert('Error: ' + json.length + ' / ' + @items.length) if json.length != @items.length
+    for src in @items
+      @items[_i]?.src = json[_i]
+      
+    @html @template @items
+    @change()
+    @el
     
 module?.exports = PhotoList

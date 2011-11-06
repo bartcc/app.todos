@@ -64,3 +64,5 @@ Model.AjaxRelations =
       ajax: -> new Request @
       
     @include Include
+    
+Spine.Builder = Builder

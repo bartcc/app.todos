@@ -93,4 +93,5 @@
       return this.include(Include);
     }
   };
+  Spine.Builder = Builder;
 }).call(this);

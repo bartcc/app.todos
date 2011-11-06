@@ -19,22 +19,15 @@ class UploadsController extends AppController {
       $user_id = $this->Auth->user('id');
       
       App::import('Component', 'File');
+      
       $file = new FileComponent();
+      
       if (!is_dir(PHOTOS)) {
         $file->makeDir(PHOTOS);
       }
       if (!is_dir(PHOTOS . DS . $user_id)) {
         $file->makeDir(PHOTOS . DS . $user_id);
       }
-      
-  //    if (!is_dir(PHOTOS . DS . 'tmp')) {
-  //      $file->makeDir(PHOTOS . DS . 'tmp');
-  //    } else {
-  //      $oldies = glob(PHOTOS . DS . 'tmp' . DS . '*');
-  //      foreach ($oldies as $o) {
-  //        unlink($o);
-  //      }
-  //    }
 
       if (!$this->RequestHandler->isPost()) {
         exit;
@@ -70,7 +63,7 @@ class UploadsController extends AppController {
                   unlink($lg_temp);
 
                   list($meta, $captured) = $file->imageMetadata($lg_path);
-                  $this->log($meta, LOG_DEBUG);
+//                  $this->log($meta, LOG_DEBUG);
                   $exposure = $file->parseMetaTags('exif:exposure', $meta);
                   $iso = $file->parseMetaTags('exif:iso', $meta);
                   $longitude = $file->parseMetaTags('exif:longitude', $meta);
@@ -109,7 +102,6 @@ class UploadsController extends AppController {
       }
     }
   }
-
 }
 
 ?>

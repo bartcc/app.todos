@@ -224,11 +224,11 @@
   <button class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
 </script>
 
-<script type="text/x-jquery-tmpl" id="photosTemplate">
+<script id="photosTemplate" type="text/x-jquery-tmpl">
   <li class="item">
-    <div class="thumbnail" draggable="true">
+    <div class="thumbnail image" style="background-image: url(${src})" draggable="true">
       {{if src}}
-      <div class="name">${src}</div>
+      <div class="name"></div>
       {{else}}
       <div class="name empty">No name</div>
       {{/if}}

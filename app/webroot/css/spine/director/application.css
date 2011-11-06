@@ -677,6 +677,19 @@ textarea {
   height: 140px;
   line-height: 1.2em
 }
+
+#content .content .thumbnail.image {
+  border: 1px solid #575757;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  width: 110px;
+  height: 110px;
+}
+
 #content .content .item.active .thumbnail .name {
   color: rgba(250, 192, 150, 0.4);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);

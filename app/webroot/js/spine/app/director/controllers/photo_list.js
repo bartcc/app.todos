@@ -21,22 +21,22 @@ PhotoList = (function() {
   function PhotoList() {
     PhotoList.__super__.constructor.apply(this, arguments);
     Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
+    Photo.bind('uri', this.proxy(this.develop));
   }
   PhotoList.prototype.template = function() {
     return arguments[0];
   };
   PhotoList.prototype.render = function(items) {
     console.log('PhotoList::render');
-    this.html(this.template(items));
-    this.change();
-    return this.el;
+    console.log(items);
+    this.items = items;
+    return Photo.develop(items);
   };
   PhotoList.prototype.change = function(item) {
     var list;
     list = Album.selectionList();
     this.children().removeClass("active");
-    this.exposeSelection(list);
-    return App.showView.trigger('change:toolbar', 'Photo');
+    return this.exposeSelection(list);
   };
   PhotoList.prototype.exposeSelection = function(list) {
     var id, item, _i, _len, _results;
@@ -73,6 +73,19 @@ PhotoList = (function() {
     e.stopPropagation();
     e.preventDefault();
     return false;
+  };
+  PhotoList.prototype.develop = function(json) {
+    var src, _i, _len, _ref, _ref2;
+    _ref = this.items;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      src = _ref[_i];
+      if ((_ref2 = this.items[_i]) != null) {
+        _ref2.src = json[_i];
+      }
+    }
+    this.html(this.template(this.items));
+    this.change();
+    return this.el;
   };
   return PhotoList;
 })();

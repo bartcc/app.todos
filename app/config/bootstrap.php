@@ -55,6 +55,7 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
 }
 define('DIR_REL_HOST', str_replace('/index.php?', '', Configure::read('App.baseUrl')));
 define('DIR_HOST', $protocol . preg_replace('/:80$/', '', env('HTTP_HOST')) . DIR_REL_HOST);
+define('BASE_URL', Configure::read('App.baseUrl'));
 define('WEB_URL', '/' . APP_DIR . '/' . WEBROOT_DIR);
 define('UPLOADS', ROOT . DS . 'uploads');
 define('PHOTOS', UPLOADS . DS . 'photos');
@@ -74,28 +75,26 @@ function pre() {
 		pr($arg);
 	}
 }
+
 function __p($options) {
-    $defaults = array(
-        'src' => '',
-        'uid' => null,
-        'iid' => null,
-        'width' => 180,
-        'height' => 150,
-        'quality' => 70,
-        'square' => 1, // 1 => new Size ; 2 => old Size, 3 => aspect ratio
-        'sharpening' => 1,
-        'anchor_x' => 50,
-        'anchor_y' => 50,
-        'force' => false
-    );
-    $o = array_merge($defaults, $options);
-    $args = join(',', array($o['src'], $o['uid'], $o['iid'], $o['width'], $o['height'], $o['quality'], $o['square'], $o['sharpening'], $o['anchor_x'], $o['anchor_y'], (int) $o['force']));
-    include_once(ROOT . DS . 'app' . DS . 'controllers' . DS . 'components' . DS . 'salt.php');
-    $salt = new SaltComponent();
-    $crypt = $salt->convert($args);
-    $path = PRODUCTIMAGES . DS . $o['uid'] . DS . $o['iid'] . DS . $o['src'];
-    $m = filemtime($path);
-    return DIR_HOST . '/q/a:'.$crypt.'/m:'. $m;
+  $defaults = array(
+      'width' => 180,
+      'height' => 150,
+      'square' => 2, // 1 => new Size ; 2 => old Size, 3 => aspect ratio
+      'quality' => 80,
+      'sharpening' => 1,
+      'anchor_x' => 50,
+      'anchor_y' => 50,
+      'force' => false
+  );
+  $o = array_merge($defaults, $options);
+  $args = join(',', array($o['uid'], $o['id'], $o['fn'], $o['width'], $o['height'], $o['square'], $o['quality'], $o['sharpening'], $o['anchor_x'], $o['anchor_y'], (int) $o['force']));
+  include_once(ROOT . DS . 'app' . DS . 'controllers' . DS . 'components' . DS . 'salt.php');
+  $salt = new SaltComponent();
+  $crypt = $salt->convert($args);
+  $path = PHOTOS . DS . $o['uid'] . DS . $o['id'] . DS . 'lg' . DS . $o['fn'];
+  $m = filemtime($path);
+  return BASE_URL . '/q/a:' . $crypt . '/m:' . $m;
 }
 
 function computeSize($file, $new_w, $new_h, $scale) {

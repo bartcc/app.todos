@@ -1,12 +1,12 @@
 var $, AlbumsView;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+};
 if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
@@ -32,13 +32,15 @@ AlbumsView = (function() {
     'dragend': 'dragend'
   };
   AlbumsView.prototype.albumsTemplate = function(items) {
-    return $("#albumsTemplate").tmpl(items);
+    return $("#albumsTemplate").tmpl(items, {
+      gallery: Gallery.record
+    });
   };
   AlbumsView.prototype.headerTemplate = function(items) {
     return $("#headerGalleryTemplate").tmpl(items);
   };
   function AlbumsView() {
-    AlbumsView.__super__.constructor.apply(this, arguments);
+    this.test = __bind(this.test, this);    AlbumsView.__super__.constructor.apply(this, arguments);
     this.list = new AlbumList({
       el: this.items,
       template: this.albumsTemplate
@@ -66,17 +68,13 @@ AlbumsView = (function() {
     return this.render();
   };
   AlbumsView.prototype.render = function(items, mode) {
-    var tmplItem;
     console.log('AlbumsView::render');
     if ((!this.current) || this.current.destroyed) {
       items = Album.filter();
     } else {
       items = Album.filter(this.current.id);
     }
-    if (this.current) {
-      tmplItem = $.tmplItem(this.el);
-      tmplItem.data = this.current || {};
-    }
+    this.el.data(Gallery.record || {});
     this.list.render(items);
     Spine.trigger('render:galleryItem');
     return this.trigger('render:header', items);
@@ -167,8 +165,7 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.destroyJoin = function(target, albums) {
     var ga, gas, records, _i, _len;
-    console.log('AlbumsView::destroyJoin');
-    if (!(target && target instanceof Gallery)) {
+    if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }
     if (!Album.isArray(albums)) {
@@ -193,6 +190,11 @@ AlbumsView = (function() {
       return;
     }
     return window.location = "mailto:" + this.current.email;
+  };
+  AlbumsView.prototype.test = function(e) {
+    console.log('AlbumsView::test');
+    console.log(this.el);
+    return console.log(this.el.item());
   };
   return AlbumsView;
 })();

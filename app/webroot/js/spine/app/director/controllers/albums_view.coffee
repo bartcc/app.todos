@@ -45,9 +45,10 @@ class AlbumsView extends Spine.Controller
 #    'dragleave  #contents'              : 'dragleave'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
+#    'click'                           : 'test'
 
   albumsTemplate: (items) ->
-    $("#albumsTemplate").tmpl items
+    $("#albumsTemplate").tmpl items, {gallery: Gallery.record}
 
 #  toolsTemplate: (items) ->
 #    $("#toolsTemplate").tmpl items
@@ -99,14 +100,16 @@ class AlbumsView extends Spine.Controller
       items = Album.filter(@current.id)
     
     # make containing element sensitive for drop by injecting target of type Gallery
-    if @current
-      tmplItem = $.tmplItem(@el)
-      tmplItem.data = @current or {}
-      
+#    tmplItem = $.tmplItem(@el)
+#    tmplItem = $.tmplItem(@el)
+#    tmplItem.data = Gallery.record or {}
+    @el.data Gallery.record or {}
+    
     @list.render items
     
     Spine.trigger('render:galleryItem')
     @trigger('render:header', items)
+    
     #@initSortables() #interferes with html5 dnd!
    
   renderHeader: (items) ->
@@ -173,8 +176,7 @@ class AlbumsView extends Spine.Controller
     target.save()
   
   destroyJoin: (target, albums) ->
-    console.log 'AlbumsView::destroyJoin'
-    return unless target and target instanceof Gallery
+    return unless target and target.constructor.className is 'Gallery'
 
     unless Album.isArray albums
       records = []
@@ -277,5 +279,11 @@ class AlbumsView extends Spine.Controller
 #  
 #  toggleDraghandle: ->
 #    @activeControl.click()
+    
+    
+   test: (e) =>
+    console.log 'AlbumsView::test'
+    console.log @el
+    console.log @el.item()
     
 module?.exports = AlbumsView

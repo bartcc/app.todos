@@ -24,12 +24,12 @@
           <li class="splitter disabled flex"></li>
           <ul class="toolbar hbox"></ul>
         </ul>
-        <div class="contents views vbox flex autoflow" class="views">
-          <div class="view albums content flex">
+        <div class="contents views vbox flex autoflow">
+          <div class="view albums content flex data">
             <div class="header"></div>
             <div class="items sortable">Albums</div>
           </div>
-          <div class="view photos content flex">
+          <div class="view photos content flex data">
             <div class="header"></div>
             <div class="items sortable">Images</div>
           </div>
@@ -110,7 +110,7 @@
 </div>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li id="${id}" class="gal item" title="Deselect   Cmd-Click">
+  <li id="${id}" class="gal item data" title="Deselect   Cmd-Click">
     <div class="item-header">
       <div class="expander"></div>
       <div class="item-content">

@@ -15,8 +15,6 @@ class AlbumList extends Spine.Controller
     
   constructor: ->
     super
-    @record = Gallery.record
-    
     Spine.bind('album:exposeSelection', @proxy @exposeSelection)
     
   template: -> arguments[0]
@@ -34,7 +32,6 @@ class AlbumList extends Spine.Controller
     Album.current(selected) if selected and !selected.destroyed
     
     Spine.trigger('change:selectedAlbum', selected)
-    App.showView.trigger('change:toolbar', 'Album')
   
   exposeSelection: (list) ->
     for id in list
@@ -71,6 +68,7 @@ class AlbumList extends Spine.Controller
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
     @change item
+    App.showView.trigger('change:toolbar', 'Album')
     
     e.stopPropagation()
     e.preventDefault()

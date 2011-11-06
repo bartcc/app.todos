@@ -3,10 +3,24 @@ $      = Spine.$
 
 class PhotosView extends Spine.Controller
   
+  @extend Spine.Controller.Drag
+  
   elements:
     '.header'       : 'header'
     '.items'        : 'items'
   
+  events:
+    'dragstart  .items .thumbnail'    : 'dragstart'
+    'dragenter  .items .thumbnail'    : 'dragenter'
+    'dragover   .items .thumbnail'    : 'dragover'
+    'drop       .items .thumbnail'    : 'drop'
+    'dragend    .items .thumbnail'    : 'dragend'
+    'dragenter'                       : 'dragenter'
+    'dragover'                        : 'dragover'
+#    'dragleave  #contents'              : 'dragleave'
+    'drop'                            : 'drop'
+    'dragend'                         : 'dragend'
+    
   template: (items) ->
     $('#photosTemplate').tmpl(items)
     
@@ -35,11 +49,10 @@ class PhotosView extends Spine.Controller
     
   render: (items) ->
     console.log 'PhotosView::render'
-    # make containing element sensitive for drop by injecting target of type Gallery
-    tmplItem = $.tmplItem(@el)
-    tmplItem.data = Album.record or {}
+    @el.data Album.record or {}
     
     @list.render items
+    @refreshElements()
     @trigger('render:header', items)
   
   renderHeader: (items) ->
@@ -65,7 +78,7 @@ class PhotosView extends Spine.Controller
           photo.destroy()
     
   show: (album) ->
-    @change album
+    #@change album
     Spine.trigger('change:canvas', @)
   
   save: (item) ->
@@ -108,5 +121,12 @@ class PhotosView extends Spine.Controller
 
     target.save()
 
+  test: (e) =>
+    console.log 'PhotosView::test'
+    el = $(e.target)
+    console.log el
+    console.log el.item()
+    console.log @el
+    console.log @el.item()
 
 module?.exports = PhotosView

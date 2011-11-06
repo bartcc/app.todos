@@ -1,21 +1,33 @@
 var $, PhotosView;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+};
 if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
 PhotosView = (function() {
   __extends(PhotosView, Spine.Controller);
+  PhotosView.extend(Spine.Controller.Drag);
   PhotosView.prototype.elements = {
     '.header': 'header',
     '.items': 'items'
+  };
+  PhotosView.prototype.events = {
+    'dragstart  .items .thumbnail': 'dragstart',
+    'dragenter  .items .thumbnail': 'dragenter',
+    'dragover   .items .thumbnail': 'dragover',
+    'drop       .items .thumbnail': 'drop',
+    'dragend    .items .thumbnail': 'dragend',
+    'dragenter': 'dragenter',
+    'dragover': 'dragover',
+    'drop': 'drop',
+    'dragend': 'dragend'
   };
   PhotosView.prototype.template = function(items) {
     return $('#photosTemplate').tmpl(items);
@@ -25,7 +37,7 @@ PhotosView = (function() {
     return $("#headerAlbumTemplate").tmpl(items);
   };
   function PhotosView() {
-    PhotosView.__super__.constructor.apply(this, arguments);
+    this.test = __bind(this.test, this);    PhotosView.__super__.constructor.apply(this, arguments);
     this.list = new PhotoList({
       el: this.items,
       template: this.template
@@ -45,11 +57,10 @@ PhotosView = (function() {
     return this.render(items);
   };
   PhotosView.prototype.render = function(items) {
-    var tmplItem;
     console.log('PhotosView::render');
-    tmplItem = $.tmplItem(this.el);
-    tmplItem.data = Album.record || {};
+    this.el.data(Album.record || {});
     this.list.render(items);
+    this.refreshElements();
     return this.trigger('render:header', items);
   };
   PhotosView.prototype.renderHeader = function(items) {
@@ -84,7 +95,6 @@ PhotosView = (function() {
     }
   };
   PhotosView.prototype.show = function(album) {
-    this.change(album);
     return Spine.trigger('change:canvas', this);
   };
   PhotosView.prototype.save = function(item) {};
@@ -134,6 +144,15 @@ PhotosView = (function() {
       }
     }
     return target.save();
+  };
+  PhotosView.prototype.test = function(e) {
+    var el;
+    console.log('PhotosView::test');
+    el = $(e.target);
+    console.log(el);
+    console.log(el.item());
+    console.log(this.el);
+    return console.log(this.el.item());
   };
   return PhotosView;
 })();

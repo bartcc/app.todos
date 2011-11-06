@@ -103,7 +103,7 @@ class SidebarView extends Spine.Controller
     target = el.item()
     source = Spine.dragItem?.source
     origin = Spine.dragItem?.origin or Gallery.record
-
+    
     Spine.dragItem.closest?.removeClass('over nodrop')
     Spine.dragItem.closest = el
     if @validateDrop target, source, origin
@@ -127,7 +127,11 @@ class SidebarView extends Spine.Controller
     return unless Spine.dragItem
     Spine.dragItem.closest.removeClass('over nodrop')
     source = Spine.dragItem.source
-    origin = Spine.dragItem.origin or Gallery.record
+    origin = Spine.dragItem.origin
+    
+#    console.log origin
+#    console.log source
+#    console.log target
     
     return unless @validateDrop target, source, origin
 
@@ -139,19 +143,32 @@ class SidebarView extends Spine.Controller
     Spine.trigger('destroy:albumJoin', origin, albums) unless @isCtrlClick(e)
     
   validateDrop: (target, source, origin) =>
-    unless (source instanceof Album)
-      return false
-    unless (target instanceof Gallery)
-      return false
-    unless (origin.id != target.id)
-      return false
-
-    items = GalleriesAlbum.filter(target.id)
-    for item in items
-      if item.album_id is source.id
-        return false
-    return true
-
+    switch source.constructor.className
+      when 'Album'
+        unless (target instanceof Gallery)
+          return false
+        unless (origin.id != target.id)
+          return false
+          
+        items = GalleriesAlbum.filter(target.id)
+        for item in items
+          if item.album_id is source.id
+            return false
+        return true
+        
+      when 'Photo'
+        unless (target instanceof Album)
+          return false
+        unless (origin.id != target.id)
+          return false
+          
+        items = AlbumsPhoto.filter(target.id)
+        for item in items
+          if item.photo_id is source.id
+            return false
+        return true
+      else return false
+  
   newAttributes: ->
     if User.first()
       name    : @galleryName()

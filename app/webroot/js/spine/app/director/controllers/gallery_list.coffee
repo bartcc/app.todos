@@ -57,9 +57,7 @@ class GalleryList extends Spine.Controller
     Spine.trigger('change:selectedGallery', @current, mode)
     
     if mode is 'edit'
-      App.showView.btnEditGallery.click() 
-      
-    App.showView.trigger('change:toolbar', 'Gallery')
+      App.showView.btnEditGallery.click()
 
   
   render: (items, item, mode) ->
@@ -122,8 +120,9 @@ class GalleryList extends Spine.Controller
     if App.hmanager.hasActive()
       @openPanel('album', App.showView.btnAlbum)
       
+    App.showView.trigger('change:toolbar', 'Album')
     @change gallery
-    Spine.trigger('change:selectedAlbum', album)
+    #Spine.trigger('change:selectedAlbum', album)
     Spine.trigger('show:photos', album)
     
     e.stopPropagation()
@@ -135,7 +134,9 @@ class GalleryList extends Spine.Controller
     item = $(e.target).item()
     #Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)
     # Note: don't trigger toolbar here - since Spine.trigger('change:toolbar', 'Gallery')
+    
     @change item, 'show', e
+    App.showView.trigger('change:toolbar', 'Gallery')
     Spine.trigger('show:albums')
     
     e.stopPropagation()

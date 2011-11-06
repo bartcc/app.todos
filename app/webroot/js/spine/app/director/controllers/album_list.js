@@ -24,7 +24,6 @@ AlbumList = (function() {
   AlbumList.prototype.selectFirst = true;
   function AlbumList() {
     AlbumList.__super__.constructor.apply(this, arguments);
-    this.record = Gallery.record;
     Spine.bind('album:exposeSelection', this.proxy(this.exposeSelection));
   }
   AlbumList.prototype.template = function() {
@@ -42,8 +41,7 @@ AlbumList = (function() {
     if (selected && !selected.destroyed) {
       Album.current(selected);
     }
-    Spine.trigger('change:selectedAlbum', selected);
-    return App.showView.trigger('change:toolbar', 'Album');
+    return Spine.trigger('change:selectedAlbum', selected);
   };
   AlbumList.prototype.exposeSelection = function(list) {
     var id, item, _i, _len;
@@ -87,6 +85,7 @@ AlbumList = (function() {
     }
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
     this.change(item);
+    App.showView.trigger('change:toolbar', 'Album');
     e.stopPropagation();
     e.preventDefault();
     return false;

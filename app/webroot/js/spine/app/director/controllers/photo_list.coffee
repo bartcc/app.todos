@@ -20,14 +20,14 @@ class PhotoList extends Spine.Controller
   render: (items) ->
     console.log 'PhotoList::render'
     console.log items
+    @el.empty()
     @items = items
-    Photo.develop items
+    Photo.develop items if items.length
   
   change: (item) ->
     list = Album.selectionList()
     @children().removeClass("active")
     @exposeSelection(list)
-#    App.showView.trigger('change:toolbar', 'Photo')
     
   exposeSelection: (list) ->
     console.log 'PhotoList::exposeSelection'
@@ -46,7 +46,8 @@ class PhotoList extends Spine.Controller
     
     if App.hmanager.hasActive()
       @openPanel('photo', App.showView.btnPhoto)
-      
+    
+    App.showView.trigger('change:toolbar', 'Photo')
     @change item
     
     e.stopPropagation()
@@ -66,7 +67,6 @@ class PhotoList extends Spine.Controller
     false
     
   develop: (json) ->
-#    alert('Error: ' + json.length + ' / ' + @items.length) if json.length != @items.length
     for src in @items
       @items[_i]?.src = json[_i]
       

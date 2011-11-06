@@ -1,5 +1,5 @@
 var ShowView;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -11,8 +11,6 @@ ShowView = (function() {
   __extends(ShowView, Spine.Controller);
   ShowView.extend(Spine.Controller.Toolbars);
   ShowView.prototype.elements = {
-    '.content.albums': 'albumsEl',
-    '.content.images': 'imagesEl',
     '#views .views': 'views',
     '.optEditGallery': 'btnEditGallery',
     '.optGallery': 'btnGallery',
@@ -47,7 +45,8 @@ ShowView = (function() {
     return $("#toolsTemplate").tmpl(items);
   };
   function ShowView() {
-    ShowView.__super__.constructor.apply(this, arguments);
+    this.deselect = __bind(this.deselect, this);
+    this.test = __bind(this.test, this);    ShowView.__super__.constructor.apply(this, arguments);
     Spine.bind('render:header', this.proxy(this.renderHeader));
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
@@ -61,8 +60,12 @@ ShowView = (function() {
     this.edit = this.editGallery;
   }
   ShowView.prototype.changeCanvas = function(controller) {
-    App.canvasManager.trigger('change', controller);
-    return this.current = controller;
+    console.log('ShowView::changeCanvas');
+    this.current = controller;
+    this.el.data({
+      current: this.current.el.data()
+    });
+    return App.canvasManager.trigger('change', controller);
   };
   ShowView.prototype.renderToolbar = function() {
     console.log('ShowView::renderToolbar');
@@ -94,24 +97,28 @@ ShowView = (function() {
     return Spine.trigger('change:selectedGallery', false);
   };
   ShowView.prototype.showPhotos = function(e) {
+    console.log('showPhotos');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('show:photos');
   };
   ShowView.prototype.createGallery = function(e) {
+    console.log('createGallery');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('create:gallery');
   };
   ShowView.prototype.createPhoto = function(e) {
+    console.log('createPhoto');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('create:photo');
   };
   ShowView.prototype.createAlbum = function(e) {
+    console.log('createAlbum');
     console.log(e);
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
@@ -119,6 +126,7 @@ ShowView = (function() {
     return Spine.trigger('create:album');
   };
   ShowView.prototype.editGallery = function(e) {
+    console.log('editGallery');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -126,24 +134,28 @@ ShowView = (function() {
     return App.contentManager.change(App.galleryEditView);
   };
   ShowView.prototype.editAlbum = function(e) {
+    console.log('editAlbum');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('edit:album');
   };
   ShowView.prototype.destroyGallery = function(e) {
+    console.log('destroyGallery');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('destroy:gallery');
   };
   ShowView.prototype.destroyAlbum = function(e) {
+    console.log('destroyAlbum');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('destroy:album');
   };
   ShowView.prototype.destroyPhoto = function(e) {
+    console.log('destroyPhoto');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -211,16 +223,19 @@ ShowView = (function() {
       return this.activeControl = control;
     }
   };
+  ShowView.prototype.test = function(e) {
+    console.log('ShowView::test');
+    return console.log(this.current.el.item());
+  };
   ShowView.prototype.deselect = function(e) {
     var item;
-    item = $(e.currentTarget).item();
+    console.log('ShowView::deselect');
+    item = this.el.data().current;
     if (item != null) {
       item.emptySelection();
     }
     $('.item', this.current.el).removeClass('active');
-    if (item instanceof Gallery) {
-      Spine.trigger('expose:sublistSelection', Gallery.record);
-    }
+    console.log(item);
     e.stopPropagation();
     e.preventDefault();
     return false;

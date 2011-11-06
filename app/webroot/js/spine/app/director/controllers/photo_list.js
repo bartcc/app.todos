@@ -29,8 +29,11 @@ PhotoList = (function() {
   PhotoList.prototype.render = function(items) {
     console.log('PhotoList::render');
     console.log(items);
+    this.el.empty();
     this.items = items;
-    return Photo.develop(items);
+    if (items.length) {
+      return Photo.develop(items);
+    }
   };
   PhotoList.prototype.change = function(item) {
     var list;
@@ -59,6 +62,7 @@ PhotoList = (function() {
     if (App.hmanager.hasActive()) {
       this.openPanel('photo', App.showView.btnPhoto);
     }
+    App.showView.trigger('change:toolbar', 'Photo');
     this.change(item);
     e.stopPropagation();
     e.preventDefault();

@@ -62,9 +62,8 @@ GalleryList = (function() {
     Gallery.current(this.current);
     Spine.trigger('change:selectedGallery', this.current, mode);
     if (mode === 'edit') {
-      App.showView.btnEditGallery.click();
+      return App.showView.btnEditGallery.click();
     }
-    return App.showView.trigger('change:toolbar', 'Gallery');
   };
   GalleryList.prototype.render = function(items, item, mode) {
     var new_content, old_content, record, _i, _len;
@@ -135,8 +134,8 @@ GalleryList = (function() {
     if (App.hmanager.hasActive()) {
       this.openPanel('album', App.showView.btnAlbum);
     }
+    App.showView.trigger('change:toolbar', 'Album');
     this.change(gallery);
-    Spine.trigger('change:selectedAlbum', album);
     Spine.trigger('show:photos', album);
     e.stopPropagation();
     e.preventDefault();
@@ -147,6 +146,7 @@ GalleryList = (function() {
     console.log('GalleryList::click');
     item = $(e.target).item();
     this.change(item, 'show', e);
+    App.showView.trigger('change:toolbar', 'Gallery');
     Spine.trigger('show:albums');
     e.stopPropagation();
     e.preventDefault();

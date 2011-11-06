@@ -3,8 +3,6 @@ class ShowView extends Spine.Controller
   @extend Spine.Controller.Toolbars
   
   elements:
-    '.content.albums'         : 'albumsEl'
-    '.content.images'         : 'imagesEl'
     '#views .views'           : 'views'
 #    '#gallery'            : 'galleryEl'
 #    '#album'              : 'albumEl'
@@ -43,7 +41,6 @@ class ShowView extends Spine.Controller
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
     
-    
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
 
@@ -64,23 +61,17 @@ class ShowView extends Spine.Controller
     @bind('render:toolbar', @proxy @renderToolbar)
     @bind("toggle:view", @proxy @toggleView)
     
-    
-#    @albumsView = new AlbumsView
-#      el: @albumsEl
-#      toolbar: 'Gallery'
-#    @imagesView = new ImagesView
-#      el: @imagesEl
-      
     if @activeControl
       @initControl @activeControl
     else throw 'need initial control'
     @edit = @editGallery
     
-#    @contentManager = new Spine.Manager(@albumsView, @imagesView)
-    
   changeCanvas: (controller) ->
-    App.canvasManager.trigger('change', controller)
+    console.log 'ShowView::changeCanvas'
     @current = controller
+    @el.data current:@current.el.data()
+    App.canvasManager.trigger('change', controller)
+    
       
 #  renderHeader: (model, items) ->
 #    console.log 'ShowView::renderHeader'
@@ -114,41 +105,50 @@ class ShowView extends Spine.Controller
     Spine.trigger('change:selectedGallery', false)
   
   showPhotos: (e) ->
+    console.log 'showPhotos'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('show:photos')
   
   createGallery: (e) ->
+    console.log 'createGallery'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:gallery')
   
   createPhoto: (e) ->
+    console.log 'createPhoto'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:photo')
   
   createAlbum: (e) ->
+    console.log 'createAlbum'
     console.log e
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:album')
   
   editGallery: (e) ->
+    console.log 'editGallery'
     return if $(e.currentTarget).hasClass('disabled')
     App.galleryEditView.render()
     App.contentManager.change(App.galleryEditView)
     #@focusFirstInput App.galleryEditView.el
 
   editAlbum: (e) ->
+    console.log 'editAlbum'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('edit:album')
 
   destroyGallery: (e) ->
+    console.log 'destroyGallery'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')  
   
   destroyAlbum: (e) ->
+    console.log 'destroyAlbum'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:album')  
 
   destroyPhoto: (e) ->
+    console.log 'destroyPhoto'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:photo')  
 
@@ -207,11 +207,19 @@ class ShowView extends Spine.Controller
     else
       @activeControl = control
       
-  deselect: (e) ->
-    item = $(e.currentTarget).item()
+  test: (e) =>
+    console.log 'ShowView::test'
+    console.log @current.el.item()
+      
+  deselect: (e) =>
+    console.log 'ShowView::deselect'
+    item = @el.data().current
+#    item = $(e.currentTarget).item()
     item?.emptySelection()
+    
     $('.item', @current.el).removeClass('active')
-    Spine.trigger('expose:sublistSelection', Gallery.record) if item instanceof Gallery
+    #Spine.trigger('expose:sublistSelection', Gallery.record) if item instanceof Gallery
+    console.log item
     
     e.stopPropagation()
     e.preventDefault()

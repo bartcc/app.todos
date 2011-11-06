@@ -13,11 +13,11 @@ Controller.Drag =
         
       dragstart: (e, data) =>
         el = $(e.target)
-        target = el.item()
         el.addClass('dragged')
         Spine.dragItem = {}
         Spine.dragItem.source = el.item()
-        #Spine.dragItem.origin = $(e.target).item()
+        parentDataElement = $(e.target).parents('.data')
+        Spine.dragItem.origin = parentDataElement.data().tmplItem?.data or parentDataElement.data()
         event = e.originalEvent
         event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/html', Spine.dragItem);

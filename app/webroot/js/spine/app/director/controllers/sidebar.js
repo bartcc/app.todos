@@ -157,7 +157,7 @@ SidebarView = (function() {
     }
     Spine.dragItem.closest.removeClass('over nodrop');
     source = Spine.dragItem.source;
-    origin = Spine.dragItem.origin || Gallery.record;
+    origin = Spine.dragItem.origin;
     if (!this.validateDrop(target, source, origin)) {
       return;
     }
@@ -173,24 +173,41 @@ SidebarView = (function() {
     }
   };
   SidebarView.prototype.validateDrop = function(target, source, origin) {
-    var item, items, _i, _len;
-    if (!(source instanceof Album)) {
-      return false;
-    }
-    if (!(target instanceof Gallery)) {
-      return false;
-    }
-    if (!(origin.id !== target.id)) {
-      return false;
-    }
-    items = GalleriesAlbum.filter(target.id);
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      item = items[_i];
-      if (item.album_id === source.id) {
+    var item, items, _i, _j, _len, _len2;
+    switch (source.constructor.className) {
+      case 'Album':
+        if (!(target instanceof Gallery)) {
+          return false;
+        }
+        if (!(origin.id !== target.id)) {
+          return false;
+        }
+        items = GalleriesAlbum.filter(target.id);
+        for (_i = 0, _len = items.length; _i < _len; _i++) {
+          item = items[_i];
+          if (item.album_id === source.id) {
+            return false;
+          }
+        }
+        return true;
+      case 'Photo':
+        if (!(target instanceof Album)) {
+          return false;
+        }
+        if (!(origin.id !== target.id)) {
+          return false;
+        }
+        items = AlbumsPhoto.filter(target.id);
+        for (_j = 0, _len2 = items.length; _j < _len2; _j++) {
+          item = items[_j];
+          if (item.photo_id === source.id) {
+            return false;
+          }
+        }
+        return true;
+      default:
         return false;
-      }
     }
-    return true;
   };
   SidebarView.prototype.newAttributes = function() {
     if (User.first()) {

@@ -13,12 +13,13 @@ Controller.Drag = {
         return Spine.dragItem = null;
       },
       dragstart: __bind(function(e, data) {
-        var el, event, target;
+        var el, event, parentDataElement, _ref;
         el = $(e.target);
-        target = el.item();
         el.addClass('dragged');
         Spine.dragItem = {};
         Spine.dragItem.source = el.item();
+        parentDataElement = $(e.target).parents('.data');
+        Spine.dragItem.origin = ((_ref = parentDataElement.data().tmplItem) != null ? _ref.data : void 0) || parentDataElement.data();
         event = e.originalEvent;
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/html', Spine.dragItem);

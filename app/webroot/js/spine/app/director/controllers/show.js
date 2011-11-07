@@ -17,7 +17,7 @@ ShowView = (function() {
     '.optAlbum': 'btnAlbum',
     '.optPhoto': 'btnPhoto',
     '.optUpload': 'btnUpload',
-    '.optGrid': 'btnGrid',
+    '.optSlideshow': 'btnSlideshow',
     '.toolbar': 'toolBar'
   };
   ShowView.prototype.events = {
@@ -37,7 +37,7 @@ ShowView = (function() {
     "click .optAlbum": "toggleAlbum",
     "click .optPhoto": "togglePhoto",
     "click .optUpload": "toggleUpload",
-    "click .optGrid": "toggleGrid",
+    "click .optSlideshow": "toggleSlideshow",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect"
   };
@@ -45,8 +45,7 @@ ShowView = (function() {
     return $("#toolsTemplate").tmpl(items);
   };
   function ShowView() {
-    this.deselect = __bind(this.deselect, this);
-    this.test = __bind(this.test, this);    ShowView.__super__.constructor.apply(this, arguments);
+    this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
     Spine.bind('render:header', this.proxy(this.renderHeader));
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
@@ -97,36 +96,30 @@ ShowView = (function() {
     return Spine.trigger('change:selectedGallery', false);
   };
   ShowView.prototype.showPhotos = function(e) {
-    console.log('showPhotos');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('show:photos');
   };
   ShowView.prototype.createGallery = function(e) {
-    console.log('createGallery');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('create:gallery');
   };
   ShowView.prototype.createPhoto = function(e) {
-    console.log('createPhoto');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('create:photo');
   };
   ShowView.prototype.createAlbum = function(e) {
-    console.log('createAlbum');
-    console.log(e);
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('create:album');
   };
   ShowView.prototype.editGallery = function(e) {
-    console.log('editGallery');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -134,28 +127,24 @@ ShowView = (function() {
     return App.contentManager.change(App.galleryEditView);
   };
   ShowView.prototype.editAlbum = function(e) {
-    console.log('editAlbum');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('edit:album');
   };
   ShowView.prototype.destroyGallery = function(e) {
-    console.log('destroyGallery');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('destroy:gallery');
   };
   ShowView.prototype.destroyAlbum = function(e) {
-    console.log('destroyAlbum');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
     return Spine.trigger('destroy:album');
   };
   ShowView.prototype.destroyPhoto = function(e) {
-    console.log('destroyPhoto');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -197,9 +186,9 @@ ShowView = (function() {
     this.changeToolbar('Upload');
     return this.trigger("toggle:view", App.upload, e.target);
   };
-  ShowView.prototype.toggleGrid = function(e) {
-    this.changeToolbar('Grid');
-    return this.trigger("toggle:view", App.grid, e.target);
+  ShowView.prototype.toggleSlideshow = function(e) {
+    this.changeToolbar('Slideshow');
+    return this.trigger("toggle:view", App.slideshow, e.target);
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;
@@ -223,10 +212,6 @@ ShowView = (function() {
       return this.activeControl = control;
     }
   };
-  ShowView.prototype.test = function(e) {
-    console.log('ShowView::test');
-    return console.log(this.current.el.item());
-  };
   ShowView.prototype.deselect = function(e) {
     var item;
     console.log('ShowView::deselect');
@@ -235,6 +220,7 @@ ShowView = (function() {
       item.emptySelection();
     }
     $('.item', this.current.el).removeClass('active');
+    this.renderToolbar();
     console.log(item);
     e.stopPropagation();
     e.preventDefault();

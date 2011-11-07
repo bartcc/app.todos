@@ -54,7 +54,7 @@
               <form action="/uploads/image" method="POST" enctype="multipart/form-data">
                 <div class="fileupload-buttonbar">
                   <label class="fileinput-button">
-                    <span>Add files...</span>
+                    <span>Drag and drop files here...</span>
                     <input type="file" name="files[]" multiple>
                   </label>
                   <button type="submit" class="start">Start upload</button>
@@ -67,7 +67,7 @@
                 <div class="fileupload-progressbar"></div>
               </div>
             </div>
-            <div id="grid" class="view items flex autoflow" style="">
+            <div id="slideshow" class="view items flex autoflow" style="">
               <label>
                 <span class="dimmed">Not quite there yet</span>
               </label>
@@ -80,7 +80,7 @@
           <li class="opt optAlbum">Album</li>
           <li class="opt optPhoto">Image</li>
           <li class="opt optUpload">Upload</li>
-          <li class="opt optGrid">Grid</li>
+          <li class="opt optSlideshow">Slideshow</li>
         </ul>
       </div>
       <div class="edit canvas-bg-light view vbox flex">

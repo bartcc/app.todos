@@ -4,19 +4,12 @@ class ShowView extends Spine.Controller
   
   elements:
     '#views .views'           : 'views'
-#    '#gallery'            : 'galleryEl'
-#    '#album'              : 'albumEl'
-#    '#photo'              : 'photoEl'
-#    '#upload'             : 'uploadEl'
-#    '#loader'             : 'loaderEl'
-#    '#grid'               : 'gridEl'
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery'             : 'btnGallery'
     '.optAlbum'               : 'btnAlbum'
     '.optPhoto'               : 'btnPhoto'
     '.optUpload'              : 'btnUpload'
-    '.optGrid'                : 'btnGrid'
-#    '.header'                 : 'header'
+    '.optSlideshow'           : 'btnSlideshow'
     '.toolbar'                : 'toolBar'
     
     
@@ -37,22 +30,13 @@ class ShowView extends Spine.Controller
     "click .optAlbum"                 : "toggleAlbum"
     "click .optPhoto"                 : "togglePhoto"
     "click .optUpload"                : "toggleUpload"
-    "click .optGrid"                  : "toggleGrid"
+    "click .optSlideshow"             : "toggleSlideshow"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
     
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
 
-#  headerTemplate: (className, items) ->
-#    switch className
-#      when 'Album'
-#        items.gallery = Gallery.record
-#        $("#headerAlbumTemplate").tmpl items
-#      when 'Gallery'
-#        $("#headerGalleryTemplate").tmpl items
-      
-    
   constructor: ->
     super
     Spine.bind('render:header', @proxy @renderHeader)
@@ -71,12 +55,6 @@ class ShowView extends Spine.Controller
     @current = controller
     @el.data current:@current.el.data()
     App.canvasManager.trigger('change', controller)
-    
-      
-#  renderHeader: (model, items) ->
-#    console.log 'ShowView::renderHeader'
-#    values = {record: model.record, count: items.length}
-#    @header.html @headerTemplate model.className, values
 
   renderToolbar: ->
     console.log 'ShowView::renderToolbar'
@@ -91,7 +69,6 @@ class ShowView extends Spine.Controller
         $(@).toggleClass("active", active)
       else
         $(@).removeClass("active")
-    
   
   showGallery: ->
     App.contentManager.change(App.showView)
@@ -105,50 +82,40 @@ class ShowView extends Spine.Controller
     Spine.trigger('change:selectedGallery', false)
   
   showPhotos: (e) ->
-    console.log 'showPhotos'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('show:photos')
   
   createGallery: (e) ->
-    console.log 'createGallery'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:gallery')
   
   createPhoto: (e) ->
-    console.log 'createPhoto'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:photo')
   
   createAlbum: (e) ->
-    console.log 'createAlbum'
-    console.log e
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:album')
   
   editGallery: (e) ->
-    console.log 'editGallery'
     return if $(e.currentTarget).hasClass('disabled')
     App.galleryEditView.render()
     App.contentManager.change(App.galleryEditView)
     #@focusFirstInput App.galleryEditView.el
 
   editAlbum: (e) ->
-    console.log 'editAlbum'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('edit:album')
 
   destroyGallery: (e) ->
-    console.log 'destroyGallery'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')  
   
   destroyAlbum: (e) ->
-    console.log 'destroyAlbum'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:album')  
 
   destroyPhoto: (e) ->
-    console.log 'destroyPhoto'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:photo')  
 
@@ -182,9 +149,9 @@ class ShowView extends Spine.Controller
     @changeToolbar 'Upload'
     @trigger("toggle:view", App.upload, e.target)
 
-  toggleGrid: (e) ->
-    @changeToolbar 'Grid'
-    @trigger("toggle:view", App.grid, e.target)
+  toggleSlideshow: (e) ->
+    @changeToolbar 'Slideshow'
+    @trigger("toggle:view", App.slideshow, e.target)
   
   toggleView: (controller, control) ->
     isActive = controller.isActive()
@@ -207,17 +174,13 @@ class ShowView extends Spine.Controller
     else
       @activeControl = control
       
-  test: (e) =>
-    console.log 'ShowView::test'
-    console.log @current.el.item()
-      
   deselect: (e) =>
     console.log 'ShowView::deselect'
     item = @el.data().current
-#    item = $(e.currentTarget).item()
     item?.emptySelection()
     
     $('.item', @current.el).removeClass('active')
+    @renderToolbar()
     #Spine.trigger('expose:sublistSelection', Gallery.record) if item instanceof Gallery
     console.log item
     

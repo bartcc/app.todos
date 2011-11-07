@@ -22,7 +22,7 @@ class PhotoList extends Spine.Controller
     if items.length
       Photo.develop items
     else
-      @el.empty()
+      @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
   
   change: (item) ->
     list = Album.selectionList()

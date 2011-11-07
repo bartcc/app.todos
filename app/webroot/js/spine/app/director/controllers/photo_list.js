@@ -30,7 +30,7 @@ PhotoList = (function() {
     if (items.length) {
       return Photo.develop(items);
     } else {
-      return this.el.empty();
+      return this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
     }
   };
   PhotoList.prototype.change = function(item) {

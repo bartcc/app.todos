@@ -20,7 +20,7 @@ App = (function() {
     '#album': 'albumEl',
     '#fileupload': 'uploadEl',
     '#photo': 'photoEl',
-    '#grid': 'gridEl',
+    '#slideshow': 'slideshowEl',
     '#loader': 'loaderEl',
     '#login': 'loginEl',
     '.vdraggable': 'vDrag',
@@ -53,8 +53,8 @@ App = (function() {
     this.upload = new UploadView({
       el: this.uploadEl
     });
-    this.grid = new GridView({
-      el: this.gridEl
+    this.slideshow = new SlideshowView({
+      el: this.slideshowEl
     });
     this.showView = new ShowView({
       el: this.showEl,
@@ -103,7 +103,7 @@ App = (function() {
         return this.sidebar.inner.show();
       }, this)
     });
-    this.hmanager = new Spine.Manager(this.gallery, this.album, this.photo, this.upload, this.grid);
+    this.hmanager = new Spine.Manager(this.gallery, this.album, this.photo, this.upload, this.slideshow);
     this.hmanager.initDrag(this.hDrag, {
       initSize: __bind(function() {
         return this.el.height() / 3;

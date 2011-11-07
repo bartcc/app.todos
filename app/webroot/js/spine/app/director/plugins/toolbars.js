@@ -54,12 +54,6 @@ Controller.Toolbars = {
           ],
           Photo: [
             {
-              name: 'Show Images',
-              klass: 'optShowPhotos'
-            }, {
-              name: 'New Image',
-              klass: 'optCreatePhoto'
-            }, {
               name: 'Delete Image',
               klass: 'optDestroyPhoto ',
               disabled: function() {
@@ -73,12 +67,9 @@ Controller.Toolbars = {
               klass: ''
             }
           ],
-          Grid: [
+          Slideshow: [
             {
-              name: 'Show Grid',
-              klass: ''
-            }, {
-              name: 'Edit Grid',
+              name: 'Play',
               klass: ''
             }
           ]

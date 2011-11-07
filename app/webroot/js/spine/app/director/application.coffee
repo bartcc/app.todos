@@ -17,7 +17,7 @@ class App extends Spine.Controller
     '#album'              : 'albumEl'
     '#fileupload'         : 'uploadEl'
     '#photo'              : 'photoEl'
-    '#grid'               : 'gridEl'
+    '#slideshow'          : 'slideshowEl'
     '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
     '.vdraggable'         : 'vDrag'
@@ -47,21 +47,8 @@ class App extends Spine.Controller
       el: @photoEl
     @upload = new UploadView
       el: @uploadEl
-    @grid = new GridView
-      el: @gridEl
-#    @gallery = new GalleryView
-#      el: @galleryEl
-#    @album = new AlbumView
-#      el: @albumEl
-#    @upload = new UploadView
-#      el: @uploadEl
-#    @grid = new GridView
-#      el: @gridEl
-#    @albumsView = new AlbumsView
-#      el: @albumsContentEl
-#      toolbar: 'Gallery'
-#    @imagesView = new ImagesView
-#      el: @imagesContentEl
+    @slideshow = new SlideshowView
+      el: @slideshowEl
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
@@ -91,7 +78,7 @@ class App extends Spine.Controller
       goSleep: => @sidebar.inner.hide()
       awake: => @sidebar.inner.show()
 
-    @hmanager = new Spine.Manager(@gallery, @album, @photo, @upload, @grid)
+    @hmanager = new Spine.Manager(@gallery, @album, @photo, @upload, @slideshow)
     @hmanager.initDrag @hDrag,
       initSize: => @el.height()/3
       disabled: false

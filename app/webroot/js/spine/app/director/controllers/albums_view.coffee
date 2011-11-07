@@ -9,31 +9,9 @@ class AlbumsView extends Spine.Controller
   elements:
     '.items'                  : 'items'
     '.content .sortable'      : 'sortable'
-#    '#views .views'           : 'views'
-#    '.optEditGallery'         : 'btnEditGallery'
-#    '.optCreateGallery'       : 'btnCreateGallery'
-#    '.optDestroyGallery'      : 'btnDestroyGallery'
-#    '.optGallery'             : 'btnGallery'
-#    '.optAlbum'               : 'btnAlbum'
-#    '.optUpload'              : 'btnUpload'
-#    '.optGrid'                : 'btnGrid'
-#    '.content .items .item'   : 'item'
     '.header'                 : 'header'
-#    '.toolbar'                : 'toolBar'
     
   events:
-    
-#    "click .optCreateAlbum"           : "createAlbum"
-#    "click .optDestroyAlbum"          : "destroyAlbum"
-#    "click .optEditGallery"           : "editGallery"
-#    "click .optCreateGallery"         : "createGallery"
-#    "click .optDestroyGallery"        : "destroyGallery"
-#    "click .optEmail"                 : "email"
-#    "click .optGallery"               : "toggleGallery"
-#    "click .optAlbum"                 : "toggleAlbum"
-#    "click .optUpload"                : "toggleUpload"
-#    "click .optGrid"                  : "toggleGrid"
-#    'dblclick .draghandle'            : 'toggleDraghandle'
     'sortupdate .items'               : 'sortupdate'
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragenter  .items .thumbnail'    : 'dragenter'
@@ -45,7 +23,6 @@ class AlbumsView extends Spine.Controller
 #    'dragleave  #contents'              : 'dragleave'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
-#    'click'                           : 'test'
 
   albumsTemplate: (items) ->
     $("#albumsTemplate").tmpl items, {gallery: Gallery.record}
@@ -99,10 +76,6 @@ class AlbumsView extends Spine.Controller
     else
       items = Album.filter(@current.id)
     
-    # make containing element sensitive for drop by injecting target of type Gallery
-#    tmplItem = $.tmplItem(@el)
-#    tmplItem = $.tmplItem(@el)
-#    tmplItem.data = Gallery.record or {}
     @el.data Gallery.record or {}
     
     @list.render items
@@ -193,97 +166,9 @@ class AlbumsView extends Spine.Controller
 
     target.save()
 
-#  createAlbum: (e) ->
-#    console.log 'AlbumsView::createAlbum'
-#    Spine.trigger('create:album') unless $(e.currentTarget).hasClass('disabled')
-#  
-#  destroyAlbum: (e) ->
-#    Spine.trigger('destroy:album') unless $(e.currentTarget).hasClass('disabled')
-#
-#  showGallery: ->
-#    App.contentManager.change(App.showView)
-#
-#  editGallery: (e) ->
-#    return if $(e.currentTarget).hasClass('disabled')
-#    App.galleryEditView.render()
-#    App.contentManager.change(App.galleryEditView)
-#    #@focusFirstInput App.galleryEditView.el
-#
-#  createGallery: (e) ->
-#    return if $(e.currentTarget).hasClass('disabled')
-#    Spine.trigger('create:gallery')
-#  
-#  destroyGallery: (e) ->
-#    return if $(e.currentTarget).hasClass('disabled')
-#    Spine.trigger('destroy:gallery')
-  
   email: ->
     return if ( !@current.email ) 
     window.location = "mailto:" + @current.email
 
-#  renderViewControl: (controller, controlEl) ->
-#    active = controller.isActive()
-#
-#    $(".options .opt").each ->
-#      if(@ == controlEl)
-#        $(@).toggleClass("active", active)
-#      else
-#        $(@).removeClass("active")
-
-#  animateView: ->
-#    hasActive = ->
-#      if App.hmanager.hasActive()
-#        return App.hmanager.enableDrag()
-#      App.hmanager.disableDrag()
-#    
-#    
-#    height = ->
-#      App.hmanager.currentDim
-#      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "8px"
-#    
-#    @views.animate
-#      height: height()
-#      400
-
-#  toggleGallery: (e) ->
-#    @changeToolbar Gallery
-#    @trigger("toggle:view", App.gallery, e.target)
-#
-#  toggleAlbum: (e) ->
-#    @changeToolbar Album
-#    @trigger("toggle:view", App.album, e.target)
-#    
-#  togglePhoto: (e) ->
-#    @changeToolbar Photo
-#    @trigger("toggle:view", App.photo, e.target)
-#
-#  toggleUpload: (e) ->
-#    @changeToolbar 'Upload'
-#    @trigger("toggle:view", App.upload, e.target)
-#
-#  toggleGrid: (e) ->
-#    @changeToolbar 'Grid'
-#    @trigger("toggle:view", App.grid, e.target)
-
-#  toggleView: (controller, control) ->
-#    isActive = controller.isActive()
-#    
-#    if(isActive)
-#      App.hmanager.trigger("change", false)
-#    else
-#      @activeControl = $(control)
-#      App.hmanager.trigger("change", controller)
-#    
-#    @renderViewControl controller, control
-#    @animateView()
-#  
-#  toggleDraghandle: ->
-#    @activeControl.click()
-    
-    
-   test: (e) =>
-    console.log 'AlbumsView::test'
-    console.log @el
-    console.log @el.item()
     
 module?.exports = AlbumsView

@@ -91,7 +91,7 @@
     echo $this->Html->script('spine/app/director/controllers/album');
     echo $this->Html->script('spine/app/director/controllers/photo');
     echo $this->Html->script('spine/app/director/controllers/upload');
-    echo $this->Html->script('spine/app/director/controllers/grid');
+    echo $this->Html->script('spine/app/director/controllers/slideshow');
     echo $this->Html->script('spine/app/director/application_');
     echo $this->Html->script('spine/app/director/application');
     ?>

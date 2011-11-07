@@ -1,12 +1,12 @@
 var $, AlbumsView;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
@@ -40,7 +40,7 @@ AlbumsView = (function() {
     return $("#headerGalleryTemplate").tmpl(items);
   };
   function AlbumsView() {
-    this.test = __bind(this.test, this);    AlbumsView.__super__.constructor.apply(this, arguments);
+    AlbumsView.__super__.constructor.apply(this, arguments);
     this.list = new AlbumList({
       el: this.items,
       template: this.albumsTemplate
@@ -190,11 +190,6 @@ AlbumsView = (function() {
       return;
     }
     return window.location = "mailto:" + this.current.email;
-  };
-  AlbumsView.prototype.test = function(e) {
-    console.log('AlbumsView::test');
-    console.log(this.el);
-    return console.log(this.el.item());
   };
   return AlbumsView;
 })();

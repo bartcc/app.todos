@@ -236,6 +236,14 @@
   </li>
 </script>
 
+<script id="preloaderTemplate" type="text/x-jquery-tmpl">
+  <div class="preloader">
+    <div class="content">
+      <div></div
+    </div>
+  </div>
+</script>
+
 <script id="template-upload" type="text/x-jquery-tmpl">
   <tr class="template-upload{{if error}} ui-state-error{{/if}}">
     <td class="preview"></td>

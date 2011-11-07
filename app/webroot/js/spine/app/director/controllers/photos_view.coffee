@@ -24,6 +24,9 @@ class PhotosView extends Spine.Controller
   template: (items) ->
     $('#photosTemplate').tmpl(items)
     
+  preloaderTemplate: ->
+    $('#preloaderTemplate').tmpl()
+    
   headerTemplate: (items) ->
     items.gallery = Gallery.record
     $("#headerAlbumTemplate").tmpl items
@@ -50,7 +53,7 @@ class PhotosView extends Spine.Controller
   render: (items) ->
     console.log 'PhotosView::render'
     @el.data Album.record or {}
-    
+    @items.html @preloaderTemplate()
     @list.render items
     @refreshElements()
     @trigger('render:header', items)

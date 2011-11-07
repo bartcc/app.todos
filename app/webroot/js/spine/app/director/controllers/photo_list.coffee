@@ -15,14 +15,14 @@ class PhotoList extends Spine.Controller
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
     Photo.bind('uri', @proxy @develop)
     
-  template: -> arguments[0]
-  
   render: (items) ->
     console.log 'PhotoList::render'
     console.log items
-    @el.empty()
     @items = items
-    Photo.develop items if items.length
+    if items.length
+      Photo.develop items
+    else
+      @el.empty()
   
   change: (item) ->
     list = Album.selectionList()

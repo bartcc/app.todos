@@ -23,16 +23,14 @@ PhotoList = (function() {
     Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
     Photo.bind('uri', this.proxy(this.develop));
   }
-  PhotoList.prototype.template = function() {
-    return arguments[0];
-  };
   PhotoList.prototype.render = function(items) {
     console.log('PhotoList::render');
     console.log(items);
-    this.el.empty();
     this.items = items;
     if (items.length) {
       return Photo.develop(items);
+    } else {
+      return this.el.empty();
     }
   };
   PhotoList.prototype.change = function(item) {

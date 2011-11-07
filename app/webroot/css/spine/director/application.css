@@ -732,3 +732,16 @@ textarea {
 .movecursor {
   cursor: url("img/cursor-move.png"), auto;
 }
+.preloader {
+  position: absolute;
+  right: 0;
+  top: 200px;
+}
+.preloader .content {
+ 
+}
+.preloader .content div:nth-child(1) {
+  background: url("img/35.png") no-repeat scroll 0 0 transparent;
+  height: 40px;
+  width: 40px;
+}

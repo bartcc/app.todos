@@ -32,6 +32,9 @@ PhotosView = (function() {
   PhotosView.prototype.template = function(items) {
     return $('#photosTemplate').tmpl(items);
   };
+  PhotosView.prototype.preloaderTemplate = function() {
+    return $('#preloaderTemplate').tmpl();
+  };
   PhotosView.prototype.headerTemplate = function(items) {
     items.gallery = Gallery.record;
     return $("#headerAlbumTemplate").tmpl(items);
@@ -59,6 +62,7 @@ PhotosView = (function() {
   PhotosView.prototype.render = function(items) {
     console.log('PhotosView::render');
     this.el.data(Album.record || {});
+    this.items.html(this.preloaderTemplate());
     this.list.render(items);
     this.refreshElements();
     return this.trigger('render:header', items);

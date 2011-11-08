@@ -32,9 +32,6 @@ class GalleryList extends Spine.Controller
     Spine.bind('drag:timeout', @proxy @expandExpander)
     Spine.bind('render:sublist', @proxy @renderSublist)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
-#    @sublist = new ImageList
-#      el: @items,
-#      template: @template
 
   template: -> arguments[0]
 
@@ -64,8 +61,22 @@ class GalleryList extends Spine.Controller
     console.log 'GalleryList::render'
     unless item
       #inject counter
-      for record in items
-        record.count = Album.filter(record.id).length
+#      for record in items
+#        record.count = Album.filter(record.id).length
+#        count = 0
+#        albums = Album.filter(record.id).length
+#        for album in albums
+#          count += AlbumsPhoto.filter(album.id).length
+          
+#        record.count = Album.filter(record.id).length + '/' + count
+        
+#        gas = GalleriesAlbum.filter(record.id)
+#        for ga in gas
+#          album = Album.find(ga.album_id)
+#          aps = AlbumsPhoto.filter(album.id)
+#          count += aps.length
+          
+        
 
       @items = items
       @html @template @items
@@ -86,9 +97,14 @@ class GalleryList extends Spine.Controller
   renderSublist: (gallery) ->
     console.log 'GalleryList::renderSublist'
     albums = Album.filter(gallery.id)
-    # inject albums extras
+    total = 0
+    # inject total images
+    for album in albums
+      total += album.count = AlbumsPhoto.filter(album.id).length
+
     albums.push {flash: 'no albums'} unless albums.length
     $('#'+gallery.id+' ul').html @sublistTemplate(albums)
+    $('.item-header .cta', '#'+gallery.id).html Album.filter(gallery.id).length + '/' + total
     
     @exposeSublistSelection(gallery)
     

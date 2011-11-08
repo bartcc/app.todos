@@ -29,7 +29,7 @@ class Photo extends Spine.Model
     square: 1
     quality: 70
   
-  @develop: (items, params) ->
+  @uri: (items, params) ->
     options = $.extend({}, @defaults, params)
     
     $.ajax
@@ -43,8 +43,9 @@ class Photo extends Spine.Model
     console.log 'Ajax::success'
     Photo.trigger('uri', json)
     
-  @error: ->
-
+  @error: (json) =>
+    Photo.trigger('ajaxError', json)
+    
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes

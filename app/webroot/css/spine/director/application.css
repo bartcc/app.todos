@@ -573,6 +573,7 @@ textarea {
   background-repeat: no-repeat;
 /*  border-bottom: 1px solid #B6B3A3;
   border-left: 1px solid #B6B3A3;*/
+  position: relative
 }
 #sidebar ul.sublist li.sublist-item.active {
   -moz-background-position: 0 -48px;

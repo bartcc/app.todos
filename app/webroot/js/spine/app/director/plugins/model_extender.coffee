@@ -102,7 +102,8 @@ Model.Extender =
           record.id
       
       errorHandler: (record, xhr, statusText, error) ->
-        unless statusText.status is 200
+        status = statusText?.status or record?.status
+        unless status is 200
           error = new Error
             record      : record
             xhr         : xhr
@@ -117,7 +118,17 @@ Model.Extender =
         console.log statusText
         console.log error
         
-        
+      customErrorHandler: (xhr) ->
+        console.log xhr
+        status = xhr.status
+        unless status is 200
+          error = new Error
+            flash       : '<strong style="color:red">Login failed</strong>'
+            xhr         : xhr
+
+          error.save()
+          User.redirect 'users/login'
+          
     Include =
       
       selectionList: ->

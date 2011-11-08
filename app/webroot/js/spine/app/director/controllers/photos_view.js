@@ -1,12 +1,12 @@
 var $, PhotosView;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
@@ -40,22 +40,26 @@ PhotosView = (function() {
     return $("#headerAlbumTemplate").tmpl(items);
   };
   function PhotosView() {
-    this.test = __bind(this.test, this);    PhotosView.__super__.constructor.apply(this, arguments);
+    PhotosView.__super__.constructor.apply(this, arguments);
     this.list = new PhotoList({
       el: this.items,
       template: this.template
     });
-    Photo.bind('refresh', this.proxy(this.createJoin));
+    Photo.bind('refresh', this.proxy(this.prepareJoin));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
-    Spine.bind("create:photoJoin", this.proxy(this.createJoin));
-    Spine.bind("destroy:photoJoin", this.proxy(this.destroyJoin));
+    Photo.bind("create:join", this.proxy(this.createJoin));
+    Photo.bind("destroy:join", this.proxy(this.destroyJoin));
     this.bind("render:header", this.proxy(this.renderHeader));
   }
   PhotosView.prototype.change = function(item) {
     var items;
     this.current = item || Album.record;
+    if (!GalleriesAlbum.galleryHasAlbum(Gallery.record.id, Album.record.id)) {
+      Album.record = false;
+      App.showView.trigger('render:toolbar');
+    }
     items = Photo.filter(item != null ? item.id : void 0);
     return this.render(items);
   };
@@ -98,40 +102,45 @@ PhotosView = (function() {
       return _results;
     }
   };
-  PhotosView.prototype.show = function(album) {
+  PhotosView.prototype.show = function() {
     return Spine.trigger('change:canvas', this);
   };
   PhotosView.prototype.save = function(item) {};
-  PhotosView.prototype.createJoin = function(photos) {
-    var ap, record, records, target, _i, _len;
+  PhotosView.prototype.prepareJoin = function(photos) {
+    return this.createJoin(Album.record, photos);
+  };
+  PhotosView.prototype.createJoin = function(target, photos) {
+    var ap, record, records, _i, _len;
     console.log('PhotosView::createJoin');
-    if (!Album.record) {
+    if (!(target && target.constructor.className === 'Album')) {
       return;
     }
-    target = Album.record;
+    console.log(target);
+    console.log(photos);
     if (!Photo.isArray(photos)) {
       records = [];
       records.push(photos);
     } else {
       records = photos;
     }
+    console.log(records);
     for (_i = 0, _len = records.length; _i < _len; _i++) {
       record = records[_i];
       ap = new AlbumsPhoto({
         album_id: target.id,
         photo_id: record.id
       });
+      console.log(ap);
       ap.save();
     }
     return target.save();
   };
-  PhotosView.prototype.destroyJoin = function(photos) {
-    var ap, aps, records, target, _i, _len;
+  PhotosView.prototype.destroyJoin = function(target, photos) {
+    var ap, aps, records, _i, _len;
     console.log('PhotosView::destroyJoin');
-    if (!Album.record) {
+    if (!(target && target.constructor.className === 'Album')) {
       return;
     }
-    target = Album.record;
     if (!Photo.isArray(photos)) {
       records = [];
       records.push(photos);
@@ -142,21 +151,12 @@ PhotosView = (function() {
     aps = AlbumsPhoto.filter(target.id);
     for (_i = 0, _len = aps.length; _i < _len; _i++) {
       ap = aps[_i];
-      if (albums.indexOf(ap.album_id) !== -1) {
+      if (photos.indexOf(ap.photo_id) !== -1) {
         Photo.removeFromSelection(Album, ap.photo_id);
         ap.destroy();
       }
     }
     return target.save();
-  };
-  PhotosView.prototype.test = function(e) {
-    var el;
-    console.log('PhotosView::test');
-    el = $(e.target);
-    console.log(el);
-    console.log(el.item());
-    console.log(this.el);
-    return console.log(this.el.item());
   };
   return PhotosView;
 })();

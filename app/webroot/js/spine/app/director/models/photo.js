@@ -11,6 +11,7 @@ Photo = (function() {
   __extends(Photo, Spine.Model);
   function Photo() {
     this.Photo = __bind(this.Photo, this);
+    this.Photo = __bind(this.Photo, this);
     Photo.__super__.constructor.apply(this, arguments);
   }
   Photo.configure("Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id');
@@ -50,7 +51,7 @@ Photo = (function() {
     square: 1,
     quality: 70
   };
-  Photo.develop = function(items, params) {
+  Photo.uri = function(items, params) {
     var options;
     options = $.extend({}, this.defaults, params);
     return $.ajax({
@@ -65,7 +66,9 @@ Photo = (function() {
     console.log('Ajax::success');
     return Photo.trigger('uri', json);
   };
-  Photo.error = function() {};
+  Photo.error = function(json) {
+    return Photo.trigger('ajaxError', json);
+  };
   Photo.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;
     result = {};

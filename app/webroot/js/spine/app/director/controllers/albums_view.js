@@ -48,8 +48,8 @@ AlbumsView = (function() {
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
-    Spine.bind("destroy:albumJoin", this.proxy(this.destroyJoin));
-    Spine.bind("create:albumJoin", this.proxy(this.createJoin));
+    Album.bind("destroy:join", this.proxy(this.destroyJoin));
+    Album.bind("create:join", this.proxy(this.createJoin));
     Album.bind("update", this.proxy(this.render));
     Album.bind("destroy", this.proxy(this.render));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
@@ -115,7 +115,7 @@ AlbumsView = (function() {
     Gallery.updateSelection([album.id]);
     this.render(album);
     if (Gallery.record) {
-      Spine.trigger('create:albumJoin', Gallery.record, album);
+      Album.trigger('create:join', Gallery.record, album);
     }
     return this.openPanel('album', App.showView.btnAlbum);
   };
@@ -131,7 +131,7 @@ AlbumsView = (function() {
     }, this));
     if (Gallery.record) {
       Gallery.emptySelection();
-      return Spine.trigger('destroy:albumJoin', Gallery.record, albums);
+      return Album.trigger('destroy:join', Gallery.record, albums);
     } else {
       _results = [];
       for (_i = 0, _len = albums.length; _i < _len; _i++) {
@@ -144,7 +144,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.createJoin = function(target, albums) {
     var ga, record, records, _i, _len;
     console.log('AlbumsView::createJoin');
-    if (!(target && target instanceof Gallery)) {
+    if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }
     if (!Album.isArray(albums)) {

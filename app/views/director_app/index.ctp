@@ -120,7 +120,7 @@
         <span class="name empty">No Name</span>
         {{/if}}
         <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
-        <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
+        <span class="cta"></span>
       </div>
     </div>
     <hr>
@@ -133,7 +133,8 @@
   <span class="author">${flash}</span>
   {{else}}
   <li class="sublist-item alb item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
-    {{if title}}<span class="title">{{html title}}</span>{{/if}}
+    <span class="title">{{if title}}{{html title}}{{/if}}</span>
+    <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
   {{/if}}
 </script>

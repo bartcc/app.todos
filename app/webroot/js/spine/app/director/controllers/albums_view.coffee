@@ -42,8 +42,8 @@ class AlbumsView extends Spine.Controller
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
-    Spine.bind("destroy:albumJoin", @proxy @destroyJoin)
-    Spine.bind("create:albumJoin", @proxy @createJoin)
+    Album.bind("destroy:join", @proxy @destroyJoin)
+    Album.bind("create:join", @proxy @createJoin)
     Album.bind("update", @proxy @render)
     Album.bind("destroy", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
@@ -111,7 +111,7 @@ class AlbumsView extends Spine.Controller
     album.save()
     Gallery.updateSelection([album.id])
     @render album
-    Spine.trigger('create:albumJoin', Gallery.record, album) if Gallery.record
+    Album.trigger('create:join', Gallery.record, album) if Gallery.record
     @openPanel('album', App.showView.btnAlbum)
 
   destroy: (e) ->
@@ -123,7 +123,7 @@ class AlbumsView extends Spine.Controller
       
     if Gallery.record
       Gallery.emptySelection()
-      Spine.trigger('destroy:albumJoin', Gallery.record, albums)
+      Album.trigger('destroy:join', Gallery.record, albums)
     else
       for album in albums
         if Album.exists(album.id)
@@ -133,7 +133,7 @@ class AlbumsView extends Spine.Controller
 
   createJoin: (target, albums) ->
     console.log 'AlbumsView::createJoin'
-    return unless target and target instanceof Gallery
+    return unless target and target.constructor.className is 'Gallery'
 
     unless Album.isArray albums
       records = []

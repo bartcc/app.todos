@@ -76,9 +76,6 @@ Controller.Toolbars =
         toolbar = @selectTool nameOrModel
         @trigger('render:toolbar', toolbar) if toolbar
         
-        
-        
-        
     Extend = {}
       
     @include  Include

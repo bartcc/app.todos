@@ -55,11 +55,11 @@ class Login extends Spine.Controller
     @delay delayedFunc, 2000
     
   newAttributes: (json) ->
-      id: json.id
-      username: json.username
-      name: json.name
-      groupname: json.groupname
-      sessionid: json.sessionid
+    id: json.id
+    username: json.username
+    name: json.name
+    groupname: json.groupname
+    sessionid: json.sessionid
     
 $ ->
   window.Login = new Login el: $('body')

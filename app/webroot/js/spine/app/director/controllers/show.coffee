@@ -181,6 +181,7 @@ class ShowView extends Spine.Controller
     
     $('.item', @current.el).removeClass('active')
     @renderToolbar()
+#    Spine.trigger('change:selectedAlbum')
     #Spine.trigger('expose:sublistSelection', Gallery.record) if item instanceof Gallery
     console.log item
     

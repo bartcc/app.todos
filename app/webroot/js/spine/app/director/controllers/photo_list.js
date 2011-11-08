@@ -21,14 +21,14 @@ PhotoList = (function() {
   function PhotoList() {
     PhotoList.__super__.constructor.apply(this, arguments);
     Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
-    Photo.bind('uri', this.proxy(this.develop));
+    Photo.bind("ajaxError", Photo.customErrorHandler);
+    Photo.bind('uri', this.proxy(this.uri));
   }
   PhotoList.prototype.render = function(items) {
     console.log('PhotoList::render');
-    console.log(items);
     this.items = items;
     if (items.length) {
-      return Photo.develop(items);
+      return Photo.uri(items);
     } else {
       return this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
     }
@@ -76,7 +76,7 @@ PhotoList = (function() {
     e.preventDefault();
     return false;
   };
-  PhotoList.prototype.develop = function(json) {
+  PhotoList.prototype.uri = function(json) {
     var src, _i, _len, _ref, _ref2;
     _ref = this.items;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {

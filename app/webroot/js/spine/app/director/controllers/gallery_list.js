@@ -66,13 +66,9 @@ GalleryList = (function() {
     }
   };
   GalleryList.prototype.render = function(items, item, mode) {
-    var new_content, old_content, record, _i, _len;
+    var new_content, old_content;
     console.log('GalleryList::render');
     if (!item) {
-      for (_i = 0, _len = items.length; _i < _len; _i++) {
-        record = items[_i];
-        record.count = Album.filter(record.id).length;
-      }
       this.items = items;
       this.html(this.template(this.items));
     } else if (mode === 'update') {
@@ -92,15 +88,21 @@ GalleryList = (function() {
     }
   };
   GalleryList.prototype.renderSublist = function(gallery) {
-    var albums;
+    var album, albums, total, _i, _len;
     console.log('GalleryList::renderSublist');
     albums = Album.filter(gallery.id);
+    total = 0;
+    for (_i = 0, _len = albums.length; _i < _len; _i++) {
+      album = albums[_i];
+      total += album.count = AlbumsPhoto.filter(album.id).length;
+    }
     if (!albums.length) {
       albums.push({
         flash: 'no albums'
       });
     }
     $('#' + gallery.id + ' ul').html(this.sublistTemplate(albums));
+    $('.item-header .cta', '#' + gallery.id).html(Album.filter(gallery.id).length + '/' + total);
     return this.exposeSublistSelection(gallery);
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {

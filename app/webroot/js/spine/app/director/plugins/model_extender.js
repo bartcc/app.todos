@@ -176,7 +176,9 @@ Model.Extender = {
         })();
       },
       errorHandler: function(record, xhr, statusText, error) {
-        if (statusText.status !== 200) {
+        var status;
+        status = (statusText != null ? statusText.status : void 0) || (record != null ? record.status : void 0);
+        if (status !== 200) {
           error = new Error({
             record: record,
             xhr: xhr,
@@ -190,6 +192,19 @@ Model.Extender = {
         console.log(xhr);
         console.log(statusText);
         return console.log(error);
+      },
+      customErrorHandler: function(xhr) {
+        var error, status;
+        console.log(xhr);
+        status = xhr.status;
+        if (status !== 200) {
+          error = new Error({
+            flash: '<strong style="color:red">Login failed</strong>',
+            xhr: xhr
+          });
+          error.save();
+          return User.redirect('users/login');
+        }
       }
     };
     Include = {

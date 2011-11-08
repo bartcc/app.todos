@@ -13,14 +13,15 @@ class PhotoList extends Spine.Controller
   constructor: ->
     super
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
-    Photo.bind('uri', @proxy @develop)
+    Photo.bind("ajaxError", Photo.customErrorHandler)
+    Photo.bind('uri', @proxy @uri)
     
   render: (items) ->
     console.log 'PhotoList::render'
-    console.log items
+#    console.log items
     @items = items
     if items.length
-      Photo.develop items
+      Photo.uri items
     else
       @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
   
@@ -66,7 +67,7 @@ class PhotoList extends Spine.Controller
     e.preventDefault()
     false
     
-  develop: (json) ->
+  uri: (json) ->
     for src in @items
       @items[_i]?.src = json[_i]
       

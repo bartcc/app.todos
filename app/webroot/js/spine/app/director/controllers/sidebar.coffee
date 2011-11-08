@@ -56,10 +56,8 @@ class SidebarView extends Spine.Controller
   renderItem: ->
     console.log 'Sidebar::renderItem'
     for item in @galleryItems
-      $('.cta', '#'+item.id).html(Album.filter(item.id).length)
+#      $('.cta', '#'+item.id).html(Album.filter(item.id).length)
       @list.renderSublist item
-
-  
 
   dragStart: (e, controller) ->
     console.log 'Sidebar::dragStart'
@@ -67,7 +65,7 @@ class SidebarView extends Spine.Controller
     el = $(e.target)
     event = e.originalEvent
     Spine.dragItem.targetEl = null
-
+    source = Spine.dragItem.source
     # check for drags from sublist and set its origin
     if el.parents('ul.sublist').length
       id = el.parents('li.item')[0].id
@@ -75,11 +73,16 @@ class SidebarView extends Spine.Controller
       fromSidebar = true
       selection = []
     else
-      selection = Gallery.selectionList()
+      switch source.constructor.className
+        when 'Album'
+          selection = Gallery.selectionList()
+        when 'Photo'
+          selection = Album.selectionList()
+      
 
     # make an unselected item part of selection only if there is nothing selected yet
-    if !(Spine.dragItem.source.id in selection) and !(selection.length)
-      selection.push Spine.dragItem.source.id
+    if !(source.id in selection) and !(selection.length)
+      selection.push source.id
       Spine.trigger('album:exposeSelection', selection) unless fromSidebar
       
     @clonedSelection = selection.slice(0)
@@ -96,7 +99,6 @@ class SidebarView extends Spine.Controller
         
 
   dragEnter: (e) =>
-    console.log 'Sidebar::dragEnter'
     return unless Spine.dragItem
     el = $(e.currentTarget)
     
@@ -134,14 +136,24 @@ class SidebarView extends Spine.Controller
 #    console.log target
     
     return unless @validateDrop target, source, origin
+    
+    switch source.constructor.className
+      when 'Album'
+        albums = []
+        Album.each (record) =>
+          albums.push record unless @clonedSelection.indexOf(record.id) is -1
 
-    albums = []
-    Album.each (record) =>
-      albums.push record unless @clonedSelection.indexOf(record.id) is -1
-    
-    Spine.trigger('create:albumJoin', target, albums)
-    Spine.trigger('destroy:albumJoin', origin, albums) unless @isCtrlClick(e)
-    
+        Album.trigger('create:join', target, albums)
+        Album.trigger('destroy:join', origin, albums) unless @isCtrlClick(e)
+        
+      when 'Photo'
+        photos = []
+        Photo.each (record) =>
+          photos.push record unless @clonedSelection.indexOf(record.id) is -1
+
+        Photo.trigger('create:join', target, photos)
+        Photo.trigger('destroy:join', origin, photos) unless @isCtrlClick(e)
+        
   validateDrop: (target, source, origin) =>
     switch source.constructor.className
       when 'Album'

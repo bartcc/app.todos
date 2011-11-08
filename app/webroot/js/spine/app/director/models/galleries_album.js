@@ -15,6 +15,17 @@ GalleriesAlbum = (function() {
   GalleriesAlbum.configure("GalleriesAlbum", 'gallery_id', 'album_id', 'name');
   GalleriesAlbum.extend(Spine.Model.Local);
   GalleriesAlbum.extend(Spine.Model.Filter);
+  GalleriesAlbum.galleryHasAlbum = function(gid, aid) {
+    var ga, gas, _i, _len;
+    gas = this.filter(gid);
+    for (_i = 0, _len = gas.length; _i < _len; _i++) {
+      ga = gas[_i];
+      if (ga.album_id === aid) {
+        return true;
+      }
+    }
+    return false;
+  };
   GalleriesAlbum.prototype.select = function(query) {
     if (this.gallery_id === query && this.constructor.records[this.id]) {
       return true;

@@ -36,16 +36,21 @@ class PhotosView extends Spine.Controller
     @list = new PhotoList
       el: @items
       template: @template
-    Photo.bind('refresh', @proxy @createJoin)
+    Photo.bind('refresh', @proxy @prepareJoin)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)
-    Spine.bind("create:photoJoin", @proxy @createJoin)
-    Spine.bind("destroy:photoJoin", @proxy @destroyJoin)
+    Photo.bind("create:join", @proxy @createJoin)
+    Photo.bind("destroy:join", @proxy @destroyJoin)
     @bind("render:header", @proxy @renderHeader)
     
   change: (item) ->
     @current = item or Album.record
+    # if the album has been moved outside the gallery kill current album and render all photos
+    unless GalleriesAlbum.galleryHasAlbum Gallery.record.id, Album.record.id
+      Album.record = false
+      App.showView.trigger('render:toolbar')
+      
     items = Photo.filter(item?.id)
     
     @render items
@@ -80,34 +85,37 @@ class PhotosView extends Spine.Controller
           Photo.removeFromSelection(Album, photo.id)
           photo.destroy()
     
-  show: (album) ->
-    #@change album
-    Spine.trigger('change:canvas', @)
+  show: -> Spine.trigger('change:canvas', @)
   
   save: (item) ->
 
-  createJoin: (photos) ->
+  prepareJoin: (photos) ->
+    @createJoin Album.record, photos
+  
+  createJoin: (target, photos) ->
     console.log 'PhotosView::createJoin'
-    return unless Album.record
-    target = Album.record
+    return unless target and target.constructor.className is 'Album'
+    console.log target
+    console.log photos
     
     unless Photo.isArray photos
       records = []
       records.push(photos)
     else records = photos
 
+    console.log records
     for record in records
       ap = new AlbumsPhoto
         album_id: target.id
         photo_id: record.id
+      console.log ap
       ap.save()
 
     target.save()
   
-  destroyJoin: (photos) ->
+  destroyJoin: (target, photos) ->
     console.log 'PhotosView::destroyJoin'
-    return unless Album.record
-    target = Album.record
+    return unless target and target.constructor.className is 'Album'
 
     unless Photo.isArray photos
       records = []
@@ -118,18 +126,10 @@ class PhotosView extends Spine.Controller
 
     aps = AlbumsPhoto.filter(target.id)
     for ap in aps
-      unless albums.indexOf(ap.album_id) is -1
+      unless photos.indexOf(ap.photo_id) is -1
         Photo.removeFromSelection Album, ap.photo_id
         ap.destroy()
 
     target.save()
-
-  test: (e) =>
-    console.log 'PhotosView::test'
-    el = $(e.target)
-    console.log el
-    console.log el.item()
-    console.log @el
-    console.log @el.item()
 
 module?.exports = PhotosView

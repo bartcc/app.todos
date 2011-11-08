@@ -5,11 +5,17 @@ class GalleriesAlbum extends Spine.Model
   @extend Spine.Model.Local
   @extend Spine.Model.Filter
   
+  @galleryHasAlbum: (gid, aid) ->
+    gas = @filter gid
+    for ga in gas
+      return true if ga.album_id == aid
+    false
+  
   select: (query) ->
     return true if @gallery_id is query and @constructor.records[@id]
     return false
 
   selectAlbum: (query) ->
     return true if @album_id is query
-
+    
 Spine.Model.GalleriesAlbum = GalleriesAlbum

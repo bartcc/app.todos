@@ -417,35 +417,45 @@ textarea {
 #sidebar li.item.active {
   color: #D4D4D4;
 }
-#sidebar li.item {
+#sidebar li.gal.item {
   background: url("img/gradient-normal.png") repeat  0 0;
   background-size: 100% 100%;
 }
-#sidebar li.item.active {
+#sidebar li.gal.item.active {
   background-image: url("img/gradient-active.png");
 }
-#sidebar li.item.over {
+#sidebar li.gal.item.over {
   background-image: url("img/gradient-over.png");
 }
-#sidebar li.item.over.nodrop {
+#sidebar li.gal.item.over.nodrop {
   background-image: url("img/gradient-nodrop.png");
 }
 #sidebar li.item .cta {
-  color: rgba(255, 255, 255, 0.2);
   font-size: 1.5em;
-  line-height: 1.2em;
   padding: 0 10px;
   position: absolute;
   right: 10px;
   border: 0 none;
 /*  color: #FFFFFF;
-  position: absolute;
-  right: 10px;
-  line-height: 1.7em;*/
+  color: rgba(255, 255, 255, 0.2);
+  line-height: 1.2em;
+  right: 10px;*/
 }
-#sidebar li.item.active .cta, .cta.active {
+#sidebar li.active li.alb.item .cta {
+  background-color: #898989;
+}
+#sidebar li.alb.item .cta {
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+  font-size: 1em;
+  line-height: 1.3em;
+  top: 12px;
+}
+#sidebar li.item.active .gal.cta, .cta.active {
   color: rgba(255, 255, 255, 0.9);
-  background: #898989;
+  background-color: #898989;
   background-image: radial-gradient(15px 20px, #BDBDBD, #898989);
   border: 1px solid #575757;
   -moz-border-radius: 30px;
@@ -460,9 +470,9 @@ textarea {
   color: rgba(255, 255, 255, 0.2);
   padding: 0 6px 0 6px;
   font-size: 12px;
-  font-weight: bold;
-  box-shadow: 0 1px 3px #666666 inset;
   text-shadow: 0 1px 0.1px #666666 inset;
+/*  font-weight: bold;
+  box-shadow: 0 1px 3px #666666 inset;*/
 }
 .header {
   height: 80px;
@@ -564,9 +574,9 @@ textarea {
 }
 #sidebar ul.sublist li.sublist-item {
   background-image: url(img/bauer-small.png);
-	 -moz-background-size: 48px 96px;
-	 -webkit-background-size: 48px 96px;
-	 background-size: 48px 96px;
+	 -moz-background-size: 48px 192px;
+	 -webkit-background-size: 48px 192px;
+	 background-size: 48px 192px;
 	 -moz-background-position: 0 0;
 	 -webkit-background-position: 0 0;
 	 background-position: 0 0;
@@ -579,6 +589,16 @@ textarea {
   -moz-background-position: 0 -48px;
 	 -webkit-background-position: 0 -48px;
 	 background-position: 0 -48px;
+}
+#sidebar ul.sublist li.sublist-item.over {
+  -moz-background-position: 0 -144px;
+	 -webkit-background-position: 0 -144px;
+	 background-position: 0 -144px;
+}
+#sidebar ul.sublist li.sublist-item.over.nodrop {
+  -moz-background-position: 0 -96px;
+	 -webkit-background-position: 0 -96px;
+	 background-position: 0 -96px;
 }
 #sidebar .expander {
   width: 23px;

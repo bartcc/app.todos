@@ -100,8 +100,7 @@ class SidebarView extends Spine.Controller
 
   dragEnter: (e) =>
     return unless Spine.dragItem
-    el = $(e.currentTarget)
-    
+    el = $(e.target).closest('li.item')
     target = el.item()
     source = Spine.dragItem?.source
     origin = Spine.dragItem?.origin or Gallery.record

@@ -60,24 +60,6 @@ class GalleryList extends Spine.Controller
   render: (items, item, mode) ->
     console.log 'GalleryList::render'
     unless item
-      #inject counter
-#      for record in items
-#        record.count = Album.filter(record.id).length
-#        count = 0
-#        albums = Album.filter(record.id).length
-#        for album in albums
-#          count += AlbumsPhoto.filter(album.id).length
-          
-#        record.count = Album.filter(record.id).length + '/' + count
-        
-#        gas = GalleriesAlbum.filter(record.id)
-#        for ga in gas
-#          album = Album.find(ga.album_id)
-#          aps = AlbumsPhoto.filter(album.id)
-#          count += aps.length
-          
-        
-
       @items = items
       @html @template @items
     else if mode is 'update'
@@ -104,7 +86,7 @@ class GalleryList extends Spine.Controller
 
     albums.push {flash: 'no albums'} unless albums.length
     $('#'+gallery.id+' ul').html @sublistTemplate(albums)
-    $('.item-header .cta', '#'+gallery.id).html Album.filter(gallery.id).length + '/' + total
+    $('.item-header .cta', '#'+gallery.id).html total + '<span style="font-size: 0.5em;">-' + Album.filter(gallery.id).length + '</span>'
     
     @exposeSublistSelection(gallery)
     

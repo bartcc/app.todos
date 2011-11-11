@@ -102,7 +102,7 @@ GalleryList = (function() {
       });
     }
     $('#' + gallery.id + ' ul').html(this.sublistTemplate(albums));
-    $('.item-header .cta', '#' + gallery.id).html(Album.filter(gallery.id).length + '/' + total);
+    $('.item-header .cta', '#' + gallery.id).html(total + '<span style="font-size: 0.5em;">-' + Album.filter(gallery.id).length + '</span>');
     return this.exposeSublistSelection(gallery);
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {

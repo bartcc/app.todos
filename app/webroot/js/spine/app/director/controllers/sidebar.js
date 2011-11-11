@@ -133,7 +133,7 @@ SidebarView = (function() {
     if (!Spine.dragItem) {
       return;
     }
-    el = $(e.currentTarget);
+    el = $(e.target).closest('li.item');
     target = el.item();
     source = (_ref = Spine.dragItem) != null ? _ref.source : void 0;
     origin = ((_ref2 = Spine.dragItem) != null ? _ref2.origin : void 0) || Gallery.record;

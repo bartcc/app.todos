@@ -120,7 +120,7 @@
         <span class="name empty">No Name</span>
         {{/if}}
         <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
-        <span class="cta"></span>
+        <span class="gal cta"></span>
       </div>
     </div>
     <hr>

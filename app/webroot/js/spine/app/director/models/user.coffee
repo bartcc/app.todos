@@ -16,7 +16,6 @@ class User extends Spine.Model
     User.redirect 'logout'
   
   @redirect: (url) ->
-    alert 'redirecting to: ' + base_url + url
     window.location.replace base_url + url
 
   init: (instance) ->

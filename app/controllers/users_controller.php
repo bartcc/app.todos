@@ -29,6 +29,8 @@ class UsersController extends AppController {
     if ($this->RequestHandler->isAjax()) {
       $user = $this->Auth->user();
       if ($user) {
+        $this->log($user, LOG_DEBUG);
+        $this->User->id = $user['User']['id'];
         $this->User->saveField('lastlogin', date('Y-m-d H:i:s'));
         $this->User->Group->recursive = 0;
         $group = $this->User->Group->findById($this->Auth->user('group_id'));

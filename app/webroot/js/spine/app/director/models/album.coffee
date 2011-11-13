@@ -7,6 +7,8 @@ class Album extends Spine.Model
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
+  @caches: [global:{}]
+
   @selectAttributes: ['title']
 
   @url: ->
@@ -29,12 +31,43 @@ class Album extends Spine.Model
       foreignKey            : 'album_id'
       associationForeignKey : 'image_id'
 
+  @cacheList: (recordID) =>
+    id = recordID or @record.id
+    return @caches[0].global unless id
+    for item in @caches
+      return item[id] if item[id]
+
+  @cache: (record, url) ->
+    cache = @cacheList record?.id
+    cache[url]
+
+  @addToCache: (url, uri = '123abc') ->
+    cache = @cacheList Album.record?.id
+    cache[url] = uri
+    cache
+    
   init: (instance) ->
     return unless instance
     newSelection = {}
     newSelection[instance.id] = []
     @constructor.selection.push(newSelection)
+    
+    cache = {}
+    cache[instance.id] = {}
+    @constructor.caches.push(cache)
   
+  cacheList: ->
+    @constructor.cacheList @id
+    
+  addToCache: (url, uri = '123abc') ->
+    cache = @cacheList @id
+    cache[url] = uri
+    cache
+    
+  cache: (url) ->
+    cache = @cacheList @id
+    cache[url]
+    
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes

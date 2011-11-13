@@ -19,6 +19,7 @@ Photo = (function() {
   Photo.extend(Spine.Model.AjaxRelations);
   Photo.extend(Spine.Model.Filter);
   Photo.extend(Spine.Model.Extender);
+  Photo.cache = [];
   Photo.selectAttributes = ['title', "description", 'user_id'];
   Photo.foreignModels = function() {
     return {
@@ -51,23 +52,53 @@ Photo = (function() {
     square: 1,
     quality: 70
   };
-  Photo.uri = function(items, params) {
-    var options;
+  Photo.uri = function(items, params, callback) {
+    var options, uri, url;
+    if (callback == null) {
+      callback = this.success;
+    }
     options = $.extend({}, this.defaults, params);
-    return $.ajax({
-      url: base_url + 'photos/uri/' + options.width + '/' + options.height + '/' + options.square + '/' + options.quality,
-      data: JSON.stringify(items),
-      type: 'POST',
-      success: this.success,
-      error: this.error
-    });
+    url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality;
+    uri = Album.cache(Album.record, url);
+    if (!uri) {
+      return $.ajax({
+        url: base_url + 'photos/uri/' + url,
+        data: JSON.stringify(items),
+        type: 'POST',
+        success: function(uri) {
+          Album.addToCache(url, uri);
+          return callback.call(this, uri);
+        },
+        error: this.error
+      });
+    } else {
+      return callback.call(this, uri);
+    }
   };
-  Photo.success = function(json) {
+  Photo.success = function(uri) {
     console.log('Ajax::success');
-    return Photo.trigger('uri', json);
+    return Photo.trigger('uri', uri);
   };
   Photo.error = function(json) {
     return Photo.trigger('ajaxError', json);
+  };
+  Photo.create = function(atts) {
+    console.log('my create');
+    return this.__super__.constructor.create.call(this, atts);
+  };
+  Photo.refresh = function(values, options) {
+    if (options == null) {
+      options = {};
+    }
+    console.log('my refresh');
+    this.__super__.constructor.refresh.call(this, values, options);
+    return console.log(values);
+  };
+  Photo.prototype.init = function(instance) {
+    var cache;
+    cache = {};
+    cache[instance.id] = {};
+    return this.constructor.cache.push(cache);
   };
   Photo.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

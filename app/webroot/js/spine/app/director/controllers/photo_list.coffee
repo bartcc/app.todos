@@ -16,7 +16,7 @@ class PhotoList extends Spine.Controller
     Photo.bind("ajaxError", Photo.customErrorHandler)
     Photo.bind('uri', @proxy @uri)
     
-  render: (items) ->
+  render: (items, album) ->
     console.log 'PhotoList::render'
 #    console.log items
     @items = items
@@ -68,6 +68,7 @@ class PhotoList extends Spine.Controller
     false
     
   uri: (json) ->
+    console.log 'PhotoList::uri'
     for src in @items
       @items[_i]?.src = json[_i]
       

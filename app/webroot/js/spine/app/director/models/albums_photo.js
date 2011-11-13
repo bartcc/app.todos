@@ -12,9 +12,13 @@ AlbumsPhoto = (function() {
   function AlbumsPhoto() {
     AlbumsPhoto.__super__.constructor.apply(this, arguments);
   }
-  AlbumsPhoto.configure("AlbumsPhoto", "album_id", 'photo_id');
+  AlbumsPhoto.configure("AlbumsPhoto", "album_id", 'photo_id', 'uris');
   AlbumsPhoto.extend(Spine.Model.Local);
   AlbumsPhoto.extend(Spine.Model.Filter);
+  AlbumsPhoto.change = function(callbackOrParams) {
+    console.log('my AlbumsPhoto change');
+    return this.__super__.constructor.change.call(this, callbackOrParams);
+  };
   AlbumsPhoto.prototype.select = function(query) {
     if (this.album_id === query && this.constructor.records[this.id]) {
       return true;

@@ -48,7 +48,6 @@ Model.Extender =
           if @isObject(obj)
             for key, val of obj
               if key is tableName
-                #res.push(new Spine.Model[tableName](obj[key]))
                 res.push obj[key]
               else introspect obj[key]
           
@@ -60,7 +59,6 @@ Model.Extender =
           introspect(obj)
         res
       
-
       selectionList: (recordID) =>
         id = recordID or @record.id
         return @selection[0].global unless id

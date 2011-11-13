@@ -57,9 +57,10 @@ class PhotosView extends Spine.Controller
     
   render: (items) ->
     console.log 'PhotosView::render'
-    @el.data Album.record or {}
+    album = Album.record or {}
+    @el.data album
     @items.html @preloaderTemplate()
-    @list.render items
+    @list.render items, album
     @refreshElements()
     @trigger('render:header', items)
   

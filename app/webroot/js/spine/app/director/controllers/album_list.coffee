@@ -19,6 +19,9 @@ class AlbumList extends Spine.Controller
     
   template: -> arguments[0]
   
+  albumPhotosTemplate: (items) ->
+    $('#albumPhotosTemplate').tmpl items
+  
   change: (item) ->
     console.log 'AlbumList::change'
     
@@ -43,7 +46,8 @@ class AlbumList extends Spine.Controller
   render: (items, newAlbum) ->
     console.log 'AlbumList::render'
     if items.length
-      @html @template items
+      options = photos: @albumPhotos
+      @html @template items#, options
     else
       if Album.count()
         @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>'
@@ -52,6 +56,21 @@ class AlbumList extends Spine.Controller
     
     @change()
     @el
+  
+  albumPhotos: (tmpl) =>
+    album = tmpl.data
+    aps = AlbumsPhoto.filter album.id
+    photos = for ap in aps
+      Photo.find(ap.photo_id)
+      
+    Photo.uri photos,
+      width: 50
+      height: 50
+      , @callback
+    photos
+  
+  callback: (uris) ->
+    console.log uris
   
   children: (sel) ->
     @el.children(sel)

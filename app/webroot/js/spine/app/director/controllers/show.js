@@ -219,7 +219,9 @@ ShowView = (function() {
     if (item != null) {
       item.emptySelection();
     }
-    $('.item', this.current.el).removeClass('active');
+    if (this.current) {
+      $('.item', this.current.el).removeClass('active');
+    }
     this.renderToolbar();
     console.log(item);
     e.stopPropagation();

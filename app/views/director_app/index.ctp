@@ -139,8 +139,29 @@
   {{/if}}
 </script>
 
+<script id="albumPhotosTemplate" type="text/x-jquery-tmpl">
+  url(${src})
+</script>
+
+<script id="____albumPhotosTemplate" type="text/x-jquery-tmpl">
+  {{each src}}url(${value}){{/each}}
+</script>
+
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
   <li class="item">
+    <div class="thumbnail" draggable="true" {{if $item.photos}} style="background-image: {{tmpl($item.photos(this)) '#albumPhotosTemplate'}}"{{/if}}></div>
+  </li>
+</script> 
+
+<script id="__albumPhotosTemplate" type="text/x-jquery-tmpl">
+  <div class="thumbnail" draggable="true">
+    <div class="name">${}</div>
+  </div>
+</script>
+
+<script id="__albumsTemplate" type="text/x-jquery-tmpl">
+  <li class="item">
+    {{tmpl($item.photos(this)) "#albumPhotosTemplate"}}
     <div class="thumbnail" draggable="true">
       {{if title}}
       <div class="name">${title}</div>

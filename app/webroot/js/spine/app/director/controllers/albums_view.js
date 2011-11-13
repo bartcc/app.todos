@@ -31,10 +31,8 @@ AlbumsView = (function() {
     'drop': 'drop',
     'dragend': 'dragend'
   };
-  AlbumsView.prototype.albumsTemplate = function(items) {
-    return $("#albumsTemplate").tmpl(items, {
-      gallery: Gallery.record
-    });
+  AlbumsView.prototype.albumsTemplate = function(items, options) {
+    return $("#albumsTemplate").tmpl(items, options);
   };
   AlbumsView.prototype.headerTemplate = function(items) {
     return $("#headerGalleryTemplate").tmpl(items);

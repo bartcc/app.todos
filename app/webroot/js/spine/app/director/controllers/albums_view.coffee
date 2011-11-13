@@ -24,8 +24,8 @@ class AlbumsView extends Spine.Controller
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
 
-  albumsTemplate: (items) ->
-    $("#albumsTemplate").tmpl items, {gallery: Gallery.record}
+  albumsTemplate: (items, options) ->
+    $("#albumsTemplate").tmpl items, options
 
 #  toolsTemplate: (items) ->
 #    $("#toolsTemplate").tmpl items

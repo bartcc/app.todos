@@ -1,5 +1,5 @@
 var $, AlbumList;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -23,11 +23,14 @@ AlbumList = (function() {
   };
   AlbumList.prototype.selectFirst = true;
   function AlbumList() {
-    AlbumList.__super__.constructor.apply(this, arguments);
+    this.albumPhotos = __bind(this.albumPhotos, this);    AlbumList.__super__.constructor.apply(this, arguments);
     Spine.bind('album:exposeSelection', this.proxy(this.exposeSelection));
   }
   AlbumList.prototype.template = function() {
     return arguments[0];
+  };
+  AlbumList.prototype.albumPhotosTemplate = function(items) {
+    return $('#albumPhotosTemplate').tmpl(items);
   };
   AlbumList.prototype.change = function(item) {
     var list, selected;
@@ -57,8 +60,12 @@ AlbumList = (function() {
     }
   };
   AlbumList.prototype.render = function(items, newAlbum) {
+    var options;
     console.log('AlbumList::render');
     if (items.length) {
+      options = {
+        photos: this.albumPhotos
+      };
       this.html(this.template(items));
     } else {
       if (Album.count()) {
@@ -69,6 +76,28 @@ AlbumList = (function() {
     }
     this.change();
     return this.el;
+  };
+  AlbumList.prototype.albumPhotos = function(tmpl) {
+    var album, ap, aps, photos;
+    album = tmpl.data;
+    aps = AlbumsPhoto.filter(album.id);
+    photos = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = aps.length; _i < _len; _i++) {
+        ap = aps[_i];
+        _results.push(Photo.find(ap.photo_id));
+      }
+      return _results;
+    })();
+    Photo.uri(photos, {
+      width: 50,
+      height: 50
+    }, this.callback);
+    return photos;
+  };
+  AlbumList.prototype.callback = function(uris) {
+    return console.log(uris);
   };
   AlbumList.prototype.children = function(sel) {
     return this.el.children(sel);

@@ -6,6 +6,8 @@ class Photo extends Spine.Model
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
+  @cache: []
+
   @selectAttributes: ['title', "description", 'user_id']
 
   @foreignModels: ->
@@ -29,23 +31,44 @@ class Photo extends Spine.Model
     square: 1
     quality: 70
   
-  @uri: (items, params) ->
+  @uri: (items, params, callback = @success) ->
     options = $.extend({}, @defaults, params)
+    url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality
+    uri = Album.cache Album.record, url
     
-    $.ajax
-      url: base_url + 'photos/uri/' + options.width + '/' + options.height + '/' + options.square + '/' + options.quality
-      data: JSON.stringify(items)
-      type: 'POST'
-      success: @success
-      error: @error
+    unless uri
+      $.ajax
+        url: base_url + 'photos/uri/' + url
+        data: JSON.stringify(items)
+        type: 'POST'
+        success: (uri) ->
+          Album.addToCache url, uri
+          callback.call @, uri
+        error: @error
+    else
+      callback.call @, uri
   
-  @success: (json) =>
+  @success: (uri) =>
     console.log 'Ajax::success'
-    Photo.trigger('uri', json)
+    Photo.trigger('uri', uri)
     
   @error: (json) =>
     Photo.trigger('ajaxError', json)
+  
+  @create: (atts) ->
+    console.log 'my create'
+    @__super__.constructor.create.call @, atts
+  
+  @refresh: (values, options = {}) ->
+    console.log 'my refresh'
+    @__super__.constructor.refresh.call @, values, options
+    console.log values
     
+  init: (instance) ->
+    cache = {}
+    cache[instance.id] = {}
+    @constructor.cache.push(cache)
+  
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes

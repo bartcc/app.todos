@@ -57,19 +57,20 @@ class AlbumList extends Spine.Controller
     @change()
     @el
   
-  albumPhotos: (tmpl) =>
-    album = tmpl.data
+  albumPhotos: ->
+    album = @data
     aps = AlbumsPhoto.filter album.id
     photos = for ap in aps
       Photo.find(ap.photo_id)
-      
+    
     Photo.uri photos,
       width: 50
       height: 50
-      , @callback
+      , (uri) -> console.log uri
     photos
   
   callback: (uri) ->
+    console.log 'AlbumList::callback'
     console.log uri
   
   children: (sel) ->

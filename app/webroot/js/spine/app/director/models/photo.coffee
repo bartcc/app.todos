@@ -31,7 +31,7 @@ class Photo extends Spine.Model
     square: 1
     quality: 70
   
-  @uri: (items, params, callback = @success) ->
+  @uri: (items, params, callback = @success) =>
     options = $.extend({}, @defaults, params)
     url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality
     uri = Album.cache Album.record, url

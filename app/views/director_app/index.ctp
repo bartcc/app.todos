@@ -140,7 +140,7 @@
 </script>
 
 <script id="albumPhotosTemplate" type="text/x-jquery-tmpl">
-  url(${src})
+  url(${src}),
 </script>
 
 <script id="____albumPhotosTemplate" type="text/x-jquery-tmpl">
@@ -151,7 +151,7 @@
   <li class="item">
     <div class="thumbnail" draggable="true" {{if $item.photos}} style="background-image: {{tmpl($item.photos(this)) '#albumPhotosTemplate'}}"{{/if}}></div>
   </li>
-</script> 
+</script>
 
 <script id="__albumPhotosTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail" draggable="true">

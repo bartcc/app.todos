@@ -1,5 +1,5 @@
 var $, AlbumList;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -23,7 +23,7 @@ AlbumList = (function() {
   };
   AlbumList.prototype.selectFirst = true;
   function AlbumList() {
-    this.albumPhotos = __bind(this.albumPhotos, this);    AlbumList.__super__.constructor.apply(this, arguments);
+    AlbumList.__super__.constructor.apply(this, arguments);
     Spine.bind('album:exposeSelection', this.proxy(this.exposeSelection));
   }
   AlbumList.prototype.template = function() {
@@ -77,9 +77,9 @@ AlbumList = (function() {
     this.change();
     return this.el;
   };
-  AlbumList.prototype.albumPhotos = function(tmpl) {
+  AlbumList.prototype.albumPhotos = function() {
     var album, ap, aps, photos;
-    album = tmpl.data;
+    album = this.data;
     aps = AlbumsPhoto.filter(album.id);
     photos = (function() {
       var _i, _len, _results;
@@ -93,10 +93,13 @@ AlbumList = (function() {
     Photo.uri(photos, {
       width: 50,
       height: 50
-    }, this.callback);
+    }, function(uri) {
+      return console.log(uri);
+    });
     return photos;
   };
   AlbumList.prototype.callback = function(uri) {
+    console.log('AlbumList::callback');
     return console.log(uri);
   };
   AlbumList.prototype.children = function(sel) {

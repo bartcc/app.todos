@@ -91,13 +91,12 @@ Photo = (function() {
       options = {};
     }
     console.log('my refresh');
-    this.__super__.constructor.refresh.call(this, values, options);
-    return console.log(values);
+    return this.__super__.constructor.refresh.call(this, values, options);
   };
   Photo.prototype.init = function(instance) {
     var cache;
     cache = {};
-    cache[instance.id] = {};
+    cache[instance.id] = [];
     return this.constructor.cache.push(cache);
   };
   Photo.prototype.selectAttributes = function() {

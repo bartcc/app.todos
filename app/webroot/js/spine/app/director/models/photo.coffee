@@ -35,7 +35,6 @@ class Photo extends Spine.Model
     options = $.extend({}, @defaults, params)
     url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality
     uri = Album.cache Album.record, url
-    
     unless uri
       $.ajax
         url: base_url + 'photos/uri/' + url
@@ -62,11 +61,10 @@ class Photo extends Spine.Model
   @refresh: (values, options = {}) ->
     console.log 'my refresh'
     @__super__.constructor.refresh.call @, values, options
-    console.log values
     
   init: (instance) ->
     cache = {}
-    cache[instance.id] = {}
+    cache[instance.id] = []
     @constructor.cache.push(cache)
   
   selectAttributes: ->

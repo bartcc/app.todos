@@ -69,8 +69,8 @@ class AlbumList extends Spine.Controller
       , @callback
     photos
   
-  callback: (uris) ->
-    console.log uris
+  callback: (uri) ->
+    console.log uri
   
   children: (sel) ->
     @el.children(sel)

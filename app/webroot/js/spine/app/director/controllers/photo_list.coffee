@@ -12,6 +12,7 @@ class PhotoList extends Spine.Controller
     
   constructor: ->
     super
+    
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
     Photo.bind("ajaxError", Photo.customErrorHandler)
     Photo.bind('uri', @proxy @uri)
@@ -29,7 +30,7 @@ class PhotoList extends Spine.Controller
     list = Album.selectionList()
     @children().removeClass("active")
     @exposeSelection(list)
-    
+  
   exposeSelection: (list) ->
     console.log 'PhotoList::exposeSelection'
     for id in list

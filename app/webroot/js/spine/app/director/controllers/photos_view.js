@@ -45,6 +45,7 @@ PhotosView = (function() {
       el: this.items,
       template: this.template
     });
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.changed);
     Photo.bind('refresh', this.proxy(this.prepareJoin));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));
@@ -64,10 +65,12 @@ PhotosView = (function() {
     return this.render(items);
   };
   PhotosView.prototype.render = function(items) {
+    var album;
     console.log('PhotosView::render');
-    this.el.data(Album.record || {});
+    album = Album.record || {};
+    this.el.data(album);
     this.items.html(this.preloaderTemplate());
-    this.list.render(items);
+    this.list.render(items, album);
     this.refreshElements();
     return this.trigger('render:header', items);
   };
@@ -79,6 +82,9 @@ PhotosView = (function() {
       count: items.length
     };
     return this.header.html(this.headerTemplate(values));
+  };
+  PhotosView.prototype.changed = function(record, mode) {
+    return Album.emptyCache(record.album_id);
   };
   PhotosView.prototype.destroy = function(e) {
     var list, photo, photos, _i, _len, _results;
@@ -115,22 +121,18 @@ PhotosView = (function() {
     if (!(target && target.constructor.className === 'Album')) {
       return;
     }
-    console.log(target);
-    console.log(photos);
     if (!Photo.isArray(photos)) {
       records = [];
       records.push(photos);
     } else {
       records = photos;
     }
-    console.log(records);
     for (_i = 0, _len = records.length; _i < _len; _i++) {
       record = records[_i];
       ap = new AlbumsPhoto({
         album_id: target.id,
         photo_id: record.id
       });
-      console.log(ap);
       ap.save();
     }
     return target.save();

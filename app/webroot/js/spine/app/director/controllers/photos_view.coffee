@@ -36,6 +36,7 @@ class PhotosView extends Spine.Controller
     @list = new PhotoList
       el: @items
       template: @template
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', @changed)
     Photo.bind('refresh', @proxy @prepareJoin)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
@@ -69,6 +70,10 @@ class PhotosView extends Spine.Controller
     values = {record: Album.record, count: items.length}
     @header.html @headerTemplate values
   
+  # could be in any controller that listens to AlbumsPhoto - may be move to app?
+  changed: (record, mode) ->
+    Album.emptyCache record.album_id
+  
   destroy: (e) ->
     console.log 'PhotosView::destroy'
     list = Album.selectionList().slice(0)
@@ -96,22 +101,18 @@ class PhotosView extends Spine.Controller
   createJoin: (target, photos) ->
     console.log 'PhotosView::createJoin'
     return unless target and target.constructor.className is 'Album'
-    console.log target
-    console.log photos
     
     unless Photo.isArray photos
       records = []
       records.push(photos)
     else records = photos
 
-    console.log records
     for record in records
       ap = new AlbumsPhoto
         album_id: target.id
         photo_id: record.id
-      console.log ap
       ap.save()
-
+      
     target.save()
   
   destroyJoin: (target, photos) ->

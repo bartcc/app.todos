@@ -20,7 +20,7 @@ Album = (function() {
   Album.extend(Spine.Model.Extender);
   Album.caches = [
     {
-      global: {}
+      global: []
     }
   ];
   Album.selectAttributes = ['title'];
@@ -70,18 +70,28 @@ Album = (function() {
     }
   };
   Album.cache = function(record, url) {
-    var cache;
+    var cache, item, _i, _len;
     cache = this.cacheList(record != null ? record.id : void 0);
-    return cache[url];
+    for (_i = 0, _len = cache.length; _i < _len; _i++) {
+      item = cache[_i];
+      if (item[url]) {
+        return item[url];
+      }
+    }
   };
   Album.addToCache = function(url, uri) {
-    var cache, _ref;
-    if (uri == null) {
-      uri = '123abc';
-    }
+    var cache, dummy, _ref;
     cache = this.cacheList((_ref = Album.record) != null ? _ref.id : void 0);
-    cache[url] = uri;
+    dummy = {};
+    dummy[url] = uri;
+    cache.push(dummy);
     return cache;
+  };
+  Album.emptyCache = function(id) {
+    var originalList, _ref;
+    originalList = this.cacheList(id);
+    [].splice.apply(originalList, [0, originalList.length - 0].concat(_ref = [])), _ref;
+    return originalList;
   };
   Album.prototype.init = function(instance) {
     var cache, newSelection;
@@ -92,25 +102,8 @@ Album = (function() {
     newSelection[instance.id] = [];
     this.constructor.selection.push(newSelection);
     cache = {};
-    cache[instance.id] = {};
+    cache[instance.id] = [];
     return this.constructor.caches.push(cache);
-  };
-  Album.prototype.cacheList = function() {
-    return this.constructor.cacheList(this.id);
-  };
-  Album.prototype.addToCache = function(url, uri) {
-    var cache;
-    if (uri == null) {
-      uri = '123abc';
-    }
-    cache = this.cacheList(this.id);
-    cache[url] = uri;
-    return cache;
-  };
-  Album.prototype.cache = function(url) {
-    var cache;
-    cache = this.cacheList(this.id);
-    return cache[url];
   };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

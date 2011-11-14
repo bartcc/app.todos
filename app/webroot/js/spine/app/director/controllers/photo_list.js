@@ -24,7 +24,7 @@ PhotoList = (function() {
     Photo.bind("ajaxError", Photo.customErrorHandler);
     Photo.bind('uri', this.proxy(this.uri));
   }
-  PhotoList.prototype.render = function(items) {
+  PhotoList.prototype.render = function(items, album) {
     console.log('PhotoList::render');
     this.items = items;
     if (items.length) {
@@ -78,6 +78,7 @@ PhotoList = (function() {
   };
   PhotoList.prototype.uri = function(json) {
     var src, _i, _len, _ref, _ref2;
+    console.log('PhotoList::uri');
     _ref = this.items;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       src = _ref[_i];

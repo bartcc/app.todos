@@ -96,8 +96,8 @@ AlbumList = (function() {
     }, this.callback);
     return photos;
   };
-  AlbumList.prototype.callback = function(uris) {
-    return console.log(uris);
+  AlbumList.prototype.callback = function(uri) {
+    return console.log(uri);
   };
   AlbumList.prototype.children = function(sel) {
     return this.el.children(sel);

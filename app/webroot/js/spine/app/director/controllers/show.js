@@ -223,7 +223,6 @@ ShowView = (function() {
       $('.item', this.current.el).removeClass('active');
     }
     this.renderToolbar();
-    console.log(item);
     e.stopPropagation();
     e.preventDefault();
     return false;

@@ -3,7 +3,6 @@ $      = Spine.$
 
 class PhotoList extends Spine.Controller
   
-
   events:
     'click .item'             : "click"    
     'dblclick .item'          : 'dblclick'
@@ -22,7 +21,7 @@ class PhotoList extends Spine.Controller
 #    console.log items
     @items = items
     if items.length
-      Photo.uri items
+      Photo.uri album
     else
       @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
   

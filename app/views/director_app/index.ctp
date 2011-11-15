@@ -143,14 +143,14 @@
   url(${src}),
 </script>
 
-<script id="____albumPhotosTemplate" type="text/x-jquery-tmpl">
-  {{each src}}url(${value}){{/each}}
-</script>
-
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
   <li class="item">
-    <div class="thumbnail" draggable="true" {{if $item.photos}} style="background-image: {{tmpl($item.photos(this)) '#albumPhotosTemplate'}}"{{/if}}></div>
+    <div class="thumbnail" draggable="true" {{if $item.photos}} style="background-image: {{tmpl($item.photos()) '#albumPhotosTemplate'}}"{{/if}}></div>
   </li>
+</script>
+
+<script id="____albumPhotosTemplate" type="text/x-jquery-tmpl">
+  {{each src}}url(${value}){{/each}}
 </script>
 
 <script id="__albumPhotosTemplate" type="text/x-jquery-tmpl">

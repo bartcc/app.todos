@@ -28,7 +28,7 @@ PhotoList = (function() {
     console.log('PhotoList::render');
     this.items = items;
     if (items.length) {
-      return Photo.uri(items);
+      return Photo.uri(album);
     } else {
       return this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
     }

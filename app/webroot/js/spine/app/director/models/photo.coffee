@@ -31,20 +31,29 @@ class Photo extends Spine.Model
     square: 1
     quality: 70
   
-  @uri: (items, params, callback = @success) =>
+  @uri: (album, params, callback = @success) =>
     options = $.extend({}, @defaults, params)
+    
+    aps = AlbumsPhoto.filter album?.id
+    # get all photos of the album
+    photos = for ap in aps
+      Photo.find(ap.photo_id)
+      
     url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality
-    uri = Album.cache Album.record, url
+    uri = Album.cache album, url
+    
+    # not in cache
     unless uri
       $.ajax
         url: base_url + 'photos/uri/' + url
-        data: JSON.stringify(items)
+        data: JSON.stringify(photos)
         type: 'POST'
         success: (uri) ->
-          Album.addToCache url, uri
+          Album.addToCache album, url, uri
           callback.call @, uri
         error: @error
     else
+      # continue with cached uris
       callback.call @, uri
   
   @success: (uri) =>

@@ -53,21 +53,31 @@ Photo = (function() {
     square: 1,
     quality: 70
   };
-  Photo.uri = function(items, params, callback) {
-    var options, uri, url;
+  Photo.uri = function(album, params, callback) {
+    var ap, aps, options, photos, uri, url;
     if (callback == null) {
       callback = this.success;
     }
     options = $.extend({}, this.defaults, params);
+    aps = AlbumsPhoto.filter(album != null ? album.id : void 0);
+    photos = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = aps.length; _i < _len; _i++) {
+        ap = aps[_i];
+        _results.push(Photo.find(ap.photo_id));
+      }
+      return _results;
+    })();
     url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality;
-    uri = Album.cache(Album.record, url);
+    uri = Album.cache(album, url);
     if (!uri) {
       return $.ajax({
         url: base_url + 'photos/uri/' + url,
-        data: JSON.stringify(items),
+        data: JSON.stringify(photos),
         type: 'POST',
         success: function(uri) {
-          Album.addToCache(url, uri);
+          Album.addToCache(album, url, uri);
           return callback.call(this, uri);
         },
         error: this.error

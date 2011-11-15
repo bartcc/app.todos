@@ -15,7 +15,6 @@ class Builder
     data[key.className] = {}
     data
     
-
   build: ->
     @fModels = for key, value of @foreignModels
       @foreignModels[key]
@@ -31,7 +30,7 @@ class Builder
     @data[@model.className] = @record
     @data
 
-class Request extends Singleton
+class Request extends Spine.Singleton
   constructor: (@record) ->
     super
     @data = new Builder(@record).build()

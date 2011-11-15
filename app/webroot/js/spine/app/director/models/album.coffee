@@ -7,7 +7,7 @@ class Album extends Spine.Model
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
-  @caches: [global:[]]
+  @caches: []
 
   @selectAttributes: ['title']
 
@@ -34,20 +34,29 @@ class Album extends Spine.Model
   
   @cacheList: (recordID) =>
     id = recordID or @record.id
-    return @caches[0].global unless id
+    return unless id
+#    unless id
+#      global = for item in @caches
+#        urls = for key, value of item
+#          value
+#        urls
+#      return global
+      
     for item in @caches
       return item[id] if item[id]
 
   @cache: (record, url) ->
     cache = @cacheList record?.id
+    return unless cache
     for item in cache
       return item[url] if item[url]
 
-  @addToCache: (url, uri) ->
-    cache = @cacheList Album.record?.id
+  @addToCache: (record, url, uri) ->
+    cache = @cacheList record?.id
+    return unless cache# or uri.length
     dummy = {}
     dummy[url] = uri
-    cache.push dummy
+    cache.push dummy unless @cache(record, url)
     cache
     
   @emptyCache: (id) ->
@@ -65,6 +74,25 @@ class Album extends Spine.Model
     cache[instance.id] = []
     @constructor.caches.push(cache)
     
+  cache: (url) ->
+    cache = @constructor.cacheList @id
+    for item in cache
+      return item[url] if item[url]
+    
+  addToCache: (url, uri) ->
+    cache = @constructor.cacheList @id
+    unless @constructor.cache(record, url)
+      console.log 'pushing ' + url + ' for ' + @title
+      dummy = {}
+      dummy[url] = uri
+      cache.push dummy
+    cache
+    
+  emptyCache: ->
+    originalList = @constructor.cacheList @id
+    originalList[0...originalList.length] = []
+    originalList
+    
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
@@ -77,3 +105,4 @@ class Album extends Spine.Model
       return true if record.album_id is @id
       
 Spine.Model.Album = Album
+

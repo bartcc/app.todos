@@ -48,6 +48,7 @@ class AlbumList extends Spine.Controller
     if items.length
       options = photos: @albumPhotos
       @html @template items#, options
+      @renderThumbnails items
     else
       if Album.count()
         @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>'
@@ -57,22 +58,19 @@ class AlbumList extends Spine.Controller
     @change()
     @el
   
-  albumPhotos: ->
-    album = @data
-    aps = AlbumsPhoto.filter album.id
-    photos = for ap in aps
-      Photo.find(ap.photo_id)
-    
-    Photo.uri photos,
-      width: 50
-      height: 50
-      , (uri) -> console.log uri
-    photos
+  renderThumbnails: (albums) ->
+      
+    for album in albums
+      callback = (uri) =>
+        @albumPhotos album, uri
+      Photo.uri album, {width: 50, height: 50}, callback
   
-  callback: (uri) ->
-    console.log 'AlbumList::callback'
-    console.log uri
-  
+  albumPhotos: (album, uris) ->
+    css = for uri in uris
+      'url(' + uri + ')'
+    el = @children().forItem(album)
+    el.css('backgroundImage', css)
+      
   children: (sel) ->
     @el.children(sel)
 

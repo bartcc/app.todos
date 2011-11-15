@@ -6,7 +6,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
@@ -67,6 +67,7 @@ AlbumList = (function() {
         photos: this.albumPhotos
       };
       this.html(this.template(items));
+      this.renderThumbnails(items);
     } else {
       if (Album.count()) {
         this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>');
@@ -77,30 +78,34 @@ AlbumList = (function() {
     this.change();
     return this.el;
   };
-  AlbumList.prototype.albumPhotos = function() {
-    var album, ap, aps, photos;
-    album = this.data;
-    aps = AlbumsPhoto.filter(album.id);
-    photos = (function() {
+  AlbumList.prototype.renderThumbnails = function(albums) {
+    var album, callback, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = albums.length; _i < _len; _i++) {
+      album = albums[_i];
+      callback = __bind(function(uri) {
+        return this.albumPhotos(album, uri);
+      }, this);
+      _results.push(Photo.uri(album, {
+        width: 50,
+        height: 50
+      }, callback));
+    }
+    return _results;
+  };
+  AlbumList.prototype.albumPhotos = function(album, uris) {
+    var css, el, uri;
+    css = (function() {
       var _i, _len, _results;
       _results = [];
-      for (_i = 0, _len = aps.length; _i < _len; _i++) {
-        ap = aps[_i];
-        _results.push(Photo.find(ap.photo_id));
+      for (_i = 0, _len = uris.length; _i < _len; _i++) {
+        uri = uris[_i];
+        _results.push('url(' + uri + ')');
       }
       return _results;
     })();
-    Photo.uri(photos, {
-      width: 50,
-      height: 50
-    }, function(uri) {
-      return console.log(uri);
-    });
-    return photos;
-  };
-  AlbumList.prototype.callback = function(uri) {
-    console.log('AlbumList::callback');
-    return console.log(uri);
+    el = this.children().forItem(album);
+    return el.css('backgroundImage', css);
   };
   AlbumList.prototype.children = function(sel) {
     return this.el.children(sel);

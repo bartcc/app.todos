@@ -22,7 +22,7 @@ class PhotoList extends Spine.Controller
       album.uri
         width:140
         height:140
-        , (xhr, album) => @callback items, xhr
+        , (xhr, record) => @callback items, xhr
     else
       @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
   

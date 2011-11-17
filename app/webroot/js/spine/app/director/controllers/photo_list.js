@@ -30,7 +30,7 @@ PhotoList = (function() {
       return album.uri({
         width: 140,
         height: 140
-      }, __bind(function(xhr, album) {
+      }, __bind(function(xhr, record) {
         return this.callback(items, xhr);
       }, this));
     } else {

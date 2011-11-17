@@ -157,7 +157,7 @@ App = (function() {
       _results.push(album.uri({
         width: 50,
         height: 50
-      }, __bind(function() {}, this)));
+      }, __bind(function() {}, this), 3));
     }
     return _results;
   };

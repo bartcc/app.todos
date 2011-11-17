@@ -42,11 +42,12 @@ class Base
     Ajax.queue(callback)
     
 class Uri extends Base
-  constructor: (@record, params, @callback) ->
+  constructor: (@record, params, @callback, max) ->
     super
     # get all photos of the album
     aps = AlbumsPhoto.filter @record.id
-    @photos = for ap in aps
+    max = max or aps.length-1
+    @photos = for ap in aps[0..max]
       Photo.find(ap.photo_id)
       
     options = $.extend({}, @settings, params)
@@ -85,7 +86,7 @@ Model.Uri =
   extended: ->
     
     Include =
-      uri: (params, callback) -> new Uri(@, params, callback).test()
+      uri: (params, callback, max) -> new Uri(@, params, callback, max).test()
       
     @include Include
     

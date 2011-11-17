@@ -65,22 +65,24 @@
   })();
   Uri = (function() {
     __extends(Uri, Base);
-    function Uri(record, params, callback) {
+    function Uri(record, params, callback, max) {
       var ap, aps, options;
       this.record = record;
       this.callback = callback;
       this.recordResponse = __bind(this.recordResponse, this);
       Uri.__super__.constructor.apply(this, arguments);
       aps = AlbumsPhoto.filter(this.record.id);
+      this.max = max || aps.length - 1;
       this.photos = (function() {
-        var _i, _len, _results;
+        var _i, _len, _ref, _results;
+        _ref = aps.slice(0, (this.max + 1) || 9e9);
         _results = [];
-        for (_i = 0, _len = aps.length; _i < _len; _i++) {
-          ap = aps[_i];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          ap = _ref[_i];
           _results.push(Photo.find(ap.photo_id));
         }
         return _results;
-      })();
+      }).call(this);
       options = $.extend({}, this.settings, params);
       this.url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality;
     }
@@ -119,8 +121,8 @@
     extended: function() {
       var Include;
       Include = {
-        uri: function(params, callback) {
-          return new Uri(this, params, callback).test();
+        uri: function(params, callback, max) {
+          return new Uri(this, params, callback, max).test();
         }
       };
       return this.include(Include);

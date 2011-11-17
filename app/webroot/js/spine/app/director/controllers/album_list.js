@@ -86,7 +86,7 @@ AlbumList = (function() {
         height: 50
       }, __bind(function(xhr, item) {
         return this.callback(xhr, item);
-      }, this)));
+      }, this), 3));
     }
     return _results;
   };

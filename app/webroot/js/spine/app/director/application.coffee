@@ -120,6 +120,8 @@ class App extends Spine.Controller
         width: 50
         height: 50
         , =>
+          return
+        , 3
       
   setupView: ->
     Spine.unbind('uri:alldone')

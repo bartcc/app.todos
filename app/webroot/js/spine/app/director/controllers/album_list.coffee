@@ -61,6 +61,7 @@ class AlbumList extends Spine.Controller
         height: 50
         , (xhr, item) =>
           @callback(xhr, item)
+        , 3
   
   callback: (uris, item) =>
     el = @children().forItem(item)

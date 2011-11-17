@@ -140,7 +140,7 @@ App = (function() {
       this.icon[0].src = '/img/validated.png';
       this.statusText.text('Account verified');
       cb = function() {
-        return this.thumbs();
+        return this.setupView();
       };
       return this.delay(cb, 1000);
     }

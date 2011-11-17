@@ -107,7 +107,7 @@ class App extends Spine.Controller
       @icon[0].src = '/img/validated.png'
       @statusText.text 'Account verified'
       cb = ->
-        @thumbs()
+        @setupView()
       @delay cb, 1000
       
   thumbs: ->

@@ -670,7 +670,10 @@ textarea {
   
 }
 #content .content .items .item:not(.thumbnail) {
-
+  background-repeat: no-repeat;
+  -moz-background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
+	 -webkit-background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
+	 background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
 }
 #content .content .items {
   padding: 20px;

@@ -139,45 +139,17 @@
   {{/if}}
 </script>
 
-<script id="albumBackgroundTemplate" type="text/x-jquery-tmpl">
-  ${bg}
-</script>
-
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
   <li class="item">
     <div class="thumbnail" draggable="true">
-      {{if title}}
-      <div class="name">${title}</div>
-      {{else}}
-      <div class="name empty">No title</div>
-      {{/if}}
     </div>
+    {{if title}}
+    <div class="name">${title}</div>
+    {{else}}
+    <div class="name empty">No title</div>
+    {{/if}}
   </li>
-  <div style="display: none;">{{tmpl '#albumBackgroundTemplate'}}</div>
 </script>
-
-<script id="____albumPhotosTemplate" type="text/x-jquery-tmpl">
-  {{each src}}url(${value}){{/each}}
-</script>
-
-<script id="__albumPhotosTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail" draggable="true">
-    <div class="name">${}</div>
-  </div>
-</script>
-
-<script id="__albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item">
-    {{tmpl($item.photos(this)) "#albumPhotosTemplate"}}
-    <div class="thumbnail" draggable="true">
-      {{if title}}
-      <div class="name">${title}</div>
-      {{else}}
-      <div class="name empty">No title</div>
-      {{/if}}
-    </div>
-  </li>
-</script>  
 
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">
   <div class="flex items">

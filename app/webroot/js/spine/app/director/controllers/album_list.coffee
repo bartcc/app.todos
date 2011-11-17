@@ -22,14 +22,12 @@ class AlbumList extends Spine.Controller
   albumPhotosTemplate: (items) ->
     $('#albumPhotosTemplate').tmpl items
   
-  change: (item) ->
+  change: (items) ->
     console.log 'AlbumList::change'
-    
     list = Gallery.selectionList()
-    
+    @renderBackgrounds items if items.length
     @children().removeClass("active")
     @exposeSelection(list)
-        
     # highlight first element in list
     selected = Album.find(list[0]) if Album.exists(list[0])
     Album.current(selected) if selected and !selected.destroyed
@@ -46,31 +44,30 @@ class AlbumList extends Spine.Controller
   render: (items, newAlbum) ->
     console.log 'AlbumList::render'
     if items.length
-      options = photos: @albumPhotos
-      @html @template items#, options
-      @renderThumbnails items
+      @html @template items
     else
       if Album.count()
         @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>'
       else
         @html '<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button></div>'
     
-    @change()
+    @change items
     @el
   
-  renderThumbnails: (albums) ->
-      
-    for album in albums
-      callback = (uri) =>
-        @albumPhotos album, uri
-      Photo.uri album, {width: 50, height: 50}, callback
+  renderBackgrounds: (items) ->
+    for item in items
+      item.uri
+        width: 50
+        height: 50
+        , (xhr, item) =>
+          @callback(xhr, item)
   
-  albumPhotos: (album, uris) ->
+  callback: (uris, item) =>
+    el = @children().forItem(item)
     css = for uri in uris
       'url(' + uri + ')'
-    el = @children().forItem(album)
     el.css('backgroundImage', css)
-      
+  
   children: (sel) ->
     @el.children(sel)
 

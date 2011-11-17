@@ -67,8 +67,10 @@ PhotosView = (function() {
   PhotosView.prototype.render = function(items) {
     var album;
     console.log('PhotosView::render');
-    album = Album.record || {};
-    this.el.data(album);
+    album = Album.record;
+    if (album) {
+      this.el.data(album);
+    }
     this.items.html(this.preloaderTemplate());
     this.list.render(items, album);
     this.refreshElements();

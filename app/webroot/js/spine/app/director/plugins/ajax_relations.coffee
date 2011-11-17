@@ -41,7 +41,7 @@ class Request extends Spine.Singleton
         params,
         type: "POST"
         data: JSON.stringify(@data)
-        url:  Ajax.getURL(@model)
+        url:  Spine.Ajax.getURL(@model)
       ).success(@recordResponse)
        .error(@errorResponse)
 
@@ -51,7 +51,7 @@ class Request extends Spine.Singleton
         params,
         type: "PUT"
         data: JSON.stringify(@data)
-        url:  Ajax.getURL(@record)
+        url:  Spine.Ajax.getURL(@record)
       ).success(@recordResponse)
        .error(@errorResponse)
 

@@ -4,6 +4,7 @@ class Album extends Spine.Model
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
+  @extend Spine.Model.Uri
   @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
@@ -35,13 +36,6 @@ class Album extends Spine.Model
   @cacheList: (recordID) =>
     id = recordID or @record.id
     return unless id
-#    unless id
-#      global = for item in @caches
-#        urls = for key, value of item
-#          value
-#        urls
-#      return global
-      
     for item in @caches
       return item[id] if item[id]
 
@@ -75,23 +69,13 @@ class Album extends Spine.Model
     @constructor.caches.push(cache)
     
   cache: (url) ->
-    cache = @constructor.cacheList @id
-    for item in cache
-      return item[url] if item[url]
+    @constructor.cache @, url
     
   addToCache: (url, uri) ->
-    cache = @constructor.cacheList @id
-    unless @constructor.cache(record, url)
-      console.log 'pushing ' + url + ' for ' + @title
-      dummy = {}
-      dummy[url] = uri
-      cache.push dummy
-    cache
+    @constructor.addToCache(@, url, uri)
     
   emptyCache: ->
-    originalList = @constructor.cacheList @id
-    originalList[0...originalList.length] = []
-    originalList
+    @constructor.emptyCache @id
     
   selectAttributes: ->
     result = {}

@@ -18,13 +18,24 @@ class PhotoList extends Spine.Controller
     
   render: (items, album) ->
     console.log 'PhotoList::render'
-#    console.log items
-    @items = items
-    if items.length
-      Photo.uri album
+    if items.length and album
+      console.log 'old Photo.uri'
+      album.uri
+        width:140
+        height:140
+        , (xhr) => @callback items, xhr
     else
       @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
   
+  callback: (items, json) ->
+    console.log 'PhotoList::uri'
+    for src in items
+      items[_i]?.src = json[_i]
+      
+    @html @template items
+    @change()
+    @el
+    
   change: (item) ->
     list = Album.selectionList()
     @children().removeClass("active")
@@ -66,14 +77,6 @@ class PhotoList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     false
-    
-  uri: (json) ->
-    console.log 'PhotoList::uri'
-    for src in @items
-      @items[_i]?.src = json[_i]
-      
-    @html @template @items
-    @change()
-    @el
+  
     
 module?.exports = PhotoList

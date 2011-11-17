@@ -16,6 +16,7 @@ Album = (function() {
   Album.configure("Album", 'title', 'description', 'count', 'user_id');
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
+  Album.extend(Spine.Model.Uri);
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Extender);
   Album.caches = [];
@@ -110,31 +111,13 @@ Album = (function() {
     return this.constructor.caches.push(cache);
   };
   Album.prototype.cache = function(url) {
-    var cache, item, _i, _len;
-    cache = this.constructor.cacheList(this.id);
-    for (_i = 0, _len = cache.length; _i < _len; _i++) {
-      item = cache[_i];
-      if (item[url]) {
-        return item[url];
-      }
-    }
+    return this.constructor.cache(this, url);
   };
   Album.prototype.addToCache = function(url, uri) {
-    var cache, dummy;
-    cache = this.constructor.cacheList(this.id);
-    if (!this.constructor.cache(record, url)) {
-      console.log('pushing ' + url + ' for ' + this.title);
-      dummy = {};
-      dummy[url] = uri;
-      cache.push(dummy);
-    }
-    return cache;
+    return this.constructor.addToCache(this, url, uri);
   };
   Album.prototype.emptyCache = function() {
-    var originalList, _ref;
-    originalList = this.constructor.cacheList(this.id);
-    [].splice.apply(originalList, [0, originalList.length - 0].concat(_ref = [])), _ref;
-    return originalList;
+    return this.constructor.emptyCache(this.id);
   };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

@@ -12,13 +12,10 @@ class AlbumView extends Spine.Controller
     'keydown'     : 'saveOnEnter'
   
   template: (item) ->
-    console.log 'Album::template'
-    console.log item.id
     $('#editAlbumTemplate').tmpl item
 
   constructor: ->
     super
-    #Album.bind("ajaxError", @proxy @error)
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)
 
@@ -57,7 +54,11 @@ class AlbumView extends Spine.Controller
     return if(e.keyCode != 13)
     @save @editEl
 
-  click: ->
+  click: (e) ->
     console.log 'click'
+    
+    e.stopPropagation()
+    e.preventDefault()
+    false
 
 module?.exports = AlbumView

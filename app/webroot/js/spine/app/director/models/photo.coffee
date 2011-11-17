@@ -31,14 +31,15 @@ class Photo extends Spine.Model
     square: 1
     quality: 70
   
-  @uri: (album, params, callback = @success) =>
+  @uri_: (album, params, callback = @success) =>
     options = $.extend({}, @defaults, params)
     
-    aps = AlbumsPhoto.filter album?.id
     # get all photos of the album
+    aps = AlbumsPhoto.filter album?.id
     photos = for ap in aps
       Photo.find(ap.photo_id)
-      
+    return unless photos.length
+    
     url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality
     uri = Album.cache album, url
     
@@ -54,6 +55,7 @@ class Photo extends Spine.Model
         error: @error
     else
       # continue with cached uris
+      console.log uri
       callback.call @, uri
   
   @success: (uri) =>

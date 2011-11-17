@@ -53,7 +53,7 @@ Photo = (function() {
     square: 1,
     quality: 70
   };
-  Photo.uri = function(album, params, callback) {
+  Photo.uri_ = function(album, params, callback) {
     var ap, aps, options, photos, uri, url;
     if (callback == null) {
       callback = this.success;
@@ -69,6 +69,9 @@ Photo = (function() {
       }
       return _results;
     })();
+    if (!photos.length) {
+      return;
+    }
     url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality;
     uri = Album.cache(album, url);
     if (!uri) {
@@ -83,6 +86,7 @@ Photo = (function() {
         error: this.error
       });
     } else {
+      console.log(uri);
       return callback.call(this, uri);
     }
   };

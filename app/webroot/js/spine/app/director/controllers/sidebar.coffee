@@ -33,7 +33,6 @@ class SidebarView extends Spine.Controller
     Gallery.bind("refresh change", @proxy @render)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Spine.bind('render:galleryItem', @proxy @renderItem)
-#    Spine.bind('render:sublist', @proxy @renderSubList)
     Spine.bind('create:gallery', @proxy @create)
     Spine.bind('destroy:gallery', @proxy @destroy)
     Spine.bind('drag:start', @proxy @dragStart)
@@ -56,7 +55,6 @@ class SidebarView extends Spine.Controller
   renderItem: ->
     console.log 'Sidebar::renderItem'
     for item in @galleryItems
-#      $('.cta', '#'+item.id).html(Album.filter(item.id).length)
       @list.renderSublist item
 
   dragStart: (e, controller) ->

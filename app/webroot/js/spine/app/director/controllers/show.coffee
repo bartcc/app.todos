@@ -177,7 +177,7 @@ class ShowView extends Spine.Controller
   deselect: (e) =>
     console.log 'ShowView::deselect'
     item = @el.data().current
-    item?.emptySelection()
+    item.emptySelection?()
     
     if  @current then $('.item', @current.el).removeClass('active')
     @renderToolbar()

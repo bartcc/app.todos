@@ -6,7 +6,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
@@ -26,12 +26,30 @@ PhotoList = (function() {
   }
   PhotoList.prototype.render = function(items, album) {
     console.log('PhotoList::render');
-    this.items = items;
-    if (items.length) {
-      return Photo.uri(album);
+    if (items.length && album) {
+      console.log('old Photo.uri');
+      return album.uri({
+        width: 140,
+        height: 140
+      }, __bind(function(xhr) {
+        return this.callback(items, xhr);
+      }, this));
     } else {
       return this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
     }
+  };
+  PhotoList.prototype.callback = function(items, json) {
+    var src, _i, _len, _ref;
+    console.log('PhotoList::uri');
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      src = items[_i];
+      if ((_ref = items[_i]) != null) {
+        _ref.src = json[_i];
+      }
+    }
+    this.html(this.template(items));
+    this.change();
+    return this.el;
   };
   PhotoList.prototype.change = function(item) {
     var list;
@@ -75,20 +93,6 @@ PhotoList = (function() {
     e.stopPropagation();
     e.preventDefault();
     return false;
-  };
-  PhotoList.prototype.uri = function(json) {
-    var src, _i, _len, _ref, _ref2;
-    console.log('PhotoList::uri');
-    _ref = this.items;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      src = _ref[_i];
-      if ((_ref2 = this.items[_i]) != null) {
-        _ref2.src = json[_i];
-      }
-    }
-    this.html(this.template(this.items));
-    this.change();
-    return this.el;
   };
   return PhotoList;
 })();

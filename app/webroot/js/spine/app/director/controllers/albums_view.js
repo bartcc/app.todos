@@ -89,11 +89,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.show = function() {
     return Spine.trigger('change:canvas', this);
   };
-  AlbumsView.prototype.initSortables = function() {
-    var sortOptions;
-    sortOptions = {};
-    return this.items.sortable(sortOptions);
-  };
+  AlbumsView.prototype.initSortables = function() {};
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {
       return {

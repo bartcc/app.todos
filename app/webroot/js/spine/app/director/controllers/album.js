@@ -22,8 +22,6 @@ AlbumView = (function() {
     'keydown': 'saveOnEnter'
   };
   AlbumView.prototype.template = function(item) {
-    console.log('Album::template');
-    console.log(item.id);
     return $('#editAlbumTemplate').tmpl(item);
   };
   function AlbumView() {
@@ -81,8 +79,11 @@ AlbumView = (function() {
     }
     return this.save(this.editEl);
   };
-  AlbumView.prototype.click = function() {
-    return console.log('click');
+  AlbumView.prototype.click = function(e) {
+    console.log('click');
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   return AlbumView;
 })();

@@ -37,7 +37,7 @@ App = (function() {
     this.ALBUM_DOUBLE_MOVE = this.constructor.createImage('/img/dragndrop/album_double_move.png');
     this.ALBUM_DOUBLE_COPY = this.constructor.createImage('/img/dragndrop/album_double_copy.png');
     User.bind('pinger', this.proxy(this.validate));
-    Gallery.bind('refresh', this.proxy(this.setupView));
+    Spine.bind('uri:alldone', this.proxy(this.setupView));
     this.sidebar = new SidebarView({
       el: this.sidebarEl
     });
@@ -122,8 +122,9 @@ App = (function() {
       }, this)
     });
     this.contentManager = new Spine.Manager(this.showView, this.galleryEditView);
-    this.contentManager.change(this.albumsView);
+    this.contentManager.change(this.showView);
     this.canvasManager = new Spine.Manager(this.albumsView, this.photosView);
+    this.canvasManager.change(this.albumsView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
   }
@@ -135,21 +136,46 @@ App = (function() {
     if (!valid) {
       return User.logout();
     } else {
+      this.old_icon = this.icon[0].src;
       this.icon[0].src = '/img/validated.png';
       this.statusText.text('Account verified');
       cb = function() {
-        this.appManager.change(this.mainView);
-        return this.canvasManager.change(this.albumsView);
+        return this.thumbs();
       };
-      return this.delay(cb, 2000);
+      return this.delay(cb, 1000);
     }
   };
-  App.prototype.setupView = function() {
-    this.contentManager.change(this.showView);
-    if (!Gallery.count()) {
-      this.openPanel('gallery', this.showView.btnGallery);
+  App.prototype.thumbs = function() {
+    var album, albums, _i, _len, _results;
+    this.icon[0].src = this.old_icon;
+    this.statusText.hide();
+    this.statusText.text('Creating Album Previews').fadeIn('slow');
+    albums = Album.filter();
+    _results = [];
+    for (_i = 0, _len = albums.length; _i < _len; _i++) {
+      album = albums[_i];
+      _results.push(album.uri({
+        width: 50,
+        height: 50
+      }, __bind(function() {}, this)));
     }
-    return this.loginView.render(User.first());
+    return _results;
+  };
+  App.prototype.setupView = function() {
+    var cb;
+    Spine.unbind('uri:alldone');
+    this.icon[0].src = '/img/validated.png';
+    this.statusText.hide();
+    cb = function() {
+      this.appManager.change(this.mainView);
+      if (!Gallery.count()) {
+        this.openPanel('gallery', this.showView.btnGallery);
+      }
+      return this.loginView.render(User.first());
+    };
+    return this.statusText.text('Thanks for Patience').fadeIn('slow', __bind(function() {
+      return this.delay(cb, 1000);
+    }, this));
   };
   return App;
 })();

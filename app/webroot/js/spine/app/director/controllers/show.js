@@ -216,7 +216,7 @@ ShowView = (function() {
     var item;
     console.log('ShowView::deselect');
     item = this.el.data().current;
-    if (item != null) {
+    if (typeof item.emptySelection === "function") {
       item.emptySelection();
     }
     if (this.current) {

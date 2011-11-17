@@ -8,7 +8,7 @@ class GalleryView extends Spine.Controller
     '.optCreate'       : 'createGalleryEl'
 
   events:
-    "keydown"                 : "saveOnEnter"
+    "keydown"          : "saveOnEnter"
     'click .optCreate' : 'createGallery'
     
   template: (item) ->

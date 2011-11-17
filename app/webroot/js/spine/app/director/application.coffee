@@ -2,7 +2,7 @@
 class App extends Spine.Controller
   
   # Note:
-  # you can change tollbar like so
+  # change toolbar like so
   # Spine.trigger('change:toolbar', 'Album')
   
   elements:
@@ -35,7 +35,7 @@ class App extends Spine.Controller
     @ALBUM_DOUBLE_COPY = @constructor.createImage('/img/dragndrop/album_double_copy.png')
 
     User.bind('pinger', @proxy @validate)
-    Gallery.bind('refresh', @proxy @setupView)
+    Spine.bind('uri:alldone', @proxy @setupView)
     
     @sidebar = new SidebarView
       el: @sidebarEl
@@ -88,15 +88,10 @@ class App extends Spine.Controller
       goSleep: => @showView.activeControl?.click()
 
     @contentManager = new Spine.Manager(@showView, @galleryEditView)
-    @contentManager.change @albumsView
+    @contentManager.change(@showView)
     
     @canvasManager = new Spine.Manager(@albumsView, @photosView)
-#    @contentManager = new Spine.Manager(@contentView, @galleryEditView)
-#    @contentManager.change @albumsView
-    
-    
-#    @contentManager = new Spine.Manager(@albumsView, @imagesView)
-#    @contentManager.change @albumsView
+    @canvasManager.change @albumsView
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
@@ -108,18 +103,35 @@ class App extends Spine.Controller
     unless valid
       User.logout()
     else
+      @old_icon = @icon[0].src
       @icon[0].src = '/img/validated.png'
       @statusText.text 'Account verified'
       cb = ->
-        @appManager.change @mainView
-        @canvasManager.change @albumsView
-      @delay cb, 2000
+        @thumbs()
+      @delay cb, 1000
+      
+  thumbs: ->
+    @icon[0].src = @old_icon
+    @statusText.hide()
+    @statusText.text('Creating Album Previews').fadeIn('slow')
+    albums = Album.filter()
+    for album in albums
+      album.uri
+        width: 50
+        height: 50
+        , =>
       
   setupView: ->
-    @contentManager.change(@showView)
-    @openPanel('gallery', @showView.btnGallery) unless Gallery.count()
-    @loginView.render User.first()
+    Spine.unbind('uri:alldone')
+    @icon[0].src = '/img/validated.png'
+    @statusText.hide()
+    cb = ->
+      @appManager.change @mainView
+      @openPanel('gallery', @showView.btnGallery) unless Gallery.count()
+      @loginView.render User.first()
+    @statusText.text('Thanks for Patience').fadeIn('slow', => @delay cb, 1000)
 
 $ ->
+  
   User.ping()
   window.App = new App(el: $('body'))

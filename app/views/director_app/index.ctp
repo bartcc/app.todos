@@ -139,14 +139,21 @@
   {{/if}}
 </script>
 
-<script id="albumPhotosTemplate" type="text/x-jquery-tmpl">
-  url(${src}),
+<script id="albumBackgroundTemplate" type="text/x-jquery-tmpl">
+  ${bg}
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
   <li class="item">
-    <div class="thumbnail" draggable="true" {{if $item.photos}} style="background-image: {{tmpl($item.photos()) '#albumPhotosTemplate'}}"{{/if}}></div>
+    <div class="thumbnail" draggable="true">
+      {{if title}}
+      <div class="name">${title}</div>
+      {{else}}
+      <div class="name empty">No title</div>
+      {{/if}}
+    </div>
   </li>
+  <div style="display: none;">{{tmpl '#albumBackgroundTemplate'}}</div>
 </script>
 
 <script id="____albumPhotosTemplate" type="text/x-jquery-tmpl">

@@ -94,8 +94,8 @@ class AlbumsView extends Spine.Controller
     Spine.trigger('change:canvas', @)
     
   initSortables: ->
-    sortOptions = {}
-    @items.sortable sortOptions
+#    sortOptions = {}
+#    @items.sortable sortOptions
 
   newAttributes: ->
     if User.first()

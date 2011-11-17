@@ -669,11 +669,23 @@ textarea {
 #content {
   
 }
+#content .content .items .item:not(.thumbnail) .name {
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+  padding-top: 5px;
+}
 #content .content .items .item:not(.thumbnail) {
   background-repeat: no-repeat;
   -moz-background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
 	 -webkit-background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
 	 background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
+}
+#content .content .items .item:not(.active) {
+  background-repeat: no-repeat;
+  -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) inset;
+  -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) inset;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) inset;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 #content .content .items {
   padding: 20px;
@@ -684,7 +696,7 @@ textarea {
 }
 #content .content li.item {
   margin: 0 15px 15px 0;
-  padding: 15px;
+  padding: 15px 15px 10px;
   border-radius: 15px;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
@@ -721,7 +733,7 @@ textarea {
 }
 #content .content li.item.active {
   background: url("img/pattern.png") 0 0;
-  background-color: #FFBB66;
+  background-color: rgba(255, 187, 102, 0.6);
   box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
 
 }

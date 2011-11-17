@@ -27,11 +27,10 @@ PhotoList = (function() {
   PhotoList.prototype.render = function(items, album) {
     console.log('PhotoList::render');
     if (items.length && album) {
-      console.log('old Photo.uri');
       return album.uri({
         width: 140,
         height: 140
-      }, __bind(function(xhr) {
+      }, __bind(function(xhr, album) {
         return this.callback(items, xhr);
       }, this));
     } else {

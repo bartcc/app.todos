@@ -19,11 +19,10 @@ class PhotoList extends Spine.Controller
   render: (items, album) ->
     console.log 'PhotoList::render'
     if items.length and album
-      console.log 'old Photo.uri'
       album.uri
         width:140
         height:140
-        , (xhr) => @callback items, xhr
+        , (xhr, album) => @callback items, xhr
     else
       @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
   

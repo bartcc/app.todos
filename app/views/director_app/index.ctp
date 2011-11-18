@@ -25,13 +25,13 @@
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="contents views vbox flex autoflow">
-          <div class="view albums content flex data">
+          <div class="view albums content vbox flex data">
             <div class="header"></div>
             <div class="vbox flex">
               <div class="items sortable">Albums</div>
             </div>
           </div>
-          <div class="view photos content flex data">
+          <div class="view photos content vbox flex data">
             <div class="header"></div>
             <div class="items sortable">Images</div>
           </div>

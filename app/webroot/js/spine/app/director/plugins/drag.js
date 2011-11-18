@@ -17,6 +17,7 @@ Controller.Drag = {
         el = $(e.currentTarget);
         el.addClass('dragged');
         Spine.dragItem = {};
+        Spine.dragItem.el = el;
         Spine.dragItem.source = el.item();
         parentDataElement = $(e.target).parents('.data');
         Spine.dragItem.origin = ((_ref = parentDataElement.data().tmplItem) != null ? _ref.data : void 0) || parentDataElement.data();
@@ -60,6 +61,7 @@ Controller.Drag = {
           event.stopPropagation();
         }
         el.removeClass('over nodrop');
+        Spine.dragItem.el.removeClass('dragged');
         Spine.trigger('drag:drop', target, e);
         Spine.dragItem = null;
         return false;

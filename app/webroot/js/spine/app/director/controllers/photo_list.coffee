@@ -28,8 +28,13 @@ class PhotoList extends Spine.Controller
   
   callback: (items, json) ->
     console.log 'PhotoList::uri'
-    for src in items
-      items[_i]?.src = json[_i]
+    searchJSON = (id) ->
+      for itm in json
+        return itm[id] if itm[id]
+    for item in items
+      id = items[_i].id
+      o = searchJSON id
+      items[_i]?.src = o.src
       
     @html @template items
     @change()

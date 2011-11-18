@@ -5,7 +5,7 @@ class PhotosController extends AppController {
   var $name = 'Photos';
 
   function beforeFilter() {
-    //$this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
+//    $this->Auth->allowedActions = array('uri');
     parent::beforeFilter();
   }
 
@@ -94,7 +94,7 @@ class PhotosController extends AppController {
 
   function uri($width = 150, $height = 150, $square = 2) {
 //    $this->log('PhotosController::uri', LOG_DEBUG);
-//    $this->log($this->data, LOG_DEBUG);
+    $this->log($this->data, LOG_DEBUG);
     if($this->Auth->user()) {
       
       $user_id = $uid = $this->Auth->user('id');
@@ -114,7 +114,8 @@ class PhotosController extends AppController {
             //extract($this->_previewOptions(300, 300));
             $options = compact(array('uid', 'id', 'fn', 'width', 'height', 'square'));
             $src = __p($options);
-            $array[] = $src;
+            $return = array($id => array('src' => $src));
+            $array[] = $return;
           }
         }
         $json = $array;
@@ -127,7 +128,6 @@ class PhotosController extends AppController {
       $this->header("HTTP/1.1 403 Forbidden");
       $this->render(SIMPLE_JSON);
     }
-    
   }
 
   private function _previewOptions($w = 300, $h = 300) {

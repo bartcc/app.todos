@@ -14,7 +14,7 @@ Controller.Drag = {
       },
       dragstart: __bind(function(e, data) {
         var el, event, parentDataElement, _ref;
-        el = $(e.target);
+        el = $(e.currentTarget);
         el.addClass('dragged');
         Spine.dragItem = {};
         Spine.dragItem.source = el.item();

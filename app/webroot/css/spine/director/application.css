@@ -735,10 +735,8 @@ textarea {
   font-family: Verdana, sans-serif;
 }
 #content .content li.item.active {
-  background: url("img/pattern.png") 0 0;
   background-color: rgba(255, 187, 102, 0.6);
   box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
-
 }
 #content .header label, #content .header h3 {
   display: inline;

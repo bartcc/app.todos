@@ -12,7 +12,7 @@ Controller.Drag =
         Spine.dragItem = null
         
       dragstart: (e, data) =>
-        el = $(e.target)
+        el = $(e.currentTarget)
         el.addClass('dragged')
         Spine.dragItem = {}
         Spine.dragItem.source = el.item()

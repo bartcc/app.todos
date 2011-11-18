@@ -60,7 +60,7 @@ class SidebarView extends Spine.Controller
   dragStart: (e, controller) ->
     console.log 'Sidebar::dragStart'
     return unless Spine.dragItem
-    el = $(e.target)
+    el = $(e.currentTarget)
     event = e.originalEvent
     Spine.dragItem.targetEl = null
     source = Spine.dragItem.source

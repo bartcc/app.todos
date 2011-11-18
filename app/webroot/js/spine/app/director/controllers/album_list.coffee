@@ -63,10 +63,14 @@ class AlbumList extends Spine.Controller
           @callback(xhr, item)
         , 3
   
-  callback: (uris, item) =>
+  callback: (json, item) =>
     el = @children().forItem(item)
-    css = for uri in uris
-      'url(' + uri + ')'
+    searchJSON = (itm) ->
+      res = for key, value of itm
+        value
+    css = for itm in json
+      o = searchJSON itm
+      'url(' + o[0].src + ')'
     el.css('backgroundImage', css)
   
   children: (sel) ->

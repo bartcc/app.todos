@@ -90,15 +90,28 @@ AlbumList = (function() {
     }
     return _results;
   };
-  AlbumList.prototype.callback = function(uris, item) {
-    var css, el, uri;
+  AlbumList.prototype.callback = function(json, item) {
+    var css, el, itm, o, searchJSON;
     el = this.children().forItem(item);
+    searchJSON = function(itm) {
+      var key, res, value;
+      return res = (function() {
+        var _results;
+        _results = [];
+        for (key in itm) {
+          value = itm[key];
+          _results.push(value);
+        }
+        return _results;
+      })();
+    };
     css = (function() {
       var _i, _len, _results;
       _results = [];
-      for (_i = 0, _len = uris.length; _i < _len; _i++) {
-        uri = uris[_i];
-        _results.push('url(' + uri + ')');
+      for (_i = 0, _len = json.length; _i < _len; _i++) {
+        itm = json[_i];
+        o = searchJSON(itm);
+        _results.push('url(' + o[0].src + ')');
       }
       return _results;
     })();

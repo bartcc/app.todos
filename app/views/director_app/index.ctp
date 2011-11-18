@@ -143,8 +143,7 @@
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
   <li class="item">
-    <div class="thumbnail" draggable="true">
-    </div>
+    <div class="thumbnail" draggable="true"></div>
     {{if title}}
     <div class="name">${title}</div>
     {{else}}
@@ -229,13 +228,13 @@
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li class="item">
-    <div class="thumbnail image" style="background-image: url(${src})" draggable="true">
-      {{if src}}
-      <div class="name"></div>
-      {{else}}
-      <div class="name empty">No name</div>
-      {{/if}}
-    </div>
+    <div class="thumbnail image" style="background-image: url(${src})" draggable="true"></div>
+    {{if title}}
+    <div class="name">${title}</div>
+    {{else}}
+    <div class="name empty">No title</div>
+    {{/if}}
+    <div class="name">${id}</div>
   </li>
 </script>
 

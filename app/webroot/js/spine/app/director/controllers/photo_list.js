@@ -38,12 +38,23 @@ PhotoList = (function() {
     }
   };
   PhotoList.prototype.callback = function(items, json) {
-    var src, _i, _len, _ref;
+    var id, item, o, searchJSON, _i, _len, _ref;
     console.log('PhotoList::uri');
+    searchJSON = function(id) {
+      var itm, _i, _len;
+      for (_i = 0, _len = json.length; _i < _len; _i++) {
+        itm = json[_i];
+        if (itm[id]) {
+          return itm[id];
+        }
+      }
+    };
     for (_i = 0, _len = items.length; _i < _len; _i++) {
-      src = items[_i];
+      item = items[_i];
+      id = items[_i].id;
+      o = searchJSON(id);
       if ((_ref = items[_i]) != null) {
-        _ref.src = json[_i];
+        _ref.src = o.src;
       }
     }
     this.html(this.template(items));

@@ -86,7 +86,7 @@ SidebarView = (function() {
     if (!Spine.dragItem) {
       return;
     }
-    el = $(e.target);
+    el = $(e.currentTarget);
     event = e.originalEvent;
     Spine.dragItem.targetEl = null;
     source = Spine.dragItem.source;

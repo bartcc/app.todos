@@ -27,7 +27,9 @@
         <div class="contents views vbox flex autoflow">
           <div class="view albums content flex data">
             <div class="header"></div>
-            <div class="items sortable">Albums</div>
+            <div class="vbox flex">
+              <div class="items sortable">Albums</div>
+            </div>
           </div>
           <div class="view photos content flex data">
             <div class="header"></div>

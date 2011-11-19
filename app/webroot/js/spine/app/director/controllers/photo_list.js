@@ -58,7 +58,7 @@ PhotoList = (function() {
     }, this));
   };
   PhotoList.prototype.callback = function(items, json) {
-    var ele, img, item, itm, jsn, searchJSON, _i, _len, _results;
+    var ele, img, item, jsn, searchJSON, src, _i, _len, _results;
     console.log('PhotoList::callback');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -72,19 +72,20 @@ PhotoList = (function() {
     _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
-      itm = items[_i];
-      jsn = searchJSON(itm.id);
-      ele = this.children().forItem(itm);
-      img = new Image();
-      img.src = jsn.src;
-      _results.push(img.onload = this.imageLoad(ele, jsn.src));
+      jsn = searchJSON(item.id);
+      ele = this.children().forItem(item);
+      src = jsn.src;
+      img = new Image;
+      img.element = ele;
+      img.src = src;
+      _results.push(img.onload = this.imageLoad);
     }
     return _results;
   };
-  PhotoList.prototype.imageLoad = function(el, src) {
+  PhotoList.prototype.imageLoad = function() {
     var css;
-    css = 'url(' + src + ')';
-    return $('.thumbnail', el).css({
+    css = 'url(' + this.src + ')';
+    return $('.thumbnail', this.element).css({
       'backgroundImage': css,
       'backgroundPosition': 'center, center'
     });

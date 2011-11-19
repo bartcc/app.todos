@@ -43,16 +43,17 @@ class PhotoList extends Spine.Controller
       for itm in json
         return itm[id] if itm[id]
     for item in items
-      itm = items[_i]
-      jsn = searchJSON itm.id
-      ele = @children().forItem(itm)
-      img = new Image()
-      img.src = jsn.src
-      img.onload = @imageLoad ele, jsn.src
+      jsn = searchJSON item.id
+      ele = @children().forItem(item)
+      src = jsn.src
+      img = new Image
+      img.element = ele
+      img.src = src
+      img.onload = @imageLoad
     
-  imageLoad: (el, src) ->
-    css = 'url(' + src + ')'
-    $('.thumbnail', el).css
+  imageLoad: ->
+    css = 'url(' + @src + ')'
+    $('.thumbnail', @element).css
       'backgroundImage': css
       'backgroundPosition': 'center, center'
     

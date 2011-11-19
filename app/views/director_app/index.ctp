@@ -27,7 +27,7 @@
         <div class="contents views vbox flex autoflow">
           <div class="view albums content vbox flex data">
             <div class="header"></div>
-            <div class="vbox flex">
+            <div id="zzz" class="vbox flex">
               <div class="items sortable">Albums</div>
             </div>
           </div>
@@ -44,7 +44,7 @@
             </div>
             <div id="album" class="view items flex autoflow" style="">
               <div class="editAlbum">
-                <div class="item">No Albums found!</div>
+                <div class="content">No Albums found!</div>
               </div>
             </div>
             <div id="photo" class="view items flex autoflow" style="">
@@ -119,7 +119,7 @@
         {{if name}}
         <span class="name">${name}</span>
         {{else}}
-        <span class="name empty">No Name</span>
+        <span class="name empty">no name</span>
         {{/if}}
         <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
         <span class="gal cta"></span>
@@ -134,8 +134,8 @@
   {{if flash}}
   <span class="author">${flash}</span>
   {{else}}
-  <li class="sublist-item alb item" draggable="true" title="Move (Hold Cmd-Key to Copy)">
-    <span class="title">{{if title}}{{html title}}{{/if}}</span>
+  <li class="sublist-item alb item data" draggable="true" title="Move (Hold Cmd-Key to Copy)">
+    <span class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
   {{/if}}
@@ -147,7 +147,7 @@
     {{if title}}
     <div class="name">${title}</div>
     {{else}}
-    <div class="name empty">No title</div>
+    <div class="name empty">no title</div>
     {{/if}}
   </li>
 </script>
@@ -162,7 +162,7 @@
 
       <label>
         <span>Author</span>
-        <label>{{if author}}${author}{{else}}No author{{/if}}</label>
+        <label>{{if author}}${author}{{else}}no author{{/if}}</label>
       </label>
     </div>
     <div class="left">
@@ -228,11 +228,11 @@
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li class="item">
-    <div class="thumbnail image" style="background-image: url(${src})" draggable="true"></div>
+    <div class="thumbnail image" draggable="true"></div>
     {{if title}}
     <div class="name">${title}</div>
     {{else}}
-    <div class="name empty">No title</div>
+    <div class="name empty">no title</div>
     {{/if}}
     <div class="name">${id}</div>
   </li>

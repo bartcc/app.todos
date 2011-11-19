@@ -4,7 +4,7 @@ $      = Spine.$
 class AlbumView extends Spine.Controller
   
   elements:
-    '.item'       : 'item'
+    '.content'    : 'item'
     '.editAlbum'  : 'editEl'
 
   events:

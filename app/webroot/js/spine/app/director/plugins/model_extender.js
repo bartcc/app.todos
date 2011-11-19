@@ -177,7 +177,7 @@ Model.Extender = {
       },
       errorHandler: function(record, xhr, statusText, error) {
         var status;
-        status = (statusText != null ? statusText.status : void 0) || (record != null ? record.status : void 0);
+        status = xhr.status;
         if (status !== 200) {
           error = new Error({
             record: record,

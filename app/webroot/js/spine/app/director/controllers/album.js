@@ -14,7 +14,7 @@ $ = Spine.$;
 AlbumView = (function() {
   __extends(AlbumView, Spine.Controller);
   AlbumView.prototype.elements = {
-    '.item': 'item',
+    '.content': 'item',
     '.editAlbum': 'editEl'
   };
   AlbumView.prototype.events = {

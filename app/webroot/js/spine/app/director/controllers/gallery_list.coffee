@@ -86,14 +86,14 @@ class GalleryList extends Spine.Controller
 
     albums.push {flash: 'no albums'} unless albums.length
     $('#'+gallery.id+' ul').html @sublistTemplate(albums)
-    $('.item-header .cta', '#'+gallery.id).html total + '<span style="font-size: 0.5em;">-' + Album.filter(gallery.id).length + '</span>'
+    $('.item-header .cta', '#'+gallery.id).html Album.filter(gallery.id).length + ' <span style="font-size: 0.5em;">(' + total + ')</span>'
     
-    @exposeSublistSelection(gallery)
+#    @exposeSublistSelection(gallery)
     
   exposeSublistSelection: (gallery) ->
     console.log 'GalleryList::exposeSublistSelection'
-    gallery = @children().forItem(gallery)
-    albums = gallery.find('li')
+    galleryEl = @children().forItem(gallery)
+    albums = galleryEl.find('li')
     albums.removeClass('active')
     for id in Gallery.selectionList()
       album = Album.find(id)
@@ -109,19 +109,25 @@ class GalleryList extends Spine.Controller
     
     album = albumEl.item()
     gallery = galleryEl.item()
-    
     Gallery.current(gallery)
-    Album.current(album)
     
-    Gallery.updateSelection [album.id]
-    
-    if App.hmanager.hasActive()
-      @openPanel('album', App.showView.btnAlbum)
+    unless @isCtrlClick(e)
+      Album.current(album)
+      Gallery.updateSelection [album.id]
+
+      if App.hmanager.hasActive()
+        @openPanel('album', App.showView.btnAlbum)
+
+    else
+      Album.current()
+      Gallery.emptySelection()
+      Album.emptySelection()
       
-    App.showView.trigger('change:toolbar', 'Album')
     @change gallery
-    #Spine.trigger('change:selectedAlbum', album)
+    @exposeSublistSelection(gallery)
+    App.showView.trigger('change:toolbar', 'Album')
     Spine.trigger('show:photos', album)
+      
     
     e.stopPropagation()
     e.preventDefault()

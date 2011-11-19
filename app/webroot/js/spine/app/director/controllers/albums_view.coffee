@@ -20,7 +20,6 @@ class AlbumsView extends Spine.Controller
     'dragend    .items .thumbnail'    : 'dragend'
     'dragenter'                       : 'dragenter'
     'dragover'                        : 'dragover'
-#    'dragleave  #contents'              : 'dragleave'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
 
@@ -77,9 +76,7 @@ class AlbumsView extends Spine.Controller
       items = Album.filter(@current.id)
     
     @el.data Gallery.record or {}
-    
     @list.render items
-    
     Spine.trigger('render:galleryItem')
     @trigger('render:header', items)
     
@@ -94,8 +91,8 @@ class AlbumsView extends Spine.Controller
     Spine.trigger('change:canvas', @)
     
   initSortables: ->
-#    sortOptions = {}
-#    @items.sortable sortOptions
+    sortOptions = {}
+    @items.sortable sortOptions
 
   newAttributes: ->
     if User.first()

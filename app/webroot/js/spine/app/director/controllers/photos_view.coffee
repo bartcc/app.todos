@@ -17,7 +17,6 @@ class PhotosView extends Spine.Controller
     'dragend    .items .thumbnail'    : 'dragend'
     'dragenter'                       : 'dragenter'
     'dragover'                        : 'dragover'
-#    'dragleave  #contents'              : 'dragleave'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
     
@@ -59,8 +58,10 @@ class PhotosView extends Spine.Controller
   render: (items) ->
     console.log 'PhotosView::render'
     album = Album.record
-    @el.data album if album
+    if album then @el.data album else delete @el.data
+    # show spinner
     @items.html @preloaderTemplate()
+    
     @list.render items, album
     @refreshElements()
     @trigger('render:header', items)

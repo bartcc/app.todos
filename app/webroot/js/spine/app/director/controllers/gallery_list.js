@@ -102,14 +102,13 @@ GalleryList = (function() {
       });
     }
     $('#' + gallery.id + ' ul').html(this.sublistTemplate(albums));
-    $('.item-header .cta', '#' + gallery.id).html(total + '<span style="font-size: 0.5em;">-' + Album.filter(gallery.id).length + '</span>');
-    return this.exposeSublistSelection(gallery);
+    return $('.item-header .cta', '#' + gallery.id).html(Album.filter(gallery.id).length + ' <span style="font-size: 0.5em;">(' + total + ')</span>');
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {
-    var album, albums, id, _i, _len, _ref, _results;
+    var album, albums, galleryEl, id, _i, _len, _ref, _results;
     console.log('GalleryList::exposeSublistSelection');
-    gallery = this.children().forItem(gallery);
-    albums = gallery.find('li');
+    galleryEl = this.children().forItem(gallery);
+    albums = galleryEl.find('li');
     albums.removeClass('active');
     _ref = Gallery.selectionList();
     _results = [];
@@ -131,13 +130,20 @@ GalleryList = (function() {
     album = albumEl.item();
     gallery = galleryEl.item();
     Gallery.current(gallery);
-    Album.current(album);
-    Gallery.updateSelection([album.id]);
-    if (App.hmanager.hasActive()) {
-      this.openPanel('album', App.showView.btnAlbum);
+    if (!this.isCtrlClick(e)) {
+      Album.current(album);
+      Gallery.updateSelection([album.id]);
+      if (App.hmanager.hasActive()) {
+        this.openPanel('album', App.showView.btnAlbum);
+      }
+    } else {
+      Album.current();
+      Gallery.emptySelection();
+      Album.emptySelection();
     }
-    App.showView.trigger('change:toolbar', 'Album');
     this.change(gallery);
+    this.exposeSublistSelection(gallery);
+    App.showView.trigger('change:toolbar', 'Album');
     Spine.trigger('show:photos', album);
     e.stopPropagation();
     e.preventDefault();

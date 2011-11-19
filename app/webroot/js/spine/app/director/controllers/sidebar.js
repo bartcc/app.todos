@@ -25,7 +25,6 @@ SidebarView = (function() {
     "click button": "create",
     "keyup input": "filter",
     "dblclick .draghandle": 'toggleDraghandle',
-    'dragstart .items .item': 'dragstart',
     'dragenter .items .item': 'dragenter',
     'dragover  .items .item': 'dragover',
     'dragleave': 'dragleave',
@@ -41,7 +40,7 @@ SidebarView = (function() {
     this.dragLeave = __bind(this.dragLeave, this);
     this.dragOver = __bind(this.dragOver, this);
     this.dragEnter = __bind(this.dragEnter, this);    SidebarView.__super__.constructor.apply(this, arguments);
-    this.el.width(300);
+    this.el.width(360);
     this.list = new GalleryList({
       el: this.items,
       template: this.template
@@ -108,8 +107,14 @@ SidebarView = (function() {
     }
     if (!(_ref = source.id, __indexOf.call(selection, _ref) >= 0) && !selection.length) {
       selection.push(source.id);
-      if (!fromSidebar) {
-        Spine.trigger('album:exposeSelection', selection);
+      switch (source.constructor.className) {
+        case 'Album':
+          if (!fromSidebar) {
+            Spine.trigger('album:exposeSelection', selection);
+          }
+          break;
+        case 'Photo':
+          Spine.trigger('photo:exposeSelection', selection);
       }
     }
     this.clonedSelection = selection.slice(0);
@@ -129,16 +134,18 @@ SidebarView = (function() {
     }
   };
   SidebarView.prototype.dragEnter = function(e) {
-    var el, id, origin, source, target, _ref, _ref2, _ref3, _ref4;
+    var data, dataEl, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4, _ref5;
     if (!Spine.dragItem) {
       return;
     }
-    el = $(e.target).closest('li.item');
-    target = el.item();
-    source = (_ref = Spine.dragItem) != null ? _ref.source : void 0;
-    origin = ((_ref2 = Spine.dragItem) != null ? _ref2.origin : void 0) || Gallery.record;
-    if ((_ref3 = Spine.dragItem.closest) != null) {
-      _ref3.removeClass('over nodrop');
+    el = $(e.target).closest('.data');
+    dataEl = $(e.target).closest('.data');
+    data = ((_ref = dataEl.tmplItem) != null ? _ref.data : void 0) || dataEl.data();
+    target = el.item() || el.data();
+    source = (_ref2 = Spine.dragItem) != null ? _ref2.source : void 0;
+    origin = ((_ref3 = Spine.dragItem) != null ? _ref3.origin : void 0) || Gallery.record;
+    if ((_ref4 = Spine.dragItem.closest) != null) {
+      _ref4.removeClass('over nodrop');
     }
     Spine.dragItem.closest = el;
     if (this.validateDrop(target, source, origin)) {
@@ -149,18 +156,19 @@ SidebarView = (function() {
     id = el.attr('id');
     if (id && this._id !== id) {
       this._id = id;
-      return (_ref4 = Spine.dragItem.closest) != null ? _ref4.removeClass('over') : void 0;
+      return (_ref5 = Spine.dragItem.closest) != null ? _ref5.removeClass('over') : void 0;
     }
   };
   SidebarView.prototype.dragOver = function(e) {};
   SidebarView.prototype.dragLeave = function(e) {};
-  SidebarView.prototype.dropComplete = function(target, e) {
-    var albums, origin, photos, source;
+  SidebarView.prototype.dropComplete = function(e) {
+    var albums, origin, photos, source, target;
     console.log('Sidebar::dropComplete');
     if (!Spine.dragItem) {
       return;
     }
     Spine.dragItem.closest.removeClass('over nodrop');
+    target = Spine.dragItem.closest.item() || Spine.dragItem.closest.data();
     source = Spine.dragItem.source;
     origin = Spine.dragItem.origin;
     if (!this.validateDrop(target, source, origin)) {
@@ -196,7 +204,7 @@ SidebarView = (function() {
     var item, items, _i, _j, _len, _len2;
     switch (source.constructor.className) {
       case 'Album':
-        if (!(target instanceof Gallery)) {
+        if (target.constructor.className !== 'Gallery') {
           return false;
         }
         if (!(origin.id !== target.id)) {
@@ -211,7 +219,7 @@ SidebarView = (function() {
         }
         return true;
       case 'Photo':
-        if (!(target instanceof Album)) {
+        if (target.constructor.className !== 'Album') {
           return false;
         }
         if (!(origin.id !== target.id)) {

@@ -18,27 +18,43 @@ class PhotoList extends Spine.Controller
     
   render: (items, album) ->
     console.log 'PhotoList::render'
-    if items.length and album
-      album.uri
-        width:140
-        height:140
-        , (xhr, record) => @callback items, xhr
+    if album
+      if items.length
+        @html @template items
+        @uri album, items
+        @change()
+        @el
+      else
+        @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else
-      @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
+      @html '<label class="invite"><span class="enlightened">No album selected.</span></label>'
   
-  callback: (items, json) ->
+  previewSize: (width = 140, height = 140) ->
+    width: width
+    height: height
+  
+  uri: (album, items) ->
     console.log 'PhotoList::uri'
+    album.uri @previewSize(), (xhr, record) => @callback items, xhr
+  
+  callback: (items, json) =>
+    console.log 'PhotoList::callback'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
     for item in items
-      id = items[_i].id
-      o = searchJSON id
-      items[_i]?.src = o.src
-      
-    @html @template items
-    @change()
-    @el
+      itm = items[_i]
+      jsn = searchJSON itm.id
+      ele = @children().forItem(itm)
+      img = new Image()
+      img.src = jsn.src
+      img.onload = @imageLoad ele, jsn.src
+    
+  imageLoad: (el, src) ->
+    css = 'url(' + src + ')'
+    $('.thumbnail', el).css
+      'backgroundImage': css
+      'backgroundPosition': 'center, center'
     
   change: (item) ->
     list = Album.selectionList()

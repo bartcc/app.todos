@@ -12,7 +12,7 @@ Controller.Drag =
         Spine.dragItem = null
         
       dragstart: (e, data) =>
-        el = $(e.currentTarget)
+        el = $(e.target)
         el.addClass('dragged')
         Spine.dragItem = {}
         Spine.dragItem.el = el
@@ -49,14 +49,10 @@ Controller.Drag =
 
       drop: (e) =>
         clearTimeout Spine.timer
-        el = $(e.target)
-        target = el.item()
         event = e.originalEvent
         event.stopPropagation() if event.stopPropagation
-        el.removeClass('over nodrop')
         Spine.dragItem.el.removeClass('dragged')
-        Spine.trigger('drag:drop', target, e)
-        Spine.dragItem = null
+        Spine.trigger('drag:drop', e)
         false
 
     @include Include

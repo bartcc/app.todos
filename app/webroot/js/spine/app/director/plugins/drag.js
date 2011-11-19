@@ -14,7 +14,7 @@ Controller.Drag = {
       },
       dragstart: __bind(function(e, data) {
         var el, event, parentDataElement, _ref;
-        el = $(e.currentTarget);
+        el = $(e.target);
         el.addClass('dragged');
         Spine.dragItem = {};
         Spine.dragItem.el = el;
@@ -52,18 +52,14 @@ Controller.Drag = {
         return $(e.target).removeClass('dragged');
       },
       drop: __bind(function(e) {
-        var el, event, target;
+        var event;
         clearTimeout(Spine.timer);
-        el = $(e.target);
-        target = el.item();
         event = e.originalEvent;
         if (event.stopPropagation) {
           event.stopPropagation();
         }
-        el.removeClass('over nodrop');
         Spine.dragItem.el.removeClass('dragged');
-        Spine.trigger('drag:drop', target, e);
-        Spine.dragItem = null;
+        Spine.trigger('drag:drop', e);
         return false;
       }, this)
     };

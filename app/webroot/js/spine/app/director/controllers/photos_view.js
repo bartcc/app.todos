@@ -70,6 +70,8 @@ PhotosView = (function() {
     album = Album.record;
     if (album) {
       this.el.data(album);
+    } else {
+      delete this.el.data;
     }
     this.items.html(this.preloaderTemplate());
     this.list.render(items, album);

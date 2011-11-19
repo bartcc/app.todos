@@ -100,7 +100,7 @@ Model.Extender =
           record.id
       
       errorHandler: (record, xhr, statusText, error) ->
-        status = statusText?.status or record?.status
+        status = xhr.status
         unless status is 200
           error = new Error
             record      : record

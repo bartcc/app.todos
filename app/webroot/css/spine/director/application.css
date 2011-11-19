@@ -716,8 +716,8 @@ textarea {
   height: 140px;
   line-height: 1.2em
 }
-
 #content .content .thumbnail.image {
+  background: url("img/photo-loader.gif") no-repeat center center;
   border: 1px solid #575757;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;

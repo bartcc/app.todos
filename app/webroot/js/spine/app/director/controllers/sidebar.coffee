@@ -13,7 +13,7 @@ class SidebarView extends Spine.Controller
     "keyup input"           : "filter"
     "dblclick .draghandle"  : 'toggleDraghandle'
 
-    'dragstart .items .item': 'dragstart'
+#    'dragstart .items .item': 'dragstart'
     'dragenter .items .item': 'dragenter'
     'dragover  .items .item': 'dragover'
     'dragleave'             : 'dragleave'
@@ -25,7 +25,7 @@ class SidebarView extends Spine.Controller
 
   constructor: ->
     super
-    @el.width(300)
+    @el.width(360)
     @list = new GalleryList
       el: @items,
       template: @template
@@ -81,7 +81,11 @@ class SidebarView extends Spine.Controller
     # make an unselected item part of selection only if there is nothing selected yet
     if !(source.id in selection) and !(selection.length)
       selection.push source.id
-      Spine.trigger('album:exposeSelection', selection) unless fromSidebar
+      switch source.constructor.className
+        when 'Album'
+          Spine.trigger('album:exposeSelection', selection) unless fromSidebar
+        when 'Photo'
+          Spine.trigger('photo:exposeSelection', selection)
       
     @clonedSelection = selection.slice(0)
     if @clonedSelection.length > 1
@@ -98,11 +102,12 @@ class SidebarView extends Spine.Controller
 
   dragEnter: (e) =>
     return unless Spine.dragItem
-    el = $(e.target).closest('li.item')
-    target = el.item()
+    el = $(e.target).closest('.data')
+    dataEl = $(e.target).closest('.data')
+    data = dataEl.tmplItem?.data or dataEl.data()
+    target = el.item() or el.data()
     source = Spine.dragItem?.source
     origin = Spine.dragItem?.origin or Gallery.record
-    
     Spine.dragItem.closest?.removeClass('over nodrop')
     Spine.dragItem.closest = el
     if @validateDrop target, source, origin
@@ -121,16 +126,13 @@ class SidebarView extends Spine.Controller
   dragLeave: (e) =>
 #    console.log 'Sidebar::dragLeave'
 
-  dropComplete: (target, e) =>
+  dropComplete: (e) =>
     console.log 'Sidebar::dropComplete'
     return unless Spine.dragItem
     Spine.dragItem.closest.removeClass('over nodrop')
+    target = Spine.dragItem.closest.item() or Spine.dragItem.closest.data()
     source = Spine.dragItem.source
     origin = Spine.dragItem.origin
-    
-#    console.log origin
-#    console.log source
-#    console.log target
     
     return unless @validateDrop target, source, origin
     
@@ -139,6 +141,7 @@ class SidebarView extends Spine.Controller
         albums = []
         Album.each (record) =>
           albums.push record unless @clonedSelection.indexOf(record.id) is -1
+            
 
         Album.trigger('create:join', target, albums)
         Album.trigger('destroy:join', origin, albums) unless @isCtrlClick(e)
@@ -153,8 +156,9 @@ class SidebarView extends Spine.Controller
         
   validateDrop: (target, source, origin) =>
     switch source.constructor.className
+        
       when 'Album'
-        unless (target instanceof Gallery)
+        unless target.constructor.className is 'Gallery'
           return false
         unless (origin.id != target.id)
           return false
@@ -166,7 +170,7 @@ class SidebarView extends Spine.Controller
         return true
         
       when 'Photo'
-        unless (target instanceof Album)
+        unless target.constructor.className is 'Album'
           return false
         unless (origin.id != target.id)
           return false

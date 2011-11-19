@@ -41,14 +41,19 @@ class Base
   queue: (callback) ->
     Ajax.queue(callback)
     
+class UriCollection extends Base
+  constructor: (@model, params, @callback, max) ->
+    @photos = Photo.filter()
+
 class Uri extends Base
   constructor: (@record, params, @callback, max) ->
     super
     # get all photos of the album
-    aps = AlbumsPhoto.filter @record.id
-    max = max or aps.length-1
-    @photos = for ap in aps[0..max]
-      Photo.find(ap.photo_id)
+    if @record
+      aps = AlbumsPhoto.filter @record.id
+      max = max or aps.length-1
+      @photos = for ap in aps[0..max]
+        Photo.find(ap.photo_id)
       
     options = $.extend({}, @settings, params)
     @url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality
@@ -73,6 +78,15 @@ class Uri extends Base
         url: base_url + 'photos/uri/' + @url
         data: JSON.stringify(@photos)
       ).success(@recordResponse)
+       .error(@errorResponse)
+       
+  all: ->
+    @queue =>
+      @ajax(
+        type: "POST"
+        url: base_url + 'photos/uri/' + @url
+        data: JSON.stringify(@photos)
+      ).success(@collectionResponse)
        .error(@errorResponse)
 
   recordResponse: (uris) =>

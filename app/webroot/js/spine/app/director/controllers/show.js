@@ -219,6 +219,7 @@ ShowView = (function() {
     if (typeof item.emptySelection === "function") {
       item.emptySelection();
     }
+    Spine.trigger('album:exposeSelection');
     if (this.current) {
       $('.item', this.current.el).removeClass('active');
     }

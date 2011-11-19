@@ -40,7 +40,7 @@ AlbumList = (function() {
       this.renderBackgrounds(items);
     }
     this.children().removeClass("active");
-    this.exposeSelection(list);
+    this.exposeSelection();
     if (Album.exists(list[0])) {
       selected = Album.find(list[0]);
     }
@@ -49,8 +49,9 @@ AlbumList = (function() {
     }
     return Spine.trigger('change:selectedAlbum', selected);
   };
-  AlbumList.prototype.exposeSelection = function(list) {
-    var id, item, _i, _len;
+  AlbumList.prototype.exposeSelection = function() {
+    var id, item, list, _i, _len;
+    list = Gallery.selectionList();
     for (_i = 0, _len = list.length; _i < _len; _i++) {
       id = list[_i];
       if (Album.exists(id)) {
@@ -76,16 +77,16 @@ AlbumList = (function() {
     this.change(items);
     return this.el;
   };
-  AlbumList.prototype.renderBackgrounds = function(items) {
-    var item, _i, _len, _results;
+  AlbumList.prototype.renderBackgrounds = function(albums) {
+    var album, _i, _len, _results;
     _results = [];
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      item = items[_i];
-      _results.push(item.uri({
+    for (_i = 0, _len = albums.length; _i < _len; _i++) {
+      album = albums[_i];
+      _results.push(album.uri({
         width: 50,
         height: 50
-      }, __bind(function(xhr, item) {
-        return this.callback(xhr, item);
+      }, __bind(function(xhr, album) {
+        return this.callback(xhr, album);
       }, this), 3));
     }
     return _results;

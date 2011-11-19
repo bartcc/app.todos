@@ -27,14 +27,15 @@ class AlbumList extends Spine.Controller
     list = Gallery.selectionList()
     @renderBackgrounds items if items.length
     @children().removeClass("active")
-    @exposeSelection(list)
+    @exposeSelection()
     # highlight first element in list
     selected = Album.find(list[0]) if Album.exists(list[0])
     Album.current(selected) if selected and !selected.destroyed
     
     Spine.trigger('change:selectedAlbum', selected)
   
-  exposeSelection: (list) ->
+  exposeSelection: ->
+    list = Gallery.selectionList()
     for id in list
       if Album.exists(id)
         item = Album.find(id) 
@@ -54,13 +55,13 @@ class AlbumList extends Spine.Controller
     @change items
     @el
   
-  renderBackgrounds: (items) ->
-    for item in items
-      item.uri
+  renderBackgrounds: (albums) ->
+    for album in albums
+      album.uri
         width: 50
         height: 50
-        , (xhr, item) =>
-          @callback(xhr, item)
+        , (xhr, album) =>
+          @callback(xhr, album)
         , 3
   
   callback: (json, item) =>

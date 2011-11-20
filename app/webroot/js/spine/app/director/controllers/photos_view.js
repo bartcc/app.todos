@@ -15,7 +15,6 @@ PhotosView = (function() {
   __extends(PhotosView, Spine.Controller);
   PhotosView.extend(Spine.Controller.Drag);
   PhotosView.prototype.elements = {
-    '.header': 'header',
     '.items': 'items'
   };
   PhotosView.prototype.events = {

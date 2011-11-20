@@ -29,8 +29,8 @@
     echo $this->Html->meta('icon');
     
     echo $this->Html->css('spine/director/jquery.fileupload-ui');
-    echo $this->Html->css('spine/director/window');
     echo $this->Html->css('spine/director/application');
+    echo $this->Html->css('spine/director/modal');
 
     echo $html->scriptStart();
     ?>

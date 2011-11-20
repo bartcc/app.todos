@@ -12,13 +12,16 @@ ShowView = (function() {
   ShowView.extend(Spine.Controller.Toolbars);
   ShowView.prototype.elements = {
     '#views .views': 'views',
+    '.header': 'header',
     '.optEditGallery': 'btnEditGallery',
     '.optGallery': 'btnGallery',
     '.optAlbum': 'btnAlbum',
     '.optPhoto': 'btnPhoto',
     '.optUpload': 'btnUpload',
     '.optSlideshow': 'btnSlideshow',
-    '.toolbar': 'toolBar'
+    '.toolbar': 'toolBar',
+    '.albums': 'albumsEl',
+    '.photos': 'photosEl'
   };
   ShowView.prototype.events = {
     "click .optPhotos": "showPhotos",
@@ -46,6 +49,16 @@ ShowView = (function() {
   };
   function ShowView() {
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
+    this.albumsView = new AlbumsView({
+      el: this.albumsEl,
+      className: 'items',
+      header: this.header
+    });
+    this.photosView = new PhotosView({
+      el: this.photosEl,
+      className: 'items',
+      header: this.header
+    });
     Spine.bind('render:header', this.proxy(this.renderHeader));
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
@@ -57,6 +70,8 @@ ShowView = (function() {
       throw 'need initial control';
     }
     this.edit = this.editGallery;
+    this.canvasManager = new Spine.Manager(this.albumsView, this.photosView);
+    this.canvasManager.change(this.albumsView);
   }
   ShowView.prototype.changeCanvas = function(controller) {
     console.log('ShowView::changeCanvas');
@@ -64,7 +79,7 @@ ShowView = (function() {
     this.el.data({
       current: this.current.el.data()
     });
-    return App.canvasManager.trigger('change', controller);
+    return this.canvasManager.trigger('change', controller);
   };
   ShowView.prototype.renderToolbar = function() {
     console.log('ShowView::renderToolbar');

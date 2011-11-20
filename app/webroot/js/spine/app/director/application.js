@@ -14,8 +14,6 @@ App = (function() {
     '#sidebar': 'sidebarEl',
     '#content .show': 'showEl',
     '#content .edit': 'galleryEditEl',
-    '.contents .albums': 'albumsEl',
-    '.contents .photos': 'photosEl',
     '#gallery': 'galleryEl',
     '#album': 'albumEl',
     '#fileupload': 'uploadEl',
@@ -59,14 +57,6 @@ App = (function() {
     this.showView = new ShowView({
       el: this.showEl,
       activeControl: 'btnGallery'
-    });
-    this.albumsView = new AlbumsView({
-      el: this.albumsEl,
-      className: 'items'
-    });
-    this.photosView = new PhotosView({
-      el: this.photosEl,
-      className: 'items'
     });
     this.galleryEditView = new GalleryEditView({
       el: this.galleryEditEl
@@ -123,8 +113,6 @@ App = (function() {
     });
     this.contentManager = new Spine.Manager(this.showView, this.galleryEditView);
     this.contentManager.change(this.showView);
-    this.canvasManager = new Spine.Manager(this.albumsView, this.photosView);
-    this.canvasManager.change(this.albumsView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
   }

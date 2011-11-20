@@ -1,3 +1,48 @@
+<div id="modal" style="display: none">
+  <div class="dialogue-wrap transparent" id="messenger">
+    <div class="dialogue">
+      <div style="width:525px; min-width:500px;" class="morph dialogue-content" id="morph_messenger-wrap">
+        <div class="bg verticaltop" id="draggable-messenger-wrap">
+          <header>
+            <fieldset class="right">
+              <button class="_close light window input">x</button>
+            </fieldset>
+          </header>
+          <div class="dialogue-inner-wrap">
+            <div class="drag-handle">
+              <div>
+                <h1>Login</h1>
+                <div class="_flash"><span></span></div>
+                <label><small>(guest/guest, manager/manager, admin/admin)</small></label>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="dialogue-scroll">
+              <fieldset>
+                <div class="left">
+                  <label>User</label>
+                  <input class="username" type="text">
+                </div>
+                <div class="left">
+                  <label>Password</label>
+                  <input class="password" type="password">
+                </div>
+              </fieldset>
+            </div>
+          </div>
+          <footer>
+            <span>
+              <fieldset>
+                <button class="_local light">Local Storage</button>
+                <button class="_login light disabled" disabled="">Login</button>
+              </fieldset>
+            </span>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
     <h1>Spine Director</h1>
@@ -24,15 +69,14 @@
           <li class="splitter disabled flex"></li>
           <ul class="toolbar hbox"></ul>
         </ul>
-        <div class="contents views vbox flex autoflow">
-          <div class="view albums content vbox flex data">
-            <div class="header"></div>
-            <div id="zzz" class="vbox flex">
+        <div class="contents views vbox flex">
+          <div class="header"></div>
+          <div class="view albums content vbox flex data autoflow">
+            <div class="vbox flex">
               <div class="items sortable">Albums</div>
             </div>
           </div>
-          <div class="view photos content vbox flex data">
-            <div class="header"></div>
+          <div class="view photos content vbox flex data autoflow">
             <div class="items sortable">Images</div>
           </div>
         </div>

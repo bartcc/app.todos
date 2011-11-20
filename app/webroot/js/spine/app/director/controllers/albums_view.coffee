@@ -9,7 +9,6 @@ class AlbumsView extends Spine.Controller
   elements:
     '.items'                  : 'items'
     '.content .sortable'      : 'sortable'
-    '.header'                 : 'header'
     
   events:
     'sortupdate .items'               : 'sortupdate'

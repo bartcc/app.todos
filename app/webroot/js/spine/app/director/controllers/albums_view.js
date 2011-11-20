@@ -16,8 +16,7 @@ AlbumsView = (function() {
   AlbumsView.extend(Spine.Controller.Drag);
   AlbumsView.prototype.elements = {
     '.items': 'items',
-    '.content .sortable': 'sortable',
-    '.header': 'header'
+    '.content .sortable': 'sortable'
   };
   AlbumsView.prototype.events = {
     'sortupdate .items': 'sortupdate',

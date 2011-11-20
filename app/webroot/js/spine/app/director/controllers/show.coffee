@@ -4,6 +4,7 @@ class ShowView extends Spine.Controller
   
   elements:
     '#views .views'           : 'views'
+    '.header'                 : 'header'
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery'             : 'btnGallery'
     '.optAlbum'               : 'btnAlbum'
@@ -11,7 +12,8 @@ class ShowView extends Spine.Controller
     '.optUpload'              : 'btnUpload'
     '.optSlideshow'           : 'btnSlideshow'
     '.toolbar'                : 'toolBar'
-    
+    '.albums'                 : 'albumsEl'
+    '.photos'                 : 'photosEl'
     
   events:
     "click .optPhotos"                : "showPhotos"
@@ -39,6 +41,16 @@ class ShowView extends Spine.Controller
 
   constructor: ->
     super
+    
+    @albumsView = new AlbumsView
+      el: @albumsEl
+      className: 'items'
+      header: @header
+    @photosView = new PhotosView
+      el: @photosEl
+      className: 'items'
+      header: @header
+    
     Spine.bind('render:header', @proxy @renderHeader)
     Spine.bind('change:canvas', @proxy @changeCanvas)
     @bind('change:toolbar', @proxy @changeToolbar)
@@ -50,11 +62,14 @@ class ShowView extends Spine.Controller
     else throw 'need initial control'
     @edit = @editGallery
     
+    @canvasManager = new Spine.Manager(@albumsView, @photosView)
+    @canvasManager.change @albumsView
+    
   changeCanvas: (controller) ->
     console.log 'ShowView::changeCanvas'
     @current = controller
     @el.data current:@current.el.data()
-    App.canvasManager.trigger('change', controller)
+    @canvasManager.trigger('change', controller)
 
   renderToolbar: ->
     console.log 'ShowView::renderToolbar'

@@ -420,6 +420,7 @@ textarea {
 #sidebar li.gal.item {
   background: url("img/gradient-normal.png") repeat  0 0;
   background-size: 100% 100%;
+  font-size: 1.2em;
 }
 #sidebar li.gal.item.active {
   background-image: url("img/gradient-active.png");
@@ -436,6 +437,7 @@ textarea {
   position: absolute;
   right: 10px;
   border: 0 none;
+  top: 10px;
 /*  color: #FFFFFF;
   color: rgba(255, 255, 255, 0.2);
   line-height: 1.2em;
@@ -569,7 +571,7 @@ textarea {
   opacity: 0.5;
 }
 #sidebar ul.sublist {
-  line-height: 3em;
+  line-height: 3.4em;
   margin: 55px 5px 0 40px;
 }
 #sidebar ul.sublist li.sublist-item {
@@ -583,6 +585,7 @@ textarea {
   background-repeat: no-repeat;
 /*  border-bottom: 1px solid #B6B3A3;
   border-left: 1px solid #B6B3A3;*/
+  line-height: 2.6em;
   position: relative
 }
 #sidebar ul.sublist li.sublist-item.active {

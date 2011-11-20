@@ -31,7 +31,7 @@ class User extends Spine.Model
   
   success: (json) =>
     console.log 'Ajax::success'
-    User.trigger('pinger', @, json)
+    #User.trigger('pinger', @, json)
 
   error: (xhr) =>
     console.log 'Ajax::error'

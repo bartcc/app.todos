@@ -6,7 +6,6 @@ class PhotosView extends Spine.Controller
   @extend Spine.Controller.Drag
   
   elements:
-    '.header'       : 'header'
     '.items'        : 'items'
   
   events:

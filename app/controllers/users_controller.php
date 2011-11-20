@@ -19,9 +19,9 @@ class UsersController extends AppController {
   }
   
   function beforeRender() {
-    header("Pragma: no-cache");
-    header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
-    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+//    header("Pragma: no-cache");
+//    header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+//    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
     parent::beforeRender();
   }
   

@@ -9,10 +9,7 @@ class App extends Spine.Controller
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
     '#content .show'      : 'showEl'
-#    '#content .content.images'       : 'imagesContentEl'
     '#content .edit'      : 'galleryEditEl'
-    '.contents .albums'   : 'albumsEl'
-    '.contents .photos'   : 'photosEl'
     '#gallery'            : 'galleryEl'
     '#album'              : 'albumEl'
     '#fileupload'         : 'uploadEl'
@@ -52,12 +49,6 @@ class App extends Spine.Controller
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
-    @albumsView = new AlbumsView
-      el: @albumsEl
-      className: 'items'
-    @photosView = new PhotosView
-      el: @photosEl
-      className: 'items'
     @galleryEditView = new GalleryEditView
       el: @galleryEditEl
     @loginView = new LoginView
@@ -89,9 +80,6 @@ class App extends Spine.Controller
 
     @contentManager = new Spine.Manager(@showView, @galleryEditView)
     @contentManager.change(@showView)
-    
-    @canvasManager = new Spine.Manager(@albumsView, @photosView)
-    @canvasManager.change @albumsView
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView

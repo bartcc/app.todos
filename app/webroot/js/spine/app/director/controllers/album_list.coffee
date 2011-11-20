@@ -84,8 +84,9 @@ class AlbumList extends Spine.Controller
     console.log 'AlbumList::click'
     item = $(e.target).item()
     
-    if App.hmanager.hasActive()
-      @openPanel('album', App.showView.btnAlbum)
+    # open Album panel if any panel is open
+#    if App.hmanager.hasActive()
+#      @openPanel('album', App.showView.btnAlbum)
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
     @change item

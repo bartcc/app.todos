@@ -128,9 +128,6 @@ AlbumList = (function() {
     var item;
     console.log('AlbumList::click');
     item = $(e.target).item();
-    if (App.hmanager.hasActive()) {
-      this.openPanel('album', App.showView.btnAlbum);
-    }
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
     this.change(item);
     App.showView.trigger('change:toolbar', 'Album');

@@ -205,15 +205,20 @@ SidebarView = (function() {
     switch (source.constructor.className) {
       case 'Album':
         if (target.constructor.className !== 'Gallery') {
+          console.log('1');
           return false;
         }
         if (!(origin.id !== target.id)) {
+          console.log('2');
+          console.log(origin.name);
+          console.log(target.name);
           return false;
         }
         items = GalleriesAlbum.filter(target.id);
         for (_i = 0, _len = items.length; _i < _len; _i++) {
           item = items[_i];
           if (item.album_id === source.id) {
+            console.log('3');
             return false;
           }
         }

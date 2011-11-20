@@ -73,12 +73,7 @@ PhotoList = (function() {
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);
-      ele = this.children().forItem(item);
-      src = jsn.src;
-      img = new Image;
-      img.element = ele;
-      img.src = src;
-      _results.push(img.onload = this.imageLoad);
+      _results.push(jsn ? (ele = this.children().forItem(item), src = jsn.src, img = new Image, img.element = ele, img.src = src, img.onload = this.imageLoad) : void 0);
     }
     return _results;
   };

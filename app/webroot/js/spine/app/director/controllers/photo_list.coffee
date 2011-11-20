@@ -44,12 +44,13 @@ class PhotoList extends Spine.Controller
         return itm[id] if itm[id]
     for item in items
       jsn = searchJSON item.id
-      ele = @children().forItem(item)
-      src = jsn.src
-      img = new Image
-      img.element = ele
-      img.src = src
-      img.onload = @imageLoad
+      if jsn
+        ele = @children().forItem(item)
+        src = jsn.src
+        img = new Image
+        img.element = ele
+        img.src = src
+        img.onload = @imageLoad
     
   imageLoad: ->
     css = 'url(' + @src + ')'

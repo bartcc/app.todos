@@ -72,7 +72,11 @@ AlbumsView = (function() {
     } else {
       items = Album.filter(this.current.id);
     }
-    this.el.data(Gallery.record || {});
+    if (Gallery.record) {
+      this.el.data(Gallery.record);
+    } else {
+      this.el.removeData();
+    }
     this.list.render(items);
     Spine.trigger('render:galleryItem');
     Spine.trigger('album:exposeSelection');

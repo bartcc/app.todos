@@ -69,8 +69,12 @@ class AlbumsView extends Spine.Controller
       items = Album.filter()
     else
       items = Album.filter(@current.id)
-    
-    @el.data Gallery.record or {}
+      
+    if Gallery.record
+      @el.data Gallery.record
+    else
+      @el.removeData()
+      
     @list.render items
     Spine.trigger('render:galleryItem')
     Spine.trigger('album:exposeSelection')

@@ -230,7 +230,7 @@
   <li class="item">
     <div class="thumbnail image" draggable="true"></div>
     {{if title}}
-    <div class="name">${title}</div>
+    <div class="name">{{html title}}</div>
     {{else}}
     <div class="name empty">no title</div>
     {{/if}}

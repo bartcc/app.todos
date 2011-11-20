@@ -13,9 +13,18 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 PhotoView = (function() {
   __extends(PhotoView, Spine.Controller);
+  PhotoView.prototype.events = {
+    'click': 'click'
+  };
   function PhotoView() {
     PhotoView.__super__.constructor.apply(this, arguments);
   }
+  PhotoView.prototype.click = function(e) {
+    console.log('click');
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
+  };
   return PhotoView;
 })();
 if (typeof module !== "undefined" && module !== null) {

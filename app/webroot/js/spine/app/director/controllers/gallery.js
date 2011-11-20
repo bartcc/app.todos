@@ -18,7 +18,8 @@ GalleryView = (function() {
     '.optCreate': 'createGalleryEl'
   };
   GalleryView.prototype.events = {
-    "keydown": "saveOnEnter",
+    'click': 'click',
+    'keydown': 'saveOnEnter',
     'click .optCreate': 'createGallery'
   };
   GalleryView.prototype.template = function(item) {
@@ -58,6 +59,12 @@ GalleryView = (function() {
   };
   GalleryView.prototype.createGallery = function() {
     return Spine.trigger('create:gallery');
+  };
+  GalleryView.prototype.click = function(e) {
+    console.log('click');
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   return GalleryView;
 })();

@@ -14,12 +14,18 @@ $ = Spine.$;
 SlideshowView = (function() {
   __extends(SlideshowView, Spine.Controller);
   SlideshowView.prototype.events = {
-    "click .item": "click"
+    'click': 'click'
   };
   function SlideshowView() {
     SlideshowView.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
   }
+  SlideshowView.prototype.click = function(e) {
+    console.log('click');
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
+  };
   return SlideshowView;
 })();
 if (typeof module !== "undefined" && module !== null) {

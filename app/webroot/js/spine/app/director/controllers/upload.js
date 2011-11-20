@@ -10,7 +10,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
 UploadView = (function() {
   __extends(UploadView, Spine.Controller);
   UploadView.prototype.events = {
-    "click .item": "click",
+    'click': 'click',
     'fileuploadadd': 'add',
     'fileuploaddone': 'done',
     'fileuploadsubmit': 'submit'
@@ -32,6 +32,12 @@ UploadView = (function() {
   };
   UploadView.prototype.submit = function(e, data) {
     return console.log('UploadView::submit');
+  };
+  UploadView.prototype.click = function(e) {
+    console.log('click');
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   return UploadView;
 })();

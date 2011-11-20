@@ -4,12 +4,13 @@ $      = Spine.$
 class GalleryView extends Spine.Controller
   
   elements:
-    '.editGallery'     : 'editEl'
-    '.optCreate'       : 'createGalleryEl'
+    '.editGallery'    : 'editEl'
+    '.optCreate'      : 'createGalleryEl'
 
   events:
-    "keydown"          : "saveOnEnter"
-    'click .optCreate' : 'createGallery'
+    'click'           : 'click'
+    'keydown'         : 'saveOnEnter'
+    'click .optCreate': 'createGallery'
     
   template: (item) ->
     $('#editGalleryTemplate').tmpl item
@@ -40,5 +41,12 @@ class GalleryView extends Spine.Controller
     
   createGallery: ->
     Spine.trigger('create:gallery')
+    
+  click: (e) ->
+    console.log 'click'
+    
+    e.stopPropagation()
+    e.preventDefault()
+    false
 
 module?.exports = GalleryView

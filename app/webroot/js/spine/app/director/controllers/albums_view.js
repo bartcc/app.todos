@@ -75,6 +75,7 @@ AlbumsView = (function() {
     this.el.data(Gallery.record || {});
     this.list.render(items);
     Spine.trigger('render:galleryItem');
+    Spine.trigger('album:exposeSelection');
     return this.trigger('render:header', items);
   };
   AlbumsView.prototype.renderHeader = function(items) {

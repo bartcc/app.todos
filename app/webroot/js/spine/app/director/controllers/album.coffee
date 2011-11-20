@@ -8,7 +8,7 @@ class AlbumView extends Spine.Controller
     '.editAlbum'  : 'editEl'
 
   events:
-    "click .item" : "click"
+    "click"       : "click"
     'keydown'     : 'saveOnEnter'
   
   template: (item) ->
@@ -49,6 +49,8 @@ class AlbumView extends Spine.Controller
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)
+      Gallery.updateSelection [@current.id]
+      Spine.trigger('expose:sublistSelection', Gallery.record)
 
   saveOnEnter: (e) =>
     return if(e.keyCode != 13)

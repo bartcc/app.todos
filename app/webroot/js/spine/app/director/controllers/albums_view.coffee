@@ -50,11 +50,6 @@ class AlbumsView extends Spine.Controller
     GalleriesAlbum.bind("change", @proxy @render)
     @bind("render:header", @proxy @renderHeader)
     
-#    Spine.bind('change:toolbar', @proxy @changeToolbar)
-#    @bind('render:toolbar', @proxy @renderToolbar)
-#    @changeToolbar @toolbar if @toolbar
-#    @activeControl = @btnGallery
-#    @create = @edit = @editGallery
     @show = @showGallery
 
     $(@views).queue("fx")
@@ -78,6 +73,7 @@ class AlbumsView extends Spine.Controller
     @el.data Gallery.record or {}
     @list.render items
     Spine.trigger('render:galleryItem')
+    Spine.trigger('album:exposeSelection')
     @trigger('render:header', items)
     
     #@initSortables() #interferes with html5 dnd!
@@ -104,9 +100,9 @@ class AlbumsView extends Spine.Controller
   create: (e) ->
     console.log 'AlbumsView::create'
     Gallery.emptySelection()
-    album = new Album(@newAttributes())
+    album = new Album @newAttributes()
     album.save()
-    Gallery.updateSelection([album.id])
+    Gallery.updateSelection [album.id]
     @render album
     Album.trigger('create:join', Gallery.record, album) if Gallery.record
     @openPanel('album', App.showView.btnAlbum)

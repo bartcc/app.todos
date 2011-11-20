@@ -18,7 +18,7 @@ AlbumView = (function() {
     '.editAlbum': 'editEl'
   };
   AlbumView.prototype.events = {
-    "click .item": "click",
+    "click": "click",
     'keydown': 'saveOnEnter'
   };
   AlbumView.prototype.template = function(item) {
@@ -70,7 +70,9 @@ AlbumView = (function() {
     console.log('Album::save');
     if (this.current) {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
-      return this.current.updateChangedAttributes(atts);
+      this.current.updateChangedAttributes(atts);
+      Gallery.updateSelection([this.current.id]);
+      return Spine.trigger('expose:sublistSelection', Gallery.record);
     }
   };
   AlbumView.prototype.saveOnEnter = function(e) {

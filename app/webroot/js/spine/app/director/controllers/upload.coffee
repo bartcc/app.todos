@@ -1,10 +1,10 @@
 class UploadView extends Spine.Controller
 
   events:
-    "click .item": "click"
-    'fileuploadadd' : 'add'
-    'fileuploaddone' : 'done'
-    'fileuploadsubmit' : 'submit'
+    'click'           : 'click'
+    'fileuploadadd'   : 'add'
+    'fileuploaddone'  : 'done'
+    'fileuploadsubmit': 'submit'
     
   constructor: ->
     super
@@ -21,3 +21,10 @@ class UploadView extends Spine.Controller
     
   submit: (e, data) ->
     console.log 'UploadView::submit'
+    
+  click: (e) ->
+    console.log 'click'
+    
+    e.stopPropagation()
+    e.preventDefault()
+    false

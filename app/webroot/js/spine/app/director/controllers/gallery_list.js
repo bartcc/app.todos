@@ -154,8 +154,8 @@ GalleryList = (function() {
     console.log('GalleryList::click');
     item = $(e.target).item();
     this.change(item, 'show', e);
-    App.showView.trigger('change:toolbar', 'Gallery');
     this.exposeSublistSelection(item);
+    App.showView.trigger('change:toolbar', 'Gallery');
     Spine.trigger('show:albums');
     e.stopPropagation();
     e.preventDefault();
@@ -199,6 +199,7 @@ GalleryList = (function() {
     }
     if ($('.expand', parent).length) {
       this.renderSublist(gallery);
+      this.exposeSublistSelection(gallery);
       content.show();
     } else {
       content.hide();

@@ -140,8 +140,8 @@ class GalleryList extends Spine.Controller
     # Note: don't trigger toolbar here - since Spine.trigger('change:toolbar', 'Gallery')
     
     @change item, 'show', e
-    App.showView.trigger('change:toolbar', 'Gallery')
     @exposeSublistSelection(item)
+    App.showView.trigger('change:toolbar', 'Gallery')
     Spine.trigger('show:albums')
     
     e.stopPropagation()
@@ -180,6 +180,7 @@ class GalleryList extends Spine.Controller
       
     if $('.expand', parent).length
       @renderSublist gallery
+      @exposeSublistSelection gallery
       content.show()
     else
       content.hide()

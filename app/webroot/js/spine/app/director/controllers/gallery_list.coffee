@@ -141,6 +141,7 @@ class GalleryList extends Spine.Controller
     
     @change item, 'show', e
     App.showView.trigger('change:toolbar', 'Gallery')
+    @exposeSublistSelection(item)
     Spine.trigger('show:albums')
     
     e.stopPropagation()

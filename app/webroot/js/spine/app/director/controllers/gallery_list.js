@@ -155,6 +155,7 @@ GalleryList = (function() {
     item = $(e.target).item();
     this.change(item, 'show', e);
     App.showView.trigger('change:toolbar', 'Gallery');
+    this.exposeSublistSelection(item);
     Spine.trigger('show:albums');
     e.stopPropagation();
     e.preventDefault();

@@ -119,11 +119,8 @@ GalleryList = (function() {
     }
     return _results;
   };
-  GalleryList.prototype.children = function(sel) {
-    return this.el.children(sel);
-  };
   GalleryList.prototype.clickAlb = function(e) {
-    var album, albumEl, gallery, galleryEl;
+    var album, albumEl, gallery, galleryEl, previous;
     console.log('GalleryList::albclick');
     albumEl = $(e.currentTarget);
     galleryEl = $(e.currentTarget).closest('li.gal');
@@ -131,6 +128,7 @@ GalleryList = (function() {
     gallery = galleryEl.item();
     Gallery.current(gallery);
     if (!this.isCtrlClick(e)) {
+      previous = Album.record;
       Album.current(album);
       Gallery.updateSelection([album.id]);
       if (App.hmanager.hasActive()) {
@@ -145,6 +143,9 @@ GalleryList = (function() {
     this.exposeSublistSelection(gallery);
     App.showView.trigger('change:toolbar', 'Album');
     Spine.trigger('show:photos', album);
+    if (album.id !== previous.id) {
+      Spine.trigger('change:selectedAlbum', album);
+    }
     e.stopPropagation();
     e.preventDefault();
     return false;

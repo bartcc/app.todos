@@ -18,6 +18,8 @@ Spine.Controller.include
   isCtrlClick: (e) ->
     e.metaKey or e.ctrlKey or e.altKey
 
+  children: (sel) ->
+    @el.children(sel)
 
 Spine.Controller.extend
 

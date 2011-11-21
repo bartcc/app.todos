@@ -51,7 +51,7 @@ class ShowView extends Spine.Controller
       className: 'items'
       header: @header
     
-    Spine.bind('render:header', @proxy @renderHeader)
+#    Spine.bind('render:header', @proxy @renderHeader)
     Spine.bind('change:canvas', @proxy @changeCanvas)
     @bind('change:toolbar', @proxy @changeToolbar)
     @bind('render:toolbar', @proxy @renderToolbar)

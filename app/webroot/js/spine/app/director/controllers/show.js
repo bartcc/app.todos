@@ -59,7 +59,6 @@ ShowView = (function() {
       className: 'items',
       header: this.header
     });
-    Spine.bind('render:header', this.proxy(this.renderHeader));
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('render:toolbar', this.proxy(this.renderToolbar));

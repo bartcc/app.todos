@@ -46,8 +46,8 @@ class AlbumsView extends Spine.Controller
     Album.bind("destroy", @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('show:albums', @proxy @show)
-    GalleriesAlbum.bind("change", @proxy @render)
-    @bind("render:header", @proxy @renderHeader)
+    GalleriesAlbum.bind("change", @proxy @change)
+#    @bind("render:header", @proxy @renderHeader)
     
     @show = @showGallery
 
@@ -58,26 +58,25 @@ class AlbumsView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'AlbumsView::change'
-    @current = item
+    
+    if (!item) or (item.destroyed)
+      @current = Album.filter()
+    else
+      @current = Album.filter(item.id)
+      
     @render()
     
-  render: (items, mode) ->
+  render: ->
     console.log 'AlbumsView::render'
-    
-    if (!@current) or (@current.destroyed)
-      items = Album.filter()
-    else
-      items = Album.filter(@current.id)
       
     if Gallery.record
       @el.data Gallery.record
     else
       @el.removeData()
       
-    @list.render items
+    @list.render @current
     Spine.trigger('render:galleryItem')
     Spine.trigger('album:exposeSelection')
-    @trigger('render:header', items)
     
     #@initSortables() #interferes with html5 dnd!
    
@@ -88,6 +87,7 @@ class AlbumsView extends Spine.Controller
   
   show: ->
     Spine.trigger('change:canvas', @)
+    @renderHeader @current
     
   initSortables: ->
     sortOptions = {}

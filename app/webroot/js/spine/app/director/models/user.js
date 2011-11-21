@@ -45,7 +45,8 @@ User = (function() {
     });
   };
   User.prototype.success = function(json) {
-    return console.log('Ajax::success');
+    console.log('Ajax::success');
+    return User.trigger('pinger', this, json);
   };
   User.prototype.error = function(xhr) {
     console.log('Ajax::error');

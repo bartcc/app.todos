@@ -1,4 +1,4 @@
-<div id="modal" style="display: none">
+<div id="messenger" style="display: none">
   <div class="dialogue-wrap transparent" id="messenger">
     <div class="dialogue">
       <div style="width:525px; min-width:500px;" class="morph dialogue-content" id="morph_messenger-wrap">
@@ -38,6 +38,20 @@
               </fieldset>
             </span>
           </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="loader" class="view">
+  <div class="dialogue-wrap">
+    <div class="dialogue">
+      <div class="dialogue-content">
+        <div class="bg transparent" style="line-height: 0.5em; text-align: center; color: #E1EEF7">
+          <div class="status-symbol" style="z-index: 2;">
+            <img src="/img/ajax-loader.gif" style="">
+          </div>
+          <div class="status-text">Verifying Account</div>
         </div>
       </div>
     </div>
@@ -136,20 +150,6 @@
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="content canvas vbox flex autoflow"></div>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="loader" class="view">
-  <div class="dialogue-wrap">
-    <div class="dialogue">
-      <div class="dialogue-content">
-        <div class="bg transparent" style="line-height: 0.5em;">
-          <div class="status-symbol" style="z-index: 2;">
-            <img src="/img/ajax-loader.gif" style="">
-          </div>
-          <div class="status-text">Verifying Account</div>
-        </div>
       </div>
     </div>
   </div>

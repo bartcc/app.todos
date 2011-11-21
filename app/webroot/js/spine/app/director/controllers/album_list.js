@@ -33,25 +33,22 @@ AlbumList = (function() {
     return $('#albumPhotosTemplate').tmpl(items);
   };
   AlbumList.prototype.change = function(items) {
-    var list, selected;
     console.log('AlbumList::change');
-    list = Gallery.selectionList();
     if (items.length) {
-      this.renderBackgrounds(items);
+      return this.renderBackgrounds(items);
     }
-    this.children().removeClass("active");
+  };
+  AlbumList.prototype.select = function(item) {
     this.exposeSelection();
-    if (Album.exists(list[0])) {
-      selected = Album.find(list[0]);
+    if (item && !item.destroyed) {
+      Album.current(item);
     }
-    if (selected && !selected.destroyed) {
-      Album.current(selected);
-    }
-    return Spine.trigger('change:selectedAlbum', selected);
+    return Spine.trigger('change:selectedAlbum', item);
   };
   AlbumList.prototype.exposeSelection = function() {
     var id, item, list, _i, _len;
     list = Gallery.selectionList();
+    this.children().removeClass("active");
     for (_i = 0, _len = list.length; _i < _len; _i++) {
       id = list[_i];
       if (Album.exists(id)) {
@@ -129,7 +126,7 @@ AlbumList = (function() {
     console.log('AlbumList::click');
     item = $(e.target).item();
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
-    this.change(item);
+    this.select(item);
     App.showView.trigger('change:toolbar', 'Album');
     e.stopPropagation();
     e.preventDefault();

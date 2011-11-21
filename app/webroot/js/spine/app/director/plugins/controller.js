@@ -23,6 +23,9 @@ Spine.Controller.include({
   },
   isCtrlClick: function(e) {
     return e.metaKey || e.ctrlKey || e.altKey;
+  },
+  children: function(sel) {
+    return this.el.children(sel);
   }
 });
 Spine.Controller.extend({

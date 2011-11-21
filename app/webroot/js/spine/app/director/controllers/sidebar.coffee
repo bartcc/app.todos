@@ -159,18 +159,13 @@ class SidebarView extends Spine.Controller
         
       when 'Album'
         unless target.constructor.className is 'Gallery'
-          console.log '1'
           return false
         unless (origin.id != target.id)
-          console.log '2'
-          console.log origin.name
-          console.log target.name
           return false
           
         items = GalleriesAlbum.filter(target.id)
         for item in items
           if item.album_id is source.id
-            console.log '3'
             return false
         return true
         

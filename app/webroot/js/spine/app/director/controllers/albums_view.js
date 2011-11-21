@@ -51,8 +51,7 @@ AlbumsView = (function() {
     Album.bind("destroy", this.proxy(this.render));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('show:albums', this.proxy(this.show));
-    GalleriesAlbum.bind("change", this.proxy(this.render));
-    this.bind("render:header", this.proxy(this.renderHeader));
+    GalleriesAlbum.bind("change", this.proxy(this.change));
     this.show = this.showGallery;
     $(this.views).queue("fx");
   }
@@ -61,25 +60,23 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.change = function(item, mode) {
     console.log('AlbumsView::change');
-    this.current = item;
+    if ((!item) || item.destroyed) {
+      this.current = Album.filter();
+    } else {
+      this.current = Album.filter(item.id);
+    }
     return this.render();
   };
-  AlbumsView.prototype.render = function(items, mode) {
+  AlbumsView.prototype.render = function() {
     console.log('AlbumsView::render');
-    if ((!this.current) || this.current.destroyed) {
-      items = Album.filter();
-    } else {
-      items = Album.filter(this.current.id);
-    }
     if (Gallery.record) {
       this.el.data(Gallery.record);
     } else {
       this.el.removeData();
     }
-    this.list.render(items);
+    this.list.render(this.current);
     Spine.trigger('render:galleryItem');
-    Spine.trigger('album:exposeSelection');
-    return this.trigger('render:header', items);
+    return Spine.trigger('album:exposeSelection');
   };
   AlbumsView.prototype.renderHeader = function(items) {
     var values;
@@ -91,7 +88,8 @@ AlbumsView = (function() {
     return this.header.html(this.headerTemplate(values));
   };
   AlbumsView.prototype.show = function() {
-    return Spine.trigger('change:canvas', this);
+    Spine.trigger('change:canvas', this);
+    return this.renderHeader(this.current);
   };
   AlbumsView.prototype.initSortables = function() {
     var sortOptions;

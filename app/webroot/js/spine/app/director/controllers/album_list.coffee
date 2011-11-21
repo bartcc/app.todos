@@ -24,22 +24,25 @@ class AlbumList extends Spine.Controller
   
   change: (items) ->
     console.log 'AlbumList::change'
-    list = Gallery.selectionList()
     @renderBackgrounds items if items.length
-    @children().removeClass("active")
-    @exposeSelection()
-    # highlight first element in list
-    selected = Album.find(list[0]) if Album.exists(list[0])
-    Album.current(selected) if selected and !selected.destroyed
     
-    Spine.trigger('change:selectedAlbum', selected)
+#    selected = Album.find(list[0]) if Album.exists(list[0])
+#    Album.current(selected) if selected and !selected.destroyed
+#    Spine.trigger('change:selectedAlbum', selected)
   
+  select: (item) ->
+    @exposeSelection()
+    Album.current(item) if item and !item.destroyed
+    Spine.trigger('change:selectedAlbum', item)
+    
   exposeSelection: ->
     list = Gallery.selectionList()
+    @children().removeClass("active")
     for id in list
       if Album.exists(id)
         item = Album.find(id) 
         @children().forItem(item).addClass("active")
+        
     Spine.trigger('expose:sublistSelection', Gallery.record) if Gallery.record
   
   render: (items, newAlbum) ->
@@ -89,7 +92,7 @@ class AlbumList extends Spine.Controller
 #      @openPanel('album', App.showView.btnAlbum)
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
-    @change item
+    @select item
     App.showView.trigger('change:toolbar', 'Album')
     
     e.stopPropagation()

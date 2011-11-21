@@ -25,64 +25,22 @@ body {
   font-family: "Helvetica Neue", helvetica, arial, sans-serif;
   font-size: 14px;
 }
-h1, h2 {
+#messenger h1, h2 {
   text-shadow: 0 1px 1px #ffffff;
 }
-h1 {
+#messenger h1 {
   font-size: 21pt;
   color: #404040;
 }
-h2 {
+#messenger h2 {
   font-size: 24pt;
   color: #404040;
   margin: 1em 0 0.7em 0;
 }
-header, footer {
+#messenger header, footer {
   display: block;
 }
-.autoflow {
-  overflow: auto;
-}
-.flex, flex1 {
-  -moz-box-flex: 1;
-  -webkit-box-flex: 1;
-  box-flex: 1;
-}
-.hbox {
-  display: -webkit-box;
-  -webkit-box-align: stretch;
-  -webkit-box-orient: horizontal;
-
-  display: -moz-box;
-  -moz-box-align: stretch;
-  -moz-box-orient: horizontal;
-
-  display: box;
-  box-align: stretch;
-  box-orient: horizontal;
-}
-.vbox {
-  display: -webkit-box;
-  -webkit-box-align: stretch;
-  -webkit-box-orient: vertical;
-
-  display: -moz-box;
-  -moz-box-align: stretch;
-  -moz-box-orient: vertical;
-
-  display: box;
-  box-align: stretch;
-  box-orient: vertical;
-}
-.hbox span.flex {
-  display: block
-}
-.body {
-  display: inherit;
-  background-image: url(img/pattern.png);
-  background-color: #666;
-}
-#title {
+#messenger #title {
   overflow: hidden;
   height: 50px;
   -webkit-box-sizing: border-box;
@@ -96,7 +54,7 @@ header, footer {
   background: -moz-linear-gradient(top, #474747, #303030);
   background: linear-gradient(top, #474747, #303030);
 }
-#title h1 {
+#messenger #title h1 {
   line-height: 50px;
   font-size: 2.5em;
   text-align: center;
@@ -111,91 +69,18 @@ header, footer {
   font-weight: bold;
   width: 200px
 }
-header .info {
+#messenger header .info {
   color: #666;
   padding: 10px;
   float: right
 }
-#sidebar {
-  width: 150px;
-  background: #474747;
-  background: -webkit-gradient(linear, left top, left right, from(#303030), to(#474747));
-  background: -moz-linear-gradient(left, #303030, #474747);
-  background: linear-gradient(left, #303030, #474747);
-}
-#todo-list {
-  background: url('img/spine.png') no-repeat -40px 0;
-}
-.vdivide {
-  width: 6px;
-  border: 1px solid #c5c5c5;
-  border-width: 0 1px 0 1px;
-  border-right-color: rgba(0, 0, 0, 0.3);
-  background: #f9f9f9;
-  background: -webkit-gradient(linear, left top, right top, from(#f9f9f9), to(#dfe0e1));
-  background: -moz-linear-gradient(left, #f9f9f9, #dfe0e1);
-  background: linear-gradient(left, #f9f9f9, #dfe0e1);
-}
 .cloud {
   background-color: #E1EEF7
 }
-#tasks h1 {
-  font-size: 36px;
-  font-weight: bold;
-  text-align: center;
-  padding: 0 0 10px 0;
-}
-#tasks input[type="text"] {
-  border: 1px solid #999999;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2) inset;
-  font-family: inherit;
-  font-size: 24px;
-  line-height: 1.4em;
-  outline: medium none;
-  padding-left: 25px;
-  width: 100%
-}
-#tasks .items {
-  list-style: none;
-}
-#tasks .item {
-  padding: 15px 20px 15px 15px;
-  position: relative;
-  font-size: 24px;
-  border-bottom: 1px solid #cccccc;
-}
-#tasks .item.editing{
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-#tasks .item.done span {
-  color: #888888;
-  font-style: italic;
-  text-decoration: line-through;
-}
-#tasks .item .destroy {
-  position: absolute;
-  right: 10px;
-  top: 16px;
-  display: none;
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  background: url(img/destroy.png) no-repeat center 0;
-}
-#tasks .item:hover .destroy {
-  display: block;
-}
-#tasks .item .edit { display: none; }
-#tasks .item.editing .edit { 
-  display: block;
-  margin-right: 25px;
-}
-#tasks .item.editing .display { display: none; }
 .empty {
   font-style: italic;
 }
-footer {
+#messenger footer {
   padding: 6px;
   border-top: 1px solid #c5c5c5;
   background: #ffffff;
@@ -208,70 +93,8 @@ footer {
   text-align: right;
   min-height: 33px
 }
-footer div#storage-mode span {
-  font-size: 1.7em;
-  color: #C0C0C0;
-  text-shadow: 0 -1px 0 #FDFDFD;
-  bottom: -7px;
-  left: 10px;
-  position: relative;
-}
-.right {
-  float: right;
-}
-.left {
-  float: left;
-}
 .tright {
   text-align: right
-}
-#todo-stats {
-  text-shadow: 1px 0 1px #FFFFFF;
-  color: #555555;
-  display: block;
-  font-size: 3em;
-  font-weight: bold;
-  line-height: 30px;
-  margin: 10px 8px 0 8px;
-  padding: 0 10px 1px;
-  text-decoration: none;
-  white-space: nowrap
-}
-#create-todo .new-todo {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  color: #333333;
-  font-weight: bold;
-  text-shadow: 0 1px 1px #ffffff;
-  font-size: 14px;
-  padding: 6px 7px 5px 7px;
-  border: 1px solid #c5c5c5;
-  border-width: 1px 0 1px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-  background: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
-  background: -moz-linear-gradient(top, #ffffff, #dedfe0);
-  background: linear-gradient(top, #ffffff, #dedfe0);
-  -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: inset -1px -1px 3px #eeeeee, 1px 1px 2px rgba(0, 0, 0, 0.1);
-}
-#create-todo input[type=text] {
-  font-size: 30px;
-  font-family: inherit;
-  line-height: 1.4em;
-  width: 400px;
-  border: 0;
-  outline: none;
-  padding: 6px;
-  padding-left: 6px;
-  border: 1px solid #999999;
-  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
 }
 .ui-tooltip-top {
   left: 270px;
@@ -374,7 +197,7 @@ footer div#storage-mode span {
   -khtml-transform:rotate(180deg);
   -webkit-transform:rotate(180deg);
 }
-#modal button {
+#messenger button {
   font-weight: bold;
   font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
   font-size: 14px;
@@ -385,7 +208,7 @@ footer div#storage-mode span {
   border-radius: 3px;
   height: 32px;
 }
-#modal button.light {
+#messenger button.light {
   border: 1px solid #bbbbbb;
   text-shadow: 0 1px 1px #ffffff;
   color: #565656;
@@ -397,7 +220,7 @@ footer div#storage-mode span {
   -webkit-box-shadow: 0 1px 1px #ffffff;
   box-shadow: 0 1px 1px #ffffff;
 }
-#modal button.dark {
+#messenger button.dark {
   border: 1px solid #555555;
   color: #9C9C9C;
   text-shadow: 0 -1px 1px #333333;
@@ -409,31 +232,31 @@ footer div#storage-mode span {
   -webkit-box-shadow: 0 1px 1px #333333;
   box-shadow: 0 1px 1px #333333;
 }
-#modal button[type="button"], button[type="submit"], button[type="reset"] {
+#messenger button[type="button"], button[type="submit"], button[type="reset"] {
   margin: 0;
 }
-#modal button.light:active {
+#messenger button.light:active {
   background: #e3e3e3;
   background: -webkit-gradient(linear, left top, left bottom, from(#e3e3e3), to(#f9f9f9));
   background: -moz-linear-gradient(top, #e3e3e3, #f9f9f9);
   background: linear-gradient(top, #e3e3e3, #f9f9f9);
 }
-#modal button.dark:active {
+#messenger button.dark:active {
   background: #404040;
   background: -webkit-gradient(linear, left top, left bottom, from(#404040), to(#454545));
   background: -moz-linear-gradient(top, #404040, #454545);
   background: linear-gradient(top, #404040, #454545);
 }
-#modal button.clear {
+#messenger button.clear {
   margin-right: 10px
 }
-#modal button.primary_lg.alert {
+#messenger button.primary_lg.alert {
   background: #963030;
   background: -webkit-gradient(linear, left top, left bottom, from(#963030), to(#7B3030));
   background: -moz-linear-gradient(top, #963030, #7B3030);
   background: linear-gradient(top, #963030, #7B3030);
 }
-#modal button.primary_lg {
+#messenger button.primary_lg {
   background: #474747;
   background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#303030));
   background: -moz-linear-gradient(top, #474747, #303030);
@@ -448,7 +271,7 @@ footer div#storage-mode span {
   text-align: center;
   text-shadow: 0 -1px 0 #000000;
 }
-#modal button.primary_lg {
+#messenger button.primary_lg {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   -moz-box-shadow: none;
@@ -461,26 +284,26 @@ footer div#storage-mode span {
   padding: 0 10px;
   margin: 0;
 }
-#modal button.primary_lg:hover:not(.disabled) {
+#messenger button.primary_lg:hover:not(.disabled) {
   background: #474747;
   background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#404040));
   background: -moz-linear-gradient(top, #474747, #404040);
   background: linear-gradient(top, #474747, #404040);
   cursor: pointer;
 }
-#modal button.primary_lg.alert:hover {
+#messenger button.primary_lg.alert:hover {
   background: #963030;
   background: -webkit-gradient(linear, left top, left bottom, from(#963030), to(#8B4040));
   background: -moz-linear-gradient(top, #963030, #8B4040);
   background: linear-gradient(top, #963030, #8B4040);
 }
-#modal button.light.disabled, button.light.disabled:active {
+#messenger button.light.disabled, button.light.disabled:active {
   background: -webkit-gradient(linear, left top, left bottom, from(#F7F7F7), to(#C7C7C7));
   background: -moz-linear-gradient(center top , #F7F7F7, #C7C7C7);
   background: linear-gradient(top, #F7F7F7, #C7C7C7);
   text-shadow: 0 1px 0 #FFFFFF;
 }
-#modal button.disabled {
+#messenger button.disabled {
   background: #878787;
   background: -webkit-gradient(linear, left top, left bottom, from(#878787), to(#676767));
   background: -moz-linear-gradient(top, #878787, #676767);
@@ -489,12 +312,12 @@ footer div#storage-mode span {
   color: #B0B0B0;
   text-shadow: 0 -1px 0 #2f2f2f;
 }
-fieldset legend {
+#messenger fieldset legend {
   font-size: 100%;
   color: #999999;
   padding: 5px
 }
-fieldset {
+#messenger fieldset {
   padding: 0;
   border: 0 none;
 }
@@ -502,40 +325,11 @@ fieldset button {
   margin: 0 10px
 }
 
-fieldset label {
+#messenger fieldset label {
   padding: 0 10px 0 0
 }
-fieldset > div:nth-child(2) {
+#messenger fieldset > div:nth-child(2) {
   padding-left: 10px
-}
-#tasks li {
-  margin-top: 2px
-}
-#tasks li {
-  background: url("img/task-item.png") repeat-x  0 0;
-}
-#tasks.cloud li {
-  background: url("img/task-item.png") repeat-x  0 -90px;
-}
-#tasks.cloud li.orphan, #tasks li.orphan {
-  background: url("img/task-item.png") repeat-x  0 -180px;
-}
-li.hover {
-  cursor: move
-}
-#todo-controls span#button-storage {
-  border-bottom: 50px solid #3d3d3d;
-}
-#todo-controls span#button-storage button {
-  border: 0 none;
-  height: 50px;
-  margin: 20px 0;
-}
-#button-storage button {
-  background: url('img/mode.png') no-repeat center 0px transparent;
-}
-#button-storage.server button {
-  background: url('img/mode.png') no-repeat center -50px transparent;
 }
 #messenger {
 		z-index:998;
@@ -587,13 +381,13 @@ div.dialogue-wrap-inner {
   text-align: center;
 }
 div.dialogue-content {
-  margin: 0 auto 0;
+  margin: 0 auto;
   width: 400px;
 }
-div.bg > div:nth-child(2) {
+#messenger div.bg > div:nth-child(2) {
   margin: 20px;
 }
-div.dialogue-content div.bg {
+#messenger div.dialogue-content div.bg {
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   -moz-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
@@ -604,25 +398,25 @@ div.dialogue-content div.bg {
   position: relative;
   width: 100%;
 }
-div.dialogue div.dialogue-scroll {
-  position: relative;
-  padding: 10px 0;
-  margin: 0 auto;
-}
-.input.window {
+#messenger .input.window {
   border-radius: 0 0 3px 3px;
   border-top-width: 0;
   margin-right: 10px;
   padding: 2px 8px;
 }
-.flash {
+#messenger div.dialogue div.dialogue-scroll {
+  position: relative;
+  padding: 10px 0;
+  margin: 0 auto;
 }
-.flash img {
+#messenger .flash {
+}
+#messenger .flash img {
   position: absolute;
   left: 10px;
   bottom: 10px
 }
-.info {
+#messenger .info {
   color: rgba(20, 20, 20, 0.4);
   float: left;
   padding: 8px 0 0 40px;

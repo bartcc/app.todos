@@ -44,23 +44,23 @@ PhotosView = (function() {
       el: this.items,
       template: this.template
     });
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.changed);
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.changed));
+    AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     Photo.bind('refresh', this.proxy(this.prepareJoin));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
-    this.bind("render:header", this.proxy(this.renderHeader));
   }
   PhotosView.prototype.change = function(item) {
     var items;
-    this.current = item || Album.record;
     if (!GalleriesAlbum.galleryHasAlbum(Gallery.record.id, Album.record.id)) {
       Album.record = false;
       App.showView.trigger('render:toolbar');
     }
     items = Photo.filter(item != null ? item.id : void 0);
+    this.current = items;
     return this.render(items);
   };
   PhotosView.prototype.render = function(items) {
@@ -70,24 +70,45 @@ PhotosView = (function() {
     if (album) {
       this.el.data(album);
     } else {
-      delete this.el.data;
+      this.el.removeData();
     }
     this.items.html(this.preloaderTemplate());
     this.list.render(items, album);
     this.refreshElements();
-    return this.trigger('render:header', items);
+    if (this.isActive()) {
+      return this.renderHeader();
+    }
   };
-  PhotosView.prototype.renderHeader = function(items) {
-    var values;
+  PhotosView.prototype.renderHeader = function() {
+    var values, _ref;
     console.log('PhotosView::renderHeader');
     values = {
       record: Album.record,
-      count: items.length
+      count: AlbumsPhoto.filter((_ref = Album.record) != null ? _ref.id : void 0).length
     };
     return this.header.html(this.headerTemplate(values));
   };
   PhotosView.prototype.changed = function(record, mode) {
     return Album.emptyCache(record.album_id);
+  };
+  PhotosView.prototype.remove = function(ap) {
+    var photo, photoEl;
+    if (!ap.destroyed) {
+      return;
+    }
+    photo = Photo.find(ap.photo_id);
+    photoEl = this.items.children().forItem(photo);
+    photoEl.remove();
+    this.renderHeader();
+    if (!this.items.children().length) {
+      return this.render([]);
+    }
+  };
+  PhotosView.prototype.create = function(ap) {
+    if (ap.destroyed) {
+      return;
+    }
+    return this.renderHeader();
   };
   PhotosView.prototype.destroy = function(e) {
     var list, photo, photos, _i, _len, _results;
@@ -112,6 +133,12 @@ PhotosView = (function() {
     }
   };
   PhotosView.prototype.show = function() {
+    console.log('show');
+    console.log(this.isActive());
+    if (this.isActive()) {
+      return;
+    }
+    this.renderHeader();
     return Spine.trigger('change:canvas', this);
   };
   PhotosView.prototype.save = function(item) {};

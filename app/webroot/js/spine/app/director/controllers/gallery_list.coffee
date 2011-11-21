@@ -99,9 +99,6 @@ class GalleryList extends Spine.Controller
       album = Album.find(id)
       albums.forItem(album).addClass('active') 
 
-  children: (sel) ->
-    @el.children(sel)
-
   clickAlb: (e) ->
     console.log 'GalleryList::albclick'
     albumEl = $(e.currentTarget)
@@ -112,6 +109,7 @@ class GalleryList extends Spine.Controller
     Gallery.current(gallery)
     
     unless @isCtrlClick(e)
+      previous = Album.record
       Album.current(album)
       Gallery.updateSelection [album.id]
 
@@ -127,7 +125,7 @@ class GalleryList extends Spine.Controller
     @exposeSublistSelection(gallery)
     App.showView.trigger('change:toolbar', 'Album')
     Spine.trigger('show:photos', album)
-      
+    Spine.trigger('change:selectedAlbum', album) unless album.id is previous.id
     
     e.stopPropagation()
     e.preventDefault()

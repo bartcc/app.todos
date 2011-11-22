@@ -30,11 +30,17 @@ AlbumView = (function() {
     Spine.bind('change:selectedGallery', this.proxy(this.change));
   }
   AlbumView.prototype.change = function(item, mode) {
+    var firstID;
     console.log('Album::change');
-    if (item instanceof Album) {
+    if (item.constructor.className === 'Album') {
       this.current = item;
     } else {
-      this.current = null;
+      firstID = Gallery.selectionList(Gallery.record.id)[0];
+      if (Album.exists(firstID)) {
+        this.current = Album.find(firstID);
+      } else {
+        this.current = null;
+      }
     }
     return this.render(this.current, mode);
   };
@@ -42,7 +48,7 @@ AlbumView = (function() {
     var selection;
     console.log('Album::render');
     selection = Gallery.selectionList();
-    if ((selection != null ? selection.length : void 0) === 0) {
+    if (!(selection != null ? selection.length : void 0)) {
       this.item.html($("#noSelectionTemplate").tmpl({
         type: '<label><span class="dimmed">Select or create an album!</span></label>'
       }));

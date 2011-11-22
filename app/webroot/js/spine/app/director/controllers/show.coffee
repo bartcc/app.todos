@@ -4,7 +4,9 @@ class ShowView extends Spine.Controller
   
   elements:
     '#views .views'           : 'views'
-    '.header'                 : 'header'
+    '.photosHeader'           : 'photosHeaderEl'
+    '.albumsHeader'           : 'albumsHeaderEl'
+    '.header'                 : 'albumHeader'
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery'             : 'btnGallery'
     '.optAlbum'               : 'btnAlbum'
@@ -41,21 +43,27 @@ class ShowView extends Spine.Controller
 
   constructor: ->
     super
-    
+    @albumsHeader = new AlbumsHeader
+      el: @albumsHeaderEl
+    @photosHeader = new PhotosHeader
+      el: @photosHeaderEl
     @albumsView = new AlbumsView
       el: @albumsEl
       className: 'items'
-      header: @header
+      header: @albumsHeader
     @photosView = new PhotosView
       el: @photosEl
       className: 'items'
-      header: @header
+      header: @photosHeader
     
-#    Spine.bind('render:header', @proxy @renderHeader)
     Spine.bind('change:canvas', @proxy @changeCanvas)
+    Gallery.bind('change', @proxy @renderToolbar)
+    Album.bind('change', @proxy @renderToolbar)
+    Photo.bind('change', @proxy @renderToolbar)
     @bind('change:toolbar', @proxy @changeToolbar)
     @bind('render:toolbar', @proxy @renderToolbar)
     @bind("toggle:view", @proxy @toggleView)
+    @current = @albumsView
     
     if @activeControl
       @initControl @activeControl
@@ -63,13 +71,16 @@ class ShowView extends Spine.Controller
     @edit = @editGallery
     
     @canvasManager = new Spine.Manager(@albumsView, @photosView)
-    @canvasManager.change @albumsView
+    @canvasManager.change @current
+    @headerManager = new Spine.Manager(@albumsHeader, @photosHeader)
+    @headerManager.change @albumsHeader
     
   changeCanvas: (controller) ->
     console.log 'ShowView::changeCanvas'
     @current = controller
     @el.data current:@current.el.data()
-    @canvasManager.trigger('change', controller)
+    @headerManager.change controller.header
+    @canvasManager.change controller
 
   renderToolbar: ->
     console.log 'ShowView::renderToolbar'
@@ -192,10 +203,11 @@ class ShowView extends Spine.Controller
   deselect: (e) =>
     console.log 'ShowView::deselect'
     item = @el.data().current
-    item.emptySelection?()
+    item.emptySelection() if item
+    Album.current()
     Spine.trigger('album:exposeSelection')
     
-    if  @current then $('.item', @current.el).removeClass('active')
+    if @current then $('.item', @current.el).removeClass('active')
     @renderToolbar()
     
     e.stopPropagation()

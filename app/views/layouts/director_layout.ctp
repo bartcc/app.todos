@@ -79,7 +79,9 @@
     echo $this->Html->script('spine/app/director/models/error');
     echo $this->Html->script('spine/app/director/controllers/loader');
     echo $this->Html->script('spine/app/director/controllers/albums_view');
+    echo $this->Html->script('spine/app/director/controllers/albums_header');
     echo $this->Html->script('spine/app/director/controllers/photos_view');
+    echo $this->Html->script('spine/app/director/controllers/photos_header');
     echo $this->Html->script('spine/app/director/controllers/gallery_edit_view');
     echo $this->Html->script('spine/app/director/controllers/main');
     echo $this->Html->script('spine/app/director/controllers/login');

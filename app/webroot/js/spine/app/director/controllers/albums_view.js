@@ -47,27 +47,29 @@ AlbumsView = (function() {
     Spine.bind('destroy:album', this.proxy(this.destroy));
     Album.bind("destroy:join", this.proxy(this.destroyJoin));
     Album.bind("create:join", this.proxy(this.createJoin));
-    Album.bind("update", this.proxy(this.render));
-    Album.bind("destroy", this.proxy(this.render));
+    Album.bind("update destroy", this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('show:albums', this.proxy(this.show));
     GalleriesAlbum.bind("change", this.proxy(this.change));
-    this.show = this.showGallery;
+    GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
+    Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     $(this.views).queue("fx");
   }
   AlbumsView.prototype.children = function(sel) {
     return this.el.children(sel);
   };
-  AlbumsView.prototype.change = function(item, mode) {
+  AlbumsView.prototype.change = function(item) {
+    var gallery;
     console.log('AlbumsView::change');
-    if ((!item) || item.destroyed) {
+    gallery = Gallery.record;
+    if ((!gallery) || gallery.destroyed) {
       this.current = Album.filter();
     } else {
-      this.current = Album.filter(item.id);
+      this.current = Album.filter(gallery.id);
     }
-    return this.render();
+    return this.render(item);
   };
-  AlbumsView.prototype.render = function() {
+  AlbumsView.prototype.render = function(item) {
     console.log('AlbumsView::render');
     if (Gallery.record) {
       this.el.data(Gallery.record);
@@ -75,21 +77,23 @@ AlbumsView = (function() {
       this.el.removeData();
     }
     this.list.render(this.current);
+    if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
+      this.show();
+    }
     Spine.trigger('render:galleryItem');
     return Spine.trigger('album:exposeSelection');
   };
-  AlbumsView.prototype.renderHeader = function(items) {
-    var values;
+  AlbumsView.prototype.renderHeader = function() {
+    var values, _ref;
     console.log('AlbumsView::renderHeader');
     values = {
       record: Gallery.record,
-      count: items.length
+      count: GalleriesAlbum.filter((_ref = Gallery.record) != null ? _ref.id : void 0).length
     };
     return this.header.html(this.headerTemplate(values));
   };
   AlbumsView.prototype.show = function() {
-    Spine.trigger('change:canvas', this);
-    return this.renderHeader(this.current);
+    return Spine.trigger('change:canvas', this);
   };
   AlbumsView.prototype.initSortables = function() {
     var sortOptions;
@@ -130,6 +134,7 @@ AlbumsView = (function() {
       }
     }, this));
     if (Gallery.record) {
+      console.log(Gallery.record);
       Gallery.emptySelection();
       return Album.trigger('destroy:join', Gallery.record, albums);
     } else {

@@ -105,14 +105,14 @@ Model.Extender = {
         return res;
       },
       selectionList: __bind(function(recordID) {
-        var id, item, _i, _len, _ref;
-        id = recordID || this.record.id;
+        var id, item, _i, _len, _ref, _ref2;
+        id = recordID || ((_ref = this.record) != null ? _ref.id : void 0);
         if (!id) {
           return this.selection[0].global;
         }
-        _ref = this.selection;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          item = _ref[_i];
+        _ref2 = this.selection;
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          item = _ref2[_i];
           if (item[id]) {
             return item[id];
           }
@@ -215,7 +215,7 @@ Model.Extender = {
         return this.constructor.updateSelection(list, this.id);
       },
       emptySelection: function(list) {
-        return this.constructor.updateSelection(list, this.id);
+        return this.constructor.emptySelection(list, this.id);
       },
       addRemoveSelection: function(model, isMetaKey) {
         var list;

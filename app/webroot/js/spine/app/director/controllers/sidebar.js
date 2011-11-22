@@ -48,6 +48,7 @@ SidebarView = (function() {
     Gallery.bind("refresh change", this.proxy(this.render));
     Gallery.bind("ajaxError", Gallery.errorHandler);
     Spine.bind('render:galleryItem', this.proxy(this.renderItem));
+    AlbumsPhoto.bind('change', this.proxy(this.renderItem));
     Spine.bind('create:gallery', this.proxy(this.create));
     Spine.bind('destroy:gallery', this.proxy(this.destroy));
     Spine.bind('drag:start', this.proxy(this.dragStart));

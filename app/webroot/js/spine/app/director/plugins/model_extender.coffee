@@ -60,7 +60,7 @@ Model.Extender =
         res
       
       selectionList: (recordID) =>
-        id = recordID or @record.id
+        id = recordID or @record?.id
         return @selection[0].global unless id
         for item in @selection
           return item[id] if item[id]
@@ -136,7 +136,7 @@ Model.Extender =
         @constructor.updateSelection list, @id
 
       emptySelection: (list) ->
-        @constructor.updateSelection list, @id
+        @constructor.emptySelection list, @id
 
       addRemoveSelection: (model, isMetaKey) ->
         list = model.selectionList()

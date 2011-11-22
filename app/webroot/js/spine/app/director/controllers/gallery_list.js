@@ -65,24 +65,29 @@ GalleryList = (function() {
       return App.showView.btnEditGallery.click();
     }
   };
-  GalleryList.prototype.render = function(items, item, mode) {
-    var new_content, old_content;
+  GalleryList.prototype.render = function(albums, gallery, mode) {
+    var gallerEl;
     console.log('GalleryList::render');
-    if (!item) {
-      this.items = items;
+    if (!gallery) {
+      this.items = albums;
       this.html(this.template(this.items));
-    } else if (mode === 'update') {
-      old_content = $('.item-content', '#' + item.id);
-      new_content = $('.item-content', this.template(item)).html();
-      old_content.html(new_content);
-    } else if (mode === 'create') {
-      this.append(this.template(item));
-    } else if (mode === 'destroy') {
-      $('#' + item.id).remove();
+    } else {
+      switch (mode) {
+        case 'update':
+          gallerEl = this.children().forItem(gallery);
+          gallerEl.html(this.template(gallery).html());
+          break;
+        case 'create':
+          this.append(this.template(gallery));
+          break;
+        case 'destroy':
+          $('#' + gallery.id).remove();
+      }
     }
-    this.change(item, mode);
+    this.change(gallery, mode);
     if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
       if (!this.children(".active").length) {
+        App.ready = true;
         return this.children(":first").click();
       }
     }
@@ -114,7 +119,9 @@ GalleryList = (function() {
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       id = _ref[_i];
-      album = Album.find(id);
+      if (Album.exists(id)) {
+        album = Album.find(id);
+      }
       _results.push(albums.forItem(album).addClass('active'));
     }
     return _results;

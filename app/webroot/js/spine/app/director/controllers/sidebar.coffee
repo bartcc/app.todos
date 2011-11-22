@@ -33,6 +33,7 @@ class SidebarView extends Spine.Controller
     Gallery.bind("refresh change", @proxy @render)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Spine.bind('render:galleryItem', @proxy @renderItem)
+    AlbumsPhoto.bind('change', @proxy @renderItem)
     Spine.bind('create:gallery', @proxy @create)
     Spine.bind('destroy:gallery', @proxy @destroy)
     Spine.bind('drag:start', @proxy @dragStart)
@@ -47,6 +48,7 @@ class SidebarView extends Spine.Controller
 
   render: (item, mode) ->
     console.log 'Sidebar::render'
+    
     items = Gallery.filter @query, 'searchSelect'
     items = items.sort Gallery.nameSort
     @galleryItems = items

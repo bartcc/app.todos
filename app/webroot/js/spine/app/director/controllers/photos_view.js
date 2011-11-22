@@ -44,12 +44,14 @@ PhotosView = (function() {
       el: this.items,
       template: this.template
     });
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.changed));
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
+    AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
-    Photo.bind('refresh', this.proxy(this.prepareJoin));
+    Spine.bind('change:selectedAlbum', this.proxy(this.renderHeader));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
+    Photo.bind('refresh', this.proxy(this.prepareJoin));
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
   }
@@ -57,7 +59,6 @@ PhotosView = (function() {
     var items;
     if (!GalleriesAlbum.galleryHasAlbum(Gallery.record.id, Album.record.id)) {
       Album.record = false;
-      App.showView.trigger('render:toolbar');
     }
     items = Photo.filter(item != null ? item.id : void 0);
     this.current = items;
@@ -74,10 +75,7 @@ PhotosView = (function() {
     }
     this.items.html(this.preloaderTemplate());
     this.list.render(items, album);
-    this.refreshElements();
-    if (this.isActive()) {
-      return this.renderHeader();
-    }
+    return this.refreshElements();
   };
   PhotosView.prototype.renderHeader = function() {
     var values, _ref;
@@ -88,7 +86,7 @@ PhotosView = (function() {
     };
     return this.header.html(this.headerTemplate(values));
   };
-  PhotosView.prototype.changed = function(record, mode) {
+  PhotosView.prototype.emptyCache = function(record, mode) {
     return Album.emptyCache(record.album_id);
   };
   PhotosView.prototype.remove = function(ap) {
@@ -99,16 +97,12 @@ PhotosView = (function() {
     photo = Photo.find(ap.photo_id);
     photoEl = this.items.children().forItem(photo);
     photoEl.remove();
-    this.renderHeader();
     if (!this.items.children().length) {
       return this.render([]);
     }
   };
   PhotosView.prototype.create = function(ap) {
-    if (ap.destroyed) {
-      return;
-    }
-    return this.renderHeader();
+    if (ap.destroyed) {}
   };
   PhotosView.prototype.destroy = function(e) {
     var list, photo, photos, _i, _len, _results;

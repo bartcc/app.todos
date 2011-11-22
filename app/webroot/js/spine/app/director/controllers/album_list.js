@@ -13,13 +13,9 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
-  AlbumList.prototype.elements = {
-    '.optCreate': 'btnCreate'
-  };
   AlbumList.prototype.events = {
     'click .item': "click",
-    'dblclick .item': 'dblclick',
-    'click .optCreate': 'create'
+    'dblclick .item': 'dblclick'
   };
   AlbumList.prototype.selectFirst = true;
   function AlbumList() {
@@ -60,7 +56,7 @@ AlbumList = (function() {
       return Spine.trigger('expose:sublistSelection', Gallery.record);
     }
   };
-  AlbumList.prototype.render = function(items, newAlbum) {
+  AlbumList.prototype.render = function(items) {
     console.log('AlbumList::render');
     if (items.length) {
       this.html(this.template(items));
@@ -76,6 +72,10 @@ AlbumList = (function() {
   };
   AlbumList.prototype.renderBackgrounds = function(albums) {
     var album, _i, _len, _results;
+    console.log('AlbumList::renderBackgrounds');
+    if (!App.ready) {
+      return;
+    }
     _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
@@ -90,6 +90,7 @@ AlbumList = (function() {
   };
   AlbumList.prototype.callback = function(json, item) {
     var css, el, itm, o, searchJSON;
+    console.log('AlbumList::callback');
     el = this.children().forItem(item);
     searchJSON = function(itm) {
       var key, res, value;
@@ -115,9 +116,6 @@ AlbumList = (function() {
     })();
     return el.css('backgroundImage', css);
   };
-  AlbumList.prototype.children = function(sel) {
-    return this.el.children(sel);
-  };
   AlbumList.prototype.create = function() {
     return Spine.trigger('create:album');
   };
@@ -135,7 +133,6 @@ AlbumList = (function() {
   AlbumList.prototype.dblclick = function(e) {
     var item;
     item = $(e.currentTarget).item();
-    this.change(item);
     Spine.trigger('show:photos', item);
     e.stopPropagation();
     e.preventDefault();

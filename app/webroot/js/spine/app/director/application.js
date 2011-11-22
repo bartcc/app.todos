@@ -30,6 +30,7 @@ App = (function() {
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
+    this.ready = false;
     this.ALBUM_SINGLE_MOVE = this.constructor.createImage('/img/dragndrop/album_single_move.png');
     this.ALBUM_SINGLE_COPY = this.constructor.createImage('/img/dragndrop/album_single_copy.png');
     this.ALBUM_DOUBLE_MOVE = this.constructor.createImage('/img/dragndrop/album_double_move.png');

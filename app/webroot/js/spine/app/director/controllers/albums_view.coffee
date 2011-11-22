@@ -42,31 +42,33 @@ class AlbumsView extends Spine.Controller
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind("destroy:join", @proxy @destroyJoin)
     Album.bind("create:join", @proxy @createJoin)
-    Album.bind("update", @proxy @render)
-    Album.bind("destroy", @proxy @render)
+    Album.bind("update destroy", @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('show:albums', @proxy @show)
     GalleriesAlbum.bind("change", @proxy @change)
-#    @bind("render:header", @proxy @renderHeader)
+    GalleriesAlbum.bind('change', @proxy @renderHeader)
+    Spine.bind('change:selectedGallery', @proxy @renderHeader)
     
-    @show = @showGallery
-
     $(@views).queue("fx")
 
   children: (sel) ->
     @el.children(sel)
 
-  change: (item, mode) ->
+  change: (item) ->
     console.log 'AlbumsView::change'
+    # item can be gallery         from Spine.bind 'change:selectedGallery'
+    # item can be album           from Album.bind 'change'
+    # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
+    gallery = Gallery.record 
     
-    if (!item) or (item.destroyed)
+    if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
     else
-      @current = Album.filter(item.id)
+      @current = Album.filter(gallery.id)
       
-    @render()
+    @render(item) # item is 
     
-  render: ->
+  render: (item) ->
     console.log 'AlbumsView::render'
       
     if Gallery.record
@@ -75,19 +77,26 @@ class AlbumsView extends Spine.Controller
       @el.removeData()
       
     @list.render @current
+    # when Album is deleted in Photos View return to this View
+    if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
+      @show()
+      
     Spine.trigger('render:galleryItem')
     Spine.trigger('album:exposeSelection')
     
     #@initSortables() #interferes with html5 dnd!
    
-  renderHeader: (items) ->
+  renderHeader: ->
     console.log 'AlbumsView::renderHeader'
-    values = {record: Gallery.record, count: items.length}
+    values =
+      record: Gallery.record
+      count: GalleriesAlbum.filter(Gallery.record?.id).length
     @header.html @headerTemplate values
   
   show: ->
-    Spine.trigger('change:canvas', @)
-    @renderHeader @current
+#    unless @isActive()
+    Spine.trigger('change:canvas', @) # unless @isActive()
+#    @renderHeader @current
     
   initSortables: ->
     sortOptions = {}
@@ -118,6 +127,7 @@ class AlbumsView extends Spine.Controller
       albums.push record unless list.indexOf(record.id) is -1
       
     if Gallery.record
+      console.log Gallery.record
       Gallery.emptySelection()
       Album.trigger('destroy:join', Gallery.record, albums)
     else

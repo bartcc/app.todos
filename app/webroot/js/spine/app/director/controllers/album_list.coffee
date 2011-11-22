@@ -3,13 +3,9 @@ $      = Spine.$
 
 class AlbumList extends Spine.Controller
   
-  elements:
-    '.optCreate'              : 'btnCreate'
-
   events:
     'click .item'             : "click"    
     'dblclick .item'          : 'dblclick'
-    'click .optCreate'        : 'create'
     
   selectFirst: true
     
@@ -25,14 +21,12 @@ class AlbumList extends Spine.Controller
   change: (items) ->
     console.log 'AlbumList::change'
     @renderBackgrounds items if items.length
-    
-#    selected = Album.find(list[0]) if Album.exists(list[0])
-#    Album.current(selected) if selected and !selected.destroyed
-#    Spine.trigger('change:selectedAlbum', selected)
   
   select: (item) ->
     @exposeSelection()
-    Album.current(item) if item and !item.destroyed
+    if item and !item.destroyed
+      Album.current(item)
+      
     Spine.trigger('change:selectedAlbum', item)
     
   exposeSelection: ->
@@ -45,7 +39,7 @@ class AlbumList extends Spine.Controller
         
     Spine.trigger('expose:sublistSelection', Gallery.record) if Gallery.record
   
-  render: (items, newAlbum) ->
+  render: (items) ->
     console.log 'AlbumList::render'
     if items.length
       @html @template items
@@ -54,11 +48,13 @@ class AlbumList extends Spine.Controller
         @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button><button class="optShowAllAlbums dark invite">Show available Albums</button></div>'
       else
         @html '<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;</span></label><div class="invite"><button class="optCreateAlbum dark invite">New Album</button></div>'
-    
+        
     @change items
     @el
   
   renderBackgrounds: (albums) ->
+    console.log 'AlbumList::renderBackgrounds'
+    return unless App.ready
     for album in albums
       album.uri
         width: 50
@@ -68,6 +64,7 @@ class AlbumList extends Spine.Controller
         , 3
   
   callback: (json, item) =>
+    console.log 'AlbumList::callback'
     el = @children().forItem(item)
     searchJSON = (itm) ->
       res = for key, value of itm
@@ -77,9 +74,6 @@ class AlbumList extends Spine.Controller
       'url(' + o[0].src + ')'
     el.css('backgroundImage', css)
   
-  children: (sel) ->
-    @el.children(sel)
-
   create: ->
     Spine.trigger('create:album')
 
@@ -102,7 +96,6 @@ class AlbumList extends Spine.Controller
   dblclick: (e) ->
     #@openPanel('album', App.showView.btnAlbum)
     item = $(e.currentTarget).item()
-    @change item
     Spine.trigger('show:photos', item)
     
     e.stopPropagation()

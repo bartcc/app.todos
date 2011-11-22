@@ -34,13 +34,14 @@ class PhotosView extends Spine.Controller
     @list = new PhotoList
       el: @items
       template: @template
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @changed)
-#    AlbumsPhoto.bind('destroy create', @proxy @renderHeader)
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
+    AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
-    Photo.bind('refresh', @proxy @prepareJoin)
+    Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)
+    Photo.bind('refresh', @proxy @prepareJoin)
     Photo.bind("create:join", @proxy @createJoin)
     Photo.bind("destroy:join", @proxy @destroyJoin)
     
@@ -48,7 +49,6 @@ class PhotosView extends Spine.Controller
     # if the album has been moved outside the gallery kill current album and render all photos
     unless GalleriesAlbum.galleryHasAlbum Gallery.record.id, Album.record.id
       Album.record = false
-      App.showView.trigger('render:toolbar')
       
     items = Photo.filter(item?.id)
     
@@ -69,19 +69,16 @@ class PhotosView extends Spine.Controller
     
     @list.render items, album
     @refreshElements()
-    @renderHeader() if @isActive()
-    
   
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
     values =
       record: Album.record
       count: AlbumsPhoto.filter(Album.record?.id).length
-      
     @header.html @headerTemplate values
   
   # could be in any controller that listens to AlbumsPhoto - may be move to app?
-  changed: (record, mode) ->
+  emptyCache: (record, mode) ->
     Album.emptyCache record.album_id
   
   remove: (ap) ->
@@ -89,12 +86,12 @@ class PhotosView extends Spine.Controller
     photo = Photo.find(ap.photo_id)
     photoEl = @items.children().forItem(photo)
     photoEl.remove()
-    @renderHeader()
+    # start the 'real' rendering
     @render [] unless @items.children().length
   
   create: (ap) ->
     return if ap.destroyed
-    @renderHeader()
+#    @renderHeader()
     
   
   destroy: (e) ->

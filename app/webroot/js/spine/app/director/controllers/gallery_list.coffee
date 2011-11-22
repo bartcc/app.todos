@@ -55,25 +55,27 @@ class GalleryList extends Spine.Controller
     
     if mode is 'edit'
       App.showView.btnEditGallery.click()
-
-  
-  render: (items, item, mode) ->
+        
+  render: (albums, gallery, mode) ->
     console.log 'GalleryList::render'
-    unless item
-      @items = items
+    unless gallery
+      @items = albums
       @html @template @items
-    else if mode is 'update'
-      old_content = $('.item-content', '#'+item.id)
-      new_content = $('.item-content', @template item).html()
-      old_content.html new_content
-    else if mode is 'create'
-      @append @template item
-    else if mode is 'destroy'
-      $('#'+item.id).remove()
+    else
+      switch mode
+        when 'update'
+          gallerEl = @children().forItem(gallery)
+          gallerEl.html @template(gallery).html()
+        when 'create'
+          @append @template gallery
+        when 'destroy'
+          $('#'+gallery.id).remove()
+#          gallerEl.remove()
 
-    @change item, mode
+    @change gallery, mode
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
+        App.ready = true
         @children(":first").click()
 
   renderSublist: (gallery) ->
@@ -88,15 +90,13 @@ class GalleryList extends Spine.Controller
     $('#'+gallery.id+' ul').html @sublistTemplate(albums)
     $('.item-header .cta', '#'+gallery.id).html Album.filter(gallery.id).length + ' <span style="font-size: 0.5em;">(' + total + ')</span>'
     
-#    @exposeSublistSelection(gallery)
-    
   exposeSublistSelection: (gallery) ->
     console.log 'GalleryList::exposeSublistSelection'
     galleryEl = @children().forItem(gallery)
     albums = galleryEl.find('li')
     albums.removeClass('active')
     for id in Gallery.selectionList()
-      album = Album.find(id)
+      album = Album.find(id) if Album.exists(id)
       albums.forItem(album).addClass('active') 
 
   clickAlb: (e) ->

@@ -21,17 +21,22 @@ class AlbumView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'Album::change'
-    if item instanceof Album
+    if item.constructor.className is 'Album'
       @current = item
     else
-      @current = null
+      firstID = Gallery.selectionList(Gallery.record.id)[0]
+      if Album.exists(firstID)
+        @current = Album.find(firstID)
+      else
+        @current = null
+        
     @render @current, mode
 
   render: (item, mode) ->
     console.log 'Album::render'
     selection = Gallery.selectionList()
 
-    if selection?.length is 0
+    unless selection?.length
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Select or create an album!</span></label>'})
     else if selection?.length > 1
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Multiple selection</span></label>'})

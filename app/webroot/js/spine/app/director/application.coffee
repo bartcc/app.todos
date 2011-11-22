@@ -26,6 +26,7 @@ class App extends Spine.Controller
 
   constructor: ->
     super
+    @ready = false
     @ALBUM_SINGLE_MOVE = @constructor.createImage('/img/dragndrop/album_single_move.png')
     @ALBUM_SINGLE_COPY = @constructor.createImage('/img/dragndrop/album_single_copy.png')
     @ALBUM_DOUBLE_MOVE = @constructor.createImage('/img/dragndrop/album_double_move.png')
@@ -79,7 +80,7 @@ class App extends Spine.Controller
       goSleep: => @showView.activeControl?.click()
 
     @contentManager = new Spine.Manager(@showView, @galleryEditView)
-    @contentManager.change(@showView)
+    @contentManager.change @showView
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
@@ -98,6 +99,7 @@ class App extends Spine.Controller
         @setupView()
       @delay cb, 1000
       
+  # not used
   thumbs: ->
     @icon[0].src = @old_icon
     @statusText.hide()
@@ -119,7 +121,9 @@ class App extends Spine.Controller
       @appManager.change @mainView
       @openPanel('gallery', @showView.btnGallery) unless Gallery.count()
       @loginView.render User.first()
+      
     @statusText.text('Thanks for Patience').fadeIn('slow', => @delay cb, 1000)
+    
 
 $ ->
   

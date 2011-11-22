@@ -33,8 +33,8 @@
           <footer>
             <span>
               <fieldset>
-                <button class="_local light">Local Storage</button>
-                <button class="_login light disabled" disabled="">Login</button>
+                <button class="light">Local Storage</button>
+                <button class="light disabled" disabled="">Login</button>
               </fieldset>
             </span>
           </footer>
@@ -62,7 +62,6 @@
     <h1>Spine Director</h1>
     <div id="login" class="flex tright" style="margin-top: 8px;"></div>
   </header>
-
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views canvas-bg-medium hbox vdraggable">
       <div class="vbox flex inner">
@@ -84,7 +83,10 @@
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="contents views vbox flex">
-          <div class="header"></div>
+          <div class="header views">
+            <div class="albumsHeader view"></div>
+            <div class="photosHeader view"></div>
+          </div>
           <div class="view albums content vbox flex data autoflow">
             <div class="vbox flex">
               <div class="items sortable">Albums</div>

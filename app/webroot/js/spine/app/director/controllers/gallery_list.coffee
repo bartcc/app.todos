@@ -24,6 +24,9 @@ class GalleryList extends Spine.Controller
 
   selectFirst: false
     
+  contentTemplate: (items) ->
+    $('#galleriesContentTemplate').tmpl(items)
+    
   sublistTemplate: (items) ->
     $('#albumsSublistTemplate').tmpl(items)
     
@@ -45,33 +48,42 @@ class GalleryList extends Spine.Controller
     @children().removeClass("active")
     if (!cmdKey and item)
       # don't touch @current if we're just updating
-      @current = item unless mode is 'update'
-      @children().forItem(@current).addClass("active")
+      switch mode
+        when 'destroy'
+          @current = false
+        else
+          @current = item unless mode is 'update'
+          @children().forItem(@current).addClass("active")
     else
       @current = false
-
+    
     Gallery.current(@current)
     Spine.trigger('change:selectedGallery', @current, mode)
     
     if mode is 'edit'
       App.showView.btnEditGallery.click()
+    else if mode is 'show'
+      Spine.trigger('show:albums')
         
-  render: (albums, gallery, mode) ->
+  render: (galleries, gallery, mode) ->
     console.log 'GalleryList::render'
-    unless gallery
-      @items = albums
-      @html @template @items
-    else
+    if gallery and mode
       switch mode
         when 'update'
-          gallerEl = @children().forItem(gallery)
-          gallerEl.html @template(gallery).html()
+          galleryEl = @children().forItem(gallery)
+          galleryContentEl = $('.item-content', galleryEl)
+          tmplItem = galleryContentEl.tmplItem()
+          tmplItem.tmpl = $( "#galleriesContentTemplate" ).template()
+          tmplItem.update()
         when 'create'
           @append @template gallery
         when 'destroy'
-          $('#'+gallery.id).remove()
-#          gallerEl.remove()
-
+          @children().forItem(gallery, true).remove()
+          
+    else if galleries
+      @items = galleries
+      @html @template @items
+    
     @change gallery, mode
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
@@ -134,13 +146,10 @@ class GalleryList extends Spine.Controller
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.target).item()
-    #Spine.trigger('change:selected', item.constructor.className) unless @isCtrlClick(e)
-    # Note: don't trigger toolbar here - since Spine.trigger('change:toolbar', 'Gallery')
     
     @change item, 'show', e
     @exposeSublistSelection(item)
     App.showView.trigger('change:toolbar', 'Gallery')
-    Spine.trigger('show:albums')
     
     e.stopPropagation()
     e.preventDefault()

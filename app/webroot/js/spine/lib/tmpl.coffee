@@ -2,13 +2,15 @@
 
 $ = jQuery ? require("jqueryify")
 
-$.fn.item = ->
+$.fn.item = (keep) ->
   item = $(@).tmplItem().data
-  item.reload?()
+  unless keep
+    return item.reload?()
+  else return item
 
-$.fn.forItem = (item) ->
+$.fn.forItem = (item, keep) ->
   @filter ->
-    compare = $(@).item()
+    compare = $(@).item(keep)
     item.eql?(compare) or item is compare
 
 $.fn.serializeForm = ->

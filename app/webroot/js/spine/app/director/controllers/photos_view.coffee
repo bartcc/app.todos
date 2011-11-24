@@ -37,6 +37,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
+    Album.bind('update create', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
@@ -82,6 +83,7 @@ class PhotosView extends Spine.Controller
     Album.emptyCache record.album_id
   
   remove: (ap) ->
+    console.log 'PhotosView::remove'
     return unless ap.destroyed
     photo = Photo.find(ap.photo_id)
     photoEl = @items.children().forItem(photo)
@@ -102,9 +104,10 @@ class PhotosView extends Spine.Controller
     Photo.each (record) =>
       photos.push record unless list.indexOf(record.id) is -1
       
+    console.log photos
     if Album.record
       Album.emptySelection()
-      Spine.trigger('destroy:photoJoin', Album.record, photos)
+      Photo.trigger('destroy:join', Album.record, photos)
     else
       for photo in photos
         if Photo.exists(photo.id)
@@ -113,7 +116,6 @@ class PhotosView extends Spine.Controller
     
   show: ->
     console.log 'show'
-    console.log @isActive()
     return if @isActive()
     @renderHeader()
     Spine.trigger('change:canvas', @)

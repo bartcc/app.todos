@@ -31,6 +31,9 @@ GalleryList = (function() {
     'dragend    .sublist-item': 'dragend'
   };
   GalleryList.prototype.selectFirst = false;
+  GalleryList.prototype.contentTemplate = function(items) {
+    return $('#galleriesContentTemplate').tmpl(items);
+  };
   GalleryList.prototype.sublistTemplate = function(items) {
     return $('#albumsSublistTemplate').tmpl(items);
   };
@@ -52,10 +55,16 @@ GalleryList = (function() {
     }
     this.children().removeClass("active");
     if (!cmdKey && item) {
-      if (mode !== 'update') {
-        this.current = item;
+      switch (mode) {
+        case 'destroy':
+          this.current = false;
+          break;
+        default:
+          if (mode !== 'update') {
+            this.current = item;
+          }
+          this.children().forItem(this.current).addClass("active");
       }
-      this.children().forItem(this.current).addClass("active");
     } else {
       this.current = false;
     }
@@ -63,26 +72,31 @@ GalleryList = (function() {
     Spine.trigger('change:selectedGallery', this.current, mode);
     if (mode === 'edit') {
       return App.showView.btnEditGallery.click();
+    } else if (mode === 'show') {
+      return Spine.trigger('show:albums');
     }
   };
-  GalleryList.prototype.render = function(albums, gallery, mode) {
-    var gallerEl;
+  GalleryList.prototype.render = function(galleries, gallery, mode) {
+    var galleryContentEl, galleryEl, tmplItem;
     console.log('GalleryList::render');
-    if (!gallery) {
-      this.items = albums;
-      this.html(this.template(this.items));
-    } else {
+    if (gallery && mode) {
       switch (mode) {
         case 'update':
-          gallerEl = this.children().forItem(gallery);
-          gallerEl.html(this.template(gallery).html());
+          galleryEl = this.children().forItem(gallery);
+          galleryContentEl = $('.item-content', galleryEl);
+          tmplItem = galleryContentEl.tmplItem();
+          tmplItem.tmpl = $("#galleriesContentTemplate").template();
+          tmplItem.update();
           break;
         case 'create':
           this.append(this.template(gallery));
           break;
         case 'destroy':
-          $('#' + gallery.id).remove();
+          this.children().forItem(gallery, true).remove();
       }
+    } else if (galleries) {
+      this.items = galleries;
+      this.html(this.template(this.items));
     }
     this.change(gallery, mode);
     if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
@@ -164,7 +178,6 @@ GalleryList = (function() {
     this.change(item, 'show', e);
     this.exposeSublistSelection(item);
     App.showView.trigger('change:toolbar', 'Gallery');
-    Spine.trigger('show:albums');
     e.stopPropagation();
     e.preventDefault();
     return false;

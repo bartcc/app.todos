@@ -48,7 +48,6 @@ class SidebarView extends Spine.Controller
 
   render: (item, mode) ->
     console.log 'Sidebar::render'
-    
     items = Gallery.filter @query, 'searchSelect'
     items = items.sort Gallery.nameSort
     @galleryItems = items

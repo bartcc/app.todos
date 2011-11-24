@@ -161,19 +161,23 @@
   <li id="${id}" class="gal item data" title="Deselect   Cmd-Click">
     <div class="item-header">
       <div class="expander"></div>
-      <div class="item-content">
-        {{if name}}
-        <span class="name">${name}</span>
-        {{else}}
-        <span class="name empty">no name</span>
-        {{/if}}
-        <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
-        <span class="gal cta"></span>
-      </div>
+      {{tmpl "#galleriesContentTemplate"}}
     </div>
     <hr>
     <ul class="sublist" style="display: none;"></ul>
   </li>
+</script>
+
+<script id="galleriesContentTemplate" type="text/x-jquery-tmpl">
+  <div class="item-content">
+    {{if name}}
+    <span class="name">${name}</span>
+    {{else}}
+    <span class="name empty">no name</span>
+    {{/if}}
+    <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
+    <span class="gal cta"></span>
+  </div>
 </script>
 
 <script id="albumsSublistTemplate" type="text/x-jquery-tmpl">

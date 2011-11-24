@@ -148,14 +148,14 @@ Model.Extender = {
       isObject: function(value) {
         return Object.prototype.toString.call(value) === "[object Object]";
       },
-      current: function(record) {
-        var rec;
+      current: function(recordOrID) {
+        var id, rec;
         rec = false;
-        if (this.exists(record != null ? record.id : void 0)) {
-          rec = this.find(record.id);
+        id = (recordOrID != null ? recordOrID.id : void 0) || recordOrID;
+        if (this.exists(id)) {
+          rec = this.find(id);
         }
-        this.record = rec;
-        return this.record || false;
+        return this.record = rec;
       },
       selected: function() {
         return this.record;

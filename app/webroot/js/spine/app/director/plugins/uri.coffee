@@ -46,12 +46,13 @@ class UriCollection extends Base
     @photos = Photo.filter()
 
 class Uri extends Base
-  constructor: (@record, params, @callback, max) ->
+  constructor: (@record, params, mode, @callback, max) ->
     super
     # get all photos of the album
     if @record
       aps = AlbumsPhoto.filter @record.id
       max = max or aps.length-1
+      @mode = mode
       @photos = for ap in aps[0..max]
         Photo.find(ap.photo_id)
       
@@ -90,7 +91,7 @@ class Uri extends Base
        .error(@errorResponse)
 
   recordResponse: (uris) =>
-    @record.addToCache @url, uris
+    @record.addToCache @url, uris, @mode
     @callback uris, @record
     
   errorResponse: ->
@@ -100,7 +101,7 @@ Model.Uri =
   extended: ->
     
     Include =
-      uri: (params, callback, max) -> new Uri(@, params, callback, max).test()
+      uri: (params, mode, callback, max) -> new Uri(@, params, mode, callback, max).test()
       
     @include Include
     

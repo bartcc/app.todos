@@ -42,7 +42,7 @@ AlbumList = (function() {
     return Spine.trigger('change:selectedAlbum', item);
   };
   AlbumList.prototype.exposeSelection = function() {
-    var id, item, list, _i, _len;
+    var current, id, item, list, _i, _len;
     list = Gallery.selectionList();
     this.children().removeClass("active");
     for (_i = 0, _len = list.length; _i < _len; _i++) {
@@ -52,6 +52,8 @@ AlbumList = (function() {
         this.children().forItem(item).addClass("active");
       }
     }
+    current = list.length === 1 ? list[0] : void 0;
+    Album.current(current);
     if (Gallery.record) {
       return Spine.trigger('expose:sublistSelection', Gallery.record);
     }
@@ -82,7 +84,7 @@ AlbumList = (function() {
       _results.push(album.uri({
         width: 50,
         height: 50
-      }, __bind(function(xhr, album) {
+      }, 'html', __bind(function(xhr, album) {
         return this.callback(xhr, album);
       }, this), 3));
     }

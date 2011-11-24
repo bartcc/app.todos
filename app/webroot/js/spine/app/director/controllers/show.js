@@ -245,11 +245,20 @@ ShowView = (function() {
     var item;
     console.log('ShowView::deselect');
     item = this.el.data().current;
+    console.log(item);
+    console.log(this.el.data());
     if (item) {
       item.emptySelection();
     }
-    Album.current();
-    Spine.trigger('album:exposeSelection');
+    switch (item.constructor.className) {
+      case 'Album':
+        Photo.current();
+        Spine.trigger('photo:exposeSelection');
+        break;
+      case 'Gallery':
+        Album.current();
+        Spine.trigger('album:exposeSelection');
+    }
     if (this.current) {
       $('.item', this.current.el).removeClass('active');
     }

@@ -16,12 +16,14 @@ class PhotoList extends Spine.Controller
     Photo.bind("ajaxError", Photo.customErrorHandler)
     Photo.bind('uri', @proxy @uri)
     
-  render: (items, album) ->
+  render: (items, album, mode) ->
     console.log 'PhotoList::render'
+    
+    console.log mode
     if album
       if items.length
-        @html @template items
-        @uri album, items
+        @[mode] @template items
+        @uri album, items, mode
         @change()
         @el
       else
@@ -33,9 +35,9 @@ class PhotoList extends Spine.Controller
     width: width
     height: height
   
-  uri: (album, items) ->
+  uri: (album, items, mode) ->
     console.log 'PhotoList::uri'
-    album.uri @previewSize(), (xhr, record) => @callback items, xhr
+    album.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
   
   callback: (items, json) =>
     console.log 'PhotoList::callback'
@@ -63,13 +65,16 @@ class PhotoList extends Spine.Controller
     @children().removeClass("active")
     @exposeSelection(list)
   
-  exposeSelection: (list) ->
+  exposeSelection: ->
     console.log 'PhotoList::exposeSelection'
+    list = Album.selectionList()
     for id in list
       if Photo.exists(id)
         item = Photo.find(id) 
         @children().forItem(item).addClass("active")
-  
+    current = if list.length is 1 then list[0] 
+    Photo.current(current) 
+    
   children: (sel) ->
     @el.children(sel)
   

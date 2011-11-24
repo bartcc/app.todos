@@ -37,7 +37,8 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
-    Album.bind('update create', @proxy @change)
+    AlbumsPhoto.bind('create', @proxy @add)
+#    Album.bind('update create', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
@@ -56,8 +57,9 @@ class PhotosView extends Spine.Controller
     @current = items
     @render items
     
-  render: (items) ->
+  render: (items, mode) ->
     console.log 'PhotosView::render'
+    console.log mode
     album = Album.record
     
     if album
@@ -66,9 +68,9 @@ class PhotosView extends Spine.Controller
       @el.removeData()
     
     # show spinner
-    @items.html @preloaderTemplate()
+    #@items.html @preloaderTemplate()
     
-    @list.render items, album
+    @list.render items, album, mode or 'html'
     @refreshElements()
   
   renderHeader: ->
@@ -93,8 +95,14 @@ class PhotosView extends Spine.Controller
   
   create: (ap) ->
     return if ap.destroyed
+    
 #    @renderHeader()
     
+  add: (ap) ->
+    console.log ap
+    photo = Photo.find(ap.photo_id)
+    @render [photo], 'append'
+
   
   destroy: (e) ->
     console.log 'PhotosView::destroy'

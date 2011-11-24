@@ -36,6 +36,8 @@ class AlbumList extends Spine.Controller
       if Album.exists(id)
         item = Album.find(id) 
         @children().forItem(item).addClass("active")
+    current = if list.length is 1 then list[0]
+    Album.current(current)
         
     Spine.trigger('expose:sublistSelection', Gallery.record) if Gallery.record
   
@@ -59,6 +61,7 @@ class AlbumList extends Spine.Controller
       album.uri
         width: 50
         height: 50
+        , 'html'
         , (xhr, album) =>
           @callback(xhr, album)
         , 3

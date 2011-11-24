@@ -73,7 +73,7 @@ UriCollection = (function() {
 })();
 Uri = (function() {
   __extends(Uri, Base);
-  function Uri(record, params, callback, max) {
+  function Uri(record, params, mode, callback, max) {
     var ap, aps, options;
     this.record = record;
     this.callback = callback;
@@ -82,6 +82,7 @@ Uri = (function() {
     if (this.record) {
       aps = AlbumsPhoto.filter(this.record.id);
       max = max || aps.length - 1;
+      this.mode = mode;
       this.photos = (function() {
         var _i, _len, _ref, _results;
         _ref = aps.slice(0, (max + 1) || 9e9);
@@ -130,7 +131,7 @@ Uri = (function() {
     }, this));
   };
   Uri.prototype.recordResponse = function(uris) {
-    this.record.addToCache(this.url, uris);
+    this.record.addToCache(this.url, uris, this.mode);
     return this.callback(uris, this.record);
   };
   Uri.prototype.errorResponse = function() {};
@@ -140,8 +141,8 @@ Model.Uri = {
   extended: function() {
     var Include;
     Include = {
-      uri: function(params, callback, max) {
-        return new Uri(this, params, callback, max).test();
+      uri: function(params, mode, callback, max) {
+        return new Uri(this, params, mode, callback, max).test();
       }
     };
     return this.include(Include);

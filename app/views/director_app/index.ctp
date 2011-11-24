@@ -164,7 +164,9 @@
       {{tmpl "#galleriesContentTemplate"}}
     </div>
     <hr>
-    <ul class="sublist" style="display: none;"></ul>
+    <ul class="sublist" style="display: none;">
+      {{tmpl "#albumsSublistTemplate"}}
+    </ul>
   </li>
 </script>
 

@@ -79,16 +79,23 @@ Album = (function() {
       }
     }
   };
-  Album.addToCache = function(record, url, uri) {
-    var cache, dummy;
+  Album.addToCache = function(record, url, uri, mode) {
+    var cache, dummy, empty;
     cache = this.cacheList(record != null ? record.id : void 0);
     if (!cache) {
       return;
     }
-    dummy = {};
-    dummy[url] = uri;
-    if (!this.cache(record, url)) {
-      cache.push(dummy);
+    empty = function() {
+      return {};
+    };
+    dummy = empty()[url] = uri;
+    if (mode === 'append') {
+      cache = this.cache(record, url) || (empty()[url] = []);
+      cache.push(dummy[url]);
+    } else {
+      if (!this.cache(record, url)) {
+        cache.push(dummy);
+      }
     }
     return cache;
   };
@@ -113,8 +120,8 @@ Album = (function() {
   Album.prototype.cache = function(url) {
     return this.constructor.cache(this, url);
   };
-  Album.prototype.addToCache = function(url, uri) {
-    return this.constructor.addToCache(this, url, uri);
+  Album.prototype.addToCache = function(url, uri, mode) {
+    return this.constructor.addToCache(this, url, uri, mode);
   };
   Album.prototype.emptyCache = function() {
     return this.constructor.emptyCache(this.id);

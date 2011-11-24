@@ -47,7 +47,7 @@ PhotosView = (function() {
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
-    Album.bind('update create', this.proxy(this.change));
+    AlbumsPhoto.bind('create', this.proxy(this.add));
     Spine.bind('change:selectedAlbum', this.proxy(this.renderHeader));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));
@@ -65,17 +65,17 @@ PhotosView = (function() {
     this.current = items;
     return this.render(items);
   };
-  PhotosView.prototype.render = function(items) {
+  PhotosView.prototype.render = function(items, mode) {
     var album;
     console.log('PhotosView::render');
+    console.log(mode);
     album = Album.record;
     if (album) {
       this.el.data(album);
     } else {
       this.el.removeData();
     }
-    this.items.html(this.preloaderTemplate());
-    this.list.render(items, album);
+    this.list.render(items, album, mode || 'html');
     return this.refreshElements();
   };
   PhotosView.prototype.renderHeader = function() {
@@ -105,6 +105,12 @@ PhotosView = (function() {
   };
   PhotosView.prototype.create = function(ap) {
     if (ap.destroyed) {}
+  };
+  PhotosView.prototype.add = function(ap) {
+    var photo;
+    console.log(ap);
+    photo = Photo.find(ap.photo_id);
+    return this.render([photo], 'append');
   };
   PhotosView.prototype.destroy = function(e) {
     var list, photo, photos, _i, _len, _results;

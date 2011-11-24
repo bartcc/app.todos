@@ -106,8 +106,12 @@ GalleryList = (function() {
       }
     }
   };
+  GalleryList.prototype.renderSub = function(el) {
+    console.log(this);
+    return console.log(el);
+  };
   GalleryList.prototype.renderSublist = function(gallery) {
-    var album, albums, total, _i, _len;
+    var album, albums, galleryEl, gallerySublist, total, _i, _len;
     console.log('GalleryList::renderSublist');
     albums = Album.filter(gallery.id);
     total = 0;
@@ -120,7 +124,9 @@ GalleryList = (function() {
         flash: 'no albums'
       });
     }
-    $('#' + gallery.id + ' ul').html(this.sublistTemplate(albums));
+    galleryEl = this.children().forItem(gallery);
+    gallerySublist = $('ul', galleryEl);
+    gallerySublist.html(this.sublistTemplate(albums));
     return $('.item-header .cta', '#' + gallery.id).html(Album.filter(gallery.id).length + ' <span style="font-size: 0.5em;">(' + total + ')</span>');
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {

@@ -86,11 +86,11 @@ Model.Extender =
       isObject: (value) ->
         Object::toString.call(value) is "[object Object]"
 
-      current: (record) ->
+      current: (recordOrID) ->
         rec = false
-        rec = @find(record.id) if @exists(record?.id)
+        id = recordOrID?.id or recordOrID
+        rec = @find(id) if @exists(id)
         @record = rec
-        @record or false
 
       selected: ->
         @record

@@ -24,12 +24,13 @@ PhotoList = (function() {
     Photo.bind("ajaxError", Photo.customErrorHandler);
     Photo.bind('uri', this.proxy(this.uri));
   }
-  PhotoList.prototype.render = function(items, album) {
+  PhotoList.prototype.render = function(items, album, mode) {
     console.log('PhotoList::render');
+    console.log(mode);
     if (album) {
       if (items.length) {
-        this.html(this.template(items));
-        this.uri(album, items);
+        this[mode](this.template(items));
+        this.uri(album, items, mode);
         this.change();
         return this.el;
       } else {
@@ -51,9 +52,9 @@ PhotoList = (function() {
       height: height
     };
   };
-  PhotoList.prototype.uri = function(album, items) {
+  PhotoList.prototype.uri = function(album, items, mode) {
     console.log('PhotoList::uri');
-    return album.uri(this.previewSize(), __bind(function(xhr, record) {
+    return album.uri(this.previewSize(), mode, __bind(function(xhr, record) {
       return this.callback(items, xhr);
     }, this));
   };
@@ -91,15 +92,19 @@ PhotoList = (function() {
     this.children().removeClass("active");
     return this.exposeSelection(list);
   };
-  PhotoList.prototype.exposeSelection = function(list) {
-    var id, item, _i, _len, _results;
+  PhotoList.prototype.exposeSelection = function() {
+    var current, id, item, list, _i, _len;
     console.log('PhotoList::exposeSelection');
-    _results = [];
+    list = Album.selectionList();
     for (_i = 0, _len = list.length; _i < _len; _i++) {
       id = list[_i];
-      _results.push(Photo.exists(id) ? (item = Photo.find(id), this.children().forItem(item).addClass("active")) : void 0);
+      if (Photo.exists(id)) {
+        item = Photo.find(id);
+        this.children().forItem(item).addClass("active");
+      }
     }
-    return _results;
+    current = list.length === 1 ? list[0] : void 0;
+    return Photo.current(current);
   };
   PhotoList.prototype.children = function(sel) {
     return this.el.children(sel);

@@ -45,12 +45,16 @@ class Album extends Spine.Model
     for item in cache
       return item[url] if item[url]
 
-  @addToCache: (record, url, uri) ->
+  @addToCache: (record, url, uri, mode) ->
     cache = @cacheList record?.id
-    return unless cache# or uri.length
-    dummy = {}
-    dummy[url] = uri
-    cache.push dummy unless @cache(record, url)
+    return unless cache
+    empty = -> {}
+    dummy = empty()[url] = uri
+    if mode is 'append'
+      cache = @cache(record, url) or empty()[url] = []
+      cache.push dummy[url]
+    else
+      cache.push dummy unless @cache(record, url)
     cache
     
   @emptyCache: (id) ->
@@ -71,8 +75,8 @@ class Album extends Spine.Model
   cache: (url) ->
     @constructor.cache @, url
     
-  addToCache: (url, uri) ->
-    @constructor.addToCache(@, url, uri)
+  addToCache: (url, uri, mode) ->
+    @constructor.addToCache(@, url, uri, mode)
     
   emptyCache: ->
     @constructor.emptyCache @id

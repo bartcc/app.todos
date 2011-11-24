@@ -203,9 +203,16 @@ class ShowView extends Spine.Controller
   deselect: (e) =>
     console.log 'ShowView::deselect'
     item = @el.data().current
+    console.log item
+    console.log @el.data()
     item.emptySelection() if item
-    Album.current()
-    Spine.trigger('album:exposeSelection')
+    switch item.constructor.className
+      when 'Album'
+        Photo.current()
+        Spine.trigger('photo:exposeSelection')
+      when 'Gallery'
+        Album.current()
+        Spine.trigger('album:exposeSelection')
     
     if @current then $('.item', @current.el).removeClass('active')
     @renderToolbar()

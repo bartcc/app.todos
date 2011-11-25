@@ -33,7 +33,7 @@ class App extends Spine.Controller
     @ALBUM_DOUBLE_COPY = @constructor.createImage('/img/dragndrop/album_double_copy.png')
 
     User.bind('pinger', @proxy @validate)
-    Spine.bind('uri:alldone', @proxy @setupView)
+#    Spine.bind('uri:alldone', @proxy @setupView)
     
     @sidebar = new SidebarView
       el: @sidebarEl

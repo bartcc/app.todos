@@ -42,6 +42,7 @@ GalleryList = (function() {
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
     Spine.bind('render:sublist', this.proxy(this.renderSublist));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
+    Spine.bind('close:album', this.proxy(this.change));
   }
   GalleryList.prototype.template = function() {
     return arguments[0];

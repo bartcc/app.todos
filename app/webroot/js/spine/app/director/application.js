@@ -36,7 +36,6 @@ App = (function() {
     this.ALBUM_DOUBLE_MOVE = this.constructor.createImage('/img/dragndrop/album_double_move.png');
     this.ALBUM_DOUBLE_COPY = this.constructor.createImage('/img/dragndrop/album_double_copy.png');
     User.bind('pinger', this.proxy(this.validate));
-    Spine.bind('uri:alldone', this.proxy(this.setupView));
     this.sidebar = new SidebarView({
       el: this.sidebarEl
     });

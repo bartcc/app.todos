@@ -13,9 +13,19 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 PhotosHeader = (function() {
   __extends(PhotosHeader, Spine.Controller);
+  PhotosHeader.prototype.elements = {
+    '.closeView': 'closeViewEl'
+  };
+  PhotosHeader.prototype.events = {
+    'click .closeView': 'closeView'
+  };
   function PhotosHeader() {
     PhotosHeader.__super__.constructor.apply(this, arguments);
   }
+  PhotosHeader.prototype.closeView = function() {
+    console.log('AlbumsHeader::closeView');
+    return Spine.trigger('show:albums');
+  };
   return PhotosHeader;
 })();
 if (typeof module !== "undefined" && module !== null) {

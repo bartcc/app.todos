@@ -8,7 +8,6 @@ class GalleryList extends Spine.Controller
   elements:
     '.gal.item'               : 'item'
     '.expander'               : 'expander'
-    
 
   events:
     "click      .gal.item"            : "click",
@@ -35,6 +34,7 @@ class GalleryList extends Spine.Controller
     Spine.bind('drag:timeout', @proxy @expandExpander)
     Spine.bind('render:sublist', @proxy @renderSublist)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
+    Spine.bind('close:album', @proxy @change)
 
   template: -> arguments[0]
 

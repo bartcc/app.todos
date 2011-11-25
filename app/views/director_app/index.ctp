@@ -251,27 +251,32 @@
 </script>
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
-  {{if record}}
-  <h3>Author: <label> ${record.author}</label></h3>
-  <h2>Gallery: ${record.name}</h2>
-  {{else}}
-  <h3>Album Originals</h3>
-  <h2>All Albums</h2>
-  {{/if}}
-  <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+  <section class="top">
+    {{if record}}
+    <h3>Author: <label> ${record.author}</label></h3>
+    <h2>Gallery: ${record.name}</h2>
+    {{else}}
+    <h3>Album Originals</h3>
+    <h2>All Albums</h2>
+    {{/if}}
+    <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+  </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}
-  <h3>${gallery.name}</h3>
-  {{/if}}
-  {{if record}}
-  <h2>Album: ${record.title}</h2>
-  {{else}}
-  <h3>Album Originals</h3>
-  <h2>All Albums</h2>
-  {{/if}}
-  <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+  <section class="top">
+    {{if gallery}}
+    <h3>${gallery.name}</h3>
+    {{/if}}
+    {{if record}}
+    <h2>Album: ${record.title}</h2>
+    {{else}}
+    <h3>Album Originals</h3>
+    <h2>All Albums</h2>
+    {{/if}}
+    <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+  </section>
+  <section class="closeView"><img src="/img/up.png"><h3>close</h3></section>
 </script>
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">

@@ -38,7 +38,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
-#    Album.bind('update create', @proxy @change)
+    Album.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
@@ -59,7 +59,6 @@ class PhotosView extends Spine.Controller
     
   render: (items, mode) ->
     console.log 'PhotosView::render'
-    console.log mode
     album = Album.record
     
     if album
@@ -67,8 +66,9 @@ class PhotosView extends Spine.Controller
     else
       @el.removeData()
     
+    @items.empty() unless @list.children('li').length
     # show spinner
-    #@items.html @preloaderTemplate()
+#      @items.html @preloaderTemplate()
     
     @list.render items, album, mode or 'html'
     @refreshElements()
@@ -80,6 +80,7 @@ class PhotosView extends Spine.Controller
       count: AlbumsPhoto.filter(Album.record?.id).length
     @header.html @headerTemplate values
   
+  # after albumsphoto jointable has been changed by delete or create trash the cache and rebuild it the next time
   # could be in any controller that listens to AlbumsPhoto - may be move to app?
   emptyCache: (record, mode) ->
     Album.emptyCache record.album_id
@@ -92,14 +93,9 @@ class PhotosView extends Spine.Controller
     photoEl.remove()
     # start the 'real' rendering
     @render [] unless @items.children().length
-  
-  create: (ap) ->
-    return if ap.destroyed
-    
-#    @renderHeader()
     
   add: (ap) ->
-    console.log ap
+    console.log 'PhotosView::add'
     photo = Photo.find(ap.photo_id)
     @render [photo], 'append'
 
@@ -112,7 +108,6 @@ class PhotosView extends Spine.Controller
     Photo.each (record) =>
       photos.push record unless list.indexOf(record.id) is -1
       
-    console.log photos
     if Album.record
       Album.emptySelection()
       Photo.trigger('destroy:join', Album.record, photos)
@@ -168,5 +163,5 @@ class PhotosView extends Spine.Controller
         ap.destroy()
 
     target.save()
-
+    
 module?.exports = PhotosView

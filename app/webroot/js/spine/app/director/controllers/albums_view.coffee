@@ -117,6 +117,7 @@ class AlbumsView extends Spine.Controller
     Gallery.updateSelection [album.id]
     @render album
     Album.trigger('create:join', Gallery.record, album) if Gallery.record
+    Spine.trigger('show:albums')
     @openPanel('album', App.showView.btnAlbum)
 
   destroy: (e) ->

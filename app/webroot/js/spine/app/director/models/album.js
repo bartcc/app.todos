@@ -80,19 +80,17 @@ Album = (function() {
     }
   };
   Album.addToCache = function(record, url, uri, mode) {
-    var cache, dummy, empty;
-    cache = this.cacheList(record != null ? record.id : void 0);
+    var cache, dummy;
+    cache = this.cacheList(record.id);
     if (!cache) {
       return;
     }
-    empty = function() {
-      return {};
-    };
-    dummy = empty()[url] = uri;
+    dummy = {};
     if (mode === 'append') {
-      cache = this.cache(record, url) || (empty()[url] = []);
+      cache = this.cache(record, url) || (dummy[url] = []);
       cache.push(dummy[url]);
     } else {
+      dummy[url] = uri;
       if (!this.cache(record, url)) {
         cache.push(dummy);
       }

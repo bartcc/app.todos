@@ -82,12 +82,12 @@ h3 {
   margin: 0;
   font-size: 15px;
   color: #606060;
-  text-shadow: 0 1px 1px #ffffff;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 h4 {
   font-size: 14pt;
   color: #7e7f7e;
-  text-shadow: 0 1px 1px #ffffff;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 a {
   color: #363636;
@@ -383,7 +383,7 @@ textarea {
 #content .content.over.nodrop {
   background-image: url(img/gradient-nodrop.png)
 }
-#content .header {
+#content .header section.top {
   background: linear-gradient(center top, #B9B9B9, #979797);
   background: -moz-linear-gradient(center top, #B9B9B9, #979797);
   background: -webkit-gradient(linear, center top, center bottom, from(#B9B9B9), to(#979797));
@@ -473,25 +473,41 @@ textarea {
 /*  font-weight: bold;
   box-shadow: 0 1px 3px #666666 inset;*/
 }
-.header {
+#content .header section.closeView {
+  line-height: 0.1em;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px;
+}
+#content .header section {
+  background: linear-gradient(center top, #B9B9B9, #979797);
+  background: -moz-linear-gradient(center top, #B9B9B9, #979797);
+  background: -webkit-gradient(linear, center top, center bottom, from(#B9B9B9), to(#979797));
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  padding: 10px 10px 10px 15px;
+  margin-top: 1px;
+}
+.header section.top {
   height: 80px;
   position: relative;
 }
-.header h2 {
+.header section h2 {
   margin: 10px 0;
 }
-.header .cta {
+.header section .cta {
   position: absolute;
   right: 20px;
   top: 23px;
 }
-.header .cta h2 {
+.header section .cta h2 {
   color: #FFFFFF;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);
   padding: 0 10px;
   margin: 0;
 }
-.header h3 span:first-child {
+.header section h3 span:first-child {
   margin-left: 30px
 }
 #sidebar li img {

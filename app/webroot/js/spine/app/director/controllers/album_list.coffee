@@ -23,13 +23,12 @@ class AlbumList extends Spine.Controller
     @renderBackgrounds items if items.length
   
   select: (item) ->
-    previous = @current
-    @current = item
+    previous = Album.record
     @exposeSelection()
     if item and !item.destroyed
       Album.current(item)
       
-    Spine.trigger('change:selectedAlbum', item) if @current?.id != previous?.id
+    Spine.trigger('change:selectedAlbum', item)
     
   exposeSelection: ->
     list = Gallery.selectionList()

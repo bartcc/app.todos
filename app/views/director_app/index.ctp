@@ -108,12 +108,12 @@
               </div>
             </div>
             <div id="photo" class="view items flex autoflow" style="">
-              <label>
-                <span class="dimmed">Not quite there yet</span>
-              </label>
+              <div class="editPhoto">
+                <div class="content">No Photo found!</div>
+              </div>
             </div>
             <div id="fileupload" class="view items flex autoflow" style="">
-              <form action="/uploads/image" method="POST" enctype="multipart/form-data">
+              <form action="" method="POST" enctype="multipart/form-data">
                 <div class="fileupload-buttonbar">
                   <label class="fileinput-button">
                     <span>Drag and drop files here...</span>
@@ -164,9 +164,7 @@
       {{tmpl "#galleriesContentTemplate"}}
     </div>
     <hr>
-    <ul class="sublist" style="display: none;">
-      {{tmpl "#albumsSublistTemplate"}}
-    </ul>
+    <ul class="sublist" style="display: none;"></ul>
   </li>
 </script>
 
@@ -177,7 +175,7 @@
     {{else}}
     <span class="name empty">no name</span>
     {{/if}}
-    <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
+    <span class="author">{{if author}} by ${id}{{else}}(no author){{/if}}</span>
     <span class="gal cta"></span>
   </div>
 </script>
@@ -242,6 +240,21 @@
   </div>
 </script>
 
+<script id="editPhotoTemplate" type="text/x-jquery-tmpl">
+  <div class="left">
+    <label>
+      <span>Photo Title</span>
+      <input type="text" name="title" value="${title}" >
+    </label>
+  </div>
+  <div class="left">
+    <label>
+      <span>Description</span>
+      <textarea name="description">${description}</textarea>
+    </label>
+  </div>
+</script>
+
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
   <li class="{{if disabled}}disabled{{/if}} ${klass}">${name}</li>
 </script>
@@ -285,7 +298,7 @@
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li class="item">
-    <div class="thumbnail image" draggable="true"></div>
+    {{tmpl "#photosDetailsTemplate"}}
     {{if title}}
     <div class="name">{{html title}}</div>
     {{else}}
@@ -293,6 +306,10 @@
     {{/if}}
     <div class="name">${id}</div>
   </li>
+</script>
+
+<script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
+  <div class="thumbnail image" draggable="true"></div>
 </script>
 
 <script id="preloaderTemplate" type="text/x-jquery-tmpl">
@@ -303,7 +320,7 @@
   </div>
 </script>
 
-<script id="template-upload" type="text/x-jquery-tmpl">
+<script id="uploadTemplate" type="text/x-jquery-tmpl">
   <tr class="template-upload{{if error}} ui-state-error{{/if}}">
     <td class="preview"></td>
     <td class="name">{{if name}}${name}{{else}}Untitled{{/if}}</td>

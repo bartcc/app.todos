@@ -40,7 +40,7 @@ SidebarView = (function() {
     this.dragLeave = __bind(this.dragLeave, this);
     this.dragOver = __bind(this.dragOver, this);
     this.dragEnter = __bind(this.dragEnter, this);    SidebarView.__super__.constructor.apply(this, arguments);
-    this.el.width(360);
+    this.el.width(460);
     this.list = new GalleryList({
       el: this.items,
       template: this.template
@@ -64,7 +64,9 @@ SidebarView = (function() {
   SidebarView.prototype.render = function(item, mode) {
     var items;
     console.log('Sidebar::render');
-    items = Gallery.filter(this.query, 'searchSelect');
+    items = Gallery.filter(this.query, {
+      func: 'searchSelect'
+    });
     items = items.sort(Gallery.nameSort);
     this.galleryItems = items;
     return this.list.render(items, item, mode);
@@ -211,7 +213,9 @@ SidebarView = (function() {
         if (!(origin.id !== target.id)) {
           return false;
         }
-        items = GalleriesAlbum.filter(target.id);
+        items = GalleriesAlbum.filter(target.id, {
+          key: 'gallery_id'
+        });
         for (_i = 0, _len = items.length; _i < _len; _i++) {
           item = items[_i];
           if (item.album_id === source.id) {
@@ -226,7 +230,9 @@ SidebarView = (function() {
         if (!(origin.id !== target.id)) {
           return false;
         }
-        items = AlbumsPhoto.filter(target.id);
+        items = AlbumsPhoto.filter(target.id, {
+          key: 'album_id'
+        });
         for (_j = 0, _len2 = items.length; _j < _len2; _j++) {
           item = items[_j];
           if (item.photo_id === source.id) {

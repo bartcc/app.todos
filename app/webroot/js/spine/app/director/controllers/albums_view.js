@@ -53,6 +53,10 @@ AlbumsView = (function() {
     GalleriesAlbum.bind("change", this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
+    this.filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum'
+    };
     $(this.views).queue("fx");
   }
   AlbumsView.prototype.children = function(sel) {
@@ -65,7 +69,7 @@ AlbumsView = (function() {
     if ((!gallery) || gallery.destroyed) {
       this.current = Album.filter();
     } else {
-      this.current = Album.filter(gallery.id);
+      this.current = Album.filter(gallery.id, this.filterOptions);
     }
     return this.render(item);
   };
@@ -88,7 +92,7 @@ AlbumsView = (function() {
     console.log('AlbumsView::renderHeader');
     values = {
       record: Gallery.record,
-      count: GalleriesAlbum.filter((_ref = Gallery.record) != null ? _ref.id : void 0).length
+      count: GalleriesAlbum.filter((_ref = Gallery.record) != null ? _ref.id : void 0, this.filterOptions).length
     };
     return this.header.html(this.headerTemplate(values));
   };
@@ -181,7 +185,7 @@ AlbumsView = (function() {
       records = albums;
     }
     albums = Album.toID(records);
-    gas = GalleriesAlbum.filter(target.id);
+    gas = GalleriesAlbum.filter(target.id, this.filterOptions);
     for (_i = 0, _len = gas.length; _i < _len; _i++) {
       ga = gas[_i];
       if (albums.indexOf(ga.album_id) !== -1) {

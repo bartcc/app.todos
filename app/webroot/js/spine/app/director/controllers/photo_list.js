@@ -21,12 +21,23 @@ PhotoList = (function() {
   function PhotoList() {
     this.callback = __bind(this.callback, this);    PhotoList.__super__.constructor.apply(this, arguments);
     Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
+    Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.customErrorHandler);
     Photo.bind('uri', this.proxy(this.uri));
   }
+  PhotoList.prototype.change = function(item) {
+    this.children().removeClass("active");
+    this.exposeSelection();
+    return Spine.trigger('change:selectedPhoto', item);
+  };
   PhotoList.prototype.render = function(items, album, mode) {
     console.log('PhotoList::render');
-    console.log(mode);
+    if (mode == null) {
+      mode = 'html';
+    }
+    if (album == null) {
+      album = Album.record;
+    }
     if (album) {
       if (items.length) {
         this[mode](this.template(items));
@@ -39,6 +50,25 @@ PhotoList = (function() {
     } else {
       return this.html('<label class="invite"><span class="enlightened">No album selected.</span></label>');
     }
+  };
+  PhotoList.prototype.renderItem = function(item) {
+    var backgroundImage, el, isActive, tb, tmplItem;
+    el = __bind(function() {
+      return this.children().forItem(item);
+    }, this);
+    tb = function() {
+      return $('.thumbnail', el());
+    };
+    backgroundImage = tb().css('backgroundImage');
+    isActive = el().hasClass('active');
+    tmplItem = el().tmplItem();
+    tmplItem.tmpl = $("#photosTemplate").template();
+    tmplItem.update();
+    tb().css('backgroundImage', backgroundImage);
+    return el().toggleClass('active', isActive);
+  };
+  PhotoList.prototype.update = function(item) {
+    return this.renderItem(item);
   };
   PhotoList.prototype.previewSize = function(width, height) {
     if (width == null) {
@@ -86,12 +116,6 @@ PhotoList = (function() {
       'backgroundPosition': 'center, center'
     });
   };
-  PhotoList.prototype.change = function(item) {
-    var list;
-    list = Album.selectionList();
-    this.children().removeClass("active");
-    return this.exposeSelection(list);
-  };
   PhotoList.prototype.exposeSelection = function() {
     var current, id, item, list, _i, _len;
     console.log('PhotoList::exposeSelection');
@@ -105,9 +129,6 @@ PhotoList = (function() {
     }
     current = list.length === 1 ? list[0] : void 0;
     return Photo.current(current);
-  };
-  PhotoList.prototype.children = function(sel) {
-    return this.el.children(sel);
   };
   PhotoList.prototype.click = function(e) {
     var item;

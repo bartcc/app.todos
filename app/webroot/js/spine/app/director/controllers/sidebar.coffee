@@ -25,7 +25,7 @@ class SidebarView extends Spine.Controller
 
   constructor: ->
     super
-    @el.width(360)
+    @el.width(460)
     @list = new GalleryList
       el: @items,
       template: @template
@@ -48,7 +48,7 @@ class SidebarView extends Spine.Controller
 
   render: (item, mode) ->
     console.log 'Sidebar::render'
-    items = Gallery.filter @query, 'searchSelect'
+    items = Gallery.filter @query, func: 'searchSelect'
     items = items.sort Gallery.nameSort
     @galleryItems = items
     @list.render items, item, mode
@@ -164,7 +164,7 @@ class SidebarView extends Spine.Controller
         unless (origin.id != target.id)
           return false
           
-        items = GalleriesAlbum.filter(target.id)
+        items = GalleriesAlbum.filter(target.id, key: 'gallery_id')
         for item in items
           if item.album_id is source.id
             return false
@@ -176,7 +176,7 @@ class SidebarView extends Spine.Controller
         unless (origin.id != target.id)
           return false
           
-        items = AlbumsPhoto.filter(target.id)
+        items = AlbumsPhoto.filter(target.id, key: 'album_id')
         for item in items
           if item.photo_id is source.id
             return false

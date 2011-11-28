@@ -35,6 +35,9 @@ class GalleryList extends Spine.Controller
     Spine.bind('render:sublist', @proxy @renderSublist)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('close:album', @proxy @change)
+    @filterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
 
   template: -> arguments[0]
 
@@ -90,24 +93,20 @@ class GalleryList extends Spine.Controller
         App.ready = true
         @children(":first").click()
 
-  renderSub: (el) ->
-    console.log @
-    console.log el
-
   renderSublist: (gallery) ->
     console.log 'GalleryList::renderSublist'
-    albums = Album.filter(gallery.id)
+    albums = Album.filter(gallery.id, @filterOptions)
     total = 0
     # inject total images
     for album in albums
-      total += album.count = AlbumsPhoto.filter(album.id).length
+      total += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
     
     albums.push {flash: 'no albums'} unless albums.length
     
     galleryEl = @children().forItem(gallery)
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
-    $('.item-header .cta', '#'+gallery.id).html Album.filter(gallery.id).length + ' <span style="font-size: 0.5em;">(' + total + ')</span>'
+    $('.item-header .cta', '#'+gallery.id).html Album.filter(gallery.id, @filterOptions).length + ' <span style="font-size: 0.5em;">(' + total + ')</span>'
     
   exposeSublistSelection: (gallery) ->
     console.log 'GalleryList::exposeSublistSelection'
@@ -143,7 +142,7 @@ class GalleryList extends Spine.Controller
     @change gallery
     @exposeSublistSelection(gallery)
     App.showView.trigger('change:toolbar', 'Album')
-    Spine.trigger('show:photos', album)
+    Spine.trigger('show:photos')
     Spine.trigger('change:selectedAlbum', album) unless album.id is previous.id
     
     e.stopPropagation()

@@ -17,7 +17,9 @@ GalleriesAlbum = (function() {
   GalleriesAlbum.extend(Spine.Model.Filter);
   GalleriesAlbum.galleryHasAlbum = function(gid, aid) {
     var ga, gas, _i, _len;
-    gas = this.filter(gid);
+    gas = this.filter(gid, {
+      key: 'gallery_id'
+    });
     for (_i = 0, _len = gas.length; _i < _len; _i++) {
       ga = gas[_i];
       if (ga.album_id === aid) {
@@ -26,16 +28,11 @@ GalleriesAlbum = (function() {
     }
     return false;
   };
-  GalleriesAlbum.prototype.select = function(query) {
-    if (this.gallery_id === query && this.constructor.records[this.id]) {
+  GalleriesAlbum.prototype.select = function(query, options) {
+    if (this[options.key] === query && this.constructor.records[this.id]) {
       return true;
     }
     return false;
-  };
-  GalleriesAlbum.prototype.selectAlbum = function(query) {
-    if (this.album_id === query) {
-      return true;
-    }
   };
   return GalleriesAlbum;
 })();

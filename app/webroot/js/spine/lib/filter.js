@@ -2,15 +2,17 @@ var Filter;
 Filter = function() {
   var extend, include;
   extend = {
-    filter: function(query, func) {
-      if (func == null) {
-        func = 'select';
-      }
+    options: {
+      func: 'select'
+    },
+    filter: function(query, options) {
+      var opts;
+      opts = $.extend({}, this.options, options);
       if (!query) {
         return this.all();
       }
       return this.select(function(item) {
-        return item[func](query);
+        return item[opts.func](query, opts);
       });
     }
   };

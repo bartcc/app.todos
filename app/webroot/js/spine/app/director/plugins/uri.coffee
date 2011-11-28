@@ -50,7 +50,7 @@ class Uri extends Base
     super
     # get all photos of the album
     if @record
-      aps = AlbumsPhoto.filter @record.id
+      aps = AlbumsPhoto.filter(@record.id, key: 'album_id')
       max = max or aps.length-1
       @mode = mode
       @photos = for ap in aps[0..max]

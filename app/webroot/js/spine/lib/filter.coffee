@@ -1,10 +1,14 @@
 Filter =
   ->
     extend =
-      filter: (query, func = 'select') ->
+      options:
+        func: 'select'
+    
+      filter: (query, options) ->
+        opts = $.extend({}, @options, options)
         return @all() unless query
         @select (item) ->
-          item[func] query
+          item[opts.func] query, opts
 
     include =
       select: (query) ->

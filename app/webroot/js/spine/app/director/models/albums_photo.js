@@ -15,8 +15,8 @@ AlbumsPhoto = (function() {
   AlbumsPhoto.configure("AlbumsPhoto", "album_id", 'photo_id', 'uris');
   AlbumsPhoto.extend(Spine.Model.Local);
   AlbumsPhoto.extend(Spine.Model.Filter);
-  AlbumsPhoto.prototype.select = function(query) {
-    if (this.album_id === query && this.constructor.records[this.id]) {
+  AlbumsPhoto.prototype.select = function(query, options) {
+    if (this[options.key] === query && this.constructor.records[this.id]) {
       return true;
     }
     return false;

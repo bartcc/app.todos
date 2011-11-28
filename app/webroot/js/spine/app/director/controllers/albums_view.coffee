@@ -48,7 +48,9 @@ class AlbumsView extends Spine.Controller
     GalleriesAlbum.bind("change", @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
-    
+    @filterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
     $(@views).queue("fx")
 
   children: (sel) ->
@@ -64,7 +66,7 @@ class AlbumsView extends Spine.Controller
     if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
     else
-      @current = Album.filter(gallery.id)
+      @current = Album.filter(gallery.id, @filterOptions)
       
     @render(item) # item is 
     
@@ -90,7 +92,7 @@ class AlbumsView extends Spine.Controller
     console.log 'AlbumsView::renderHeader'
     values =
       record: Gallery.record
-      count: GalleriesAlbum.filter(Gallery.record?.id).length
+      count: GalleriesAlbum.filter(Gallery.record?.id, @filterOptions).length
     @header.html @headerTemplate values
   
   show: ->
@@ -165,7 +167,7 @@ class AlbumsView extends Spine.Controller
 
     albums = Album.toID(records)
 
-    gas = GalleriesAlbum.filter(target.id)
+    gas = GalleriesAlbum.filter(target.id, @filterOptions)
     for ga in gas
       unless albums.indexOf(ga.album_id) is -1
         Album.removeFromSelection Gallery, ga.album_id

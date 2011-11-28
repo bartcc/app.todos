@@ -13,13 +13,20 @@ class PhotoList extends Spine.Controller
     super
     
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
+    Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.customErrorHandler)
     Photo.bind('uri', @proxy @uri)
     
+  change: (item) ->
+    @children().removeClass("active")
+    @exposeSelection()
+    Spine.trigger('change:selectedPhoto', item)
+  
   render: (items, album, mode) ->
     console.log 'PhotoList::render'
+    mode?= 'html'
+    album?= Album.record
     
-    console.log mode
     if album
       if items.length
         @[mode] @template items
@@ -30,6 +37,23 @@ class PhotoList extends Spine.Controller
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else
       @html '<label class="invite"><span class="enlightened">No album selected.</span></label>'
+  
+  renderItem: (item) ->
+    el = =>
+      @children().forItem(item)
+    tb = ->
+      $('.thumbnail', el())
+      
+    backgroundImage = tb().css('backgroundImage')
+    isActive = el().hasClass('active')
+    tmplItem = el().tmplItem()
+    tmplItem.tmpl = $( "#photosTemplate" ).template()
+    tmplItem.update()
+    tb().css('backgroundImage', backgroundImage)
+    el().toggleClass('active', isActive)
+  
+  update: (item) ->
+    @renderItem item
   
   previewSize: (width = 140, height = 140) ->
     width: width
@@ -60,11 +84,6 @@ class PhotoList extends Spine.Controller
       'backgroundImage': css
       'backgroundPosition': 'center, center'
     
-  change: (item) ->
-    list = Album.selectionList()
-    @children().removeClass("active")
-    @exposeSelection(list)
-  
   exposeSelection: ->
     console.log 'PhotoList::exposeSelection'
     list = Album.selectionList()
@@ -73,10 +92,7 @@ class PhotoList extends Spine.Controller
         item = Photo.find(id) 
         @children().forItem(item).addClass("active")
     current = if list.length is 1 then list[0] 
-    Photo.current(current) 
-    
-  children: (sel) ->
-    @el.children(sel)
+    Photo.current(current)
   
   click: (e) ->
     console.log 'PhotoList::click'

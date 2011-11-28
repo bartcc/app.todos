@@ -2,10 +2,10 @@
 class Album extends Spine.Model
   @configure "Album", 'title', 'description', 'count', 'user_id'
 
+  @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Uri
-  @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
   @caches: []
@@ -30,7 +30,7 @@ class Album extends Spine.Model
       className             : 'Photo'
       joinTable             : 'AlbumsPhoto'
       foreignKey            : 'album_id'
-      associationForeignKey : 'image_id'
+      associationForeignKey : 'photo_id'
 
   
   @cacheList: (recordID) =>
@@ -86,9 +86,9 @@ class Album extends Spine.Model
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
-  select: (id) ->
+  select: (id, options) ->
     #id should be gallery.id
-    ga = GalleriesAlbum.filter(id)
+    ga = Spine.Model[options.joinTable].filter(id, options)
     for record in ga
       return true if record.album_id is @id
       

@@ -2,9 +2,9 @@
 class Gallery extends Spine.Model
   @configure 'Gallery', 'name', 'author', "description", 'user_id'
 
+  @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
-  @extend Spine.Model.Filter
   @extend Spine.Model.Extender
 
   @selectAttributes: ['name', 'author']
@@ -47,8 +47,11 @@ class Gallery extends Spine.Model
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
-  select: (query) ->
-    @id is @constructor.record.id
+  select: (id, options) ->
+    ga = Spine.Model[options.joinTable].filter(id, options)
+    for record in ga
+      return true if record.gallery_id is @id
+#    @id is @constructor.record.id
 
   searchSelect: (query) ->
     query = query.toLowerCase()

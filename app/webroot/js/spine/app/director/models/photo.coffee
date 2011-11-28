@@ -35,7 +35,7 @@ class Photo extends Spine.Model
     options = $.extend({}, @defaults, params)
     
     # get all photos of the album
-    aps = AlbumsPhoto.filter album?.id
+    aps = AlbumsPhoto.filter(album?.id, key: 'album_id')
     photos = for ap in aps
       Photo.find(ap.photo_id)
     return unless photos.length
@@ -84,9 +84,9 @@ class Photo extends Spine.Model
     result
 
   # loops over each record
-  select: (id) ->
+  select: (id, options) ->
     #id should be album.id
-    ap = AlbumsPhoto.filter(id)
+    ap = Spine.Model[options.joinTable].filter(id, options)
     for record in ap
       return true if record.photo_id is @id
 

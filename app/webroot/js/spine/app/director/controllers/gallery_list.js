@@ -43,6 +43,10 @@ GalleryList = (function() {
     Spine.bind('render:sublist', this.proxy(this.renderSublist));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
     Spine.bind('close:album', this.proxy(this.change));
+    this.filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum'
+    };
   }
   GalleryList.prototype.template = function() {
     return arguments[0];
@@ -107,18 +111,16 @@ GalleryList = (function() {
       }
     }
   };
-  GalleryList.prototype.renderSub = function(el) {
-    console.log(this);
-    return console.log(el);
-  };
   GalleryList.prototype.renderSublist = function(gallery) {
     var album, albums, galleryEl, gallerySublist, total, _i, _len;
     console.log('GalleryList::renderSublist');
-    albums = Album.filter(gallery.id);
+    albums = Album.filter(gallery.id, this.filterOptions);
     total = 0;
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
-      total += album.count = AlbumsPhoto.filter(album.id).length;
+      total += album.count = AlbumsPhoto.filter(album.id, {
+        key: 'album_id'
+      }).length;
     }
     if (!albums.length) {
       albums.push({
@@ -128,7 +130,7 @@ GalleryList = (function() {
     galleryEl = this.children().forItem(gallery);
     gallerySublist = $('ul', galleryEl);
     gallerySublist.html(this.sublistTemplate(albums));
-    return $('.item-header .cta', '#' + gallery.id).html(Album.filter(gallery.id).length + ' <span style="font-size: 0.5em;">(' + total + ')</span>');
+    return $('.item-header .cta', '#' + gallery.id).html(Album.filter(gallery.id, this.filterOptions).length + ' <span style="font-size: 0.5em;">(' + total + ')</span>');
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {
     var album, albums, galleryEl, id, _i, _len, _ref, _results;
@@ -170,7 +172,7 @@ GalleryList = (function() {
     this.change(gallery);
     this.exposeSublistSelection(gallery);
     App.showView.trigger('change:toolbar', 'Album');
-    Spine.trigger('show:photos', album);
+    Spine.trigger('show:photos');
     if (album.id !== previous.id) {
       Spine.trigger('change:selectedAlbum', album);
     }

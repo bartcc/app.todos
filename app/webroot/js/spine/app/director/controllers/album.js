@@ -39,14 +39,14 @@ AlbumView = (function() {
       if (Album.exists(firstID)) {
         this.current = Album.find(firstID);
       } else {
-        this.current = null;
+        this.current = false;
       }
     }
     return this.render(this.current, mode);
   };
   AlbumView.prototype.render = function(item, mode) {
     var selection;
-    console.log('Album::render');
+    console.log('AlbumView::render');
     selection = Gallery.selectionList();
     if (!(selection != null ? selection.length : void 0)) {
       this.item.html($("#noSelectionTemplate").tmpl({
@@ -73,7 +73,7 @@ AlbumView = (function() {
   };
   AlbumView.prototype.save = function(el) {
     var atts;
-    console.log('Album::save');
+    console.log('AlbumView::save');
     if (this.current) {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
       this.current.updateChangedAttributes(atts);

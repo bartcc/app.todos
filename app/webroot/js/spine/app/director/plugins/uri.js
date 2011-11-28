@@ -80,7 +80,9 @@ Uri = (function() {
     this.recordResponse = __bind(this.recordResponse, this);
     Uri.__super__.constructor.apply(this, arguments);
     if (this.record) {
-      aps = AlbumsPhoto.filter(this.record.id);
+      aps = AlbumsPhoto.filter(this.record.id, {
+        key: 'album_id'
+      });
       max = max || aps.length - 1;
       this.mode = mode;
       this.photos = (function() {

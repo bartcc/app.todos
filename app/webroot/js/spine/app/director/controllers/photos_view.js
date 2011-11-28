@@ -56,13 +56,17 @@ PhotosView = (function() {
     Photo.bind('refresh', this.proxy(this.prepareJoin));
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
+    this.filterOptions = {
+      key: 'album_id',
+      joinTable: 'AlbumsPhoto'
+    };
   }
   PhotosView.prototype.change = function(item) {
     var items;
     if (!GalleriesAlbum.galleryHasAlbum(Gallery.record.id, Album.record.id)) {
       Album.record = false;
     }
-    items = Photo.filter(item != null ? item.id : void 0);
+    items = Photo.filter(item != null ? item.id : void 0, this.filterOptions);
     this.current = items;
     return this.render(items);
   };
@@ -70,6 +74,8 @@ PhotosView = (function() {
     var album;
     console.log('PhotosView::render');
     album = Album.record;
+    console.log(items);
+    console.log(album);
     if (album) {
       this.el.data(album);
     } else {
@@ -86,7 +92,9 @@ PhotosView = (function() {
     console.log('PhotosView::renderHeader');
     values = {
       record: Album.record,
-      count: AlbumsPhoto.filter((_ref = Album.record) != null ? _ref.id : void 0).length
+      count: AlbumsPhoto.filter((_ref = Album.record) != null ? _ref.id : void 0, {
+        key: 'album_id'
+      }).length
     };
     return this.header.html(this.headerTemplate(values));
   };
@@ -181,7 +189,9 @@ PhotosView = (function() {
       records = photos;
     }
     photos = Photo.toID(records);
-    aps = AlbumsPhoto.filter(target.id);
+    aps = AlbumsPhoto.filter(target.id, {
+      key: 'album_id'
+    });
     for (_i = 0, _len = aps.length; _i < _len; _i++) {
       ap = aps[_i];
       if (photos.indexOf(ap.photo_id) !== -1) {

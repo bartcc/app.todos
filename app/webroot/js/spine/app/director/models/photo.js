@@ -59,7 +59,9 @@ Photo = (function() {
       callback = this.success;
     }
     options = $.extend({}, this.defaults, params);
-    aps = AlbumsPhoto.filter(album != null ? album.id : void 0);
+    aps = AlbumsPhoto.filter(album != null ? album.id : void 0, {
+      key: 'album_id'
+    });
     photos = (function() {
       var _i, _len, _results;
       _results = [];
@@ -124,9 +126,9 @@ Photo = (function() {
     }
     return result;
   };
-  Photo.prototype.select = function(id) {
+  Photo.prototype.select = function(id, options) {
     var ap, record, _i, _len;
-    ap = AlbumsPhoto.filter(id);
+    ap = Spine.Model[options.joinTable].filter(id, options);
     for (_i = 0, _len = ap.length; _i < _len; _i++) {
       record = ap[_i];
       if (record.photo_id === this.id) {

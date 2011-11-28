@@ -13,9 +13,9 @@ Gallery = (function() {
     Gallery.__super__.constructor.apply(this, arguments);
   }
   Gallery.configure('Gallery', 'name', 'author', "description", 'user_id');
+  Gallery.extend(Spine.Model.Filter);
   Gallery.extend(Spine.Model.Ajax);
   Gallery.extend(Spine.Model.AjaxRelations);
-  Gallery.extend(Spine.Model.Filter);
   Gallery.extend(Spine.Model.Extender);
   Gallery.selectAttributes = ['name', 'author'];
   Gallery.url = function() {
@@ -84,8 +84,15 @@ Gallery = (function() {
     }
     return result;
   };
-  Gallery.prototype.select = function(query) {
-    return this.id === this.constructor.record.id;
+  Gallery.prototype.select = function(id, options) {
+    var ga, record, _i, _len;
+    ga = Spine.Model[options.joinTable].filter(id, options);
+    for (_i = 0, _len = ga.length; _i < _len; _i++) {
+      record = ga[_i];
+      if (record.gallery_id === this.id) {
+        return true;
+      }
+    }
   };
   Gallery.prototype.searchSelect = function(query) {
     var atts, key, value;

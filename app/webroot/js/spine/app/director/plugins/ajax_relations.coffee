@@ -3,10 +3,9 @@ $      = Spine.$
 Model  = Spine.Model
 
 class Builder
-  constructor: (record) ->
+  constructor: (@record) ->
     @data = {}
-    @record = record
-    @model = record.constructor
+    @model = @record.constructor
     @foreignModels = @model.foreignModels()
 
   newWrapper: (key) ->
@@ -21,7 +20,9 @@ class Builder
 
     for key in @fModels
       model = Spine.Model[key.className]
-      records = model.filter(@record.id)
+      records = model.filter @record.id,
+        key: key.foreignKey
+        joinTable: key.joinTable
 
       selected = @newWrapper model
       selected[model.className] = @model.toID(records)

@@ -46,13 +46,16 @@ class PhotosView extends Spine.Controller
     Photo.bind('refresh', @proxy @prepareJoin)
     Photo.bind("create:join", @proxy @createJoin)
     Photo.bind("destroy:join", @proxy @destroyJoin)
-    
+    @filterOptions =
+      key: 'album_id'
+      joinTable: 'AlbumsPhoto'
+      
   change: (item) ->
     # if the album has been moved outside the gallery kill current album and render all photos
     unless GalleriesAlbum.galleryHasAlbum Gallery.record.id, Album.record.id
       Album.record = false
       
-    items = Photo.filter(item?.id)
+    items = Photo.filter(item?.id, @filterOptions)
     
     @current = items
     @render items
@@ -60,7 +63,8 @@ class PhotosView extends Spine.Controller
   render: (items, mode) ->
     console.log 'PhotosView::render'
     album = Album.record
-    
+    console.log items
+    console.log album
     if album
       @el.data album
     else
@@ -77,7 +81,7 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::renderHeader'
     values =
       record: Album.record
-      count: AlbumsPhoto.filter(Album.record?.id).length
+      count: AlbumsPhoto.filter(Album.record?.id, key: 'album_id').length
     @header.html @headerTemplate values
   
   # after albumsphoto jointable has been changed by delete or create trash the cache and rebuild it the next time
@@ -156,7 +160,7 @@ class PhotosView extends Spine.Controller
 
     photos = Photo.toID(records)
 
-    aps = AlbumsPhoto.filter(target.id)
+    aps = AlbumsPhoto.filter(target.id, key: 'album_id')
     for ap in aps
       unless photos.indexOf(ap.photo_id) is -1
         Photo.removeFromSelection Album, ap.photo_id

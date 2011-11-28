@@ -245,8 +245,6 @@ ShowView = (function() {
     var item;
     console.log('ShowView::deselect');
     item = this.el.data().current;
-    console.log(item);
-    console.log(this.el.data());
     if (item) {
       item.emptySelection();
     }
@@ -254,10 +252,12 @@ ShowView = (function() {
       case 'Album':
         Photo.current();
         Spine.trigger('photo:exposeSelection');
+        Spine.trigger('change:selectedPhoto', item);
         break;
       case 'Gallery':
         Album.current();
         Spine.trigger('album:exposeSelection');
+        Spine.trigger('change:selectedGallery', item);
     }
     if (this.current) {
       $('.item', this.current.el).removeClass('active');

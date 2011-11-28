@@ -14,10 +14,10 @@ Album = (function() {
     Album.__super__.constructor.apply(this, arguments);
   }
   Album.configure("Album", 'title', 'description', 'count', 'user_id');
+  Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
   Album.extend(Spine.Model.Uri);
-  Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Extender);
   Album.caches = [];
   Album.selectAttributes = ['title'];
@@ -48,7 +48,7 @@ Album = (function() {
         className: 'Photo',
         joinTable: 'AlbumsPhoto',
         foreignKey: 'album_id',
-        associationForeignKey: 'image_id'
+        associationForeignKey: 'photo_id'
       }
     };
   };
@@ -134,9 +134,9 @@ Album = (function() {
     }
     return result;
   };
-  Album.prototype.select = function(id) {
+  Album.prototype.select = function(id, options) {
     var ga, record, _i, _len;
-    ga = GalleriesAlbum.filter(id);
+    ga = Spine.Model[options.joinTable].filter(id, options);
     for (_i = 0, _len = ga.length; _i < _len; _i++) {
       record = ga[_i];
       if (record.album_id === this.id) {

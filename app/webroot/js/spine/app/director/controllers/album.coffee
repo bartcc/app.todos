@@ -28,12 +28,12 @@ class AlbumView extends Spine.Controller
       if Album.exists(firstID)
         @current = Album.find(firstID)
       else
-        @current = null
+        @current = false
         
     @render @current, mode
 
   render: (item, mode) ->
-    console.log 'Album::render'
+    console.log 'AlbumView::render'
     selection = Gallery.selectionList()
 
     unless selection?.length
@@ -50,7 +50,7 @@ class AlbumView extends Spine.Controller
     @el
 
   save: (el) ->
-    console.log 'Album::save'
+    console.log 'AlbumView::save'
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)

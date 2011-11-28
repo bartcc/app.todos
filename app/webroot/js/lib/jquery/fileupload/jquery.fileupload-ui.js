@@ -48,7 +48,7 @@
       previewAsCanvas: true,
       // The file upload template that is given as first argument to the
       // jQuery.tmpl method to render the file uploads:
-      uploadTemplate: $('#template-upload'),
+      uploadTemplate: $('#uploadTemplate'),
       // The file download template, that is given as first argument to the
       // jQuery.tmpl method to render the file downloads:
       downloadTemplate: $('#template-download'),

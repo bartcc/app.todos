@@ -242,23 +242,24 @@ ShowView = (function() {
     }
   };
   ShowView.prototype.deselect = function(e) {
-    var item;
+    var item, previous;
     console.log('ShowView::deselect');
     item = this.el.data().current;
     if (item) {
       item.emptySelection();
     }
-    switch (item.constructor.className) {
-      case 'Album':
-        Photo.current();
-        Spine.trigger('photo:exposeSelection');
-        Spine.trigger('change:selectedPhoto', item);
-        break;
-      case 'Gallery':
-        Album.current();
-        Spine.trigger('album:exposeSelection');
-        Spine.trigger('change:selectedGallery', item);
-    }
+    previous = (function() {
+      switch (item.constructor.className) {
+        case 'Album':
+          Photo.current();
+          Spine.trigger('photo:exposeSelection');
+          return Spine.trigger('change:selectedPhoto', item);
+        case 'Gallery':
+          Album.current();
+          Spine.trigger('album:exposeSelection');
+          return Spine.trigger('change:selectedAlbum', item);
+      }
+    })();
     if (this.current) {
       $('.item', this.current.el).removeClass('active');
     }

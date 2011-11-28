@@ -63,8 +63,6 @@ class PhotosView extends Spine.Controller
   render: (items, mode) ->
     console.log 'PhotosView::render'
     album = Album.record
-    console.log items
-    console.log album
     if album
       @el.data album
     else

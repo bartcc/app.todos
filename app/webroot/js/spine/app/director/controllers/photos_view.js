@@ -74,8 +74,6 @@ PhotosView = (function() {
     var album;
     console.log('PhotosView::render');
     album = Album.record;
-    console.log(items);
-    console.log(album);
     if (album) {
       this.el.data(album);
     } else {

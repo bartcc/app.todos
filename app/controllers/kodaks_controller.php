@@ -40,12 +40,9 @@ class KodaksController extends AppController {
   function develop() {
     $this->autoRender = false;
     $this->layout = false;
-//    if($this->Auth->user()) {
-//      $user_id = $this->Auth->user('id');
       
     $val = $this->params['named']['a'];
     $this->log("Kodaks::develop", LOG_DEBUG);
-//    $this->log($this->params, LOG_DEBUG);
 
     if (strpos($val, 'http://') !== false || substr($val, 0, 1) == '/') {
       header('Location: ' . $val);

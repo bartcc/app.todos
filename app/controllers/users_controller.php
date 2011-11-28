@@ -12,9 +12,11 @@ class UsersController extends AppController {
     $this->Cookie->time = 3600; // 1 hour
 
     if (!empty($this->data)) {
+      $this->Auth->logout();
       $this->Auth->login($this->data);
+      $this->log($this->Auth->user(), LOG_DEBUG);
     }
-    if($this->Auth->user()) {
+    if($this->user) {
       $this->User->Group->recursive = 0;
       $group = $this->User->Group->findById($this->Auth->user('group_id'));
       $this->groupname = $group['Group']['name'];
@@ -32,8 +34,8 @@ class UsersController extends AppController {
   
   function login() {
     if ($this->RequestHandler->isAjax()) {
-      $user = $this->Auth->user();
-      if ($user) {
+//      $user = $this->Auth->user();
+      if ($this->Auth->user()) {
         $this->User->id = $user['User']['id'];
         $this->User->saveField('lastlogin', date('Y-m-d H:i:s'));
         $this->User->Group->recursive = 0;

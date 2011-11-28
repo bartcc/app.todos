@@ -175,7 +175,7 @@
     {{else}}
     <span class="name empty">no name</span>
     {{/if}}
-    <span class="author">{{if author}} by ${id}{{else}}(no author){{/if}}</span>
+    <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
     <span class="gal cta"></span>
   </div>
 </script>
@@ -304,7 +304,7 @@
     {{else}}
     <div class="name empty">no title</div>
     {{/if}}
-    <div class="name">${id}</div>
+    <div class="name">ISO: ${iso}</div>
   </li>
 </script>
 

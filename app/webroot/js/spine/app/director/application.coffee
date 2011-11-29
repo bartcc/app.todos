@@ -107,7 +107,8 @@ class App extends Spine.Controller
       @delay cb, 1000
       
   drop: (e) ->
-    Spine.dragItem.closest.removeClass('over nodrop')
+    if Spine.dragItem?.closest
+      Spine.dragItem.closest.removeClass('over nodrop')
       
   setupView: ->
     Spine.unbind('uri:alldone')

@@ -81,7 +81,6 @@ class PhotosController extends AppController {
     $this->redirect(array('action' => 'index'));
   }
 
-//  function recent($max = 10) {
   function recent($max = 10) {
     $this->autoRender = false;
     $this->Photo->recursive = -1;

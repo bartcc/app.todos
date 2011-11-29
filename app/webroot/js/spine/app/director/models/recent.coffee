@@ -25,8 +25,6 @@ class Recent extends Spine.Model
   
   @success: (json) ->
     console.log 'Ajax::success'
-#    console.log json
-#    console.log @
     @trigger('recent', json)
 
   @error: (xhr) =>

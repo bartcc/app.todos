@@ -141,7 +141,10 @@ App = (function() {
     }
   };
   App.prototype.drop = function(e) {
-    return Spine.dragItem.closest.removeClass('over nodrop');
+    var _ref;
+    if ((_ref = Spine.dragItem) != null ? _ref.closest : void 0) {
+      return Spine.dragItem.closest.removeClass('over nodrop');
+    }
   };
   App.prototype.setupView = function() {
     var cb;

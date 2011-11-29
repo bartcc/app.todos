@@ -68,6 +68,7 @@
     echo $this->Html->script('spine/app/director/plugins/drag');
     echo $this->Html->script('spine/app/director/plugins/model_extender');
     echo $this->Html->script('spine/app/director/plugins/ajax_relations');
+    echo $this->Html->script('spine/app/director/plugins/cache');
     echo $this->Html->script('spine/app/director/plugins/uri');
     echo $this->Html->script('spine/app/director/plugins/toolbars');
     echo $this->Html->script('spine/app/director/models/galleries_album');
@@ -77,7 +78,9 @@
     echo $this->Html->script('spine/app/director/models/album');
     echo $this->Html->script('spine/app/director/models/user');
     echo $this->Html->script('spine/app/director/models/error');
+    echo $this->Html->script('spine/app/director/models/recent');
     echo $this->Html->script('spine/app/director/controllers/loader');
+    echo $this->Html->script('spine/app/director/controllers/overview_view');
     echo $this->Html->script('spine/app/director/controllers/albums_view');
     echo $this->Html->script('spine/app/director/controllers/albums_header');
     echo $this->Html->script('spine/app/director/controllers/photos_view');

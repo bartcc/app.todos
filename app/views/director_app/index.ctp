@@ -76,6 +76,31 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="content" class="views canvas-bg-dark vbox flex">
+      <div class="overview view content canvas vbox flex">
+        <ul class="tools options hbox">
+          <li class="optClose opt">Close</li>
+          <li class="splitter disabled flex"></li>
+        </ul>
+        <div class="flex vbox autoflow">
+          <div class="container">
+            <fieldset>
+              <label class="invite"><span class="enlightened">Recently Uploaded:</span></label>
+              <div class="items"></div>
+            </fieldset>
+            <fieldset>
+              <label class="invite"><span class="enlightened">Summary:</span></label>
+              <div class="info">
+                Blank 
+              </div>
+            </fieldset>
+          </div>
+          <div class="container">
+            <fieldset>
+              <label class="invite"><span class="enlightened">Informations:</span></label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
       <div class="show view canvas vbox flex">
         <ul class="options hbox">
           <li class="opt optOverview">Overview</li>
@@ -88,9 +113,7 @@
             <div class="photosHeader view"></div>
           </div>
           <div class="view albums content vbox flex data autoflow">
-            <div class="vbox flex">
-              <div class="items sortable">Albums</div>
-            </div>
+            <div class="items sortable">Albums</div>
           </div>
           <div class="view photos content vbox flex data autoflow">
             <div class="items sortable">Images</div>
@@ -192,7 +215,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item">
+  <li class="item container">
     <div class="thumbnail" draggable="true"></div>
     {{if title}}
     <div class="name">${title}</div>
@@ -296,8 +319,14 @@
   <button class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
 </script>
 
+<script id="overviewTemplate" type="text/x-jquery-tmpl">
+  <div class="item">
+    {{tmpl "#photosDetailsTemplate"}}
+  </div>
+</script>
+
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li class="item">
+  <li class="item container">
     {{tmpl "#photosDetailsTemplate"}}
     {{if title}}
     <div class="name">{{html title}}</div>

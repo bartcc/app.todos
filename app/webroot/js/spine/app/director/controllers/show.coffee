@@ -7,6 +7,7 @@ class ShowView extends Spine.Controller
     '.photosHeader'           : 'photosHeaderEl'
     '.albumsHeader'           : 'albumsHeaderEl'
     '.header'                 : 'albumHeader'
+    '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery'             : 'btnGallery'
     '.optAlbum'               : 'btnAlbum'
@@ -18,6 +19,7 @@ class ShowView extends Spine.Controller
     '.photos'                 : 'photosEl'
     
   events:
+    "click .optOverview"              : "overview"
     "click .optPhotos"                : "showPhotos"
     "click .optAlbums"                : "showAlbums"
     "click .optCreatePhoto"           : "createPhoto"
@@ -51,10 +53,12 @@ class ShowView extends Spine.Controller
       el: @albumsEl
       className: 'items'
       header: @albumsHeader
+      parent: @
     @photosView = new PhotosView
       el: @photosEl
       className: 'items'
       header: @photosHeader
+      parent: @
     
     Spine.bind('change:canvas', @proxy @changeCanvas)
     Gallery.bind('change', @proxy @renderToolbar)
@@ -79,8 +83,9 @@ class ShowView extends Spine.Controller
     console.log 'ShowView::changeCanvas'
     @current = controller
     @el.data current:@current.el.data()
-    @headerManager.change controller.header
     @canvasManager.change controller
+    @headerManager.change controller.header
+    
 
   renderToolbar: ->
     console.log 'ShowView::renderToolbar'
@@ -135,15 +140,18 @@ class ShowView extends Spine.Controller
 
   destroyGallery: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('destroy:gallery')  
+    Spine.trigger('destroy:gallery')
   
   destroyAlbum: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('destroy:album')  
+    Spine.trigger('destroy:album')
 
   destroyPhoto: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
-    Spine.trigger('destroy:photo')  
+    Spine.trigger('destroy:photo')
+
+  overview: (e) ->
+    Spine.trigger('overview')
 
   animateView: ->
     hasActive = ->

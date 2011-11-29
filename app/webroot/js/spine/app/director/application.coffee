@@ -8,6 +8,7 @@ class App extends Spine.Controller
   elements:
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
+    '#content .overview'  : 'overviewEl'
     '#content .show'      : 'showEl'
     '#content .edit'      : 'galleryEditEl'
     '#gallery'            : 'galleryEl'
@@ -23,6 +24,9 @@ class App extends Spine.Controller
     '.status-symbol img'  : 'icon'
     '.status-text'        : 'statusText'
     '.status-symbol'      : 'statusSymbol'
+    
+  events:
+    'drop'                : 'drop'
 
   constructor: ->
     super
@@ -33,6 +37,7 @@ class App extends Spine.Controller
     @ALBUM_DOUBLE_COPY = @constructor.createImage('/img/dragndrop/album_double_copy.png')
 
     User.bind('pinger', @proxy @validate)
+#    Spine.bind('drag:drop', @proxy @drop)
 #    Spine.bind('uri:alldone', @proxy @setupView)
     
     @sidebar = new SidebarView
@@ -47,6 +52,8 @@ class App extends Spine.Controller
       el: @uploadEl
     @slideshow = new SlideshowView
       el: @slideshowEl
+    @overviewView = new OverviewView
+      el: @overviewEl
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
@@ -79,7 +86,7 @@ class App extends Spine.Controller
       max: => @el.height()/3
       goSleep: => @showView.activeControl?.click()
 
-    @contentManager = new Spine.Manager(@showView, @galleryEditView)
+    @contentManager = new Spine.Manager(@overviewView, @showView, @galleryEditView)
     @contentManager.change @showView
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
@@ -99,19 +106,8 @@ class App extends Spine.Controller
         @setupView()
       @delay cb, 1000
       
-  # not used
-  thumbs: ->
-    @icon[0].src = @old_icon
-    @statusText.hide()
-    @statusText.text('Creating Album Previews').fadeIn('slow')
-    albums = Album.filter()
-    for album in albums
-      album.uri
-        width: 50
-        height: 50
-        , =>
-          return
-        , 3
+  drop: (e) ->
+    Spine.dragItem.closest.removeClass('over nodrop')
       
   setupView: ->
     Spine.unbind('uri:alldone')

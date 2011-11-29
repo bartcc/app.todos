@@ -5,10 +5,9 @@ class Album extends Spine.Model
   @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
+  @extend Spine.Model.Cache
   @extend Spine.Model.Uri
   @extend Spine.Model.Extender
-
-  @caches: []
 
   @selectAttributes: ['title']
 
@@ -31,36 +30,6 @@ class Album extends Spine.Model
       joinTable             : 'AlbumsPhoto'
       foreignKey            : 'album_id'
       associationForeignKey : 'photo_id'
-
-  
-  @cacheList: (recordID) =>
-    id = recordID or @record.id
-    return unless id
-    for item in @caches
-      return item[id] if item[id]
-
-  @cache: (record, url) ->
-    cache = @cacheList record?.id
-    return unless cache
-    for item in cache
-      return item[url] if item[url]
-
-  @addToCache: (record, url, uri, mode) ->
-    cache = @cacheList record.id
-    return unless cache
-    dummy = {}
-    if mode is 'append'
-      cache = @cache(record, url) or dummy[url] = []
-      cache.push dummy[url]
-    else
-      dummy[url] = uri
-      cache.push dummy unless @cache(record, url)
-    cache
-    
-  @emptyCache: (id) ->
-    originalList = @cacheList(id)
-    originalList[0...originalList.length] = []
-    originalList
     
   init: (instance) ->
     return unless instance
@@ -71,15 +40,6 @@ class Album extends Spine.Model
     cache = {}
     cache[instance.id] = []
     @constructor.caches.push(cache)
-    
-  cache: (url) ->
-    @constructor.cache @, url
-    
-  addToCache: (url, uri, mode) ->
-    @constructor.addToCache(@, url, uri, mode)
-    
-  emptyCache: ->
-    @constructor.emptyCache @id
     
   selectAttributes: ->
     result = {}

@@ -4,7 +4,6 @@ $      = Spine.$
 class AlbumsView extends Spine.Controller
   
   @extend Spine.Controller.Drag
-#  @extend Spine.Controller.Toolbars
   
   elements:
     '.items'                  : 'items'
@@ -96,9 +95,8 @@ class AlbumsView extends Spine.Controller
     @header.html @headerTemplate values
   
   show: ->
-#    unless @isActive()
-    Spine.trigger('change:canvas', @) # unless @isActive()
-#    @renderHeader @current
+    @parent.trigger('change:toolbar', Album)
+    Spine.trigger('change:canvas', @)
     
   initSortables: ->
     sortOptions = {}

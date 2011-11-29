@@ -8,15 +8,11 @@ class UsersController extends AppController {
     $this->disableCache();
     $this->Auth->allowedActions = array('login', 'logout', 'auth', 'ping');
 
-    $this->Cookie->name = 'TODOS';
-    $this->Cookie->time = 3600; // 1 hour
-
     if (!empty($this->data)) {
-      $this->Auth->logout();
-      $this->Auth->login($this->data);
-      $this->log($this->Auth->user(), LOG_DEBUG);
+      $this->success = $this->Auth->login($this->data);
+      $this->log($this->success, LOG_DEBUG);
     }
-    if($this->user) {
+    if($this->Auth->user()) {
       $this->User->Group->recursive = 0;
       $group = $this->User->Group->findById($this->Auth->user('group_id'));
       $this->groupname = $group['Group']['name'];
@@ -26,16 +22,16 @@ class UsersController extends AppController {
   }
   
   function beforeRender() {
-//    header("Pragma: no-cache");
-//    header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
-//    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+    header("Pragma: no-cache");
+    header("Cache-Control: no-store, no-cache, max-age=0, must-revalidate");
+    header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
     parent::beforeRender();
   }
   
   function login() {
     if ($this->RequestHandler->isAjax()) {
-//      $user = $this->Auth->user();
-      if ($this->Auth->user()) {
+      $user = $this->Auth->user();
+      if (isset($user)) {
         $this->User->id = $user['User']['id'];
         $this->User->saveField('lastlogin', date('Y-m-d H:i:s'));
         $this->User->Group->recursive = 0;

@@ -209,7 +209,7 @@ button.invite {
 }
 label {
   display: block;
-  margin: 0 0 20px 0;
+  margin: 0 0 10px 0;
   overflow: visible;
   color: rgba(0, 0, 0, 0.7);
   font-family: serif
@@ -400,7 +400,7 @@ textarea {
   margin: 0;
   padding: 0;
 }
-#sidebar li.item:not(.sublist-item) {
+#sidebar .item:not(.sublist-item) {
   cursor: move;
   position: relative;  
   color: #D4D4D4;
@@ -411,24 +411,24 @@ textarea {
   padding: 15px 0 15px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
-#sidebar li.item.active {
+#sidebar .item.active {
   color: #D4D4D4;
 }
-#sidebar li.gal.item {
+#sidebar .gal.item {
   background: url("img/gradient-normal.png") repeat  0 0;
   background-size: 100% 100%;
   font-size: 1.2em;
 }
-#sidebar li.gal.item.active {
+#sidebar .gal.item.active {
   background-image: url("img/gradient-active.png");
 }
-#sidebar li.gal.item.over {
+#sidebar .gal.item.over {
   background-image: url("img/gradient-over.png");
 }
-#sidebar li.gal.item.over.nodrop {
+#sidebar .gal.item.over.nodrop {
   background-image: url("img/gradient-nodrop.png");
 }
-#sidebar li.item .cta {
+#sidebar .item .cta {
   font-size: 1.5em;
   padding: 0 10px;
   position: absolute;
@@ -440,10 +440,10 @@ textarea {
   line-height: 1.2em;
   right: 10px;*/
 }
-#sidebar li.active li.alb.item .cta {
+#sidebar .active .alb.item .cta {
   background-color: #898989;
 }
-#sidebar li.alb.item .cta {
+#sidebar .alb.item .cta {
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   border-radius: 20px;
@@ -452,7 +452,7 @@ textarea {
   line-height: 1.3em;
   top: 12px;
 }
-#sidebar li.item.active .gal.cta, .cta.active {
+#sidebar .item.active .gal.cta, .cta.active {
   color: rgba(255, 255, 255, 0.9);
   background-color: #898989;
   background-image: radial-gradient(15px 20px, #BDBDBD, #898989);
@@ -629,7 +629,7 @@ textarea {
 #sidebar .expander.expand {
   background: url('img/arrow.png') no-repeat 0 -23px
 }
-#content .items li {
+#content .items .item {
   float: left;
   cursor: move;
 }
@@ -696,7 +696,7 @@ textarea {
 	 -webkit-background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
 	 background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
 }
-#content .content .items .item:not(.active) {
+#content .content .container:not(.active) {
   background-repeat: no-repeat;
   -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) inset;
   -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) inset;
@@ -706,21 +706,52 @@ textarea {
 #content .content .items {
   padding: 20px;
 }
-#content .content li.item:hover {
+#content .content .item:hover {
 /*  box-shadow: 1px -1px 1px #777777 inset, 0 0 2px #FFFFFF, 1px 1px 3px #333333 ;
   box-shadow: 0 1px 2px #333333 inset;*/
 }
-#content .content li.item {
-  margin: 0 15px 15px 0;
-  padding: 15px;
+#content .content .container {
   border-radius: 15px;
   -moz-border-radius: 15px;
   -webkit-border-radius: 15px;
+  
+  background-repeat: no-repeat;
+  -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) inset;
+  -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) inset;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6) inset;
+  background-color: rgba(255, 255, 255, 0.2);
 }
-#content .albums.content li.item {
-  padding: 15px 15px 10px;
+
+#content .content .container fieldset {
+  border: medium none;
+  float: left;
+  margin: 10px 0 0;
+  min-height: 100px;
+  width: 320px;
+}
+#content .content .container {
+  margin: 10px;
+  padding: 3px;
+}
+#content .content .container .info {
+  padding: 10px 0;
 }
 #content .content li.item {
+  padding: 15px;
+  margin: 0 15px 15px 0;
+}
+#content .content.overview div.item {
+  margin: 0 5px 5px 0;
+}
+#content .content.overview div.items {
+  width: 320px;
+  padding: 7px;
+  float: left;
+}
+#content .albums.content .item {
+  padding: 15px 15px 10px;
+}
+#content .content .item {
   outline: #121212;
 }
 #content .content .thumbnail {
@@ -728,9 +759,19 @@ textarea {
   background: url("img/bauer.png") no-repeat 0 0;
   padding: 10px;
   color: rgba(200, 200, 200, 0.5);
+  line-height: 1.2em
+}
+#content .content.albums .items .thumbnail {
   width: 140px;
   height: 140px;
-  line-height: 1.2em
+}
+#content .content.overview .items .thumbnail {
+  width: 50px;
+  height: 50px;
+}
+#content .content.photos .items .thumbnail {
+  width: 110px;
+  height: 110px;
 }
 #content .content .thumbnail.image {
   background: url("img/photo-loader.gif") no-repeat center center;
@@ -741,16 +782,13 @@ textarea {
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  width: 110px;
-  height: 110px;
 }
-
 #content .content .item.active .thumbnail .name {
   color: rgba(250, 192, 150, 0.4);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);
   font-family: Verdana, sans-serif;
 }
-#content .content li.item.active {
+#content .content .item.active {
   background-color: rgba(255, 187, 102, 0.6);
   box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
 }

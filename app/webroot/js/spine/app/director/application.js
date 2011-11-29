@@ -12,6 +12,7 @@ App = (function() {
   App.prototype.elements = {
     '#main': 'mainEl',
     '#sidebar': 'sidebarEl',
+    '#content .overview': 'overviewEl',
     '#content .show': 'showEl',
     '#content .edit': 'galleryEditEl',
     '#gallery': 'galleryEl',
@@ -27,6 +28,9 @@ App = (function() {
     '.status-symbol img': 'icon',
     '.status-text': 'statusText',
     '.status-symbol': 'statusSymbol'
+  };
+  App.prototype.events = {
+    'drop': 'drop'
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
@@ -53,6 +57,9 @@ App = (function() {
     });
     this.slideshow = new SlideshowView({
       el: this.slideshowEl
+    });
+    this.overviewView = new OverviewView({
+      el: this.overviewEl
     });
     this.showView = new ShowView({
       el: this.showEl,
@@ -111,7 +118,7 @@ App = (function() {
         return (_ref = this.showView.activeControl) != null ? _ref.click() : void 0;
       }, this)
     });
-    this.contentManager = new Spine.Manager(this.showView, this.galleryEditView);
+    this.contentManager = new Spine.Manager(this.overviewView, this.showView, this.galleryEditView);
     this.contentManager.change(this.showView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
@@ -133,21 +140,8 @@ App = (function() {
       return this.delay(cb, 1000);
     }
   };
-  App.prototype.thumbs = function() {
-    var album, albums, _i, _len, _results;
-    this.icon[0].src = this.old_icon;
-    this.statusText.hide();
-    this.statusText.text('Creating Album Previews').fadeIn('slow');
-    albums = Album.filter();
-    _results = [];
-    for (_i = 0, _len = albums.length; _i < _len; _i++) {
-      album = albums[_i];
-      _results.push(album.uri({
-        width: 50,
-        height: 50
-      }, __bind(function() {}, this), 3));
-    }
-    return _results;
+  App.prototype.drop = function(e) {
+    return Spine.dragItem.closest.removeClass('over nodrop');
   };
   App.prototype.setupView = function() {
     var cb;

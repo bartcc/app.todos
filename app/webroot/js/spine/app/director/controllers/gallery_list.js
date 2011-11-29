@@ -19,6 +19,7 @@ GalleryList = (function() {
     '.expander': 'expander'
   };
   GalleryList.prototype.events = {
+    'click': 'show',
     "click      .gal.item": "click",
     "dblclick   .gal.item": "dblclick",
     "click      .alb.item": "clickAlb",
@@ -173,7 +174,7 @@ GalleryList = (function() {
     this.exposeSublistSelection(gallery);
     App.showView.trigger('change:toolbar', 'Album');
     Spine.trigger('show:photos');
-    if (album.id !== previous.id) {
+    if (album.id !== (previous != null ? previous.id : void 0)) {
       Spine.trigger('change:selectedAlbum', album);
     }
     e.stopPropagation();
@@ -234,6 +235,12 @@ GalleryList = (function() {
     } else {
       content.hide();
     }
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
+  };
+  GalleryList.prototype.show = function(e) {
+    App.contentManager.change(App.showView);
     e.stopPropagation();
     e.preventDefault();
     return false;

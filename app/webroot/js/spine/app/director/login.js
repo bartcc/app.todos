@@ -16,7 +16,11 @@ Login = (function() {
     '#UserPassword': 'passwordEl',
     '#UserUsername': 'usernameEl',
     '#flashTemplate': 'flashTemplate',
-    '#infoTemplate': 'infoTemplate'
+    '#infoTemplate': 'infoTemplate',
+    '#guestLogin': 'btnGuestLogin'
+  };
+  Login.prototype.events = {
+    'click #guestLogin': 'guestLogin'
   };
   Login.prototype.template = function(el, item) {
     return el.tmpl(item);
@@ -90,6 +94,11 @@ Login = (function() {
       groupname: json.groupname,
       sessionid: json.sessionid
     };
+  };
+  Login.prototype.guestLogin = function() {
+    this.passwordEl.val('guest');
+    this.usernameEl.val('guest');
+    return this.submit();
   };
   return Login;
 })();

@@ -44,14 +44,14 @@ class PhotosController extends AppController {
       $this->flash(sprintf(__('Invalid photo', true)), array('action' => 'index'));
     }
     if (!empty($this->data)) {
-      
+
       if ($this->Photo->save($this->data)) {
         $this->Session->setFlash(__('The photo has been saved', true));
         $this->render(BLANK_RESPONSE);
       } else {
         $this->Session->setFlash(__('The album could not be saved. Please, try again.', true));
       }
-      
+
 //      if ($this->Auth->user()) {
 //        $merged = array_merge($this->data['Photo'], array('user_id' => $this->Auth->user('id')));
 //        $this->data = $merged;
@@ -81,41 +81,36 @@ class PhotosController extends AppController {
     $this->redirect(array('action' => 'index'));
   }
 
-  function reset_avatar($id) {
+  function recent($max = 10) {
     $this->autoRender = false;
-
-    App::import('Component', 'File');
-    $file = new FileComponent();
-
-    $oldies = glob(PHOTOS . DS . $id . DS . 'original.*');
-    foreach ($oldies as $o) {
-      unlink($o);
-    }
-    $oldies = glob(PHOTOS . DS . $id . DS . 'cache' . DS . '*');
-    foreach ($oldies as $o) {
-      unlink($o);
-    }
-    if ($this->Product->read(null, $id)) {
-      $this->Product->saveField('image', null);
-    }
+    $this->Photo->recursive = -1;
+    $recent = $this->Photo->find('all', array(
+        'Photo.created >' => date('Y-m-d', strtotime('-2 weeks')),
+        'order' => array('Photo.created DESC'),
+        'limit' => $max
+      )
+    );
+    $this->log($recent, LOG_DEBUG);
+    $json = $this->set('json', $recent);
+    $this->render(SIMPLE_JSON);
   }
 
   function uri($width = 150, $height = 150, $square = 2) {
 //    $this->log('PhotosController::uri', LOG_DEBUG);
     $this->log($this->data, LOG_DEBUG);
-    if($this->Auth->user()) {
-      
+    if ($this->Auth->user()) {
+
       $user_id = $uid = $this->Auth->user('id');
-      
-      if(!empty($this->data)) {
+
+      if (!empty($this->data)) {
         $array = array();
-        foreach($this->data['Photo'] as $data) {
-  //        $this->log($data['id'], LOG_DEBUG);
+        foreach ($this->data['Photo'] as $data) {
+          //        $this->log($data['id'], LOG_DEBUG);
           $id = $data['id'];
           $path = PHOTOS . DS . $uid . DS . $id . DS . 'lg' . DS . '*.*';
           //$options = array('width' => $width, 'height' => $height, 'square' => $square);
           $files = glob($path);
-  //        $this->log($files, LOG_DEBUG);
+          //        $this->log($files, LOG_DEBUG);
           if (!empty($files[0])) {
             //$this->log($files[0], LOG_DEBUG);
             $fn = basename($files[0]);

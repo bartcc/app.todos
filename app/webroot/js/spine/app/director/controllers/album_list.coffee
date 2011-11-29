@@ -100,7 +100,7 @@ class AlbumList extends Spine.Controller
   dblclick: (e) ->
     #@openPanel('album', App.showView.btnAlbum)
     item = $(e.currentTarget).item()
-    Spine.trigger('show:photos', item)
+    Spine.trigger('show:photos')
     
     e.stopPropagation()
     e.preventDefault()

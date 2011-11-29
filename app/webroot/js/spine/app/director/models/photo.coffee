@@ -4,9 +4,9 @@ class Photo extends Spine.Model
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
+  @extend Spine.Model.Cache
+  @extend Spine.Model.Uri
   @extend Spine.Model.Extender
-
-  @cache: []
 
   @selectAttributes: ['title', "description", 'user_id']
 
@@ -76,7 +76,7 @@ class Photo extends Spine.Model
   init: (instance) ->
     cache = {}
     cache[instance.id] = []
-    @constructor.cache.push(cache)
+    @constructor.caches.push(cache)
   
   selectAttributes: ->
     result = {}

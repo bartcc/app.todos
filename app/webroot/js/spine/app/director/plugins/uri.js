@@ -60,15 +60,55 @@ Base = (function() {
   Base.prototype.queue = function(callback) {
     return Ajax.queue(callback);
   };
+  Base.prototype.get = function(item) {
+    return this.queue(__bind(function() {
+      return this.ajax({
+        type: "POST",
+        url: base_url + 'photos/uri/' + this.url,
+        data: JSON.stringify(this.photos)
+      }).success(this.recordResponse).error(this.errorResponse);
+    }, this));
+  };
+  Base.prototype.uri = function(options) {
+    return options.width + '/' + options.height + '/' + options.square + '/' + options.quality;
+  };
   return Base;
 })();
 UriCollection = (function() {
   __extends(UriCollection, Base);
-  function UriCollection(model, params, callback, max) {
+  function UriCollection(model, items, params, mode, callback) {
+    var item, options;
     this.model = model;
+    if (mode == null) {
+      mode = 'html';
+    }
     this.callback = callback;
-    this.photos = Photo.filter();
+    this.recordResponse = __bind(this.recordResponse, this);
+    UriCollection.__super__.constructor.apply(this, arguments);
+    this.photos = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = items.length; _i < _len; _i++) {
+        item = items[_i];
+        _results.push(Photo.exists(item['Photo'].id) ? Photo.find(item['Photo'].id) : void 0);
+      }
+      return _results;
+    })();
+    options = $.extend({}, this.settings, params);
+    this.url = this.uri(options);
   }
+  UriCollection.prototype.settings = {
+    square: 1,
+    quality: 70
+  };
+  UriCollection.prototype.test = function() {
+    return this.get();
+  };
+  UriCollection.prototype.recordResponse = function(uris) {
+    this.model.addToCache(this.url, uris, this.mode);
+    return this.callback(uris);
+  };
+  UriCollection.prototype.errorResponse = function() {};
   return UriCollection;
 })();
 Uri = (function() {
@@ -97,7 +137,7 @@ Uri = (function() {
       })();
     }
     options = $.extend({}, this.settings, params);
-    this.url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality;
+    this.url = this.uri(options);
   }
   Uri.prototype.settings = {
     width: 140,
@@ -113,15 +153,6 @@ Uri = (function() {
     } else if (this.photos.length) {
       return this.get();
     }
-  };
-  Uri.prototype.get = function() {
-    return this.queue(__bind(function() {
-      return this.ajax({
-        type: "POST",
-        url: base_url + 'photos/uri/' + this.url,
-        data: JSON.stringify(this.photos)
-      }).success(this.recordResponse).error(this.errorResponse);
-    }, this));
   };
   Uri.prototype.all = function() {
     return this.queue(__bind(function() {
@@ -141,12 +172,18 @@ Uri = (function() {
 })();
 Model.Uri = {
   extended: function() {
-    var Include;
+    var Extend, Include;
     Include = {
       uri: function(params, mode, callback, max) {
         return new Uri(this, params, mode, callback, max).test();
       }
     };
-    return this.include(Include);
+    Extend = {
+      uri: function(items, params, mode, callback) {
+        return new UriCollection(this, items, params, mode, callback).test();
+      }
+    };
+    this.include(Include);
+    return this.extend(Extend);
   }
 };

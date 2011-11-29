@@ -15,6 +15,7 @@ ShowView = (function() {
     '.photosHeader': 'photosHeaderEl',
     '.albumsHeader': 'albumsHeaderEl',
     '.header': 'albumHeader',
+    '.optOverview': 'btnOverview',
     '.optEditGallery': 'btnEditGallery',
     '.optGallery': 'btnGallery',
     '.optAlbum': 'btnAlbum',
@@ -26,6 +27,7 @@ ShowView = (function() {
     '.photos': 'photosEl'
   };
   ShowView.prototype.events = {
+    "click .optOverview": "overview",
     "click .optPhotos": "showPhotos",
     "click .optAlbums": "showAlbums",
     "click .optCreatePhoto": "createPhoto",
@@ -60,12 +62,14 @@ ShowView = (function() {
     this.albumsView = new AlbumsView({
       el: this.albumsEl,
       className: 'items',
-      header: this.albumsHeader
+      header: this.albumsHeader,
+      parent: this
     });
     this.photosView = new PhotosView({
       el: this.photosEl,
       className: 'items',
-      header: this.photosHeader
+      header: this.photosHeader,
+      parent: this
     });
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     Gallery.bind('change', this.proxy(this.renderToolbar));
@@ -92,8 +96,8 @@ ShowView = (function() {
     this.el.data({
       current: this.current.el.data()
     });
-    this.headerManager.change(controller.header);
-    return this.canvasManager.change(controller);
+    this.canvasManager.change(controller);
+    return this.headerManager.change(controller.header);
   };
   ShowView.prototype.renderToolbar = function() {
     console.log('ShowView::renderToolbar');
@@ -178,6 +182,9 @@ ShowView = (function() {
       return;
     }
     return Spine.trigger('destroy:photo');
+  };
+  ShowView.prototype.overview = function(e) {
+    return Spine.trigger('overview');
   };
   ShowView.prototype.animateView = function() {
     var hasActive, height;

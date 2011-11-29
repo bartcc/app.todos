@@ -97,6 +97,7 @@ AlbumsView = (function() {
     return this.header.html(this.headerTemplate(values));
   };
   AlbumsView.prototype.show = function() {
+    this.parent.trigger('change:toolbar', Album);
     return Spine.trigger('change:canvas', this);
   };
   AlbumsView.prototype.initSortables = function() {

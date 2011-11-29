@@ -10,6 +10,7 @@ class GalleryList extends Spine.Controller
     '.expander'               : 'expander'
 
   events:
+    'click'                           : 'show'
     "click      .gal.item"            : "click",
     "dblclick   .gal.item"            : "dblclick"
     "click      .alb.item"            : "clickAlb",
@@ -143,7 +144,7 @@ class GalleryList extends Spine.Controller
     @exposeSublistSelection(gallery)
     App.showView.trigger('change:toolbar', 'Album')
     Spine.trigger('show:photos')
-    Spine.trigger('change:selectedAlbum', album) unless album.id is previous.id
+    Spine.trigger('change:selectedAlbum', album) unless album.id is previous?.id
     
     e.stopPropagation()
     e.preventDefault()
@@ -202,4 +203,10 @@ class GalleryList extends Spine.Controller
     e.preventDefault()
     false
 
+  show: (e) ->
+    App.contentManager.change App.showView
+    e.stopPropagation()
+    e.preventDefault()
+    false
+    
 module?.exports = GalleryList

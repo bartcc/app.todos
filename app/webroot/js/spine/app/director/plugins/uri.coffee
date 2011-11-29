@@ -41,9 +41,39 @@ class Base
   queue: (callback) ->
     Ajax.queue(callback)
     
+  get: (item) ->
+    @queue =>
+      @ajax(
+        type: "POST"
+        url: base_url + 'photos/uri/' + @url
+        data: JSON.stringify(@photos)
+      ).success(@recordResponse)
+       .error(@errorResponse)
+       
+  uri: (options) ->
+    options.width + '/' + options.height + '/' + options.square + '/' + options.quality
+    
 class UriCollection extends Base
-  constructor: (@model, params, @callback, max) ->
-    @photos = Photo.filter()
+  constructor: (@model, items, params, mode = 'html', @callback) ->
+    super
+    @photos = for item in items
+      Photo.find(item['Photo'].id) if Photo.exists(item['Photo'].id)
+    
+    options = $.extend({}, @settings, params)
+    @url = @uri options
+  
+  settings:
+    square: 1
+    quality: 70
+    
+  test: ->
+    @get()
+      
+  recordResponse: (uris) =>
+    @model.addToCache @url, uris, @mode
+    @callback uris
+    
+  errorResponse: ->
 
 class Uri extends Base
   constructor: (@record, params, mode, @callback, max) ->
@@ -57,30 +87,21 @@ class Uri extends Base
         Photo.find(ap.photo_id)
       
     options = $.extend({}, @settings, params)
-    @url = options.width + '/' + options.height + '/' + options.square + '/' + options.quality
+    @url = @uri options
     
   settings:
     width: 140
     height: 140
     square: 1
     quality: 70
-    
+  
   test: ->
     cache = @record.cache @url
     if cache
       @callback cache, @record
     else if @photos.length
       @get()
-    
-  get: ->
-    @queue =>
-      @ajax(
-        type: "POST"
-        url: base_url + 'photos/uri/' + @url
-        data: JSON.stringify(@photos)
-      ).success(@recordResponse)
-       .error(@errorResponse)
-       
+      
   all: ->
     @queue =>
       @ajax(
@@ -103,5 +124,9 @@ Model.Uri =
     Include =
       uri: (params, mode, callback, max) -> new Uri(@, params, mode, callback, max).test()
       
+    Extend =
+      uri: (items, params, mode, callback) -> new UriCollection(@, items, params, mode, callback).test()
+      
     @include Include
+    @extend Extend
     

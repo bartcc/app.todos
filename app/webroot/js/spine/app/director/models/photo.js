@@ -19,8 +19,9 @@ Photo = (function() {
   Photo.extend(Spine.Model.Ajax);
   Photo.extend(Spine.Model.AjaxRelations);
   Photo.extend(Spine.Model.Filter);
+  Photo.extend(Spine.Model.Cache);
+  Photo.extend(Spine.Model.Uri);
   Photo.extend(Spine.Model.Extender);
-  Photo.cache = [];
   Photo.selectAttributes = ['title', "description", 'user_id'];
   Photo.foreignModels = function() {
     return {
@@ -114,7 +115,7 @@ Photo = (function() {
     var cache;
     cache = {};
     cache[instance.id] = [];
-    return this.constructor.cache.push(cache);
+    return this.constructor.caches.push(cache);
   };
   Photo.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

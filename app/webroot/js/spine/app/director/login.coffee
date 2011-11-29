@@ -8,6 +8,10 @@ class Login extends Spine.Controller
     '#UserUsername'     : 'usernameEl'
     '#flashTemplate'    : 'flashTemplate'
     '#infoTemplate'     : 'infoTemplate'
+    '#guestLogin'       : 'btnGuestLogin'
+    
+  events:
+    'click #guestLogin' : 'guestLogin'
 
   template: (el, item) ->
     el.tmpl(item)
@@ -60,6 +64,11 @@ class Login extends Spine.Controller
     name: json.name
     groupname: json.groupname
     sessionid: json.sessionid
+    
+  guestLogin: ->
+    @passwordEl.val('guest')
+    @usernameEl.val('guest')
+    @submit()
     
 $ ->
   window.Login = new Login el: $('body')

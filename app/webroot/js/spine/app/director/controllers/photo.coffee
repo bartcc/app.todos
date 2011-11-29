@@ -29,7 +29,7 @@ class PhotoView extends Spine.Controller
     selection = Album.selectionList()
 
     unless selection?.length
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Select or upload an photo!</span></label>'})
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">No photo selected</span></label>'})
     else if selection?.length > 1
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Multiple selection</span></label>'})
     else unless item

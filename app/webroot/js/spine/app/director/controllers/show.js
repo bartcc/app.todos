@@ -27,7 +27,7 @@ ShowView = (function() {
     '.photos': 'photosEl'
   };
   ShowView.prototype.events = {
-    "click .optOverview": "overview",
+    "click .optOverview": "showOverview",
     "click .optPhotos": "showPhotos",
     "click .optAlbums": "showAlbums",
     "click .optCreatePhoto": "createPhoto",
@@ -46,7 +46,9 @@ ShowView = (function() {
     "click .optUpload": "toggleUpload",
     "click .optSlideshow": "toggleSlideshow",
     'dblclick .draghandle': 'toggleDraghandle',
-    'click .items': "deselect"
+    'click .items': "deselect",
+    'fileuploadprogress': "uploadProgress",
+    'fileuploaddone': "uploadDone"
   };
   ShowView.prototype.toolsTemplate = function(items) {
     return $("#toolsTemplate").tmpl(items);
@@ -185,8 +187,8 @@ ShowView = (function() {
     }
     return Spine.trigger('destroy:photo');
   };
-  ShowView.prototype.overview = function(e) {
-    return Spine.trigger('overview');
+  ShowView.prototype.showOverview = function(e) {
+    return Spine.trigger('show:overview');
   };
   ShowView.prototype.animateView = function() {
     var hasActive, height;
@@ -272,6 +274,12 @@ ShowView = (function() {
     e.stopPropagation();
     e.preventDefault();
     return false;
+  };
+  ShowView.prototype.uploadProgress = function(e, coll) {
+    return console.log(coll);
+  };
+  ShowView.prototype.uploadDone = function(e, coll) {
+    return console.log(coll);
   };
   return ShowView;
 })();

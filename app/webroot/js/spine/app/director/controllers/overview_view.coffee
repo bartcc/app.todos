@@ -23,7 +23,7 @@ class OverviewView extends Spine.Controller
     super
     @maxRecent = 16
     @bind('render:toolbar', @proxy @renderToolbar)
-    Spine.bind('overview', @proxy @show)
+    Spine.bind('show:overview', @proxy @show)
     Recent.bind('recent', @proxy @render)
     
   render: (items) ->
@@ -31,7 +31,9 @@ class OverviewView extends Spine.Controller
     for item in items
       recents.push item['Photo']
     @items.html @template recents
-    @uri items
+    console.log recents
+    console.log items
+    @uri recents
     
   previewSize: (width = 70, height = 70) ->
     width: width
@@ -49,7 +51,7 @@ class OverviewView extends Spine.Controller
       for itm in json
         return itm[id] if itm[id]
     for item in items
-      photo = item['Photo']
+      photo = item
       jsn = searchJSON photo.id
       ele = @items.children().forItem(photo, true)
       img = new Image

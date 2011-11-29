@@ -135,23 +135,7 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fileupload" class="view items flex autoflow" style="">
-              <form action="" method="POST" enctype="multipart/form-data">
-                <div class="fileupload-buttonbar">
-                  <label class="fileinput-button">
-                    <span>Drag and drop files here...</span>
-                    <input type="file" name="files[]" multiple>
-                  </label>
-                  <button type="submit" class="start">Start upload</button>
-                  <button type="reset" class="cancel">Cancel upload</button>
-                  <button type="button" class="delete">Delete files</button>
-                </div>
-              </form>
-              <div class="fileupload-content">
-                <table class="files"></table>
-                <div class="fileupload-progressbar"></div>
-              </div>
-            </div>
+            <div id="fileupload" class="view items flex autoflow" style=""></div>
             <div id="slideshow" class="view items flex autoflow" style="">
               <label>
                 <span class="dimmed">Not quite there yet</span>
@@ -347,6 +331,24 @@
       <div></div
     </div>
   </div>
+</script>
+
+<script id="fileuploadTemplate" type="text/x-jquery-tmpl">
+  {{if album}}
+  <form action="" method="POST" enctype="multipart/form-data">
+    <label class="fileinput-button">
+      <span>Drag and drop files here...</span>
+    </label>
+  </form>
+  <div class="fileupload-content">
+    <table class="files"></table>
+    <div class="fileupload-progressbar"></div>
+  </div>
+  {{else}}
+  <label class="">
+    <span>Please select target album !</span>
+  </label>
+  {{/if}}
 </script>
 
 <script id="uploadTemplate" type="text/x-jquery-tmpl">

@@ -31,7 +31,7 @@ OverviewView = (function() {
     this.callback = __bind(this.callback, this);    OverviewView.__super__.constructor.apply(this, arguments);
     this.maxRecent = 16;
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
-    Spine.bind('overview', this.proxy(this.show));
+    Spine.bind('show:overview', this.proxy(this.show));
     Recent.bind('recent', this.proxy(this.render));
   }
   OverviewView.prototype.render = function(items) {
@@ -42,7 +42,9 @@ OverviewView = (function() {
       recents.push(item['Photo']);
     }
     this.items.html(this.template(recents));
-    return this.uri(items);
+    console.log(recents);
+    console.log(items);
+    return this.uri(recents);
   };
   OverviewView.prototype.previewSize = function(width, height) {
     if (width == null) {
@@ -81,7 +83,7 @@ OverviewView = (function() {
     _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
-      photo = item['Photo'];
+      photo = item;
       jsn = searchJSON(photo.id);
       ele = this.items.children().forItem(photo, true);
       img = new Image;

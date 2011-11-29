@@ -71,6 +71,7 @@ Model.Extender =
       emptySelection: (list = [], id) ->
         originalList = @selectionList(id)
         originalList[0...originalList.length] = list
+        @trigger('change:selection', originalList)
         originalList
 
       removeFromSelection: (model, id) ->
@@ -78,6 +79,7 @@ Model.Extender =
         return unless record
         list = model.selectionList()
         record.remove list
+        @trigger('change:selection', list)
         list
 
       isArray: (value) ->
@@ -145,6 +147,7 @@ Model.Extender =
           @addUnique(list)
         else
           @addRemove(list)
+        model.trigger('change:selection', list)
         list
 
       #prevents an update if model hasn't changed
@@ -161,6 +164,8 @@ Model.Extender =
       
       addUnique: (list) ->
         list[0...list.length] = [@id]
+        @constructor.trigger('change:selection', list)
+        list
 
       addRemove: (list) ->
         unless @id in list
@@ -168,11 +173,13 @@ Model.Extender =
         else
           index = list.indexOf(@id)
           list.splice(index, 1) unless index is -1
+        @constructor.trigger('change:selection', list)
         list
 
       remove: (list) ->
         index = list.indexOf(@id)
         list.splice(index, 1) unless index is -1
+        @constructor.trigger('change:selection', list)
         list
  
 

@@ -41,7 +41,7 @@ PhotoView = (function() {
     selection = Album.selectionList();
     if (!(selection != null ? selection.length : void 0)) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: '<label><span class="dimmed">Select or upload an photo!</span></label>'
+        type: '<label><span class="dimmed">No photo selected</span></label>'
       }));
     } else if ((selection != null ? selection.length : void 0) > 1) {
       this.item.html($("#noSelectionTemplate").tmpl({

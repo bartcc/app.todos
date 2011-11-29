@@ -85,7 +85,7 @@ class PhotosController extends AppController {
     $this->autoRender = false;
     $this->Photo->recursive = -1;
     $recent = $this->Photo->find('all', array(
-        'Photo.created >' => date('Y-m-d', strtotime('-2 weeks')),
+        'Photo.created >' => date('Y-m-d', strtotime('-20 weeks')),
         'order' => array('Photo.created DESC'),
         'limit' => $max
       )

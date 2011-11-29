@@ -6,9 +6,21 @@ class UploadView extends Spine.Controller
     'fileuploaddone'  : 'done'
     'fileuploadsubmit': 'submit'
     
+  template: (item) ->
+    $('#fileuploadTemplate').tmpl item
+    
   constructor: ->
     super
     @bind("change", @change)
+#    Spine.bind('change:selectedAlbum', @proxy @render)
+    Gallery.bind('change:selection', @proxy @render)
+    
+  render: (selection) ->
+    console.log 'UploadView::render'
+    album = Album.find(selection[0]) if Album.exists(selection[0])
+    isAlbum = album instanceof Album
+    @html @template album: isAlbum
+    @refreshElements()
     
   add: (e, data) ->
     console.log 'UploadView::add'

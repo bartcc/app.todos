@@ -57,7 +57,7 @@ class UriCollection extends Base
   constructor: (@model, items, params, mode = 'html', @callback) ->
     super
     @photos = for item in items
-      Photo.find(item['Photo'].id) if Photo.exists(item['Photo'].id)
+      Photo.find(item.id) if Photo.exists(item.id)
     
     options = $.extend({}, @settings, params)
     @url = @uri options

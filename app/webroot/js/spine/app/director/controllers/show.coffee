@@ -19,7 +19,7 @@ class ShowView extends Spine.Controller
     '.photos'                 : 'photosEl'
     
   events:
-    "click .optOverview"              : "overview"
+    "click .optOverview"              : "showOverview"
     "click .optPhotos"                : "showPhotos"
     "click .optAlbums"                : "showAlbums"
     "click .optCreatePhoto"           : "createPhoto"
@@ -39,6 +39,8 @@ class ShowView extends Spine.Controller
     "click .optSlideshow"             : "toggleSlideshow"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
+    'fileuploadprogress'              : "uploadProgress" 
+    'fileuploaddone'                  : "uploadDone" 
     
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
@@ -152,8 +154,8 @@ class ShowView extends Spine.Controller
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:photo')
 
-  overview: (e) ->
-    Spine.trigger('overview')
+  showOverview: (e) ->
+    Spine.trigger('show:overview')
 
   animateView: ->
     hasActive = ->
@@ -232,3 +234,9 @@ class ShowView extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     false
+    
+  uploadProgress: (e, coll) ->
+    console.log coll
+    
+  uploadDone: (e, coll) ->
+    console.log coll

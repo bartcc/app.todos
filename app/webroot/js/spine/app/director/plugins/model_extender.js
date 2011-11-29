@@ -128,6 +128,7 @@ Model.Extender = {
         }
         originalList = this.selectionList(id);
         [].splice.apply(originalList, [0, originalList.length - 0].concat(list)), list;
+        this.trigger('change:selection', originalList);
         return originalList;
       },
       removeFromSelection: function(model, id) {
@@ -140,6 +141,7 @@ Model.Extender = {
         }
         list = model.selectionList();
         record.remove(list);
+        this.trigger('change:selection', list);
         return list;
       },
       isArray: function(value) {
@@ -228,6 +230,7 @@ Model.Extender = {
         } else {
           this.addRemove(list);
         }
+        model.trigger('change:selection', list);
         return list;
       },
       updateChangedAttributes: function(atts) {
@@ -246,7 +249,9 @@ Model.Extender = {
       },
       addUnique: function(list) {
         var _ref;
-        return ([].splice.apply(list, [0, list.length - 0].concat(_ref = [this.id])), _ref);
+        [].splice.apply(list, [0, list.length - 0].concat(_ref = [this.id])), _ref;
+        this.constructor.trigger('change:selection', list);
+        return list;
       },
       addRemove: function(list) {
         var index, _ref;
@@ -258,6 +263,7 @@ Model.Extender = {
             list.splice(index, 1);
           }
         }
+        this.constructor.trigger('change:selection', list);
         return list;
       },
       remove: function(list) {
@@ -266,6 +272,7 @@ Model.Extender = {
         if (index !== -1) {
           list.splice(index, 1);
         }
+        this.constructor.trigger('change:selection', list);
         return list;
       }
     };

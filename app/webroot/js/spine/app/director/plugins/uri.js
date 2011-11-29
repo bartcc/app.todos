@@ -90,7 +90,7 @@ UriCollection = (function() {
       _results = [];
       for (_i = 0, _len = items.length; _i < _len; _i++) {
         item = items[_i];
-        _results.push(Photo.exists(item['Photo'].id) ? Photo.find(item['Photo'].id) : void 0);
+        _results.push(Photo.exists(item.id) ? Photo.find(item.id) : void 0);
       }
       return _results;
     })();

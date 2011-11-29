@@ -15,10 +15,26 @@ UploadView = (function() {
     'fileuploaddone': 'done',
     'fileuploadsubmit': 'submit'
   };
+  UploadView.prototype.template = function(item) {
+    return $('#fileuploadTemplate').tmpl(item);
+  };
   function UploadView() {
     UploadView.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
+    Gallery.bind('change:selection', this.proxy(this.render));
   }
+  UploadView.prototype.render = function(selection) {
+    var album, isAlbum;
+    console.log('UploadView::render');
+    if (Album.exists(selection[0])) {
+      album = Album.find(selection[0]);
+    }
+    isAlbum = album instanceof Album;
+    this.html(this.template({
+      album: isAlbum
+    }));
+    return this.refreshElements();
+  };
   UploadView.prototype.add = function(e, data) {
     return console.log('UploadView::add');
   };

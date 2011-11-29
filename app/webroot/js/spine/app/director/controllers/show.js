@@ -251,7 +251,7 @@ ShowView = (function() {
   ShowView.prototype.deselect = function(e) {
     var item;
     console.log('ShowView::deselect');
-    item = this.el.data() || this.el.data().current;
+    item = this.el.data().current || this.el.data();
     switch (item.constructor.className) {
       case 'Album':
         if (item) {

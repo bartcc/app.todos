@@ -210,7 +210,7 @@ class ShowView extends Spine.Controller
       
   deselect: (e) =>
     console.log 'ShowView::deselect'
-    item = @el.data() or @el.data().current
+    item = @el.data().current or @el.data()
     switch item.constructor.className
       when 'Album'
         Spine.Model['Album'].emptySelection(item.id) if item

@@ -45,7 +45,8 @@ Recent = (function() {
     return this.trigger('recent', json);
   };
   Recent.error = function(xhr) {
-    return console.log('Ajax::error');
+    console.log('Ajax::error');
+    return console.log(xhr);
   };
   return Recent;
 })();

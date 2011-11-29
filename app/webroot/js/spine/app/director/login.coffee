@@ -8,7 +8,6 @@ class Login extends Spine.Controller
     '#UserUsername'     : 'usernameEl'
     '#flashTemplate'    : 'flashTemplate'
     '#infoTemplate'     : 'infoTemplate'
-    '#guestLogin'       : 'btnGuestLogin'
     
   events:
     'click #guestLogin' : 'guestLogin'

@@ -33,7 +33,7 @@
             <span class="info"><label>no messages</label></span
             <span>
               <fieldset>
-                <?php echo $this->Form->button('Guest Login', array('type'=>'', 'class' => 'light', 'id' => 'guestLogin')); ?>
+                <?php echo $this->Form->button('Guest Login', array('type'=>'button', 'class' => 'light', 'id' => 'guestLogin')); ?>
                 <?php echo $this->Form->button('Login', array('type'=>'submit', 'class' => 'light')); ?>
               </fieldset>
             </span>

@@ -16,8 +16,7 @@ Login = (function() {
     '#UserPassword': 'passwordEl',
     '#UserUsername': 'usernameEl',
     '#flashTemplate': 'flashTemplate',
-    '#infoTemplate': 'infoTemplate',
-    '#guestLogin': 'btnGuestLogin'
+    '#infoTemplate': 'infoTemplate'
   };
   Login.prototype.events = {
     'click #guestLogin': 'guestLogin'

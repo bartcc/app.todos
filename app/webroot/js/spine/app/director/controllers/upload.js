@@ -21,19 +21,25 @@ UploadView = (function() {
   function UploadView() {
     UploadView.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
+    Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Gallery.bind('change:selection', this.proxy(this.render));
   }
+  UploadView.prototype.change = function(item) {
+    return this.current = item;
+  };
   UploadView.prototype.render = function(selection) {
-    var album, isAlbum;
+    var album, isAlbum, _ref;
     console.log('UploadView::render');
     if (Album.exists(selection[0])) {
       album = Album.find(selection[0]);
     }
     isAlbum = album instanceof Album;
-    this.html(this.template({
-      album: isAlbum
-    }));
-    return this.refreshElements();
+    if (((_ref = this.current) != null ? _ref.id : void 0) !== (album != null ? album.id : void 0)) {
+      this.html(this.template({
+        album: isAlbum
+      }));
+      return this.current = album;
+    }
   };
   UploadView.prototype.add = function(e, data) {
     return console.log('UploadView::add');

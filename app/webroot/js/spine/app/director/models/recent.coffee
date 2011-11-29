@@ -29,5 +29,6 @@ class Recent extends Spine.Model
 
   @error: (xhr) =>
     console.log 'Ajax::error'
+    console.log xhr
       
 Spine.Model.Recent = Recent

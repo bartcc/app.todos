@@ -34,7 +34,6 @@ Recent = (function() {
         'X-Requested-With': 'XMLHttpRequest'
       },
       url: base_url + 'photos/recent/' + max,
-      data: JSON.stringify(this),
       type: 'GET',
       success: this.proxy(this.success),
       error: this.error

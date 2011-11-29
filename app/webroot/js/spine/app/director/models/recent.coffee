@@ -18,7 +18,6 @@ class Recent extends Spine.Model
       processData: false
       headers: {'X-Requested-With': 'XMLHttpRequest'}
       url: base_url + 'photos/recent/' + max
-      data: JSON.stringify(@)
       type: 'GET'
       success: @proxy @success
       error: @error

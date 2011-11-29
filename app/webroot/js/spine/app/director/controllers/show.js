@@ -254,17 +254,13 @@ ShowView = (function() {
     item = this.el.data().current || this.el.data();
     switch (item.constructor.className) {
       case 'Album':
-        if (item) {
-          Spine.Model['Album'].emptySelection(item.id);
-        }
+        Spine.Model['Album'].emptySelection();
         Photo.current();
         Spine.trigger('photo:exposeSelection');
         Spine.trigger('change:selectedPhoto', item);
         break;
       case 'Gallery':
-        if (item) {
-          Spine.Model['Gallery'].emptySelection(item.id);
-        }
+        Spine.Model['Gallery'].emptySelection();
         Album.current();
         Spine.trigger('album:exposeSelection');
         Spine.trigger('change:selectedAlbum', item);

@@ -210,15 +210,15 @@ class ShowView extends Spine.Controller
       
   deselect: (e) =>
     console.log 'ShowView::deselect'
-    item = @el.data().current
-    item.emptySelection() if item
-    previous = 
+    item = @el.data()
     switch item.constructor.className
       when 'Album'
+        Spine.Model['Album'].emptySelection(item.id) if item
         Photo.current()
         Spine.trigger('photo:exposeSelection')
         Spine.trigger('change:selectedPhoto', item)
       when 'Gallery'
+        Spine.Model['Gallery'].emptySelection(item.id) if item
         Album.current()
         Spine.trigger('album:exposeSelection')
         Spine.trigger('change:selectedAlbum', item)

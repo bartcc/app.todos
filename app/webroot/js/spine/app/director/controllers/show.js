@@ -249,24 +249,26 @@ ShowView = (function() {
     }
   };
   ShowView.prototype.deselect = function(e) {
-    var item, previous;
+    var item;
     console.log('ShowView::deselect');
-    item = this.el.data().current;
-    if (item) {
-      item.emptySelection();
+    item = this.el.data();
+    switch (item.constructor.className) {
+      case 'Album':
+        if (item) {
+          Spine.Model['Album'].emptySelection(item.id);
+        }
+        Photo.current();
+        Spine.trigger('photo:exposeSelection');
+        Spine.trigger('change:selectedPhoto', item);
+        break;
+      case 'Gallery':
+        if (item) {
+          Spine.Model['Gallery'].emptySelection(item.id);
+        }
+        Album.current();
+        Spine.trigger('album:exposeSelection');
+        Spine.trigger('change:selectedAlbum', item);
     }
-    previous = (function() {
-      switch (item.constructor.className) {
-        case 'Album':
-          Photo.current();
-          Spine.trigger('photo:exposeSelection');
-          return Spine.trigger('change:selectedPhoto', item);
-        case 'Gallery':
-          Album.current();
-          Spine.trigger('album:exposeSelection');
-          return Spine.trigger('change:selectedAlbum', item);
-      }
-    })();
     if (this.current) {
       $('.item', this.current.el).removeClass('active');
     }

@@ -36,7 +36,7 @@ class PhotoList extends Spine.Controller
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else
-      @html '<label class="invite"><span class="enlightened">No album selected.</span></label>'
+      @html '<label class="invite"><span class="enlightened">Albums can only be viewd when linked up with a gallery.<br>To do so drag and drop it over a gallery and try again.</span></label>'
   
   renderItem: (item) ->
     el = =>

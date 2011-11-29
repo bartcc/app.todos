@@ -93,7 +93,7 @@ class PhotosView extends Spine.Controller
     photo = Photo.find(ap.photo_id)
     photoEl = @items.children().forItem(photo)
     photoEl.remove()
-    # start the 'real' rendering
+#      start the 'real' rendering
     @render [] unless @items.children().length
     
   add: (ap) ->

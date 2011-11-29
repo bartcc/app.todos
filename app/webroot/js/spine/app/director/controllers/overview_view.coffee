@@ -44,20 +44,22 @@ class OverviewView extends Spine.Controller
   
   callback: (items, json) =>
     console.log 'PhotoList::callback'
+    console.log items.length
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
     for item in items
       photo = item['Photo']
       jsn = searchJSON photo.id
+      ele = @items.children().forItem(photo, true)
+      img = new Image
+      img.element = ele
       if jsn
-        ele = @items.children().forItem(photo, true)
-        src = jsn.src
-        img = new Image
-        img.element = ele
-        img.src = src
-        img.onload = @imageLoad
-    
+        img.src = jsn.src
+      else
+        img.src = '/img/nophoto.png'
+      img.onload = @imageLoad
+        
   imageLoad: ->
     css = 'url(' + @src + ')'
     $('.thumbnail', @element).css

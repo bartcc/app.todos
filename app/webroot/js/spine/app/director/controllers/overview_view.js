@@ -66,8 +66,9 @@ OverviewView = (function() {
     }, this));
   };
   OverviewView.prototype.callback = function(items, json) {
-    var ele, img, item, jsn, photo, searchJSON, src, _i, _len, _results;
+    var ele, img, item, jsn, photo, searchJSON, _i, _len, _results;
     console.log('PhotoList::callback');
+    console.log(items.length);
     searchJSON = function(id) {
       var itm, _i, _len;
       for (_i = 0, _len = json.length; _i < _len; _i++) {
@@ -82,7 +83,15 @@ OverviewView = (function() {
       item = items[_i];
       photo = item['Photo'];
       jsn = searchJSON(photo.id);
-      _results.push(jsn ? (ele = this.items.children().forItem(photo, true), src = jsn.src, img = new Image, img.element = ele, img.src = src, img.onload = this.imageLoad) : void 0);
+      ele = this.items.children().forItem(photo, true);
+      img = new Image;
+      img.element = ele;
+      if (jsn) {
+        img.src = jsn.src;
+      } else {
+        img.src = '/img/nophoto.png';
+      }
+      _results.push(img.onload = this.imageLoad);
     }
     return _results;
   };

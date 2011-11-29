@@ -63,13 +63,15 @@ ShowView = (function() {
       el: this.albumsEl,
       className: 'items',
       header: this.albumsHeader,
-      parent: this
+      parent: this,
+      parentModel: 'Gallery'
     });
     this.photosView = new PhotosView({
       el: this.photosEl,
       className: 'items',
       header: this.photosHeader,
-      parent: this
+      parent: this,
+      parentModel: 'Album'
     });
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     Gallery.bind('change', this.proxy(this.renderToolbar));
@@ -249,10 +251,10 @@ ShowView = (function() {
     }
   };
   ShowView.prototype.deselect = function(e) {
-    var item;
-    console.log('ShowView::deselect');
-    item = this.el.data().current || this.el.data();
-    switch (item.constructor.className) {
+    var el, item;
+    el = $(e.target);
+    item = this.el.data().current;
+    switch (this.current.parentModel) {
       case 'Album':
         Spine.Model['Album'].emptySelection();
         Photo.current();
@@ -265,9 +267,7 @@ ShowView = (function() {
         Spine.trigger('album:exposeSelection');
         Spine.trigger('change:selectedAlbum', item);
     }
-    if (this.current) {
-      $('.item', this.current.el).removeClass('active');
-    }
+    el.children().removeClass('active');
     this.renderToolbar();
     e.stopPropagation();
     e.preventDefault();

@@ -54,11 +54,13 @@ class ShowView extends Spine.Controller
       className: 'items'
       header: @albumsHeader
       parent: @
+      parentModel: 'Gallery'
     @photosView = new PhotosView
       el: @photosEl
       className: 'items'
       header: @photosHeader
       parent: @
+      parentModel: 'Album'
     
     Spine.bind('change:canvas', @proxy @changeCanvas)
     Gallery.bind('change', @proxy @renderToolbar)
@@ -209,9 +211,10 @@ class ShowView extends Spine.Controller
       @activeControl = control
       
   deselect: (e) =>
-    console.log 'ShowView::deselect'
-    item = @el.data().current or @el.data()
-    switch item.constructor.className
+    el = $(e.target)
+    item = @el.data().current
+      
+    switch @current.parentModel
       when 'Album'
         Spine.Model['Album'].emptySelection()
         Photo.current()
@@ -223,7 +226,7 @@ class ShowView extends Spine.Controller
         Spine.trigger('album:exposeSelection')
         Spine.trigger('change:selectedAlbum', item)
     
-    if @current then $('.item', @current.el).removeClass('active')
+    el.children().removeClass('active')
     @renderToolbar()
     
     e.stopPropagation()

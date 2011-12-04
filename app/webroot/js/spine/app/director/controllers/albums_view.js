@@ -137,6 +137,7 @@ AlbumsView = (function() {
     if (Gallery.record) {
       Album.trigger('create:join', Gallery.record, album);
     }
+    Spine.trigger('change:selectedAlbum', album);
     Spine.trigger('show:albums');
     return this.openPanel('album', App.showView.btnAlbum);
   };

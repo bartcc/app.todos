@@ -667,7 +667,7 @@ class FileComponent extends Object {
         }
         if (isset($dig)) {
           $bits = explode(' ', $dig);
-          $captured = str_replace(':', '/', $bits[0]) . ' ' . $bits[1];
+          $captured = str_replace(':', '-', $bits[0]) . ' ' . $bits[1];
         }
       }
     }

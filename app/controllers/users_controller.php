@@ -9,7 +9,9 @@ class UsersController extends AppController {
     $this->Auth->allowedActions = array('login', 'logout', 'auth', 'ping');
 
     if (!empty($this->data)) {
-      $this->success = $this->Auth->login($this->data);
+      # automatically use POST data for login
+      $this->success = $this->Auth->login();
+      $this->log($this->data, LOG_DEBUG);
       $this->log($this->success, LOG_DEBUG);
     }
     if($this->Auth->user()) {

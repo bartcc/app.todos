@@ -44,7 +44,7 @@ class GalleryList extends Spine.Controller
 
   change: (item, mode, e) =>
     console.log 'GalleryList::change'
-    
+    previous = @current
     if e
       cmdKey = @isCtrlClick(e)
       dblclick = e.type is 'dblclick' 
@@ -62,7 +62,7 @@ class GalleryList extends Spine.Controller
       @current = false
     
     Gallery.current(@current)
-    Spine.trigger('change:selectedGallery', @current, mode)
+    Spine.trigger('change:selectedGallery', @current, mode) if previous?.id != @current?.id or cmdKey
     
     if mode is 'edit'
       App.showView.btnEditGallery.click()

@@ -40,7 +40,7 @@ SidebarView = (function() {
     this.dragLeave = __bind(this.dragLeave, this);
     this.dragOver = __bind(this.dragOver, this);
     this.dragEnter = __bind(this.dragEnter, this);    SidebarView.__super__.constructor.apply(this, arguments);
-    this.el.width(460);
+    this.el.width(300);
     this.list = new GalleryList({
       el: this.items,
       template: this.template

@@ -20,6 +20,9 @@ Spine.Controller.include
 
   children: (sel) ->
     @el.children(sel)
+    
+  deselect: () ->
+    @el.deselect()
 
 Spine.Controller.extend
 

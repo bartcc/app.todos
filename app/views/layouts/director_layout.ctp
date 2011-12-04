@@ -63,6 +63,7 @@
     echo $this->Html->script('spine/lib/manager');
     echo $this->Html->script('spine/lib/tmpl');
 
+    echo $this->Html->script('spine/app/director/plugins/jquery-plugins');
     echo $this->Html->script('spine/app/director/plugins/manager');
     echo $this->Html->script('spine/app/director/plugins/controller');
     echo $this->Html->script('spine/app/director/plugins/drag');
@@ -80,6 +81,7 @@
     echo $this->Html->script('spine/app/director/models/error');
     echo $this->Html->script('spine/app/director/models/recent');
     echo $this->Html->script('spine/app/director/controllers/loader');
+    echo $this->Html->script('spine/app/director/controllers/preview');
     echo $this->Html->script('spine/app/director/controllers/overview_view');
     echo $this->Html->script('spine/app/director/controllers/albums_view');
     echo $this->Html->script('spine/app/director/controllers/albums_header');

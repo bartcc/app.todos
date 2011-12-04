@@ -46,103 +46,6 @@ class FileComponent extends Object {
   }
 
   ////
-  // Fetch account
-  ////
-  function fetchAccount($action = 'dummy') {
-    $cache_path = DIR_CACHE . DS . 'account.cache';
-    $force_actions = array('preferences', 'activate');
-    if (in_array($action, $force_actions)) {
-      $account = array();
-    } else {
-      $account = unserialize(cache($cache_path, null, '+1 day'));
-    }
-    if (empty($account)) {
-      $this->Account = & ClassRegistry::init('Account');
-      $account = $to_cache = $this->Account->find('first', array('conditions' => array('not' => array('version' => null))));
-      unset($to_cache['Account']['activation_key']);
-      unset($to_cache['Account']['api_key']);
-      cache($cache_path, serialize($to_cache));
-    }
-    $users = $this->fetchUsers();
-    return array($account, $users);
-  }
-
-  function fetchUsers() {
-    $cache_path_users = DIR_CACHE . DS . 'users.cache';
-    $uarr = unserialize(cache($cache_path_users, null, '+1 year'));
-    if (empty($uarr)) {
-      $this->User = & ClassRegistry::init('User');
-      $this->Image = & ClassRegistry::init('Image');
-      $this->User->recursive = -1;
-      $users = $this->User->findAll();
-      $uarr = array();
-      foreach ($users as $u) {
-        $count = $this->Image->find('count', array('conditions' => 'created_by = ' . $u['User']['id'], 'recursive' => -1));
-        $uarr[$u['User']['id']] = array('usr' => $u['User']['usr'], 'display_name' => $u['User']['display_name'], 'display_name_fill' => $u['User']['display_name_fill'], 'first_name' => $u['User']['first_name'], 'anchor' => $u['User']['anchor'], 'last_name' => $u['User']['last_name'], 'externals' => $u['User']['externals'], 'anchor' => $u['User']['anchor'], 'image_count' => $count, 'profile' => $u['User']['profile'], 'email' => $u['User']['email']);
-      }
-      cache($cache_path_users, serialize($uarr));
-    }
-    return $uarr;
-  }
-
-  ////
-  // Get all slideshows
-  ////
-  function fetchShows() {
-    $cache_path = DIR_CACHE . DS . 'shows.cache';
-    $shows = cache($cache_path, null, '+1 year');
-    if ($shows == 'noshow') {
-      $shows = array();
-    } elseif (empty($shows)) {
-      $this->Slideshow = & ClassRegistry::init('Slideshow');
-      $shows = $this->Slideshow->findAll();
-      if (empty($shows)) {
-        cache($cache_path, 'noshow');
-      } else {
-        cache($cache_path, serialize($shows));
-      }
-    } else {
-      $shows = unserialize($shows);
-    }
-    return $shows;
-  }
-
-  function scheduling() {
-    $this->Image = & ClassRegistry::init('Image');
-    $images = $this->Image->find('all', array('conditions' => 'start_on IS NOT NULL OR end_on IS NOT NULL', 'recursive' => -1));
-    $now = time();
-    $this->Image->begin();
-    foreach ($images as $image) {
-      $active = $this->parseActive($image['Image']['start_on'], $image['Image']['end_on']);
-      if ($active != $image['Image']['active']) {
-        $this->Image->id = $image['Image']['id'];
-        $this->Image->saveField('active', $active);
-        $this->Image->Album->reorder($image['Image']['aid']);
-      }
-    }
-    $this->Image->commit();
-  }
-
-  function parseActive($start, $end) {
-    $active = 0;
-    $now = time();
-    if (is_numeric($start) && is_numeric($end)) {
-      if ($start < $now && $now < $end) {
-        $active = 1;
-      }
-    } else if (is_numeric($start)) {
-      if ($now > $start) {
-        $active = 1;
-      }
-    } else {
-      if ($now < $end) {
-        $active = 1;
-      }
-    }
-    return $active;
-  }
-
-  ////
   // Generate random string
   ////
   function randomStr($len = 6) {
@@ -542,6 +445,9 @@ class FileComponent extends Object {
       if (isset($data['Exif']['EXIF'])) {
         $exif = $data['Exif']['EXIF'];
         switch ($template) {
+          case 'exif:DateTimeOriginal':
+            return @$data['Exif']['DateTimeOriginal'];
+            break;
           case 'exif:make':
             return @$data['Exif']['IFD0']['Make'];
             break;
@@ -734,91 +640,6 @@ class FileComponent extends Object {
     return $str;
   }
 
-  function _form($field, $path, $image, $album, $original = null) {
-    if (strpos($field, ':contributor') !== false) {
-      if (defined(ACCOUNT_ID)) {
-        $users = $this->fetchUsers(ACCOUNT_ID);
-      } else {
-        $users = $this->fetchUsers();
-      }
-      $u = $users[$image['created_by']];
-      $set_to = str_replace('[director:contributor username]', $u['usr'], $field);
-      $set_to = str_replace('[director:contributor first name]', $u['first_name'], $set_to);
-      $set_to = str_replace('[director:contributor last name]', $u['last_name'], $set_to);
-      $set_to = str_replace('[director:contributor display name]', $u['display_name_fill'], $set_to);
-      $set_to = str_replace('[director:contributor email]', $u['email'], $set_to);
-    } else {
-      $set_to = $field;
-    }
-
-    $set_to = str_replace('[director:image filename]', $image['src'], $set_to);
-    $set_to = str_replace('[director:album name]', $album['name'], $set_to);
-    $set_to = str_replace('[director:album title]', $album['name'], $set_to);
-    $set_to = str_replace('[director:album id]', $album['id'], $set_to);
-    $set_to = str_replace('[director:album tags]', $album['tags'], $set_to);
-    $set_to = str_replace('[director:image number]', $image['seq'], $set_to);
-    $set_to = str_replace('[director:image count]', $album['images_count'], $set_to);
-    $set_to = str_replace('[director:tags]', $image['tags'], $set_to);
-
-
-    if (!is_null($original)) {
-      $set_to = str_replace('[director:original album title]', $original['name'], $set_to);
-      $set_to = str_replace('[director:original album id]', $original['id'], $set_to);
-      $set_to = str_replace('[director:original album tags]', $original['tags'], $set_to);
-    }
-
-    $set_to = str_replace('[director:place taken]', $original['place_taken'], $set_to);
-    $set_to = str_replace('[director:date taken]', $original['date_taken'], $set_to);
-
-    if (strpos($field, '[director:date captured') !== false) {
-      preg_match_all('/\[director:date captured(:.*?)?\]/', $field, $matches);
-      for ($i = 0; $i < count($matches[0]); $i++) {
-        $t = $matches[1][$i];
-        if (empty($t)) {
-          $t = '%m/%d/%Y %I:%M%p';
-        } else {
-          $t = ltrim($t, ':');
-        }
-        if (empty($image['captured_on'])) {
-          $set_to = str_replace($matches[0][$i], '', $set_to);
-        } else {
-          $set_to = str_replace($matches[0][$i], $this->_date($t, $image['captured_on'], false), $set_to);
-        }
-      }
-    }
-
-    if (strpos($field, '[director:date uploaded') !== false) {
-      preg_match_all('/\[director:date uploaded(:.*?)?\]/', $field, $matches);
-      for ($i = 0; $i < count($matches[0]); $i++) {
-        $t = $matches[1][$i];
-        if (empty($t)) {
-          $t = '%m/%d/%Y %I:%M%p';
-        } else {
-          $t = ltrim($t, ':');
-        }
-        if (empty($image['created_on'])) {
-          $set_to = str_replace($matches[0][$i], '', $set_to);
-        } else {
-          $set_to = str_replace($matches[0][$i], $this->_date($t, $image['created_on'], false), $set_to);
-        }
-      }
-    }
-
-    list($data, $dummy) = $this->imageMetadata($path);
-    foreach ($this->iptcTags as $meta) {
-      $value = $this->parseMetaTags("iptc:$meta", $data);
-      @$set_to = str_replace("[iptc:$meta]", $value, $set_to);
-    }
-
-
-    foreach ($this->exifTags as $meta) {
-      $value = $this->parseMetaTags("exif:$meta", $data);
-      $set_to = str_replace("[exif:$meta]", $value, $set_to);
-    }
-
-    return $set_to;
-  }
-
   function imageMetadata($path) {
     $meta = array();
     $captured = null;
@@ -837,7 +658,7 @@ class FileComponent extends Object {
       }
 
       if (eregi('\.jpg|\.jpeg', basename($path)) && is_callable('exif_read_data')) {
-        @$exif_data = exif_read_data($path, 0, true);
+        $exif_data = exif_read_data($path, 0, true);
         $meta['Exif'] = $exif_data;
         if (isset($meta['Exif']['EXIF']['DateTimeDigitized'])) {
           $dig = $meta['Exif']['EXIF']['DateTimeDigitized'];
@@ -846,10 +667,9 @@ class FileComponent extends Object {
         }
         if (isset($dig)) {
           $bits = explode(' ', $dig);
-          $captured = strtotime(str_replace(':', '-', $bits[0]) . ' ' . $bits[1]);
+          $captured = str_replace(':', '/', $bits[0]) . ' ' . $bits[1];
         }
       }
-      $this->log($captured, LOG_DEBUG);
     }
     return array($meta, $captured);
   }

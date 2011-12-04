@@ -15,11 +15,12 @@ AlbumsView = (function() {
   __extends(AlbumsView, Spine.Controller);
   AlbumsView.extend(Spine.Controller.Drag);
   AlbumsView.prototype.elements = {
+    '.preview': 'previewEl',
     '.items': 'items',
     '.content .sortable': 'sortable'
   };
   AlbumsView.prototype.events = {
-    'sortupdate .items': 'sortupdate',
+    'sortupdate .items .item': 'sortupdate',
     'dragstart  .items .thumbnail': 'dragstart',
     'dragenter  .items .thumbnail': 'dragenter',
     'dragover   .items .thumbnail': 'dragover',
@@ -36,11 +37,19 @@ AlbumsView = (function() {
   AlbumsView.prototype.headerTemplate = function(items) {
     return $("#headerGalleryTemplate").tmpl(items);
   };
+  AlbumsView.prototype.previewTemplate = function(item) {
+    return $('#albumPreviewTemplate').tmpl(item);
+  };
   function AlbumsView() {
     AlbumsView.__super__.constructor.apply(this, arguments);
+    this.preview = new Preview({
+      el: this.previewEl,
+      template: this.previewTemplate
+    });
     this.list = new AlbumList({
       el: this.items,
-      template: this.albumsTemplate
+      template: this.albumsTemplate,
+      preview: this.preview
     });
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('create:album', this.proxy(this.create));
@@ -101,9 +110,11 @@ AlbumsView = (function() {
     return Spine.trigger('change:canvas', this);
   };
   AlbumsView.prototype.initSortables = function() {
-    var sortOptions;
-    sortOptions = {};
-    return this.items.sortable(sortOptions);
+    var dragOptions;
+    dragOptions = {
+      helper: 'clone'
+    };
+    return this.items.draggable(dragOptions);
   };
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {

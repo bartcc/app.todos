@@ -6,9 +6,11 @@ class PhotosView extends Spine.Controller
   @extend Spine.Controller.Drag
   
   elements:
+    '.preview'      : 'previewEl'
     '.items'        : 'items'
   
   events:
+    'sortupdate .items .item'         : 'sortupdate'
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragenter  .items .thumbnail'    : 'dragenter'
     'dragover   .items .thumbnail'    : 'dragover'
@@ -29,11 +31,18 @@ class PhotosView extends Spine.Controller
     items.gallery = Gallery.record
     $("#headerAlbumTemplate").tmpl items
     
+  previewTemplate: (item) ->
+    $('#photoPreviewTemplate').tmpl item
+    
   constructor: ->
     super
+    @preview = new Preview
+      el: @previewEl
+      template: @previewTemplate
     @list = new PhotoList
       el: @items
       template: @template
+      preview: @preview
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
@@ -46,6 +55,7 @@ class PhotosView extends Spine.Controller
     Photo.bind('refresh', @proxy @prepareJoin)
     Photo.bind("create:join", @proxy @createJoin)
     Photo.bind("destroy:join", @proxy @destroyJoin)
+#    @initSelectable()
     @filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
@@ -120,7 +130,6 @@ class PhotosView extends Spine.Controller
           photo.destroy()
     
   show: ->
-    console.log 'show'
     return if @isActive()
     @renderHeader()
     Spine.trigger('change:canvas', @)

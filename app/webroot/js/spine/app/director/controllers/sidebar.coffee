@@ -25,7 +25,7 @@ class SidebarView extends Spine.Controller
 
   constructor: ->
     super
-    @el.width(460)
+    @el.width(300)
     @list = new GalleryList
       el: @items,
       template: @template

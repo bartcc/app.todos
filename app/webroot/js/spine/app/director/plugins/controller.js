@@ -26,6 +26,9 @@ Spine.Controller.include({
   },
   children: function(sel) {
     return this.el.children(sel);
+  },
+  deselect: function() {
+    return this.el.deselect();
   }
 });
 Spine.Controller.extend({

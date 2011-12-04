@@ -14,11 +14,16 @@ $ = Spine.$;
 AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
   AlbumList.prototype.events = {
+    'click .close': "closeInfo",
     'click .item': "click",
-    'dblclick .item': 'dblclick'
+    'dblclick .item': 'dblclick',
+    'mousemove .item': 'previewUp',
+    'mouseleave  .item': 'previewBye'
   };
-  AlbumList.prototype.selectFirst = true;
   function AlbumList() {
+    this.previewBye = __bind(this.previewBye, this);
+    this.previewUp = __bind(this.previewUp, this);
+    this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumList.__super__.constructor.apply(this, arguments);
     Spine.bind('album:exposeSelection', this.proxy(this.exposeSelection));
   }
@@ -35,23 +40,28 @@ AlbumList = (function() {
     }
   };
   AlbumList.prototype.select = function(item) {
-    var previous;
+    var previous, _ref;
     previous = Album.record;
     this.exposeSelection();
     if (item && !item.destroyed) {
+      this.current = item;
       Album.current(item);
     }
-    return Spine.trigger('change:selectedAlbum', item);
+    if ((previous != null ? previous.id : void 0) !== ((_ref = this.current) != null ? _ref.id : void 0)) {
+      return Spine.trigger('change:selectedAlbum', item);
+    }
   };
   AlbumList.prototype.exposeSelection = function() {
-    var current, id, item, list, _i, _len;
+    var current, el, id, item, list, _i, _len;
+    console.log('AlbumList::exposeSelection');
     list = Gallery.selectionList();
-    this.children().removeClass("active");
+    this.deselect();
     for (_i = 0, _len = list.length; _i < _len; _i++) {
       id = list[_i];
       if (Album.exists(id)) {
         item = Album.find(id);
-        this.children().forItem(item).addClass("active");
+        el = this.children().forItem(item);
+        el.addClass("active");
       }
     }
     current = list.length === 1 ? list[0] : void 0;
@@ -147,6 +157,24 @@ AlbumList = (function() {
     console.log('AlbumList::edit');
     item = $(e.target).item();
     return this.change(item);
+  };
+  AlbumList.prototype.closeInfo = function(e) {
+    this.el.click();
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
+  };
+  AlbumList.prototype.previewUp = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.preview.up(e);
+    return false;
+  };
+  AlbumList.prototype.previewBye = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.preview.bye();
+    return false;
   };
   return AlbumList;
 })();

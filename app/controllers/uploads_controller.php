@@ -77,7 +77,7 @@ class UploadsController extends AppController {
                   $this->data['Photo']['user_id'] = $user_id;
                   $this->data['Photo']['src'] = $the_file;
                   $this->data['Photo']['filesize'] = filesize($lg_path);
-                  $this->data['Photo']['captured'] = (int) $captured;
+                  $this->data['Photo']['captured'] = $captured;
                   $this->data['Photo']['exposure'] = $exposure;
                   $this->data['Photo']['iso'] = $iso;
                   $this->data['Photo']['longitude'] = $longitude;

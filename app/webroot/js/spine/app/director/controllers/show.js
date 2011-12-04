@@ -24,7 +24,8 @@ ShowView = (function() {
     '.optSlideshow': 'btnSlideshow',
     '.toolbar': 'toolBar',
     '.albums': 'albumsEl',
-    '.photos': 'photosEl'
+    '.photos': 'photosEl',
+    '.items': 'items'
   };
   ShowView.prototype.events = {
     "click .optOverview": "showOverview",
@@ -253,8 +254,7 @@ ShowView = (function() {
     }
   };
   ShowView.prototype.deselect = function(e) {
-    var el, item;
-    el = $(e.target);
+    var item;
     item = this.el.data().current;
     switch (this.current.parentModel) {
       case 'Album':
@@ -269,7 +269,7 @@ ShowView = (function() {
         Spine.trigger('album:exposeSelection');
         Spine.trigger('change:selectedAlbum', item);
     }
-    el.children().removeClass('active');
+    this.current.items.deselect();
     this.renderToolbar();
     e.stopPropagation();
     e.preventDefault();

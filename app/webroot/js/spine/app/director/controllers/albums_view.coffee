@@ -6,11 +6,12 @@ class AlbumsView extends Spine.Controller
   @extend Spine.Controller.Drag
   
   elements:
+    '.preview'                : 'previewEl'
     '.items'                  : 'items'
     '.content .sortable'      : 'sortable'
     
   events:
-    'sortupdate .items'               : 'sortupdate'
+    'sortupdate .items .item'         : 'sortupdate'
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragenter  .items .thumbnail'    : 'dragenter'
     'dragover   .items .thumbnail'    : 'dragover'
@@ -30,12 +31,18 @@ class AlbumsView extends Spine.Controller
   headerTemplate: (items) ->
     $("#headerGalleryTemplate").tmpl items
  
+  previewTemplate: (item) ->
+    $('#albumPreviewTemplate').tmpl item
+ 
   constructor: ->
     super
+    @preview = new Preview
+      el: @previewEl
+      template: @previewTemplate
     @list = new AlbumList
       el: @items
       template: @albumsTemplate
-      
+      preview: @preview
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
@@ -47,6 +54,9 @@ class AlbumsView extends Spine.Controller
     GalleriesAlbum.bind("change", @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
+    #interferes with html5 dnd!
+#    @initSortables
+#      helper: 'clone'
     @filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
@@ -67,7 +77,7 @@ class AlbumsView extends Spine.Controller
     else
       @current = Album.filter(gallery.id, @filterOptions)
       
-    @render(item) # item is 
+    @render(item)
     
   render: (item) ->
     console.log 'AlbumsView::render'
@@ -85,7 +95,6 @@ class AlbumsView extends Spine.Controller
     Spine.trigger('render:galleryItem')
     Spine.trigger('album:exposeSelection')
     
-    #@initSortables() #interferes with html5 dnd!
    
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
@@ -99,8 +108,9 @@ class AlbumsView extends Spine.Controller
     Spine.trigger('change:canvas', @)
     
   initSortables: ->
-    sortOptions = {}
-    @items.sortable sortOptions
+    dragOptions =
+      helper: 'clone'
+    @items.draggable dragOptions
 
   newAttributes: ->
     if User.first()

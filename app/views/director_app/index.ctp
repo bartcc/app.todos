@@ -113,10 +113,12 @@
             <div class="photosHeader view"></div>
           </div>
           <div class="view albums content vbox flex data autoflow">
+            <div class="preview"></div>
             <div class="items sortable">Albums</div>
           </div>
           <div class="view photos content vbox flex data autoflow">
-            <div class="items sortable">Images</div>
+            <div class="preview"></div>
+            <div class="items sortable flex">Images</div>
           </div>
         </div>
         <div id="views" class="canvas-bg-light hbox autoflow">
@@ -198,14 +200,9 @@
   {{/if}}
 </script>
 
-<script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item container">
-    <div class="thumbnail" draggable="true"></div>
-    {{if title}}
-    <div class="name">${title}</div>
-    {{else}}
-    <div class="name empty">no title</div>
-    {{/if}}
+<script id="albumsTemplate"type="text/x-jquery-tmpl">
+  <li class="item container ">
+    <div class="thumbnail left" draggable="true"></div>
   </li>
 </script>
 
@@ -312,17 +309,11 @@
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li class="item container">
     {{tmpl "#photosDetailsTemplate"}}
-    {{if title}}
-    <div class="name">{{html title}}</div>
-    {{else}}
-    <div class="name empty">no title</div>
-    {{/if}}
-    <div class="name">ISO: ${iso}</div>
   </li>
 </script>
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image" draggable="true"></div>
+  <div class="thumbnail image left" draggable="true"></div>
 </script>
 
 <script id="preloaderTemplate" type="text/x-jquery-tmpl">
@@ -349,6 +340,25 @@
     <span>No target album selected!</span>
   </label>
   {{/if}}
+</script>
+
+<script id="albumPreviewTemplate" type="text/x-jquery-tmpl">
+  <ul>
+    <li class="name">{{if title}}${title}{{else}}no title{{/if}}</li>
+  </ul>
+</script>
+
+<script id="photoPreviewTemplate" type="text/x-jquery-tmpl">
+  <ul>
+    {{if title}}
+      <li class="empty">{{html title}}</li>
+    {{else}}
+      <li class="empty">${src}</li>
+    {{/if}}
+    <li class="">iso: ${iso}</li>
+    <li class="">model: ${model}</li>
+    <li class="">date: ${captured}</li>
+  </ul>
 </script>
 
 <script id="uploadTemplate" type="text/x-jquery-tmpl">

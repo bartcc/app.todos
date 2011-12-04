@@ -4,22 +4,25 @@ $      = Spine.$
 class PhotoList extends Spine.Controller
   
   events:
+    'click .close'            : "closeInfo"  
     'click .item'             : "click"    
     'dblclick .item'          : 'dblclick'
-    
+    'mousemove .item'         : 'previewUp'
+    'mouseleave  .item'       : 'previewBye'
+  
   selectFirst: true
     
   constructor: ->
     super
-    
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.customErrorHandler)
     Photo.bind('uri', @proxy @uri)
+#    @initSelectable()
     
-  change: (item) ->
-    @children().removeClass("active")
-    @exposeSelection()
+  change: (item, e) ->
+    @exposeSelection(e)
+    @current = item
     Spine.trigger('change:selectedPhoto', item)
   
   render: (items, album, mode) ->
@@ -30,13 +33,14 @@ class PhotoList extends Spine.Controller
     if album
       if items.length
         @[mode] @template items
+        @exposeSelection()
         @uri album, items, mode
         @change()
         @el
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else
-      @html '<label class="invite"><span class="enlightened">Albums can only be viewd when linked up with a gallery.<br>To do so drag and drop it over a gallery and try again.</span></label>'
+      @html '<label class="invite"><span class="enlightened">Albums can only be viewed when linked up with a gallery.<br>To do so drag and drop it over a gallery and try again.</span></label>'
   
   renderItem: (item) ->
     el = =>
@@ -45,12 +49,15 @@ class PhotoList extends Spine.Controller
       $('.thumbnail', el())
       
     backgroundImage = tb().css('backgroundImage')
+    style = el().prop('style')
     isActive = el().hasClass('active')
     tmplItem = el().tmplItem()
     tmplItem.tmpl = $( "#photosTemplate" ).template()
     tmplItem.update()
     tb().css('backgroundImage', backgroundImage)
-    el().toggleClass('active', isActive)
+    el().toggleClass('active', isActive).css
+      'left': style.left
+      'top' : style.top
   
   update: (item) ->
     @renderItem item
@@ -84,13 +91,20 @@ class PhotoList extends Spine.Controller
       'backgroundImage': css
       'backgroundPosition': 'center, center'
     
-  exposeSelection: ->
+  exposeSelection: (e) ->
     console.log 'PhotoList::exposeSelection'
+    @deselect()
     list = Album.selectionList()
     for id in list
       if Photo.exists(id)
         item = Photo.find(id) 
-        @children().forItem(item).addClass("active")
+        el = @children().forItem(item)
+#        cl = el.clone().addClass('clone')
+        pos = el.position()
+        el.addClass("active").css
+          'left': pos.left
+          'top': pos.top
+#        el.after cl
     current = if list.length is 1 then list[0] 
     Photo.current(current)
   
@@ -103,7 +117,7 @@ class PhotoList extends Spine.Controller
       @openPanel('photo', App.showView.btnPhoto)
     
     App.showView.trigger('change:toolbar', 'Photo')
-    @change item
+    @change item, e
     
     e.stopPropagation()
     e.preventDefault()
@@ -121,5 +135,27 @@ class PhotoList extends Spine.Controller
     e.preventDefault()
     false
   
+  closeInfo: (e) =>
+    @el.click()
+    e.stopPropagation()
+    e.preventDefault()
+    false
+    
+  initSelectable: ->
+    options =
+      helper: 'clone'
+    @el.selectable()
+    
+  previewUp: (e) =>
+    e.stopPropagation()
+    e.preventDefault()
+    @preview.up(e)
+    false
+    
+  previewBye: (e) =>
+    e.stopPropagation()
+    e.preventDefault()
+    @preview.bye()
+    false
     
 module?.exports = PhotoList

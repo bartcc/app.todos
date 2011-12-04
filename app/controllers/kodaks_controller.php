@@ -58,7 +58,7 @@ class KodaksController extends AppController {
     $val = str_replace(' ', '.2B', $val);
     $crypt = $salt->convert($val, false);
     $a = explode(',', $crypt);
-    $this->log($a, LOG_DEBUG);
+//    $this->log($a, LOG_DEBUG);
     $file = $fn = basename($a[2]);
     // Make sure supplied filename contains only approved chars
     if (preg_match("/[^A-Za-z0-9._-]/", $file)) {

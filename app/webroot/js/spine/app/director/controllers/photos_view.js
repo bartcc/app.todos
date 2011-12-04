@@ -15,9 +15,11 @@ PhotosView = (function() {
   __extends(PhotosView, Spine.Controller);
   PhotosView.extend(Spine.Controller.Drag);
   PhotosView.prototype.elements = {
+    '.preview': 'previewEl',
     '.items': 'items'
   };
   PhotosView.prototype.events = {
+    'sortupdate .items .item': 'sortupdate',
     'dragstart  .items .thumbnail': 'dragstart',
     'dragenter  .items .thumbnail': 'dragenter',
     'dragover   .items .thumbnail': 'dragover',
@@ -38,11 +40,19 @@ PhotosView = (function() {
     items.gallery = Gallery.record;
     return $("#headerAlbumTemplate").tmpl(items);
   };
+  PhotosView.prototype.previewTemplate = function(item) {
+    return $('#photoPreviewTemplate').tmpl(item);
+  };
   function PhotosView() {
     PhotosView.__super__.constructor.apply(this, arguments);
+    this.preview = new Preview({
+      el: this.previewEl,
+      template: this.previewTemplate
+    });
     this.list = new PhotoList({
       el: this.items,
-      template: this.template
+      template: this.template,
+      preview: this.preview
     });
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
@@ -141,7 +151,6 @@ PhotosView = (function() {
     }
   };
   PhotosView.prototype.show = function() {
-    console.log('show');
     if (this.isActive()) {
       return;
     }

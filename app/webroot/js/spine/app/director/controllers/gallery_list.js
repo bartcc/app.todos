@@ -53,8 +53,9 @@ GalleryList = (function() {
     return arguments[0];
   };
   GalleryList.prototype.change = function(item, mode, e) {
-    var cmdKey, dblclick;
+    var cmdKey, dblclick, previous, _ref;
     console.log('GalleryList::change');
+    previous = this.current;
     if (e) {
       cmdKey = this.isCtrlClick(e);
       dblclick = e.type === 'dblclick';
@@ -75,7 +76,9 @@ GalleryList = (function() {
       this.current = false;
     }
     Gallery.current(this.current);
-    Spine.trigger('change:selectedGallery', this.current, mode);
+    if ((previous != null ? previous.id : void 0) !== ((_ref = this.current) != null ? _ref.id : void 0) || cmdKey) {
+      Spine.trigger('change:selectedGallery', this.current, mode);
+    }
     if (mode === 'edit') {
       return App.showView.btnEditGallery.click();
     } else if (mode === 'show') {

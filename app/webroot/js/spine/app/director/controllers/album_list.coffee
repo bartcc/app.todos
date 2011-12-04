@@ -4,10 +4,11 @@ $      = Spine.$
 class AlbumList extends Spine.Controller
   
   events:
+    'click .close'            : "closeInfo"
     'click .item'             : "click"    
     'dblclick .item'          : 'dblclick'
-    
-  selectFirst: true
+    'mousemove .item'         : 'previewUp'
+    'mouseleave  .item'       : 'previewBye'
     
   constructor: ->
     super
@@ -26,17 +27,28 @@ class AlbumList extends Spine.Controller
     previous = Album.record
     @exposeSelection()
     if item and !item.destroyed
+      @current = item
       Album.current(item)
       
-    Spine.trigger('change:selectedAlbum', item)
+    Spine.trigger('change:selectedAlbum', item) if previous?.id != @current?.id
     
   exposeSelection: ->
+    console.log 'AlbumList::exposeSelection'
     list = Gallery.selectionList()
-    @children().removeClass("active")
+    @deselect()
     for id in list
       if Album.exists(id)
-        item = Album.find(id) 
-        @children().forItem(item).addClass("active")
+        item = Album.find(id)
+        el = @children().forItem(item)
+#        pos = el.position()
+#        if pos
+#          cl = el.clone().addClass('clone')
+#          if pos.left and pos.top
+#            el.addClass("active").css
+#              'left': pos.left
+#              'top': pos.top
+#          el.after cl
+        el.addClass("active")
     current = if list.length is 1 then list[0]
     Album.current(current)
         
@@ -110,5 +122,24 @@ class AlbumList extends Spine.Controller
     console.log 'AlbumList::edit'
     item = $(e.target).item()
     @change item
+    
+  closeInfo: (e) =>
+    @el.click()
+    e.stopPropagation()
+    e.preventDefault()
+    false
+    
+    
+  previewUp: (e) =>
+    e.stopPropagation()
+    e.preventDefault()
+    @preview.up(e)
+    false
+    
+  previewBye: (e) =>
+    e.stopPropagation()
+    e.preventDefault()
+    @preview.bye()
+    false
 
 module?.exports = AlbumList

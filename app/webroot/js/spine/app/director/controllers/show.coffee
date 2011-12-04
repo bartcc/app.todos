@@ -17,6 +17,7 @@ class ShowView extends Spine.Controller
     '.toolbar'                : 'toolBar'
     '.albums'                 : 'albumsEl'
     '.photos'                 : 'photosEl'
+    '.items'                  : 'items'
     
   events:
     "click .optOverview"              : "showOverview"
@@ -213,7 +214,6 @@ class ShowView extends Spine.Controller
       @activeControl = control
       
   deselect: (e) =>
-    el = $(e.target)
     item = @el.data().current
       
     switch @current.parentModel
@@ -228,7 +228,7 @@ class ShowView extends Spine.Controller
         Spine.trigger('album:exposeSelection')
         Spine.trigger('change:selectedAlbum', item)
     
-    el.children().removeClass('active')
+    @current.items.deselect()
     @renderToolbar()
     
     e.stopPropagation()

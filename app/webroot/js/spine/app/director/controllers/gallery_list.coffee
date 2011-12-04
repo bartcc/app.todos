@@ -96,17 +96,14 @@ class GalleryList extends Spine.Controller
   renderSublist: (gallery) ->
     console.log 'GalleryList::renderSublist'
     albums = Album.filter(gallery.id, @filterOptions)
+    total = 0
+    for album in albums
+      total += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
     albums.push {flash: 'no albums'} unless albums.length
     galleryEl = @children().forItem(gallery)
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
-    @renderCounts(galleryEl, gallery, albums)
-    
-  renderCounts: (el, gallery, albums) ->
-    total = 0
-    for album in albums
-      total += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
-    $('.item-header .cta', el).html albums.length + ' <span style="font-size: 0.5em;">(' + total + ')</span>'
+    $('.item-header .cta', galleryEl).html albums.length + ' <span style="font-size: 0.5em;">(' + total + ')</span>'
     
   exposeSublistSelection: (gallery) ->
     console.log 'GalleryList::exposeSublistSelection'

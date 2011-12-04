@@ -117,9 +117,16 @@ GalleryList = (function() {
     }
   };
   GalleryList.prototype.renderSublist = function(gallery) {
-    var albums, galleryEl, gallerySublist;
+    var album, albums, galleryEl, gallerySublist, total, _i, _len;
     console.log('GalleryList::renderSublist');
     albums = Album.filter(gallery.id, this.filterOptions);
+    total = 0;
+    for (_i = 0, _len = albums.length; _i < _len; _i++) {
+      album = albums[_i];
+      total += album.count = AlbumsPhoto.filter(album.id, {
+        key: 'album_id'
+      }).length;
+    }
     if (!albums.length) {
       albums.push({
         flash: 'no albums'
@@ -128,18 +135,7 @@ GalleryList = (function() {
     galleryEl = this.children().forItem(gallery);
     gallerySublist = $('ul', galleryEl);
     gallerySublist.html(this.sublistTemplate(albums));
-    return this.renderCounts(galleryEl, gallery, albums);
-  };
-  GalleryList.prototype.renderCounts = function(el, gallery, albums) {
-    var album, total, _i, _len;
-    total = 0;
-    for (_i = 0, _len = albums.length; _i < _len; _i++) {
-      album = albums[_i];
-      total += album.count = AlbumsPhoto.filter(album.id, {
-        key: 'album_id'
-      }).length;
-    }
-    return $('.item-header .cta', el).html(albums.length + ' <span style="font-size: 0.5em;">(' + total + ')</span>');
+    return $('.item-header .cta', galleryEl).html(albums.length + ' <span style="font-size: 0.5em;">(' + total + ')</span>');
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {
     var album, albums, galleryEl, id, _i, _len, _ref, _results;

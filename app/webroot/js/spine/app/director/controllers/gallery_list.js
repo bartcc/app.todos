@@ -38,15 +38,17 @@ GalleryList = (function() {
   GalleryList.prototype.sublistTemplate = function(items) {
     return $('#albumsSublistTemplate').tmpl(items);
   };
+  GalleryList.prototype.ctaTemplate = function(item) {
+    return $('#ctaTemplate').tmpl(item);
+  };
   function GalleryList() {
     this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
+    AlbumsPhoto.bind('change', this.proxy(this.renderItemFromAlbumsPhoto));
+    GalleriesAlbum.bind('change', this.proxy(this.renderItemFromGalleriesAlbum));
+    Spine.bind('render:gallerySublist', this.proxy(this.renderSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
     Spine.bind('close:album', this.proxy(this.change));
-    this.filterOptions = {
-      key: 'gallery_id',
-      joinTable: 'GalleriesAlbum'
-    };
   }
   GalleryList.prototype.template = function() {
     return arguments[0];
@@ -85,18 +87,11 @@ GalleryList = (function() {
     }
   };
   GalleryList.prototype.render = function(galleries, gallery, mode) {
-    var galleryContentEl, galleryEl, tmplItem;
     console.log('GalleryList::render');
     if (gallery && mode) {
       switch (mode) {
         case 'update':
-          galleryEl = this.children().forItem(gallery);
-          galleryContentEl = $('.item-content', galleryEl);
-          tmplItem = galleryContentEl.tmplItem();
-          tmplItem.tmpl = $("#galleriesContentTemplate").template();
-          if (Gallery.record.id !== gallery.id) {
-            tmplItem.update();
-          }
+          this.updateTemplate(gallery);
           break;
         case 'create':
           this.append(this.template(gallery));
@@ -116,14 +111,51 @@ GalleryList = (function() {
       }
     }
   };
+  GalleryList.prototype.updateTemplate = function(gallery) {
+    var galleryContentEl, galleryEl, tmplItem;
+    galleryEl = this.children().forItem(gallery);
+    galleryContentEl = $('.item-content', galleryEl);
+    tmplItem = galleryContentEl.tmplItem();
+    tmplItem.tmpl = $("#galleriesContentTemplate").template();
+    return tmplItem.update();
+  };
+  GalleryList.prototype.renderItemFromGalleriesAlbum = function(ga, mode) {
+    var gallery;
+    console.log('Sidebar::renderItemFromGalleriesAlbum');
+    if (Gallery.exists(ga.gallery_id)) {
+      gallery = Gallery.find(ga.gallery_id);
+    }
+    return this.renderSublist(gallery);
+  };
+  GalleryList.prototype.renderItemFromAlbumsPhoto = function(ap) {
+    var ga, gallery, gas, _i, _len, _results;
+    console.log('Sidebar::renderItemFromAlbumsPhoto');
+    gas = GalleriesAlbum.filter(ap.album_id, {
+      key: 'album_id'
+    });
+    _results = [];
+    for (_i = 0, _len = gas.length; _i < _len; _i++) {
+      ga = gas[_i];
+      if (Gallery.exists(ga.gallery_id)) {
+        gallery = Gallery.find(ga.gallery_id);
+      }
+      _results.push(this.renderSublist(gallery));
+    }
+    return _results;
+  };
   GalleryList.prototype.renderSublist = function(gallery) {
-    var album, albums, galleryEl, gallerySublist, total, _i, _len;
+    var album, albums, filterOptions, galleryEl, gallerySublist, _i, _len;
     console.log('GalleryList::renderSublist');
-    albums = Album.filter(gallery.id, this.filterOptions);
-    total = 0;
+    filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum'
+    };
+    albums = Album.filter(gallery.id, filterOptions);
+    galleryEl = this.children().forItem(gallery);
+    gallerySublist = $('ul', galleryEl);
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
-      total += album.count = AlbumsPhoto.filter(album.id, {
+      album.count = AlbumsPhoto.filter(album.id, {
         key: 'album_id'
       }).length;
     }
@@ -132,10 +164,8 @@ GalleryList = (function() {
         flash: 'no albums'
       });
     }
-    galleryEl = this.children().forItem(gallery);
-    gallerySublist = $('ul', galleryEl);
     gallerySublist.html(this.sublistTemplate(albums));
-    return $('.item-header .cta', galleryEl).html(albums.length + ' <span style="font-size: 0.5em;">(' + total + ')</span>');
+    return this.updateTemplate(gallery);
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {
     var album, albums, galleryEl, id, _i, _len, _ref, _results;

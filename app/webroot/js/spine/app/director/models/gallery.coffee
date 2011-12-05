@@ -30,6 +30,19 @@ class Gallery extends Spine.Model
     newSelection[instance.id] = []
     @constructor.selection.push(newSelection)
     
+  details: =>
+    filterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
+    albums = Album.filter(@id, filterOptions)
+    details = {}
+    imagesCount = 0
+    for album in albums
+      imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
+    details.iCount = imagesCount
+    details.aCount = albums.length
+    details
+    
   updateAttributes: (atts, options={}) ->
     load(atts)
     Spine.Ajax.enabled = false if options.silent

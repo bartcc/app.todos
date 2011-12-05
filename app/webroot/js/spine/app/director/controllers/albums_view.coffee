@@ -54,6 +54,7 @@ class AlbumsView extends Spine.Controller
     GalleriesAlbum.bind("change", @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
+    Gallery.bind('refresh change', @proxy @renderHeader)
     #interferes with html5 dnd!
 #    @initSortables
 #      helper: 'clone'
@@ -84,6 +85,7 @@ class AlbumsView extends Spine.Controller
       
     if Gallery.record
       @el.data Gallery.record
+      Spine.trigger('render:gallerySublist', Gallery.record)
     else
       @el.removeData()
       
@@ -92,7 +94,6 @@ class AlbumsView extends Spine.Controller
     if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
       
-    Spine.trigger('render:galleryItem')
     Spine.trigger('album:exposeSelection')
     
    
@@ -187,6 +188,5 @@ class AlbumsView extends Spine.Controller
   email: ->
     return if ( !@current.email ) 
     window.location = "mailto:" + @current.email
-
     
 module?.exports = AlbumsView

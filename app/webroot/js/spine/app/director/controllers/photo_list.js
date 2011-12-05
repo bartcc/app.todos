@@ -18,10 +18,12 @@ PhotoList = (function() {
     'click .item': "click",
     'dblclick .item': 'dblclick',
     'mousemove .item': 'previewUp',
-    'mouseleave  .item': 'previewBye'
+    'mouseleave  .item': 'previewBye',
+    'dragstart .item': 'stopPreview'
   };
   PhotoList.prototype.selectFirst = true;
   function PhotoList() {
+    this.stopPreview = __bind(this.stopPreview, this);
     this.previewBye = __bind(this.previewBye, this);
     this.previewUp = __bind(this.previewUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
@@ -37,10 +39,10 @@ PhotoList = (function() {
     return Spine.trigger('change:selectedPhoto', item);
   };
   PhotoList.prototype.render = function(items, album, mode) {
-    console.log('PhotoList::render');
     if (mode == null) {
       mode = 'html';
     }
+    console.log('PhotoList::render');
     if (album == null) {
       album = Album.record;
     }
@@ -73,10 +75,7 @@ PhotoList = (function() {
     tmplItem.tmpl = $("#photosTemplate").template();
     tmplItem.update();
     tb().css('backgroundImage', backgroundImage);
-    return el().toggleClass('active', isActive).css({
-      'left': style.left,
-      'top': style.top
-    });
+    return el().toggleClass('active', isActive);
   };
   PhotoList.prototype.update = function(item) {
     return this.renderItem(item);
@@ -128,7 +127,7 @@ PhotoList = (function() {
     });
   };
   PhotoList.prototype.exposeSelection = function(e) {
-    var current, el, id, item, list, pos, _i, _len;
+    var current, el, id, item, list, _i, _len;
     console.log('PhotoList::exposeSelection');
     this.deselect();
     list = Album.selectionList();
@@ -137,11 +136,7 @@ PhotoList = (function() {
       if (Photo.exists(id)) {
         item = Photo.find(id);
         el = this.children().forItem(item);
-        pos = el.position();
-        el.addClass("active").css({
-          'left': pos.left,
-          'top': pos.top
-        });
+        el.addClass("active");
       }
     }
     current = list.length === 1 ? list[0] : void 0;
@@ -195,6 +190,9 @@ PhotoList = (function() {
     e.preventDefault();
     this.preview.bye();
     return false;
+  };
+  PhotoList.prototype.stopPreview = function(e) {
+    return this.preview.bye();
   };
   return PhotoList;
 })();

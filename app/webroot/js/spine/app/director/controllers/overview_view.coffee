@@ -14,7 +14,6 @@ class OverviewView extends Spine.Controller
 
   template: (items) ->
     $("#overviewTemplate").tmpl items
-#    $("#photosTemplate").tmpl items
 
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
@@ -31,8 +30,6 @@ class OverviewView extends Spine.Controller
     for item in items
       recents.push item['Photo']
     @items.html @template recents
-    console.log recents
-    console.log items
     @uri recents
     
   previewSize: (width = 70, height = 70) ->
@@ -46,7 +43,6 @@ class OverviewView extends Spine.Controller
   
   callback: (items, json) =>
     console.log 'PhotoList::callback'
-    console.log items.length
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]

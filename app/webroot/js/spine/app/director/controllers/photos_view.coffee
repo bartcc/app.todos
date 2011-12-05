@@ -55,6 +55,7 @@ class PhotosView extends Spine.Controller
     Photo.bind('refresh', @proxy @prepareJoin)
     Photo.bind("create:join", @proxy @createJoin)
     Photo.bind("destroy:join", @proxy @destroyJoin)
+    Gallery.bind('change', @proxy @renderHeader)
 #    @initSelectable()
     @filterOptions =
       key: 'album_id'

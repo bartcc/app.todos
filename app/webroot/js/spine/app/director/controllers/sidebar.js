@@ -47,8 +47,6 @@ SidebarView = (function() {
     });
     Gallery.bind("refresh change", this.proxy(this.render));
     Gallery.bind("ajaxError", Gallery.errorHandler);
-    Spine.bind('render:galleryItem', this.proxy(this.renderItem));
-    AlbumsPhoto.bind('change', this.proxy(this.renderItem));
     Spine.bind('create:gallery', this.proxy(this.create));
     Spine.bind('destroy:gallery', this.proxy(this.destroy));
     Spine.bind('drag:start', this.proxy(this.dragStart));
@@ -68,19 +66,7 @@ SidebarView = (function() {
       func: 'searchSelect'
     });
     items = items.sort(Gallery.nameSort);
-    this.galleryItems = items;
     return this.list.render(items, item, mode);
-  };
-  SidebarView.prototype.renderItem = function() {
-    var item, _i, _len, _ref, _results;
-    console.log('Sidebar::renderItem');
-    _ref = this.galleryItems;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      item = _ref[_i];
-      _results.push(this.list.renderSublist(item));
-    }
-    return _results;
   };
   SidebarView.prototype.dragStart = function(e, controller) {
     var el, event, fromSidebar, id, selection, source, _ref;

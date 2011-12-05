@@ -66,6 +66,7 @@ PhotosView = (function() {
     Photo.bind('refresh', this.proxy(this.prepareJoin));
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
+    Gallery.bind('change', this.proxy(this.renderHeader));
     this.filterOptions = {
       key: 'album_id',
       joinTable: 'AlbumsPhoto'

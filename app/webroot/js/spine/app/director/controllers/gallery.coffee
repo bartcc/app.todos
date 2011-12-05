@@ -18,7 +18,7 @@ class GalleryView extends Spine.Controller
   constructor: ->
     super
     Spine.bind('change:selectedGallery', @proxy @change)
-    Gallery.bind "change", @proxy @change
+    Gallery.bind "refresh change", @proxy @change
 
   change: (item, mode) ->
     console.log 'Gallery::change'

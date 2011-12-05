@@ -40,6 +40,15 @@ class Album extends Spine.Model
     cache = {}
     cache[instance.id] = []
     @constructor.caches.push(cache)
+  
+  details: =>
+    filterOptions =
+      key:'album_id'
+      joinTable: 'AlbumsPhoto'
+    photos = AlbumsPhoto.filter(@id, filterOptions)
+    details = {}
+    details.iCount = photos.length
+    details
     
   selectAttributes: ->
     result = {}

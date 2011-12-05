@@ -9,6 +9,7 @@ class PhotoList extends Spine.Controller
     'dblclick .item'          : 'dblclick'
     'mousemove .item'         : 'previewUp'
     'mouseleave  .item'       : 'previewBye'
+    'dragstart .item'         : 'stopPreview'
   
   selectFirst: true
     
@@ -25,11 +26,10 @@ class PhotoList extends Spine.Controller
     @current = item
     Spine.trigger('change:selectedPhoto', item)
   
-  render: (items, album, mode) ->
+  render: (items, album, mode='html') ->
     console.log 'PhotoList::render'
-    mode?= 'html'
     album?= Album.record
-    
+
     if album
       if items.length
         @[mode] @template items
@@ -55,9 +55,7 @@ class PhotoList extends Spine.Controller
     tmplItem.tmpl = $( "#photosTemplate" ).template()
     tmplItem.update()
     tb().css('backgroundImage', backgroundImage)
-    el().toggleClass('active', isActive).css
-      'left': style.left
-      'top' : style.top
+    el().toggleClass('active', isActive)
   
   update: (item) ->
     @renderItem item
@@ -99,12 +97,7 @@ class PhotoList extends Spine.Controller
       if Photo.exists(id)
         item = Photo.find(id) 
         el = @children().forItem(item)
-#        cl = el.clone().addClass('clone')
-        pos = el.position()
-        el.addClass("active").css
-          'left': pos.left
-          'top': pos.top
-#        el.after cl
+        el.addClass("active")
     current = if list.length is 1 then list[0] 
     Photo.current(current)
   
@@ -157,5 +150,8 @@ class PhotoList extends Spine.Controller
     e.preventDefault()
     @preview.bye()
     false
+    
+  stopPreview: (e) =>
+    @preview.bye()
     
 module?.exports = PhotoList

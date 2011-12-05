@@ -14,13 +14,14 @@ $ = Spine.$;
 AlbumList = (function() {
   __extends(AlbumList, Spine.Controller);
   AlbumList.prototype.events = {
-    'click .close': "closeInfo",
     'click .item': "click",
     'dblclick .item': 'dblclick',
-    'mousemove .item': 'previewUp',
-    'mouseleave  .item': 'previewBye'
+    'mousemove .item .thumbnail': 'previewUp',
+    'mouseleave .item .thumbnail': 'previewBye',
+    'dragstart .item .thumbnail': 'stopPreview'
   };
   function AlbumList() {
+    this.stopPreview = __bind(this.stopPreview, this);
     this.previewBye = __bind(this.previewBye, this);
     this.previewUp = __bind(this.previewUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
@@ -175,6 +176,9 @@ AlbumList = (function() {
     e.preventDefault();
     this.preview.bye();
     return false;
+  };
+  AlbumList.prototype.stopPreview = function(e) {
+    return this.preview.bye();
   };
   return AlbumList;
 })();

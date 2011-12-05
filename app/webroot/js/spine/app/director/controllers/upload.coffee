@@ -12,18 +12,21 @@ class UploadView extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-    Spine.bind('change:selectedAlbum', @proxy @change)
-    Gallery.bind('change:selection', @proxy @render)
+    Album.bind('change', @proxy @render)
+    Spine.bind('change:selectedAlbum', @proxy @render)
+    Spine.bind('change:selectedGallery', @proxy @render)
+    Gallery.bind('refresh', @proxy @render)
     
-  change: (item) ->
-    @current = item
-    
-  render: (selection) ->
+  render: ->
     console.log 'UploadView::render'
+    selection = Gallery.selectionList()
+    gallery = Gallery.record
     album = Album.find(selection[0]) if Album.exists(selection[0])
     isAlbum = album instanceof Album
-    if (@current?.id != album?.id)
-      @html @template album: isAlbum
+    if (!@current?.eql album)
+      @html @template
+        gallery: gallery
+        album: album
       @current = album
     
   add: (e, data) ->

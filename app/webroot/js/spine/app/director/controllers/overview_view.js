@@ -42,8 +42,6 @@ OverviewView = (function() {
       recents.push(item['Photo']);
     }
     this.items.html(this.template(recents));
-    console.log(recents);
-    console.log(items);
     return this.uri(recents);
   };
   OverviewView.prototype.previewSize = function(width, height) {
@@ -70,7 +68,6 @@ OverviewView = (function() {
   OverviewView.prototype.callback = function(items, json) {
     var ele, img, item, jsn, photo, searchJSON, _i, _len, _results;
     console.log('PhotoList::callback');
-    console.log(items.length);
     searchJSON = function(id) {
       var itm, _i, _len;
       for (_i = 0, _len = json.length; _i < _len; _i++) {

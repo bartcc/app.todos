@@ -114,11 +114,11 @@
           </div>
           <div class="view albums content vbox flex data autoflow">
             <div class="preview"></div>
-            <div class="items sortable">Albums</div>
+            <div class="items sortable"></div>
           </div>
           <div class="view photos content vbox flex data autoflow">
             <div class="preview"></div>
-            <div class="items sortable flex">Images</div>
+            <div class="items sortable flex"></div>
           </div>
         </div>
         <div id="views" class="canvas-bg-light hbox autoflow">
@@ -185,8 +185,16 @@
     <span class="name empty">no name</span>
     {{/if}}
     <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
-    <span class="gal cta"></span>
+    <span class="gal cta">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
   </div>
+</script>
+
+<script id="galleryDetailsTemplate" type="text/x-jquery-tmpl">
+    <span>${aCount} </span><span style="font-size: 0.5em;"> (${iCount})</span>
+</script>
+
+<script id="albumDetailsTemplate" type="text/x-jquery-tmpl">
+  <span class="cta">${iCount}</span>
 </script>
 
 <script id="albumsSublistTemplate" type="text/x-jquery-tmpl">
@@ -291,7 +299,7 @@
     <h3>Album Originals</h3>
     <h2>All Albums</h2>
     {{/if}}
-    <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+    <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
   </section>
   <section class="closeView"><img src="/img/up.png"><h3>close</h3></section>
 </script>
@@ -302,17 +310,17 @@
 
 <script id="overviewTemplate" type="text/x-jquery-tmpl">
   <div class="item">
-    {{tmpl "#photosDetailsTemplate"}}
+    {{tmpl "#photosThumbnailTemplate"}}
   </div>
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li class="item container">
-    {{tmpl "#photosDetailsTemplate"}}
+    {{tmpl "#photosThumbnailTemplate"}}
   </li>
 </script>
 
-<script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
+<script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left" draggable="true"></div>
 </script>
 
@@ -328,7 +336,12 @@
   {{if album}}
   <form action="" method="POST" enctype="multipart/form-data">
     <label class="fileinput-button">
-      <span>Drag and drop files here...</span>
+      <div>
+        <span>Drag and drop files here...</span>
+      </div>
+      <div>
+        <span>Target-Album: ${album.title}</span>
+      </div>
     </label>
   </form>
   <div class="fileupload-content">
@@ -344,7 +357,7 @@
 
 <script id="albumPreviewTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class="name">{{if title}}${title}{{else}}no title{{/if}}</li>
+    <li class="name">{{if title}}${title}{{else}}no title{{/if}} <span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
   </ul>
 </script>
 

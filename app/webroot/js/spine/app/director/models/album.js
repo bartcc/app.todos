@@ -1,5 +1,5 @@
 var Album;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -10,6 +10,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
 Album = (function() {
   __extends(Album, Spine.Model);
   function Album() {
+    this.details = __bind(this.details, this);
     Album.__super__.constructor.apply(this, arguments);
   }
   Album.configure("Album", 'title', 'description', 'count', 'user_id');
@@ -62,6 +63,17 @@ Album = (function() {
     cache = {};
     cache[instance.id] = [];
     return this.constructor.caches.push(cache);
+  };
+  Album.prototype.details = function() {
+    var details, filterOptions, photos;
+    filterOptions = {
+      key: 'album_id',
+      joinTable: 'AlbumsPhoto'
+    };
+    photos = AlbumsPhoto.filter(this.id, filterOptions);
+    details = {};
+    details.iCount = photos.length;
+    return details;
   };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

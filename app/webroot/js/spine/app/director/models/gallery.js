@@ -1,5 +1,5 @@
 var Gallery;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -10,6 +10,7 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
 Gallery = (function() {
   __extends(Gallery, Spine.Model);
   function Gallery() {
+    this.details = __bind(this.details, this);
     Gallery.__super__.constructor.apply(this, arguments);
   }
   Gallery.configure('Gallery', 'name', 'author', "description", 'user_id');
@@ -51,6 +52,25 @@ Gallery = (function() {
     newSelection = {};
     newSelection[instance.id] = [];
     return this.constructor.selection.push(newSelection);
+  };
+  Gallery.prototype.details = function() {
+    var album, albums, details, filterOptions, imagesCount, _i, _len;
+    filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum'
+    };
+    albums = Album.filter(this.id, filterOptions);
+    details = {};
+    imagesCount = 0;
+    for (_i = 0, _len = albums.length; _i < _len; _i++) {
+      album = albums[_i];
+      imagesCount += album.count = AlbumsPhoto.filter(album.id, {
+        key: 'album_id'
+      }).length;
+    }
+    details.iCount = imagesCount;
+    details.aCount = albums.length;
+    return details;
   };
   Gallery.prototype.updateAttributes = function(atts, options) {
     if (options == null) {

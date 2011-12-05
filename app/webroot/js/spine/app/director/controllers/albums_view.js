@@ -62,6 +62,7 @@ AlbumsView = (function() {
     GalleriesAlbum.bind("change", this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
+    Gallery.bind('refresh change', this.proxy(this.renderHeader));
     this.filterOptions = {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum'
@@ -86,6 +87,7 @@ AlbumsView = (function() {
     console.log('AlbumsView::render');
     if (Gallery.record) {
       this.el.data(Gallery.record);
+      Spine.trigger('render:gallerySublist', Gallery.record);
     } else {
       this.el.removeData();
     }
@@ -93,7 +95,6 @@ AlbumsView = (function() {
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();
     }
-    Spine.trigger('render:galleryItem');
     return Spine.trigger('album:exposeSelection');
   };
   AlbumsView.prototype.renderHeader = function() {

@@ -4,11 +4,11 @@ $      = Spine.$
 class AlbumList extends Spine.Controller
   
   events:
-    'click .close'            : "closeInfo"
-    'click .item'             : "click"    
-    'dblclick .item'          : 'dblclick'
-    'mousemove .item'         : 'previewUp'
-    'mouseleave  .item'       : 'previewBye'
+    'click .item'                   : "click"    
+    'dblclick .item'                : 'dblclick'
+    'mousemove .item .thumbnail'    : 'previewUp'
+    'mouseleave .item .thumbnail'   : 'previewBye'
+    'dragstart .item .thumbnail'    : 'stopPreview'
     
   constructor: ->
     super
@@ -40,14 +40,6 @@ class AlbumList extends Spine.Controller
       if Album.exists(id)
         item = Album.find(id)
         el = @children().forItem(item)
-#        pos = el.position()
-#        if pos
-#          cl = el.clone().addClass('clone')
-#          if pos.left and pos.top
-#            el.addClass("active").css
-#              'left': pos.left
-#              'top': pos.top
-#          el.after cl
         el.addClass("active")
     current = if list.length is 1 then list[0]
     Album.current(current)
@@ -142,4 +134,7 @@ class AlbumList extends Spine.Controller
     @preview.bye()
     false
 
+  stopPreview: (e) =>
+    @preview.bye()
+  
 module?.exports = AlbumList

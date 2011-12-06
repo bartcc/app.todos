@@ -4,7 +4,7 @@ $      = Spine.$
 class PhotoList extends Spine.Controller
   
   elements:
-    '.thumbnail'                   : 'thumb'
+    '.thumbnail'              : 'thumb'
     
   events:
     'click .close'            : "closeInfo"  
@@ -32,7 +32,6 @@ class PhotoList extends Spine.Controller
   render: (items, album, mode='html') ->
     console.log 'PhotoList::render'
     album?= Album.record
-
     if album
       if items.length
         @[mode] @template items
@@ -43,7 +42,7 @@ class PhotoList extends Spine.Controller
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else
-      @html '<label class="invite"><span class="enlightened">Albums can only be viewed when linked up with a gallery.<br>To do so drag and drop it over a gallery and try again.</span></label>'
+      @html '<label class="invite"><span class="enlightened">Here all photos should be rendered</span></label>'
   
   renderItem: (item) ->
     el = =>

@@ -146,8 +146,6 @@ AlbumList = (function() {
     return false;
   };
   AlbumList.prototype.dblclick = function(e) {
-    var item;
-    item = $(e.currentTarget).item();
     Spine.trigger('show:photos');
     e.stopPropagation();
     e.preventDefault();

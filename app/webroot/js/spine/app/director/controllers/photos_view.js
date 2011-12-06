@@ -67,17 +67,14 @@ PhotosView = (function() {
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
     Gallery.bind('change', this.proxy(this.renderHeader));
-    this.filterOptions = {
+  }
+  PhotosView.prototype.change = function(item) {
+    var filterOptions, items;
+    filterOptions = {
       key: 'album_id',
       joinTable: 'AlbumsPhoto'
     };
-  }
-  PhotosView.prototype.change = function(item) {
-    var items;
-    if (!GalleriesAlbum.galleryHasAlbum(Gallery.record.id, Album.record.id)) {
-      Album.record = false;
-    }
-    items = Photo.filter(item != null ? item.id : void 0, this.filterOptions);
+    items = Photo.filter(item != null ? item.id : void 0, filterOptions);
     this.current = items;
     return this.render(items);
   };

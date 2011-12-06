@@ -85,7 +85,6 @@ class AlbumsView extends Spine.Controller
       
     if Gallery.record
       @el.data Gallery.record
-      Spine.trigger('render:gallerySublist', Gallery.record)
     else
       @el.removeData()
       
@@ -94,6 +93,7 @@ class AlbumsView extends Spine.Controller
     if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
       
+    Spine.trigger('render:galleryAllSublist')
     Spine.trigger('album:exposeSelection')
     
    
@@ -126,10 +126,10 @@ class AlbumsView extends Spine.Controller
     album = new Album @newAttributes()
     album.save()
     Gallery.updateSelection [album.id]
-    @render album
     Album.trigger('create:join', Gallery.record, album) if Gallery.record
     Spine.trigger('change:selectedAlbum', album)
     Spine.trigger('show:albums')
+    @change album
     @openPanel('album', App.showView.btnAlbum)
 
   destroy: (e) ->

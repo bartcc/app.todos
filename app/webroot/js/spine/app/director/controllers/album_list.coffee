@@ -29,7 +29,7 @@ class AlbumList extends Spine.Controller
     if item and !item.destroyed
       @current = item
       Album.current(item)
-      
+    
     Spine.trigger('change:selectedAlbum', item) if previous?.id != @current?.id
     
   exposeSelection: ->
@@ -88,7 +88,7 @@ class AlbumList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumList::click'
     item = $(e.target).item()
-    
+#    alert item.id
     # open Album panel if any panel is open
 #    if App.hmanager.hasActive()
 #      @openPanel('album', App.showView.btnAlbum)
@@ -103,7 +103,6 @@ class AlbumList extends Spine.Controller
 
   dblclick: (e) ->
     #@openPanel('album', App.showView.btnAlbum)
-    item = $(e.currentTarget).item()
     Spine.trigger('show:photos')
     
     e.stopPropagation()

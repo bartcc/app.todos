@@ -87,7 +87,6 @@ AlbumsView = (function() {
     console.log('AlbumsView::render');
     if (Gallery.record) {
       this.el.data(Gallery.record);
-      Spine.trigger('render:gallerySublist', Gallery.record);
     } else {
       this.el.removeData();
     }
@@ -95,6 +94,7 @@ AlbumsView = (function() {
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();
     }
+    Spine.trigger('render:galleryAllSublist');
     return Spine.trigger('album:exposeSelection');
   };
   AlbumsView.prototype.renderHeader = function() {
@@ -134,12 +134,12 @@ AlbumsView = (function() {
     album = new Album(this.newAttributes());
     album.save();
     Gallery.updateSelection([album.id]);
-    this.render(album);
     if (Gallery.record) {
       Album.trigger('create:join', Gallery.record, album);
     }
     Spine.trigger('change:selectedAlbum', album);
     Spine.trigger('show:albums');
+    this.change(album);
     return this.openPanel('album', App.showView.btnAlbum);
   };
   AlbumsView.prototype.destroy = function(e) {

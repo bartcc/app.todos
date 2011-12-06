@@ -37,7 +37,8 @@ class GalleryList extends Spine.Controller
     super
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
-    Spine.bind('render:gallerySublist', @proxy @renderSublist)
+    Album.bind('change', @proxy @renderItemFromAlbum)
+    Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandExpander)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('close:album', @proxy @change)
@@ -73,6 +74,7 @@ class GalleryList extends Spine.Controller
         
   render: (galleries, gallery, mode) ->
     console.log 'GalleryList::render'
+    # render a specific (activated) item
     if gallery and mode
       switch mode
         when 'update'
@@ -92,39 +94,46 @@ class GalleryList extends Spine.Controller
         App.ready = true
         @children(":first").click()
 
+  renderAllSublist: ->
+    for gal in Gallery.records
+      @renderOneSublist gal
+  
+  renderOneSublist: (gallery = Gallery.record) ->
+    console.log 'GalleryList::renderSublist'
+    filterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
+    albums = Album.filter(gallery.id, filterOptions)
+    for album in albums
+      album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
+    albums.push {flash: 'no albums'} unless albums.length
+    
+    galleryEl = @children().forItem(gallery)
+    gallerySublist = $('ul', galleryEl)
+    gallerySublist.html @sublistTemplate(albums)
+    
+    @updateTemplate gallery
+  
   updateTemplate: (gallery) ->
     galleryEl = @children().forItem(gallery)
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryContentEl.tmplItem()
     tmplItem.tmpl = $( "#galleriesContentTemplate" ).template()
     tmplItem.update()# unless Gallery.record.id is gallery.id
-
+    
   renderItemFromGalleriesAlbum: (ga, mode) ->
-    console.log 'Sidebar::renderItemFromGalleriesAlbum'
     gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
-    @renderSublist gallery
+    @renderOneSublist gallery
+    
+  renderItemFromAlbum: (album) ->
+    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
+    for ga in gas
+      @renderItemFromGalleriesAlbum ga
       
   renderItemFromAlbumsPhoto: (ap) ->
-    console.log 'Sidebar::renderItemFromAlbumsPhoto'
     gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
     for ga in gas
-      gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
-      @renderSublist gallery
-  
-  renderSublist: (gallery) ->
-    console.log 'GalleryList::renderSublist'
-    filterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
-    albums = Album.filter(gallery.id, filterOptions)
-#    albums = @galleryDetails gallery
-    galleryEl = @children().forItem(gallery)
-    gallerySublist = $('ul', galleryEl)
-    for album in albums
-      album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
-    albums.push {flash: 'no albums'} unless albums.length
-    gallerySublist.html @sublistTemplate(albums)
-    @updateTemplate gallery
+      @renderItemFromGalleriesAlbum ga
   
   exposeSublistSelection: (gallery) ->
     console.log 'GalleryList::exposeSublistSelection'
@@ -211,7 +220,7 @@ class GalleryList extends Spine.Controller
       icon.toggleClass('expand')
       
     if $('.expand', parent).length
-      @renderSublist gallery
+      @renderOneSublist gallery
       @exposeSublistSelection gallery
       content.show()
     else

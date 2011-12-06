@@ -45,7 +45,8 @@ GalleryList = (function() {
     this.change = __bind(this.change, this);    GalleryList.__super__.constructor.apply(this, arguments);
     AlbumsPhoto.bind('change', this.proxy(this.renderItemFromAlbumsPhoto));
     GalleriesAlbum.bind('change', this.proxy(this.renderItemFromGalleriesAlbum));
-    Spine.bind('render:gallerySublist', this.proxy(this.renderSublist));
+    Album.bind('change', this.proxy(this.renderItemFromAlbum));
+    Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
     Spine.bind('close:album', this.proxy(this.change));
@@ -111,48 +112,27 @@ GalleryList = (function() {
       }
     }
   };
-  GalleryList.prototype.updateTemplate = function(gallery) {
-    var galleryContentEl, galleryEl, tmplItem;
-    galleryEl = this.children().forItem(gallery);
-    galleryContentEl = $('.item-content', galleryEl);
-    tmplItem = galleryContentEl.tmplItem();
-    tmplItem.tmpl = $("#galleriesContentTemplate").template();
-    return tmplItem.update();
-  };
-  GalleryList.prototype.renderItemFromGalleriesAlbum = function(ga, mode) {
-    var gallery;
-    console.log('Sidebar::renderItemFromGalleriesAlbum');
-    if (Gallery.exists(ga.gallery_id)) {
-      gallery = Gallery.find(ga.gallery_id);
-    }
-    return this.renderSublist(gallery);
-  };
-  GalleryList.prototype.renderItemFromAlbumsPhoto = function(ap) {
-    var ga, gallery, gas, _i, _len, _results;
-    console.log('Sidebar::renderItemFromAlbumsPhoto');
-    gas = GalleriesAlbum.filter(ap.album_id, {
-      key: 'album_id'
-    });
+  GalleryList.prototype.renderAllSublist = function() {
+    var gal, _i, _len, _ref, _results;
+    _ref = Gallery.records;
     _results = [];
-    for (_i = 0, _len = gas.length; _i < _len; _i++) {
-      ga = gas[_i];
-      if (Gallery.exists(ga.gallery_id)) {
-        gallery = Gallery.find(ga.gallery_id);
-      }
-      _results.push(this.renderSublist(gallery));
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      gal = _ref[_i];
+      _results.push(this.renderOneSublist(gal));
     }
     return _results;
   };
-  GalleryList.prototype.renderSublist = function(gallery) {
+  GalleryList.prototype.renderOneSublist = function(gallery) {
     var album, albums, filterOptions, galleryEl, gallerySublist, _i, _len;
+    if (gallery == null) {
+      gallery = Gallery.record;
+    }
     console.log('GalleryList::renderSublist');
     filterOptions = {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum'
     };
     albums = Album.filter(gallery.id, filterOptions);
-    galleryEl = this.children().forItem(gallery);
-    gallerySublist = $('ul', galleryEl);
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
       album.count = AlbumsPhoto.filter(album.id, {
@@ -164,8 +144,49 @@ GalleryList = (function() {
         flash: 'no albums'
       });
     }
+    galleryEl = this.children().forItem(gallery);
+    gallerySublist = $('ul', galleryEl);
     gallerySublist.html(this.sublistTemplate(albums));
     return this.updateTemplate(gallery);
+  };
+  GalleryList.prototype.updateTemplate = function(gallery) {
+    var galleryContentEl, galleryEl, tmplItem;
+    galleryEl = this.children().forItem(gallery);
+    galleryContentEl = $('.item-content', galleryEl);
+    tmplItem = galleryContentEl.tmplItem();
+    tmplItem.tmpl = $("#galleriesContentTemplate").template();
+    return tmplItem.update();
+  };
+  GalleryList.prototype.renderItemFromGalleriesAlbum = function(ga, mode) {
+    var gallery;
+    if (Gallery.exists(ga.gallery_id)) {
+      gallery = Gallery.find(ga.gallery_id);
+    }
+    return this.renderOneSublist(gallery);
+  };
+  GalleryList.prototype.renderItemFromAlbum = function(album) {
+    var ga, gas, _i, _len, _results;
+    gas = GalleriesAlbum.filter(album.id, {
+      key: 'album_id'
+    });
+    _results = [];
+    for (_i = 0, _len = gas.length; _i < _len; _i++) {
+      ga = gas[_i];
+      _results.push(this.renderItemFromGalleriesAlbum(ga));
+    }
+    return _results;
+  };
+  GalleryList.prototype.renderItemFromAlbumsPhoto = function(ap) {
+    var ga, gas, _i, _len, _results;
+    gas = GalleriesAlbum.filter(ap.album_id, {
+      key: 'album_id'
+    });
+    _results = [];
+    for (_i = 0, _len = gas.length; _i < _len; _i++) {
+      ga = gas[_i];
+      _results.push(this.renderItemFromGalleriesAlbum(ga));
+    }
+    return _results;
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {
     var album, albums, galleryEl, id, _i, _len, _ref, _results;
@@ -263,7 +284,7 @@ GalleryList = (function() {
       icon.toggleClass('expand');
     }
     if ($('.expand', parent).length) {
-      this.renderSublist(gallery);
+      this.renderOneSublist(gallery);
       this.exposeSublistSelection(gallery);
       content.show();
     } else {

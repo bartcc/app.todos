@@ -57,22 +57,20 @@ class PhotosView extends Spine.Controller
     Photo.bind("destroy:join", @proxy @destroyJoin)
     Gallery.bind('change', @proxy @renderHeader)
 #    @initSelectable()
-    @filterOptions =
+      
+  change: (item) ->
+    filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       
-  change: (item) ->
-    # if the album has been moved outside the gallery kill current album and render all photos
-    unless GalleriesAlbum.galleryHasAlbum Gallery.record.id, Album.record.id
-      Album.record = false
-      
-    items = Photo.filter(item?.id, @filterOptions)
+    items = Photo.filter(item?.id, filterOptions)
     
     @current = items
     @render items
     
   render: (items, mode) ->
     console.log 'PhotosView::render'
+    
     album = Album.record
     if album
       @el.data album

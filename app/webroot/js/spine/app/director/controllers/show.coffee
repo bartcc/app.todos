@@ -18,6 +18,7 @@ class ShowView extends Spine.Controller
     '.albums'                 : 'albumsEl'
     '.photos'                 : 'photosEl'
     '.items'                  : 'items'
+    '#slider'                 : 'slider'
     
   events:
     "click .optOverview"              : "showOverview"
@@ -38,10 +39,13 @@ class ShowView extends Spine.Controller
     "click .optPhoto"                 : "togglePhoto"
     "click .optUpload"                : "toggleUpload"
     "click .optSlideshow"             : "toggleSlideshow"
+    "click .optThumbsize"             : "showSizeSlider"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
     'fileuploadprogress'              : "uploadProgress" 
-    'fileuploaddone'                  : "uploadDone" 
+    'fileuploaddone'                  : "uploadDone"
+    'slide #slider'                   : 'sliderSlide'
+    'slidestop #slider'               : 'sliderStop'
     
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
@@ -73,6 +77,7 @@ class ShowView extends Spine.Controller
     @bind('render:toolbar', @proxy @renderToolbar)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
+    @sOutValue = 110
     
     if @activeControl
       @initControl @activeControl
@@ -240,3 +245,32 @@ class ShowView extends Spine.Controller
     
   uploadDone: (e, coll) ->
     console.log coll
+    
+  sliderInValue: (val) ->
+    val = val or @sOutValue
+    @sInValue=(val/2)-20
+    @sInValue
+    
+  sliderOutValue: (val) ->
+    val = val or @sInValue
+    @sOutValue=(val+20)*2
+    @sOutValue
+    
+  initSlider: ->
+    t = @slider.slider
+      orientation: 'vertical'
+      value: @sliderInValue()
+    console.log t
+    
+  showSizeSlider: =>
+    @initSlider()
+    @slider.toggle()
+      
+  sliderSlide: =>
+    value = @sliderOutValue(@slider.slider('value'))
+    @photosView.list.size(value)
+    
+  sliderStop: =>
+    console.log @sliderOutValue(@slider.slider('value'))
+    
+    

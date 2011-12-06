@@ -268,7 +268,11 @@
 </script>
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
-  <li class="{{if disabled}}disabled{{/if}} ${klass}">${name}</li>
+  <li class="{{if disabled}}disabled{{/if}} ${klass}"><span>${name}</span>
+    {{if html}}
+      {{html html}}
+    {{/if}}
+  </li>
 </script>
 
 <script id="noSelectionTemplate" type="text/x-jquery-tmpl">
@@ -332,6 +336,26 @@
   </div>
 </script>
 
+
+<script id="albumPreviewTemplate" type="text/x-jquery-tmpl">
+  <ul>
+    <li class="name">{{if title}}${title}{{else}}no title{{/if}} <span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
+  </ul>
+</script>
+
+<script id="photoPreviewTemplate" type="text/x-jquery-tmpl">
+  <ul>
+    {{if title}}
+      <li class="empty">{{html title}}</li>
+    {{else}}
+      <li class="empty">${src}</li>
+    {{/if}}
+    <li class="">iso: ${iso}</li>
+    <li class="">model: ${model}</li>
+    <li class="">date: ${captured}</li>
+  </ul>
+</script>
+
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
   {{if album}}
   <form action="" method="POST" enctype="multipart/form-data">
@@ -353,25 +377,6 @@
     <span>No target album selected!</span>
   </label>
   {{/if}}
-</script>
-
-<script id="albumPreviewTemplate" type="text/x-jquery-tmpl">
-  <ul>
-    <li class="name">{{if title}}${title}{{else}}no title{{/if}} <span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
-  </ul>
-</script>
-
-<script id="photoPreviewTemplate" type="text/x-jquery-tmpl">
-  <ul>
-    {{if title}}
-      <li class="empty">{{html title}}</li>
-    {{else}}
-      <li class="empty">${src}</li>
-    {{/if}}
-    <li class="">iso: ${iso}</li>
-    <li class="">model: ${model}</li>
-    <li class="">date: ${captured}</li>
-  </ul>
 </script>
 
 <script id="uploadTemplate" type="text/x-jquery-tmpl">

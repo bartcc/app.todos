@@ -28,6 +28,8 @@
     <?php
     echo $this->Html->meta('icon');
     
+    echo $this->Html->css('themes/jquery-ui/base/jquery.ui.all');
+    echo $this->Html->css('themes/jquery-ui/base/jquery.ui.slider');
     echo $this->Html->css('spine/director/jquery.fileupload-ui');
     echo $this->Html->css('spine/director/application');
     echo $this->Html->css('spine/director/modal');
@@ -49,6 +51,7 @@
     echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.progressbar');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.button');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.slider');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.core');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
     echo $this->Html->script('lib/jquery/fileupload/jquery.iframe-transport');

@@ -46,6 +46,10 @@ Controller.Toolbars =
               name: 'Delete Image'
               klass: 'optDestroyPhoto '
               disabled: -> !Album.selectionList().length
+            ,
+              name: 'Thumb-Size'
+              klass: 'optThumbsize'
+              html: '<div id="slider" style="display: none;"></div>'
             ]
           ,
           Upload:

@@ -3,6 +3,9 @@ $      = Spine.$
 
 class PhotoList extends Spine.Controller
   
+  elements:
+    '.thumbnail'                   : 'thumb'
+    
   events:
     'click .close'            : "closeInfo"  
     'click .item'             : "click"    
@@ -153,5 +156,12 @@ class PhotoList extends Spine.Controller
     
   stopPreview: (e) =>
     @preview.bye()
+    
+  size: (val) ->
+    console.log val
+    @thumb.css
+      'height': val+'px'
+      'width': val+'px'
+      'backgroundSize': parseInt(val+20)+'px ' + parseInt(val+20)+'px'
     
 module?.exports = PhotoList

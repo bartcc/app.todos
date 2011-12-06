@@ -25,7 +25,8 @@ ShowView = (function() {
     '.toolbar': 'toolBar',
     '.albums': 'albumsEl',
     '.photos': 'photosEl',
-    '.items': 'items'
+    '.items': 'items',
+    '#slider': 'slider'
   };
   ShowView.prototype.events = {
     "click .optOverview": "showOverview",
@@ -46,15 +47,21 @@ ShowView = (function() {
     "click .optPhoto": "togglePhoto",
     "click .optUpload": "toggleUpload",
     "click .optSlideshow": "toggleSlideshow",
+    "click .optThumbsize": "showSizeSlider",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
     'fileuploadprogress': "uploadProgress",
-    'fileuploaddone': "uploadDone"
+    'fileuploaddone': "uploadDone",
+    'slide #slider': 'sliderSlide',
+    'slidestop #slider': 'sliderStop'
   };
   ShowView.prototype.toolsTemplate = function(items) {
     return $("#toolsTemplate").tmpl(items);
   };
   function ShowView() {
+    this.sliderStop = __bind(this.sliderStop, this);
+    this.sliderSlide = __bind(this.sliderSlide, this);
+    this.showSizeSlider = __bind(this.showSizeSlider, this);
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
     this.albumsHeader = new AlbumsHeader({
       el: this.albumsHeaderEl
@@ -84,6 +91,7 @@ ShowView = (function() {
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.current = this.albumsView;
+    this.sOutValue = 110;
     if (this.activeControl) {
       this.initControl(this.activeControl);
     } else {
@@ -280,6 +288,36 @@ ShowView = (function() {
   };
   ShowView.prototype.uploadDone = function(e, coll) {
     return console.log(coll);
+  };
+  ShowView.prototype.sliderInValue = function(val) {
+    val = val || this.sOutValue;
+    this.sInValue = (val / 2) - 20;
+    return this.sInValue;
+  };
+  ShowView.prototype.sliderOutValue = function(val) {
+    val = val || this.sInValue;
+    this.sOutValue = (val + 20) * 2;
+    return this.sOutValue;
+  };
+  ShowView.prototype.initSlider = function() {
+    var t;
+    t = this.slider.slider({
+      orientation: 'vertical',
+      value: this.sliderInValue()
+    });
+    return console.log(t);
+  };
+  ShowView.prototype.showSizeSlider = function() {
+    this.initSlider();
+    return this.slider.toggle();
+  };
+  ShowView.prototype.sliderSlide = function() {
+    var value;
+    value = this.sliderOutValue(this.slider.slider('value'));
+    return this.photosView.list.size(value);
+  };
+  ShowView.prototype.sliderStop = function() {
+    return console.log(this.sliderOutValue(this.slider.slider('value')));
   };
   return ShowView;
 })();

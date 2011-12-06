@@ -59,6 +59,10 @@ Controller.Toolbars = {
               disabled: function() {
                 return !Album.selectionList().length;
               }
+            }, {
+              name: 'Thumb-Size',
+              klass: 'optThumbsize',
+              html: '<div id="slider" style="display: none;"></div>'
             }
           ],
           Upload: [

@@ -13,6 +13,9 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 PhotoList = (function() {
   __extends(PhotoList, Spine.Controller);
+  PhotoList.prototype.elements = {
+    '.thumbnail': 'thumb'
+  };
   PhotoList.prototype.events = {
     'click .close': "closeInfo",
     'click .item': "click",
@@ -193,6 +196,14 @@ PhotoList = (function() {
   };
   PhotoList.prototype.stopPreview = function(e) {
     return this.preview.bye();
+  };
+  PhotoList.prototype.size = function(val) {
+    console.log(val);
+    return this.thumb.css({
+      'height': val + 'px',
+      'width': val + 'px',
+      'backgroundSize': parseInt(val + 20) + 'px ' + parseInt(val + 20) + 'px'
+    });
   };
   return PhotoList;
 })();

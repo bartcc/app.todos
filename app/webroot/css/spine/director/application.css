@@ -765,8 +765,8 @@ textarea {
   height: 50px;
 }
 #content .content.photos .items .thumbnail {
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
 }
 #content .content .thumbnail.image {
   background: url("img/photo-loader.gif") no-repeat center center;
@@ -906,4 +906,12 @@ textarea {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   color: rgba(255, 255, 255, 0.9);
   top: 10px;
+  font-size: 1.1em;
+}
+#slider {
+  position: absolute;
+  z-index: 1;
+  margin: 10px;
+  height: 200px;
+  width: 10px;
 }

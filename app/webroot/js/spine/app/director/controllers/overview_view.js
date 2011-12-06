@@ -61,7 +61,7 @@ OverviewView = (function() {
       mode = 'html';
     }
     console.log('PhotoList::uri');
-    return Photo.uri(items, this.previewSize(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.previewSize(), mode, __bind(function(xhr, record) {
       return this.callback(items, xhr);
     }, this));
   };

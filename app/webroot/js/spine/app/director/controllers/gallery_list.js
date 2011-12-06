@@ -62,7 +62,7 @@ GalleryList = (function() {
       dblclick = e.type === 'dblclick';
     }
     this.children().removeClass("active");
-    if (!cmdKey && item) {
+    if (!cmdKey) {
       switch (mode) {
         case 'destroy':
           this.current = false;
@@ -209,21 +209,22 @@ GalleryList = (function() {
     galleryEl = $(e.currentTarget).closest('li.gal');
     album = albumEl.item();
     gallery = galleryEl.item();
-    Gallery.current(gallery);
     if (!this.isCtrlClick(e)) {
       previous = Album.record;
+      Gallery.current(gallery);
       Album.current(album);
       Gallery.updateSelection([album.id]);
       if (App.hmanager.hasActive()) {
         this.openPanel('album', App.showView.btnAlbum);
       }
     } else {
+      Gallery.current();
       Album.current();
       Gallery.emptySelection();
       Album.emptySelection();
     }
-    this.change(gallery);
-    this.exposeSublistSelection(gallery);
+    this.change(Gallery.record);
+    this.exposeSublistSelection(Gallery.record);
     App.showView.trigger('change:toolbar', 'Album');
     Spine.trigger('show:photos');
     if (album.id !== (previous != null ? previous.id : void 0)) {

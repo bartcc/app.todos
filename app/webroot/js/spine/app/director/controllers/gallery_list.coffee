@@ -52,7 +52,7 @@ class GalleryList extends Spine.Controller
       dblclick = e.type is 'dblclick' 
 
     @children().removeClass("active")
-    if (!cmdKey and item)
+    if (!cmdKey)
       # don't touch @current if we're just updating
       switch mode
         when 'destroy'
@@ -150,10 +150,10 @@ class GalleryList extends Spine.Controller
     
     album = albumEl.item()
     gallery = galleryEl.item()
-    Gallery.current(gallery)
     
     unless @isCtrlClick(e)
       previous = Album.record
+      Gallery.current(gallery)
       Album.current(album)
       Gallery.updateSelection [album.id]
 
@@ -161,12 +161,13 @@ class GalleryList extends Spine.Controller
         @openPanel('album', App.showView.btnAlbum)
 
     else
+      Gallery.current()
       Album.current()
       Gallery.emptySelection()
       Album.emptySelection()
       
-    @change gallery
-    @exposeSublistSelection(gallery)
+    @change Gallery.record
+    @exposeSublistSelection(Gallery.record)
     App.showView.trigger('change:toolbar', 'Album')
     Spine.trigger('show:photos')
     Spine.trigger('change:selectedAlbum', album) unless album.id is previous?.id

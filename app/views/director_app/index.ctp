@@ -283,7 +283,7 @@
   <section class="top">
     {{if record}}
     <h3>Author: <label> ${record.author}</label></h3>
-    <h2>Gallery: ${record.name}</h2>
+    <h2>Albums in Gallery: ${record.name}</h2>
     {{else}}
     <h3>Album Originals</h3>
     <h2>All Albums</h2>
@@ -295,13 +295,13 @@
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
   <section class="top">
     {{if gallery}}
-    <h3>${gallery.name}</h3>
+    <h3>Active Gallery: ${gallery.name}</h3>
     {{/if}}
     {{if record}}
-    <h2>Album: ${record.title}</h2>
+    <h2>Photos in Album: ${record.title}</h2>
     {{else}}
     <h3>Album Originals</h3>
-    <h2>All Albums</h2>
+    <h2>All Photos</h2>
     {{/if}}
     <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
   </section>
@@ -395,9 +395,9 @@
     </td>
     {{else}}
     <td class="progress"><div></div></td>
-    <td class="start"><button>Start</button></td>
+    <td class="start"><button></button></td>
     {{/if}}
-    <td class="cancel"><button>Cancel</button></td>
+    <td class="cancel"><button></button></td>
   </tr>
 </script>
 

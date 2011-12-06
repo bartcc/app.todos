@@ -26,6 +26,7 @@ PhotoList = (function() {
   };
   PhotoList.prototype.selectFirst = true;
   function PhotoList() {
+    this.sliderStart = __bind(this.sliderStart, this);
     this.stopPreview = __bind(this.stopPreview, this);
     this.previewBye = __bind(this.previewBye, this);
     this.previewUp = __bind(this.previewUp, this);
@@ -64,7 +65,6 @@ PhotoList = (function() {
     var items;
     console.log('PhotoList::renderAll');
     items = Photo.all();
-    console.log(items.length);
     if (items.length) {
       this.html(this.template(items));
       this.exposeSelection();
@@ -210,8 +210,10 @@ PhotoList = (function() {
   PhotoList.prototype.stopPreview = function(e) {
     return this.preview.bye();
   };
+  PhotoList.prototype.sliderStart = function() {
+    return console.log(this.thumb.length);
+  };
   PhotoList.prototype.size = function(val) {
-    console.log(val);
     return this.thumb.css({
       'height': val + 'px',
       'width': val + 'px',

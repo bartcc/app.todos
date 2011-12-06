@@ -39,7 +39,7 @@ class OverviewView extends Spine.Controller
   # mode tells Spine::uri wheter to append (=> append) or replace (=> html) the cache
   uri: (items, mode = 'html') ->
     console.log 'PhotoList::uri'
-    Photo.uri items, @previewSize(), mode, (xhr, record) => @callback items, xhr
+    Photo.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
   
   callback: (items, json) =>
     console.log 'PhotoList::callback'

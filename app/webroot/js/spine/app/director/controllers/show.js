@@ -53,7 +53,8 @@ ShowView = (function() {
     'fileuploadprogress': "uploadProgress",
     'fileuploaddone': "uploadDone",
     'slide #slider': 'sliderSlide',
-    'slidestop #slider': 'sliderStop'
+    'slidestop #slider': 'sliderStop',
+    'slidestart #slider': 'sliderStart'
   };
   ShowView.prototype.toolsTemplate = function(items) {
     return $("#toolsTemplate").tmpl(items);
@@ -61,6 +62,7 @@ ShowView = (function() {
   function ShowView() {
     this.sliderStop = __bind(this.sliderStop, this);
     this.sliderSlide = __bind(this.sliderSlide, this);
+    this.sliderStart = __bind(this.sliderStart, this);
     this.showSizeSlider = __bind(this.showSizeSlider, this);
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
     this.albumsHeader = new AlbumsHeader({
@@ -301,15 +303,17 @@ ShowView = (function() {
   };
   ShowView.prototype.initSlider = function() {
     var t;
-    t = this.slider.slider({
+    return t = this.slider.slider({
       orientation: 'vertical',
       value: this.sliderInValue()
     });
-    return console.log(t);
   };
   ShowView.prototype.showSizeSlider = function() {
     this.initSlider();
     return this.slider.toggle();
+  };
+  ShowView.prototype.sliderStart = function() {
+    return this.photosView.list.sliderStart();
   };
   ShowView.prototype.sliderSlide = function() {
     var value;

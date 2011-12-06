@@ -46,6 +46,7 @@ class ShowView extends Spine.Controller
     'fileuploaddone'                  : "uploadDone"
     'slide #slider'                   : 'sliderSlide'
     'slidestop #slider'               : 'sliderStop'
+    'slidestart #slider'              : 'sliderStart'
     
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
@@ -260,17 +261,21 @@ class ShowView extends Spine.Controller
     t = @slider.slider
       orientation: 'vertical'
       value: @sliderInValue()
-    console.log t
     
   showSizeSlider: =>
     @initSlider()
     @slider.toggle()
       
+  sliderStart: =>
+    @photosView.list.sliderStart()
+    
   sliderSlide: =>
     value = @sliderOutValue(@slider.slider('value'))
     @photosView.list.size(value)
     
   sliderStop: =>
+    # rerender thumbnails to its final size
     console.log @sliderOutValue(@slider.slider('value'))
+    
     
     

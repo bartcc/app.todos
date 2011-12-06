@@ -30,6 +30,7 @@
     
     echo $this->Html->css('themes/jquery-ui/base/jquery.ui.all');
     echo $this->Html->css('themes/jquery-ui/base/jquery.ui.slider');
+    echo $this->Html->css('themes/jquery-ui/base/jquery.ui.progressbar');
     echo $this->Html->css('spine/director/jquery.fileupload-ui');
     echo $this->Html->css('spine/director/application');
     echo $this->Html->css('spine/director/modal');

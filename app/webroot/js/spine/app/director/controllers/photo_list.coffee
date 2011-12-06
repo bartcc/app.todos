@@ -49,7 +49,6 @@ class PhotoList extends Spine.Controller
   renderAll: ->
     console.log 'PhotoList::renderAll'
     items = Photo.all()
-    console.log items.length
     if items.length
       @html @template items
       @exposeSelection()
@@ -170,8 +169,11 @@ class PhotoList extends Spine.Controller
   stopPreview: (e) =>
     @preview.bye()
     
+  sliderStart: =>
+    console.log @thumb.length
+    
   size: (val) ->
-    console.log val
+    # 2+10 = border radius
     @thumb.css
       'height': val+'px'
       'width': val+'px'

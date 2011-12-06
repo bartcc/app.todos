@@ -49,13 +49,12 @@ GalleryList = (function() {
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
-    Spine.bind('close:album', this.proxy(this.change));
   }
   GalleryList.prototype.template = function() {
     return arguments[0];
   };
   GalleryList.prototype.change = function(item, mode, e) {
-    var cmdKey, dblclick, previous, _ref;
+    var cmdKey, dblclick, previous;
     console.log('GalleryList::change');
     previous = this.current;
     if (e) {
@@ -78,9 +77,7 @@ GalleryList = (function() {
       this.current = false;
     }
     Gallery.current(this.current);
-    if ((previous != null ? previous.id : void 0) !== ((_ref = this.current) != null ? _ref.id : void 0) || cmdKey) {
-      Spine.trigger('change:selectedGallery', this.current, mode);
-    }
+    Spine.trigger('change:selectedGallery', this.current, mode);
     if (mode === 'edit') {
       return App.showView.btnEditGallery.click();
     } else if (mode === 'show') {

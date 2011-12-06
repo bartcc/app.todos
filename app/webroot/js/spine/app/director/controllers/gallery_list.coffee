@@ -41,7 +41,6 @@ class GalleryList extends Spine.Controller
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandExpander)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
-    Spine.bind('close:album', @proxy @change)
     
   template: -> arguments[0]
 
@@ -65,7 +64,7 @@ class GalleryList extends Spine.Controller
       @current = false
     
     Gallery.current(@current)
-    Spine.trigger('change:selectedGallery', @current, mode) if previous?.id != @current?.id or cmdKey
+    Spine.trigger('change:selectedGallery', @current, mode)# if !previous or previous?.id != @current?.id or cmdKey
     
     if mode is 'edit'
       App.showView.btnEditGallery.click()

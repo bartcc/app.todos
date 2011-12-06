@@ -152,7 +152,8 @@ GalleryList = (function() {
     galleryContentEl = $('.item-content', galleryEl);
     tmplItem = galleryContentEl.tmplItem();
     tmplItem.tmpl = $("#galleriesContentTemplate").template();
-    return tmplItem.update();
+    tmplItem.update();
+    return this.exposeSublistSelection(gallery);
   };
   GalleryList.prototype.renderItemFromGalleriesAlbum = function(ga, mode) {
     var gallery;

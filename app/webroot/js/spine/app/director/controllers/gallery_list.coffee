@@ -119,6 +119,8 @@ class GalleryList extends Spine.Controller
     tmplItem = galleryContentEl.tmplItem()
     tmplItem.tmpl = $( "#galleriesContentTemplate" ).template()
     tmplItem.update()# unless Gallery.record.id is gallery.id
+    # restore active
+    @exposeSublistSelection gallery
     
   renderItemFromGalleriesAlbum: (ga, mode) ->
     gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)

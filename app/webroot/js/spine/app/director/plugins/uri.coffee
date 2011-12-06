@@ -54,10 +54,9 @@ class Base
     options.width + '/' + options.height + '/' + options.square + '/' + options.quality
     
 class UriCollection extends Base
-  constructor: (@model, items, params, mode = 'html', @callback) ->
+  constructor: (@model,  params, mode = 'html', @callback) ->
     super
-    @photos = for item in items
-      Photo.find(item.id) if Photo.exists(item.id)
+    @photos = @model.all()
     
     options = $.extend({}, @settings, params)
     @url = @uri options
@@ -125,7 +124,7 @@ Model.Uri =
       uri: (params, mode, callback, max) -> new Uri(@, params, mode, callback, max).test()
       
     Extend =
-      uri: (items, params, mode, callback) -> new UriCollection(@, items, params, mode, callback).test()
+      uri: (params, mode, callback) -> new UriCollection(@, params, mode, callback).test()
       
     @include Include
     @extend Extend

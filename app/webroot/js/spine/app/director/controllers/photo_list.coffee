@@ -29,22 +29,36 @@ class PhotoList extends Spine.Controller
     @current = item
     Spine.trigger('change:selectedPhoto', item)
   
-  render: (items, album, mode='html') ->
+  render: (items, mode='html') ->
     console.log 'PhotoList::render'
-    album?= Album.record
-    if album
+#    album?= Album.record
+    if Album.record
       if items.length
         @[mode] @template items
         @exposeSelection()
-        @uri album, items, mode
+        @uri items, mode
         @change()
         @el
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else
-      @html '<label class="invite"><span class="enlightened">Here all photos should be rendered</span></label>'
+      @renderAll()
+      # Album.record is unknown - render all existing photos
+#      @html '<label class="invite"><span class="enlightened">Here all photos should be rendered</span></label>'
   
-  renderItem: (item) ->
+  renderAll: ->
+    console.log 'PhotoList::renderAll'
+    items = Photo.all()
+    console.log items.length
+    if items.length
+      @html @template items
+      @exposeSelection()
+      @uri items, 'html'
+      @change()
+      @el
+    
+  
+  update: (item) ->
     el = =>
       @children().forItem(item)
     tb = ->
@@ -59,16 +73,16 @@ class PhotoList extends Spine.Controller
     tb().css('backgroundImage', backgroundImage)
     el().toggleClass('active', isActive)
   
-  update: (item) ->
-    @renderItem item
-  
   previewSize: (width = 140, height = 140) ->
     width: width
     height: height
   
-  uri: (album, items, mode) ->
+  uri: (items, mode) ->
     console.log 'PhotoList::uri'
-    album.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
+    if Album.record
+      Album.record.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
+    else
+      Photo.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
   
   callback: (items, json) =>
     console.log 'PhotoList::callback'

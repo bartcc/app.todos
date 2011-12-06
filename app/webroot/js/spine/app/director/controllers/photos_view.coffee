@@ -71,9 +71,8 @@ class PhotosView extends Spine.Controller
   render: (items, mode) ->
     console.log 'PhotosView::render'
     
-    album = Album.record
-    if album
-      @el.data album
+    if Album.record
+      @el.data Album.record
     else
       @el.removeData()
     
@@ -81,7 +80,7 @@ class PhotosView extends Spine.Controller
     # show spinner
 #      @items.html @preloaderTemplate()
     
-    @list.render items, album, mode or 'html'
+    @list.render items, mode or 'html'
     @refreshElements()
   
   renderHeader: ->

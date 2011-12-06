@@ -76,8 +76,8 @@ Base = (function() {
 })();
 UriCollection = (function() {
   __extends(UriCollection, Base);
-  function UriCollection(model, items, params, mode, callback) {
-    var item, options;
+  function UriCollection(model, params, mode, callback) {
+    var options;
     this.model = model;
     if (mode == null) {
       mode = 'html';
@@ -85,15 +85,7 @@ UriCollection = (function() {
     this.callback = callback;
     this.recordResponse = __bind(this.recordResponse, this);
     UriCollection.__super__.constructor.apply(this, arguments);
-    this.photos = (function() {
-      var _i, _len, _results;
-      _results = [];
-      for (_i = 0, _len = items.length; _i < _len; _i++) {
-        item = items[_i];
-        _results.push(Photo.exists(item.id) ? Photo.find(item.id) : void 0);
-      }
-      return _results;
-    })();
+    this.photos = this.model.all();
     options = $.extend({}, this.settings, params);
     this.url = this.uri(options);
   }
@@ -179,8 +171,8 @@ Model.Uri = {
       }
     };
     Extend = {
-      uri: function(items, params, mode, callback) {
-        return new UriCollection(this, items, params, mode, callback).test();
+      uri: function(params, mode, callback) {
+        return new UriCollection(this, params, mode, callback).test();
       }
     };
     this.include(Include);

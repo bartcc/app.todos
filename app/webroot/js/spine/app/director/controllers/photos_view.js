@@ -79,18 +79,16 @@ PhotosView = (function() {
     return this.render(items);
   };
   PhotosView.prototype.render = function(items, mode) {
-    var album;
     console.log('PhotosView::render');
-    album = Album.record;
-    if (album) {
-      this.el.data(album);
+    if (Album.record) {
+      this.el.data(Album.record);
     } else {
       this.el.removeData();
     }
     if (!this.list.children('li').length) {
       this.items.empty();
     }
-    this.list.render(items, album, mode || 'html');
+    this.list.render(items, mode || 'html');
     return this.refreshElements();
   };
   PhotosView.prototype.renderHeader = function() {

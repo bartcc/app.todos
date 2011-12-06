@@ -41,29 +41,39 @@ PhotoList = (function() {
     this.current = item;
     return Spine.trigger('change:selectedPhoto', item);
   };
-  PhotoList.prototype.render = function(items, album, mode) {
+  PhotoList.prototype.render = function(items, mode) {
     if (mode == null) {
       mode = 'html';
     }
     console.log('PhotoList::render');
-    if (album == null) {
-      album = Album.record;
-    }
-    if (album) {
+    if (Album.record) {
       if (items.length) {
         this[mode](this.template(items));
         this.exposeSelection();
-        this.uri(album, items, mode);
+        this.uri(items, mode);
         this.change();
         return this.el;
       } else {
         return this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
       }
     } else {
-      return this.html('<label class="invite"><span class="enlightened">Here all photos should be rendered</span></label>');
+      return this.renderAll();
     }
   };
-  PhotoList.prototype.renderItem = function(item) {
+  PhotoList.prototype.renderAll = function() {
+    var items;
+    console.log('PhotoList::renderAll');
+    items = Photo.all();
+    console.log(items.length);
+    if (items.length) {
+      this.html(this.template(items));
+      this.exposeSelection();
+      this.uri(items, 'html');
+      this.change();
+      return this.el;
+    }
+  };
+  PhotoList.prototype.update = function(item) {
     var backgroundImage, el, isActive, style, tb, tmplItem;
     el = __bind(function() {
       return this.children().forItem(item);
@@ -80,9 +90,6 @@ PhotoList = (function() {
     tb().css('backgroundImage', backgroundImage);
     return el().toggleClass('active', isActive);
   };
-  PhotoList.prototype.update = function(item) {
-    return this.renderItem(item);
-  };
   PhotoList.prototype.previewSize = function(width, height) {
     if (width == null) {
       width = 140;
@@ -95,11 +102,17 @@ PhotoList = (function() {
       height: height
     };
   };
-  PhotoList.prototype.uri = function(album, items, mode) {
+  PhotoList.prototype.uri = function(items, mode) {
     console.log('PhotoList::uri');
-    return album.uri(this.previewSize(), mode, __bind(function(xhr, record) {
-      return this.callback(items, xhr);
-    }, this));
+    if (Album.record) {
+      return Album.record.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+        return this.callback(items, xhr);
+      }, this));
+    } else {
+      return Photo.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+        return this.callback(items, xhr);
+      }, this));
+    }
   };
   PhotoList.prototype.callback = function(items, json) {
     var ele, img, item, jsn, searchJSON, src, _i, _len, _results;

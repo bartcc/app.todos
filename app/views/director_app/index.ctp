@@ -59,7 +59,7 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1>Spine Director</h1>
+    <h1>Photo Director</h1>
     <div id="login" class="flex tright" style="margin-top: 8px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
@@ -437,7 +437,7 @@
     <td colspan="2"></td>
     {{/if}}
     <td class="delete">
-      <button data-type="${delete_type}" data-url="${delete_url}">Delete</button>
+      <button data-type="${delete_type}" data-url="${delete_url}"></button>
     </td>
   </tr>
 </script>

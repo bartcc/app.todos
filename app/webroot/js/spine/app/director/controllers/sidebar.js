@@ -48,6 +48,7 @@ SidebarView = (function() {
     Gallery.bind("refresh change", this.proxy(this.render));
     Gallery.bind("ajaxError", Gallery.errorHandler);
     Spine.bind('create:gallery', this.proxy(this.create));
+    Spine.bind('edit:gallery', this.proxy(this.edit));
     Spine.bind('destroy:gallery', this.proxy(this.destroy));
     Spine.bind('drag:start', this.proxy(this.dragStart));
     Spine.bind('drag:enter', this.proxy(this.dragEnter));
@@ -268,6 +269,10 @@ SidebarView = (function() {
     if (!Gallery.count()) {
       return Gallery.current();
     }
+  };
+  SidebarView.prototype.edit = function() {
+    App.galleryEditView.render();
+    return App.contentManager.change(App.galleryEditView);
   };
   SidebarView.prototype.toggleDraghandle = function() {
     var speed, w, width;

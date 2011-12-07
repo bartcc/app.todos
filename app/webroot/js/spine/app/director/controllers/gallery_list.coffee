@@ -170,7 +170,7 @@ class GalleryList extends Spine.Controller
       
     @change Gallery.record
     @exposeSublistSelection(Gallery.record)
-    App.showView.trigger('change:toolbar', 'Album')
+    App.showView.trigger('change:toolbar', 'Photo')
     Spine.trigger('show:photos')
     Spine.trigger('change:selectedAlbum', album) unless album.id is previous?.id
     

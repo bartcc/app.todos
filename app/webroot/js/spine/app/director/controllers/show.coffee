@@ -141,8 +141,7 @@ class ShowView extends Spine.Controller
   
   editGallery: (e) ->
     return if $(e.currentTarget).hasClass('disabled')
-    App.galleryEditView.render()
-    App.contentManager.change(App.galleryEditView)
+    Spine.trigger('edit:gallery')
     #@focusFirstInput App.galleryEditView.el
 
   editAlbum: (e) ->
@@ -250,32 +249,32 @@ class ShowView extends Spine.Controller
   sliderInValue: (val) ->
     val = val or @sOutValue
     @sInValue=(val/2)-20
-    @sInValue
     
-  sliderOutValue: (val) ->
-    val = val or @sInValue
+  sliderOutValue: ->
+    val = @slider.slider('value')
     @sOutValue=(val+20)*2
-    @sOutValue
     
   initSlider: ->
-    t = @slider.slider
+    inValue = @sliderInValue()
+    console.log inValue
+    @slider.slider
       orientation: 'vertical'
-      value: @sliderInValue()
+      value: inValue
     
   showSizeSlider: =>
     @initSlider()
     @slider.toggle()
+    @sliderOutValue()
+    @sliderInValue()
       
   sliderStart: =>
     @photosView.list.sliderStart()
     
   sliderSlide: =>
-    value = @sliderOutValue(@slider.slider('value'))
-    @photosView.list.size(value)
+    @photosView.list.size @sliderOutValue()
     
   sliderStop: =>
     # rerender thumbnails to its final size
-    console.log @sliderOutValue(@slider.slider('value'))
     
     
     

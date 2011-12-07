@@ -60,9 +60,9 @@ Controller.Toolbars = {
                 return !Album.selectionList().length;
               }
             }, {
-              name: 'Thumb-Size',
+              name: 'Thumbnail',
               klass: 'optThumbsize',
-              html: '<div id="slider" style="display: none;"></div>'
+              html: '<div class="options"><span id="slider" style="display: none;"></span></div>'
             }
           ],
           Upload: [

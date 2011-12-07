@@ -52,7 +52,8 @@ PhotosView = (function() {
     this.list = new PhotoList({
       el: this.items,
       template: this.template,
-      preview: this.preview
+      preview: this.preview,
+      slider: this.parent
     });
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));

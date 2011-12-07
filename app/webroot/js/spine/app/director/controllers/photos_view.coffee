@@ -43,6 +43,7 @@ class PhotosView extends Spine.Controller
       el: @items
       template: @template
       preview: @preview
+      slider: @parent
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)

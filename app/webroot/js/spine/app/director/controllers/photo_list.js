@@ -26,6 +26,7 @@ PhotoList = (function() {
   };
   PhotoList.prototype.selectFirst = true;
   function PhotoList() {
+    this.size = __bind(this.size, this);
     this.sliderStart = __bind(this.sliderStart, this);
     this.stopPreview = __bind(this.stopPreview, this);
     this.previewBye = __bind(this.previewBye, this);
@@ -105,14 +106,15 @@ PhotoList = (function() {
   PhotoList.prototype.uri = function(items, mode) {
     console.log('PhotoList::uri');
     if (Album.record) {
-      return Album.record.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+      Album.record.uri(this.previewSize(), mode, __bind(function(xhr, record) {
         return this.callback(items, xhr);
       }, this));
     } else {
-      return Photo.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+      Photo.uri(this.previewSize(), mode, __bind(function(xhr, record) {
         return this.callback(items, xhr);
       }, this));
     }
+    return this.size(this.slider.sOutValue);
   };
   PhotoList.prototype.callback = function(items, json) {
     var ele, img, item, jsn, searchJSON, src, _i, _len, _results;
@@ -130,7 +132,7 @@ PhotoList = (function() {
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);
-      _results.push(jsn ? (ele = this.children().forItem(item), src = jsn.src, img = new Image, img.element = ele, img.src = src, img.onload = this.imageLoad) : void 0);
+      _results.push(jsn ? (ele = this.children().forItem(item), src = jsn.src, img = new Image, img.element = ele, img.onload = this.imageLoad, img.src = src) : void 0);
     }
     return _results;
   };

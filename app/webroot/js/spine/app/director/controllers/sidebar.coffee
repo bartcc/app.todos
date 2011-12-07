@@ -34,6 +34,7 @@ class SidebarView extends Spine.Controller
     Gallery.bind("ajaxError", Gallery.errorHandler)
     
     Spine.bind('create:gallery', @proxy @create)
+    Spine.bind('edit:gallery', @proxy @edit)
     Spine.bind('destroy:gallery', @proxy @destroy)
     Spine.bind('drag:start', @proxy @dragStart)
     Spine.bind('drag:enter', @proxy @dragEnter)
@@ -201,6 +202,10 @@ class SidebarView extends Spine.Controller
     console.log 'Sidebar::destroy'
     Gallery.record.destroy() if Gallery.record
     Gallery.current() if !Gallery.count()
+
+  edit: ->
+    App.galleryEditView.render()
+    App.contentManager.change(App.galleryEditView)
 
   toggleDraghandle: ->
     

@@ -226,7 +226,7 @@ GalleryList = (function() {
     }
     this.change(Gallery.record);
     this.exposeSublistSelection(Gallery.record);
-    App.showView.trigger('change:toolbar', 'Album');
+    App.showView.trigger('change:toolbar', 'Photo');
     Spine.trigger('show:photos');
     if (album.id !== (previous != null ? previous.id : void 0)) {
       Spine.trigger('change:selectedAlbum', album);

@@ -89,6 +89,7 @@ ShowView = (function() {
     Gallery.bind('change', this.proxy(this.renderToolbar));
     Album.bind('change', this.proxy(this.renderToolbar));
     Photo.bind('change', this.proxy(this.renderToolbar));
+    this.bind('edit:gallery', this.proxy(this.editGallery));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
     this.bind("toggle:view", this.proxy(this.toggleView));
@@ -171,8 +172,7 @@ ShowView = (function() {
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
-    App.galleryEditView.render();
-    return App.contentManager.change(App.galleryEditView);
+    return Spine.trigger('edit:gallery');
   };
   ShowView.prototype.editAlbum = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {
@@ -293,35 +293,34 @@ ShowView = (function() {
   };
   ShowView.prototype.sliderInValue = function(val) {
     val = val || this.sOutValue;
-    this.sInValue = (val / 2) - 20;
-    return this.sInValue;
+    return this.sInValue = (val / 2) - 20;
   };
-  ShowView.prototype.sliderOutValue = function(val) {
-    val = val || this.sInValue;
-    this.sOutValue = (val + 20) * 2;
-    return this.sOutValue;
+  ShowView.prototype.sliderOutValue = function() {
+    var val;
+    val = this.slider.slider('value');
+    return this.sOutValue = (val + 20) * 2;
   };
   ShowView.prototype.initSlider = function() {
-    var t;
-    return t = this.slider.slider({
+    var inValue;
+    inValue = this.sliderInValue();
+    console.log(inValue);
+    return this.slider.slider({
       orientation: 'vertical',
-      value: this.sliderInValue()
+      value: inValue
     });
   };
   ShowView.prototype.showSizeSlider = function() {
     this.initSlider();
-    return this.slider.toggle();
+    this.slider.toggle();
+    this.sliderOutValue();
+    return this.sliderInValue();
   };
   ShowView.prototype.sliderStart = function() {
     return this.photosView.list.sliderStart();
   };
   ShowView.prototype.sliderSlide = function() {
-    var value;
-    value = this.sliderOutValue(this.slider.slider('value'));
-    return this.photosView.list.size(value);
+    return this.photosView.list.size(this.sliderOutValue());
   };
-  ShowView.prototype.sliderStop = function() {
-    return console.log(this.sliderOutValue(this.slider.slider('value')));
-  };
+  ShowView.prototype.sliderStop = function() {};
   return ShowView;
 })();

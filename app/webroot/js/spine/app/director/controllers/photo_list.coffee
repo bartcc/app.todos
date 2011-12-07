@@ -69,19 +69,22 @@ class PhotoList extends Spine.Controller
     tmplItem = el().tmplItem()
     tmplItem.tmpl = $( "#photosTemplate" ).template()
     tmplItem.update()
-    tb().css('backgroundImage', backgroundImage)
+    tb().css 'backgroundImage', backgroundImage
     el().toggleClass('active', isActive)
   
   previewSize: (width = 140, height = 140) ->
     width: width
     height: height
   
+  # the actual final rendering method
   uri: (items, mode) ->
     console.log 'PhotoList::uri'
     if Album.record
       Album.record.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
     else
       Photo.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
+  
+    @size(@slider.sOutValue)
   
   callback: (items, json) =>
     console.log 'PhotoList::callback'
@@ -95,8 +98,8 @@ class PhotoList extends Spine.Controller
         src = jsn.src
         img = new Image
         img.element = ele
-        img.src = src
         img.onload = @imageLoad
+        img.src = src
     
   imageLoad: ->
     css = 'url(' + @src + ')'
@@ -172,7 +175,7 @@ class PhotoList extends Spine.Controller
   sliderStart: =>
     console.log @thumb.length
     
-  size: (val) ->
+  size: (val) =>
     # 2+10 = border radius
     @thumb.css
       'height': val+'px'

@@ -305,7 +305,11 @@
     {{/if}}
     <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
   </section>
-  <section class="closeView"><img src="/img/up.png"><h3>close</h3></section>
+  <section class="closeView">
+    <ul class="hbox">
+      <li class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n">close</li>
+    </ul>
+  </section>
 </script>
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">
@@ -339,7 +343,7 @@
 
 <script id="albumPreviewTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class="name">{{if title}}${title}{{else}}no title{{/if}} <span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
+    <li class="name"><span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
   </ul>
 </script>
 

@@ -3,9 +3,6 @@ $      = Spine.$
 
 class Preview extends Spine.Controller
   
-  events:
-    'dragstart'  : 'byebye'
-  
   constructor: ->
     super
     
@@ -25,9 +22,6 @@ class Preview extends Spine.Controller
     @el.hide()
     @current = null
 
-  byebye: ->
-    alert 'byebye'
-  
   position: (e) =>
     preview_h=@el.innerHeight()
     preview_w=@el.innerWidth()

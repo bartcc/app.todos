@@ -13,9 +13,6 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 Preview = (function() {
   __extends(Preview, Spine.Controller);
-  Preview.prototype.events = {
-    'dragstart': 'byebye'
-  };
   function Preview() {
     this.position = __bind(this.position, this);    Preview.__super__.constructor.apply(this, arguments);
   }
@@ -38,9 +35,6 @@ Preview = (function() {
     }
     this.el.hide();
     return this.current = null;
-  };
-  Preview.prototype.byebye = function() {
-    return alert('byebye');
   };
   Preview.prototype.position = function(e) {
     var h, maxx, maxy, minx, posx, posy, preview_h, preview_w, t, w;

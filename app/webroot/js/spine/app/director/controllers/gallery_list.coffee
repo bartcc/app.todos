@@ -164,16 +164,16 @@ class GalleryList extends Spine.Controller
         @openPanel('album', App.showView.btnAlbum)
 
     else
-      Gallery.current()
-      Album.current()
       Gallery.emptySelection()
       Album.emptySelection()
+      Gallery.current()
+      Album.current()
       
     @change Gallery.record
     @exposeSublistSelection(Gallery.record)
     App.showView.trigger('change:toolbar', 'Photo')
+    Spine.trigger('change:selectedAlbum', album) if !previous or !(album.id is previous.id)
     Spine.trigger('show:photos')
-    Spine.trigger('change:selectedAlbum', album) unless album.id is previous?.id
     
     e.stopPropagation()
     e.preventDefault()

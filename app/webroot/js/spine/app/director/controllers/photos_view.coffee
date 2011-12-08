@@ -45,6 +45,8 @@ class PhotosView extends Spine.Controller
       preview: @preview
       slider: @parent
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
+    Photo.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
@@ -67,7 +69,7 @@ class PhotosView extends Spine.Controller
       
     items = Photo.filter(item?.id, filterOptions)
     
-    @current = items
+    @current = item
     @render items
     
   render: (items, mode) ->
@@ -95,8 +97,15 @@ class PhotosView extends Spine.Controller
   # after albumsphoto jointable has been changed by delete or create trash the cache and rebuild it the next time
   # could be in any controller that listens to AlbumsPhoto - may be move to app?
   emptyCache: (record, mode) ->
-    Album.emptyCache record.album_id
-  
+    switch record.constructor.className
+      when 'Photo'
+        # get related albums
+        aps = AlbumsPhoto.filter(record.id, 'photo_id')
+        for ap in aps
+          Album.emptyCache ap.album_id
+      when 'AlbumsPhoto'
+        Album.emptyCache record.album_id
+      
   # for AlbumsPhoto & Photo
   remove: (record) ->
     console.log 'PhotosView::remove'

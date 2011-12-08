@@ -40,7 +40,7 @@ AlbumList = (function() {
       return this.renderBackgrounds(items);
     }
   };
-  AlbumList.prototype.select = function(item) {
+  AlbumList.prototype.select = function(item, e) {
     var previous, _ref;
     previous = Album.record;
     this.exposeSelection();
@@ -139,7 +139,7 @@ AlbumList = (function() {
     console.log('AlbumList::click');
     item = $(e.target).item();
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
-    this.select(item);
+    this.select(item, e);
     App.showView.trigger('change:toolbar', 'Album');
     e.stopPropagation();
     e.preventDefault();

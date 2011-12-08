@@ -200,8 +200,13 @@ class SidebarView extends Spine.Controller
 
   destroy: ->
     console.log 'Sidebar::destroy'
-    Gallery.record.destroy() if Gallery.record
-    Gallery.current() if !Gallery.count()
+    if Gallery.record
+      gas = GalleriesAlbum.filter(Gallery.record.id, key: 'gallery_id')
+      for ga in gas
+        Spine.Ajax.disable ->
+          ga.destroy()
+      Gallery.record.destroy()
+      Gallery.current() if !Gallery.count()
 
   edit: ->
     App.galleryEditView.render()

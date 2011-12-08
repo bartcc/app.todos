@@ -23,14 +23,14 @@ class AlbumList extends Spine.Controller
     console.log 'AlbumList::change'
     @renderBackgrounds items if items.length
   
-  select: (item) ->
+  select: (item, e) ->
     previous = Album.record
     @exposeSelection()
     if item and !item.destroyed
       @current = item
       Album.current(item)
     
-    Spine.trigger('change:selectedAlbum', item) if previous?.id != @current?.id
+    Spine.trigger('change:selectedAlbum', item) if (previous?.id != @current?.id)
     
   exposeSelection: ->
     console.log 'AlbumList::exposeSelection'
@@ -94,7 +94,7 @@ class AlbumList extends Spine.Controller
 #      @openPanel('album', App.showView.btnAlbum)
     
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
-    @select item
+    @select item, e
     App.showView.trigger('change:toolbar', 'Album')
     
     e.stopPropagation()

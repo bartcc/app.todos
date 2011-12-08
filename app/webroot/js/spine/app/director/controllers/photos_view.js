@@ -56,6 +56,8 @@ PhotosView = (function() {
       slider: this.parent
     });
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
+    Photo.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
@@ -77,7 +79,7 @@ PhotosView = (function() {
       joinTable: 'AlbumsPhoto'
     };
     items = Photo.filter(item != null ? item.id : void 0, filterOptions);
-    this.current = items;
+    this.current = item;
     return this.render(items);
   };
   PhotosView.prototype.render = function(items, mode) {
@@ -105,7 +107,20 @@ PhotosView = (function() {
     return this.header.html(this.headerTemplate(values));
   };
   PhotosView.prototype.emptyCache = function(record, mode) {
-    return Album.emptyCache(record.album_id);
+    var ap, aps, _i, _len, _results;
+    switch (record.constructor.className) {
+      case 'Photo':
+        aps = AlbumsPhoto.filter(record.id, 'photo_id');
+        _results = [];
+        for (_i = 0, _len = aps.length; _i < _len; _i++) {
+          ap = aps[_i];
+          _results.push(Album.emptyCache(ap.album_id));
+        }
+        return _results;
+        break;
+      case 'AlbumsPhoto':
+        return Album.emptyCache(record.album_id);
+    }
   };
   PhotosView.prototype.remove = function(record) {
     var photo, photoEl;

@@ -262,12 +262,22 @@ SidebarView = (function() {
     return Spine.trigger('show:albums');
   };
   SidebarView.prototype.destroy = function() {
+    var ga, gas, _i, _len;
     console.log('Sidebar::destroy');
     if (Gallery.record) {
+      gas = GalleriesAlbum.filter(Gallery.record.id, {
+        key: 'gallery_id'
+      });
+      for (_i = 0, _len = gas.length; _i < _len; _i++) {
+        ga = gas[_i];
+        Spine.Ajax.disable(function() {
+          return ga.destroy();
+        });
+      }
       Gallery.record.destroy();
-    }
-    if (!Gallery.count()) {
-      return Gallery.current();
+      if (!Gallery.count()) {
+        return Gallery.current();
+      }
     }
   };
   SidebarView.prototype.edit = function() {

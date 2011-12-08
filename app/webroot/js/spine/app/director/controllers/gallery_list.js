@@ -222,18 +222,18 @@ GalleryList = (function() {
         this.openPanel('album', App.showView.btnAlbum);
       }
     } else {
-      Gallery.current();
-      Album.current();
       Gallery.emptySelection();
       Album.emptySelection();
+      Gallery.current();
+      Album.current();
     }
     this.change(Gallery.record);
     this.exposeSublistSelection(Gallery.record);
     App.showView.trigger('change:toolbar', 'Photo');
-    Spine.trigger('show:photos');
-    if (album.id !== (previous != null ? previous.id : void 0)) {
+    if (!previous || !(album.id === previous.id)) {
       Spine.trigger('change:selectedAlbum', album);
     }
+    Spine.trigger('show:photos');
     e.stopPropagation();
     e.preventDefault();
     return false;

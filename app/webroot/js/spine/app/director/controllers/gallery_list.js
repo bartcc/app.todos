@@ -125,6 +125,9 @@ GalleryList = (function() {
       gallery = Gallery.record;
     }
     console.log('GalleryList::renderSublist');
+    if (!gallery) {
+      return;
+    }
     filterOptions = {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum'

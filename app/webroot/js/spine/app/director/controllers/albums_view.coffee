@@ -147,7 +147,7 @@ class AlbumsView extends Spine.Controller
       for album in albums
         gas = GalleriesAlbum.filter(album.id, key: 'album_id')
         for ga in gas
-          gallery = Gallery.find(ga.gallery_id)
+          gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
           # find all photos in album
           aps = AlbumsPhoto.filter(album.id, key: 'album_id')
           photos = []
@@ -156,7 +156,7 @@ class AlbumsView extends Spine.Controller
           Spine.Ajax.disable ->
             Photo.trigger('destroy:join', album, photos)
           Spine.Ajax.disable ->
-            Album.trigger('destroy:join', gallery, album)
+            Album.trigger('destroy:join', gallery, album) if gallery
             
       for album in albums
         Album.removeFromSelection(Gallery, album.id)

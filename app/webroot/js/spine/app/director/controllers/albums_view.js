@@ -164,7 +164,9 @@ AlbumsView = (function() {
         });
         for (_j = 0, _len2 = gas.length; _j < _len2; _j++) {
           ga = gas[_j];
-          gallery = Gallery.find(ga.gallery_id);
+          if (Gallery.exists(ga.gallery_id)) {
+            gallery = Gallery.find(ga.gallery_id);
+          }
           aps = AlbumsPhoto.filter(album.id, {
             key: 'album_id'
           });
@@ -177,7 +179,9 @@ AlbumsView = (function() {
             return Photo.trigger('destroy:join', album, photos);
           });
           Spine.Ajax.disable(function() {
-            return Album.trigger('destroy:join', gallery, album);
+            if (gallery) {
+              return Album.trigger('destroy:join', gallery, album);
+            }
           });
         }
       }

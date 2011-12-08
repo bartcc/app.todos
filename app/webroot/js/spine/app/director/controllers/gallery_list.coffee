@@ -99,6 +99,7 @@ class GalleryList extends Spine.Controller
   
   renderOneSublist: (gallery = Gallery.record) ->
     console.log 'GalleryList::renderSublist'
+    return unless gallery
     filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
@@ -111,7 +112,7 @@ class GalleryList extends Spine.Controller
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
     
-    @updateTemplate gallery
+    @updateTemplate gallery  
   
   updateTemplate: (gallery) ->
     galleryEl = @children().forItem(gallery)

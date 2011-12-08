@@ -89,7 +89,6 @@ ShowView = (function() {
     Gallery.bind('change', this.proxy(this.renderToolbar));
     Album.bind('change', this.proxy(this.renderToolbar));
     Photo.bind('change', this.proxy(this.renderToolbar));
-    this.bind('edit:gallery', this.proxy(this.editGallery));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
     this.bind("toggle:view", this.proxy(this.toggleView));
@@ -321,6 +320,8 @@ ShowView = (function() {
   ShowView.prototype.sliderSlide = function() {
     return this.photosView.list.size(this.sliderOutValue());
   };
-  ShowView.prototype.sliderStop = function() {};
+  ShowView.prototype.sliderStop = function() {
+    return this.slider.toggle();
+  };
   return ShowView;
 })();

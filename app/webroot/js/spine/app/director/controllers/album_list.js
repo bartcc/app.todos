@@ -106,6 +106,7 @@ AlbumList = (function() {
   AlbumList.prototype.callback = function(json, item) {
     var css, el, itm, o, searchJSON;
     console.log('AlbumList::callback');
+    console.log(item);
     el = this.children().forItem(item);
     searchJSON = function(itm) {
       var key, res, value;
@@ -129,6 +130,7 @@ AlbumList = (function() {
       }
       return _results;
     })();
+    console.log(css);
     return el.css('backgroundImage', css);
   };
   AlbumList.prototype.create = function() {

@@ -61,6 +61,7 @@ class AlbumsController extends AppController {
     }
     if ($this->Album->delete($id)) {
       $this->Session->setFlash(__('Album deleted', true));
+      $this->render(BLANK_RESPONSE);
     }
     $this->Session->setFlash(__('Album was not deleted', true));
     $this->redirect(array('action' => 'index'));

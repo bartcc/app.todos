@@ -475,7 +475,7 @@ textarea {
 }
 #content .header section.closeView {
   cursor: pointer;
-  position: fixed;
+  position: absolute;
   width: 30px;
   z-index: 1;
 }

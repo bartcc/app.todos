@@ -79,7 +79,7 @@ GalleryList = (function() {
     Gallery.current(this.current);
     Spine.trigger('change:selectedGallery', this.current, mode);
     if (mode === 'edit') {
-      return App.showView.btnEditGallery.click();
+      return Spine.trigger('edit:gallery');
     } else if (mode === 'show') {
       return Spine.trigger('show:albums');
     }
@@ -238,7 +238,7 @@ GalleryList = (function() {
   GalleryList.prototype.click = function(e) {
     var item;
     console.log('GalleryList::click');
-    item = $(e.target).item();
+    item = $(e.currentTarget).item();
     this.change(item, 'show', e);
     this.exposeSublistSelection(item);
     App.showView.trigger('change:toolbar', 'Gallery');

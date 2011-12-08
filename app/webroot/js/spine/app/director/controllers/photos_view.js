@@ -65,6 +65,7 @@ PhotosView = (function() {
     Spine.bind('show:photos', this.proxy(this.show));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Photo.bind('refresh', this.proxy(this.prepareJoin));
+    Photo.bind('destroy', this.proxy(this.remove));
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
     Gallery.bind('change', this.proxy(this.renderHeader));
@@ -106,15 +107,17 @@ PhotosView = (function() {
   PhotosView.prototype.emptyCache = function(record, mode) {
     return Album.emptyCache(record.album_id);
   };
-  PhotosView.prototype.remove = function(ap) {
+  PhotosView.prototype.remove = function(record) {
     var photo, photoEl;
     console.log('PhotosView::remove');
-    if (!ap.destroyed) {
+    if (!record.destroyed) {
       return;
     }
-    photo = Photo.find(ap.photo_id);
-    photoEl = this.items.children().forItem(photo);
-    photoEl.remove();
+    photo = (Photo.exists(record.photo_id) ? Photo.find(record.photo_id) : void 0) || record;
+    if (photo) {
+      photoEl = this.items.children().forItem(photo, true);
+      photoEl.remove();
+    }
     if (!this.items.children().length) {
       return this.render([]);
     }
@@ -126,7 +129,7 @@ PhotosView = (function() {
     return this.render([photo], 'append');
   };
   PhotosView.prototype.destroy = function(e) {
-    var list, photo, photos, _i, _len, _results;
+    var album, ap, aps, list, photo, photos, _i, _j, _k, _len, _len2, _len3, _results;
     console.log('PhotosView::destroy');
     list = Album.selectionList().slice(0);
     photos = [];
@@ -139,10 +142,24 @@ PhotosView = (function() {
       Album.emptySelection();
       return Photo.trigger('destroy:join', Album.record, photos);
     } else {
-      _results = [];
       for (_i = 0, _len = photos.length; _i < _len; _i++) {
         photo = photos[_i];
-        _results.push(Photo.exists(photo.id) ? (Photo.removeFromSelection(Album, photo.id), photo.destroy()) : void 0);
+        aps = AlbumsPhoto.filter(photo.id, {
+          key: 'photo_id'
+        });
+        for (_j = 0, _len2 = aps.length; _j < _len2; _j++) {
+          ap = aps[_j];
+          album = Album.find(ap.album_id);
+          Spine.Ajax.disable(function() {
+            return Photo.trigger('destroy:join', album, photo);
+          });
+        }
+      }
+      _results = [];
+      for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
+        photo = photos[_k];
+        Photo.removeFromSelection(Album, photo.id);
+        _results.push(photo.destroy());
       }
       return _results;
     }

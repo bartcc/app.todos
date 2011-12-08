@@ -143,7 +143,7 @@ AlbumsView = (function() {
     return this.openPanel('album', App.showView.btnAlbum);
   };
   AlbumsView.prototype.destroy = function(e) {
-    var album, albums, list, _i, _len, _results;
+    var album, albums, ap, aps, ga, gallery, gas, list, photos, _i, _j, _k, _l, _len, _len2, _len3, _len4, _results;
     console.log('AlbumsView::destroy');
     list = Gallery.selectionList().slice(0);
     albums = [];
@@ -157,10 +157,35 @@ AlbumsView = (function() {
       Gallery.emptySelection();
       return Album.trigger('destroy:join', Gallery.record, albums);
     } else {
-      _results = [];
       for (_i = 0, _len = albums.length; _i < _len; _i++) {
         album = albums[_i];
-        _results.push(Album.exists(album.id) ? (Album.removeFromSelection(Gallery, album.id), album.destroy()) : void 0);
+        gas = GalleriesAlbum.filter(album.id, {
+          key: 'album_id'
+        });
+        for (_j = 0, _len2 = gas.length; _j < _len2; _j++) {
+          ga = gas[_j];
+          gallery = Gallery.find(ga.gallery_id);
+          aps = AlbumsPhoto.filter(album.id, {
+            key: 'album_id'
+          });
+          photos = [];
+          for (_k = 0, _len3 = aps.length; _k < _len3; _k++) {
+            ap = aps[_k];
+            photos.push(Photo.find(ap.photo_id));
+          }
+          Spine.Ajax.disable(function() {
+            return Photo.trigger('destroy:join', album, photos);
+          });
+          Spine.Ajax.disable(function() {
+            return Album.trigger('destroy:join', gallery, album);
+          });
+        }
+      }
+      _results = [];
+      for (_l = 0, _len4 = albums.length; _l < _len4; _l++) {
+        album = albums[_l];
+        Album.removeFromSelection(Gallery, album.id);
+        _results.push(album.destroy());
       }
       return _results;
     }

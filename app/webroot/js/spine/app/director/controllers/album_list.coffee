@@ -73,6 +73,7 @@ class AlbumList extends Spine.Controller
   
   callback: (json, item) =>
     console.log 'AlbumList::callback'
+    console.log item
     el = @children().forItem(item)
     searchJSON = (itm) ->
       res = for key, value of itm
@@ -80,6 +81,7 @@ class AlbumList extends Spine.Controller
     css = for itm in json
       o = searchJSON itm
       'url(' + o[0].src + ')'
+    console.log css
     el.css('backgroundImage', css)
   
   create: ->

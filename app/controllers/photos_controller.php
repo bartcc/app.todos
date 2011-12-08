@@ -75,12 +75,44 @@ class PhotosController extends AppController {
       $this->flash(sprintf(__('Invalid image', true)), array('action' => 'index'));
     }
     if ($this->Photo->delete($id)) {
+      // remove image from filesystem
+      $this->remove($id);
       $this->flash(__('Image deleted', true), array('action' => 'index'));
+      $this->render(BLANK_RESPONSE);
     }
     $this->flash(__('Image was not deleted', true), array('action' => 'index'));
     $this->redirect(array('action' => 'index'));
   }
 
+  function remove($id) {
+    $this->autoRender = false;
+
+    if($this->Auth->user()) {
+
+      $user_id = $this->Auth->user('id');
+      
+      App::import('Component', 'File');
+      $file = new FileComponent();
+
+      $path = PHOTOS . DS . $user_id . DS . $id;
+      $lg_path = $path . DS . 'lg';
+      $cache_path = $path . DS . 'cache';
+      
+      $oldies = glob($lg_path . DS . '*');
+      foreach ($oldies as $o) {
+        unlink($o);
+      }
+      $oldies = glob($cache_path . DS . '*');
+      foreach ($oldies as $o) {
+        unlink($o);
+      }
+      rmdir($lg_path);
+      rmdir($cache_path);
+      rmdir($path);
+    }
+  }
+
+  
   function recent($max = 10) {
     $this->autoRender = false;
     $this->Photo->recursive = -1;
@@ -96,7 +128,6 @@ class PhotosController extends AppController {
   }
 
   function uri($width = 150, $height = 150, $square = 2) {
-//    $this->log('PhotosController::uri', LOG_DEBUG);
     $this->log($this->data, LOG_DEBUG);
     if ($this->Auth->user()) {
 
@@ -105,16 +136,11 @@ class PhotosController extends AppController {
       if (!empty($this->data)) {
         $array = array();
         foreach ($this->data['Photo'] as $data) {
-          //        $this->log($data['id'], LOG_DEBUG);
           $id = $data['id'];
           $path = PHOTOS . DS . $uid . DS . $id . DS . 'lg' . DS . '*.*';
-          //$options = array('width' => $width, 'height' => $height, 'square' => $square);
           $files = glob($path);
-          //        $this->log($files, LOG_DEBUG);
           if (!empty($files[0])) {
-            //$this->log($files[0], LOG_DEBUG);
             $fn = basename($files[0]);
-            //extract($this->_previewOptions(300, 300));
             $options = compact(array('uid', 'id', 'fn', 'width', 'height', 'square'));
             $src = __p($options);
             $return = array($id => array('src' => $src));

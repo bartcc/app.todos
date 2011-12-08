@@ -195,8 +195,9 @@ Model.Extender = {
         console.log(statusText);
         return console.log(error);
       },
-      customErrorHandler: function(xhr) {
+      customErrorHandler: function(record, xhr) {
         var error, status;
+        console.log(record);
         console.log(xhr);
         status = xhr.status;
         if (status !== 200) {

@@ -275,6 +275,4 @@ class ShowView extends Spine.Controller
     
   sliderStop: =>
     # rerender thumbnails to its final size
-    
-    
-    
+    @slider.toggle()

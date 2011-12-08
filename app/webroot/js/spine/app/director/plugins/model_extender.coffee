@@ -118,7 +118,8 @@ Model.Extender =
         console.log statusText
         console.log error
         
-      customErrorHandler: (xhr) ->
+      customErrorHandler: (record, xhr) ->
+        console.log record
         console.log xhr
         status = xhr.status
         unless status is 200

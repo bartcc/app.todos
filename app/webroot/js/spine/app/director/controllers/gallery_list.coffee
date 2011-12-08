@@ -67,7 +67,7 @@ class GalleryList extends Spine.Controller
     Spine.trigger('change:selectedGallery', @current, mode)# if !previous or previous?.id != @current?.id or cmdKey
     
     if mode is 'edit'
-      App.showView.btnEditGallery.click()
+      Spine.trigger('edit:gallery')
     else if mode is 'show'
       Spine.trigger('show:albums')
         
@@ -180,7 +180,7 @@ class GalleryList extends Spine.Controller
     
   click: (e) ->
     console.log 'GalleryList::click'
-    item = $(e.target).item()
+    item = $(e.currentTarget).item()
     
     @change item, 'show', e
     @exposeSublistSelection(item)

@@ -145,10 +145,22 @@ class AlbumsView extends Spine.Controller
       Album.trigger('destroy:join', Gallery.record, albums)
     else
       for album in albums
-        if Album.exists(album.id)
-          Album.removeFromSelection(Gallery, album.id)
-          album.destroy()
-        
+        gas = GalleriesAlbum.filter(album.id, key: 'album_id')
+        for ga in gas
+          gallery = Gallery.find(ga.gallery_id)
+          # find all photos in album
+          aps = AlbumsPhoto.filter(album.id, key: 'album_id')
+          photos = []
+          for ap in aps
+            photos.push Photo.find(ap.photo_id)
+          Spine.Ajax.disable ->
+            Photo.trigger('destroy:join', album, photos)
+          Spine.Ajax.disable ->
+            Album.trigger('destroy:join', gallery, album)
+            
+      for album in albums
+        Album.removeFromSelection(Gallery, album.id)
+        album.destroy()
 
   createJoin: (target, albums) ->
     console.log 'AlbumsView::createJoin'

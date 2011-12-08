@@ -63,6 +63,7 @@ class GalleriesController extends AppController {
     }
     if ($this->Gallery->delete($id)) {
       $this->Session->setFlash(__('Gallery deleted', true));
+      $this->render(BLANK_RESPONSE);
     }
     $this->Session->setFlash(__('Gallery was not deleted', true));
     $this->redirect(array('action' => 'index'));

@@ -54,6 +54,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)
     Photo.bind('refresh', @proxy @prepareJoin)
+    Photo.bind('destroy', @proxy @remove)
     Photo.bind("create:join", @proxy @createJoin)
     Photo.bind("destroy:join", @proxy @destroyJoin)
     Gallery.bind('change', @proxy @renderHeader)
@@ -96,12 +97,16 @@ class PhotosView extends Spine.Controller
   emptyCache: (record, mode) ->
     Album.emptyCache record.album_id
   
-  remove: (ap) ->
+  # for AlbumsPhoto & Photo
+  remove: (record) ->
     console.log 'PhotosView::remove'
-    return unless ap.destroyed
-    photo = Photo.find(ap.photo_id)
-    photoEl = @items.children().forItem(photo)
-    photoEl.remove()
+    return unless record.destroyed
+    photo = (Photo.find(record.photo_id) if Photo.exists(record.photo_id)) or record
+    
+    if photo
+      photoEl = @items.children().forItem(photo, true)
+      photoEl.remove()
+      
 #      start the 'real' rendering
     @render [] unless @items.children().length
     
@@ -123,10 +128,25 @@ class PhotosView extends Spine.Controller
       Album.emptySelection()
       Photo.trigger('destroy:join', Album.record, photos)
     else
+      # clean up joins first
       for photo in photos
-        if Photo.exists(photo.id)
-          Photo.removeFromSelection(Album, photo.id)
-          photo.destroy()
+        # 
+        # we can destroy the join without telling the server
+        # as long as cakephp handles photo HABTM as unique (default)
+        # 
+        # so the server-side join is automatically
+        # removed upon photo deletion in the next step
+        #
+        aps = AlbumsPhoto.filter(photo.id, key: 'photo_id')
+        for ap in aps
+          album = Album.find(ap.album_id)
+          Spine.Ajax.disable ->
+            Photo.trigger('destroy:join', album, photo)
+            
+      # now remove photo originals
+      for photo in photos
+        Photo.removeFromSelection(Album, photo.id)
+        photo.destroy()
     
   show: ->
     return if @isActive()

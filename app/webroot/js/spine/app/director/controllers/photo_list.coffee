@@ -31,7 +31,6 @@ class PhotoList extends Spine.Controller
   
   render: (items, mode='html') ->
     console.log 'PhotoList::render'
-#    album?= Album.record
     if Album.record
       if items.length
         @[mode] @template items
@@ -43,8 +42,6 @@ class PhotoList extends Spine.Controller
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else
       @renderAll()
-      # Album.record is unknown - render all existing photos
-#      @html '<label class="invite"><span class="enlightened">Here all photos should be rendered</span></label>'
   
   renderAll: ->
     console.log 'PhotoList::renderAll'
@@ -55,7 +52,6 @@ class PhotoList extends Spine.Controller
       @uri items, 'html'
       @change()
       @el
-    
   
   update: (item) ->
     el = =>
@@ -176,7 +172,7 @@ class PhotoList extends Spine.Controller
     console.log @thumb.length
     
   size: (val) =>
-    # 2+10 = border radius
+    # 2*10 = border radius
     @thumb.css
       'height': val+'px'
       'width': val+'px'

@@ -21,7 +21,7 @@ class AlbumView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'Album::change'
-    if item.constructor.className is 'Album'
+    if item?.constructor.className is 'Album'
       @current = item
     else
       firstID = Gallery.selectionList(Gallery.record.id)[0]

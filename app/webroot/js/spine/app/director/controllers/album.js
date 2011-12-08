@@ -32,7 +32,7 @@ AlbumView = (function() {
   AlbumView.prototype.change = function(item, mode) {
     var firstID;
     console.log('Album::change');
-    if (item.constructor.className === 'Album') {
+    if ((item != null ? item.constructor.className : void 0) === 'Album') {
       this.current = item;
     } else {
       firstID = Gallery.selectionList(Gallery.record.id)[0];

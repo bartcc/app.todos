@@ -244,21 +244,17 @@ class SidebarView extends Spine.Controller
     Spine.trigger('show:allPhotos', true)
     
   showAllPhotos: (deselect=false) ->
-    if deselect
-      @list.deselect()
-      Gallery.emptySelection()
-    Spine.trigger('expose:sublistSelection', Gallery.record)
+    if deselect then @list.deselect()
+#    Spine.trigger('expose:sublistSelection', Gallery.record)
     Gallery.current()
     Album.current()
     Spine.trigger('show:photos')
-    Spine.trigger('change:selectedAlbum', false)
+    Spine.trigger('change:selectedAlbum', false, true)
     
   showAllAlbums: (deselect=false) ->
-    if deselect
-      @list.deselect()
-      Gallery.emptySelection()
+    if deselect then @list.deselect()
     Gallery.current()
     Spine.trigger('show:albums')
-    Spine.trigger('change:selectedGallery', false)
+    Spine.trigger('change:selectedGallery', false, true)
   
     

@@ -197,19 +197,37 @@ GalleryList = (function() {
     return _results;
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {
-    var album, albums, galleryEl, id, _i, _len, _ref, _results;
+    var album, albums, galleryEl, id, item, list, val, _i, _len, _ref, _results;
     console.log('GalleryList::exposeSublistSelection');
-    galleryEl = this.children().forItem(gallery);
-    albums = galleryEl.find('li');
-    albums.removeClass('active');
-    _ref = Gallery.selectionList();
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      id = _ref[_i];
-      if (Album.exists(id)) {
-        album = Album.find(id);
+    list = [];
+    if (!gallery) {
+      _ref = Gallery.records;
+      for (item in _ref) {
+        val = _ref[item];
+        list.push(val);
       }
-      _results.push(albums.forItem(album).addClass('active'));
+    } else {
+      list.push(gallery);
+    }
+    _results = [];
+    for (_i = 0, _len = list.length; _i < _len; _i++) {
+      item = list[_i];
+      galleryEl = this.children().forItem(item);
+      albums = galleryEl.find('li');
+      albums.removeClass('active');
+      _results.push((function() {
+        var _j, _len2, _ref2, _results2;
+        _ref2 = Gallery.selectionList();
+        _results2 = [];
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          id = _ref2[_j];
+          if (Album.exists(id)) {
+            album = Album.find(id);
+          }
+          _results2.push(albums.forItem(album).addClass('active'));
+        }
+        return _results2;
+      })());
     }
     return _results;
   };
@@ -230,9 +248,7 @@ GalleryList = (function() {
       }
       this.exposeSublistSelection(Gallery.record);
       App.showView.trigger('change:toolbar', 'Photo');
-      if (!previous || !(album.id === previous.id)) {
-        Spine.trigger('change:selectedAlbum', album);
-      }
+      Spine.trigger('change:selectedAlbum', album, !previous || !(album.id === previous.id));
       Spine.trigger('show:photos');
       this.change(Gallery.record, 'photo', e);
     } else {

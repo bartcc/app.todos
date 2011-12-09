@@ -142,12 +142,18 @@ class GalleryList extends Spine.Controller
   
   exposeSublistSelection: (gallery) ->
     console.log 'GalleryList::exposeSublistSelection'
-    galleryEl = @children().forItem(gallery)
-    albums = galleryEl.find('li')
-    albums.removeClass('active')
-    for id in Gallery.selectionList()
-      album = Album.find(id) if Album.exists(id)
-      albums.forItem(album).addClass('active') 
+    list = []
+    unless gallery
+      list.push val for item, val of Gallery.records
+    else
+      list.push gallery
+    for item in list
+      galleryEl = @children().forItem(item)
+      albums = galleryEl.find('li')
+      albums.removeClass('active')
+      for id in Gallery.selectionList()
+        album = Album.find(id) if Album.exists(id)
+        albums.forItem(album).addClass('active') 
 
   clickAlb: (e) ->
     console.log 'GalleryList::albclick'
@@ -169,7 +175,7 @@ class GalleryList extends Spine.Controller
       
       @exposeSublistSelection(Gallery.record)
       App.showView.trigger('change:toolbar', 'Photo')
-      Spine.trigger('change:selectedAlbum', album) if !previous or !(album.id is previous.id)
+      Spine.trigger('change:selectedAlbum', album, (!previous or !(album.id is previous.id)))# if !previous or !(album.id is previous.id)
       Spine.trigger('show:photos')
       @change Gallery.record, 'photo', e
     else

@@ -325,13 +325,11 @@ SidebarView = (function() {
     }
     if (deselect) {
       this.list.deselect();
-      Gallery.emptySelection();
     }
-    Spine.trigger('expose:sublistSelection', Gallery.record);
     Gallery.current();
     Album.current();
     Spine.trigger('show:photos');
-    return Spine.trigger('change:selectedAlbum', false);
+    return Spine.trigger('change:selectedAlbum', false, true);
   };
   SidebarView.prototype.showAllAlbums = function(deselect) {
     if (deselect == null) {
@@ -339,11 +337,10 @@ SidebarView = (function() {
     }
     if (deselect) {
       this.list.deselect();
-      Gallery.emptySelection();
     }
     Gallery.current();
     Spine.trigger('show:albums');
-    return Spine.trigger('change:selectedGallery', false);
+    return Spine.trigger('change:selectedGallery', false, true);
   };
   return SidebarView;
 })();

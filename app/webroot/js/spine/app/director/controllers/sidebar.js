@@ -326,7 +326,6 @@ SidebarView = (function() {
     if (deselect) {
       this.list.deselect();
     }
-    Gallery.current();
     Album.current();
     Spine.trigger('show:photos');
     return Spine.trigger('change:selectedAlbum', false, true);

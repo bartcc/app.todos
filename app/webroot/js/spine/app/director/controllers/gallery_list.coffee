@@ -41,6 +41,7 @@ class GalleryList extends Spine.Controller
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandExpander)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
+    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
     
   template: -> arguments[0]
 
@@ -63,7 +64,8 @@ class GalleryList extends Spine.Controller
         when 'create'
           @current = item
           
-      @children().forItem(@current).addClass("active") if @current
+      @exposeSelection(@current)
+#      @children().forItem(@current).addClass("active") if @current
     else
       @current = false
       switch mode
@@ -141,6 +143,10 @@ class GalleryList extends Spine.Controller
     for ga in gas
       @renderItemFromGalleriesAlbum ga
   
+  exposeSelection: (gallery) ->
+    console.log 'GalleryList::exposeSelection'
+    @children().forItem(gallery).addClass("active") if gallery
+        
   exposeSublistSelection: (gallery) ->
     console.log 'GalleryList::exposeSublistSelection'
     removeAlbumSelection = =>

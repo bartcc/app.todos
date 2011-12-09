@@ -24,6 +24,7 @@ PhotosHeader = (function() {
   }
   PhotosHeader.prototype.closeView = function() {
     console.log('AlbumsHeader::closeView');
+    Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('show:albums');
   };
   PhotosHeader.prototype.change = function(item) {

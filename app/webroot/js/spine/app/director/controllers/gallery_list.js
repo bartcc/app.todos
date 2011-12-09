@@ -49,6 +49,7 @@ GalleryList = (function() {
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
+    Spine.bind('gallery:exposeSelection', this.proxy(this.exposeSelection));
   }
   GalleryList.prototype.template = function() {
     return arguments[0];
@@ -78,9 +79,7 @@ GalleryList = (function() {
         case 'create':
           this.current = item;
       }
-      if (this.current) {
-        this.children().forItem(this.current).addClass("active");
-      }
+      this.exposeSelection(this.current);
     } else {
       this.current = false;
       switch (mode) {
@@ -196,6 +195,12 @@ GalleryList = (function() {
       _results.push(this.renderItemFromGalleriesAlbum(ga));
     }
     return _results;
+  };
+  GalleryList.prototype.exposeSelection = function(gallery) {
+    console.log('GalleryList::exposeSelection');
+    if (gallery) {
+      return this.children().forItem(gallery).addClass("active");
+    }
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {
     var album, albums, galleryEl, id, item, list, removeAlbumSelection, val, _i, _len, _ref, _results;

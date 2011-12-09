@@ -14,6 +14,7 @@ class PhotosHeader extends Spine.Controller
 
   closeView: ->
     console.log 'AlbumsHeader::closeView'
+    Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('show:albums')
 
   change: (item) ->

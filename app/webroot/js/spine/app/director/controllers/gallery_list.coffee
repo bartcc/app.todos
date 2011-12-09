@@ -46,30 +46,33 @@ class GalleryList extends Spine.Controller
 
   change: (item, mode, e) =>
     console.log 'GalleryList::change'
-    previous = @current
-    if e
-      cmdKey = @isCtrlClick(e)
-      dblclick = e.type is 'dblclick' 
-
-    @children().removeClass("active")
-    if (!cmdKey)
-      # don't touch @current if we're just updating
+    @deselect()
+    
+    ctrlClick = @isCtrlClick(e) if e
+    unless ctrlClick
       switch mode
         when 'destroy'
           @current = false
-        else
-          @current = item unless mode is 'update'
-          @children().forItem(@current).addClass("active")
+        when 'edit'
+          Spine.trigger('edit:gallery')
+        when 'show'
+          @current = item
+          Spine.trigger('show:albums')
+        when 'photo'
+          @current = item
+        when 'create'
+          @current = item
+          
+      @children().forItem(@current).addClass("active") if @current
     else
       @current = false
+      switch mode
+        when 'show'
+          Spine.trigger('show:albums')
+          
     
     Gallery.current(@current)
     Spine.trigger('change:selectedGallery', @current, mode)# if !previous or previous?.id != @current?.id or cmdKey
-    
-    if mode is 'edit'
-      Spine.trigger('edit:gallery')
-    else if mode is 'show'
-      Spine.trigger('show:albums')
         
   render: (galleries, gallery, mode) ->
     console.log 'GalleryList::render'
@@ -163,17 +166,15 @@ class GalleryList extends Spine.Controller
       if App.hmanager.hasActive()
         @openPanel('album', App.showView.btnAlbum)
 
-    else
-      Gallery.emptySelection()
-      Album.emptySelection()
-      Gallery.current()
-      Album.current()
       
-    @change Gallery.record
-    @exposeSublistSelection(Gallery.record)
-    App.showView.trigger('change:toolbar', 'Photo')
-    Spine.trigger('change:selectedAlbum', album) if !previous or !(album.id is previous.id)
-    Spine.trigger('show:photos')
+      @exposeSublistSelection(Gallery.record)
+      App.showView.trigger('change:toolbar', 'Photo')
+      Spine.trigger('change:selectedAlbum', album) if !previous or !(album.id is previous.id)
+      Spine.trigger('show:photos')
+      @change Gallery.record, 'photo', e
+    else
+      Spine.trigger('show:allPhotos')
+      
     
     e.stopPropagation()
     e.preventDefault()
@@ -238,5 +239,6 @@ class GalleryList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     false
+    
     
 module?.exports = GalleryList

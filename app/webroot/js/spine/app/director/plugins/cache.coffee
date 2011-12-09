@@ -34,9 +34,12 @@ Model.Cache =
           cache.push dummy unless @cache(record, url)
         cache
 
-      emptyCache: (id) ->
+      clearCache: (id) ->
         originalList = @cacheList(id)
+        oldLength = originalList.length
         originalList[0...originalList.length] = []
+        newLength = originalList.length
+#        alert oldLength.toString() + ' / ' + newLength.toString()
         originalList
           
     Include =
@@ -47,8 +50,8 @@ Model.Cache =
       addToCache: (url, uri, mode) ->
         @constructor.addToCache(@, url, uri, mode)
 
-      emptyCache: ->
-        @constructor.emptyCache @id
+      clearCache: ->
+        @constructor.clearCache @id
  
 
     @extend Extend

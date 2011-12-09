@@ -26,6 +26,23 @@ PhotosHeader = (function() {
     console.log('AlbumsHeader::closeView');
     return Spine.trigger('show:albums');
   };
+  PhotosHeader.prototype.change = function(item) {
+    this.current = item;
+    return this.render();
+  };
+  PhotosHeader.prototype.render = function() {
+    return this.html(this.template({
+      gallery: Gallery.record,
+      record: this.current,
+      count: this.photosCount()
+    }));
+  };
+  PhotosHeader.prototype.photosCount = function() {
+    var _ref;
+    return AlbumsPhoto.filter((_ref = Album.record) != null ? _ref.id : void 0, {
+      key: 'album_id'
+    }).length;
+  };
   return PhotosHeader;
 })();
 if (typeof module !== "undefined" && module !== null) {

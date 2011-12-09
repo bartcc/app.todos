@@ -43,11 +43,11 @@ AlbumList = (function() {
   AlbumList.prototype.select = function(item, e) {
     var previous, _ref;
     previous = Album.record;
-    this.exposeSelection();
     if (item && !item.destroyed) {
       this.current = item;
       Album.current(item);
     }
+    this.exposeSelection();
     if ((previous != null ? previous.id : void 0) !== ((_ref = this.current) != null ? _ref.id : void 0)) {
       return Spine.trigger('change:selectedAlbum', item);
     }
@@ -67,9 +67,7 @@ AlbumList = (function() {
     }
     current = list.length === 1 ? list[0] : void 0;
     Album.current(current);
-    if (Gallery.record) {
-      return Spine.trigger('expose:sublistSelection', Gallery.record);
-    }
+    return Spine.trigger('expose:sublistSelection', Gallery.record);
   };
   AlbumList.prototype.render = function(items) {
     console.log('AlbumList::render');

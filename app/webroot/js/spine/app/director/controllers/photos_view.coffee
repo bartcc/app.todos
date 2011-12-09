@@ -28,7 +28,6 @@ class PhotosView extends Spine.Controller
     $('#preloaderTemplate').tmpl()
     
   headerTemplate: (items) ->
-    items.gallery = Gallery.record
     $("#headerAlbumTemplate").tmpl items
     
   previewTemplate: (item) ->
@@ -44,9 +43,10 @@ class PhotosView extends Spine.Controller
       template: @template
       preview: @preview
       slider: @parent
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
-    Photo.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @emptyCache)
+    @header.template = @headerTemplate
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearCache)
+    Photo.bind('beforeDestroy beforeCreate', @proxy @clearCache)
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
@@ -89,22 +89,19 @@ class PhotosView extends Spine.Controller
   
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
-    values =
-      record: Album.record
-      count: AlbumsPhoto.filter(Album.record?.id, key: 'album_id').length
-    @header.html @headerTemplate values
+    @header.change Album.record
   
   # after albumsphoto jointable has been changed by delete or create trash the cache and rebuild it the next time
   # could be in any controller that listens to AlbumsPhoto - may be move to app?
-  emptyCache: (record, mode) ->
+  clearCache: (record, mode) ->
     switch record.constructor.className
       when 'Photo'
         # get related albums
         aps = AlbumsPhoto.filter(record.id, 'photo_id')
         for ap in aps
-          Album.emptyCache ap.album_id
+          Album.clearCache ap.album_id
       when 'AlbumsPhoto'
-        Album.emptyCache record.album_id
+        Album.clearCache record.album_id
       
   # for AlbumsPhoto & Photo
   remove: (record) ->

@@ -37,7 +37,6 @@ PhotosView = (function() {
     return $('#preloaderTemplate').tmpl();
   };
   PhotosView.prototype.headerTemplate = function(items) {
-    items.gallery = Gallery.record;
     return $("#headerAlbumTemplate").tmpl(items);
   };
   PhotosView.prototype.previewTemplate = function(item) {
@@ -55,9 +54,10 @@ PhotosView = (function() {
       preview: this.preview,
       slider: this.parent
     });
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
-    Photo.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.emptyCache));
+    this.header.template = this.headerTemplate;
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearCache));
+    Photo.bind('beforeDestroy beforeCreate', this.proxy(this.clearCache));
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
@@ -96,17 +96,10 @@ PhotosView = (function() {
     return this.refreshElements();
   };
   PhotosView.prototype.renderHeader = function() {
-    var values, _ref;
     console.log('PhotosView::renderHeader');
-    values = {
-      record: Album.record,
-      count: AlbumsPhoto.filter((_ref = Album.record) != null ? _ref.id : void 0, {
-        key: 'album_id'
-      }).length
-    };
-    return this.header.html(this.headerTemplate(values));
+    return this.header.change(Album.record);
   };
-  PhotosView.prototype.emptyCache = function(record, mode) {
+  PhotosView.prototype.clearCache = function(record, mode) {
     var ap, aps, _i, _len, _results;
     switch (record.constructor.className) {
       case 'Photo':
@@ -114,12 +107,12 @@ PhotosView = (function() {
         _results = [];
         for (_i = 0, _len = aps.length; _i < _len; _i++) {
           ap = aps[_i];
-          _results.push(Album.emptyCache(ap.album_id));
+          _results.push(Album.clearCache(ap.album_id));
         }
         return _results;
         break;
       case 'AlbumsPhoto':
-        return Album.emptyCache(record.album_id);
+        return Album.clearCache(record.album_id);
     }
   };
   PhotosView.prototype.remove = function(record) {

@@ -642,13 +642,13 @@ textarea {
   background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#e0e0e1));
   background: -moz-linear-gradient(top, #ffffff, #e0e0e1);
   background: linear-gradient(top, #ffffff, #e0e0e1);
+  font-weight: bold;
 }
 #content .options {
   margin: 0;
   padding: 0;
   overflow: hidden;
   list-style: none;
-  font-weight: bold;
   text-shadow: 0 1px 1px #ffffff;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
@@ -673,6 +673,10 @@ textarea {
   background: -webkit-gradient(linear, left top, left bottom, from(#FFB399), to(#FF6633));
   background: -moz-linear-gradient(top, #FFB399, #FF6633);
   background: linear-gradient(top, #FFB399, #FF6633);
+}
+.originals .options {
+  font-size: 0.7em;
+  font-weight: normal;
 }
 .empty {
   font-style: italic;

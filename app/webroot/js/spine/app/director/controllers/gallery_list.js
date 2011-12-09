@@ -54,35 +54,42 @@ GalleryList = (function() {
     return arguments[0];
   };
   GalleryList.prototype.change = function(item, mode, e) {
-    var cmdKey, dblclick, previous;
+    var ctrlClick;
     console.log('GalleryList::change');
-    previous = this.current;
+    this.deselect();
     if (e) {
-      cmdKey = this.isCtrlClick(e);
-      dblclick = e.type === 'dblclick';
+      ctrlClick = this.isCtrlClick(e);
     }
-    this.children().removeClass("active");
-    if (!cmdKey) {
+    if (!ctrlClick) {
       switch (mode) {
         case 'destroy':
           this.current = false;
           break;
-        default:
-          if (mode !== 'update') {
-            this.current = item;
-          }
-          this.children().forItem(this.current).addClass("active");
+        case 'edit':
+          Spine.trigger('edit:gallery');
+          break;
+        case 'show':
+          this.current = item;
+          Spine.trigger('show:albums');
+          break;
+        case 'photo':
+          this.current = item;
+          break;
+        case 'create':
+          this.current = item;
+      }
+      if (this.current) {
+        this.children().forItem(this.current).addClass("active");
       }
     } else {
       this.current = false;
+      switch (mode) {
+        case 'show':
+          Spine.trigger('show:albums');
+      }
     }
     Gallery.current(this.current);
-    Spine.trigger('change:selectedGallery', this.current, mode);
-    if (mode === 'edit') {
-      return Spine.trigger('edit:gallery');
-    } else if (mode === 'show') {
-      return Spine.trigger('show:albums');
-    }
+    return Spine.trigger('change:selectedGallery', this.current, mode);
   };
   GalleryList.prototype.render = function(galleries, gallery, mode) {
     console.log('GalleryList::render');
@@ -221,19 +228,16 @@ GalleryList = (function() {
       if (App.hmanager.hasActive()) {
         this.openPanel('album', App.showView.btnAlbum);
       }
+      this.exposeSublistSelection(Gallery.record);
+      App.showView.trigger('change:toolbar', 'Photo');
+      if (!previous || !(album.id === previous.id)) {
+        Spine.trigger('change:selectedAlbum', album);
+      }
+      Spine.trigger('show:photos');
+      this.change(Gallery.record, 'photo', e);
     } else {
-      Gallery.emptySelection();
-      Album.emptySelection();
-      Gallery.current();
-      Album.current();
+      Spine.trigger('show:allPhotos');
     }
-    this.change(Gallery.record);
-    this.exposeSublistSelection(Gallery.record);
-    App.showView.trigger('change:toolbar', 'Photo');
-    if (!previous || !(album.id === previous.id)) {
-      Spine.trigger('change:selectedAlbum', album);
-    }
-    Spine.trigger('show:photos');
     e.stopPropagation();
     e.preventDefault();
     return false;

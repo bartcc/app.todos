@@ -5,15 +5,18 @@ class SidebarView extends Spine.Controller
   elements:
     'input'                 : 'input'
     '.items'                : 'items'
-    '.droppable'            : 'droppable'
     '.inner'                : 'inner'
+    '.droppable'            : 'droppable'
+    '.optAllAlbums'         : 'albums'
+    '.optAllPhotos'         : 'photos'
 
   events:
     "click button"          : "create"
+    'click .optAllAlbums'   : 'allAlbums'
+    'click .optAllPhotos'   : 'allPhotos'
     "keyup input"           : "filter"
     "dblclick .draghandle"  : 'toggleDraghandle'
 
-#    'dragstart .items .item': 'dragstart'
     'dragenter .items .item': 'dragenter'
     'dragover  .items .item': 'dragover'
     'dragleave'             : 'dragleave'
@@ -41,6 +44,8 @@ class SidebarView extends Spine.Controller
     Spine.bind('drag:over', @proxy @dragOver)
     Spine.bind('drag:leave', @proxy @dragLeave)
     Spine.bind('drag:drop', @proxy @dropComplete)
+    Spine.bind('show:allPhotos', @proxy @showAllPhotos)
+    Spine.bind('show:allAlbums', @proxy @showAllAlbums)
 
   filter: ->
     @query = @input.val();
@@ -231,3 +236,29 @@ class SidebarView extends Spine.Controller
       width: w
       speed
       => @clb()
+      
+  allAlbums: ->
+    Spine.trigger('show:allAlbums', true)
+    
+  allPhotos: ->
+    Spine.trigger('show:allPhotos', true)
+    
+  showAllPhotos: (deselect=false) ->
+    if deselect
+      @list.deselect()
+      Gallery.emptySelection()
+    Spine.trigger('expose:sublistSelection', Gallery.record)
+    Gallery.current()
+    Album.current()
+    Spine.trigger('show:photos')
+    Spine.trigger('change:selectedAlbum', false)
+    
+  showAllAlbums: (deselect=false) ->
+    if deselect
+      @list.deselect()
+      Gallery.emptySelection()
+    Gallery.current()
+    Spine.trigger('show:albums')
+    Spine.trigger('change:selectedGallery', false)
+  
+    

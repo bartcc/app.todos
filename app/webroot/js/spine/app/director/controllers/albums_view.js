@@ -51,6 +51,7 @@ AlbumsView = (function() {
       template: this.albumsTemplate,
       preview: this.preview
     });
+    this.header.template = this.headerTemplate;
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
@@ -98,13 +99,8 @@ AlbumsView = (function() {
     return Spine.trigger('album:exposeSelection');
   };
   AlbumsView.prototype.renderHeader = function() {
-    var values, _ref;
     console.log('AlbumsView::renderHeader');
-    values = {
-      record: Gallery.record,
-      count: GalleriesAlbum.filter((_ref = Gallery.record) != null ? _ref.id : void 0, this.filterOptions).length
-    };
-    return this.header.html(this.headerTemplate(values));
+    return this.header.change(Gallery.record);
   };
   AlbumsView.prototype.show = function() {
     this.parent.trigger('change:toolbar', Album);

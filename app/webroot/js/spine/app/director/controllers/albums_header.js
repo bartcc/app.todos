@@ -16,6 +16,22 @@ AlbumsHeader = (function() {
   function AlbumsHeader() {
     AlbumsHeader.__super__.constructor.apply(this, arguments);
   }
+  AlbumsHeader.prototype.change = function(item) {
+    this.current = item;
+    return this.render();
+  };
+  AlbumsHeader.prototype.render = function() {
+    return this.html(this.template({
+      record: this.current,
+      count: this.albumCount()
+    }));
+  };
+  AlbumsHeader.prototype.albumCount = function() {
+    var _ref;
+    return GalleriesAlbum.filter((_ref = Gallery.record) != null ? _ref.id : void 0, {
+      key: 'gallery_id'
+    }).length;
+  };
   return AlbumsHeader;
 })();
 if (typeof module !== "undefined" && module !== null) {

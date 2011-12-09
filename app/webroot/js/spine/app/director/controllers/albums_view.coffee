@@ -43,6 +43,7 @@ class AlbumsView extends Spine.Controller
       el: @items
       template: @albumsTemplate
       preview: @preview
+    @header.template = @headerTemplate
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
@@ -99,10 +100,7 @@ class AlbumsView extends Spine.Controller
    
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
-    values =
-      record: Gallery.record
-      count: GalleriesAlbum.filter(Gallery.record?.id, @filterOptions).length
-    @header.html @headerTemplate values
+    @header.change Gallery.record
   
   show: ->
     @parent.trigger('change:toolbar', Album)

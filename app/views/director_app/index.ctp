@@ -68,6 +68,13 @@
         <div class="search">
           <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
         </div>
+        <div class="originals hbox">
+          <ul class="options hbox flex">
+            <li class="optAllAlbums"><span>all albums</span></li>
+            <li class="splitter disabled flex"></li>
+            <li class="optAllPhotos"><span>all photos</span></li>
+          </ul>
+        </div>
         <ul class="items canvas vbox flex autoflow"></ul>
         <footer class="footer">
           <button class="">New Gallery</button>
@@ -167,7 +174,7 @@
 </div>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li id="${id}" class="gal item data" title="Deselect   Cmd-Click">
+  <li class="gal item data" title="Deselect   Cmd-Click">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#galleriesContentTemplate"}}

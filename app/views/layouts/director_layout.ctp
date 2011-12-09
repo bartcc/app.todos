@@ -104,7 +104,7 @@
     echo $this->Html->script('spine/app/director/controllers/photo');
     echo $this->Html->script('spine/app/director/controllers/upload');
     echo $this->Html->script('spine/app/director/controllers/slideshow');
-    echo $this->Html->script('spine/app/director/upload');
+//    echo $this->Html->script('spine/app/director/upload');
     echo $this->Html->script('spine/app/director/application');
     ?>
 

@@ -18,11 +18,15 @@ SidebarView = (function() {
   SidebarView.prototype.elements = {
     'input': 'input',
     '.items': 'items',
+    '.inner': 'inner',
     '.droppable': 'droppable',
-    '.inner': 'inner'
+    '.optAllAlbums': 'albums',
+    '.optAllPhotos': 'photos'
   };
   SidebarView.prototype.events = {
     "click button": "create",
+    'click .optAllAlbums': 'allAlbums',
+    'click .optAllPhotos': 'allPhotos',
     "keyup input": "filter",
     "dblclick .draghandle": 'toggleDraghandle',
     'dragenter .items .item': 'dragenter',
@@ -55,6 +59,8 @@ SidebarView = (function() {
     Spine.bind('drag:over', this.proxy(this.dragOver));
     Spine.bind('drag:leave', this.proxy(this.dragLeave));
     Spine.bind('drag:drop', this.proxy(this.dropComplete));
+    Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
+    Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
   }
   SidebarView.prototype.filter = function() {
     this.query = this.input.val();
@@ -306,6 +312,38 @@ SidebarView = (function() {
     }, speed, __bind(function() {
       return this.clb();
     }, this));
+  };
+  SidebarView.prototype.allAlbums = function() {
+    return Spine.trigger('show:allAlbums', true);
+  };
+  SidebarView.prototype.allPhotos = function() {
+    return Spine.trigger('show:allPhotos', true);
+  };
+  SidebarView.prototype.showAllPhotos = function(deselect) {
+    if (deselect == null) {
+      deselect = false;
+    }
+    if (deselect) {
+      this.list.deselect();
+      Gallery.emptySelection();
+    }
+    Spine.trigger('expose:sublistSelection', Gallery.record);
+    Gallery.current();
+    Album.current();
+    Spine.trigger('show:photos');
+    return Spine.trigger('change:selectedAlbum', false);
+  };
+  SidebarView.prototype.showAllAlbums = function(deselect) {
+    if (deselect == null) {
+      deselect = false;
+    }
+    if (deselect) {
+      this.list.deselect();
+      Gallery.emptySelection();
+    }
+    Gallery.current();
+    Spine.trigger('show:albums');
+    return Spine.trigger('change:selectedGallery', false);
   };
   return SidebarView;
 })();

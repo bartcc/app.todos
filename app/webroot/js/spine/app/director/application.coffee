@@ -89,6 +89,8 @@ class App extends Spine.Controller
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
+    
+    @initFileupload()
 
   validate: (user, json) ->
     console.log 'Pinger done'
@@ -118,6 +120,17 @@ class App extends Spine.Controller
       @loginView.render User.first()
       
     @statusText.text('Thanks for Patience').fadeIn('slow', => @delay cb, 1000)
+    
+  initFileupload: ->
+    @uploadEl.fileupload()
+    $.getJSON $('form', @uploadEl).prop('action'), (files) ->
+      fu = uploadEl.data('fileupload')
+      fu._adjustMaxNumberOfFiles(-files.length)
+      fu._renderDownload(files)
+        .appendTo $('.files', @uploadEl)
+        .fadeIn ->
+          # Fix for IE7 and lower:
+          $(@).show();
     
 $ ->
   

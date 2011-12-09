@@ -120,8 +120,7 @@ class ShowView extends Spine.Controller
     Spine.trigger('show:albums')
   
   showAllAlbums: ->
-    Gallery.record = false
-    Spine.trigger('change:selectedGallery', false)
+    Spine.trigger('show:allAlbums')
   
   showPhotos: (e) ->
     return if $(e.currentTarget).hasClass('disabled')

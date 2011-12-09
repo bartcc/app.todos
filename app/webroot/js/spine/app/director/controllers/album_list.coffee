@@ -25,11 +25,11 @@ class AlbumList extends Spine.Controller
   
   select: (item, e) ->
     previous = Album.record
-    @exposeSelection()
     if item and !item.destroyed
       @current = item
       Album.current(item)
     
+    @exposeSelection()
     Spine.trigger('change:selectedAlbum', item) if (previous?.id != @current?.id)
     
   exposeSelection: ->
@@ -44,7 +44,7 @@ class AlbumList extends Spine.Controller
     current = if list.length is 1 then list[0]
     Album.current(current)
         
-    Spine.trigger('expose:sublistSelection', Gallery.record) if Gallery.record
+    Spine.trigger('expose:sublistSelection', Gallery.record)# if Gallery.record
   
   render: (items) ->
     console.log 'AlbumList::render'
@@ -88,12 +88,8 @@ class AlbumList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumList::click'
     item = $(e.target).item()
-#    alert item.id
-    # open Album panel if any panel is open
-#    if App.hmanager.hasActive()
-#      @openPanel('album', App.showView.btnAlbum)
-    
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
+    
     @select item, e
     App.showView.trigger('change:toolbar', 'Album')
     

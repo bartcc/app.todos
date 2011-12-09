@@ -140,8 +140,7 @@ ShowView = (function() {
     return Spine.trigger('show:albums');
   };
   ShowView.prototype.showAllAlbums = function() {
-    Gallery.record = false;
-    return Spine.trigger('change:selectedGallery', false);
+    return Spine.trigger('show:allAlbums');
   };
   ShowView.prototype.showPhotos = function(e) {
     if ($(e.currentTarget).hasClass('disabled')) {

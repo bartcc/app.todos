@@ -55,10 +55,12 @@ Model.Cache = {
         }
         return cache;
       },
-      emptyCache: function(id) {
-        var originalList, _ref;
+      clearCache: function(id) {
+        var newLength, oldLength, originalList, _ref;
         originalList = this.cacheList(id);
+        oldLength = originalList.length;
         [].splice.apply(originalList, [0, originalList.length - 0].concat(_ref = [])), _ref;
+        newLength = originalList.length;
         return originalList;
       }
     };
@@ -69,8 +71,8 @@ Model.Cache = {
       addToCache: function(url, uri, mode) {
         return this.constructor.addToCache(this, url, uri, mode);
       },
-      emptyCache: function() {
-        return this.constructor.emptyCache(this.id);
+      clearCache: function() {
+        return this.constructor.clearCache(this.id);
       }
     };
     this.extend(Extend);

@@ -89,6 +89,7 @@ GalleryList = (function() {
       }
     }
     Gallery.current(this.current);
+    this.exposeSublistSelection(Gallery.record);
     return Spine.trigger('change:selectedGallery', this.current, mode);
   };
   GalleryList.prototype.render = function(galleries, gallery, mode) {
@@ -281,7 +282,6 @@ GalleryList = (function() {
     console.log('GalleryList::click');
     item = $(e.currentTarget).item();
     this.change(item, 'show', e);
-    this.exposeSublistSelection(item);
     App.showView.trigger('change:toolbar', 'Gallery');
     e.stopPropagation();
     e.preventDefault();
@@ -325,7 +325,7 @@ GalleryList = (function() {
     }
     if ($('.expand', parent).length) {
       this.renderOneSublist(gallery);
-      this.exposeSublistSelection(gallery);
+      this.exposeSublistSelection(Gallery.record);
       content.show();
     } else {
       content.hide();

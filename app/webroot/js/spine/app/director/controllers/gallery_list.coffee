@@ -72,6 +72,7 @@ class GalleryList extends Spine.Controller
           
     
     Gallery.current(@current)
+    @exposeSublistSelection Gallery.record
     Spine.trigger('change:selectedGallery', @current, mode)# if !previous or previous?.id != @current?.id or cmdKey
         
   render: (galleries, gallery, mode) ->
@@ -199,7 +200,6 @@ class GalleryList extends Spine.Controller
     item = $(e.currentTarget).item()
     
     @change item, 'show', e
-    @exposeSublistSelection(item)
     
     App.showView.trigger('change:toolbar', 'Gallery')
     
@@ -239,7 +239,7 @@ class GalleryList extends Spine.Controller
       
     if $('.expand', parent).length
       @renderOneSublist gallery
-      @exposeSublistSelection gallery
+      @exposeSublistSelection Gallery.record
       content.show()
     else
       content.hide()

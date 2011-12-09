@@ -197,16 +197,35 @@ GalleryList = (function() {
     return _results;
   };
   GalleryList.prototype.exposeSublistSelection = function(gallery) {
-    var album, albums, galleryEl, id, item, list, val, _i, _len, _ref, _results;
+    var album, albums, galleryEl, id, item, list, removeAlbumSelection, val, _i, _len, _ref, _results;
     console.log('GalleryList::exposeSublistSelection');
+    removeAlbumSelection = __bind(function() {
+      var albums, galleries, galleryEl, item, val, _i, _len, _ref, _results;
+      galleries = [];
+      _ref = Gallery.records;
+      for (item in _ref) {
+        val = _ref[item];
+        galleries.push(val);
+      }
+      _results = [];
+      for (_i = 0, _len = galleries.length; _i < _len; _i++) {
+        item = galleries[_i];
+        galleryEl = this.children().forItem(item);
+        albums = galleryEl.find('li');
+        _results.push(albums.removeClass('active'));
+      }
+      return _results;
+    }, this);
     list = [];
     if (!gallery) {
+      removeAlbumSelection();
       _ref = Gallery.records;
       for (item in _ref) {
         val = _ref[item];
         list.push(val);
       }
     } else {
+      removeAlbumSelection();
       list.push(gallery);
     }
     _results = [];
@@ -214,7 +233,6 @@ GalleryList = (function() {
       item = list[_i];
       galleryEl = this.children().forItem(item);
       albums = galleryEl.find('li');
-      albums.removeClass('active');
       _results.push((function() {
         var _j, _len2, _ref2, _results2;
         _ref2 = Gallery.selectionList();

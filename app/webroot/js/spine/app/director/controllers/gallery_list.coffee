@@ -142,15 +142,23 @@ class GalleryList extends Spine.Controller
   
   exposeSublistSelection: (gallery) ->
     console.log 'GalleryList::exposeSublistSelection'
+    removeAlbumSelection = =>
+      galleries = []
+      galleries.push val for item, val of Gallery.records
+      for item in galleries
+        galleryEl = @children().forItem(item)
+        albums = galleryEl.find('li')
+        albums.removeClass('active')
     list = []
     unless gallery
+      removeAlbumSelection()
       list.push val for item, val of Gallery.records
     else
+      removeAlbumSelection()
       list.push gallery
     for item in list
       galleryEl = @children().forItem(item)
       albums = galleryEl.find('li')
-      albums.removeClass('active')
       for id in Gallery.selectionList()
         album = Album.find(id) if Album.exists(id)
         albums.forItem(album).addClass('active') 

@@ -245,6 +245,8 @@ class SidebarView extends Spine.Controller
     
   showAllPhotos: (deselect=false) ->
     if deselect then @list.deselect()
+    @showAllAlbums(deselect)
+    Gallery.current()
     Album.current()
     Spine.trigger('show:photos')
     Spine.trigger('change:selectedAlbum', false, true)

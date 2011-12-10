@@ -41,8 +41,8 @@ class AlbumList extends Spine.Controller
         item = Album.find(id)
         el = @children().forItem(item)
         el.addClass("active")
-    current = if list.length is 1 then list[0]
-    Album.current(current)
+#    current = if list.length is 1 then list[0]
+#    Album.current(current)
         
     Spine.trigger('expose:sublistSelection', Gallery.record)# if Gallery.record
   

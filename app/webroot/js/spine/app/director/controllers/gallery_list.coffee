@@ -65,7 +65,6 @@ class GalleryList extends Spine.Controller
           @current = item
           
       @exposeSelection(@current)
-#      @children().forItem(@current).addClass("active") if @current
     else
       @current = false
       switch mode
@@ -194,7 +193,7 @@ class GalleryList extends Spine.Controller
       Spine.trigger('show:photos')
       @change Gallery.record, 'photo', e
     else
-      Spine.trigger('show:allPhotos')
+      Spine.trigger('show:allPhotos', true)
       
     
     e.stopPropagation()

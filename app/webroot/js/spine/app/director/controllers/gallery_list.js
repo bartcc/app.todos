@@ -276,7 +276,7 @@ GalleryList = (function() {
       Spine.trigger('show:photos');
       this.change(Gallery.record, 'photo', e);
     } else {
-      Spine.trigger('show:allPhotos');
+      Spine.trigger('show:allPhotos', true);
     }
     e.stopPropagation();
     e.preventDefault();

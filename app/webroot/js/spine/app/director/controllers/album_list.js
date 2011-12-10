@@ -48,9 +48,7 @@ AlbumList = (function() {
       Album.current(item);
     }
     this.exposeSelection();
-    if ((previous != null ? previous.id : void 0) !== ((_ref = this.current) != null ? _ref.id : void 0)) {
-      return Spine.trigger('change:selectedAlbum', item);
-    }
+    return Spine.trigger('change:selectedAlbum', item, !previous || !(((_ref = this.current) != null ? _ref.id : void 0) === previous.id));
   };
   AlbumList.prototype.exposeSelection = function() {
     var current, el, id, item, list, _i, _len;

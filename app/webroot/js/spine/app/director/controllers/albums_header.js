@@ -27,10 +27,13 @@ AlbumsHeader = (function() {
     }));
   };
   AlbumsHeader.prototype.albumCount = function() {
-    var _ref;
-    return GalleriesAlbum.filter((_ref = Gallery.record) != null ? _ref.id : void 0, {
-      key: 'gallery_id'
-    }).length;
+    if (Gallery.record) {
+      return GalleriesAlbum.filter(Gallery.record.id, {
+        key: 'gallery_id'
+      }).length;
+    } else {
+      return Album.all().length;
+    }
   };
   return AlbumsHeader;
 })();

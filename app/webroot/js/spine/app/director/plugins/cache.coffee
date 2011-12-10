@@ -8,10 +8,10 @@ Model.Cache =
 
     Extend =
       
-      caches: []
+      caches: [global:[]]
       
       cacheList: (recordID) =>
-        id = recordID or @record.id
+        id = recordID or @record.id or 'global'
         return unless id
         for item in @caches
           return item[id] if item[id]
@@ -23,7 +23,7 @@ Model.Cache =
           return item[url] if item[url]
 
       addToCache: (record, url, uri, mode) ->
-        cache = @cacheList record.id
+        cache = @cacheList record?.id
         return unless cache
         dummy = {}
         if mode is 'append'
@@ -39,7 +39,6 @@ Model.Cache =
         oldLength = originalList.length
         originalList[0...originalList.length] = []
         newLength = originalList.length
-#        alert oldLength.toString() + ' / ' + newLength.toString()
         originalList
           
     Include =

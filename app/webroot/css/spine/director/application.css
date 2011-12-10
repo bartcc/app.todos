@@ -511,7 +511,7 @@ textarea {
   padding: 0 10px;
   margin: 0;
 }
-.header section h3 span:first-child {
+.header section h3 span:nth-child(2) {
   margin-left: 30px
 }
 #sidebar li img {

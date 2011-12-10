@@ -9,10 +9,14 @@ Model.Cache = {
   extended: function() {
     var Extend, Include;
     Extend = {
-      caches: [],
+      caches: [
+        {
+          global: []
+        }
+      ],
       cacheList: __bind(function(recordID) {
         var id, item, _i, _len, _ref;
-        id = recordID || this.record.id;
+        id = recordID || this.record.id || 'global';
         if (!id) {
           return;
         }
@@ -39,7 +43,7 @@ Model.Cache = {
       },
       addToCache: function(record, url, uri, mode) {
         var cache, dummy;
-        cache = this.cacheList(record.id);
+        cache = this.cacheList(record != null ? record.id : void 0);
         if (!cache) {
           return;
         }

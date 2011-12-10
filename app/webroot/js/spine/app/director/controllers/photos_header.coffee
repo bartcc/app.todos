@@ -28,6 +28,9 @@ class PhotosHeader extends Spine.Controller
       count:  @photosCount()
     
   photosCount: ->
-    AlbumsPhoto.filter(Album.record?.id, key: 'album_id').length
+    if Album.record
+      AlbumsPhoto.filter(Album.record.id, key: 'album_id').length
+    else
+      Photo.all().length
 
 module?.exports = PhotosHeader

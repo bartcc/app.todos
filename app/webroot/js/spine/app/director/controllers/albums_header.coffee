@@ -16,6 +16,9 @@ class AlbumsHeader extends Spine.Controller
       count: @albumCount()
     
   albumCount: ->
-    GalleriesAlbum.filter(Gallery.record?.id, key:'gallery_id').length
+    if Gallery.record
+      GalleriesAlbum.filter(Gallery.record.id, key:'gallery_id').length
+    else
+      Album.all().length
     
 module?.exports = AlbumsHeader

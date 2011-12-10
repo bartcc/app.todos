@@ -128,7 +128,7 @@ class PhotosController extends AppController {
   }
 
   function uri($width = 150, $height = 150, $square = 2) {
-    $this->log($this->data, LOG_DEBUG);
+//    $this->log($this->data, LOG_DEBUG);
     if ($this->Auth->user()) {
 
       $user_id = $uid = $this->Auth->user('id');

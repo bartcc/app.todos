@@ -66,10 +66,14 @@ class UriCollection extends Base
     quality: 70
     
   test: ->
-    @get()
+    cache = @model.cache null, @url
+    if cache
+      @callback cache
+    else if @photos.length
+      @get()
       
   recordResponse: (uris) =>
-    @model.addToCache @url, uris, @mode
+    @model.addToCache null, @url, uris, @mode
     @callback uris
     
   errorResponse: ->

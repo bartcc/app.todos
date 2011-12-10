@@ -94,10 +94,16 @@ UriCollection = (function() {
     quality: 70
   };
   UriCollection.prototype.test = function() {
-    return this.get();
+    var cache;
+    cache = this.model.cache(null, this.url);
+    if (cache) {
+      return this.callback(cache);
+    } else if (this.photos.length) {
+      return this.get();
+    }
   };
   UriCollection.prototype.recordResponse = function(uris) {
-    this.model.addToCache(this.url, uris, this.mode);
+    this.model.addToCache(null, this.url, uris, this.mode);
     return this.callback(uris);
   };
   UriCollection.prototype.errorResponse = function() {};

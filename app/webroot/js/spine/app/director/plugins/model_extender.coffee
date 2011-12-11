@@ -9,8 +9,19 @@ Model.Extender =
     Extend =
       
       record: false
-
+      
       selection: [global:[]]
+
+      changed: ->
+        !(@oldPrevious is @record) or !(!@previous or !(@record?.id is @previous.id))
+
+      current: (recordOrID) ->
+        rec = false
+        id = recordOrID?.id or recordOrID
+        rec = @find(id) if @exists(id)
+        @oldPrevious = @previous
+        @previous = rec
+        @record = rec
 
       fromJSON: (objects) ->
         @createJoinTables objects
@@ -87,12 +98,6 @@ Model.Extender =
 
       isObject: (value) ->
         Object::toString.call(value) is "[object Object]"
-
-      current: (recordOrID) ->
-        rec = false
-        id = recordOrID?.id or recordOrID
-        rec = @find(id) if @exists(id)
-        @record = rec
 
       selected: ->
         @record

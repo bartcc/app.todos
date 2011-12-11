@@ -41,14 +41,14 @@ AlbumList = (function() {
     }
   };
   AlbumList.prototype.select = function(item, e) {
-    var previous, _ref;
+    var previous;
     previous = Album.record;
     if (item && !item.destroyed) {
       this.current = item;
       Album.current(item);
     }
     this.exposeSelection();
-    return Spine.trigger('change:selectedAlbum', item, !previous || !(((_ref = this.current) != null ? _ref.id : void 0) === previous.id));
+    return Spine.trigger('change:selectedAlbum', item, Album.changed());
   };
   AlbumList.prototype.exposeSelection = function() {
     var el, id, item, list, _i, _len;

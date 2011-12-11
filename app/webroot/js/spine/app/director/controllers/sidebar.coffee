@@ -244,13 +244,13 @@ class SidebarView extends Spine.Controller
     Spine.trigger('show:allPhotos', true)
     
   showAllPhotos: (deselect=false) ->
-    previous = Album.record
     if deselect then @list.deselect()
     @showAllAlbums(deselect)
     Gallery.current()
     Album.current()
+    changed = Album.changed()
     Spine.trigger('show:photos')
-    Spine.trigger('change:selectedAlbum', false, !(Album.record?.id is previous?.id))
+    Spine.trigger('change:selectedAlbum', false, changed)
     
   showAllAlbums: (deselect=false) ->
     if deselect then @list.deselect()

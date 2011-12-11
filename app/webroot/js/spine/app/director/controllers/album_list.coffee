@@ -30,7 +30,8 @@ class AlbumList extends Spine.Controller
       Album.current(item)
     
     @exposeSelection()
-    Spine.trigger('change:selectedAlbum', item, (!previous or !(@current?.id is previous.id)))
+    Spine.trigger('change:selectedAlbum', item, Album.changed())
+#    Spine.trigger('change:selectedAlbum', item, (!previous or !(@current?.id is previous.id)))
     
   exposeSelection: ->
     console.log 'AlbumList::exposeSelection'

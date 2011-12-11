@@ -273,5 +273,5 @@ class ShowView extends Spine.Controller
     @photosView.list.size @sliderOutValue()
     
   sliderStop: =>
-    # rerender thumbnails to its final size
+    # rerender thumbnails on the server to its final size
     @slider.toggle()

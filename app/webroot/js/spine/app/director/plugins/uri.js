@@ -97,8 +97,10 @@ UriCollection = (function() {
     var cache;
     cache = this.model.cache(null, this.url);
     if (cache) {
+      console.log('have cache');
       return this.callback(cache);
     } else if (this.photos.length) {
+      console.log('no cache found');
       return this.get();
     }
   };

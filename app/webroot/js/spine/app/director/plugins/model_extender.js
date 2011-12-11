@@ -20,6 +20,21 @@ Model.Extender = {
           global: []
         }
       ],
+      changed: function() {
+        var _ref;
+        return !(this.oldPrevious === this.record) || !(!this.previous || !(((_ref = this.record) != null ? _ref.id : void 0) === this.previous.id));
+      },
+      current: function(recordOrID) {
+        var id, rec;
+        rec = false;
+        id = (recordOrID != null ? recordOrID.id : void 0) || recordOrID;
+        if (this.exists(id)) {
+          rec = this.find(id);
+        }
+        this.oldPrevious = this.previous;
+        this.previous = rec;
+        return this.record = rec;
+      },
       fromJSON: function(objects) {
         var json, key;
         this.createJoinTables(objects);
@@ -149,15 +164,6 @@ Model.Extender = {
       },
       isObject: function(value) {
         return Object.prototype.toString.call(value) === "[object Object]";
-      },
-      current: function(recordOrID) {
-        var id, rec;
-        rec = false;
-        id = (recordOrID != null ? recordOrID.id : void 0) || recordOrID;
-        if (this.exists(id)) {
-          rec = this.find(id);
-        }
-        return this.record = rec;
       },
       selected: function() {
         return this.record;

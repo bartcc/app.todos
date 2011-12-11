@@ -320,19 +320,19 @@ SidebarView = (function() {
     return Spine.trigger('show:allPhotos', true);
   };
   SidebarView.prototype.showAllPhotos = function(deselect) {
-    var previous, _ref;
+    var changed;
     if (deselect == null) {
       deselect = false;
     }
-    previous = Album.record;
     if (deselect) {
       this.list.deselect();
     }
     this.showAllAlbums(deselect);
     Gallery.current();
     Album.current();
+    changed = Album.changed();
     Spine.trigger('show:photos');
-    return Spine.trigger('change:selectedAlbum', false, !(((_ref = Album.record) != null ? _ref.id : void 0) === (previous != null ? previous.id : void 0)));
+    return Spine.trigger('change:selectedAlbum', false, changed);
   };
   SidebarView.prototype.showAllAlbums = function(deselect) {
     if (deselect == null) {

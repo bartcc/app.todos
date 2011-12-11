@@ -27,14 +27,13 @@ UploadView = (function() {
     Gallery.bind('refresh', this.proxy(this.render));
   }
   UploadView.prototype.render = function() {
-    var album, gallery, isAlbum, selection, _ref;
+    var album, gallery, selection, _ref;
     console.log('UploadView::render');
     selection = Gallery.selectionList();
     gallery = Gallery.record;
     if (Album.exists(selection[0])) {
       album = Album.find(selection[0]);
     }
-    isAlbum = album instanceof Album;
     if (!((_ref = this.current) != null ? _ref.eql(album) : void 0)) {
       this.html(this.template({
         gallery: gallery,

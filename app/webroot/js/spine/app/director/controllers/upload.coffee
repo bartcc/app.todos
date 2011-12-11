@@ -22,7 +22,6 @@ class UploadView extends Spine.Controller
     selection = Gallery.selectionList()
     gallery = Gallery.record
     album = Album.find(selection[0]) if Album.exists(selection[0])
-    isAlbum = album instanceof Album
     if (!@current?.eql album)
       @html @template
         gallery: gallery
@@ -36,7 +35,7 @@ class UploadView extends Spine.Controller
     console.log 'UploadView::done'
     photos = $.parseJSON(data.jqXHR.responseText)
     
-    Photo.refresh(photos, {clear: false})
+    Photo.refresh(photos, clear: false)
     
   submit: (e, data) ->
     console.log 'UploadView::submit'

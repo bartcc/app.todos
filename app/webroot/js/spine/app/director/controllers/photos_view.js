@@ -55,9 +55,8 @@ PhotosView = (function() {
       slider: this.parent
     });
     this.header.template = this.headerTemplate;
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearCache));
-    Photo.bind('beforeDestroy beforeCreate', this.proxy(this.clearCache));
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearCache));
+    Photo.bind('refresh', this.proxy(this.clearPhotoCache));
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
@@ -102,21 +101,11 @@ PhotosView = (function() {
     console.log('PhotosView::renderHeader');
     return this.header.change(Album.record);
   };
-  PhotosView.prototype.clearCache = function(record, mode) {
-    var ap, aps, _i, _len, _results;
-    switch (record.constructor.className) {
-      case 'Photo':
-        aps = AlbumsPhoto.filter(record.id, 'photo_id');
-        _results = [];
-        for (_i = 0, _len = aps.length; _i < _len; _i++) {
-          ap = aps[_i];
-          _results.push(Album.clearCache(ap.album_id));
-        }
-        return _results;
-        break;
-      case 'AlbumsPhoto':
-        return Album.clearCache(record.album_id);
-    }
+  PhotosView.prototype.clearPhotoCache = function() {
+    return Photo.clearCache();
+  };
+  PhotosView.prototype.clearAlbumCache = function(record) {
+    return Album.clearCache(record.album_id);
   };
   PhotosView.prototype.remove = function(record) {
     var photo, photoEl;

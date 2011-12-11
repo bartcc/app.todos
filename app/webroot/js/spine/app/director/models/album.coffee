@@ -11,6 +11,8 @@ class Album extends Spine.Model
 
   @selectAttributes: ['title']
 
+  @previousID: false
+
   @url: ->
     '' + base_url + @className.toLowerCase() + 's'
 

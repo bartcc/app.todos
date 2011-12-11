@@ -21,6 +21,7 @@ Album = (function() {
   Album.extend(Spine.Model.Uri);
   Album.extend(Spine.Model.Extender);
   Album.selectAttributes = ['title'];
+  Album.previousID = false;
   Album.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
   };

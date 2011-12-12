@@ -238,6 +238,10 @@ class ShowView extends Spine.Controller
         Album.current()
         Spine.trigger('album:exposeSelection')
         Spine.trigger('change:selectedAlbum', item)
+      else
+        Gallery.current()
+        Spine.trigger('gallery:exposeSelection')
+        Spine.trigger('change:selectedGallery', item)
     
     @current.items.deselect()
     @renderToolbar()

@@ -286,6 +286,11 @@ ShowView = (function() {
         Album.current();
         Spine.trigger('album:exposeSelection');
         Spine.trigger('change:selectedAlbum', item);
+        break;
+      default:
+        Gallery.current();
+        Spine.trigger('gallery:exposeSelection');
+        Spine.trigger('change:selectedGallery', item);
     }
     this.current.items.deselect();
     this.renderToolbar();

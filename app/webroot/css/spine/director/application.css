@@ -131,6 +131,9 @@ button {
 .tright {
   text-align: right;
 }
+.underline {
+  text-decoration: underline;
+}
 li hr {
   margin: 19px 2px -41px;
   border-width: 1px;
@@ -389,7 +392,7 @@ textarea {
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  padding: 10px 10px 10px 15px;
+  padding: 20px 10px 20px 15px;
   margin-top: 2px;
 }
 #sidebar {
@@ -463,26 +466,26 @@ textarea {
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
-  top: 10px;
 }
 .cta {
   color: rgba(255, 255, 255, 0.2);
-  padding: 0 6px 0 6px;
+  padding: 0 5px;
   font-size: 12px;
   text-shadow: 0 1px 0.1px #666666 inset;
 /*  font-weight: bold;
   box-shadow: 0 1px 3px #666666 inset;*/
 }
 #content .header section.closeView {
-  cursor: pointer;
-  position: absolute;
-  width: 30px;
-  z-index: 1;
+/*  position: absolute;*/
 }
 #content .header section.closeView ul {
   text-align: center;
-  padding: 7px;
+  padding: 7px 10px 7px 0;
   margin: 0 auto;
+  float: left;
+}
+#content .header section.closeView ul:not(.dimmed){
+  cursor: pointer;
 }
 #content .header section {
   background: linear-gradient(center top, #B9B9B9, #979797);
@@ -491,25 +494,24 @@ textarea {
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  margin-top: 2px;
+/*  margin-top: 2px;*/
 }
 .header section.top {
-  height: 80px;
   position: relative;
 }
 .header section h2 {
-  margin: 10px 0;
+  line-height: 1.5;
 }
 .header section .cta {
-  position: absolute;
-  right: 20px;
-  top: 23px;
+/*  position: absolute;
+  right: 10px;
+  top: 25px;*/
 }
 .header section .cta h2 {
   color: #FFFFFF;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);
-  padding: 0 10px;
-  margin: 0;
+  padding: 0 6px;
+  line-height: 1.3;
 }
 .header section h3 span:nth-child(2) {
   margin-left: 30px
@@ -649,10 +651,10 @@ textarea {
   padding: 0;
   overflow: hidden;
   list-style: none;
-  text-shadow: 0 1px 1px #ffffff;
+  text-shadow: 0 1px 0px rgba(255, 255, 255, 0.6);
   border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
-.options li {
+.options li:not(.ui-icon) {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   line-height: 30px;
   min-height: 30px;
@@ -796,7 +798,6 @@ textarea {
   font-family: Verdana, sans-serif;
 }
 #content .content .items {
-  position: relative;
 }
 .item.active + .item {
 /*  margin-left: 120px;*/
@@ -840,7 +841,7 @@ textarea {
   transform-origin: 0% 0%;
 }
 #content .header label, #content .header h3 {
-  display: inline;
+  display: block;
 }
 #content .header h3:nth-child(2) {
   margin-left: 20px;
@@ -848,6 +849,7 @@ textarea {
 #content .header label {
   padding: 0 10px;
   text-shadow: 0 0 0px white;
+  display: inline;
 }
 [draggable] {
   -moz-user-select: none;

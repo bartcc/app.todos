@@ -11,7 +11,7 @@ class GalleryList extends Spine.Controller
   
   constructor: ->
     super
-#    Spine.bind('change:selectedGallery', @proxy @select)
+    Spine.bind('change:selectedGallery', @proxy @exposeSelection)
 
   change: ->
     console.log 'GalleryList::change'

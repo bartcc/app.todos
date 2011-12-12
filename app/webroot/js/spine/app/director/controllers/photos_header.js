@@ -13,16 +13,19 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 PhotosHeader = (function() {
   __extends(PhotosHeader, Spine.Controller);
-  PhotosHeader.prototype.elements = {
-    '.closeView': 'closeViewEl'
-  };
   PhotosHeader.prototype.events = {
-    'click .closeView': 'closeView'
+    'click .closeView .gal': 'backToGalleries',
+    'click .closeView .alb': 'backToAlbums'
   };
   function PhotosHeader() {
     PhotosHeader.__super__.constructor.apply(this, arguments);
   }
-  PhotosHeader.prototype.closeView = function() {
+  PhotosHeader.prototype.backToGalleries = function() {
+    console.log('PhotosHeader::closeView');
+    Spine.trigger('album:exposeSelection');
+    return Spine.trigger('show:galleries');
+  };
+  PhotosHeader.prototype.backToAlbums = function() {
     console.log('PhotosHeader::closeView');
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('show:albums');

@@ -3,16 +3,19 @@ $      = Spine.$
 
 class PhotosHeader extends Spine.Controller
   
-  elements:
-    '.closeView'           : 'closeViewEl'
-    
   events:
-    'click .closeView'     : 'closeView'
+    'click .closeView .gal'     : 'backToGalleries'
+    'click .closeView .alb'     : 'backToAlbums'
 
   constructor: ->
     super
 
-  closeView: ->
+  backToGalleries: ->
+    console.log 'PhotosHeader::closeView'
+    Spine.trigger('album:exposeSelection')
+    Spine.trigger('show:galleries')
+    
+  backToAlbums: ->
     console.log 'PhotosHeader::closeView'
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('show:albums')

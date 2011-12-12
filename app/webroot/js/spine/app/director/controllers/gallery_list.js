@@ -20,6 +20,7 @@ GalleryList = (function() {
   };
   function GalleryList() {
     this.select = __bind(this.select, this);    GalleryList.__super__.constructor.apply(this, arguments);
+    Spine.bind('change:selectedGallery', this.proxy(this.exposeSelection));
   }
   GalleryList.prototype.change = function() {
     console.log('GalleryList::change');

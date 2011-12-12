@@ -300,13 +300,7 @@
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
   <section class="top">
-    <h2>Gallery Overview</h2>
-    <span class="active cta right"><h2>${count}</h2></span>
-  </section>
-  <section class="closeView">
-    <ul class="hbox">
-      <li class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n">close</li>
-    </ul>
+    <h2>Gallery Overview<span class="active cta right"><h2>${count}</h2></span></h2>
   </section>
 </script>
 
@@ -314,16 +308,22 @@
   <section class="top">
     {{if record}}
     <h3>Author: <label> ${record.author}</label></h3>
-    <h2>Gallery: ${record.name}</h2>
+    <h2>Gallery: ${record.name}
+      <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+    </h2>
     {{else}}
     <h3><span>Album Originals</span></h3>
-    <h2>All Albums</h2>
+    <h2>All Albums
+      <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+    </h2>
     {{/if}}
-    <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
   </section>
-  <section class="closeView">
-    <ul class="hbox">
-      <li class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n">close</li>
+  <section class="closeView options">
+    <ul class="gal">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Galleries</span>
+    </ul>
+    <ul class="alb dimmed">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Albums</span>
     </ul>
   </section>
 </script>
@@ -334,16 +334,25 @@
     <h3>Gallery: ${gallery.name}</h3>
     {{/if}}
     {{if record}}
-    <h2>Album: ${record.title}</h2>
+    <h2>Album: ${record.title}
+      <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+    </h2>
     {{else}}
     <h3><span>Photo Originals</span><span style="color: rgba(255, 10, 10, 0.8);"> Caution: Deleted Photos are unrecoverable!</span></h3>
-    <h2>All Photos</h2>
+    <h2>All Photos
+      <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+    </h2>
     {{/if}}
-    <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
   </section>
-  <section class="closeView">
-    <ul class="hbox">
-      <li class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n">close</li>
+  <section class="closeView options">
+    <ul class="gal">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Galleries</span>
+    </ul>
+    <ul class="alb">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Albums</span>
+    </ul>
+    <ul class="pho dimmed">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Photos</span>
     </ul>
   </section>
 </script>

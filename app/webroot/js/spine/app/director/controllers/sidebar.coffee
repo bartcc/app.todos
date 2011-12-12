@@ -24,12 +24,12 @@ class SidebarView extends Spine.Controller
     'dragend   .items .item': 'dragend'
 
   template: (items) ->
-    $("#galleriesTemplate").tmpl(items)
+    $("#sidebarTemplate").tmpl(items)
 
   constructor: ->
     super
     @el.width(300)
-    @list = new GalleryList
+    @list = new SidebarList
       el: @items,
       template: @template
       

@@ -7,8 +7,7 @@ class PhotoList extends Spine.Controller
     '.thumbnail'              : 'thumb'
     
   events:
-    'click .close'            : "closeInfo"  
-    'click .item'             : "click"    
+    'click .item'             : "click"
     'dblclick .item'          : 'dblclick'
     'mousemove .item'         : 'previewUp'
     'mouseleave  .item'       : 'previewBye'

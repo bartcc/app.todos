@@ -13,6 +13,12 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 AlbumsHeader = (function() {
   __extends(AlbumsHeader, Spine.Controller);
+  AlbumsHeader.prototype.elements = {
+    '.closeView': 'closeViewEl'
+  };
+  AlbumsHeader.prototype.events = {
+    'click .closeView': 'closeView'
+  };
   function AlbumsHeader() {
     AlbumsHeader.__super__.constructor.apply(this, arguments);
   }
@@ -23,10 +29,10 @@ AlbumsHeader = (function() {
   AlbumsHeader.prototype.render = function() {
     return this.html(this.template({
       record: this.current,
-      count: this.albumCount()
+      count: this.count()
     }));
   };
-  AlbumsHeader.prototype.albumCount = function() {
+  AlbumsHeader.prototype.count = function() {
     if (Gallery.record) {
       return GalleriesAlbum.filter(Gallery.record.id, {
         key: 'gallery_id'
@@ -34,6 +40,11 @@ AlbumsHeader = (function() {
     } else {
       return Album.all().length;
     }
+  };
+  AlbumsHeader.prototype.closeView = function() {
+    console.log('AlbumsHeader::closeView');
+    Spine.trigger('gallery:exposeSelection', Gallery.record);
+    return Spine.trigger('show:galleries');
   };
   return AlbumsHeader;
 })();

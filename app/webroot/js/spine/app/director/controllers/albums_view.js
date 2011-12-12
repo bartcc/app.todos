@@ -35,7 +35,7 @@ AlbumsView = (function() {
     return $("#albumsTemplate").tmpl(items, options);
   };
   AlbumsView.prototype.headerTemplate = function(items) {
-    return $("#headerGalleryTemplate").tmpl(items);
+    return $("#headerAlbumTemplate").tmpl(items);
   };
   AlbumsView.prototype.previewTemplate = function(item) {
     return $('#albumPreviewTemplate').tmpl(item);
@@ -70,9 +70,6 @@ AlbumsView = (function() {
     };
     $(this.views).queue("fx");
   }
-  AlbumsView.prototype.children = function(sel) {
-    return this.el.children(sel);
-  };
   AlbumsView.prototype.change = function(item) {
     var gallery;
     console.log('AlbumsView::change');

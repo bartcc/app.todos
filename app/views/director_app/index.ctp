@@ -116,8 +116,13 @@
         </ul>
         <div class="contents views vbox flex">
           <div class="header views">
+            <div class="galleriesHeader view"></div>
             <div class="albumsHeader view"></div>
             <div class="photosHeader view"></div>
+          </div>
+          <div class="view galleries content vbox flex data autoflow">
+            <div class="preview"></div>
+            <div class="items sortable"></div>
           </div>
           <div class="view albums content vbox flex data autoflow">
             <div class="preview"></div>
@@ -173,18 +178,19 @@
   </div>
 </div>
 
-<script id="galleriesTemplate" type="text/x-jquery-tmpl">
+<script id="sidebarTemplate" type="text/x-jquery-tmpl">
   <li class="gal item data" title="Deselect   Cmd-Click">
     <div class="item-header">
       <div class="expander"></div>
-      {{tmpl "#galleriesContentTemplate"}}
+      {{tmpl "#sidebarContentTemplate"}}
     </div>
     <hr>
     <ul class="sublist" style="display: none;"></ul>
   </li>
 </script>
 
-<script id="galleriesContentTemplate" type="text/x-jquery-tmpl">
+
+<script id="sidebarContentTemplate" type="text/x-jquery-tmpl">
   <div class="item-content">
     {{if name}}
     <span class="name">${name}</span>
@@ -215,8 +221,14 @@
   {{/if}}
 </script>
 
-<script id="albumsTemplate"type="text/x-jquery-tmpl">
-  <li class="item container ">
+<script id="galleriesTemplate" type="text/x-jquery-tmpl">
+  <li class="item container">
+    <div class="thumbnail left" draggable="true"></div>
+  </li>
+</script>
+
+<script id="albumsTemplate" type="text/x-jquery-tmpl">
+  <li class="item container">
     <div class="thumbnail left" draggable="true"></div>
   </li>
 </script>
@@ -288,6 +300,18 @@
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
   <section class="top">
+    <h2>Gallery Overview</h2>
+    <span class="active cta right"><h2>${count}</h2></span>
+  </section>
+  <section class="closeView">
+    <ul class="hbox">
+      <li class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n">close</li>
+    </ul>
+  </section>
+</script>
+
+<script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
+  <section class="top">
     {{if record}}
     <h3>Author: <label> ${record.author}</label></h3>
     <h2>Gallery: ${record.name}</h2>
@@ -297,9 +321,14 @@
     {{/if}}
     <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
   </section>
+  <section class="closeView">
+    <ul class="hbox">
+      <li class="ui-button-icon-primary ui-icon ui-icon-arrowreturnthick-1-n">close</li>
+    </ul>
+  </section>
 </script>
 
-<script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
+<script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
   <section class="top">
     {{if gallery}}
     <h3>Gallery: ${gallery.name}</h3>

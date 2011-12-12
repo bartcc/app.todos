@@ -23,7 +23,7 @@ PhotosHeader = (function() {
     PhotosHeader.__super__.constructor.apply(this, arguments);
   }
   PhotosHeader.prototype.closeView = function() {
-    console.log('AlbumsHeader::closeView');
+    console.log('PhotosHeader::closeView');
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('show:albums');
   };
@@ -35,10 +35,10 @@ PhotosHeader = (function() {
     return this.html(this.template({
       gallery: Gallery.record,
       record: this.current,
-      count: this.photosCount()
+      count: this.count()
     }));
   };
-  PhotosHeader.prototype.photosCount = function() {
+  PhotosHeader.prototype.count = function() {
     if (Album.record) {
       return AlbumsPhoto.filter(Album.record.id, {
         key: 'album_id'

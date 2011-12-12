@@ -8,6 +8,7 @@ class AlbumsView extends Spine.Controller
   elements:
     '.preview'                : 'previewEl'
     '.items'                  : 'items'
+    
     '.content .sortable'      : 'sortable'
     
   events:
@@ -29,7 +30,7 @@ class AlbumsView extends Spine.Controller
 #    $("#toolsTemplate").tmpl items
 #
   headerTemplate: (items) ->
-    $("#headerGalleryTemplate").tmpl items
+    $("#headerAlbumTemplate").tmpl items
  
   previewTemplate: (item) ->
     $('#albumPreviewTemplate').tmpl item
@@ -63,9 +64,6 @@ class AlbumsView extends Spine.Controller
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
     $(@views).queue("fx")
-
-  children: (sel) ->
-    @el.children(sel)
 
   change: (item) ->
     console.log 'AlbumsView::change'

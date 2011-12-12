@@ -22,7 +22,7 @@ Model.Extender = {
       ],
       changed: function() {
         var _ref;
-        return !(this.oldPrevious === this.record) || !(!this.previous || !(((_ref = this.record) != null ? _ref.id : void 0) === this.previous.id));
+        return !(this.oldPrevious === this.record) || !(this.pevious || (((_ref = this.record) != null ? _ref.id : void 0) === this.previous.id));
       },
       current: function(recordOrID) {
         var id, rec;

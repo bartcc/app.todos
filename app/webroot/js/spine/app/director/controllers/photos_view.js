@@ -37,7 +37,7 @@ PhotosView = (function() {
     return $('#preloaderTemplate').tmpl();
   };
   PhotosView.prototype.headerTemplate = function(items) {
-    return $("#headerAlbumTemplate").tmpl(items);
+    return $("#headerPhotoTemplate").tmpl(items);
   };
   PhotosView.prototype.previewTemplate = function(item) {
     return $('#photoPreviewTemplate').tmpl(item);

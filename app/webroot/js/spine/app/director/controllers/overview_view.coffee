@@ -68,6 +68,7 @@ class OverviewView extends Spine.Controller
     Recent.check(@maxRecent)
     
   show: ->
+#    Spine.trigger('change:canvas', @)
     for cont in App.contentManager.controllers
       @savedView = cont if cont.isActive()
       

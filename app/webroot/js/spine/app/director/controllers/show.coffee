@@ -4,8 +4,9 @@ class ShowView extends Spine.Controller
   
   elements:
     '#views .views'           : 'views'
-    '.photosHeader'           : 'photosHeaderEl'
+    '.galleriesHeader'        : 'galleriesHeaderEl'
     '.albumsHeader'           : 'albumsHeaderEl'
+    '.photosHeader'           : 'photosHeaderEl'
     '.header'                 : 'albumHeader'
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
@@ -15,9 +16,9 @@ class ShowView extends Spine.Controller
     '.optUpload'              : 'btnUpload'
     '.optSlideshow'           : 'btnSlideshow'
     '.toolbar'                : 'toolBar'
+    '.galleries'              : 'galleriesEl'
     '.albums'                 : 'albumsEl'
     '.photos'                 : 'photosEl'
-    '.items'                  : 'items'
     '#slider'                 : 'slider'
     
   events:
@@ -53,10 +54,17 @@ class ShowView extends Spine.Controller
 
   constructor: ->
     super
+    @galleriesHeader = new GalleriesHeader
+      el: @galleriesHeaderEl
     @albumsHeader = new AlbumsHeader
       el: @albumsHeaderEl
     @photosHeader = new PhotosHeader
       el: @photosHeaderEl
+    @galleriesView = new GalleriesView
+      el: @galleriesEl
+      className: 'items'
+      header: @galleriesHeader
+      parent: @
     @albumsView = new AlbumsView
       el: @albumsEl
       className: 'items'
@@ -85,9 +93,9 @@ class ShowView extends Spine.Controller
     else throw 'need initial control'
     @edit = @editGallery
     
-    @canvasManager = new Spine.Manager(@albumsView, @photosView)
+    @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView)
     @canvasManager.change @current
-    @headerManager = new Spine.Manager(@albumsHeader, @photosHeader)
+    @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader)
     @headerManager.change @albumsHeader
     
   changeCanvas: (controller) ->
@@ -97,7 +105,6 @@ class ShowView extends Spine.Controller
     @canvasManager.change controller
     @headerManager.change controller.header
     
-
   renderToolbar: ->
     console.log 'ShowView::renderToolbar'
     @toolBar.html @toolsTemplate @currentToolbar

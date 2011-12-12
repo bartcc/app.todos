@@ -12,8 +12,9 @@ ShowView = (function() {
   ShowView.extend(Spine.Controller.Toolbars);
   ShowView.prototype.elements = {
     '#views .views': 'views',
-    '.photosHeader': 'photosHeaderEl',
+    '.galleriesHeader': 'galleriesHeaderEl',
     '.albumsHeader': 'albumsHeaderEl',
+    '.photosHeader': 'photosHeaderEl',
     '.header': 'albumHeader',
     '.optOverview': 'btnOverview',
     '.optEditGallery': 'btnEditGallery',
@@ -23,9 +24,9 @@ ShowView = (function() {
     '.optUpload': 'btnUpload',
     '.optSlideshow': 'btnSlideshow',
     '.toolbar': 'toolBar',
+    '.galleries': 'galleriesEl',
     '.albums': 'albumsEl',
     '.photos': 'photosEl',
-    '.items': 'items',
     '#slider': 'slider'
   };
   ShowView.prototype.events = {
@@ -65,11 +66,20 @@ ShowView = (function() {
     this.sliderStart = __bind(this.sliderStart, this);
     this.showSizeSlider = __bind(this.showSizeSlider, this);
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
+    this.galleriesHeader = new GalleriesHeader({
+      el: this.galleriesHeaderEl
+    });
     this.albumsHeader = new AlbumsHeader({
       el: this.albumsHeaderEl
     });
     this.photosHeader = new PhotosHeader({
       el: this.photosHeaderEl
+    });
+    this.galleriesView = new GalleriesView({
+      el: this.galleriesEl,
+      className: 'items',
+      header: this.galleriesHeader,
+      parent: this
     });
     this.albumsView = new AlbumsView({
       el: this.albumsEl,
@@ -100,9 +110,9 @@ ShowView = (function() {
       throw 'need initial control';
     }
     this.edit = this.editGallery;
-    this.canvasManager = new Spine.Manager(this.albumsView, this.photosView);
+    this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView);
     this.canvasManager.change(this.current);
-    this.headerManager = new Spine.Manager(this.albumsHeader, this.photosHeader);
+    this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader);
     this.headerManager.change(this.albumsHeader);
   }
   ShowView.prototype.changeCanvas = function(controller) {

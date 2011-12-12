@@ -13,7 +13,7 @@ Model.Extender =
       selection: [global:[]]
 
       changed: ->
-        !(@oldPrevious is @record) or !(!@previous or !(@record?.id is @previous.id))
+        !(@oldPrevious is @record) or !(@pevious or (@record?.id is @previous.id))
 
       current: (recordOrID) ->
         rec = false

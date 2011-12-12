@@ -36,7 +36,7 @@ SidebarView = (function() {
     'dragend   .items .item': 'dragend'
   };
   SidebarView.prototype.template = function(items) {
-    return $("#galleriesTemplate").tmpl(items);
+    return $("#sidebarTemplate").tmpl(items);
   };
   function SidebarView() {
     this.validateDrop = __bind(this.validateDrop, this);
@@ -45,7 +45,7 @@ SidebarView = (function() {
     this.dragOver = __bind(this.dragOver, this);
     this.dragEnter = __bind(this.dragEnter, this);    SidebarView.__super__.constructor.apply(this, arguments);
     this.el.width(300);
-    this.list = new GalleryList({
+    this.list = new SidebarList({
       el: this.items,
       template: this.template
     });

@@ -17,7 +17,6 @@ PhotoList = (function() {
     '.thumbnail': 'thumb'
   };
   PhotoList.prototype.events = {
-    'click .close': "closeInfo",
     'click .item': "click",
     'dblclick .item': 'dblclick',
     'mousemove .item': 'previewUp',

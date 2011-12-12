@@ -764,6 +764,10 @@ textarea {
   color: rgba(200, 200, 200, 0.5);
   line-height: 1.2em
 }
+#content .content.galleries .items .thumbnail {
+  width: 140px;
+  height: 140px;
+}
 #content .content.albums .items .thumbnail {
   width: 140px;
   height: 140px;

@@ -13,7 +13,7 @@ class PhotosHeader extends Spine.Controller
     super
 
   closeView: ->
-    console.log 'AlbumsHeader::closeView'
+    console.log 'PhotosHeader::closeView'
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('show:albums')
 
@@ -25,9 +25,9 @@ class PhotosHeader extends Spine.Controller
     @html @template
       gallery: Gallery.record
       record: @current
-      count:  @photosCount()
+      count:  @count()
     
-  photosCount: ->
+  count: ->
     if Album.record
       AlbumsPhoto.filter(Album.record.id, key: 'album_id').length
     else

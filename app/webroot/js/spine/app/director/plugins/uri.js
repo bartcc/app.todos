@@ -114,27 +114,32 @@ UriCollection = (function() {
 Uri = (function() {
   __extends(Uri, Base);
   function Uri(record, params, mode, callback, max) {
-    var ap, aps, options;
+    var ap, aps, options, type;
     this.record = record;
     this.callback = callback;
     this.recordResponse = __bind(this.recordResponse, this);
     Uri.__super__.constructor.apply(this, arguments);
-    if (this.record) {
-      aps = AlbumsPhoto.filter(this.record.id, {
-        key: 'album_id'
-      });
-      max = max || aps.length - 1;
-      this.mode = mode;
-      this.photos = (function() {
-        var _i, _len, _ref, _results;
-        _ref = aps.slice(0, (max + 1) || 9e9);
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          ap = _ref[_i];
-          _results.push(Photo.find(ap.photo_id));
-        }
-        return _results;
-      })();
+    type = this.record.constructor.className;
+    switch (type) {
+      case 'Album':
+        aps = AlbumsPhoto.filter(this.record.id, {
+          key: 'album_id'
+        });
+        max = max || aps.length - 1;
+        this.mode = mode;
+        this.photos = (function() {
+          var _i, _len, _ref, _results;
+          _ref = aps.slice(0, (max + 1) || 9e9);
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            ap = _ref[_i];
+            _results.push(Photo.find(ap.photo_id));
+          }
+          return _results;
+        })();
+        break;
+      case 'Photo':
+        this.photos = [this.record];
     }
     options = $.extend({}, this.settings, params);
     this.url = this.uri(options);
@@ -150,7 +155,7 @@ Uri = (function() {
     cache = this.record.cache(this.url);
     if (cache) {
       return this.callback(cache, this.record);
-    } else if (this.photos.length) {
+    } else {
       return this.get();
     }
   };

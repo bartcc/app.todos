@@ -13,11 +13,8 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 AlbumsHeader = (function() {
   __extends(AlbumsHeader, Spine.Controller);
-  AlbumsHeader.prototype.elements = {
-    '.closeView': 'closeViewEl'
-  };
   AlbumsHeader.prototype.events = {
-    'click .closeView': 'closeView'
+    'click .closeView .gal': 'backToGalleries'
   };
   function AlbumsHeader() {
     AlbumsHeader.__super__.constructor.apply(this, arguments);
@@ -41,8 +38,7 @@ AlbumsHeader = (function() {
       return Album.all().length;
     }
   };
-  AlbumsHeader.prototype.closeView = function() {
-    console.log('AlbumsHeader::closeView');
+  AlbumsHeader.prototype.backToGalleries = function() {
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('show:galleries');
   };

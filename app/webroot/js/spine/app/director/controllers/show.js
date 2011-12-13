@@ -15,6 +15,7 @@ ShowView = (function() {
     '.galleriesHeader': 'galleriesHeaderEl',
     '.albumsHeader': 'albumsHeaderEl',
     '.photosHeader': 'photosHeaderEl',
+    '.photoHeader': 'photoHeaderEl',
     '.header': 'albumHeader',
     '.optOverview': 'btnOverview',
     '.optEditGallery': 'btnEditGallery',
@@ -27,12 +28,11 @@ ShowView = (function() {
     '.galleries': 'galleriesEl',
     '.albums': 'albumsEl',
     '.photos': 'photosEl',
+    '.photo': 'photoEl',
     '#slider': 'slider'
   };
   ShowView.prototype.events = {
     "click .optOverview": "showOverview",
-    "click .optPhotos": "showPhotos",
-    "click .optAlbums": "showAlbums",
     "click .optCreatePhoto": "createPhoto",
     "click .optDestroyPhoto": "destroyPhoto",
     "click .optShowPhotos": "showPhotos",
@@ -66,20 +66,31 @@ ShowView = (function() {
     this.sliderStart = __bind(this.sliderStart, this);
     this.showSizeSlider = __bind(this.showSizeSlider, this);
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
-    this.galleriesHeader = new GalleriesHeader({
-      el: this.galleriesHeaderEl
-    });
-    this.albumsHeader = new AlbumsHeader({
-      el: this.albumsHeaderEl
+    this.photoHeader = new PhotoHeader({
+      el: this.photoHeaderEl
     });
     this.photosHeader = new PhotosHeader({
       el: this.photosHeaderEl
     });
-    this.galleriesView = new GalleriesView({
-      el: this.galleriesEl,
+    this.albumsHeader = new AlbumsHeader({
+      el: this.albumsHeaderEl
+    });
+    this.galleriesHeader = new GalleriesHeader({
+      el: this.galleriesHeaderEl
+    });
+    this.photoView = new PhotoView({
+      el: this.photoEl,
       className: 'items',
-      header: this.galleriesHeader,
-      parent: this
+      header: this.photoHeader,
+      parent: this,
+      parentModel: 'Photo'
+    });
+    this.photosView = new PhotosView({
+      el: this.photosEl,
+      className: 'items',
+      header: this.photosHeader,
+      parent: this,
+      parentModel: 'Album'
     });
     this.albumsView = new AlbumsView({
       el: this.albumsEl,
@@ -88,12 +99,11 @@ ShowView = (function() {
       parent: this,
       parentModel: 'Gallery'
     });
-    this.photosView = new PhotosView({
-      el: this.photosEl,
+    this.galleriesView = new GalleriesView({
+      el: this.galleriesEl,
       className: 'items',
-      header: this.photosHeader,
-      parent: this,
-      parentModel: 'Album'
+      header: this.galleriesHeader,
+      parent: this
     });
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     Gallery.bind('change', this.proxy(this.renderToolbar));
@@ -110,9 +120,9 @@ ShowView = (function() {
       throw 'need initial control';
     }
     this.edit = this.editGallery;
-    this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView);
+    this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView);
     this.canvasManager.change(this.current);
-    this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader);
+    this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader, this.photoHeader);
     this.headerManager.change(this.albumsHeader);
   }
   ShowView.prototype.changeCanvas = function(controller) {

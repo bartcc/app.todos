@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class GalleryList extends Spine.Controller
+class GalleriesList extends Spine.Controller
 
   @extend Spine.Controller.Drag
   
@@ -49,4 +49,4 @@ class GalleryList extends Spine.Controller
     e.preventDefault()
     false
 
-module?.exports = GalleryList
+module?.exports = GalleriesList

@@ -28,7 +28,7 @@ class PhotosView extends Spine.Controller
     $('#preloaderTemplate').tmpl()
     
   headerTemplate: (items) ->
-    $("#headerPhotoTemplate").tmpl items
+    $("#headerPhotosTemplate").tmpl items
     
   previewTemplate: (item) ->
     $('#photoPreviewTemplate').tmpl item
@@ -38,11 +38,11 @@ class PhotosView extends Spine.Controller
     @preview = new Preview
       el: @previewEl
       template: @previewTemplate
-    @list = new PhotoList
+    @list = new PhotosList
       el: @items
       template: @template
       preview: @preview
-      slider: @parent
+      parent: @parent
     @header.template = @headerTemplate
     Photo.bind('refresh', @proxy @clearPhotoCache)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)

@@ -1,11 +1,12 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class PhotoView extends Spine.Controller
+class PhotoEditView extends Spine.Controller
 
   elements:
     '.content'        : 'item'
     '.editPhoto'      : 'editEl'
+    
   events:
     'click'           : 'click'
     'keydown'         : 'saveOnEnter'
@@ -57,4 +58,4 @@ class PhotoView extends Spine.Controller
     e.preventDefault()
     false
 
-module?.exports = PhotoView
+module?.exports = PhotoEditView

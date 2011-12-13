@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class PhotoList extends Spine.Controller
+class PhotosList extends Spine.Controller
   
   elements:
     '.thumbnail'              : 'thumb'
@@ -17,25 +17,31 @@ class PhotoList extends Spine.Controller
     
   constructor: ->
     super
+    @photoView = @parent.photoView
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.customErrorHandler)
     Photo.bind('uri', @proxy @uri)
 #    @initSelectable()
     
-  change: (item, e) ->
-    @exposeSelection(e)
+  change: ->
+    console.log 'PhotosList::change'
+    @photoView.render @current
+    Spine.trigger('show:photo')
+    
+  select: (item, e) ->
+    console.log 'PhotosList::select'
+    @exposeSelection()
     @current = item
     Spine.trigger('change:selectedPhoto', item)
   
   render: (items, mode='html') ->
-    console.log 'PhotoList::render'
+    console.log 'PhotosList::render'
     if Album.record
       if items.length
         @[mode] @template items
         @exposeSelection()
         @uri items, mode
-        @change()
         @el
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
@@ -43,13 +49,13 @@ class PhotoList extends Spine.Controller
       @renderAll()
   
   renderAll: ->
-    console.log 'PhotoList::renderAll'
+    console.log 'PhotosList::renderAll'
     items = Photo.all()
     if items.length
       @html @template items
       @exposeSelection()
       @uri items, 'html'
-      @change()
+#      @change()
       @el
   
   update: (item) ->
@@ -73,16 +79,16 @@ class PhotoList extends Spine.Controller
   
   # the actual final rendering method
   uri: (items, mode) ->
-    console.log 'PhotoList::uri'
+    console.log 'PhotosList::uri'
     if Album.record
       Album.record.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
     else
       Photo.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
   
-    @size(@slider.sOutValue)
+    @size(@parent.sOutValue)
   
   callback: (items, json) =>
-    console.log 'PhotoList::callback'
+    console.log 'PhotosList::callback'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -102,8 +108,8 @@ class PhotoList extends Spine.Controller
       'backgroundImage': css
       'backgroundPosition': 'center, center'
     
-  exposeSelection: (e) ->
-    console.log 'PhotoList::exposeSelection'
+  exposeSelection: ->
+    console.log 'PhotosList::exposeSelection'
     @deselect()
     list = Album.selectionList()
     for id in list
@@ -115,7 +121,7 @@ class PhotoList extends Spine.Controller
     Photo.current(current)
   
   click: (e) ->
-    console.log 'PhotoList::click'
+    console.log 'PhotosList::click'
     item = $(e.currentTarget).item()
     item.addRemoveSelection(Album, @isCtrlClick(e))
     
@@ -123,19 +129,15 @@ class PhotoList extends Spine.Controller
       @openPanel('photo', App.showView.btnPhoto)
     
     App.showView.trigger('change:toolbar', 'Photo')
-    @change item, e
+    @select item, e
     
     e.stopPropagation()
     e.preventDefault()
     false
   
   dblclick: (e) ->
-    console.log 'PhotoList::dblclick'
-    #@openPanel('album', App.showView.btnAlbum)
-    item = $(e.currentTarget).item()
-    
-    @change item
-    Spine.trigger('show:photo', item)
+    console.log 'PhotosList::dblclick'
+    @change()
     
     e.stopPropagation()
     e.preventDefault()
@@ -177,4 +179,4 @@ class PhotoList extends Spine.Controller
       'width': val+'px'
       'backgroundSize': parseInt(val+20)+'px ' + parseInt(val+20)+'px'
     
-module?.exports = PhotoList
+module?.exports = PhotosList

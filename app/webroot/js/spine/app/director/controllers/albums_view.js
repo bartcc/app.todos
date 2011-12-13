@@ -46,7 +46,7 @@ AlbumsView = (function() {
       el: this.previewEl,
       template: this.previewTemplate
     });
-    this.list = new AlbumList({
+    this.list = new AlbumsList({
       el: this.items,
       template: this.albumsTemplate,
       preview: this.preview

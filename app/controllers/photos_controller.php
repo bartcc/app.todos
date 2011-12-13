@@ -134,15 +134,21 @@ class PhotosController extends AppController {
       $user_id = $uid = $this->Auth->user('id');
 
       if (!empty($this->data)) {
+//        $this->log($this->data, LOG_DEBUG);
         $array = array();
         foreach ($this->data['Photo'] as $data) {
+          $this->log($this->data, LOG_DEBUG);
           $id = $data['id'];
           $path = PHOTOS . DS . $uid . DS . $id . DS . 'lg' . DS . '*.*';
           $files = glob($path);
           if (!empty($files[0])) {
             $fn = basename($files[0]);
             $options = compact(array('uid', 'id', 'fn', 'width', 'height', 'square'));
-            $src = __p($options);
+            if($square == 4)
+              $src = p($options);
+            else
+              $src = __p($options);
+
             $return = array($id => array('src' => $src));
             $array[] = $return;
           }

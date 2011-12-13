@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class SlideshowView extends Spine.Controller
+class SlideshowEditView extends Spine.Controller
 
   events:
     'click'           : 'click'
@@ -17,4 +17,4 @@ class SlideshowView extends Spine.Controller
     e.preventDefault()
     false
 
-module?.exports = SlideshowView
+module?.exports = SlideshowEditView

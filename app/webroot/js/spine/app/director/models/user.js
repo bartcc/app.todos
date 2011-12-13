@@ -30,7 +30,7 @@ User = (function() {
     return User.redirect('logout');
   };
   User.redirect = function(url) {
-    return window.location.replace(base_url + url);
+    return location.href = base_url + url;
   };
   User.prototype.init = function(instance) {
     if (!instance) {}

@@ -40,22 +40,22 @@ App = (function() {
     this.ALBUM_DOUBLE_MOVE = this.constructor.createImage('/img/dragndrop/album_double_move.png');
     this.ALBUM_DOUBLE_COPY = this.constructor.createImage('/img/dragndrop/album_double_copy.png');
     User.bind('pinger', this.proxy(this.validate));
-    this.sidebar = new SidebarView({
+    this.sidebar = new Sidebar({
       el: this.sidebarEl
     });
-    this.gallery = new GalleryView({
+    this.gallery = new GalleryEditView({
       el: this.galleryEl
     });
-    this.album = new AlbumView({
+    this.album = new AlbumEditView({
       el: this.albumEl
     });
-    this.photo = new PhotoView({
+    this.photo = new PhotoEditView({
       el: this.photoEl
     });
-    this.upload = new UploadView({
+    this.upload = new UploadEditView({
       el: this.uploadEl
     });
-    this.slideshow = new SlideshowView({
+    this.slideshow = new SlideshowEditView({
       el: this.slideshowEl
     });
     this.overviewView = new OverviewView({

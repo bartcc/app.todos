@@ -1,4 +1,4 @@
-var $, PhotoView;
+var $, AlbumEditView;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -11,50 +11,59 @@ if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
-PhotoView = (function() {
-  __extends(PhotoView, Spine.Controller);
-  PhotoView.prototype.elements = {
+AlbumEditView = (function() {
+  __extends(AlbumEditView, Spine.Controller);
+  AlbumEditView.prototype.elements = {
     '.content': 'item',
-    '.editPhoto': 'editEl'
+    '.editAlbum': 'editEl'
   };
-  PhotoView.prototype.events = {
-    'click': 'click',
+  AlbumEditView.prototype.events = {
+    "click": "click",
     'keydown': 'saveOnEnter'
   };
-  PhotoView.prototype.template = function(item) {
-    return $('#editPhotoTemplate').tmpl(item);
+  AlbumEditView.prototype.template = function(item) {
+    return $('#editAlbumTemplate').tmpl(item);
   };
-  function PhotoView() {
-    this.saveOnEnter = __bind(this.saveOnEnter, this);    PhotoView.__super__.constructor.apply(this, arguments);
-    Spine.bind('change:selectedPhoto', this.proxy(this.change));
+  function AlbumEditView() {
+    this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumEditView.__super__.constructor.apply(this, arguments);
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
   }
-  PhotoView.prototype.change = function(item) {
-    if ((item != null ? item.constructor.className : void 0) === 'Photo') {
+  AlbumEditView.prototype.change = function(item, mode) {
+    var firstID;
+    console.log('Album::change');
+    if ((item != null ? item.constructor.className : void 0) === 'Album') {
       this.current = item;
+    } else {
+      firstID = Gallery.selectionList(Gallery.record.id)[0];
+      if (Album.exists(firstID)) {
+        this.current = Album.find(firstID);
+      } else {
+        this.current = false;
+      }
     }
-    return this.render(this.current);
+    return this.render(this.current, mode);
   };
-  PhotoView.prototype.render = function(item) {
+  AlbumEditView.prototype.render = function(item, mode) {
     var selection;
-    selection = Album.selectionList();
+    console.log('AlbumView::render');
+    selection = Gallery.selectionList();
     if (!(selection != null ? selection.length : void 0)) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: '<label><span class="dimmed">No photo selected</span></label>'
+        type: '<label><span class="dimmed">Select or create an album!</span></label>'
       }));
     } else if ((selection != null ? selection.length : void 0) > 1) {
       this.item.html($("#noSelectionTemplate").tmpl({
         type: '<label><span class="dimmed">Multiple selection</span></label>'
       }));
     } else if (!item) {
-      if (!Album.count()) {
+      if (!Gallery.count()) {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: '<label><span class="dimmed">Create a album!</span></label>'
+          type: '<label><span class="dimmed">Create a gallery!</span></label>'
         }));
       } else {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: '<label><span class="dimmed">Select a album!</span></label>'
+          type: '<label><span class="dimmed">Select a gallery!</span></label>'
         }));
       }
     } else {
@@ -62,28 +71,30 @@ PhotoView = (function() {
     }
     return this.el;
   };
-  PhotoView.prototype.save = function(el) {
+  AlbumEditView.prototype.save = function(el) {
     var atts;
-    console.log('PhotoView::save');
+    console.log('AlbumView::save');
     if (this.current) {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
       this.current.updateChangedAttributes(atts);
-      return Album.updateSelection([this.current.id]);
+      Gallery.updateSelection([this.current.id]);
+      return Spine.trigger('expose:sublistSelection', Gallery.record);
     }
   };
-  PhotoView.prototype.saveOnEnter = function(e) {
+  AlbumEditView.prototype.saveOnEnter = function(e) {
     if (e.keyCode !== 13) {
       return;
     }
     return this.save(this.editEl);
   };
-  PhotoView.prototype.click = function(e) {
+  AlbumEditView.prototype.click = function(e) {
+    console.log('click');
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
-  return PhotoView;
+  return AlbumEditView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = PhotoView;
+  module.exports = AlbumEditView;
 }

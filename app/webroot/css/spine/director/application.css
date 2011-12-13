@@ -716,6 +716,11 @@ textarea {
 #content .content .items {
   padding: 20px;
 }
+#content .content.photo .items {
+  display: table;
+  margin: 0 auto;
+  vertical-align: middle;
+}
 #content .content .item:hover {
 /*  box-shadow: 1px -1px 1px #777777 inset, 0 0 2px #FFFFFF, 1px 1px 3px #333333 ;
   box-shadow: 0 1px 2px #333333 inset;*/

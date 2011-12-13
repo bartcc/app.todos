@@ -1,4 +1,4 @@
-var $, GalleryList;
+var $, GalleriesList;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -11,40 +11,40 @@ if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
-GalleryList = (function() {
-  __extends(GalleryList, Spine.Controller);
-  GalleryList.extend(Spine.Controller.Drag);
-  GalleryList.prototype.events = {
+GalleriesList = (function() {
+  __extends(GalleriesList, Spine.Controller);
+  GalleriesList.extend(Spine.Controller.Drag);
+  GalleriesList.prototype.events = {
     'click .item': 'click',
     'dblclick .item': 'dblclick'
   };
-  function GalleryList() {
-    this.select = __bind(this.select, this);    GalleryList.__super__.constructor.apply(this, arguments);
+  function GalleriesList() {
+    this.select = __bind(this.select, this);    GalleriesList.__super__.constructor.apply(this, arguments);
     Spine.bind('change:selectedGallery', this.proxy(this.exposeSelection));
   }
-  GalleryList.prototype.change = function() {
+  GalleriesList.prototype.change = function() {
     console.log('GalleryList::change');
     return Spine.trigger('show:albums');
   };
-  GalleryList.prototype.render = function(items) {
+  GalleriesList.prototype.render = function(items) {
     console.log('GalleryList::render');
     this.html(this.template(items));
     return this.el;
   };
-  GalleryList.prototype.select = function(item) {
+  GalleriesList.prototype.select = function(item) {
     Gallery.current(item);
     this.exposeSelection(item);
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('change:selectedGallery', Gallery.record);
   };
-  GalleryList.prototype.exposeSelection = function(item) {
+  GalleriesList.prototype.exposeSelection = function(item) {
     var el;
     console.log('GalleryList::exposeSelection');
     this.deselect();
     el = this.children().forItem(item);
     return el.addClass("active");
   };
-  GalleryList.prototype.click = function(e) {
+  GalleriesList.prototype.click = function(e) {
     var item;
     console.log('GalleryList::click');
     item = $(e.currentTarget).item();
@@ -53,15 +53,15 @@ GalleryList = (function() {
     e.preventDefault();
     return false;
   };
-  GalleryList.prototype.dblclick = function(e) {
+  GalleriesList.prototype.dblclick = function(e) {
     console.log('GalleryList::dblclick');
     this.change();
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
-  return GalleryList;
+  return GalleriesList;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = GalleryList;
+  module.exports = GalleriesList;
 }

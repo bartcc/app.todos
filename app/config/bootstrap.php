@@ -76,11 +76,48 @@ function pre() {
 	}
 }
 
+function p_() {
+  $args = func_get_args();
+  $src = $args[0];
+  $aid = $args[1];
+  if (strpos($aid, 'avatar-') !== false) {
+    $bits = explode('-', $aid);
+    $aid = $bits[1];
+    $m = filemtime(ALBUMS . DS . 'avatars' . DS . $aid . DS . $src);
+  } else {
+    $m = filemtime(ALBUMS . DS . 'album-' . $aid . DS . 'lg' . DS . $src);
+  }
+  $args = join(',', $args);
+  $crypt = convert($args);
+  return DIR_HOST . '/p.php?a=' . $crypt . '&amp;m=' . $m;
+}
+
+function p($options) {
+  $defaults = array(
+      'width' => 176,
+      'height' => 132,
+      'square' => 1, // 1 => new Size ; 2 => old Size, 3 => aspect ratio
+      'quality' => 80,
+      'sharpening' => 1,
+      'anchor_x' => 50,
+      'anchor_y' => 50,
+      'force' => false
+  );
+  $o = array_merge($defaults, $options);
+  $args = join(',', array($o['uid'], $o['id'], $o['fn'], $o['width'], $o['height'], $o['square'], $o['quality'], $o['sharpening'], $o['anchor_x'], $o['anchor_y'], (int) $o['force']));
+  include_once(ROOT . DS . 'app' . DS . 'controllers' . DS . 'components' . DS . 'salt.php');
+  $salt = new SaltComponent();
+  $crypt = $salt->convert($args);
+  $path = PHOTOS . DS . $o['uid'] . DS . $o['id'] . DS . 'lg' . DS . $o['fn'];
+  $m = filemtime($path);
+  return BASE_URL . '/q/a:' . $crypt . '/m:' . $m;
+}
+
 function __p($options) {
   $defaults = array(
-      'width' => 180,
-      'height' => 150,
-      'square' => 2, // 1 => new Size ; 2 => old Size, 3 => aspect ratio
+      'width' => 176,
+      'height' => 132,
+      'square' => 1, // 1 => new Size ; 2 => old Size, 3 => aspect ratio
       'quality' => 80,
       'sharpening' => 1,
       'anchor_x' => 50,

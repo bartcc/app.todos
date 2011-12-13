@@ -37,7 +37,7 @@ PhotosView = (function() {
     return $('#preloaderTemplate').tmpl();
   };
   PhotosView.prototype.headerTemplate = function(items) {
-    return $("#headerPhotoTemplate").tmpl(items);
+    return $("#headerPhotosTemplate").tmpl(items);
   };
   PhotosView.prototype.previewTemplate = function(item) {
     return $('#photoPreviewTemplate').tmpl(item);
@@ -48,11 +48,11 @@ PhotosView = (function() {
       el: this.previewEl,
       template: this.previewTemplate
     });
-    this.list = new PhotoList({
+    this.list = new PhotosList({
       el: this.items,
       template: this.template,
       preview: this.preview,
-      slider: this.parent
+      parent: this.parent
     });
     this.header.template = this.headerTemplate;
     Photo.bind('refresh', this.proxy(this.clearPhotoCache));

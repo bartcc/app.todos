@@ -7,6 +7,7 @@ class ShowView extends Spine.Controller
     '.galleriesHeader'        : 'galleriesHeaderEl'
     '.albumsHeader'           : 'albumsHeaderEl'
     '.photosHeader'           : 'photosHeaderEl'
+    '.photoHeader'            : 'photoHeaderEl'
     '.header'                 : 'albumHeader'
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
@@ -19,12 +20,13 @@ class ShowView extends Spine.Controller
     '.galleries'              : 'galleriesEl'
     '.albums'                 : 'albumsEl'
     '.photos'                 : 'photosEl'
+    '.photo'                  : 'photoEl'
     '#slider'                 : 'slider'
     
   events:
     "click .optOverview"              : "showOverview"
-    "click .optPhotos"                : "showPhotos"
-    "click .optAlbums"                : "showAlbums"
+#    "click .optPhotos"                : "showPhotos"
+#    "click .optAlbums"                : "showAlbums"
     "click .optCreatePhoto"           : "createPhoto"
     "click .optDestroyPhoto"          : "destroyPhoto"
     "click .optShowPhotos"            : "showPhotos"
@@ -54,29 +56,37 @@ class ShowView extends Spine.Controller
 
   constructor: ->
     super
-    @galleriesHeader = new GalleriesHeader
-      el: @galleriesHeaderEl
-    @albumsHeader = new AlbumsHeader
-      el: @albumsHeaderEl
+    @photoHeader = new PhotoHeader
+      el: @photoHeaderEl
     @photosHeader = new PhotosHeader
       el: @photosHeaderEl
-    @galleriesView = new GalleriesView
-      el: @galleriesEl
+    @albumsHeader = new AlbumsHeader
+      el: @albumsHeaderEl
+    @galleriesHeader = new GalleriesHeader
+      el: @galleriesHeaderEl
+    @photoView = new PhotoView
+      el: @photoEl
       className: 'items'
-      header: @galleriesHeader
+      header: @photoHeader
       parent: @
-    @albumsView = new AlbumsView
-      el: @albumsEl
-      className: 'items'
-      header: @albumsHeader
-      parent: @
-      parentModel: 'Gallery'
+      parentModel: 'Photo'
     @photosView = new PhotosView
       el: @photosEl
       className: 'items'
       header: @photosHeader
       parent: @
       parentModel: 'Album'
+    @albumsView = new AlbumsView
+      el: @albumsEl
+      className: 'items'
+      header: @albumsHeader
+      parent: @
+      parentModel: 'Gallery'
+    @galleriesView = new GalleriesView
+      el: @galleriesEl
+      className: 'items'
+      header: @galleriesHeader
+      parent: @
     
     Spine.bind('change:canvas', @proxy @changeCanvas)
     Gallery.bind('change', @proxy @renderToolbar)
@@ -93,9 +103,9 @@ class ShowView extends Spine.Controller
     else throw 'need initial control'
     @edit = @editGallery
     
-    @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView)
+    @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView)
     @canvasManager.change @current
-    @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader)
+    @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
     @headerManager.change @albumsHeader
     
   changeCanvas: (controller) ->

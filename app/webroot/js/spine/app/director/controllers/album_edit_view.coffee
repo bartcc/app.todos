@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class AlbumView extends Spine.Controller
+class AlbumEditView extends Spine.Controller
   
   elements:
     '.content'    : 'item'
@@ -68,4 +68,4 @@ class AlbumView extends Spine.Controller
     e.preventDefault()
     false
 
-module?.exports = AlbumView
+module?.exports = AlbumEditView

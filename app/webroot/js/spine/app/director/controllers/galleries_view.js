@@ -25,13 +25,13 @@ GalleriesView = (function() {
   };
   function GalleriesView() {
     GalleriesView.__super__.constructor.apply(this, arguments);
-    this.list = new GalleryList({
+    this.list = new GalleriesList({
       el: this.items,
       template: this.template
     });
     this.header.template = this.headerTemplate;
     Gallery.bind('refresh change', this.proxy(this.change));
-    Spine.bind('show:galleries', this.proxy(this.showit));
+    Spine.bind('show:galleries', this.proxy(this.show));
   }
   GalleriesView.prototype.change = function() {
     var items;
@@ -44,7 +44,7 @@ GalleriesView = (function() {
     this.list.render(items);
     return this.header.render();
   };
-  GalleriesView.prototype.showit = function() {
+  GalleriesView.prototype.show = function() {
     this.parent.trigger('change:toolbar', Gallery);
     return Spine.trigger('change:canvas', this);
   };

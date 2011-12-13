@@ -7,6 +7,7 @@ class KodaksController extends AppController {
   var $disableSessions = true;
 
   function beforeFilter() {
+    define('USE_X_SEND', false);
     $this->disableCache();
     $this->Auth->allowedActions = array('develop');
     parent::beforeFilter();
@@ -58,8 +59,9 @@ class KodaksController extends AppController {
     $val = str_replace(' ', '.2B', $val);
     $crypt = $salt->convert($val, false);
     $a = explode(',', $crypt);
-//    $this->log($a, LOG_DEBUG);
+    $this->log($a, LOG_DEBUG);
     $file = $fn = basename($a[2]);
+    
     // Make sure supplied filename contains only approved chars
     if (preg_match("/[^A-Za-z0-9._-]/", $file)) {
       header('HTTP/1.1 403 Forbidden');
@@ -153,20 +155,22 @@ class KodaksController extends AppController {
 
     $disabled_functions = explode(',', ini_get('disable_functions'));
 
-
-
-    header('Content-type: ' . $specs['mime']);
-    header('Content-length: ' . filesize($path_to_cache));
-    header('Cache-Control: public');
-    header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('+1 year')));
-    header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($path_to_cache)));
-    header('ETag: ' . $etag);
-    if (is_callable('readfile') && !in_array('readfile', $disabled_functions)) {
-      readfile($path_to_cache);
+    if (USE_X_SEND) {
+      header("X-Sendfile: $path_to_cache");
     } else {
-      die(file_get_contents($path_to_cache));
+      $specs = getimagesize($path_to_cache);
+      header('Content-type: ' . $specs['mime']);
+      header('Content-length: ' . filesize($path_to_cache));
+      header('Cache-Control: public');
+      header('Expires: ' . gmdate('D, d M Y H:i:s', strtotime('+1 year')));
+      header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($path_to_cache)));
+      header('ETag: ' . $etag);
+      if (is_callable('readfile') && !in_array('readfile', $disabled_functions)) {
+        readfile($path_to_cache);
+      } else {
+        die(file_get_contents($path_to_cache));
+      }
     }
-//    }
   }
 }
 

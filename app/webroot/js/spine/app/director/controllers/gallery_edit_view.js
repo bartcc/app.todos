@@ -1,5 +1,5 @@
 var $, GalleryEditView;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -13,95 +13,58 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 GalleryEditView = (function() {
   __extends(GalleryEditView, Spine.Controller);
-  GalleryEditView.extend(Spine.Controller.Toolbars);
   GalleryEditView.prototype.elements = {
-    ".content": "editContent",
-    '.optDestroy': 'destroyBtn',
-    '.optSave': 'saveBtn',
-    '.toolbar': 'toolBar'
+    '.editGallery': 'editEl',
+    '.optCreate': 'createGalleryEl'
   };
   GalleryEditView.prototype.events = {
-    "click .optEdit": "edit",
-    "click .optEmail": "email",
-    "click .optDestroy": "destroy",
-    "click .optSave": "save",
-    "keydown": "saveOnEnter"
+    'click': 'click',
+    'keydown': 'saveOnEnter',
+    'click .optCreate': 'createGallery'
   };
   GalleryEditView.prototype.template = function(item) {
-    return $("#editGalleryTemplate").tmpl(item);
-  };
-  GalleryEditView.prototype.toolsTemplate = function(items) {
-    return $("#toolsTemplate").tmpl(items);
+    return $('#editGalleryTemplate').tmpl(item);
   };
   function GalleryEditView() {
-    this.saveOnEnter = __bind(this.saveOnEnter, this);    GalleryEditView.__super__.constructor.apply(this, arguments);
-    Gallery.bind("change", this.proxy(this.change));
-    Spine.bind('save:gallery', this.proxy(this.save));
+    GalleryEditView.__super__.constructor.apply(this, arguments);
     Spine.bind('change:selectedGallery', this.proxy(this.change));
-    this.bind('save:gallery', this.proxy(this.save));
-    this.bind('render:toolbar', this.proxy(this.renderToolbar));
+    Gallery.bind("refresh change", this.proxy(this.change));
   }
   GalleryEditView.prototype.change = function(item, mode) {
-    console.log('GalleryEditView::change');
-    if (!(item != null ? item.destroyed : void 0)) {
-      this.current = item;
-    }
-    return this.render(this.current);
+    console.log('Gallery::change');
+    return this.render();
   };
-  GalleryEditView.prototype.render = function(item) {
-    console.log('GalleryEditView::render');
-    if (item) {
-      this.current = item;
-    }
-    if (this.current && !this.current.destroyed) {
-      this.destroyBtn.removeClass('disabled');
-      this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
+  GalleryEditView.prototype.render = function() {
+    console.log('Gallery::render');
+    if (Gallery.record) {
+      this.editEl.html(this.template(Gallery.record));
     } else {
-      this.destroyBtn.addClass('disabled');
-      this.destroyBtn.unbind('click');
-      if (Gallery.count()) {
-        this.editContent.html($("#noSelectionTemplate").tmpl({
-          type: 'Select a Gallery!'
+      if (!Gallery.count()) {
+        this.editEl.html($("#noSelectionTemplate").tmpl({
+          type: '<label class="invite"><span class="dimmed invite">Director has no gallery yet &nbsp;</span><button class="optCreate dark invite">New Gallery</button></label>'
         }));
       } else {
-        this.editContent.html($("#noSelectionTemplate").tmpl({
-          type: 'Create a Gallery!'
+        this.editEl.html($("#noSelectionTemplate").tmpl({
+          type: '<label><span class="dimmed">Select a gallery!</span></label>'
         }));
       }
     }
-    this.changeToolbar('GalleryEdit');
     return this;
   };
-  GalleryEditView.prototype.renderToolbar = function() {
-    console.log('GalleryEditView::renderToolbar');
-    this.toolBar.html(this.toolsTemplate(this.currentToolbar));
-    return this.refreshElements();
-  };
-  GalleryEditView.prototype.destroy = function(e) {
-    console.log('GalleryEditView::destroy');
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
-    return Spine.trigger('destroy:gallery');
-  };
-  GalleryEditView.prototype.save = function(el) {
-    var atts;
-    console.log('GalleryEditView::save');
-    if ($(el.currentTarget).hasClass('disabled')) {
-      return;
-    }
-    if (this.current && Gallery.record) {
-      atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.el.serializeForm();
-      this.current.updateChangedAttributes(atts);
-    }
-    return App.contentManager.change(App.showView);
-  };
   GalleryEditView.prototype.saveOnEnter = function(e) {
-    console.log('GalleryEditView::saveOnEnter');
     if (e.keyCode !== 13) {
       return;
     }
-    return this.trigger('save:gallery', this);
+    return Spine.trigger('save:gallery', this.editEl);
+  };
+  GalleryEditView.prototype.createGallery = function() {
+    return Spine.trigger('create:gallery');
+  };
+  GalleryEditView.prototype.click = function(e) {
+    console.log('click');
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   return GalleryEditView;
 })();

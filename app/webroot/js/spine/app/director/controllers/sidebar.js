@@ -1,4 +1,4 @@
-var SidebarView;
+var Sidebar;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -12,10 +12,10 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   }
   return -1;
 };
-SidebarView = (function() {
-  __extends(SidebarView, Spine.Controller);
-  SidebarView.extend(Spine.Controller.Drag);
-  SidebarView.prototype.elements = {
+Sidebar = (function() {
+  __extends(Sidebar, Spine.Controller);
+  Sidebar.extend(Spine.Controller.Drag);
+  Sidebar.prototype.elements = {
     'input': 'input',
     '.items': 'items',
     '.inner': 'inner',
@@ -23,7 +23,7 @@ SidebarView = (function() {
     '.optAllAlbums': 'albums',
     '.optAllPhotos': 'photos'
   };
-  SidebarView.prototype.events = {
+  Sidebar.prototype.events = {
     "click button": "create",
     'click .optAllAlbums': 'allAlbums',
     'click .optAllPhotos': 'allPhotos',
@@ -35,15 +35,15 @@ SidebarView = (function() {
     'drop      .items .item': 'drop',
     'dragend   .items .item': 'dragend'
   };
-  SidebarView.prototype.template = function(items) {
+  Sidebar.prototype.template = function(items) {
     return $("#sidebarTemplate").tmpl(items);
   };
-  function SidebarView() {
+  function Sidebar() {
     this.validateDrop = __bind(this.validateDrop, this);
     this.dropComplete = __bind(this.dropComplete, this);
     this.dragLeave = __bind(this.dragLeave, this);
     this.dragOver = __bind(this.dragOver, this);
-    this.dragEnter = __bind(this.dragEnter, this);    SidebarView.__super__.constructor.apply(this, arguments);
+    this.dragEnter = __bind(this.dragEnter, this);    Sidebar.__super__.constructor.apply(this, arguments);
     this.el.width(300);
     this.list = new SidebarList({
       el: this.items,
@@ -62,11 +62,11 @@ SidebarView = (function() {
     Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
     Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
   }
-  SidebarView.prototype.filter = function() {
+  Sidebar.prototype.filter = function() {
     this.query = this.input.val();
     return this.render();
   };
-  SidebarView.prototype.render = function(item, mode) {
+  Sidebar.prototype.render = function(item, mode) {
     var items;
     console.log('Sidebar::render');
     items = Gallery.filter(this.query, {
@@ -75,7 +75,7 @@ SidebarView = (function() {
     items = items.sort(Gallery.nameSort);
     return this.list.render(items, item, mode);
   };
-  SidebarView.prototype.dragStart = function(e, controller) {
+  Sidebar.prototype.dragStart = function(e, controller) {
     var el, event, fromSidebar, id, selection, source, _ref;
     console.log('Sidebar::dragStart');
     if (!Spine.dragItem) {
@@ -129,7 +129,7 @@ SidebarView = (function() {
       }
     }
   };
-  SidebarView.prototype.dragEnter = function(e) {
+  Sidebar.prototype.dragEnter = function(e) {
     var data, dataEl, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4, _ref5;
     if (!Spine.dragItem) {
       return;
@@ -155,9 +155,9 @@ SidebarView = (function() {
       return (_ref5 = Spine.dragItem.closest) != null ? _ref5.removeClass('over') : void 0;
     }
   };
-  SidebarView.prototype.dragOver = function(e) {};
-  SidebarView.prototype.dragLeave = function(e) {};
-  SidebarView.prototype.dropComplete = function(e) {
+  Sidebar.prototype.dragOver = function(e) {};
+  Sidebar.prototype.dragLeave = function(e) {};
+  Sidebar.prototype.dropComplete = function(e) {
     var albums, origin, photos, source, target;
     console.log('Sidebar::dropComplete');
     if (!Spine.dragItem) {
@@ -196,7 +196,7 @@ SidebarView = (function() {
         }
     }
   };
-  SidebarView.prototype.validateDrop = function(target, source, origin) {
+  Sidebar.prototype.validateDrop = function(target, source, origin) {
     var item, items, _i, _j, _len, _len2;
     switch (source.constructor.className) {
       case 'Album':
@@ -237,7 +237,7 @@ SidebarView = (function() {
         return false;
     }
   };
-  SidebarView.prototype.newAttributes = function() {
+  Sidebar.prototype.newAttributes = function() {
     if (User.first()) {
       return {
         name: this.galleryName(),
@@ -248,7 +248,7 @@ SidebarView = (function() {
       return User.ping();
     }
   };
-  SidebarView.prototype.galleryName = function(proposal) {
+  Sidebar.prototype.galleryName = function(proposal) {
     if (proposal == null) {
       proposal = 'Gallery ' + Number(Gallery.count() + 1);
     }
@@ -259,7 +259,7 @@ SidebarView = (function() {
     }, this));
     return proposal;
   };
-  SidebarView.prototype.create = function() {
+  Sidebar.prototype.create = function() {
     var gallery;
     console.log('Sidebar::create');
     this.openPanel('gallery', App.showView.btnGallery);
@@ -267,7 +267,7 @@ SidebarView = (function() {
     gallery.save();
     return Spine.trigger('show:albums');
   };
-  SidebarView.prototype.destroy = function() {
+  Sidebar.prototype.destroy = function() {
     var ga, gas, _i, _len;
     console.log('Sidebar::destroy');
     if (Gallery.record) {
@@ -286,11 +286,11 @@ SidebarView = (function() {
       }
     }
   };
-  SidebarView.prototype.edit = function() {
+  Sidebar.prototype.edit = function() {
     App.galleryEditView.render();
     return App.contentManager.change(App.galleryEditView);
   };
-  SidebarView.prototype.toggleDraghandle = function() {
+  Sidebar.prototype.toggleDraghandle = function() {
     var speed, w, width;
     width = __bind(function() {
       var max, w;
@@ -313,13 +313,13 @@ SidebarView = (function() {
       return this.clb();
     }, this));
   };
-  SidebarView.prototype.allAlbums = function() {
+  Sidebar.prototype.allAlbums = function() {
     return Spine.trigger('show:allAlbums', true);
   };
-  SidebarView.prototype.allPhotos = function() {
+  Sidebar.prototype.allPhotos = function() {
     return Spine.trigger('show:allPhotos', true);
   };
-  SidebarView.prototype.showAllPhotos = function(deselect) {
+  Sidebar.prototype.showAllPhotos = function(deselect) {
     var changed;
     if (deselect == null) {
       deselect = false;
@@ -334,7 +334,7 @@ SidebarView = (function() {
     Spine.trigger('show:photos');
     return Spine.trigger('change:selectedAlbum', false, changed);
   };
-  SidebarView.prototype.showAllAlbums = function(deselect) {
+  Sidebar.prototype.showAllAlbums = function(deselect) {
     if (deselect == null) {
       deselect = false;
     }
@@ -345,5 +345,5 @@ SidebarView = (function() {
     Spine.trigger('show:albums');
     return Spine.trigger('change:selectedGallery', false, true);
   };
-  return SidebarView;
+  return Sidebar;
 })();

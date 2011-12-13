@@ -16,12 +16,12 @@ class GalleriesView extends Spine.Controller
 
   constructor: ->
     super
-    @list = new GalleryList
+    @list = new GalleriesList
       el: @items
       template: @template
     @header.template = @headerTemplate
     Gallery.bind('refresh change', @proxy @change)
-    Spine.bind('show:galleries', @proxy @showit)
+    Spine.bind('show:galleries', @proxy @show)
 
   change: ->
     console.log 'GalleriesView::change'
@@ -33,7 +33,7 @@ class GalleriesView extends Spine.Controller
     @list.render items
     @header.render()
     
-  showit: ->
+  show: ->
     @parent.trigger('change:toolbar', Gallery)
     Spine.trigger('change:canvas', @)
     

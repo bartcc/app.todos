@@ -3,11 +3,8 @@ $      = Spine.$
 
 class AlbumsHeader extends Spine.Controller
   
-  elements:
-    '.closeView'           : 'closeViewEl'
-    
   events:
-    'click .closeView'     : 'closeView'
+    'click .closeView .gal'     : 'backToGalleries'
   
   constructor: ->
     super
@@ -27,8 +24,7 @@ class AlbumsHeader extends Spine.Controller
     else
       Album.all().length
       
-  closeView: ->
-    console.log 'AlbumsHeader::closeView'
+  backToGalleries: ->
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('show:galleries')
     

@@ -40,7 +40,7 @@ class AlbumsView extends Spine.Controller
     @preview = new Preview
       el: @previewEl
       template: @previewTemplate
-    @list = new AlbumList
+    @list = new AlbumsList
       el: @items
       template: @albumsTemplate
       preview: @preview

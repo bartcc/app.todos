@@ -1,4 +1,4 @@
-var $, AlbumList;
+var $, AlbumsList;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -11,37 +11,38 @@ if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
-AlbumList = (function() {
-  __extends(AlbumList, Spine.Controller);
-  AlbumList.prototype.events = {
+AlbumsList = (function() {
+  __extends(AlbumsList, Spine.Controller);
+  AlbumsList.prototype.events = {
     'click .item': "click",
     'dblclick .item': 'dblclick',
     'mousemove .item .thumbnail': 'previewUp',
     'mouseleave .item .thumbnail': 'previewBye',
     'dragstart .item .thumbnail': 'stopPreview'
   };
-  function AlbumList() {
+  function AlbumsList() {
     this.stopPreview = __bind(this.stopPreview, this);
     this.previewBye = __bind(this.previewBye, this);
     this.previewUp = __bind(this.previewUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
-    this.callback = __bind(this.callback, this);    AlbumList.__super__.constructor.apply(this, arguments);
+    this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Spine.bind('album:exposeSelection', this.proxy(this.exposeSelection));
   }
-  AlbumList.prototype.template = function() {
+  AlbumsList.prototype.template = function() {
     return arguments[0];
   };
-  AlbumList.prototype.albumPhotosTemplate = function(items) {
+  AlbumsList.prototype.albumPhotosTemplate = function(items) {
     return $('#albumPhotosTemplate').tmpl(items);
   };
-  AlbumList.prototype.change = function(items) {
-    console.log('AlbumList::change');
+  AlbumsList.prototype.change = function(items) {
+    console.log('AlbumsList::change');
     if (items.length) {
       return this.renderBackgrounds(items);
     }
   };
-  AlbumList.prototype.select = function(item, e) {
+  AlbumsList.prototype.select = function(item, e) {
     var previous;
+    console.log('AlbumsList::select');
     previous = Album.record;
     if (item && !item.destroyed) {
       this.current = item;
@@ -50,9 +51,9 @@ AlbumList = (function() {
     this.exposeSelection();
     return Spine.trigger('change:selectedAlbum', item, Album.changed());
   };
-  AlbumList.prototype.exposeSelection = function() {
+  AlbumsList.prototype.exposeSelection = function() {
     var el, id, item, list, _i, _len;
-    console.log('AlbumList::exposeSelection');
+    console.log('AlbumsList::exposeSelection');
     list = Gallery.selectionList();
     this.deselect();
     for (_i = 0, _len = list.length; _i < _len; _i++) {
@@ -65,8 +66,8 @@ AlbumList = (function() {
     }
     return Spine.trigger('expose:sublistSelection', Gallery.record);
   };
-  AlbumList.prototype.render = function(items) {
-    console.log('AlbumList::render');
+  AlbumsList.prototype.render = function(items) {
+    console.log('AlbumsList::render');
     if (items.length) {
       this.html(this.template(items));
     } else {
@@ -79,9 +80,9 @@ AlbumList = (function() {
     this.change(items);
     return this.el;
   };
-  AlbumList.prototype.renderBackgrounds = function(albums) {
+  AlbumsList.prototype.renderBackgrounds = function(albums) {
     var album, _i, _len, _results;
-    console.log('AlbumList::renderBackgrounds');
+    console.log('AlbumsList::renderBackgrounds');
     if (!App.ready) {
       return;
     }
@@ -97,9 +98,9 @@ AlbumList = (function() {
     }
     return _results;
   };
-  AlbumList.prototype.callback = function(json, item) {
+  AlbumsList.prototype.callback = function(json, item) {
     var css, el, itm, o, searchJSON;
-    console.log('AlbumList::callback');
+    console.log('AlbumsList::callback');
     el = this.children().forItem(item);
     searchJSON = function(itm) {
       var key, res, value;
@@ -125,12 +126,12 @@ AlbumList = (function() {
     })();
     return el.css('backgroundImage', css);
   };
-  AlbumList.prototype.create = function() {
+  AlbumsList.prototype.create = function() {
     return Spine.trigger('create:album');
   };
-  AlbumList.prototype.click = function(e) {
+  AlbumsList.prototype.click = function(e) {
     var item;
-    console.log('AlbumList::click');
+    console.log('AlbumsList::click');
     item = $(e.target).item();
     item.addRemoveSelection(Gallery, this.isCtrlClick(e));
     this.select(item, e);
@@ -139,42 +140,42 @@ AlbumList = (function() {
     e.preventDefault();
     return false;
   };
-  AlbumList.prototype.dblclick = function(e) {
+  AlbumsList.prototype.dblclick = function(e) {
     App.showView.trigger('change:toolbar', 'Photo');
     Spine.trigger('show:photos');
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
-  AlbumList.prototype.edit = function(e) {
+  AlbumsList.prototype.edit = function(e) {
     var item;
-    console.log('AlbumList::edit');
+    console.log('AlbumsList::edit');
     item = $(e.target).item();
     return this.change(item);
   };
-  AlbumList.prototype.closeInfo = function(e) {
+  AlbumsList.prototype.closeInfo = function(e) {
     this.el.click();
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
-  AlbumList.prototype.previewUp = function(e) {
+  AlbumsList.prototype.previewUp = function(e) {
     e.stopPropagation();
     e.preventDefault();
     this.preview.up(e);
     return false;
   };
-  AlbumList.prototype.previewBye = function(e) {
+  AlbumsList.prototype.previewBye = function(e) {
     e.stopPropagation();
     e.preventDefault();
     this.preview.bye();
     return false;
   };
-  AlbumList.prototype.stopPreview = function(e) {
+  AlbumsList.prototype.stopPreview = function(e) {
     return this.preview.bye();
   };
-  return AlbumList;
+  return AlbumsList;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = AlbumList;
+  module.exports = AlbumsList;
 }

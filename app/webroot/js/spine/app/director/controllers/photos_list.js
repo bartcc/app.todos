@@ -1,4 +1,4 @@
-var $, PhotoList;
+var $, PhotosList;
 var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -11,48 +11,54 @@ if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
-PhotoList = (function() {
-  __extends(PhotoList, Spine.Controller);
-  PhotoList.prototype.elements = {
+PhotosList = (function() {
+  __extends(PhotosList, Spine.Controller);
+  PhotosList.prototype.elements = {
     '.thumbnail': 'thumb'
   };
-  PhotoList.prototype.events = {
+  PhotosList.prototype.events = {
     'click .item': "click",
     'dblclick .item': 'dblclick',
     'mousemove .item': 'previewUp',
     'mouseleave  .item': 'previewBye',
     'dragstart .item': 'stopPreview'
   };
-  PhotoList.prototype.selectFirst = true;
-  function PhotoList() {
+  PhotosList.prototype.selectFirst = true;
+  function PhotosList() {
     this.size = __bind(this.size, this);
     this.sliderStart = __bind(this.sliderStart, this);
     this.stopPreview = __bind(this.stopPreview, this);
     this.previewBye = __bind(this.previewBye, this);
     this.previewUp = __bind(this.previewUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
-    this.callback = __bind(this.callback, this);    PhotoList.__super__.constructor.apply(this, arguments);
+    this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
+    this.photoView = this.parent.photoView;
     Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.customErrorHandler);
     Photo.bind('uri', this.proxy(this.uri));
   }
-  PhotoList.prototype.change = function(item, e) {
-    this.exposeSelection(e);
+  PhotosList.prototype.change = function() {
+    console.log('PhotosList::change');
+    this.photoView.render(this.current);
+    return Spine.trigger('show:photo');
+  };
+  PhotosList.prototype.select = function(item, e) {
+    console.log('PhotosList::select');
+    this.exposeSelection();
     this.current = item;
     return Spine.trigger('change:selectedPhoto', item);
   };
-  PhotoList.prototype.render = function(items, mode) {
+  PhotosList.prototype.render = function(items, mode) {
     if (mode == null) {
       mode = 'html';
     }
-    console.log('PhotoList::render');
+    console.log('PhotosList::render');
     if (Album.record) {
       if (items.length) {
         this[mode](this.template(items));
         this.exposeSelection();
         this.uri(items, mode);
-        this.change();
         return this.el;
       } else {
         return this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
@@ -61,19 +67,18 @@ PhotoList = (function() {
       return this.renderAll();
     }
   };
-  PhotoList.prototype.renderAll = function() {
+  PhotosList.prototype.renderAll = function() {
     var items;
-    console.log('PhotoList::renderAll');
+    console.log('PhotosList::renderAll');
     items = Photo.all();
     if (items.length) {
       this.html(this.template(items));
       this.exposeSelection();
       this.uri(items, 'html');
-      this.change();
       return this.el;
     }
   };
-  PhotoList.prototype.update = function(item) {
+  PhotosList.prototype.update = function(item) {
     var backgroundImage, el, isActive, style, tb, tmplItem;
     el = __bind(function() {
       return this.children().forItem(item);
@@ -90,7 +95,7 @@ PhotoList = (function() {
     tb().css('backgroundImage', backgroundImage);
     return el().toggleClass('active', isActive);
   };
-  PhotoList.prototype.previewSize = function(width, height) {
+  PhotosList.prototype.previewSize = function(width, height) {
     if (width == null) {
       width = 140;
     }
@@ -102,8 +107,8 @@ PhotoList = (function() {
       height: height
     };
   };
-  PhotoList.prototype.uri = function(items, mode) {
-    console.log('PhotoList::uri');
+  PhotosList.prototype.uri = function(items, mode) {
+    console.log('PhotosList::uri');
     if (Album.record) {
       Album.record.uri(this.previewSize(), mode, __bind(function(xhr, record) {
         return this.callback(items, xhr);
@@ -113,11 +118,11 @@ PhotoList = (function() {
         return this.callback(items, xhr);
       }, this));
     }
-    return this.size(this.slider.sOutValue);
+    return this.size(this.parent.sOutValue);
   };
-  PhotoList.prototype.callback = function(items, json) {
+  PhotosList.prototype.callback = function(items, json) {
     var ele, img, item, jsn, searchJSON, src, _i, _len, _results;
-    console.log('PhotoList::callback');
+    console.log('PhotosList::callback');
     searchJSON = function(id) {
       var itm, _i, _len;
       for (_i = 0, _len = json.length; _i < _len; _i++) {
@@ -135,7 +140,7 @@ PhotoList = (function() {
     }
     return _results;
   };
-  PhotoList.prototype.imageLoad = function() {
+  PhotosList.prototype.imageLoad = function() {
     var css;
     css = 'url(' + this.src + ')';
     return $('.thumbnail', this.element).css({
@@ -143,9 +148,9 @@ PhotoList = (function() {
       'backgroundPosition': 'center, center'
     });
   };
-  PhotoList.prototype.exposeSelection = function(e) {
+  PhotosList.prototype.exposeSelection = function() {
     var current, el, id, item, list, _i, _len;
-    console.log('PhotoList::exposeSelection');
+    console.log('PhotosList::exposeSelection');
     this.deselect();
     list = Album.selectionList();
     for (_i = 0, _len = list.length; _i < _len; _i++) {
@@ -159,70 +164,67 @@ PhotoList = (function() {
     current = list.length === 1 ? list[0] : void 0;
     return Photo.current(current);
   };
-  PhotoList.prototype.click = function(e) {
+  PhotosList.prototype.click = function(e) {
     var item;
-    console.log('PhotoList::click');
+    console.log('PhotosList::click');
     item = $(e.currentTarget).item();
     item.addRemoveSelection(Album, this.isCtrlClick(e));
     if (App.hmanager.hasActive()) {
       this.openPanel('photo', App.showView.btnPhoto);
     }
     App.showView.trigger('change:toolbar', 'Photo');
-    this.change(item, e);
+    this.select(item, e);
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
-  PhotoList.prototype.dblclick = function(e) {
-    var item;
-    console.log('PhotoList::dblclick');
-    item = $(e.currentTarget).item();
-    this.change(item);
-    Spine.trigger('show:photo', item);
+  PhotosList.prototype.dblclick = function(e) {
+    console.log('PhotosList::dblclick');
+    this.change();
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
-  PhotoList.prototype.closeInfo = function(e) {
+  PhotosList.prototype.closeInfo = function(e) {
     this.el.click();
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
-  PhotoList.prototype.initSelectable = function() {
+  PhotosList.prototype.initSelectable = function() {
     var options;
     options = {
       helper: 'clone'
     };
     return this.el.selectable();
   };
-  PhotoList.prototype.previewUp = function(e) {
+  PhotosList.prototype.previewUp = function(e) {
     e.stopPropagation();
     e.preventDefault();
     this.preview.up(e);
     return false;
   };
-  PhotoList.prototype.previewBye = function(e) {
+  PhotosList.prototype.previewBye = function(e) {
     e.stopPropagation();
     e.preventDefault();
     this.preview.bye();
     return false;
   };
-  PhotoList.prototype.stopPreview = function(e) {
+  PhotosList.prototype.stopPreview = function(e) {
     return this.preview.bye();
   };
-  PhotoList.prototype.sliderStart = function() {
+  PhotosList.prototype.sliderStart = function() {
     return console.log(this.thumb.length);
   };
-  PhotoList.prototype.size = function(val) {
+  PhotosList.prototype.size = function(val) {
     return this.thumb.css({
       'height': val + 'px',
       'width': val + 'px',
       'backgroundSize': parseInt(val + 20) + 'px ' + parseInt(val + 20) + 'px'
     });
   };
-  return PhotoList;
+  return PhotosList;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = PhotoList;
+  module.exports = PhotosList;
 }

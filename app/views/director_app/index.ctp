@@ -119,6 +119,7 @@
             <div class="galleriesHeader view"></div>
             <div class="albumsHeader view"></div>
             <div class="photosHeader view"></div>
+            <div class="photoHeader view"></div>
           </div>
           <div class="view galleries content vbox flex data autoflow">
             <div class="preview"></div>
@@ -131,6 +132,10 @@
           <div class="view photos content vbox flex data autoflow">
             <div class="preview"></div>
             <div class="items sortable flex"></div>
+          </div>
+          <div class="view photo content vbox flex data autoflow">
+            <div class="preview"></div>
+            <div class="items sortable flex">PHOTO</div>
           </div>
         </div>
         <div id="views" class="canvas-bg-light hbox autoflow">
@@ -328,7 +333,7 @@
   </section>
 </script>
 
-<script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
+<script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
   <section class="top">
     {{if gallery}}
     <h3>Gallery: ${gallery.name}</h3>
@@ -357,23 +362,49 @@
   </section>
 </script>
 
+<script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
+  <section class="top">
+    <h2>Photo: {{if title}}${title}{{else}}${src}{{/if}}</h2>
+  </section>
+  <section class="closeView options">
+    <ul class="gal">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Galleries</span>
+    </ul>
+    <ul class="alb">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Albums</span>
+    </ul>
+    <ul class="pho">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Photos</span>
+    </ul>
+    <ul class="pho dimmed">
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>${src}</span>
+    </ul>
+  </section>
+</script>
+
 <script id="loginTemplate" type="text/x-jquery-tmpl">
   <button class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
 </script>
 
 <script id="overviewTemplate" type="text/x-jquery-tmpl">
   <div class="item">
-    {{tmpl "#photosThumbnailTemplate"}}
+    {{tmpl "#photoThumbnailTemplate"}}
   </div>
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li class="item container">
-    {{tmpl "#photosThumbnailTemplate"}}
+    {{tmpl "#photoThumbnailTemplate"}}
   </li>
 </script>
 
-<script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
+<script id="photoTemplate" type="text/x-jquery-tmpl">
+  <li class="item container">
+    {{tmpl "#photoThumbnailTemplate"}}
+  </li>
+</script>
+
+<script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left" draggable="true"></div>
 </script>
 

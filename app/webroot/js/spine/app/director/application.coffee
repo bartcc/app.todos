@@ -38,17 +38,17 @@ class App extends Spine.Controller
 
     User.bind('pinger', @proxy @validate)
     
-    @sidebar = new SidebarView
+    @sidebar = new Sidebar
       el: @sidebarEl
-    @gallery = new GalleryView
+    @gallery = new GalleryEditView
       el: @galleryEl
-    @album = new AlbumView
+    @album = new AlbumEditView
       el: @albumEl
-    @photo = new PhotoView
+    @photo = new PhotoEditView
       el: @photoEl
-    @upload = new UploadView
+    @upload = new UploadEditView
       el: @uploadEl
-    @slideshow = new SlideshowView
+    @slideshow = new SlideshowEditView
       el: @slideshowEl
     @overviewView = new OverviewView
       el: @overviewEl

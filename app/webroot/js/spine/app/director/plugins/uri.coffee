@@ -83,14 +83,18 @@ class UriCollection extends Base
 class Uri extends Base
   constructor: (@record, params, mode, @callback, max) ->
     super
-    # get all photos of the album
-    if @record
-      aps = AlbumsPhoto.filter(@record.id, key: 'album_id')
-      max = max or aps.length-1
-      @mode = mode
-      @photos = for ap in aps[0..max]
-        Photo.find(ap.photo_id)
-      
+    type = @record.constructor.className
+    switch type
+      when 'Album'
+        # get all photos of the album
+        aps = AlbumsPhoto.filter(@record.id, key: 'album_id')
+        max = max or aps.length-1
+        @mode = mode
+        @photos = for ap in aps[0..max]
+          Photo.find(ap.photo_id)
+      when 'Photo'
+        @photos = [@record]
+        
     options = $.extend({}, @settings, params)
     @url = @uri options
     
@@ -104,7 +108,7 @@ class Uri extends Base
     cache = @record.cache @url
     if cache
       @callback cache, @record
-    else if @photos.length
+    else
       @get()
       
   all: ->

@@ -1,4 +1,4 @@
-class SidebarView extends Spine.Controller
+class Sidebar extends Spine.Controller
 
   @extend Spine.Controller.Drag
 

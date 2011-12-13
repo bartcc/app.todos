@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class AlbumList extends Spine.Controller
+class AlbumsList extends Spine.Controller
   
   events:
     'click .item'                   : "click"    
@@ -20,10 +20,11 @@ class AlbumList extends Spine.Controller
     $('#albumPhotosTemplate').tmpl items
   
   change: (items) ->
-    console.log 'AlbumList::change'
+    console.log 'AlbumsList::change'
     @renderBackgrounds items if items.length
   
   select: (item, e) ->
+    console.log 'AlbumsList::select'
     previous = Album.record
     if item and !item.destroyed
       @current = item
@@ -34,7 +35,7 @@ class AlbumList extends Spine.Controller
 #    Spine.trigger('change:selectedAlbum', item, (!previous or !(@current?.id is previous.id)))
     
   exposeSelection: ->
-    console.log 'AlbumList::exposeSelection'
+    console.log 'AlbumsList::exposeSelection'
     list = Gallery.selectionList()
     @deselect()
     for id in list
@@ -48,7 +49,7 @@ class AlbumList extends Spine.Controller
     Spine.trigger('expose:sublistSelection', Gallery.record)# if Gallery.record
   
   render: (items) ->
-    console.log 'AlbumList::render'
+    console.log 'AlbumsList::render'
     if items.length
       @html @template items
     else
@@ -61,7 +62,7 @@ class AlbumList extends Spine.Controller
     @el
   
   renderBackgrounds: (albums) ->
-    console.log 'AlbumList::renderBackgrounds'
+    console.log 'AlbumsList::renderBackgrounds'
     return unless App.ready
     for album in albums
       album.uri
@@ -73,7 +74,7 @@ class AlbumList extends Spine.Controller
         , 3
   
   callback: (json, item) =>
-    console.log 'AlbumList::callback'
+    console.log 'AlbumsList::callback'
     el = @children().forItem(item)
     searchJSON = (itm) ->
       res = for key, value of itm
@@ -87,7 +88,7 @@ class AlbumList extends Spine.Controller
     Spine.trigger('create:album')
 
   click: (e) ->
-    console.log 'AlbumList::click'
+    console.log 'AlbumsList::click'
     item = $(e.target).item()
     item.addRemoveSelection(Gallery, @isCtrlClick(e))
     
@@ -109,7 +110,7 @@ class AlbumList extends Spine.Controller
     false
   
   edit: (e) ->
-    console.log 'AlbumList::edit'
+    console.log 'AlbumsList::edit'
     item = $(e.target).item()
     @change item
     
@@ -135,4 +136,4 @@ class AlbumList extends Spine.Controller
   stopPreview: (e) =>
     @preview.bye()
   
-module?.exports = AlbumList
+module?.exports = AlbumsList

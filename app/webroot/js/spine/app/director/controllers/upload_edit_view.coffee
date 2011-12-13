@@ -1,4 +1,7 @@
-class UploadView extends Spine.Controller
+Spine ?= require("spine")
+$      = Spine.$
+
+class UploadEditView extends Spine.Controller
 
   events:
     'click'           : 'click'
@@ -46,3 +49,5 @@ class UploadView extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     false
+    
+module?.exports = UploadEditView

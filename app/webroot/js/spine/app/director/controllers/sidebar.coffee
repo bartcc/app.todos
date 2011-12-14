@@ -156,7 +156,6 @@ class Sidebar extends Spine.Controller
         
   validateDrop: (target, source, origin) =>
     switch source.constructor.className
-        
       when 'Album'
         unless target.constructor.className is 'Gallery'
           return false

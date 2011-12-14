@@ -251,9 +251,10 @@ label input[type="text"] {
   font-style: italic;
   text-shadow: 1px -1px 0 rgba(0, 0, 0, 0.7);
 }
-.view label span, .dimmed{
+.view label span, .disabled {
   color: #676767;
   text-shadow: 0 1px 0 #DDDDDD;
+  cursor: auto;
 }
 .view label span {
   font-family: serif;
@@ -323,7 +324,6 @@ textarea {
   background: -moz-linear-gradient(top, #f9f9f9, #dfe0e1);
   background: linear-gradient(top, #f9f9f9, #dfe0e1);
   border-left: 0 solid;
-  cursor: auto;
 }
 
 .hdivide {
@@ -484,7 +484,10 @@ textarea {
   margin: 0 auto;
   float: left;
 }
-#content .header section.closeView ul:not(.dimmed){
+.disabled {
+  cursor: auto;
+}
+#content .header section.closeView ul:not(.disabled){
   cursor: pointer;
 }
 #content .header section {
@@ -635,9 +638,21 @@ textarea {
 #sidebar .expander.expand {
   background: url('img/arrow.png') no-repeat 0 -23px
 }
+.toolbar .tb-name > tb-options {
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+}
 #content .items .item {
   float: left;
   cursor: move;
+}
+#content .items .item .title {
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 1px 0px rgba(0, 0, 0, 1);
+  text-align: center;
+  cursor: auto;
 }
 .options {
   background: #ffffff;
@@ -768,7 +783,13 @@ textarea {
   background: url("img/bauer.png") no-repeat 0 0;
 }
 #content .content.galleries .thumbnail {
-  background: url("img/bauer.png") no-repeat 0 0;
+  background-color: rgba(155, 155, 150, 0.4);
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 #content .content .thumbnail {
   outline: none;
@@ -776,9 +797,15 @@ textarea {
   color: rgba(200, 200, 200, 0.5);
   line-height: 1.2em
 }
+#content .content.galleries .items .ui-icon {
+  margin: 0 auto;
+}
 #content .content.galleries .items .thumbnail {
-  width: 140px;
-  height: 140px;
+  min-width: 140px;
+  min-height: 100px;
+}
+#content .content .items .thumbnail {
+  margin-bottom: 2px;
 }
 #content .content.albums .items .thumbnail {
   width: 140px;
@@ -830,7 +857,7 @@ textarea {
   right: -14px;
 }
 #content .content .item.active {
-  background-color: rgba(255, 187, 102, 0.8);
+  background-color: rgba(155, 155, 150, 0.4);
   box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
 }
 #content .content .item ul {

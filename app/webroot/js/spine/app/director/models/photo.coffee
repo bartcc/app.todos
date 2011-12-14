@@ -89,5 +89,11 @@ class Photo extends Spine.Model
     ap = Spine.Model[options.joinTable].filter(id, options)
     for record in ap
       return true if record.photo_id is @id
+      
+  details: ->
+    details = {}
+    details.album = Album.record
+    details.gallery = Gallery.record
+    details
 
 Spine.Model.Photo = Photo

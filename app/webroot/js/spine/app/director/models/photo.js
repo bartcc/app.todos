@@ -137,6 +137,13 @@ Photo = (function() {
       }
     }
   };
+  Photo.prototype.details = function() {
+    var details;
+    details = {};
+    details.album = Album.record;
+    details.gallery = Gallery.record;
+    return details;
+  };
   return Photo;
 })();
 Spine.Model.Photo = Photo;

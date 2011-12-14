@@ -74,6 +74,8 @@ Album = (function() {
     photos = AlbumsPhoto.filter(this.id, filterOptions);
     details = {};
     details.iCount = photos.length;
+    details.album = Album.record;
+    details.gallery = Gallery.record;
     return details;
   };
   Album.prototype.selectAttributes = function() {

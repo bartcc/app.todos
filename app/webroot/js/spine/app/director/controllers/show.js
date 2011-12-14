@@ -91,19 +91,19 @@ ShowView = (function() {
       parent: this,
       parentModel: 'Gallery'
     });
-    this.photoView = new PhotoView({
-      el: this.photoEl,
-      className: 'items',
-      header: this.photoHeader,
-      parent: this,
-      parentModel: 'Photo'
-    });
     this.photosView = new PhotosView({
       el: this.photosEl,
       className: 'items',
       header: this.photosHeader,
       parent: this,
       parentModel: 'Album'
+    });
+    this.photoView = new PhotoView({
+      el: this.photoEl,
+      className: 'items',
+      header: this.photoHeader,
+      parent: this,
+      parentModel: 'Photo'
     });
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     Gallery.bind('change', this.proxy(this.renderToolbar));

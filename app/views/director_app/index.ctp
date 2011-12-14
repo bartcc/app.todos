@@ -157,7 +157,7 @@
             <div id="fileupload" class="view items flex autoflow" style=""></div>
             <div id="slideshow" class="view items flex autoflow" style="">
               <label>
-                <span class="dimmed">Not quite there yet</span>
+                <span class="disabled">Not quite there yet</span>
               </label>
             </div>
           </div>
@@ -228,13 +228,23 @@
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
   <li class="item container">
-    <div class="thumbnail left" draggable="true"></div>
+    <div class="thumbnail" draggable="true">
+      <div class="ui-icon"></div>
+      {{tmpl($item.data.details()) "#galDetailsTemplate"}}
+    </div>
+    <div class="title">{{if name}}{{html name}}{{else}}no title{{/if}}</div>
   </li>
+</script>
+
+<script id="galDetailsTemplate" type="text/x-jquery-tmpl">
+  <div>Albums: <span class="cta">${aCount}</span></div>
+  <div>Images: <span class="cta">${iCount}</span></div>
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
   <li class="item container">
     <div class="thumbnail left" draggable="true"></div>
+    <div class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</div>
   </li>
 </script>
 
@@ -292,7 +302,7 @@
 </script>
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
-  <li class="{{if disabled}}disabled{{/if}} ${klass}"><span>${name}</span>
+  <li class="{{if disabled}}disabled{{/if}} ${klass}"><span class="tb-name">${name}</span>
     {{if html}}
       {{html html}}
     {{/if}}
@@ -327,7 +337,7 @@
     <ul class="gal">
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Galleries</span>
     </ul>
-    <ul class="alb dimmed">
+    <ul class="alb disabled">
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Albums</span>
     </ul>
   </section>
@@ -356,7 +366,7 @@
     <ul class="alb">
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Albums</span>
     </ul>
-    <ul class="pho dimmed">
+    <ul class="pho disabled">
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Photos</span>
     </ul>
   </section>
@@ -364,6 +374,7 @@
 
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
   <section class="top">
+    {{tmpl($item.data.details()) "#photoDetailsTemplate"}}
     <h2>Photo: {{if title}}${title}{{else}}${src}{{/if}}</h2>
   </section>
   <section class="closeView options">
@@ -376,10 +387,14 @@
     <ul class="pho">
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Photos</span>
     </ul>
-    <ul class="dimmed">
+    <ul class="disabled">
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>${src}</span>
     </ul>
   </section>
+</script>
+
+<script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
+  <h3>{{if gallery}}<span>Gallery: ${gallery.name}</span>{{/if}}{{if album}}<span>Album: ${album.title}</span>{{/if}}</h3>
 </script>
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">
@@ -415,7 +430,6 @@
     </div>
   </div>
 </script>
-
 
 <script id="albumPreviewTemplate" type="text/x-jquery-tmpl">
   <ul>

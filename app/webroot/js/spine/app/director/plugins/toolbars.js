@@ -62,7 +62,7 @@ Controller.Toolbars = {
             }, {
               name: 'Thumbnail',
               klass: 'optThumbsize',
-              html: '<div class="options"><span id="slider" style="display: none;"></span></div>'
+              html: '<div class=""><span id="slider" style="display: none;"></span></div>'
             }
           ],
           Upload: [

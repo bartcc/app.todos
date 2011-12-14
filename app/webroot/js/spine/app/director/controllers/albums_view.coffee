@@ -88,6 +88,7 @@ class AlbumsView extends Spine.Controller
       @el.removeData()
       
     @list.render @current
+    @header.render()
     # when Album is deleted in Photos View return to this View
     if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()

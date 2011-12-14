@@ -75,18 +75,18 @@ class ShowView extends Spine.Controller
       header: @albumsHeader
       parent: @
       parentModel: 'Gallery'
-    @photoView = new PhotoView
-      el: @photoEl
-      className: 'items'
-      header: @photoHeader
-      parent: @
-      parentModel: 'Photo'
     @photosView = new PhotosView
       el: @photosEl
       className: 'items'
       header: @photosHeader
       parent: @
       parentModel: 'Album'
+    @photoView = new PhotoView
+      el: @photoEl
+      className: 'items'
+      header: @photoHeader
+      parent: @
+      parentModel: 'Photo'
     
     Spine.bind('change:canvas', @proxy @changeCanvas)
     Gallery.bind('change', @proxy @renderToolbar)

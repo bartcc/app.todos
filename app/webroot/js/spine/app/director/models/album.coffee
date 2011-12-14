@@ -50,6 +50,8 @@ class Album extends Spine.Model
     photos = AlbumsPhoto.filter(@id, filterOptions)
     details = {}
     details.iCount = photos.length
+    details.album = Album.record
+    details.gallery = Gallery.record
     details
     
   selectAttributes: ->

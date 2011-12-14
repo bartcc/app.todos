@@ -30,14 +30,14 @@ class PhotoEditView extends Spine.Controller
     selection = Album.selectionList()
 
     unless selection?.length
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">No photo selected</span></label>'})
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">No photo selected</span></label>'})
     else if selection?.length > 1
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Multiple selection</span></label>'})
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">Multiple selection</span></label>'})
     else unless item
       unless Album.count()
-        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Create a album!</span></label>'})
+        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">Create a album!</span></label>'})
       else
-        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="dimmed">Select a album!</span></label>'})
+        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">Select a album!</span></label>'})
     else
       @item.html @template item
     @el

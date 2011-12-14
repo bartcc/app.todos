@@ -14,27 +14,49 @@ $ = Spine.$;
 PhotoView = (function() {
   __extends(PhotoView, Spine.Controller);
   PhotoView.prototype.elements = {
+    '.preview': 'previewEl',
     '.items': 'items',
     '.items .item': 'item'
+  };
+  PhotoView.prototype.events = {
+    'mousemove .item': 'previewUp',
+    'mouseleave  .item': 'previewBye',
+    'dragstart .item': 'stopPreview'
   };
   PhotoView.prototype.template = function(item) {
     return $('#photoTemplate').tmpl(item);
   };
+  PhotoView.prototype.previewTemplate = function(item) {
+    return $('#photoPreviewTemplate').tmpl(item);
+  };
   function PhotoView() {
+    this.stopPreview = __bind(this.stopPreview, this);
+    this.previewBye = __bind(this.previewBye, this);
+    this.previewUp = __bind(this.previewUp, this);
     this.callback = __bind(this.callback, this);    PhotoView.__super__.constructor.apply(this, arguments);
+    this.preview = new Preview({
+      el: this.previewEl,
+      template: this.previewTemplate
+    });
     Spine.bind('show:photo', this.proxy(this.show));
     this.img = new Image;
     this.img.onload = this.imageLoad;
   }
   PhotoView.prototype.change = function(item, changed) {
-    return console.log('PhotoView::change');
+    console.log('PhotoView::change');
+    return this.current = item;
   };
   PhotoView.prototype.render = function(item, mode) {
+    var _ref;
     console.log('PhotoView::render');
+    if (((_ref = this.current) != null ? _ref.id : void 0) === item.id) {
+      return;
+    }
     this.el.data(item);
     this.items.html(this.template(item));
     this.renderHeader(item);
-    return this.uri(item);
+    this.uri(item);
+    return this.change(item);
   };
   PhotoView.prototype.renderHeader = function(item) {
     return this.header.change(item);
@@ -100,6 +122,21 @@ PhotoView = (function() {
       'backgroundColor': 'rgba(255, 255, 255, 0.5)',
       'backgroundImage': 'none'
     });
+  };
+  PhotoView.prototype.previewUp = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.preview.up(e);
+    return false;
+  };
+  PhotoView.prototype.previewBye = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.preview.bye();
+    return false;
+  };
+  PhotoView.prototype.stopPreview = function(e) {
+    return this.preview.bye();
   };
   PhotoView.prototype.show = function() {
     return Spine.trigger('change:canvas', this);

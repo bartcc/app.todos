@@ -89,6 +89,7 @@ AlbumsView = (function() {
       this.el.removeData();
     }
     this.list.render(this.current);
+    this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();
     }

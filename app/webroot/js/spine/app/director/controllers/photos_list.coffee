@@ -54,7 +54,6 @@ class PhotosList extends Spine.Controller
       @html @template items
       @exposeSelection()
       @uri items, 'html'
-#      @change()
       @el
   
   update: (item) ->
@@ -64,13 +63,14 @@ class PhotosList extends Spine.Controller
       $('.thumbnail', el())
       
     backgroundImage = tb().css('backgroundImage')
-    style = el().prop('style')
-    isActive = el().hasClass('active')
+    css = tb().attr('style')
+    active = el().hasClass('active')
     tmplItem = el().tmplItem()
     tmplItem.tmpl = $( "#photosTemplate" ).template()
     tmplItem.update()
-    tb().css 'backgroundImage', backgroundImage
-    el().toggleClass('active', isActive)
+    tb().attr('style', css)
+    el().toggleClass('active', active)
+    @refreshElements()
   
   previewSize: (width = 140, height = 140) ->
     width: width
@@ -79,12 +79,13 @@ class PhotosList extends Spine.Controller
   # the actual final rendering method
   uri: (items, mode) ->
     console.log 'PhotosList::uri'
+    @size(@parent.sOutValue, 'auto')
+    
     if Album.record
       Album.record.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
     else
       Photo.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
   
-    @size(@parent.sOutValue)
   
   callback: (items, json) =>
     console.log 'PhotosList::callback'
@@ -106,6 +107,7 @@ class PhotosList extends Spine.Controller
     $('.thumbnail', @element).css
       'backgroundImage': css
       'backgroundPosition': 'center, center'
+      'backgroundSize': '100%'
     
   exposeSelection: ->
     console.log 'PhotosList::exposeSelection'
@@ -171,10 +173,11 @@ class PhotosList extends Spine.Controller
   sliderStart: =>
     console.log @thumb.length
     
-  size: (val) =>
+  size: (val, bg='100%') =>
     # 2*10 = border radius
     @thumb.css
-      'height': val+'px'
-      'width': val+'px'
+      'height'          : val+'px'
+      'width'           : val+'px'
+      'backgroundSize'  : bg
     
 module?.exports = PhotosList

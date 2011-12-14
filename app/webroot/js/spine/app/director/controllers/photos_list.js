@@ -78,7 +78,7 @@ PhotosList = (function() {
     }
   };
   PhotosList.prototype.update = function(item) {
-    var backgroundImage, el, isActive, style, tb, tmplItem;
+    var active, backgroundImage, css, el, tb, tmplItem;
     el = __bind(function() {
       return this.children().forItem(item);
     }, this);
@@ -86,13 +86,14 @@ PhotosList = (function() {
       return $('.thumbnail', el());
     };
     backgroundImage = tb().css('backgroundImage');
-    style = el().prop('style');
-    isActive = el().hasClass('active');
+    css = tb().attr('style');
+    active = el().hasClass('active');
     tmplItem = el().tmplItem();
     tmplItem.tmpl = $("#photosTemplate").template();
     tmplItem.update();
-    tb().css('backgroundImage', backgroundImage);
-    return el().toggleClass('active', isActive);
+    tb().attr('style', css);
+    el().toggleClass('active', active);
+    return this.refreshElements();
   };
   PhotosList.prototype.previewSize = function(width, height) {
     if (width == null) {
@@ -108,16 +109,16 @@ PhotosList = (function() {
   };
   PhotosList.prototype.uri = function(items, mode) {
     console.log('PhotosList::uri');
+    this.size(this.parent.sOutValue, 'auto');
     if (Album.record) {
-      Album.record.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+      return Album.record.uri(this.previewSize(), mode, __bind(function(xhr, record) {
         return this.callback(items, xhr);
       }, this));
     } else {
-      Photo.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+      return Photo.uri(this.previewSize(), mode, __bind(function(xhr, record) {
         return this.callback(items, xhr);
       }, this));
     }
-    return this.size(this.parent.sOutValue);
   };
   PhotosList.prototype.callback = function(items, json) {
     var ele, img, item, jsn, searchJSON, src, _i, _len, _results;
@@ -144,7 +145,8 @@ PhotosList = (function() {
     css = 'url(' + this.src + ')';
     return $('.thumbnail', this.element).css({
       'backgroundImage': css,
-      'backgroundPosition': 'center, center'
+      'backgroundPosition': 'center, center',
+      'backgroundSize': '100%'
     });
   };
   PhotosList.prototype.exposeSelection = function() {
@@ -215,10 +217,14 @@ PhotosList = (function() {
   PhotosList.prototype.sliderStart = function() {
     return console.log(this.thumb.length);
   };
-  PhotosList.prototype.size = function(val) {
+  PhotosList.prototype.size = function(val, bg) {
+    if (bg == null) {
+      bg = '100%';
+    }
     return this.thumb.css({
       'height': val + 'px',
-      'width': val + 'px'
+      'width': val + 'px',
+      'backgroundSize': bg
     });
   };
   return PhotosList;

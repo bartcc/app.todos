@@ -38,8 +38,8 @@ class App extends Spine.Controller
 
     User.bind('pinger', @proxy @validate)
     
-    @sidebar = new Sidebar
-      el: @sidebarEl
+    @galleryEditView = new GalleryEditorView
+      el: @galleryEditEl
     @gallery = new GalleryEditView
       el: @galleryEl
     @album = new AlbumEditView
@@ -55,8 +55,8 @@ class App extends Spine.Controller
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
-    @galleryEditView = new GalleryEditorView
-      el: @galleryEditEl
+    @sidebar = new Sidebar
+      el: @sidebarEl
     @loginView = new LoginView
       el: @loginEl
     @mainView = new MainView

@@ -64,6 +64,17 @@ class ShowView extends Spine.Controller
       el: @albumsHeaderEl
     @galleriesHeader = new GalleriesHeader
       el: @galleriesHeaderEl
+    @galleriesView = new GalleriesView
+      el: @galleriesEl
+      className: 'items'
+      header: @galleriesHeader
+      parent: @
+    @albumsView = new AlbumsView
+      el: @albumsEl
+      className: 'items'
+      header: @albumsHeader
+      parent: @
+      parentModel: 'Gallery'
     @photoView = new PhotoView
       el: @photoEl
       className: 'items'
@@ -76,17 +87,6 @@ class ShowView extends Spine.Controller
       header: @photosHeader
       parent: @
       parentModel: 'Album'
-    @albumsView = new AlbumsView
-      el: @albumsEl
-      className: 'items'
-      header: @albumsHeader
-      parent: @
-      parentModel: 'Gallery'
-    @galleriesView = new GalleriesView
-      el: @galleriesEl
-      className: 'items'
-      header: @galleriesHeader
-      parent: @
     
     Spine.bind('change:canvas', @proxy @changeCanvas)
     Gallery.bind('change', @proxy @renderToolbar)
@@ -236,7 +236,7 @@ class ShowView extends Spine.Controller
       
   deselect: (e) =>
     item = @el.data().current
-    
+    console.log @el.data()
 #    switch @current.parentModel
     switch item.constructor.className
       when 'Photo'
@@ -251,7 +251,13 @@ class ShowView extends Spine.Controller
         Album.current()
         Spine.trigger('album:exposeSelection')
         Spine.trigger('change:selectedAlbum', item)
-    
+      else
+        Gallery.current()
+        Spine.trigger('gallery:exposeSelection')
+        Spine.trigger('change:selectedGallery', false)
+#        App.showView.trigger('change:toolbar', 'Gallery')
+        
+    @trigger('render:toolbar')
     @current.items.deselect()
     @renderToolbar()
     

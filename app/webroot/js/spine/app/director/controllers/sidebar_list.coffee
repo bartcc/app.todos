@@ -64,7 +64,7 @@ class SidebarList extends Spine.Controller
         when 'create'
           @current = item
           
-      @exposeSelection(@current)
+#      @exposeSelection(@current)
     else
       @current = false
       switch mode
@@ -73,7 +73,9 @@ class SidebarList extends Spine.Controller
           
     
     Gallery.current(@current)
-    @exposeSublistSelection Gallery.record
+#    if @current
+    @exposeSelection(@current)
+#    @exposeSublistSelection Gallery.record
     Spine.trigger('change:selectedGallery', @current, mode)
         
   render: (galleries, gallery, mode) ->
@@ -146,6 +148,7 @@ class SidebarList extends Spine.Controller
     console.log 'SidebarList::exposeSelection'
     @deselect()
     @children().forItem(gallery).addClass("active") if gallery
+    @exposeSublistSelection gallery
         
   exposeSublistSelection: (gallery) ->
     console.log 'SidebarList::exposeSublistSelection'

@@ -40,8 +40,8 @@ App = (function() {
     this.ALBUM_DOUBLE_MOVE = this.constructor.createImage('/img/dragndrop/album_double_move.png');
     this.ALBUM_DOUBLE_COPY = this.constructor.createImage('/img/dragndrop/album_double_copy.png');
     User.bind('pinger', this.proxy(this.validate));
-    this.sidebar = new Sidebar({
-      el: this.sidebarEl
+    this.galleryEditView = new GalleryEditorView({
+      el: this.galleryEditEl
     });
     this.gallery = new GalleryEditView({
       el: this.galleryEl
@@ -65,8 +65,8 @@ App = (function() {
       el: this.showEl,
       activeControl: 'btnGallery'
     });
-    this.galleryEditView = new GalleryEditorView({
-      el: this.galleryEditEl
+    this.sidebar = new Sidebar({
+      el: this.sidebarEl
     });
     this.loginView = new LoginView({
       el: this.loginEl

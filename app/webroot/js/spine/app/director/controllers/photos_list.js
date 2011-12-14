@@ -32,7 +32,6 @@ PhotosList = (function() {
     this.previewUp = __bind(this.previewUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
-    this.photoView = this.parent.photoView;
     Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.customErrorHandler);
@@ -40,7 +39,7 @@ PhotosList = (function() {
   }
   PhotosList.prototype.change = function() {
     console.log('PhotosList::change');
-    this.photoView.render(this.current);
+    App.showView.photoView.render(this.current);
     return Spine.trigger('show:photo');
   };
   PhotosList.prototype.select = function(item, e) {
@@ -219,8 +218,7 @@ PhotosList = (function() {
   PhotosList.prototype.size = function(val) {
     return this.thumb.css({
       'height': val + 'px',
-      'width': val + 'px',
-      'backgroundSize': parseInt(val + 20) + 'px ' + parseInt(val + 20) + 'px'
+      'width': val + 'px'
     });
   };
   return PhotosList;

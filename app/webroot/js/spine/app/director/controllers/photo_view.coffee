@@ -13,12 +13,15 @@ class PhotoView extends Spine.Controller
   constructor: ->
     super
     Spine.bind('show:photo', @proxy @show)
+    @img = new Image
+    @img.onload = @imageLoad
     
   change: (item, changed) ->
     console.log 'PhotoView::change'
     
   render: (item, mode) ->
     console.log 'PhotoView::render'
+    @el.data item
     @items.html @template item
     @renderHeader item
     @uri item
@@ -38,29 +41,20 @@ class PhotoView extends Spine.Controller
   
   callback: (record, json) =>
     console.log 'PhotoView::callback'
-    console.log record
-    console.log json
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
     jsn = searchJSON record.id
     if jsn
-      ele = $('.item', @items).forItem(record)
-      console.log ele
-      src = jsn.src
-      img = new Image
-      img.element = ele
-      img.onload = @imageLoad
-      img.src = src
+      @img.element = $('.item', @items).forItem(record)
+      @img.src = jsn.src
   
   imageLoad: ->
-    console.log @
+    el = $('.thumbnail', @element)
+    img = $(@)
     w = @width
     h = @height
-    css = 'url(' + @src + ')'
-    img = $(@)
-    newImg = $(new Image)
-    el = $('.thumbnail', @element)
+    
     el.html img
     .hide()
     .css
@@ -76,26 +70,8 @@ class PhotoView extends Spine.Controller
         'borderWidth'       : '1px'
         'borderStyle'       : 'solid'
         'borderColor'       : '#575757'
-        
-      
-      
-    
-    
-#    $('.thumbnail', @element).animate
-#      'opacity'           : 0.01
-#    ,
-#    complete: -> 
-#      $(@).css
-#        'borderWidth'       : '1px'
-#        'borderStyle'       : 'solid'
-#        'borderColor'       : '#575757'
-#        'backgroundImage'   : css
-#        'backgroundPosition': 'center, center'
-#      $(@).animate
-#        'opacity'           : 1
-#        'width'             : w+'px'
-#        'height'            : h+'px'
-      
+        'backgroundColor'   : 'rgba(255, 255, 255, 0.5)'
+        'backgroundImage'   : 'none'
   
   show: ->
     Spine.trigger('change:canvas', @)

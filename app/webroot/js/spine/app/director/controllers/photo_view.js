@@ -23,12 +23,15 @@ PhotoView = (function() {
   function PhotoView() {
     this.callback = __bind(this.callback, this);    PhotoView.__super__.constructor.apply(this, arguments);
     Spine.bind('show:photo', this.proxy(this.show));
+    this.img = new Image;
+    this.img.onload = this.imageLoad;
   }
   PhotoView.prototype.change = function(item, changed) {
     return console.log('PhotoView::change');
   };
   PhotoView.prototype.render = function(item, mode) {
     console.log('PhotoView::render');
+    this.el.data(item);
     this.items.html(this.template(item));
     this.renderHeader(item);
     return this.uri(item);
@@ -54,10 +57,8 @@ PhotoView = (function() {
     }, this));
   };
   PhotoView.prototype.callback = function(record, json) {
-    var ele, img, jsn, searchJSON, src;
+    var jsn, searchJSON;
     console.log('PhotoView::callback');
-    console.log(record);
-    console.log(json);
     searchJSON = function(id) {
       var itm, _i, _len;
       for (_i = 0, _len = json.length; _i < _len; _i++) {
@@ -69,24 +70,16 @@ PhotoView = (function() {
     };
     jsn = searchJSON(record.id);
     if (jsn) {
-      ele = $('.item', this.items).forItem(record);
-      console.log(ele);
-      src = jsn.src;
-      img = new Image;
-      img.element = ele;
-      img.onload = this.imageLoad;
-      return img.src = src;
+      this.img.element = $('.item', this.items).forItem(record);
+      return this.img.src = jsn.src;
     }
   };
   PhotoView.prototype.imageLoad = function() {
-    var css, el, h, img, newImg, w;
-    console.log(this);
+    var el, h, img, w;
+    el = $('.thumbnail', this.element);
+    img = $(this);
     w = this.width;
     h = this.height;
-    css = 'url(' + this.src + ')';
-    img = $(this);
-    newImg = $(new Image);
-    el = $('.thumbnail', this.element);
     el.html(img.hide().css({
       'opacity': 0.01
     }));
@@ -103,7 +96,9 @@ PhotoView = (function() {
     return el.css({
       'borderWidth': '1px',
       'borderStyle': 'solid',
-      'borderColor': '#575757'
+      'borderColor': '#575757',
+      'backgroundColor': 'rgba(255, 255, 255, 0.5)',
+      'backgroundImage': 'none'
     });
   };
   PhotoView.prototype.show = function() {

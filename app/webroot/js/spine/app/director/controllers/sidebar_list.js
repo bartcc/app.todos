@@ -78,7 +78,6 @@ SidebarList = (function() {
         case 'create':
           this.current = item;
       }
-      this.exposeSelection(this.current);
     } else {
       this.current = false;
       switch (mode) {
@@ -87,7 +86,7 @@ SidebarList = (function() {
       }
     }
     Gallery.current(this.current);
-    this.exposeSublistSelection(Gallery.record);
+    this.exposeSelection(this.current);
     return Spine.trigger('change:selectedGallery', this.current, mode);
   };
   SidebarList.prototype.render = function(galleries, gallery, mode) {
@@ -199,8 +198,9 @@ SidebarList = (function() {
     console.log('SidebarList::exposeSelection');
     this.deselect();
     if (gallery) {
-      return this.children().forItem(gallery).addClass("active");
+      this.children().forItem(gallery).addClass("active");
     }
+    return this.exposeSublistSelection(gallery);
   };
   SidebarList.prototype.exposeSublistSelection = function(gallery) {
     var album, albums, galleryEl, id, item, list, removeAlbumSelection, val, _i, _len, _ref, _results;

@@ -78,6 +78,19 @@ ShowView = (function() {
     this.galleriesHeader = new GalleriesHeader({
       el: this.galleriesHeaderEl
     });
+    this.galleriesView = new GalleriesView({
+      el: this.galleriesEl,
+      className: 'items',
+      header: this.galleriesHeader,
+      parent: this
+    });
+    this.albumsView = new AlbumsView({
+      el: this.albumsEl,
+      className: 'items',
+      header: this.albumsHeader,
+      parent: this,
+      parentModel: 'Gallery'
+    });
     this.photoView = new PhotoView({
       el: this.photoEl,
       className: 'items',
@@ -91,19 +104,6 @@ ShowView = (function() {
       header: this.photosHeader,
       parent: this,
       parentModel: 'Album'
-    });
-    this.albumsView = new AlbumsView({
-      el: this.albumsEl,
-      className: 'items',
-      header: this.albumsHeader,
-      parent: this,
-      parentModel: 'Gallery'
-    });
-    this.galleriesView = new GalleriesView({
-      el: this.galleriesEl,
-      className: 'items',
-      header: this.galleriesHeader,
-      parent: this
     });
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     Gallery.bind('change', this.proxy(this.renderToolbar));
@@ -284,6 +284,7 @@ ShowView = (function() {
   ShowView.prototype.deselect = function(e) {
     var item;
     item = this.el.data().current;
+    console.log(this.el.data());
     switch (item.constructor.className) {
       case 'Photo':
         (function() {});
@@ -299,7 +300,13 @@ ShowView = (function() {
         Album.current();
         Spine.trigger('album:exposeSelection');
         Spine.trigger('change:selectedAlbum', item);
+        break;
+      default:
+        Gallery.current();
+        Spine.trigger('gallery:exposeSelection');
+        Spine.trigger('change:selectedGallery', false);
     }
+    this.trigger('render:toolbar');
     this.current.items.deselect();
     this.renderToolbar();
     e.stopPropagation();

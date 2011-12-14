@@ -17,7 +17,6 @@ class PhotosList extends Spine.Controller
     
   constructor: ->
     super
-    @photoView = @parent.photoView
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.customErrorHandler)
@@ -26,7 +25,7 @@ class PhotosList extends Spine.Controller
     
   change: ->
     console.log 'PhotosList::change'
-    @photoView.render @current
+    App.showView.photoView.render @current
     Spine.trigger('show:photo')
     
   select: (item, e) ->
@@ -177,6 +176,5 @@ class PhotosList extends Spine.Controller
     @thumb.css
       'height': val+'px'
       'width': val+'px'
-      'backgroundSize': parseInt(val+20)+'px ' + parseInt(val+20)+'px'
     
 module?.exports = PhotosList

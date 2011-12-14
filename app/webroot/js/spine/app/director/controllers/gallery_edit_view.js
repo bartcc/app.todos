@@ -31,11 +31,11 @@ GalleryEditView = (function() {
     Gallery.bind("refresh change", this.proxy(this.change));
   }
   GalleryEditView.prototype.change = function(item, mode) {
-    console.log('Gallery::change');
+    console.log('GalleryEditView::change');
     return this.render();
   };
   GalleryEditView.prototype.render = function() {
-    console.log('Gallery::render');
+    console.log('GalleryEditView::render');
     if (Gallery.record) {
       this.editEl.html(this.template(Gallery.record));
     } else {
@@ -52,6 +52,8 @@ GalleryEditView = (function() {
     return this;
   };
   GalleryEditView.prototype.saveOnEnter = function(e) {
+    console.log('GalleryEditView::saveOnEnter');
+    console.log(e.keyCode);
     if (e.keyCode !== 13) {
       return;
     }

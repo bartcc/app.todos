@@ -21,11 +21,11 @@ class GalleryEditView extends Spine.Controller
     Gallery.bind "refresh change", @proxy @change
 
   change: (item, mode) ->
-    console.log 'Gallery::change'
+    console.log 'GalleryEditView::change'
     @render()
 
   render: ->
-    console.log 'Gallery::render'
+    console.log 'GalleryEditView::render'
     if Gallery.record
       @editEl.html @template Gallery.record
     else
@@ -36,6 +36,8 @@ class GalleryEditView extends Spine.Controller
     @
 
   saveOnEnter: (e) ->
+    console.log 'GalleryEditView::saveOnEnter'
+    console.log e.keyCode
     return if(e.keyCode != 13)
     Spine.trigger('save:gallery', @editEl)
     

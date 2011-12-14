@@ -29,7 +29,7 @@ class PhotoView extends Spine.Controller
   params: ->
     width: 600
     height: 451
-    square: 1
+    square: 2
     force: false
     
   uri: (item, mode = 'html') ->
@@ -55,17 +55,49 @@ class PhotoView extends Spine.Controller
   
   imageLoad: ->
     console.log @
-    console.log @width
-    console.log @height
+    w = @width
+    h = @height
     css = 'url(' + @src + ')'
-    $('.thumbnail', @element).css
-      'backgroundImage': css
-      'backgroundPosition': 'center, center'
-      'width': @width+'px'
-      'height': @height+'px'
+    img = $(@)
+    newImg = $(new Image)
+    el = $('.thumbnail', @element)
+    el.html img
+    .hide()
+    .css
+      'opacity'           : 0.01
+    el.animate
+      'width'             : w+'px'
+      'height'            : h+'px'
+    , complete: => img
+      .css
+        'opacity'         : 1
+      .fadeIn()
+      el.css
+        'borderWidth'       : '1px'
+        'borderStyle'       : 'solid'
+        'borderColor'       : '#575757'
+        
+      
+      
+    
+    
+#    $('.thumbnail', @element).animate
+#      'opacity'           : 0.01
+#    ,
+#    complete: -> 
+#      $(@).css
+#        'borderWidth'       : '1px'
+#        'borderStyle'       : 'solid'
+#        'borderColor'       : '#575757'
+#        'backgroundImage'   : css
+#        'backgroundPosition': 'center, center'
+#      $(@).animate
+#        'opacity'           : 1
+#        'width'             : w+'px'
+#        'height'            : h+'px'
+      
   
   show: ->
-    console.log 'PhotoView::show'
     Spine.trigger('change:canvas', @)
     
     

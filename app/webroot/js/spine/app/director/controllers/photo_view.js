@@ -40,7 +40,7 @@ PhotoView = (function() {
     return {
       width: 600,
       height: 451,
-      square: 1,
+      square: 2,
       force: false
     };
   };
@@ -79,20 +79,34 @@ PhotoView = (function() {
     }
   };
   PhotoView.prototype.imageLoad = function() {
-    var css;
+    var css, el, h, img, newImg, w;
     console.log(this);
-    console.log(this.width);
-    console.log(this.height);
+    w = this.width;
+    h = this.height;
     css = 'url(' + this.src + ')';
-    return $('.thumbnail', this.element).css({
-      'backgroundImage': css,
-      'backgroundPosition': 'center, center',
-      'width': this.width + 'px',
-      'height': this.height + 'px'
+    img = $(this);
+    newImg = $(new Image);
+    el = $('.thumbnail', this.element);
+    el.html(img.hide().css({
+      'opacity': 0.01
+    }));
+    el.animate({
+      'width': w + 'px',
+      'height': h + 'px'
+    }, {
+      complete: __bind(function() {
+        return img.css({
+          'opacity': 1
+        }).fadeIn();
+      }, this)
+    });
+    return el.css({
+      'borderWidth': '1px',
+      'borderStyle': 'solid',
+      'borderColor': '#575757'
     });
   };
   PhotoView.prototype.show = function() {
-    console.log('PhotoView::show');
     return Spine.trigger('change:canvas', this);
   };
   return PhotoView;

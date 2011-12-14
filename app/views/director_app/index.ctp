@@ -376,7 +376,7 @@
     <ul class="pho">
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Photos</span>
     </ul>
-    <ul class="pho dimmed">
+    <ul class="dimmed">
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>${src}</span>
     </ul>
   </section>

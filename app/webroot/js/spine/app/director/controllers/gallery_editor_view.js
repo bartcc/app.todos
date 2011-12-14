@@ -49,10 +49,7 @@ GalleryEditorView = (function() {
     return this.render(this.current);
   };
   GalleryEditorView.prototype.render = function(item) {
-    console.log('GalleryEditView::render');
-    if (item) {
-      this.current = item;
-    }
+    console.log('GalleryEditorView::render');
     if (this.current && !this.current.destroyed) {
       this.destroyBtn.removeClass('disabled');
       this.editContent.html($("#editGalleryTemplate").tmpl(this.current));
@@ -73,12 +70,12 @@ GalleryEditorView = (function() {
     return this;
   };
   GalleryEditorView.prototype.renderToolbar = function() {
-    console.log('GalleryEditView::renderToolbar');
+    console.log('GalleryEditorView::renderToolbar');
     this.toolBar.html(this.toolsTemplate(this.currentToolbar));
     return this.refreshElements();
   };
   GalleryEditorView.prototype.destroy = function(e) {
-    console.log('GalleryEditView::destroy');
+    console.log('GalleryEditorView::destroy');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -86,7 +83,7 @@ GalleryEditorView = (function() {
   };
   GalleryEditorView.prototype.save = function(el) {
     var atts;
-    console.log('GalleryEditView::save');
+    console.log('GalleryEditorView::save');
     if ($(el.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -97,7 +94,8 @@ GalleryEditorView = (function() {
     return App.contentManager.change(App.showView);
   };
   GalleryEditorView.prototype.saveOnEnter = function(e) {
-    console.log('GalleryEditView::saveOnEnter');
+    console.log('GalleryEditorView::saveOnEnter');
+    console.log(e.keyCode);
     if (e.keyCode !== 13) {
       return;
     }

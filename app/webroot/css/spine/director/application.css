@@ -789,13 +789,16 @@ textarea {
 }
 #content .content .thumbnail.image {
   background: url("img/photo-loader.gif") no-repeat center center;
-  border: 1px solid #575757;
+  border: 2px dotted rgba(255, 255, 255, 0.7);
+/*  border: 1px solid #575757;*/
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  height: 240px;
+  width: 320px;
 }
 #content .content .item.active .thumbnail .name {
   color: rgba(250, 192, 150, 0.4);

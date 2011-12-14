@@ -65,7 +65,7 @@ App = (function() {
       el: this.showEl,
       activeControl: 'btnGallery'
     });
-    this.galleryEditView = new GalleryEditView({
+    this.galleryEditView = new GalleryEditorView({
       el: this.galleryEditEl
     });
     this.loginView = new LoginView({

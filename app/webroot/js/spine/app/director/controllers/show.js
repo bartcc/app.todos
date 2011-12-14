@@ -284,7 +284,10 @@ ShowView = (function() {
   ShowView.prototype.deselect = function(e) {
     var item;
     item = this.el.data().current;
-    switch (this.current.parentModel) {
+    switch (item.constructor.className) {
+      case 'Photo':
+        (function() {});
+        break;
       case 'Album':
         Spine.Model['Album'].emptySelection();
         Photo.current();
@@ -296,11 +299,6 @@ ShowView = (function() {
         Album.current();
         Spine.trigger('album:exposeSelection');
         Spine.trigger('change:selectedAlbum', item);
-        break;
-      default:
-        Gallery.current();
-        Spine.trigger('gallery:exposeSelection');
-        Spine.trigger('change:selectedGallery', item);
     }
     this.current.items.deselect();
     this.renderToolbar();

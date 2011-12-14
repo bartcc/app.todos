@@ -55,7 +55,7 @@ class App extends Spine.Controller
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
-    @galleryEditView = new GalleryEditView
+    @galleryEditView = new GalleryEditorView
       el: @galleryEditEl
     @loginView = new LoginView
       el: @loginEl

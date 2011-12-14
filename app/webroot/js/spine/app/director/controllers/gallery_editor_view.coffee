@@ -38,8 +38,8 @@ class GalleryEditorView extends Spine.Controller
     @render @current
 
   render: (item) ->
-    console.log 'GalleryEditView::render'
-    @current = item if item
+    console.log 'GalleryEditorView::render'
+#    @current = item if item
     if @current and !(@current.destroyed)
       @destroyBtn.removeClass('disabled')
       @editContent.html $("#editGalleryTemplate").tmpl @current
@@ -55,17 +55,17 @@ class GalleryEditorView extends Spine.Controller
     @
 
   renderToolbar: ->
-    console.log 'GalleryEditView::renderToolbar'
+    console.log 'GalleryEditorView::renderToolbar'
     @toolBar.html @toolsTemplate @currentToolbar
     @refreshElements()
     
   destroy: (e) ->
-    console.log 'GalleryEditView::destroy'
+    console.log 'GalleryEditorView::destroy'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
   save: (el) ->
-    console.log 'GalleryEditView::save'
+    console.log 'GalleryEditorView::save'
     return if $(el.currentTarget).hasClass('disabled')
     if @current and Gallery.record
       atts = el.serializeForm?() or @el.serializeForm()
@@ -74,7 +74,8 @@ class GalleryEditorView extends Spine.Controller
     #@openPanel('album', App.showView.btnAlbum)
 
   saveOnEnter: (e) =>
-    console.log 'GalleryEditView::saveOnEnter'
+    console.log 'GalleryEditorView::saveOnEnter'
+    console.log e.keyCode
     return if(e.keyCode != 13)
     @trigger('save:gallery', @)
 

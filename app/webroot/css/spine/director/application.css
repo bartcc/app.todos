@@ -807,8 +807,14 @@ textarea {
   margin-bottom: 2px;
 }
 #content .content.albums .items .thumbnail {
-  width: 140px;
-  height: 140px;
+  width: 139px;
+  height: 139px;
+  box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
+  border-radius: 17px;
+  -moz-border-radius: 17px;
+  -webkit-border-radius: 17px;
 }
 #content .content.overview .items .thumbnail {
   width: 50px;

@@ -253,7 +253,6 @@ label input[type="text"] {
 }
 .view label span, .disabled {
   color: #676767;
-  text-shadow: 0 1px 0 #DDDDDD;
   cursor: auto;
 }
 .view label span {

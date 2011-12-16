@@ -388,7 +388,7 @@
       <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Photos</span>
     </ul>
     <ul class="disabled">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>${src}</span>
+      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>{{if src}}${src}{{else}}deleted{{/if}}</span>
     </ul>
   </section>
 </script>

@@ -91,7 +91,7 @@ Sidebar = (function() {
         Spine.dragItem.origin = Gallery.find(id);
       }
       fromSidebar = true;
-      selection = [];
+      selection = [source.id];
     } else {
       switch (source.constructor.className) {
         case 'Album':
@@ -101,8 +101,8 @@ Sidebar = (function() {
           selection = Album.selectionList();
       }
     }
-    if (!(_ref = source.id, __indexOf.call(selection, _ref) >= 0) && !selection.length) {
-      selection.push(source.id);
+    if (!(_ref = source.id, __indexOf.call(selection, _ref) >= 0)) {
+      source.emptySelection().push(source.id);
       switch (source.constructor.className) {
         case 'Album':
           if (!fromSidebar) {
@@ -113,21 +113,7 @@ Sidebar = (function() {
           Spine.trigger('photo:exposeSelection', selection);
       }
     }
-    this.clonedSelection = selection.slice(0);
-    if (this.clonedSelection.length > 1) {
-      if (this.isCtrlClick(e)) {
-        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_COPY, 60, 60);
-      } else {
-        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_MOVE, 60, 60);
-      }
-    }
-    if (this.clonedSelection.length === 1) {
-      if (this.isCtrlClick(e)) {
-        return event.dataTransfer.setDragImage(App.ALBUM_SINGLE_COPY, 60, 60);
-      } else {
-        return event.dataTransfer.setDragImage(App.ALBUM_SINGLE_MOVE, 60, 60);
-      }
-    }
+    return this.clonedSelection = selection.slice(0);
   };
   Sidebar.prototype.dragEnter = function(e) {
     var data, dataEl, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4, _ref5;
@@ -198,7 +184,6 @@ Sidebar = (function() {
   };
   Sidebar.prototype.validateDrop = function(target, source, origin) {
     var item, items, _i, _j, _len, _len2;
-    console.log(source.constructor.className);
     switch (source.constructor.className) {
       case 'Album':
         if (target.constructor.className !== 'Gallery') {

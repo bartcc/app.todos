@@ -121,8 +121,10 @@ class PhotosView extends Spine.Controller
     
   add: (ap) ->
     console.log 'PhotosView::add'
-    photo = Photo.find(ap.photo_id)
-    @render [photo], 'append'
+    # only add when photo is for it's album
+    if ap.album_id is Album.record?.id
+      photo = Photo.find(ap.photo_id)
+      @render [photo], 'append'
 
   
   destroy: (e) ->
@@ -154,7 +156,7 @@ class PhotosView extends Spine.Controller
             
       # now remove photo originals
       for photo in photos
-        Photo.removeFromSelection(Album, photo.id)
+        Album.removeFromSelection photo.id
         photo.destroy()
     
   show: ->
@@ -198,7 +200,7 @@ class PhotosView extends Spine.Controller
     aps = AlbumsPhoto.filter(target.id, key: 'album_id')
     for ap in aps
       unless photos.indexOf(ap.photo_id) is -1
-        Photo.removeFromSelection Album, ap.photo_id
+        Album.removeFromSelection ap.photo_id
         ap.destroy()
 
     target.save()

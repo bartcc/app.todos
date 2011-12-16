@@ -70,7 +70,7 @@ Model.Extender =
           introspect(obj)
         res
       
-      selectionList: (recordID) =>
+      selectionList: (recordID) ->
         id = recordID or @record?.id
         return @selection[0].global unless id
         for item in @selection
@@ -85,10 +85,10 @@ Model.Extender =
         @trigger('change:selection', originalList)
         originalList
 
-      removeFromSelection: (model, id) ->
+      removeFromSelection: (id) ->
         record = @find(id) if @exists(id)
         return unless record
-        list = model.selectionList()
+        list = @selectionList()
         record.remove list
         @trigger('change:selection', list)
         list
@@ -137,23 +137,23 @@ Model.Extender =
           
     Include =
       
-      selectionList: ->
-        @constructor.selectionList @id
-
       updateSelection: (list) ->
-        @constructor.updateSelection list, @id
+        model = @constructor['parentSelector']
+        list = Spine.Model[model].updateSelection list, @id
 
-      emptySelection: (list) ->
-        @constructor.emptySelection list, @id
+      emptySelection: ->
+        model = @constructor['parentSelector']
+        list = Spine.Model[model].emptySelection()
 
-      addRemoveSelection: (model, isMetaKey) ->
-        list = model.selectionList()
+      addRemoveSelection: (isMetaKey) ->
+        model = @constructor['parentSelector']
+        list = Spine.Model[model].selectionList()
         return unless list
         unless isMetaKey
           @addUnique(list)
         else
           @addRemove(list)
-        model.trigger('change:selection', list)
+        Spine.Model[model].trigger('change:selection', list)
         list
 
       #prevents an update if model hasn't changed
@@ -170,7 +170,6 @@ Model.Extender =
       
       addUnique: (list) ->
         list[0...list.length] = [@id]
-        @constructor.trigger('change:selection', list)
         list
 
       addRemove: (list) ->
@@ -179,13 +178,11 @@ Model.Extender =
         else
           index = list.indexOf(@id)
           list.splice(index, 1) unless index is -1
-        @constructor.trigger('change:selection', list)
         list
 
       remove: (list) ->
         index = list.indexOf(@id)
         list.splice(index, 1) unless index is -1
-        @constructor.trigger('change:selection', list)
         list
  
 

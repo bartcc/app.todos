@@ -35,7 +35,7 @@ AlbumEditView = (function() {
     if ((item != null ? item.constructor.className : void 0) === 'Album') {
       this.current = item;
     } else {
-      firstID = Gallery.selectionList(Gallery.record.id)[0];
+      firstID = Gallery.selectionList()[0];
       if (Album.exists(firstID)) {
         this.current = Album.find(firstID);
       } else {

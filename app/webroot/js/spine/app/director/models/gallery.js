@@ -19,6 +19,7 @@ Gallery = (function() {
   Gallery.extend(Spine.Model.AjaxRelations);
   Gallery.extend(Spine.Model.Extender);
   Gallery.selectAttributes = ['name', 'author'];
+  Gallery.parentSelector = 'Empty';
   Gallery.url = function() {
     return '' + base_url + 'galleries';
   };
@@ -60,7 +61,6 @@ Gallery = (function() {
       joinTable: 'GalleriesAlbum'
     };
     albums = Album.filter(this.id, filterOptions);
-    details = {};
     imagesCount = 0;
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
@@ -68,9 +68,10 @@ Gallery = (function() {
         key: 'album_id'
       }).length;
     }
-    details.iCount = imagesCount;
-    details.aCount = albums.length;
-    return details;
+    return details = {
+      iCount: imagesCount,
+      aCount: albums.length
+    };
   };
   Gallery.prototype.updateAttributes = function(atts, options) {
     if (options == null) {

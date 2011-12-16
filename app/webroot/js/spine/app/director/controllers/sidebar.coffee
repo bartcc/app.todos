@@ -69,7 +69,7 @@ class Sidebar extends Spine.Controller
       id = el.parents('li.item')[0].id
       Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
       fromSidebar = true
-      selection = []
+      selection = [source.id]
     else
       switch source.constructor.className
         when 'Album'
@@ -79,8 +79,8 @@ class Sidebar extends Spine.Controller
       
 
     # make an unselected item part of selection only if there is nothing selected yet
-    if !(source.id in selection) and !(selection.length)
-      selection.push source.id
+    if !(source.id in selection)# and !(selection.length)
+      source.emptySelection().push source.id
       switch source.constructor.className
         when 'Album'
           Spine.trigger('album:exposeSelection', selection) unless fromSidebar
@@ -88,16 +88,17 @@ class Sidebar extends Spine.Controller
           Spine.trigger('photo:exposeSelection', selection)
       
     @clonedSelection = selection.slice(0)
-    if @clonedSelection.length > 1
-      if @isCtrlClick(e)
-        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_COPY, 60, 60)
-      else
-        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_MOVE, 60, 60)
-    if @clonedSelection.length == 1
-      if @isCtrlClick(e)
-        event.dataTransfer.setDragImage(App.ALBUM_SINGLE_COPY, 60, 60)
-      else
-        event.dataTransfer.setDragImage(App.ALBUM_SINGLE_MOVE, 60, 60)
+#    if @clonedSelection.length > 1
+#      if @isCtrlClick(e)
+#        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_COPY, 60, 60)
+#      else
+#        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_MOVE, 60, 60)
+#    if @clonedSelection.length == 1
+#      if @isCtrlClick(e)
+#        event.dataTransfer.setDragImage(App.ALBUM_SINGLE_COPY, 60, 60)
+#      else
+#        event.dataTransfer.setDragImage(App.PHOTO_SINGLE_MOVE(), 60, 60)
+#        event.dataTransfer.setDragImage(App.ALBUM_SINGLE_MOVE(), 60, 60)
         
 
   dragEnter: (e) =>

@@ -119,7 +119,7 @@ Model.Extender = {
         }
         return res;
       },
-      selectionList: __bind(function(recordID) {
+      selectionList: function(recordID) {
         var id, item, _i, _len, _ref, _ref2;
         id = recordID || ((_ref = this.record) != null ? _ref.id : void 0);
         if (!id) {
@@ -132,7 +132,7 @@ Model.Extender = {
             return item[id];
           }
         }
-      }, this),
+      },
       updateSelection: function(list, id) {
         return this.emptySelection(list, id);
       },
@@ -146,7 +146,7 @@ Model.Extender = {
         this.trigger('change:selection', originalList);
         return originalList;
       },
-      removeFromSelection: function(model, id) {
+      removeFromSelection: function(id) {
         var list, record;
         if (this.exists(id)) {
           record = this.find(id);
@@ -154,7 +154,7 @@ Model.Extender = {
         if (!record) {
           return;
         }
-        list = model.selectionList();
+        list = this.selectionList();
         record.remove(list);
         this.trigger('change:selection', list);
         return list;
@@ -217,18 +217,20 @@ Model.Extender = {
       }
     };
     Include = {
-      selectionList: function() {
-        return this.constructor.selectionList(this.id);
-      },
       updateSelection: function(list) {
-        return this.constructor.updateSelection(list, this.id);
+        var model;
+        model = this.constructor['parentSelector'];
+        return list = Spine.Model[model].updateSelection(list, this.id);
       },
-      emptySelection: function(list) {
-        return this.constructor.emptySelection(list, this.id);
+      emptySelection: function() {
+        var list, model;
+        model = this.constructor['parentSelector'];
+        return list = Spine.Model[model].emptySelection();
       },
-      addRemoveSelection: function(model, isMetaKey) {
-        var list;
-        list = model.selectionList();
+      addRemoveSelection: function(isMetaKey) {
+        var list, model;
+        model = this.constructor['parentSelector'];
+        list = Spine.Model[model].selectionList();
         if (!list) {
           return;
         }
@@ -237,7 +239,7 @@ Model.Extender = {
         } else {
           this.addRemove(list);
         }
-        model.trigger('change:selection', list);
+        Spine.Model[model].trigger('change:selection', list);
         return list;
       },
       updateChangedAttributes: function(atts) {
@@ -257,7 +259,6 @@ Model.Extender = {
       addUnique: function(list) {
         var _ref;
         [].splice.apply(list, [0, list.length - 0].concat(_ref = [this.id])), _ref;
-        this.constructor.trigger('change:selection', list);
         return list;
       },
       addRemove: function(list) {
@@ -270,7 +271,6 @@ Model.Extender = {
             list.splice(index, 1);
           }
         }
-        this.constructor.trigger('change:selection', list);
         return list;
       },
       remove: function(list) {
@@ -279,7 +279,6 @@ Model.Extender = {
         if (index !== -1) {
           list.splice(index, 1);
         }
-        this.constructor.trigger('change:selection', list);
         return list;
       }
     };

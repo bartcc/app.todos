@@ -90,7 +90,7 @@ class AlbumsList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.target).item()
-    item.addRemoveSelection(Gallery, @isCtrlClick(e))
+    item.addRemoveSelection(@isCtrlClick(e))
     
     @select item, e
     App.showView.trigger('change:toolbar', 'Album')

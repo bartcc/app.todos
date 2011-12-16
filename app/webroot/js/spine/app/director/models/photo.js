@@ -23,6 +23,7 @@ Photo = (function() {
   Photo.extend(Spine.Model.Uri);
   Photo.extend(Spine.Model.Extender);
   Photo.selectAttributes = ['title', "description", 'user_id'];
+  Photo.parentSelector = 'Album';
   Photo.foreignModels = function() {
     return {
       'Album': {
@@ -139,10 +140,10 @@ Photo = (function() {
   };
   Photo.prototype.details = function() {
     var details;
-    details = {};
-    details.album = Album.record;
-    details.gallery = Gallery.record;
-    return details;
+    return details = {
+      album: Album.record,
+      gallery: Gallery.record
+    };
   };
   return Photo;
 })();

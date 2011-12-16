@@ -147,7 +147,6 @@ AlbumsView = (function() {
       }
     }, this));
     if (Gallery.record) {
-      console.log(Gallery.record);
       Gallery.emptySelection();
       return Album.trigger('destroy:join', Gallery.record, albums);
     } else {
@@ -182,7 +181,7 @@ AlbumsView = (function() {
       _results = [];
       for (_l = 0, _len4 = albums.length; _l < _len4; _l++) {
         album = albums[_l];
-        Album.removeFromSelection(Gallery, album.id);
+        Gallery.removeFromSelection(album.id);
         _results.push(album.destroy());
       }
       return _results;
@@ -191,6 +190,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.createJoin = function(target, albums) {
     var ga, record, records, _i, _len;
     console.log('AlbumsView::createJoin');
+    console.log(target);
     if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }
@@ -226,7 +226,7 @@ AlbumsView = (function() {
     for (_i = 0, _len = gas.length; _i < _len; _i++) {
       ga = gas[_i];
       if (albums.indexOf(ga.album_id) !== -1) {
-        Album.removeFromSelection(Gallery, ga.album_id);
+        Gallery.removeFromSelection(ga.album_id);
         ga.destroy();
       }
     }

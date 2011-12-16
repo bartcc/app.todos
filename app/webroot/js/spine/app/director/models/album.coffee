@@ -10,7 +10,9 @@ class Album extends Spine.Model
   @extend Spine.Model.Extender
 
   @selectAttributes: ['title']
-
+  
+  @parentSelector: 'Gallery'
+  
   @previousID: false
 
   @url: ->
@@ -42,17 +44,20 @@ class Album extends Spine.Model
     cache = {}
     cache[instance.id] = []
     @constructor.caches.push(cache)
+    
+    
+  selChange: (list) ->
+    console.log list
   
   details: =>
     filterOptions =
       key:'album_id'
       joinTable: 'AlbumsPhoto'
     photos = AlbumsPhoto.filter(@id, filterOptions)
-    details = {}
-    details.iCount = photos.length
-    details.album = Album.record
-    details.gallery = Gallery.record
-    details
+    details =
+      iCount : photos.length
+      album  : Album.record
+      gallery: Gallery.record
     
   selectAttributes: ->
     result = {}

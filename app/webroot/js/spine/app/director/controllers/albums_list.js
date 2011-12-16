@@ -133,7 +133,7 @@ AlbumsList = (function() {
     var item;
     console.log('AlbumsList::click');
     item = $(e.target).item();
-    item.addRemoveSelection(Gallery, this.isCtrlClick(e));
+    item.addRemoveSelection(this.isCtrlClick(e));
     this.select(item, e);
     App.showView.trigger('change:toolbar', 'Album');
     e.stopPropagation();

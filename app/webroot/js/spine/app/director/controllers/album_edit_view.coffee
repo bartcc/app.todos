@@ -24,7 +24,7 @@ class AlbumEditView extends Spine.Controller
     if item?.constructor.className is 'Album'
       @current = item
     else
-      firstID = Gallery.selectionList(Gallery.record.id)[0]
+      firstID = Gallery.selectionList()[0]
       if Album.exists(firstID)
         @current = Album.find(firstID)
       else

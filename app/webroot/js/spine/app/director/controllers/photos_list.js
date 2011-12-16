@@ -169,7 +169,7 @@ PhotosList = (function() {
     var item;
     console.log('PhotosList::click');
     item = $(e.currentTarget).item();
-    item.addRemoveSelection(Album, this.isCtrlClick(e));
+    item.addRemoveSelection(this.isCtrlClick(e));
     if (App.hmanager.hasActive()) {
       this.openPanel('photo', App.showView.btnPhoto);
     }

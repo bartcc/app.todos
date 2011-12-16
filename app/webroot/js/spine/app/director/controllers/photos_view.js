@@ -123,10 +123,12 @@ PhotosView = (function() {
     }
   };
   PhotosView.prototype.add = function(ap) {
-    var photo;
+    var photo, _ref;
     console.log('PhotosView::add');
-    photo = Photo.find(ap.photo_id);
-    return this.render([photo], 'append');
+    if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
+      photo = Photo.find(ap.photo_id);
+      return this.render([photo], 'append');
+    }
   };
   PhotosView.prototype.destroy = function(e) {
     var album, ap, aps, list, photo, photos, _i, _j, _k, _len, _len2, _len3, _results;
@@ -158,7 +160,7 @@ PhotosView = (function() {
       _results = [];
       for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
         photo = photos[_k];
-        Photo.removeFromSelection(Album, photo.id);
+        Album.removeFromSelection(photo.id);
         _results.push(photo.destroy());
       }
       return _results;
@@ -216,7 +218,7 @@ PhotosView = (function() {
     for (_i = 0, _len = aps.length; _i < _len; _i++) {
       ap = aps[_i];
       if (photos.indexOf(ap.photo_id) !== -1) {
-        Photo.removeFromSelection(Album, ap.photo_id);
+        Album.removeFromSelection(ap.photo_id);
         ap.destroy();
       }
     }

@@ -137,7 +137,6 @@ class AlbumsView extends Spine.Controller
       albums.push record unless list.indexOf(record.id) is -1
       
     if Gallery.record
-      console.log Gallery.record
       Gallery.emptySelection()
       Album.trigger('destroy:join', Gallery.record, albums)
     else
@@ -156,11 +155,13 @@ class AlbumsView extends Spine.Controller
             Album.trigger('destroy:join', gallery, album) if gallery
             
       for album in albums
-        Album.removeFromSelection(Gallery, album.id)
+        Gallery.removeFromSelection album.id
         album.destroy()
 
   createJoin: (target, albums) ->
     console.log 'AlbumsView::createJoin'
+    console.log target
+    
     return unless target and target.constructor.className is 'Gallery'
 
     unless Album.isArray albums
@@ -189,7 +190,7 @@ class AlbumsView extends Spine.Controller
     gas = GalleriesAlbum.filter(target.id, @filterOptions)
     for ga in gas
       unless albums.indexOf(ga.album_id) is -1
-        Album.removeFromSelection Gallery, ga.album_id
+        Gallery.removeFromSelection ga.album_id
         ga.destroy()
 
     target.save()

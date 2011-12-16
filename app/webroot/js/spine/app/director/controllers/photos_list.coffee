@@ -124,7 +124,7 @@ class PhotosList extends Spine.Controller
   click: (e) ->
     console.log 'PhotosList::click'
     item = $(e.currentTarget).item()
-    item.addRemoveSelection(Album, @isCtrlClick(e))
+    item.addRemoveSelection(@isCtrlClick(e))
     
     if App.hmanager.hasActive()
       @openPanel('photo', App.showView.btnPhoto)

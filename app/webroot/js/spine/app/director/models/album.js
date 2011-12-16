@@ -21,6 +21,7 @@ Album = (function() {
   Album.extend(Spine.Model.Uri);
   Album.extend(Spine.Model.Extender);
   Album.selectAttributes = ['title'];
+  Album.parentSelector = 'Gallery';
   Album.previousID = false;
   Album.url = function() {
     return '' + base_url + this.className.toLowerCase() + 's';
@@ -65,6 +66,9 @@ Album = (function() {
     cache[instance.id] = [];
     return this.constructor.caches.push(cache);
   };
+  Album.prototype.selChange = function(list) {
+    return console.log(list);
+  };
   Album.prototype.details = function() {
     var details, filterOptions, photos;
     filterOptions = {
@@ -72,11 +76,11 @@ Album = (function() {
       joinTable: 'AlbumsPhoto'
     };
     photos = AlbumsPhoto.filter(this.id, filterOptions);
-    details = {};
-    details.iCount = photos.length;
-    details.album = Album.record;
-    details.gallery = Gallery.record;
-    return details;
+    return details = {
+      iCount: photos.length,
+      album: Album.record,
+      gallery: Gallery.record
+    };
   };
   Album.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

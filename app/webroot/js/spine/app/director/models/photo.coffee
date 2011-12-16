@@ -9,7 +9,9 @@ class Photo extends Spine.Model
   @extend Spine.Model.Extender
 
   @selectAttributes: ['title', "description", 'user_id']
-
+  
+  @parentSelector: 'Album'
+  
   @foreignModels: ->
     'Album':
       className             : 'Album'
@@ -91,9 +93,8 @@ class Photo extends Spine.Model
       return true if record.photo_id is @id
       
   details: ->
-    details = {}
-    details.album = Album.record
-    details.gallery = Gallery.record
-    details
+    details =
+      album   : Album.record
+      gallery : Gallery.record
 
 Spine.Model.Photo = Photo

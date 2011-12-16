@@ -9,6 +9,8 @@ class Gallery extends Spine.Model
 
   @selectAttributes: ['name', 'author']
   
+  @parentSelector: 'Empty'
+  
   @url: ->
     '' + base_url + 'galleries'
 
@@ -35,13 +37,12 @@ class Gallery extends Spine.Model
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
     albums = Album.filter(@id, filterOptions)
-    details = {}
     imagesCount = 0
     for album in albums
       imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
-    details.iCount = imagesCount
-    details.aCount = albums.length
-    details
+    details =
+      iCount: imagesCount
+      aCount: albums.length
     
   updateAttributes: (atts, options={}) ->
     load(atts)

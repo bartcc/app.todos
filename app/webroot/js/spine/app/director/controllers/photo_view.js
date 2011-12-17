@@ -63,10 +63,7 @@ PhotoView = (function() {
     return this.header.change(item);
   };
   PhotoView.prototype.destroy = function(item) {
-    var photoEl;
     console.log('PhotoView::destroy');
-    console.log(photoEl = this.items.children().forItem(this.current));
-    console.log(this.current);
     photoEl.remove();
     delete this.current;
     return this.renderHeader();

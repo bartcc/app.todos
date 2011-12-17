@@ -25,8 +25,6 @@ class PhotosList extends Spine.Controller
     
   change: ->
     console.log 'PhotosList::change'
-    App.showView.photoView.render @current
-    Spine.trigger('show:photo')
     
   select: (item, e) ->
     console.log 'PhotosList::select'
@@ -138,7 +136,8 @@ class PhotosList extends Spine.Controller
   
   dblclick: (e) ->
     console.log 'PhotosList::dblclick'
-    @change()
+#    App.showView.photoView.render @current
+    Spine.trigger('show:photo', @current)
     
     e.stopPropagation()
     e.preventDefault()

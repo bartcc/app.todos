@@ -25,6 +25,8 @@ class PhotoView extends Spine.Controller
       el: @previewEl
       template: @previewTemplate
     Spine.bind('show:photo', @proxy @show)
+#    AlbumsPhoto.bind('update', @proxy @update)
+    AlbumsPhoto.bind('destroy', @proxy @destroy)
     @img = new Image
     @img.onload = @imageLoad
     
@@ -43,6 +45,15 @@ class PhotoView extends Spine.Controller
     
   renderHeader: (item) ->
     @header.change item
+  
+  destroy: (item) ->
+    console.log 'PhotoView::destroy'
+#    AlbumsPhoto.filter(item.photo_id, key: 'photo_id')
+    console.log photoEl = @items.children().forItem @current
+    console.log @current
+    photoEl.remove()
+    delete @current
+    @renderHeader()
     
   params: ->
     width: 600
@@ -103,8 +114,9 @@ class PhotoView extends Spine.Controller
   stopPreview: (e) =>
     @preview.bye()
   
-  show: ->
+  show: (item) ->
     Spine.trigger('change:canvas', @)
+    @render item
     
     
 module?.exports = PhotoView

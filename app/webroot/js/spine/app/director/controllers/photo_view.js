@@ -39,6 +39,7 @@ PhotoView = (function() {
       template: this.previewTemplate
     });
     Spine.bind('show:photo', this.proxy(this.show));
+    AlbumsPhoto.bind('destroy', this.proxy(this.destroy));
     this.img = new Image;
     this.img.onload = this.imageLoad;
   }
@@ -60,6 +61,15 @@ PhotoView = (function() {
   };
   PhotoView.prototype.renderHeader = function(item) {
     return this.header.change(item);
+  };
+  PhotoView.prototype.destroy = function(item) {
+    var photoEl;
+    console.log('PhotoView::destroy');
+    console.log(photoEl = this.items.children().forItem(this.current));
+    console.log(this.current);
+    photoEl.remove();
+    delete this.current;
+    return this.renderHeader();
   };
   PhotoView.prototype.params = function() {
     return {
@@ -138,8 +148,9 @@ PhotoView = (function() {
   PhotoView.prototype.stopPreview = function(e) {
     return this.preview.bye();
   };
-  PhotoView.prototype.show = function() {
-    return Spine.trigger('change:canvas', this);
+  PhotoView.prototype.show = function(item) {
+    Spine.trigger('change:canvas', this);
+    return this.render(item);
   };
   return PhotoView;
 })();

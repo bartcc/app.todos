@@ -38,9 +38,7 @@ PhotosList = (function() {
     Photo.bind('uri', this.proxy(this.uri));
   }
   PhotosList.prototype.change = function() {
-    console.log('PhotosList::change');
-    App.showView.photoView.render(this.current);
-    return Spine.trigger('show:photo');
+    return console.log('PhotosList::change');
   };
   PhotosList.prototype.select = function(item, e) {
     console.log('PhotosList::select');
@@ -181,7 +179,7 @@ PhotosList = (function() {
   };
   PhotosList.prototype.dblclick = function(e) {
     console.log('PhotosList::dblclick');
-    this.change();
+    Spine.trigger('show:photo', this.current);
     e.stopPropagation();
     e.preventDefault();
     return false;

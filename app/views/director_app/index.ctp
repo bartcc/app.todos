@@ -375,7 +375,7 @@
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
   <section class="top">
     {{if $item.data.details}}{{tmpl($item.data.details()) "#photoDetailsTemplate"}}{{/if}}
-    <h2>Photo: {{if title}}${title}{{if src}}${src}{{/if}}{{else}}deleted{{/if}}</h2>
+    <h2>Photo: {{if title}}${title}{{else}}{{if src}}${src}{{else}}unknown{{/if}}{{/if}}</h2>
   </section>
   <section class="closeView options">
     <ul class="gal">

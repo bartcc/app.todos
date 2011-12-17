@@ -48,6 +48,7 @@ class PhotoView extends Spine.Controller
   
   destroy: (item) ->
     console.log 'PhotoView::destroy'
+    photoEl = @items.children().forItem @current
     photoEl.remove()
     delete @current
     @renderHeader()

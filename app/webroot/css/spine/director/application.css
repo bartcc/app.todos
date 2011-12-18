@@ -509,6 +509,7 @@ textarea {
 }
 #sidebar .item span.name {
   font-size: 1.1em;
+  font-weight: bold;
 }
 #sidebar .item.active span.name {
 }

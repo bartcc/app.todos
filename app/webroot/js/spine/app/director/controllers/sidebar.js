@@ -44,7 +44,7 @@ Sidebar = (function() {
     this.dragLeave = __bind(this.dragLeave, this);
     this.dragOver = __bind(this.dragOver, this);
     this.dragEnter = __bind(this.dragEnter, this);    Sidebar.__super__.constructor.apply(this, arguments);
-    this.el.width(300);
+    this.el.width(350);
     this.list = new SidebarList({
       el: this.items,
       template: this.template

@@ -208,7 +208,7 @@
 </script>
 
 <script id="galleryDetailsTemplate" type="text/x-jquery-tmpl">
-    <span>${aCount} </span><span style="font-size: 0.5em;"> (${iCount})</span>
+    <span>${aCount} </span><span style="font-size: 0.6em;"> (${iCount})</span>
 </script>
 
 <script id="albumDetailsTemplate" type="text/x-jquery-tmpl">
@@ -220,6 +220,7 @@
   <span class="author">${flash}</span>
   {{else}}
   <li class="sublist-item alb item data" draggable="true" title="Move (Hold Cmd-Key to Copy)">
+    <span class="ui-symbol ui-symbol-album"></span>
     <span class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
@@ -229,8 +230,10 @@
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
   <li class="item container">
     <div class="thumbnail" draggable="true">
-      <div class="ui-icon"></div>
-      {{tmpl($item.data.details()) "#galDetailsTemplate"}}
+      <div class="ui-symbol ui-symbol-gallery center"></div>
+      <div class="inner">
+        {{tmpl($item.data.details()) "#galDetailsTemplate"}}
+      </div>
     </div>
     <div class="title">{{if name}}{{html name}}{{else}}no title{{/if}}</div>
   </li>

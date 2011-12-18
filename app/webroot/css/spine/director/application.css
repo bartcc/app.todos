@@ -529,6 +529,7 @@ textarea {
 }
 #sidebar .sublist-item span {
   display: inline-block;
+  font-size: 0.85em;
 }
 #sidebar .sublist-item span.title {
   padding-left: 10px

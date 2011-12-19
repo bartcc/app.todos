@@ -46,6 +46,8 @@ GalleriesView = (function() {
   };
   GalleriesView.prototype.show = function() {
     this.parent.trigger('change:toolbar', Gallery);
+    Album.activeRecord = false;
+    Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('change:canvas', this);
   };
   GalleriesView.prototype.newAttributes = function() {

@@ -12,12 +12,10 @@ class PhotosHeader extends Spine.Controller
 
   backToGalleries: ->
     console.log 'PhotosHeader::closeView'
-    Spine.trigger('album:exposeSelection')
     Spine.trigger('show:galleries')
     
   backToAlbums: ->
     console.log 'PhotosHeader::closeView'
-    Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('show:albums')
 
   change: (item) ->

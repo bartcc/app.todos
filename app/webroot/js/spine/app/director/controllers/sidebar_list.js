@@ -86,8 +86,7 @@ SidebarList = (function() {
       }
     }
     Gallery.current(this.current);
-    this.exposeSelection(this.current);
-    return Spine.trigger('change:selectedGallery', this.current, mode);
+    return this.activate(this.current);
   };
   SidebarList.prototype.render = function(galleries, gallery, mode) {
     console.log('SidebarList::render');
@@ -154,6 +153,12 @@ SidebarList = (function() {
     gallerySublist.html(this.sublistTemplate(albums));
     return this.updateTemplate(gallery);
   };
+  SidebarList.prototype.activate = function(gallery) {
+    if (this.current) {
+      this.exposeSelection(this.current);
+    }
+    return Spine.trigger('change:selectedGallery', this.current, this.mode);
+  };
   SidebarList.prototype.updateTemplate = function(gallery) {
     var galleryContentEl, galleryEl, tmplItem;
     galleryEl = this.children().forItem(gallery);
@@ -203,7 +208,8 @@ SidebarList = (function() {
     return this.exposeSublistSelection(gallery);
   };
   SidebarList.prototype.exposeSublistSelection = function(gallery) {
-    var album, albums, galleryEl, id, item, list, removeAlbumSelection, val, _i, _len, _ref, _results;
+    var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _results;
+    console.log(Gallery.record.id === (gallery != null ? gallery.id : void 0));
     console.log('SidebarList::exposeSublistSelection');
     removeAlbumSelection = __bind(function() {
       var albums, galleries, galleryEl, item, val, _i, _len, _ref, _results;
@@ -218,49 +224,34 @@ SidebarList = (function() {
         item = galleries[_i];
         galleryEl = this.children().forItem(item);
         albums = galleryEl.find('li');
-        _results.push(albums.removeClass('active'));
+        _results.push(albums.removeClass('selected').removeClass('active'));
       }
       return _results;
     }, this);
-    list = [];
-    if (!gallery) {
+    if (Gallery.record) {
       removeAlbumSelection();
-      _ref = Gallery.records;
-      for (item in _ref) {
-        val = _ref[item];
-        list.push(val);
-      }
-    } else {
-      removeAlbumSelection();
-      list.push(gallery);
-    }
-    _results = [];
-    for (_i = 0, _len = list.length; _i < _len; _i++) {
-      item = list[_i];
-      galleryEl = this.children().forItem(item);
+      galleryEl = this.children().forItem(Gallery.record);
       albums = galleryEl.find('li');
-      _results.push((function() {
-        var _j, _len2, _ref2, _results2;
-        _ref2 = Gallery.selectionList();
-        _results2 = [];
-        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-          id = _ref2[_j];
-          if (Album.exists(id)) {
-            album = Album.find(id);
-          }
-          _results2.push(albums.forItem(album).addClass('active'));
+      _ref = Gallery.selectionList();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        id = _ref[_i];
+        if (Album.exists(id)) {
+          album = Album.find(id);
         }
-        return _results2;
-      })());
+        _results.push(album.id === Album.activeRecord.id ? albums.forItem(album).addClass('active') : albums.forItem(album).addClass('selected'));
+      }
+      return _results;
+    } else {
+      return removeAlbumSelection();
     }
-    return _results;
   };
   SidebarList.prototype.clickAlb = function(e) {
     var album, albumEl, gallery, galleryEl, previous;
     console.log('SidebarList::albclick');
     albumEl = $(e.currentTarget);
     galleryEl = $(e.currentTarget).closest('li.gal');
-    album = albumEl.item();
+    album = Album.activeRecord = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
       previous = Album.record;

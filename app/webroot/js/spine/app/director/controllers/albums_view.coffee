@@ -103,6 +103,8 @@ class AlbumsView extends Spine.Controller
   
   show: ->
     @parent.trigger('change:toolbar', Album)
+    Album.activeRecord = false
+    Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('change:canvas', @)
     
   initSortables: ->
@@ -125,7 +127,7 @@ class AlbumsView extends Spine.Controller
     Gallery.updateSelection [album.id]
     Album.trigger('create:join', Gallery.record, album) if Gallery.record
     Spine.trigger('change:selectedAlbum', album)
-    Spine.trigger('show:albums')
+    @show()
     @change album
     @openPanel('album', App.showView.btnAlbum)
 

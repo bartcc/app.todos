@@ -25,7 +25,7 @@ class AlbumsHeader extends Spine.Controller
       Album.all().length
       
   backToGalleries: ->
-    Spine.trigger('gallery:exposeSelection', Gallery.record)
+#    Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('show:galleries')
     
 module?.exports = AlbumsHeader

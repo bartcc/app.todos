@@ -599,6 +599,11 @@ textarea {
 #sidebar ul.sublist li.sublist-item {
   position: relative;
 }
+#sidebar ul.sublist li.sublist-item.selected .ui-symbol {
+  -moz-background-position: 0 -200px;
+	 -webkit-background-position: 0 -200px;
+	 background-position: 0 -200px;
+}
 #sidebar ul.sublist li.sublist-item.active .ui-symbol {
   -moz-background-position: 0 -50px;
 	 -webkit-background-position: 0 -50px;

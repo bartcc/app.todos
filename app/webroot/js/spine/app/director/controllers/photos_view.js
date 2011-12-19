@@ -170,6 +170,9 @@ PhotosView = (function() {
     if (this.isActive()) {
       return;
     }
+    Album.activeRecord = Album.record;
+    Spine.trigger('change:selectedAlbum', Album.record, Album.changed());
+    Spine.trigger('expose:sublistSelection');
     this.renderHeader();
     return Spine.trigger('change:canvas', this);
   };

@@ -71,12 +71,13 @@ class SidebarList extends Spine.Controller
         when 'show'
           Spine.trigger('show:albums')
           
-    
     Gallery.current(@current)
+#    @mode = mode
+    @activate(@current)
 #    if @current
-    @exposeSelection(@current)
+#    @exposeSelection(@current)
 #    @exposeSublistSelection Gallery.record
-    Spine.trigger('change:selectedGallery', @current, mode)
+#    Spine.trigger('change:selectedGallery', @current, mode)
         
   render: (galleries, gallery, mode) ->
     console.log 'SidebarList::render'
@@ -121,6 +122,10 @@ class SidebarList extends Spine.Controller
     
     @updateTemplate gallery  
   
+  activate: (gallery) ->
+    @exposeSelection(@current) if @current
+    Spine.trigger('change:selectedGallery', @current, @mode)
+  
   updateTemplate: (gallery) ->
     galleryEl = @children().forItem(gallery)
     galleryContentEl = $('.item-content', galleryEl)
@@ -151,6 +156,7 @@ class SidebarList extends Spine.Controller
     @exposeSublistSelection gallery
         
   exposeSublistSelection: (gallery) ->
+    console.log Gallery.record.id is gallery?.id
     console.log 'SidebarList::exposeSublistSelection'
     removeAlbumSelection = =>
       galleries = []
@@ -158,27 +164,26 @@ class SidebarList extends Spine.Controller
       for item in galleries
         galleryEl = @children().forItem(item)
         albums = galleryEl.find('li')
-        albums.removeClass('active')
-    list = []
-    unless gallery
+        albums.removeClass('selected').removeClass('active')
+    if Gallery.record
       removeAlbumSelection()
-      list.push val for item, val of Gallery.records
-    else
-      removeAlbumSelection()
-      list.push gallery
-    for item in list
-      galleryEl = @children().forItem(item)
+      galleryEl = @children().forItem(Gallery.record)
       albums = galleryEl.find('li')
       for id in Gallery.selectionList()
         album = Album.find(id) if Album.exists(id)
-        albums.forItem(album).addClass('active') 
+        if album.id is Album.activeRecord.id
+          albums.forItem(album).addClass('active')
+        else
+          albums.forItem(album).addClass('selected')
+    else
+      removeAlbumSelection()
 
   clickAlb: (e) ->
     console.log 'SidebarList::albclick'
     albumEl = $(e.currentTarget)
     galleryEl = $(e.currentTarget).closest('li.gal')
     
-    album = albumEl.item()
+    album = Album.activeRecord = albumEl.item()
     gallery = galleryEl.item()
     
     unless @isCtrlClick(e)

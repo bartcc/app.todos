@@ -161,6 +161,9 @@ class PhotosView extends Spine.Controller
     
   show: ->
     return if @isActive()
+    Album.activeRecord = Album.record
+    Spine.trigger('change:selectedAlbum', Album.record, Album.changed())
+    Spine.trigger('gallery:exposeSelection', Gallery.record)
     @renderHeader()
     Spine.trigger('change:canvas', @)
   

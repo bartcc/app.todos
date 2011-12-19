@@ -9,6 +9,8 @@ Model.Extender =
     Extend =
       
       record: false
+
+      activeRecord: false
       
       selection: [global:[]]
 

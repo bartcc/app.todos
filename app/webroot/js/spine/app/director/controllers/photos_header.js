@@ -22,12 +22,10 @@ PhotosHeader = (function() {
   }
   PhotosHeader.prototype.backToGalleries = function() {
     console.log('PhotosHeader::closeView');
-    Spine.trigger('album:exposeSelection');
     return Spine.trigger('show:galleries');
   };
   PhotosHeader.prototype.backToAlbums = function() {
     console.log('PhotosHeader::closeView');
-    Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('show:albums');
   };
   PhotosHeader.prototype.change = function(item) {

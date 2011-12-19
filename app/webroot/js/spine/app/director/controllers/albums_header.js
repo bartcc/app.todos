@@ -39,7 +39,6 @@ AlbumsHeader = (function() {
     }
   };
   AlbumsHeader.prototype.backToGalleries = function() {
-    Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('show:galleries');
   };
   return AlbumsHeader;

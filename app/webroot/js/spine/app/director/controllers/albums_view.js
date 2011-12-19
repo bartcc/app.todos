@@ -102,6 +102,8 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.show = function() {
     this.parent.trigger('change:toolbar', Album);
+    Album.activeRecord = false;
+    Spine.trigger('expose:sublistSelection');
     return Spine.trigger('change:canvas', this);
   };
   AlbumsView.prototype.initSortables = function() {
@@ -132,7 +134,7 @@ AlbumsView = (function() {
       Album.trigger('create:join', Gallery.record, album);
     }
     Spine.trigger('change:selectedAlbum', album);
-    Spine.trigger('show:albums');
+    this.show();
     this.change(album);
     return this.openPanel('album', App.showView.btnAlbum);
   };

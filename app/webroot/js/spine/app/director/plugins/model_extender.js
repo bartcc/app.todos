@@ -15,6 +15,7 @@ Model.Extender = {
     var Extend, Include;
     Extend = {
       record: false,
+      activeRecord: false,
       selection: [
         {
           global: []

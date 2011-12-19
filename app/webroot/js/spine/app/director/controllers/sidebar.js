@@ -25,6 +25,7 @@ Sidebar = (function() {
   };
   Sidebar.prototype.events = {
     "click button": "create",
+    'click .optAllGalleries': 'allGalleries',
     'click .optAllAlbums': 'allAlbums',
     'click .optAllPhotos': 'allPhotos',
     "keyup input": "filter",
@@ -298,6 +299,9 @@ Sidebar = (function() {
     }, speed, __bind(function() {
       return this.clb();
     }, this));
+  };
+  Sidebar.prototype.allGalleries = function() {
+    return Spine.trigger('show:galleries');
   };
   Sidebar.prototype.allAlbums = function() {
     return Spine.trigger('show:allAlbums', true);

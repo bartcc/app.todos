@@ -70,6 +70,8 @@
         </div>
         <div class="originals hbox">
           <ul class="options hbox flex">
+            <li class="optAllGalleries"><span>all galleries</span></li>
+            <li class="splitter disabled flex"></li>
             <li class="optAllAlbums"><span>all albums</span></li>
             <li class="splitter disabled flex"></li>
             <li class="optAllPhotos"><span>all photos</span></li>

@@ -12,6 +12,7 @@ class Sidebar extends Spine.Controller
 
   events:
     "click button"          : "create"
+    'click .optAllGalleries': 'allGalleries'
     'click .optAllAlbums'   : 'allAlbums'
     'click .optAllPhotos'   : 'allPhotos'
     "keyup input"           : "filter"
@@ -236,7 +237,10 @@ class Sidebar extends Spine.Controller
       width: w
       speed
       => @clb()
-      
+  
+  allGalleries: ->
+    Spine.trigger('show:galleries')
+  
   allAlbums: ->
     Spine.trigger('show:allAlbums', true)
     
@@ -257,5 +261,4 @@ class Sidebar extends Spine.Controller
     Gallery.current()
     Spine.trigger('show:albums')
     Spine.trigger('change:selectedGallery', false, true)
-  
     

@@ -171,8 +171,8 @@ PhotosView = (function() {
       return;
     }
     Album.activeRecord = Album.record;
-    Spine.trigger('change:selectedAlbum', Album.record, Album.changed());
-    Spine.trigger('expose:sublistSelection');
+    Spine.trigger('change:selectedAlbum', Album.record, true);
+    Spine.trigger('gallery:exposeSelection', Gallery.record);
     this.renderHeader();
     return Spine.trigger('change:canvas', this);
   };

@@ -171,10 +171,10 @@ class SidebarList extends Spine.Controller
       albums = galleryEl.find('li')
       for id in Gallery.selectionList()
         album = Album.find(id) if Album.exists(id)
-        if album.id is Album.activeRecord.id
-          albums.forItem(album).addClass('active')
-        else
-          albums.forItem(album).addClass('selected')
+        albums.forItem(album).addClass('selected')
+      if Album.exists(Album.activeRecord?.id)
+        album = Album.find(Album.activeRecord.id)
+        albums.forItem(album).addClass('active')
     else
       removeAlbumSelection()
 

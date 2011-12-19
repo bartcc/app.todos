@@ -208,7 +208,7 @@ SidebarList = (function() {
     return this.exposeSublistSelection(gallery);
   };
   SidebarList.prototype.exposeSublistSelection = function(gallery) {
-    var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _results;
+    var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _ref2;
     console.log(Gallery.record.id === (gallery != null ? gallery.id : void 0));
     console.log('SidebarList::exposeSublistSelection');
     removeAlbumSelection = __bind(function() {
@@ -233,15 +233,17 @@ SidebarList = (function() {
       galleryEl = this.children().forItem(Gallery.record);
       albums = galleryEl.find('li');
       _ref = Gallery.selectionList();
-      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         id = _ref[_i];
         if (Album.exists(id)) {
           album = Album.find(id);
         }
-        _results.push(album.id === Album.activeRecord.id ? albums.forItem(album).addClass('active') : albums.forItem(album).addClass('selected'));
+        albums.forItem(album).addClass('selected');
       }
-      return _results;
+      if (Album.exists((_ref2 = Album.activeRecord) != null ? _ref2.id : void 0)) {
+        album = Album.find(Album.activeRecord.id);
+        return albums.forItem(album).addClass('active');
+      }
     } else {
       return removeAlbumSelection();
     }

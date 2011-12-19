@@ -41,7 +41,7 @@ Controller.Toolbars =
               disabled: -> !Gallery.selectionList().length
             ]
           ,
-          Photo:
+          Photos:
             [
               name: 'Delete Image'
               klass: 'optDestroyPhoto '
@@ -49,7 +49,14 @@ Controller.Toolbars =
             ,
               name: 'Thumbnail'
               klass: 'optThumbsize'
-              html: '<div class=""><span id="slider" style="display: none;"></span></div>'
+              html: '<div class="optThumbsize"><span id="slider" style="display: none;"></span></div>'
+            ]
+          ,
+          Photo:
+            [
+              name: 'Delete Image'
+              klass: 'optDestroyPhoto '
+              disabled: -> !Album.selectionList().length
             ]
           ,
           Upload:

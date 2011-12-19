@@ -264,7 +264,7 @@ SidebarList = (function() {
         this.openPanel('album', App.showView.btnAlbum);
       }
       this.exposeSublistSelection(Gallery.record);
-      App.showView.trigger('change:toolbar', 'Photo');
+      App.showView.trigger('change:toolbar', 'Photos');
       Spine.trigger('change:selectedAlbum', album, !previous || !(album.id === previous.id));
       Spine.trigger('show:photos');
       this.change(Gallery.record, 'photo', e);

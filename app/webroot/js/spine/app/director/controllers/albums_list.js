@@ -141,7 +141,7 @@ AlbumsList = (function() {
     return false;
   };
   AlbumsList.prototype.dblclick = function(e) {
-    App.showView.trigger('change:toolbar', 'Photo');
+    App.showView.trigger('change:toolbar', 'Photos');
     Spine.trigger('show:photos');
     e.stopPropagation();
     e.preventDefault();

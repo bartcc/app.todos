@@ -281,9 +281,8 @@ class ShowView extends Spine.Controller
     
   initSlider: ->
     inValue = @sliderInValue()
-    console.log inValue
     @slider.slider
-      orientation: 'vertical'
+      orientation: 'horizonatal'
       value: inValue
     
   showSizeSlider: =>

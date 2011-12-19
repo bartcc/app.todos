@@ -171,7 +171,7 @@ PhotosList = (function() {
     if (App.hmanager.hasActive()) {
       this.openPanel('photo', App.showView.btnPhoto);
     }
-    App.showView.trigger('change:toolbar', 'Photo');
+    App.showView.trigger('change:toolbar', 'Photos');
     this.select(item, e);
     e.stopPropagation();
     e.preventDefault();

@@ -981,9 +981,10 @@ textarea {
   
 }
 #slider {
-  position: absolute;
-  z-index: 1;
+  height: 10px;
   margin: 10px;
-  height: 150px;
-  width: 10px;
+  position: absolute;
+  right: 10px;
+  width: 150px;
+  z-index: 1;
 }

@@ -308,7 +308,7 @@
 </script>
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
-  <li class="{{if disabled}}disabled{{/if}} ${klass}"><span class="tb-name">${name}</span>
+  <li class="{{if disabled}}disabled{{/if}} ${klass}"><span class="tb-name">{{html name}}</span>
     {{if html}}
       {{html html}}
     {{/if}}

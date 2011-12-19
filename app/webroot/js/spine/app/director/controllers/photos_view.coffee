@@ -165,6 +165,7 @@ class PhotosView extends Spine.Controller
     Spine.trigger('change:selectedAlbum', Album.record, true)
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     @renderHeader()
+    App.showView.trigger('change:toolbar', 'Photos')
     Spine.trigger('change:canvas', @)
   
   save: (item) ->

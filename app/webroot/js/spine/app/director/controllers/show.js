@@ -331,9 +331,8 @@ ShowView = (function() {
   ShowView.prototype.initSlider = function() {
     var inValue;
     inValue = this.sliderInValue();
-    console.log(inValue);
     return this.slider.slider({
-      orientation: 'vertical',
+      orientation: 'horizonatal',
       value: inValue
     });
   };

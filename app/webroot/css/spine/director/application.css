@@ -584,6 +584,11 @@ textarea {
   text-indent: -99999px;
 }
 .ui-symbol-gallery {
+  position: absolute;
+  left: 0;
+  top: -5px;
+}
+.ui-symbol-gallery {
   background-position: -50px 0;
 }
 .ui-symbol-album {
@@ -754,8 +759,8 @@ textarea {
 #content .content .container .info {
   padding: 10px 0;
 }
-#content .content li.item {
-  
+#content .content.galleries li.item {
+  position: relative;
 }
 #content .content.overview div.item {
   margin: 0 5px 5px 0;
@@ -770,17 +775,14 @@ textarea {
 #content .content .item {
   outline: #121212;
 }
-#content .content.albums .thumbnail {
+#content .content .thumbnail {
   background: url("img/bauer.png") no-repeat 0 0;
 }
 #content .content.galleries .thumbnail {
-  background-color: rgba(155, 155, 150, 0.4);
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  background-position: 0 -160px;
+}
+#content .content.albums .thumbnail {
+  background-position: 0 0;
 }
 #content .content .thumbnail {
   outline: none;
@@ -789,30 +791,32 @@ textarea {
   line-height: 1.2em
 }
 #content .content.galleries .items .thumbnail {
-  min-width: 140px;
-  min-height: 100px;
+  width: 140px;
+  height: 89px;
 }
 #content .content.galleries .items .thumbnail {
-  color: rgba(0, 0, 0, 0.7);
-  text-shadow: 0 1px 0.1px rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
   line-height: 2em;
+  text-shadow: 0 -1px 0.1px rgba(0, 0, 0, 0.2);
 }
 #content .content.galleries .items .thumbnail .inner {
-  margin: 10px 15px 0 0;
+  margin: 20px 15px 0 0;
   padding-left: 2px;
 }
 #content .content .items .thumbnail {
   margin-bottom: 2px;
 }
-#content .content.albums .items .thumbnail {
-  width: 139px;
-  height: 139px;
+#content .content .items .thumbnail {
   box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
   border-radius: 17px;
   -moz-border-radius: 17px;
   -webkit-border-radius: 17px;
+}
+#content .content.albums .items .thumbnail {
+  width: 139px;
+  height: 139px;
 }
 #content .content.overview .items .thumbnail {
   width: 50px;

@@ -231,8 +231,8 @@
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
   <li class="item container">
+    <div class="ui-symbol ui-symbol-gallery center"></div>
     <div class="thumbnail" draggable="true">
-      <div class="ui-symbol ui-symbol-gallery center"></div>
       <div class="inner">
         {{tmpl($item.data.details()) "#galDetailsTemplate"}}
       </div>

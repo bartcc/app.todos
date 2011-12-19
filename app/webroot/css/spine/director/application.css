@@ -583,17 +583,22 @@ textarea {
   overflow: hidden;
   text-indent: -99999px;
 }
-.ui-symbol-gallery {
+#content .ui-symbol-gallery {
   position: absolute;
   left: 0;
   top: -5px;
 }
-.ui-symbol-gallery {
-  background-position: -50px 0;
+#content .ui-symbol-album {
+  position: absolute;
+  left: 0;
+  top: -5px;
 }
 .ui-symbol-album {
   background-position: 0 0;
   vertical-align: middle;
+}
+.ui-symbol-gallery {
+  background-position: -50px 0;
 }
 .ui-symbol-photo {
   background-position: -50px -50px;
@@ -759,7 +764,7 @@ textarea {
 #content .content .container .info {
   padding: 10px 0;
 }
-#content .content.galleries li.item {
+#content .content li.item {
   position: relative;
 }
 #content .content.overview div.item {

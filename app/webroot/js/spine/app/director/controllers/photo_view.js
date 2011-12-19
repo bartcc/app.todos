@@ -48,11 +48,7 @@ PhotoView = (function() {
     return Photo.activeRecord = this.current = item;
   };
   PhotoView.prototype.render = function(item, mode) {
-    var _ref;
     console.log('PhotoView::render');
-    if (((_ref = this.current) != null ? _ref.id : void 0) === item.id) {
-      return;
-    }
     this.el.data(item);
     this.items.html(this.template(item));
     this.renderHeader(item);

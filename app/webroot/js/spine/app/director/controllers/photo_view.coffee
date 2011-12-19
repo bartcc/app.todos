@@ -36,7 +36,6 @@ class PhotoView extends Spine.Controller
     
   render: (item, mode) ->
     console.log 'PhotoView::render'
-    return if @current?.id is item.id
     @el.data item
     @items.html @template item
     @renderHeader item

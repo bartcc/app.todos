@@ -31,6 +31,8 @@ GalleriesView = (function() {
     });
     this.header.template = this.headerTemplate;
     Gallery.bind('refresh change', this.proxy(this.change));
+    GalleriesAlbum.bind('refresh change', this.proxy(this.change));
+    AlbumsPhoto.bind('refresh change', this.proxy(this.change));
     Spine.bind('show:galleries', this.proxy(this.show));
   }
   GalleriesView.prototype.change = function() {

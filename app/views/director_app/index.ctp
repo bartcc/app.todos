@@ -11,7 +11,7 @@
           <div class="dialogue-inner-wrap">
             <div class="drag-handle">
               <div>
-                <h1>Login</h1>
+                <h1>Login__</h1>
                 <div class="_flash"><span></span></div>
                 <label><small>(guest/guest, manager/manager, admin/admin)</small></label>
               </div>

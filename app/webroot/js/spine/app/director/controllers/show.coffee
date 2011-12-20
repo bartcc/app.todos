@@ -42,7 +42,7 @@ class ShowView extends Spine.Controller
     "click .optPhoto"                 : "togglePhoto"
     "click .optUpload"                : "toggleUpload"
     "click .optSlideshow"             : "toggleSlideshow"
-    "click .optThumbsize"             : "showSizeSlider"
+    "click .optThumbsize"             : "showSlider"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
     'fileuploadprogress'              : "uploadProgress" 
@@ -285,9 +285,9 @@ class ShowView extends Spine.Controller
       orientation: 'horizonatal'
       value: inValue
     
-  showSizeSlider: =>
+  showSlider: =>
     @initSlider()
-    @slider.toggle()
+#    @slider.toggle()
     @sliderOutValue()
     @sliderInValue()
       
@@ -299,4 +299,4 @@ class ShowView extends Spine.Controller
     
   sliderStop: =>
     # rerender thumbnails on the server to its final size
-    @slider.toggle()
+#    @slider.toggle()

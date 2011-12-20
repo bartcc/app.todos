@@ -164,8 +164,9 @@ class PhotosView extends Spine.Controller
     Album.activeRecord = Album.record
     Spine.trigger('change:selectedAlbum', Album.record, true)
     Spine.trigger('gallery:exposeSelection', Gallery.record)
-    @renderHeader()
     App.showView.trigger('change:toolbar', 'Photos')
+    @renderHeader()
+    @parent.initSlider()
     Spine.trigger('change:canvas', @)
   
   save: (item) ->

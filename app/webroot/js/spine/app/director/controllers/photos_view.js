@@ -173,8 +173,9 @@ PhotosView = (function() {
     Album.activeRecord = Album.record;
     Spine.trigger('change:selectedAlbum', Album.record, true);
     Spine.trigger('gallery:exposeSelection', Gallery.record);
-    this.renderHeader();
     App.showView.trigger('change:toolbar', 'Photos');
+    this.renderHeader();
+    this.parent.initSlider();
     return Spine.trigger('change:canvas', this);
   };
   PhotosView.prototype.save = function(item) {};

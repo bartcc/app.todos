@@ -48,7 +48,7 @@ ShowView = (function() {
     "click .optPhoto": "togglePhoto",
     "click .optUpload": "toggleUpload",
     "click .optSlideshow": "toggleSlideshow",
-    "click .optThumbsize": "showSizeSlider",
+    "click .optThumbsize": "showSlider",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
     'fileuploadprogress': "uploadProgress",
@@ -64,7 +64,7 @@ ShowView = (function() {
     this.sliderStop = __bind(this.sliderStop, this);
     this.sliderSlide = __bind(this.sliderSlide, this);
     this.sliderStart = __bind(this.sliderStart, this);
-    this.showSizeSlider = __bind(this.showSizeSlider, this);
+    this.showSlider = __bind(this.showSlider, this);
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
     this.photoHeader = new PhotoHeader({
       el: this.photoHeaderEl
@@ -336,9 +336,8 @@ ShowView = (function() {
       value: inValue
     });
   };
-  ShowView.prototype.showSizeSlider = function() {
+  ShowView.prototype.showSlider = function() {
     this.initSlider();
-    this.slider.toggle();
     this.sliderOutValue();
     return this.sliderInValue();
   };
@@ -348,8 +347,6 @@ ShowView = (function() {
   ShowView.prototype.sliderSlide = function() {
     return this.photosView.list.size(this.sliderOutValue());
   };
-  ShowView.prototype.sliderStop = function() {
-    return this.slider.toggle();
-  };
+  ShowView.prototype.sliderStop = function() {};
   return ShowView;
 })();

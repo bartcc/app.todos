@@ -10,7 +10,7 @@
           </header>
           <div class="dialogue-inner-wrap">
             <div class="drag-handle">
-                <h1>Login__</h1>
+                <h1>Login</h1>
                 <div class="flash">
                   <h3>Enter Username and Password</h3>
                 </div>

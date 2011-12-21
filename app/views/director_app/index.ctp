@@ -11,7 +11,7 @@
           <div class="dialogue-inner-wrap">
             <div class="drag-handle">
               <div>
-                <h1>Login__</h1>
+                <h1>Login</h1>
                 <div class="_flash"><span></span></div>
                 <label><small>(guest/guest, manager/manager, admin/admin)</small></label>
               </div>
@@ -59,7 +59,7 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1>Photo Director</h1>
+    <h1>Photos Director</h1>
     <div id="login" class="flex tright" style="margin-top: 8px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">

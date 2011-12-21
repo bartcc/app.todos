@@ -117,6 +117,7 @@ class ShowView extends Spine.Controller
     
   renderToolbar: ->
     console.log 'ShowView::renderToolbar'
+    console.log @currentToolbar
     @toolBar.html @toolsTemplate @currentToolbar
     @refreshElements()
     

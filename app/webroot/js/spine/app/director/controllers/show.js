@@ -136,6 +136,7 @@ ShowView = (function() {
   };
   ShowView.prototype.renderToolbar = function() {
     console.log('ShowView::renderToolbar');
+    console.log(this.currentToolbar);
     this.toolBar.html(this.toolsTemplate(this.currentToolbar));
     return this.refreshElements();
   };

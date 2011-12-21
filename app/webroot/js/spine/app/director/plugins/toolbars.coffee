@@ -68,7 +68,7 @@ Controller.Toolbars =
               name: 'Play'
               klass: ''
             ]
-        list[item]
+        [list]
         
       lockToolbar: ->
         @locked = true
@@ -78,11 +78,12 @@ Controller.Toolbars =
         
       selectTool: (model) ->
         console.log 'Toolbars::selectTool'
-        return @currentToolbar = @toolBarList(model?.className or model) unless @locked
+        return @currentToolbar = @toolBarList(model?.className or model)# unless @locked
         return
 
       changeToolbar: (nameOrModel) ->
         toolbar = @selectTool nameOrModel
+        console.log toolbar
         @trigger('render:toolbar', toolbar) if toolbar
         
     Extend = {}

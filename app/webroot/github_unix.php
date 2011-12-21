@@ -1,3 +1,3 @@
 <?php
-$op1 = `git pull git@github.com:bartcc/app.todos.git`;
+$op1 = `git pull`;
 echo "op1: " . $op1;

@@ -68,7 +68,7 @@ Controller.Toolbars =
               name: 'Play'
               klass: ''
             ]
-        [list]
+        list
         
       lockToolbar: ->
         @locked = true
@@ -78,7 +78,7 @@ Controller.Toolbars =
         
       selectTool: (model) ->
         console.log 'Toolbars::selectTool'
-        return @currentToolbar = @toolBarList(model?.className or model)# unless @locked
+        return @currentToolbar = @toolBarList(model?.className or model) unless @locked
         return
 
       changeToolbar: (nameOrModel) ->

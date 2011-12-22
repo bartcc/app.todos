@@ -85,7 +85,7 @@ Controller.Toolbars = {
             }
           ]
         };
-        return list;
+        return list[item];
       },
       lockToolbar: function() {
         return this.locked = true;

@@ -68,7 +68,7 @@ Controller.Toolbars =
               name: 'Play'
               klass: ''
             ]
-        list
+        list[item]
         
       lockToolbar: ->
         @locked = true

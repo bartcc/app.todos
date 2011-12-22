@@ -85,7 +85,7 @@ Controller.Toolbars = {
             }
           ]
         };
-        return [list];
+        return list;
       },
       lockToolbar: function() {
         return this.locked = true;
@@ -95,7 +95,9 @@ Controller.Toolbars = {
       },
       selectTool: function(model) {
         console.log('Toolbars::selectTool');
-        return this.currentToolbar = this.toolBarList((model != null ? model.className : void 0) || model);
+        if (!this.locked) {
+          return this.currentToolbar = this.toolBarList((model != null ? model.className : void 0) || model);
+        }
       },
       changeToolbar: function(nameOrModel) {
         var toolbar;

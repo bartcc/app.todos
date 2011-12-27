@@ -24,7 +24,7 @@ ShowView = (function() {
     '.optPhoto': 'btnPhoto',
     '.optUpload': 'btnUpload',
     '.optSlideshow': 'btnSlideshow',
-    '.toolbar': 'toolBar',
+    '.toolbar': 'toolbarEl',
     '.galleries': 'galleriesEl',
     '.albums': 'albumsEl',
     '.photos': 'photosEl',
@@ -48,7 +48,6 @@ ShowView = (function() {
     "click .optPhoto": "togglePhoto",
     "click .optUpload": "toggleUpload",
     "click .optSlideshow": "toggleSlideshow",
-    "click .optThumbsize": "showSlider",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
     'fileuploadprogress': "uploadProgress",
@@ -64,7 +63,7 @@ ShowView = (function() {
     this.sliderStop = __bind(this.sliderStop, this);
     this.sliderSlide = __bind(this.sliderSlide, this);
     this.sliderStart = __bind(this.sliderStart, this);
-    this.showSlider = __bind(this.showSlider, this);
+    this.initSlider = __bind(this.initSlider, this);
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
     this.photoHeader = new PhotoHeader({
       el: this.photoHeaderEl
@@ -110,7 +109,6 @@ ShowView = (function() {
     Album.bind('change', this.proxy(this.renderToolbar));
     Photo.bind('change', this.proxy(this.renderToolbar));
     this.bind('change:toolbar', this.proxy(this.changeToolbar));
-    this.bind('render:toolbar', this.proxy(this.renderToolbar));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.current = this.albumsView;
     this.sOutValue = 110;
@@ -136,8 +134,7 @@ ShowView = (function() {
   };
   ShowView.prototype.renderToolbar = function() {
     console.log('ShowView::renderToolbar');
-    console.log(this.currentToolbar);
-    this.toolBar.html(this.toolsTemplate(this.currentToolbar));
+    this.toolbarEl.html(this.toolsTemplate(this.currentToolbar));
     return this.refreshElements();
   };
   ShowView.prototype.renderViewControl = function(controller, controlEl) {
@@ -241,15 +238,15 @@ ShowView = (function() {
     }, 400);
   };
   ShowView.prototype.toggleGallery = function(e) {
-    this.changeToolbar(Gallery);
+    this.changeToolbar('Gallery');
     return this.trigger("toggle:view", App.gallery, e.target);
   };
   ShowView.prototype.toggleAlbum = function(e) {
-    this.changeToolbar(Album);
+    this.changeToolbar('Album');
     return this.trigger("toggle:view", App.album, e.target);
   };
   ShowView.prototype.togglePhoto = function(e) {
-    this.changeToolbar(Photo);
+    this.changeToolbar('Photo', App.showView.initSlider);
     return this.trigger("toggle:view", App.photo, e.target);
   };
   ShowView.prototype.toggleUpload = function(e) {
@@ -285,7 +282,6 @@ ShowView = (function() {
   ShowView.prototype.deselect = function(e) {
     var item;
     item = this.el.data().current;
-    console.log(this.el.data());
     switch (item.constructor.className) {
       case 'Photo':
         (function() {});
@@ -307,9 +303,8 @@ ShowView = (function() {
         Spine.trigger('gallery:exposeSelection');
         Spine.trigger('change:selectedGallery', false);
     }
-    this.trigger('render:toolbar');
+    this.trigger('change:toolbar');
     this.current.items.deselect();
-    this.renderToolbar();
     e.stopPropagation();
     e.preventDefault();
     return false;
@@ -332,6 +327,7 @@ ShowView = (function() {
   ShowView.prototype.initSlider = function() {
     var inValue;
     inValue = this.sliderInValue();
+    this.refreshElements();
     return this.slider.slider({
       orientation: 'horizonatal',
       value: inValue

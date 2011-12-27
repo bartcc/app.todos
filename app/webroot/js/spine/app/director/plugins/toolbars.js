@@ -60,7 +60,10 @@ Controller.Toolbars = {
                 return !Album.selectionList().length;
               }
             }, {
-              name: '<div class="optThumbsize" style="width: 150px;"><span id="slider" style=""></span></div>'
+              name: '<div class="optThumbsize" style="width: 150px;"><span id="slider" style=""></span></div>',
+              eval: function() {
+                return App.showView.initSlider();
+              }
             }
           ],
           Photo: [
@@ -93,22 +96,36 @@ Controller.Toolbars = {
       unlockToolbar: function() {
         return this.locked = false;
       },
-      selectTool: function(model) {
-        console.log('Toolbars::selectTool');
+      changeTool: function(model) {
+        var toolbar;
         if (!this.locked) {
-          return this.currentToolbar = this.toolBarList((model != null ? model.className : void 0) || model);
+          toolbar = this.toolBarList((model != null ? model.className : void 0) || model);
+        }
+        if (toolbar) {
+          return this.currentToolbar = toolbar;
         }
       },
-      changeToolbar: function(nameOrModel) {
-        var toolbar;
-        toolbar = this.selectTool(nameOrModel);
-        console.log(toolbar);
-        if (toolbar) {
-          return this.trigger('render:toolbar', toolbar);
+      changeToolbar: function(nameOrModel, cb) {
+        this.changeTool(nameOrModel);
+        if (cb) {
+          this.currentToolbar.cb = cb;
         }
+        return this._renderToolbar();
+      },
+      renderToolbar: function() {
+        return arguments[0];
+      },
+      _renderToolbar: function() {
+        var _ref;
+        this.renderToolbar();
+        return (_ref = this.currentToolbar) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
       }
     };
-    Extend = {};
+    Extend = {
+      init: function() {
+        return console.log('INIT STATIC');
+      }
+    };
     this.include(Include);
     return this.extend(Extend);
   }

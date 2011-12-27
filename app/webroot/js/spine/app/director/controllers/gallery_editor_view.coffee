@@ -52,6 +52,7 @@ class GalleryEditorView extends Spine.Controller
       else
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
     @changeToolbar 'GalleryEdit'
+#    @toolbar.change 'GalleryEdit'
     @
 
   renderToolbar: ->

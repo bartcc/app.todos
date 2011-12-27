@@ -16,7 +16,7 @@ class ShowView extends Spine.Controller
     '.optPhoto'               : 'btnPhoto'
     '.optUpload'              : 'btnUpload'
     '.optSlideshow'           : 'btnSlideshow'
-    '.toolbar'                : 'toolBar'
+    '.toolbar'                : 'toolbarEl'
     '.galleries'              : 'galleriesEl'
     '.albums'                 : 'albumsEl'
     '.photos'                 : 'photosEl'
@@ -42,7 +42,7 @@ class ShowView extends Spine.Controller
     "click .optPhoto"                 : "togglePhoto"
     "click .optUpload"                : "toggleUpload"
     "click .optSlideshow"             : "toggleSlideshow"
-    "click .optThumbsize"             : "showSlider"
+#    "click .optThumbsize"             : "showSlider"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
     'fileuploadprogress'              : "uploadProgress" 
@@ -55,6 +55,8 @@ class ShowView extends Spine.Controller
     $("#toolsTemplate").tmpl items
 
   constructor: ->
+  
+#    @toolBar = new Toolbar()
     super
     @photoHeader = new PhotoHeader
       el: @photoHeaderEl
@@ -93,7 +95,6 @@ class ShowView extends Spine.Controller
     Album.bind('change', @proxy @renderToolbar)
     Photo.bind('change', @proxy @renderToolbar)
     @bind('change:toolbar', @proxy @changeToolbar)
-    @bind('render:toolbar', @proxy @renderToolbar)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
     @sOutValue = 110
@@ -117,8 +118,7 @@ class ShowView extends Spine.Controller
     
   renderToolbar: ->
     console.log 'ShowView::renderToolbar'
-    console.log @currentToolbar
-    @toolBar.html @toolsTemplate @currentToolbar
+    @toolbarEl.html @toolsTemplate @currentToolbar
     @refreshElements()
     
   renderViewControl: (controller, controlEl) ->
@@ -195,23 +195,28 @@ class ShowView extends Spine.Controller
       400
     
   toggleGallery: (e) ->
-    @changeToolbar Gallery
+    @changeToolbar 'Gallery'
+#    @toolbar.change 'Gallery'
     @trigger("toggle:view", App.gallery, e.target)
 
   toggleAlbum: (e) ->
-    @changeToolbar Album
+    @changeToolbar 'Album'
+#    @toolbar.change 'Album'
     @trigger("toggle:view", App.album, e.target)
     
   togglePhoto: (e) ->
-    @changeToolbar Photo
+    @changeToolbar 'Photo', App.showView.initSlider
+#    @toolbar.change 'Photo'
     @trigger("toggle:view", App.photo, e.target)
 
   toggleUpload: (e) ->
     @changeToolbar 'Upload'
+#    @toolbar.change 'Upload'
     @trigger("toggle:view", App.upload, e.target)
 
   toggleSlideshow: (e) ->
     @changeToolbar 'Slideshow'
+#    @toolbar.change 'Slideshow'
     @trigger("toggle:view", App.slideshow, e.target)
   
   toggleView: (controller, control) ->
@@ -237,8 +242,6 @@ class ShowView extends Spine.Controller
       
   deselect: (e) =>
     item = @el.data().current
-    console.log @el.data()
-#    switch @current.parentModel
     switch item.constructor.className
       when 'Photo'
         ->
@@ -256,11 +259,9 @@ class ShowView extends Spine.Controller
         Gallery.current()
         Spine.trigger('gallery:exposeSelection')
         Spine.trigger('change:selectedGallery', false)
-#        App.showView.trigger('change:toolbar', 'Gallery')
         
-    @trigger('render:toolbar')
+    @trigger('change:toolbar')
     @current.items.deselect()
-    @renderToolbar()
     
     e.stopPropagation()
     e.preventDefault()
@@ -280,13 +281,14 @@ class ShowView extends Spine.Controller
     val = @slider.slider('value')
     @sOutValue=(val+20)*2
     
-  initSlider: ->
+  initSlider: =>
     inValue = @sliderInValue()
+    @refreshElements()
     @slider.slider
       orientation: 'horizonatal'
       value: inValue
     
-  showSlider: =>
+  showSlider: ->
     @initSlider()
 #    @slider.toggle()
     @sliderOutValue()

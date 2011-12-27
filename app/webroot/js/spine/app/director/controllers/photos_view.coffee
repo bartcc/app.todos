@@ -24,6 +24,7 @@ class PhotosView extends Spine.Controller
   template: (items) ->
     $('#photosTemplate').tmpl(items)
     
+    
   preloaderTemplate: ->
     $('#preloaderTemplate').tmpl()
     
@@ -164,9 +165,8 @@ class PhotosView extends Spine.Controller
     Album.activeRecord = Album.record
     Spine.trigger('change:selectedAlbum', Album.record, true)
     Spine.trigger('gallery:exposeSelection', Gallery.record)
-    App.showView.trigger('change:toolbar', 'Photos')
+    App.showView.trigger('change:toolbar', 'Photos', App.showView.initSlider)
     @renderHeader()
-    @parent.initSlider()
     Spine.trigger('change:canvas', @)
   
   save: (item) ->

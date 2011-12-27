@@ -1,25 +1,4 @@
-# A Manager is basically a state machine that controls a set of controller's 'active' state.
-# In other words, you feed a manager controllers, and it'll make sure that only controller has an 'active' state at any one time. 
-# This is useful whenever you're implementing tabs or separate views inside an application. 
-#
-# By default, whenever a controller is activated, it's element receives a 'active' class. 
-# You can use this class to show/hide views and tabs via CSS.
-# For example:
-#
-#  var users = Users.init();
-#  var groups = Groups.init();
-#  Manager.init(users, groups);
-#  
-#  users.active();
-#  assert( users.isActive() );
-#  assert( users.el.hasClass("active") );
-#  assert( ! groups.el.hasClass("active") );
-#  
-#  groups.active();
-#  assert( groups.el.hasClass("active") );
-#  assert( ! users.el.hasClass("active") );
-
-Spine ?= require("spine")
+Spine ?= require('spine')
 $      = Spine.$
 
 class Spine.Manager extends Spine.Module
@@ -27,24 +6,26 @@ class Spine.Manager extends Spine.Module
   
   constructor: ->
     @controllers = []
+    @bind 'change', @change
     @add(arguments...)
-    @bind "change", @change
     
   add: (controllers...) ->
     @addOne(cont) for cont in controllers
     
-  addOne: (controller) ->
-    controller.active (args...) =>
-      @trigger("change", controller, args)
+  addOne: (controller) ->    
+    controller.bind 'active', (args...) =>
+      @trigger('change', controller, args...)
+    controller.bind 'release', =>
+      @controllers.splice(@controllers.indexOf(controller), 1)
 
     @controllers.push(controller)
       
   deactivate: ->
-    @trigger("change", false, arguments)
+    @trigger('change', false, arguments...)
     
   # Private
     
-  change: (current, args) ->
+  change: (current, args...) ->
     for cont in @controllers
       if cont is current
         cont.activate(args...)
@@ -53,22 +34,49 @@ class Spine.Manager extends Spine.Module
 
 Spine.Controller.include
   active: (args...) ->
-    if typeof args[0] is "function"
-      @bind("active", args[0])
+    if typeof args[0] is 'function'
+      @bind('active', args[0])
     else
-      args.unshift("active")
+      args.unshift('active')
       @trigger(args...)
     @
   
   isActive: ->
-    @el.hasClass("active")
+    @el.hasClass('active')
   
   activate: ->
-    @el.addClass("active")
+    @el.addClass('active')
     @
   
   deactivate: ->
-    @el.removeClass("active");
+    @el.removeClass('active');
     @
+    
+class Spine.Stack extends Spine.Controller
+  controllers: {}
+  routes: {}
+
+  className: 'spine stack'
+
+  constructor: ->
+    super
+
+    @manager = new Spine.Manager
+
+    for key, value of @controllers
+      @[key] = new value(stack: @)
+      @add(@[key])
+
+    for key, value of @routes
+      do (key, value) =>
+        callback = value if typeof value is 'function'
+        callback or= => @[value].active(arguments...)
+        @route(key, callback)
+        
+    @[@default].active() if @default
+
+  add: (controller) ->
+    @manager.add(controller)
+    @append(controller)
     
 module?.exports = Spine.Manager

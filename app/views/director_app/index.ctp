@@ -59,7 +59,7 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1>Photos Director</h1>
+    <h1>Photo Director</h1>
     <div id="login" class="flex tright" style="margin-top: 8px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
@@ -308,11 +308,13 @@
 </script>
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
-  <li class="{{if disabled}}disabled{{/if}} ${klass}"><span class="tb-name">{{html name}}</span>
-    {{if html}}
-      {{html html}}
-    {{/if}}
-  </li>
+  {{if name}}
+  <li class="{{if disabled}}disabled{{/if}} ${klass}"><span class="tb-name">{{html name}}</span></li>
+  {{/if}}
+</script>
+
+<script id="testTemplate" type="text/x-jquery-tmpl">
+  {{if eval}}{{tmpl($item.data.eval()) "#testTemplate"}}{{/if}}
 </script>
 
 <script id="noSelectionTemplate" type="text/x-jquery-tmpl">

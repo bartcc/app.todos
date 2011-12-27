@@ -988,3 +988,6 @@ textarea {
   width: 150px;
   z-index: 1;
 }
+#slider .ui-slider-handle {
+  border-radius: 11px;
+}

@@ -48,11 +48,12 @@ Controller.Toolbars =
               disabled: -> !Album.selectionList().length
             ,
               name: '<div class="optThumbsize" style="width: 150px;"><span id="slider" style=""></span></div>'
+              eval: -> App.showView.initSlider()
             ]
           ,
           Photo:
             [
-              name: 'Delete Image'
+              name: 'Delete Image'  
               klass: 'optDestroyPhoto '
               disabled: -> !Album.selectionList().length
             ]
@@ -76,16 +77,24 @@ Controller.Toolbars =
       unlockToolbar: ->
         @locked = false
         
-      selectTool: (model) ->
-        console.log 'Toolbars::selectTool'
-        return @currentToolbar = @toolBarList(model?.className or model) unless @locked
-        return
+      changeTool: (model) ->
+        toolbar = @toolBarList(model?.className or model) unless @locked
+        @currentToolbar = toolbar if toolbar
 
-      changeToolbar: (nameOrModel) ->
-        toolbar = @selectTool nameOrModel
-        @trigger('render:toolbar', toolbar) if toolbar
+      changeToolbar: (nameOrModel, cb) ->
+        @changeTool nameOrModel
+        @currentToolbar.cb = cb if cb
+        @_renderToolbar()
+
+      renderToolbar: -> arguments[0]
+
+      _renderToolbar: ->
+        @renderToolbar()
+        @currentToolbar?.cb?()
         
-    Extend = {}
+    Extend =
+      init: ->
+        console.log 'INIT STATIC'
       
     @include  Include
     @extend   Extend

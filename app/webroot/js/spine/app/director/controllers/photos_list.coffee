@@ -127,7 +127,7 @@ class PhotosList extends Spine.Controller
     if App.hmanager.hasActive()
       @openPanel('photo', App.showView.btnPhoto)
     
-    App.showView.trigger('change:toolbar', 'Photos')
+    App.showView.trigger('change:toolbar', 'Photos', App.showView.initSlider)
     @select item, e
     
     e.stopPropagation()

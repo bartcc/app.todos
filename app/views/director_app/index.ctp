@@ -70,16 +70,16 @@
         </div>
         <div class="originals hbox">
           <ul class="options hbox flex">
-            <li class="optAllGalleries"><span>all galleries</span></li>
+            <li class="optAllGalleries"><button class="dark">all galleries</button></li>
             <li class="splitter disabled flex"></li>
-            <li class="optAllAlbums"><span>all albums</span></li>
+            <li class="optAllAlbums"><button class="dark">all albums</button></li>
             <li class="splitter disabled flex"></li>
-            <li class="optAllPhotos"><span>all photos</span></li>
+            <li class="optAllPhotos"><button class="dark">all photos</button></li>
           </ul>
         </div>
         <ul class="items canvas vbox flex autoflow"></ul>
         <footer class="footer">
-          <button class="">New Gallery</button>
+          <button class="create dark">New Gallery</button>
         </footer>
       </div>
       <div class="vdivide draghandle"></div>
@@ -87,7 +87,7 @@
     <div id="content" class="views canvas-bg-dark vbox flex">
       <div class="overview view content canvas vbox flex">
         <ul class="tools options hbox">
-          <li class="optClose opt">Close</li>
+          <li class="optClose opt"><button class="dark">Close</button></li>
           <li class="splitter disabled flex"></li>
         </ul>
         <div class="flex vbox autoflow">
@@ -112,8 +112,7 @@
       </div>
       <div class="show view canvas vbox flex">
         <ul class="options hbox">
-          <li class="opt optOverview">Overview</li>
-          <li class="splitter disabled flex"></li>
+          <li class="opt optOverview"><button class="dark">Overview</button></li>
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="contents views vbox flex">
@@ -165,18 +164,21 @@
           </div>
         </div>  
         <ul class="options hbox">
-          <li class="disabled">…</li>
-          <li class="opt optGallery">Gallery</li>
-          <li class="opt optAlbum">Album</li>
-          <li class="opt optPhoto">Image</li>
-          <li class="opt optUpload">Upload</li>
-          <li class="opt optSlideshow">Slideshow</li>
+          <li class="opt optGallery"><button class="dark">Gallery</button></li>
+          <li class="splitter disabled"></li>
+          <li class="opt optAlbum"><button class="dark">Album</button></li>
+          <li class="splitter disabled"></li>
+          <li class="opt optPhoto"><button class="dark">Image</button></li>
+          <li class="splitter disabled"></li>
+          <li class="opt optUpload"><button class="dark">Upload</button></li>
+          <li class="splitter disabled"></li>
+          <li class="opt optSlideshow"><button class="dark">Slideshow</button></li>
+          <li class="splitter disabled flex"></li>
         </ul>
       </div>
       <div class="edit canvas-bg-light view vbox flex">
         <ul class="tools options hbox">
-          <li class="optOptions opt">Options</li>
-          <li class="splitter disabled flex"></li>
+          <li class="optOptions opt"><button class="dark">Options</button></li>
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="content canvas vbox flex autoflow"></div>
@@ -308,8 +310,9 @@
 </script>
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
+  <li class="splitter disabled"></li>
   {{if name}}
-  <li class="{{if disabled}}disabled{{/if}} ${klass}"><span class="tb-name">{{html name}}</span></li>
+  <li class="opt ${klass}"><{{if type}}${type}{{else}}button class="dark" {{/if}}{{if style}} style="${style}"{{/if}} {{if disabled}}disabled{{/if}} class="tb-name">{{html name}}</{{if type}}${type}{{else}}button{{/if}}></li>
   {{/if}}
 </script>
 

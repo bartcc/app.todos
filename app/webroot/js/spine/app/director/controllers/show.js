@@ -152,66 +152,36 @@ ShowView = (function() {
     return App.contentManager.change(App.showView);
   };
   ShowView.prototype.showAlbums = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('show:albums');
   };
   ShowView.prototype.showAllAlbums = function() {
     return Spine.trigger('show:allAlbums');
   };
   ShowView.prototype.showPhotos = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('show:photos');
   };
   ShowView.prototype.createGallery = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('create:gallery');
   };
   ShowView.prototype.createPhoto = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('create:photo');
   };
   ShowView.prototype.createAlbum = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('create:album');
   };
   ShowView.prototype.editGallery = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('edit:gallery');
   };
   ShowView.prototype.editAlbum = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('edit:album');
   };
   ShowView.prototype.destroyGallery = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('destroy:gallery');
   };
   ShowView.prototype.destroyAlbum = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('destroy:album');
   };
   ShowView.prototype.destroyPhoto = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('destroy:photo');
   };
   ShowView.prototype.showOverview = function(e) {

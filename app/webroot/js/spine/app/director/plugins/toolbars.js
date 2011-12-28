@@ -60,10 +60,10 @@ Controller.Toolbars = {
                 return !Album.selectionList().length;
               }
             }, {
-              name: '<div class="optThumbsize" style="width: 150px;"><span id="slider" style=""></span></div>',
-              eval: function() {
-                return App.showView.initSlider();
-              }
+              klass: 'optThumbsize ',
+              name: '<span id="slider" style=""></span>',
+              type: 'div',
+              style: 'width: 190px;'
             }
           ],
           Photo: [

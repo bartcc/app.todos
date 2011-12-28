@@ -22,7 +22,7 @@ html, body {
   overflow: hidden
 }
 body {
-  font:14px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
 }
 #messenger h1, h2 {
   text-shadow: 0 1px 1px #ffffff;

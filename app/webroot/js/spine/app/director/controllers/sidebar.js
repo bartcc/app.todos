@@ -24,7 +24,7 @@ Sidebar = (function() {
     '.optAllPhotos': 'photos'
   };
   Sidebar.prototype.events = {
-    "click button": "create",
+    "click button.create": "create",
     'click .optAllGalleries': 'allGalleries',
     'click .optAllAlbums': 'allAlbums',
     'click .optAllPhotos': 'allPhotos',

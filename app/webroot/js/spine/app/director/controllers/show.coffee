@@ -134,47 +134,37 @@ class ShowView extends Spine.Controller
     App.contentManager.change(App.showView)
   
   showAlbums: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('show:albums')
   
   showAllAlbums: ->
     Spine.trigger('show:allAlbums')
   
   showPhotos: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('show:photos')
   
   createGallery: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:gallery')
   
   createPhoto: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:photo')
   
   createAlbum: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('create:album')
   
   editGallery: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('edit:gallery')
     #@focusFirstInput App.galleryEditView.el
 
   editAlbum: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('edit:album')
 
   destroyGallery: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
   destroyAlbum: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:album')
 
   destroyPhoto: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:photo')
 
   showOverview: (e) ->

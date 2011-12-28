@@ -587,6 +587,9 @@ textarea {
 #sidebar .search input {
   font-size: 30px;
   width: 100%;
+  background-color: #DDDDDD;
+  padding: 5px 0 5px 0;
+  border: 0 none;
 }
 #sidebar .empty {
   font-style: italic;

@@ -287,7 +287,10 @@ button:disabled {
   font-size: 1.3em;
   font-style: italic;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+<<<<<<< HEAD
+=======
   color: #646464;
+>>>>>>> 0d161d1191edb26f3e0897fd279cce74b41dae07
 }
 label input[type="password"] {
   width: 220px;

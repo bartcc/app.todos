@@ -47,8 +47,10 @@ Controller.Toolbars =
               klass: 'optDestroyPhoto '
               disabled: -> !Album.selectionList().length
             ,
-              name: '<div class="optThumbsize" style="width: 150px;"><span id="slider" style=""></span></div>'
-              eval: -> App.showView.initSlider()
+              klass: 'optThumbsize '
+              name: '<span id="slider" style=""></span>'
+              type: 'div'
+              style: 'width: 190px;'
             ]
           ,
           Photo:

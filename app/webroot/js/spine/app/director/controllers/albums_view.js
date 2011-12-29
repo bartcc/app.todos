@@ -100,8 +100,8 @@ AlbumsView = (function() {
     return this.header.change(Gallery.record);
   };
   AlbumsView.prototype.show = function() {
-    Album.activeRecord = false;
     Spine.trigger('change:toolbar', 'Album');
+    Album.activeRecord = false;
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('change:canvas', this);
   };

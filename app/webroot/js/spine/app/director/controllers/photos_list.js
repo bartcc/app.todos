@@ -168,9 +168,6 @@ PhotosList = (function() {
     console.log('PhotosList::click');
     item = $(e.currentTarget).item();
     item.addRemoveSelection(this.isCtrlClick(e));
-    if (App.hmanager.hasActive()) {
-      this.openPanel('photo', App.showView.btnPhoto);
-    }
     App.showView.trigger('change:toolbar', 'Photos', App.showView.initSlider);
     this.select(item, e);
     e.stopPropagation();

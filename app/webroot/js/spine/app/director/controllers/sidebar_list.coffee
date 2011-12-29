@@ -72,12 +72,7 @@ class SidebarList extends Spine.Controller
           Spine.trigger('show:albums')
           
     Gallery.current(@current)
-#    @mode = mode
     @activate(@current)
-#    if @current
-#    @exposeSelection(@current)
-#    @exposeSublistSelection Gallery.record
-#    Spine.trigger('change:selectedGallery', @current, mode)
         
   render: (galleries, gallery, mode) ->
     console.log 'SidebarList::render'
@@ -192,8 +187,8 @@ class SidebarList extends Spine.Controller
       Album.current(album)
       Gallery.updateSelection [album.id]
 
-      if App.hmanager.hasActive()
-        @openPanel('album', App.showView.btnAlbum)
+#      if App.hmanager.hasActive()
+#        @openPanel('album', App.showView.btnAlbum)
 
       
       @exposeSublistSelection(Gallery.record)

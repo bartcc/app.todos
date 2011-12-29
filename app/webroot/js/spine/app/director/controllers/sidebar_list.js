@@ -260,9 +260,6 @@ SidebarList = (function() {
       Gallery.current(gallery);
       Album.current(album);
       Gallery.updateSelection([album.id]);
-      if (App.hmanager.hasActive()) {
-        this.openPanel('album', App.showView.btnAlbum);
-      }
       this.exposeSublistSelection(Gallery.record);
       Spine.trigger('change:selectedAlbum', album, !previous || !(album.id === previous.id));
       Spine.trigger('show:photos');

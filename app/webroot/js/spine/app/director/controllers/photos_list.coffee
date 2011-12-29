@@ -124,8 +124,8 @@ class PhotosList extends Spine.Controller
     item = $(e.currentTarget).item()
     item.addRemoveSelection(@isCtrlClick(e))
     
-    if App.hmanager.hasActive()
-      @openPanel('photo', App.showView.btnPhoto)
+#    if App.hmanager.hasActive()
+#      @openPanel('photo', App.showView.btnPhoto)
     
     App.showView.trigger('change:toolbar', 'Photos', App.showView.initSlider)
     @select item, e

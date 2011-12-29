@@ -100,8 +100,8 @@ AlbumsView = (function() {
     return this.header.change(Gallery.record);
   };
   AlbumsView.prototype.show = function() {
-    this.parent.trigger('change:toolbar', Album);
     Album.activeRecord = false;
+    Spine.trigger('change:toolbar', 'Album');
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('change:canvas', this);
   };
@@ -191,7 +191,6 @@ AlbumsView = (function() {
   AlbumsView.prototype.createJoin = function(target, albums) {
     var ga, record, records, _i, _len;
     console.log('AlbumsView::createJoin');
-    console.log(target);
     if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }

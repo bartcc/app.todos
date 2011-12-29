@@ -102,8 +102,8 @@ class AlbumsView extends Spine.Controller
     @header.change Gallery.record
   
   show: ->
-    @parent.trigger('change:toolbar', Album)
     Album.activeRecord = false
+    Spine.trigger('change:toolbar', 'Album')
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('change:canvas', @)
     
@@ -162,7 +162,6 @@ class AlbumsView extends Spine.Controller
 
   createJoin: (target, albums) ->
     console.log 'AlbumsView::createJoin'
-    console.log target
     
     return unless target and target.constructor.className is 'Gallery'
 

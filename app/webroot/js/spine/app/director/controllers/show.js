@@ -19,12 +19,13 @@ ShowView = (function() {
     '.header': 'albumHeader',
     '.optOverview': 'btnOverview',
     '.optEditGallery': 'btnEditGallery',
-    '.optGallery': 'btnGallery',
-    '.optAlbum': 'btnAlbum',
-    '.optPhoto': 'btnPhoto',
-    '.optUpload': 'btnUpload',
-    '.optSlideshow': 'btnSlideshow',
+    '.optGallery .ui-icon': 'btnGallery',
+    '.optAlbum .ui-icon': 'btnAlbum',
+    '.optPhoto .ui-icon': 'btnPhoto',
+    '.optUpload .ui-icon': 'btnUpload',
+    '.optSlideshow .ui-icon': 'btnSlideshow',
     '.toolbar': 'toolbarEl',
+    '.props': 'propsEl',
     '.galleries': 'galleriesEl',
     '.albums': 'albumsEl',
     '.photos': 'photosEl',
@@ -42,11 +43,15 @@ ShowView = (function() {
     "click .optEditGallery": "editGallery",
     "click .optCreateGallery": "createGallery",
     "click .optDestroyGallery": "destroyGallery",
-    "click .optEmail": "email",
+    "click .optGallery .ui-icon": "toggleGalleryShow",
     "click .optGallery": "toggleGallery",
+    "click .optAlbum .ui-icon": "toggleAlbumShow",
     "click .optAlbum": "toggleAlbum",
+    "click .optPhoto .ui-icon": "togglePhotoShow",
     "click .optPhoto": "togglePhoto",
+    "click .optUpload .ui-icon": "toggleUploadShow",
     "click .optUpload": "toggleUpload",
+    "click .optSlideshow .ui-icon": "toggleSlideshowShow",
     "click .optSlideshow": "toggleSlideshow",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
@@ -132,7 +137,7 @@ ShowView = (function() {
     this.canvasManager.change(controller);
     return this.headerManager.change(controller.header);
   };
-  ShowView.prototype.renderToolbar = function() {
+  ShowView.prototype.renderToolbar = function(el) {
     console.log('ShowView::renderToolbar');
     this.toolbarEl.html(this.toolsTemplate(this.currentToolbar));
     return this.refreshElements();
@@ -207,25 +212,50 @@ ShowView = (function() {
       height: height()
     }, 400);
   };
+  ShowView.prototype.toggleGalleryShow = function(e) {
+    this.trigger("toggle:view", App.gallery, e.target);
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
+  };
   ShowView.prototype.toggleGallery = function(e) {
-    this.changeToolbar('Gallery');
-    return this.trigger("toggle:view", App.gallery, e.target);
+    return this.changeToolbar('Gallery', e.target);
+  };
+  ShowView.prototype.toggleAlbumShow = function(e) {
+    this.trigger("toggle:view", App.album, e.target);
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   ShowView.prototype.toggleAlbum = function(e) {
-    this.changeToolbar('Album');
-    return this.trigger("toggle:view", App.album, e.target);
+    return this.changeToolbar('Album');
+  };
+  ShowView.prototype.togglePhotoShow = function(e) {
+    this.trigger("toggle:view", App.photo, e.target);
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   ShowView.prototype.togglePhoto = function(e) {
-    this.changeToolbar('Photo', App.showView.initSlider);
-    return this.trigger("toggle:view", App.photo, e.target);
+    return this.changeToolbar('Photo', e.target, App.showView.initSlider);
+  };
+  ShowView.prototype.toggleUploadShow = function(e) {
+    this.trigger("toggle:view", App.upload, e.target);
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   ShowView.prototype.toggleUpload = function(e) {
-    this.changeToolbar('Upload');
-    return this.trigger("toggle:view", App.upload, e.target);
+    return this.changeToolbar('Upload', e.target);
+  };
+  ShowView.prototype.toggleSlideshowShow = function(e) {
+    this.trigger("toggle:view", App.slideshow, e.target);
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
   };
   ShowView.prototype.toggleSlideshow = function(e) {
-    this.changeToolbar('Slideshow');
-    return this.trigger("toggle:view", App.slideshow, e.target);
+    return this.changeToolbar('Slideshow', e.target);
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;
@@ -236,6 +266,8 @@ ShowView = (function() {
       this.activeControl = $(control);
       App.hmanager.trigger("change", controller);
     }
+    this.propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s');
+    $(control).toggleClass('ui-icon-carat-1-s', !isActive);
     this.renderViewControl(controller, control);
     return this.animateView();
   };

@@ -202,7 +202,6 @@ class Sidebar extends Spine.Controller
     @openPanel('gallery', App.showView.btnGallery)
     gallery = new Gallery @newAttributes()
     gallery.save()
-    Spine.trigger('show:albums')
 
   destroy: ->
     console.log 'Sidebar::destroy'

@@ -79,24 +79,24 @@ Controller.Toolbars =
       unlockToolbar: ->
         @locked = false
         
+      renderToolbar: -> arguments[0]
+      
+      changeToolbar: (nameOrModel, cb, el) ->
+        @changeTool nameOrModel
+        if @currentToolbar
+          @currentToolbar.cb = cb if cb
+          @_renderToolbar el
+
+      _renderToolbar: (el) ->
+        throw('No renderToolbar method') unless @renderToolbar
+        @renderToolbar el
+        @currentToolbar?.cb?()
+        
       changeTool: (model) ->
         toolbar = @toolBarList(model?.className or model) unless @locked
         @currentToolbar = toolbar if toolbar
-
-      changeToolbar: (nameOrModel, cb) ->
-        @changeTool nameOrModel
-        @currentToolbar.cb = cb if cb
-        @_renderToolbar()
-
-      renderToolbar: -> arguments[0]
-
-      _renderToolbar: ->
-        @renderToolbar()
-        @currentToolbar?.cb?()
         
-    Extend =
-      init: ->
-        console.log 'INIT STATIC'
+    Extend = {}
       
     @include  Include
     @extend   Extend

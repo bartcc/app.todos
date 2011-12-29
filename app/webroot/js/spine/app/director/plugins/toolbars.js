@@ -96,6 +96,26 @@ Controller.Toolbars = {
       unlockToolbar: function() {
         return this.locked = false;
       },
+      renderToolbar: function() {
+        return arguments[0];
+      },
+      changeToolbar: function(nameOrModel, cb, el) {
+        this.changeTool(nameOrModel);
+        if (this.currentToolbar) {
+          if (cb) {
+            this.currentToolbar.cb = cb;
+          }
+          return this._renderToolbar(el);
+        }
+      },
+      _renderToolbar: function(el) {
+        var _ref;
+        if (!this.renderToolbar) {
+          throw 'No renderToolbar method';
+        }
+        this.renderToolbar(el);
+        return (_ref = this.currentToolbar) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
+      },
       changeTool: function(model) {
         var toolbar;
         if (!this.locked) {
@@ -104,28 +124,9 @@ Controller.Toolbars = {
         if (toolbar) {
           return this.currentToolbar = toolbar;
         }
-      },
-      changeToolbar: function(nameOrModel, cb) {
-        this.changeTool(nameOrModel);
-        if (cb) {
-          this.currentToolbar.cb = cb;
-        }
-        return this._renderToolbar();
-      },
-      renderToolbar: function() {
-        return arguments[0];
-      },
-      _renderToolbar: function() {
-        var _ref;
-        this.renderToolbar();
-        return (_ref = this.currentToolbar) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
       }
     };
-    Extend = {
-      init: function() {
-        return console.log('INIT STATIC');
-      }
-    };
+    Extend = {};
     this.include(Include);
     return this.extend(Extend);
   }

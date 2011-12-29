@@ -11,12 +11,13 @@ class ShowView extends Spine.Controller
     '.header'                 : 'albumHeader'
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
-    '.optGallery'             : 'btnGallery'
-    '.optAlbum'               : 'btnAlbum'
-    '.optPhoto'               : 'btnPhoto'
-    '.optUpload'              : 'btnUpload'
-    '.optSlideshow'           : 'btnSlideshow'
+    '.optGallery .ui-icon'    : 'btnGallery'
+    '.optAlbum .ui-icon'      : 'btnAlbum'
+    '.optPhoto .ui-icon'      : 'btnPhoto'
+    '.optUpload .ui-icon'     : 'btnUpload'
+    '.optSlideshow .ui-icon'  : 'btnSlideshow'
     '.toolbar'                : 'toolbarEl'
+    '.props'                  : 'propsEl'
     '.galleries'              : 'galleriesEl'
     '.albums'                 : 'albumsEl'
     '.photos'                 : 'photosEl'
@@ -36,13 +37,16 @@ class ShowView extends Spine.Controller
     "click .optEditGallery"           : "editGallery"
     "click .optCreateGallery"         : "createGallery"
     "click .optDestroyGallery"        : "destroyGallery"
-    "click .optEmail"                 : "email"
+    "click .optGallery .ui-icon"       : "toggleGalleryShow"
     "click .optGallery"               : "toggleGallery"
+    "click .optAlbum .ui-icon"         : "toggleAlbumShow"
     "click .optAlbum"                 : "toggleAlbum"
+    "click .optPhoto .ui-icon"         : "togglePhotoShow"
     "click .optPhoto"                 : "togglePhoto"
+    "click .optUpload .ui-icon"        : "toggleUploadShow"
     "click .optUpload"                : "toggleUpload"
+    "click .optSlideshow .ui-icon"     : "toggleSlideshowShow"
     "click .optSlideshow"             : "toggleSlideshow"
-#    "click .optThumbsize"             : "showSlider"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
     'fileuploadprogress'              : "uploadProgress" 
@@ -116,8 +120,9 @@ class ShowView extends Spine.Controller
     @canvasManager.change controller
     @headerManager.change controller.header
     
-  renderToolbar: ->
+  renderToolbar: (el) ->
     console.log 'ShowView::renderToolbar'
+    
     @toolbarEl.html @toolsTemplate @currentToolbar
     @refreshElements()
     
@@ -184,30 +189,50 @@ class ShowView extends Spine.Controller
       height: height()
       400
     
-  toggleGallery: (e) ->
-    @changeToolbar 'Gallery'
-#    @toolbar.change 'Gallery'
+  toggleGalleryShow: (e) ->
     @trigger("toggle:view", App.gallery, e.target)
+    e.stopPropagation()
+    e.preventDefault()
+    false
+    
+  toggleGallery: (e) ->
+    @changeToolbar 'Gallery', e.target
+
+  toggleAlbumShow: (e) ->
+    @trigger("toggle:view", App.album, e.target)
+    e.stopPropagation()
+    e.preventDefault()
+    false
 
   toggleAlbum: (e) ->
     @changeToolbar 'Album'
-#    @toolbar.change 'Album'
-    @trigger("toggle:view", App.album, e.target)
+    
+  togglePhotoShow: (e) ->
+    @trigger("toggle:view", App.photo, e.target)
+    e.stopPropagation()
+    e.preventDefault()
+    false
     
   togglePhoto: (e) ->
-    @changeToolbar 'Photo', App.showView.initSlider
-#    @toolbar.change 'Photo'
-    @trigger("toggle:view", App.photo, e.target)
+    @changeToolbar 'Photo', e.target, App.showView.initSlider
 
-  toggleUpload: (e) ->
-    @changeToolbar 'Upload'
-#    @toolbar.change 'Upload'
+  toggleUploadShow: (e) ->
     @trigger("toggle:view", App.upload, e.target)
+    e.stopPropagation()
+    e.preventDefault()
+    false
+    
+  toggleUpload: (e) ->
+    @changeToolbar 'Upload', e.target
+
+  toggleSlideshowShow: (e) ->
+    @trigger("toggle:view", App.slideshow, e.target)
+    e.stopPropagation()
+    e.preventDefault()
+    false
 
   toggleSlideshow: (e) ->
-    @changeToolbar 'Slideshow'
-#    @toolbar.change 'Slideshow'
-    @trigger("toggle:view", App.slideshow, e.target)
+    @changeToolbar 'Slideshow', e.target
   
   toggleView: (controller, control) ->
     isActive = controller.isActive()
@@ -218,6 +243,8 @@ class ShowView extends Spine.Controller
       @activeControl = $(control)
       App.hmanager.trigger("change", controller)
     
+    @propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s')
+    $(control).toggleClass('ui-icon-carat-1-s', !isActive)
     @renderViewControl controller, control
     @animateView()
   

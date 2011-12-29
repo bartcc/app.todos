@@ -19,7 +19,6 @@ Gallery = (function() {
   Gallery.extend(Spine.Model.AjaxRelations);
   Gallery.extend(Spine.Model.Extender);
   Gallery.selectAttributes = ['name', 'author'];
-  Gallery.parentSelector = 'Empty';
   Gallery.url = function() {
     return '' + base_url + 'galleries';
   };

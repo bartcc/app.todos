@@ -117,9 +117,8 @@ class ShowView extends Spine.Controller
     console.log 'ShowView::changeCanvas'
     @current = controller
     @el.data
-      current: controller.el.data().current
-      className: controller.el.data().className
-    console.log @el.data()
+      current: controller.el.data().current.record
+      className: controller.el.data().current.className
     @canvasManager.change controller
     @headerManager.change controller.header
     
@@ -279,6 +278,11 @@ class ShowView extends Spine.Controller
         Album.current()
         Spine.trigger('album:exposeSelection')
         Spine.trigger('album:activate')
+      else
+#        Spine.Model['Empty'].emptySelection()
+        Gallery.current()
+        Spine.trigger('gallery:exposeSelection')
+        Spine.trigger('gallery:activate')
         
     @changeToolbar()
     @current.items.deselect()

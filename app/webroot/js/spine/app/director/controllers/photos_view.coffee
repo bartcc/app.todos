@@ -76,10 +76,8 @@ class PhotosView extends Spine.Controller
   render: (items, mode) ->
     console.log 'PhotosView::render'
     
-    # keep a reference of the parent (Gallery)
-    @el.data
-      current: Album.record
-      className: 'Album'
+    # keep a reference of the parent (Album)
+    @el.data current: Album
     
     @items.empty() unless @list.children('li').length
     # show spinner

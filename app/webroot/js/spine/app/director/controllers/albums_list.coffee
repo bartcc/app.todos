@@ -26,7 +26,6 @@ class AlbumsList extends Spine.Controller
   
   select: (item, e) ->
     console.log 'AlbumsList::select'
-    previous = Album.record
     
     @exposeSelection()
     @activate()
@@ -72,7 +71,7 @@ class AlbumsList extends Spine.Controller
   
   renderBackgrounds: (albums) ->
     console.log 'AlbumsList::renderBackgrounds'
-    return unless App.ready
+#    return unless App.ready
     for album in albums
       album.uri
         width: 50
@@ -98,7 +97,7 @@ class AlbumsList extends Spine.Controller
 
   click: (e) ->
     console.log 'AlbumsList::click'
-    item = $(e.target).item()
+    item = $(e.currentTarget).item()
     list = item.addRemoveSelection(@isCtrlClick(e))
     @select item, e
     Spine.trigger('change:toolbar', 'Album')

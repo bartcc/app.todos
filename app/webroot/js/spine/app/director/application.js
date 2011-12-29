@@ -34,7 +34,6 @@ App = (function() {
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
-    this.ready = false;
     User.bind('pinger', this.proxy(this.validate));
     this.galleryEditView = new GalleryEditorView({
       el: this.galleryEditEl

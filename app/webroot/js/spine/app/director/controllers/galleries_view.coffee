@@ -32,6 +32,12 @@ class GalleriesView extends Spine.Controller
     
   render: (items) ->
     console.log 'GalleriesView::render'
+    
+     # keep a reference of the parent (null)
+    @el.data current:
+      className: null
+      record: null
+      
     @list.render items
     @header.render()
     

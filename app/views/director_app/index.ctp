@@ -164,15 +164,15 @@
           </div>
         </div>  
         <ul class="options props hbox">
-          <li class="opt optGallery">Gallery<span class="ui-state-disabled ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
+          <li class="opt optGallery">Gallery<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
           <li class="splitter disabled"></li>
-          <li class="opt optAlbum">Album<span class="ui-state-disabled ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
+          <li class="opt optAlbum">Album<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
           <li class="splitter disabled"></li>
-          <li class="opt optPhoto">Image<span class="ui-state-disabled ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
+          <li class="opt optPhoto">Image<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
           <li class="splitter disabled"></li>
-          <li class="opt optUpload">Upload<span class="ui-state-disabled ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
+          <li class="opt optUpload">Upload<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
           <li class="splitter disabled"></li>
-          <li class="opt optSlideshow">Slideshow<span class="ui-state-disabled ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
+          <li class="opt optSlideshow">Slideshow<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
           <li class="splitter disabled flex"></li>
         </ul>
       </div>

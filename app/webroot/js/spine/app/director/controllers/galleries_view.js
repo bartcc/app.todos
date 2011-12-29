@@ -43,6 +43,12 @@ GalleriesView = (function() {
   };
   GalleriesView.prototype.render = function(items) {
     console.log('GalleriesView::render');
+    this.el.data({
+      current: {
+        className: null,
+        record: null
+      }
+    });
     this.list.render(items);
     return this.header.render();
   };

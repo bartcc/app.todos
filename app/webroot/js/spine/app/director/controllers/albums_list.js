@@ -42,9 +42,7 @@ AlbumsList = (function() {
     }
   };
   AlbumsList.prototype.select = function(item, e) {
-    var previous;
     console.log('AlbumsList::select');
-    previous = Album.record;
     this.exposeSelection();
     return this.activate();
   };
@@ -100,9 +98,6 @@ AlbumsList = (function() {
   AlbumsList.prototype.renderBackgrounds = function(albums) {
     var album, _i, _len, _results;
     console.log('AlbumsList::renderBackgrounds');
-    if (!App.ready) {
-      return;
-    }
     _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
@@ -149,7 +144,7 @@ AlbumsList = (function() {
   AlbumsList.prototype.click = function(e) {
     var item, list;
     console.log('AlbumsList::click');
-    item = $(e.target).item();
+    item = $(e.currentTarget).item();
     list = item.addRemoveSelection(this.isCtrlClick(e));
     this.select(item, e);
     Spine.trigger('change:toolbar', 'Album');

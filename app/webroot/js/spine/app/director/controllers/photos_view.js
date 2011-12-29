@@ -87,8 +87,7 @@ PhotosView = (function() {
   PhotosView.prototype.render = function(items, mode) {
     console.log('PhotosView::render');
     this.el.data({
-      current: Album.record,
-      className: 'Album'
+      current: Album
     });
     if (!this.list.children('li').length) {
       this.items.empty();

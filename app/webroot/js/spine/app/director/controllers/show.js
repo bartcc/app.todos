@@ -132,10 +132,9 @@ ShowView = (function() {
     console.log('ShowView::changeCanvas');
     this.current = controller;
     this.el.data({
-      current: controller.el.data().current,
-      className: controller.el.data().className
+      current: controller.el.data().current.record,
+      className: controller.el.data().current.className
     });
-    console.log(this.el.data());
     this.canvasManager.change(controller);
     return this.headerManager.change(controller.header);
   };
@@ -305,6 +304,11 @@ ShowView = (function() {
         Album.current();
         Spine.trigger('album:exposeSelection');
         Spine.trigger('album:activate');
+        break;
+      default:
+        Gallery.current();
+        Spine.trigger('gallery:exposeSelection');
+        Spine.trigger('gallery:activate');
     }
     this.changeToolbar();
     return this.current.items.deselect();

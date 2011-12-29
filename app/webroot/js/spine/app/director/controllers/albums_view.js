@@ -84,8 +84,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.render = function(item) {
     console.log('AlbumsView::render');
     this.el.data({
-      current: Gallery.record,
-      className: 'Gallery'
+      current: Gallery
     });
     this.list.render(this.current);
     this.header.render();

@@ -93,7 +93,7 @@ class SidebarList extends Spine.Controller
     @change gallery, mode
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
-        App.ready = true
+#        App.ready = true
         @children(":first").click()
 
   renderAllSublist: ->
@@ -138,7 +138,7 @@ class SidebarList extends Spine.Controller
     else
       Photo.current()
         
-    @exposeSelection(gallery) if gallery
+    @exposeSelection(gallery)
     Spine.trigger('change:selectedGallery', gallery, @mode)
     Spine.trigger('change:selectedAlbum', Album.record)
     Spine.trigger('change:selectedPhoto', Photo.record)

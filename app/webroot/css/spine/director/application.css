@@ -135,7 +135,7 @@ button, .options li.opt {
   text-shadow: 0 1px 1px #ffffff;
   font-size: 14px;
   color: #565656;
-  padding: 10px 20px;
+  padding: 10px 7px 10px 20px;
   outline: none;
   background: #f9f9f9;
   background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#e3e3e3));
@@ -1019,7 +1019,10 @@ textarea {
 .ui-widget {
   font-size: 1em;
 }
-
 .ui-icon.right {
-  margin-left: 5px
+  margin-left: 5px;
+  margin-top: 5px;
+}
+.ui-dimmed {
+  opacity: 0.3;
 }

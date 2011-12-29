@@ -109,7 +109,6 @@ SidebarList = (function() {
     this.change(gallery, mode);
     if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
       if (!this.children(".active").length) {
-        App.ready = true;
         return this.children(":first").click();
       }
     }
@@ -185,9 +184,7 @@ SidebarList = (function() {
     } else {
       Photo.current();
     }
-    if (gallery) {
-      this.exposeSelection(gallery);
-    }
+    this.exposeSelection(gallery);
     Spine.trigger('change:selectedGallery', gallery, this.mode);
     Spine.trigger('change:selectedAlbum', Album.record);
     return Spine.trigger('change:selectedPhoto', Photo.record);

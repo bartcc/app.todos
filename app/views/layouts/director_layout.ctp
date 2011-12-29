@@ -77,7 +77,6 @@
     echo $this->Html->script('spine/app/director/plugins/cache');
     echo $this->Html->script('spine/app/director/plugins/uri');
     echo $this->Html->script('spine/app/director/plugins/toolbars');
-    echo $this->Html->script('spine/app/director/models/empty');
     echo $this->Html->script('spine/app/director/models/galleries_album');
     echo $this->Html->script('spine/app/director/models/albums_photo');
     echo $this->Html->script('spine/app/director/models/gallery');

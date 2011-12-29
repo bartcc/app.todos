@@ -83,9 +83,7 @@ class AlbumsView extends Spine.Controller
     console.log 'AlbumsView::render'
     
     # keep a reference of the parent (Gallery)
-    @el.data
-      current: Gallery.record
-      className: 'Gallery'
+    @el.data current: Gallery
       
     @list.render @current
     @header.render()

@@ -30,7 +30,7 @@ class App extends Spine.Controller
 
   constructor: ->
     super
-    @ready = false
+#    @ready = false
 #    @ALBUM_SINGLE_MOVE = @constructor.createImage('/img/dragndrop/album_single_move.png')
 #    @ALBUM_SINGLE_COPY = @constructor.createImage('/img/dragndrop/album_single_copy.png')
 #    @ALBUM_DOUBLE_MOVE = @constructor.createImage('/img/dragndrop/album_double_move.png')

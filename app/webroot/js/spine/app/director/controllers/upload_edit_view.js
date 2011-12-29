@@ -31,20 +31,15 @@ UploadEditView = (function() {
     Gallery.bind('refresh', this.proxy(this.render));
   }
   UploadEditView.prototype.render = function() {
-    var album, gallery, selection, _ref;
+    var album, gallery, selection;
     console.log('UploadView::render');
     selection = Gallery.selectionList();
     gallery = Gallery.record;
-    if (Album.exists(selection[0])) {
-      album = Album.find(selection[0]);
-    }
-    if (!((_ref = this.current) != null ? _ref.eql(album) : void 0)) {
-      this.html(this.template({
-        gallery: gallery,
-        album: album
-      }));
-      return this.current = album;
-    }
+    album = Album.record;
+    return this.html(this.template({
+      gallery: gallery,
+      album: album
+    }));
   };
   UploadEditView.prototype.add = function(e, data) {
     return console.log('UploadView::add');

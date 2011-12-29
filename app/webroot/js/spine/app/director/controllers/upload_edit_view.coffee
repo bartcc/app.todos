@@ -24,12 +24,10 @@ class UploadEditView extends Spine.Controller
     console.log 'UploadView::render'
     selection = Gallery.selectionList()
     gallery = Gallery.record
-    album = Album.find(selection[0]) if Album.exists(selection[0])
-    if (!@current?.eql album)
-      @html @template
-        gallery: gallery
-        album: album
-      @current = album
+    album = Album.record
+    @html @template
+      gallery: gallery
+      album: album
     
   add: (e, data) ->
     console.log 'UploadView::add'

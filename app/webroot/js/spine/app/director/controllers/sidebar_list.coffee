@@ -118,8 +118,17 @@ class SidebarList extends Spine.Controller
     @updateTemplate gallery  
   
   activate: (gallery) ->
+    selection = Gallery.selectionList()
+    if selection.length is 1
+      newActive = Album.find(selection[0]) if Album.exists(selection[0])
+      if !newActive?.destroyed
+        Album.current(newActive)
+    else
+        Album.current()
+        
     @exposeSelection(@current) if @current
     Spine.trigger('change:selectedGallery', @current, @mode)
+    Spine.trigger('change:selectedAlbum', Album.record)
   
   updateTemplate: (gallery) ->
     galleryEl = @children().forItem(gallery)
@@ -151,7 +160,6 @@ class SidebarList extends Spine.Controller
     @exposeSublistSelection gallery
         
   exposeSublistSelection: (gallery) ->
-    console.log Gallery.record.id is gallery?.id
     console.log 'SidebarList::exposeSublistSelection'
     removeAlbumSelection = =>
       galleries = []

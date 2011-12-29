@@ -481,7 +481,7 @@
   </div>
   {{else}}
   <label class="">
-    <span>No target album selected!</span>
+    <span>Select a target album</span>
   </label>
   {{/if}}
 </script>

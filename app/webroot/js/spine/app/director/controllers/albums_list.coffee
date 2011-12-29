@@ -26,12 +26,19 @@ class AlbumsList extends Spine.Controller
   select: (item, e) ->
     console.log 'AlbumsList::select'
     previous = Album.record
-    if item and !item.destroyed
-      @current = item
-      Album.current(item)
     
+    selection = Gallery.selectionList()
     @exposeSelection()
-    Spine.trigger('change:selectedAlbum', item, Album.changed())
+    if selection.length is 1
+      newActive = Album.find(selection[0]) if Album.exists(selection[0])
+
+      if !newActive?.destroyed
+        @current = newActive
+        Album.current(newActive)
+    else
+        Album.current()
+      
+    Spine.trigger('change:selectedAlbum', Album.record, Album.changed())
 #    Spine.trigger('change:selectedAlbum', item, (!previous or !(@current?.id is previous.id)))
     
   exposeSelection: ->
@@ -43,8 +50,6 @@ class AlbumsList extends Spine.Controller
         item = Album.find(id)
         el = @children().forItem(item)
         el.addClass("active")
-#    current = if list.length is 1 then list[0]
-#    Album.current(current)
         
     Spine.trigger('expose:sublistSelection', Gallery.record)# if Gallery.record
   
@@ -90,8 +95,7 @@ class AlbumsList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.target).item()
-    item.addRemoveSelection(@isCtrlClick(e))
-    
+    list = item.addRemoveSelection(@isCtrlClick(e))
     @select item, e
     App.showView.trigger('change:toolbar', 'Album')
     

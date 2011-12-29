@@ -41,15 +41,23 @@ AlbumsList = (function() {
     }
   };
   AlbumsList.prototype.select = function(item, e) {
-    var previous;
+    var newActive, previous, selection;
     console.log('AlbumsList::select');
     previous = Album.record;
-    if (item && !item.destroyed) {
-      this.current = item;
-      Album.current(item);
-    }
+    selection = Gallery.selectionList();
     this.exposeSelection();
-    return Spine.trigger('change:selectedAlbum', item, Album.changed());
+    if (selection.length === 1) {
+      if (Album.exists(selection[0])) {
+        newActive = Album.find(selection[0]);
+      }
+      if (!(newActive != null ? newActive.destroyed : void 0)) {
+        this.current = newActive;
+        Album.current(newActive);
+      }
+    } else {
+      Album.current();
+    }
+    return Spine.trigger('change:selectedAlbum', Album.record, Album.changed());
   };
   AlbumsList.prototype.exposeSelection = function() {
     var el, id, item, list, _i, _len;
@@ -130,10 +138,10 @@ AlbumsList = (function() {
     return Spine.trigger('create:album');
   };
   AlbumsList.prototype.click = function(e) {
-    var item;
+    var item, list;
     console.log('AlbumsList::click');
     item = $(e.target).item();
-    item.addRemoveSelection(this.isCtrlClick(e));
+    list = item.addRemoveSelection(this.isCtrlClick(e));
     this.select(item, e);
     App.showView.trigger('change:toolbar', 'Album');
     e.stopPropagation();

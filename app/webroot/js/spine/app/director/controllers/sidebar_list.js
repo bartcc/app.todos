@@ -154,10 +154,23 @@ SidebarList = (function() {
     return this.updateTemplate(gallery);
   };
   SidebarList.prototype.activate = function(gallery) {
+    var newActive, selection;
+    selection = Gallery.selectionList();
+    if (selection.length === 1) {
+      if (Album.exists(selection[0])) {
+        newActive = Album.find(selection[0]);
+      }
+      if (!(newActive != null ? newActive.destroyed : void 0)) {
+        Album.current(newActive);
+      }
+    } else {
+      Album.current();
+    }
     if (this.current) {
       this.exposeSelection(this.current);
     }
-    return Spine.trigger('change:selectedGallery', this.current, this.mode);
+    Spine.trigger('change:selectedGallery', this.current, this.mode);
+    return Spine.trigger('change:selectedAlbum', Album.record);
   };
   SidebarList.prototype.updateTemplate = function(gallery) {
     var galleryContentEl, galleryEl, tmplItem;
@@ -209,7 +222,6 @@ SidebarList = (function() {
   };
   SidebarList.prototype.exposeSublistSelection = function(gallery) {
     var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _ref2;
-    console.log(Gallery.record.id === (gallery != null ? gallery.id : void 0));
     console.log('SidebarList::exposeSublistSelection');
     removeAlbumSelection = __bind(function() {
       var albums, galleries, galleryEl, item, val, _i, _len, _ref, _results;

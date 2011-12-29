@@ -81,11 +81,11 @@ class AlbumsView extends Spine.Controller
     
   render: (item) ->
     console.log 'AlbumsView::render'
-      
-    if Gallery.record
-      @el.data Gallery.record
-    else
-      @el.removeData()
+    
+    # keep a reference of the parent (Gallery)
+    @el.data
+      current: Gallery.record
+      className: 'Gallery'
       
     @list.render @current
     @header.render()

@@ -17,7 +17,6 @@ class UploadEditView extends Spine.Controller
     @bind("change", @change)
     Album.bind('change', @proxy @render)
     Spine.bind('change:selectedAlbum', @proxy @render)
-    Spine.bind('change:selectedGallery', @proxy @render)
     Gallery.bind('refresh', @proxy @render)
     
   render: ->

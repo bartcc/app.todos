@@ -76,10 +76,10 @@ class PhotosView extends Spine.Controller
   render: (items, mode) ->
     console.log 'PhotosView::render'
     
-    if Album.record
-      @el.data Album.record
-    else
-      @el.removeData()
+    # keep a reference of the parent (Gallery)
+    @el.data
+      current: Album.record
+      className: 'Album'
     
     @items.empty() unless @list.children('li').length
     # show spinner
@@ -165,7 +165,7 @@ class PhotosView extends Spine.Controller
     Album.activeRecord = Album.record
     Spine.trigger('change:selectedAlbum', Album.record, true)
     Spine.trigger('gallery:exposeSelection', Gallery.record)
-    App.showView.trigger('change:toolbar', 'Photos', App.showView.initSlider)
+    Spine.trigger('change:toolbar', 'Photos', App.showView.initSlider)
     @renderHeader()
     Spine.trigger('change:canvas', @)
   

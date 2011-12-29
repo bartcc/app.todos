@@ -86,11 +86,10 @@ PhotosView = (function() {
   };
   PhotosView.prototype.render = function(items, mode) {
     console.log('PhotosView::render');
-    if (Album.record) {
-      this.el.data(Album.record);
-    } else {
-      this.el.removeData();
-    }
+    this.el.data({
+      current: Album.record,
+      className: 'Album'
+    });
     if (!this.list.children('li').length) {
       this.items.empty();
     }
@@ -173,7 +172,7 @@ PhotosView = (function() {
     Album.activeRecord = Album.record;
     Spine.trigger('change:selectedAlbum', Album.record, true);
     Spine.trigger('gallery:exposeSelection', Gallery.record);
-    App.showView.trigger('change:toolbar', 'Photos', App.showView.initSlider);
+    Spine.trigger('change:toolbar', 'Photos', App.showView.initSlider);
     this.renderHeader();
     return Spine.trigger('change:canvas', this);
   };

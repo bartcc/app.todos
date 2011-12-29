@@ -87,9 +87,9 @@ Controller.Toolbars =
           @currentToolbar.cb = cb if cb
           @_renderToolbar el
 
-      _renderToolbar: (el) ->
+      _renderToolbar: ->
         throw('No renderToolbar method') unless @renderToolbar
-        @renderToolbar el
+        @renderToolbar()
         @currentToolbar?.cb?()
         
       changeTool: (model) ->

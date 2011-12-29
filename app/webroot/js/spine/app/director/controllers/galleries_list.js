@@ -34,9 +34,8 @@ GalleriesList = (function() {
   GalleriesList.prototype.select = function(item) {
     Gallery.current(item);
     this.exposeSelection(item);
-    Spine.trigger('gallery:exposeSelection', Gallery.record);
-    Spine.trigger('change:selectedGallery', Gallery.record);
-    return App.showView.trigger('change:toolbar', 'Gallery');
+    Spine.trigger('change:toolbar', 'Gallery');
+    return Spine.trigger('gallery:activate');
   };
   GalleriesList.prototype.exposeSelection = function(item) {
     var el;
@@ -44,7 +43,8 @@ GalleriesList = (function() {
     this.deselect();
     if (item) {
       el = this.children().forItem(item);
-      return el.addClass("active");
+      el.addClass("active");
+      return Spine.trigger('gallery:exposeSelection', item);
     }
   };
   GalleriesList.prototype.click = function(e) {

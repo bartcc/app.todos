@@ -259,5 +259,6 @@ class Sidebar extends Spine.Controller
     if deselect then @list.deselect()
     Gallery.current()
     Spine.trigger('show:albums')
-    Spine.trigger('change:selectedGallery', false, true)
+    Spine.trigger('gallery:activate')
+#    Spine.trigger('change:selectedGallery', false, true)
     

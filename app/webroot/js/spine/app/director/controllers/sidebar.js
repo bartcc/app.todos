@@ -332,7 +332,7 @@ Sidebar = (function() {
     }
     Gallery.current();
     Spine.trigger('show:albums');
-    return Spine.trigger('change:selectedGallery', false, true);
+    return Spine.trigger('gallery:activate');
   };
   return Sidebar;
 })();

@@ -50,6 +50,7 @@ SidebarList = (function() {
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
     Spine.bind('gallery:exposeSelection', this.proxy(this.exposeSelection));
+    Spine.bind('gallery:activate', this.proxy(this.activate));
   }
   SidebarList.prototype.template = function() {
     return arguments[0];
@@ -154,23 +155,42 @@ SidebarList = (function() {
     return this.updateTemplate(gallery);
   };
   SidebarList.prototype.activate = function(gallery) {
-    var newActive, selection;
-    selection = Gallery.selectionList();
-    if (selection.length === 1) {
-      if (Album.exists(selection[0])) {
-        newActive = Album.find(selection[0]);
+    var active, selectedAlbums, selectedPhotos;
+    if (gallery == null) {
+      gallery = Gallery.record;
+    }
+    selectedAlbums = Gallery.selectionList();
+    if (selectedAlbums.length === 1) {
+      if (Album.exists(selectedAlbums[0])) {
+        active = Album.find(selectedAlbums[0]);
       }
-      if (!(newActive != null ? newActive.destroyed : void 0)) {
-        Album.current(newActive);
+      if (active && !active.destroyed) {
+        Album.current(active);
+      } else {
+        Album.current();
       }
     } else {
       Album.current();
     }
-    if (this.current) {
-      this.exposeSelection(this.current);
+    selectedPhotos = Album.selectionList();
+    if (selectedPhotos.length === 1) {
+      if (Photo.exists(selectedPhotos[0])) {
+        active = Photo.find(selectedPhotos[0]);
+      }
+      if (active && !active.destroyed) {
+        Photo.current(active);
+      } else {
+        Photo.current();
+      }
+    } else {
+      Photo.current();
     }
-    Spine.trigger('change:selectedGallery', this.current, this.mode);
-    return Spine.trigger('change:selectedAlbum', Album.record);
+    if (gallery) {
+      this.exposeSelection(gallery);
+    }
+    Spine.trigger('change:selectedGallery', gallery, this.mode);
+    Spine.trigger('change:selectedAlbum', Album.record);
+    return Spine.trigger('change:selectedPhoto', Photo.record);
   };
   SidebarList.prototype.updateTemplate = function(gallery) {
     var galleryContentEl, galleryEl, tmplItem;
@@ -288,7 +308,7 @@ SidebarList = (function() {
     console.log('SidebarList::click');
     item = $(e.currentTarget).item();
     this.change(item, 'show', e);
-    App.showView.trigger('change:toolbar', 'Gallery');
+    Spine.trigger('change:toolbar', 'Gallery');
     e.stopPropagation();
     e.preventDefault();
     return false;

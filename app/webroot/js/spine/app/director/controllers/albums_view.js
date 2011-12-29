@@ -83,11 +83,10 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.render = function(item) {
     console.log('AlbumsView::render');
-    if (Gallery.record) {
-      this.el.data(Gallery.record);
-    } else {
-      this.el.removeData();
-    }
+    this.el.data({
+      current: Gallery.record,
+      className: 'Gallery'
+    });
     this.list.render(this.current);
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
@@ -103,7 +102,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.show = function() {
     this.parent.trigger('change:toolbar', Album);
     Album.activeRecord = false;
-    Spine.trigger('expose:sublistSelection');
+    Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('change:canvas', this);
   };
   AlbumsView.prototype.initSortables = function() {

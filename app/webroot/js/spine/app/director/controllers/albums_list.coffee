@@ -13,6 +13,7 @@ class AlbumsList extends Spine.Controller
   constructor: ->
     super
     Spine.bind('album:exposeSelection', @proxy @exposeSelection)
+    Spine.bind('album:activate', @proxy @activate)
     
   template: -> arguments[0]
   
@@ -27,19 +28,8 @@ class AlbumsList extends Spine.Controller
     console.log 'AlbumsList::select'
     previous = Album.record
     
-    selection = Gallery.selectionList()
     @exposeSelection()
-    if selection.length is 1
-      newActive = Album.find(selection[0]) if Album.exists(selection[0])
-
-      if !newActive?.destroyed
-        @current = newActive
-        Album.current(newActive)
-    else
-        Album.current()
-      
-    Spine.trigger('change:selectedAlbum', Album.record, Album.changed())
-#    Spine.trigger('change:selectedAlbum', item, (!previous or !(@current?.id is previous.id)))
+    @activate()
     
   exposeSelection: ->
     console.log 'AlbumsList::exposeSelection'
@@ -51,7 +41,21 @@ class AlbumsList extends Spine.Controller
         el = @children().forItem(item)
         el.addClass("active")
         
-    Spine.trigger('expose:sublistSelection', Gallery.record)# if Gallery.record
+    Spine.trigger('expose:sublistSelection', Gallery.record)
+  
+  activate: (album = Album.record) ->
+    selection = Gallery.selectionList()
+    if selection.length is 1
+      newActive = Album.find(selection[0]) if Album.exists(selection[0])
+
+      if !newActive?.destroyed
+        @current = newActive
+        Album.current(newActive)
+    else
+        Album.current()
+      
+    Spine.trigger('change:selectedAlbum', Album.record, Album.changed())
+    Spine.trigger('change:selectedPhoto', Photo.record)
   
   render: (items) ->
     console.log 'AlbumsList::render'
@@ -97,7 +101,7 @@ class AlbumsList extends Spine.Controller
     item = $(e.target).item()
     list = item.addRemoveSelection(@isCtrlClick(e))
     @select item, e
-    App.showView.trigger('change:toolbar', 'Album')
+    Spine.trigger('change:toolbar', 'Album')
     
     e.stopPropagation()
     e.preventDefault()
@@ -106,7 +110,7 @@ class AlbumsList extends Spine.Controller
   dblclick: (e) ->
     #@openPanel('album', App.showView.btnAlbum)
       
-    App.showView.trigger('change:toolbar', 'Photos', App.showView.initSlider)
+    Spine.trigger('change:toolbar', 'Photos', App.showView.initSlider)
     Spine.trigger('show:photos')
     
     e.stopPropagation()

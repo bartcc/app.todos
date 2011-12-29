@@ -27,6 +27,7 @@ AlbumsList = (function() {
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Spine.bind('album:exposeSelection', this.proxy(this.exposeSelection));
+    Spine.bind('album:activate', this.proxy(this.activate));
   }
   AlbumsList.prototype.template = function() {
     return arguments[0];
@@ -41,23 +42,11 @@ AlbumsList = (function() {
     }
   };
   AlbumsList.prototype.select = function(item, e) {
-    var newActive, previous, selection;
+    var previous;
     console.log('AlbumsList::select');
     previous = Album.record;
-    selection = Gallery.selectionList();
     this.exposeSelection();
-    if (selection.length === 1) {
-      if (Album.exists(selection[0])) {
-        newActive = Album.find(selection[0]);
-      }
-      if (!(newActive != null ? newActive.destroyed : void 0)) {
-        this.current = newActive;
-        Album.current(newActive);
-      }
-    } else {
-      Album.current();
-    }
-    return Spine.trigger('change:selectedAlbum', Album.record, Album.changed());
+    return this.activate();
   };
   AlbumsList.prototype.exposeSelection = function() {
     var el, id, item, list, _i, _len;
@@ -73,6 +62,26 @@ AlbumsList = (function() {
       }
     }
     return Spine.trigger('expose:sublistSelection', Gallery.record);
+  };
+  AlbumsList.prototype.activate = function(album) {
+    var newActive, selection;
+    if (album == null) {
+      album = Album.record;
+    }
+    selection = Gallery.selectionList();
+    if (selection.length === 1) {
+      if (Album.exists(selection[0])) {
+        newActive = Album.find(selection[0]);
+      }
+      if (!(newActive != null ? newActive.destroyed : void 0)) {
+        this.current = newActive;
+        Album.current(newActive);
+      }
+    } else {
+      Album.current();
+    }
+    Spine.trigger('change:selectedAlbum', Album.record, Album.changed());
+    return Spine.trigger('change:selectedPhoto', Photo.record);
   };
   AlbumsList.prototype.render = function(items) {
     console.log('AlbumsList::render');
@@ -143,13 +152,13 @@ AlbumsList = (function() {
     item = $(e.target).item();
     list = item.addRemoveSelection(this.isCtrlClick(e));
     this.select(item, e);
-    App.showView.trigger('change:toolbar', 'Album');
+    Spine.trigger('change:toolbar', 'Album');
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
   AlbumsList.prototype.dblclick = function(e) {
-    App.showView.trigger('change:toolbar', 'Photos', App.showView.initSlider);
+    Spine.trigger('change:toolbar', 'Photos', App.showView.initSlider);
     Spine.trigger('show:photos');
     e.stopPropagation();
     e.preventDefault();

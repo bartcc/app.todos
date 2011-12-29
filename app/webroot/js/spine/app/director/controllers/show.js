@@ -44,14 +44,14 @@ ShowView = (function() {
     "click .optCreateGallery": "createGallery",
     "click .optDestroyGallery": "destroyGallery",
     "click .optGallery .ui-icon": "toggleGalleryShow",
-    "click .optGallery": "toggleGallery",
     "click .optAlbum .ui-icon": "toggleAlbumShow",
-    "click .optAlbum": "toggleAlbum",
     "click .optPhoto .ui-icon": "togglePhotoShow",
-    "click .optPhoto": "togglePhoto",
     "click .optUpload .ui-icon": "toggleUploadShow",
-    "click .optUpload": "toggleUpload",
     "click .optSlideshow .ui-icon": "toggleSlideshowShow",
+    "click .optGallery": "toggleGallery",
+    "click .optAlbum": "toggleAlbum",
+    "click .optPhoto": "togglePhoto",
+    "click .optUpload": "toggleUpload",
     "click .optSlideshow": "toggleSlideshow",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
@@ -110,10 +110,10 @@ ShowView = (function() {
       parentModel: 'Photo'
     });
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
-    Gallery.bind('change', this.proxy(this.renderToolbar));
-    Album.bind('change', this.proxy(this.renderToolbar));
-    Photo.bind('change', this.proxy(this.renderToolbar));
-    this.bind('change:toolbar', this.proxy(this.changeToolbar));
+    Gallery.bind('change', this.proxy(this.changeToolbar));
+    Album.bind('change', this.proxy(this.changeToolbar));
+    Photo.bind('change', this.proxy(this.changeToolbar));
+    Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.current = this.albumsView;
     this.sOutValue = 110;
@@ -132,12 +132,14 @@ ShowView = (function() {
     console.log('ShowView::changeCanvas');
     this.current = controller;
     this.el.data({
-      current: this.current.el.data()
+      current: controller.el.data().current,
+      className: controller.el.data().className
     });
+    console.log(this.el.data());
     this.canvasManager.change(controller);
     return this.headerManager.change(controller.header);
   };
-  ShowView.prototype.renderToolbar = function(el) {
+  ShowView.prototype.renderToolbar = function() {
     console.log('ShowView::renderToolbar');
     this.toolbarEl.html(this.toolsTemplate(this.currentToolbar));
     return this.refreshElements();
@@ -181,13 +183,16 @@ ShowView = (function() {
     return Spine.trigger('edit:album');
   };
   ShowView.prototype.destroyGallery = function(e) {
-    return Spine.trigger('destroy:gallery');
+    Spine.trigger('destroy:gallery');
+    return this.deselect();
   };
   ShowView.prototype.destroyAlbum = function(e) {
-    return Spine.trigger('destroy:album');
+    Spine.trigger('destroy:album');
+    return this.deselect();
   };
   ShowView.prototype.destroyPhoto = function(e) {
-    return Spine.trigger('destroy:photo');
+    Spine.trigger('destroy:photo');
+    return this.deselect();
   };
   ShowView.prototype.showOverview = function(e) {
     return Spine.trigger('show:overview');
@@ -281,10 +286,11 @@ ShowView = (function() {
       return this.activeControl = control;
     }
   };
-  ShowView.prototype.deselect = function(e) {
-    var item;
+  ShowView.prototype.deselect = function() {
+    var className, item;
     item = this.el.data().current;
-    switch (item.constructor.className) {
+    className = this.el.data().className;
+    switch (className) {
       case 'Photo':
         (function() {});
         break;
@@ -298,18 +304,10 @@ ShowView = (function() {
         Spine.Model['Gallery'].emptySelection();
         Album.current();
         Spine.trigger('album:exposeSelection');
-        Spine.trigger('change:selectedAlbum', item);
-        break;
-      default:
-        Gallery.current();
-        Spine.trigger('gallery:exposeSelection');
-        Spine.trigger('change:selectedGallery', false);
+        Spine.trigger('album:activate');
     }
-    this.trigger('change:toolbar');
-    this.current.items.deselect();
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
+    this.changeToolbar();
+    return this.current.items.deselect();
   };
   ShowView.prototype.uploadProgress = function(e, coll) {
     return console.log(coll);

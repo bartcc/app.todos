@@ -37,15 +37,15 @@ class ShowView extends Spine.Controller
     "click .optEditGallery"           : "editGallery"
     "click .optCreateGallery"         : "createGallery"
     "click .optDestroyGallery"        : "destroyGallery"
-    "click .optGallery .ui-icon"       : "toggleGalleryShow"
+    "click .optGallery .ui-icon"      : "toggleGalleryShow"
+    "click .optAlbum .ui-icon"        : "toggleAlbumShow"
+    "click .optPhoto .ui-icon"        : "togglePhotoShow"
+    "click .optUpload .ui-icon"       : "toggleUploadShow"
+    "click .optSlideshow .ui-icon"    : "toggleSlideshowShow"
     "click .optGallery"               : "toggleGallery"
-    "click .optAlbum .ui-icon"         : "toggleAlbumShow"
     "click .optAlbum"                 : "toggleAlbum"
-    "click .optPhoto .ui-icon"         : "togglePhotoShow"
     "click .optPhoto"                 : "togglePhoto"
-    "click .optUpload .ui-icon"        : "toggleUploadShow"
     "click .optUpload"                : "toggleUpload"
-    "click .optSlideshow .ui-icon"     : "toggleSlideshowShow"
     "click .optSlideshow"             : "toggleSlideshow"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
@@ -95,10 +95,10 @@ class ShowView extends Spine.Controller
       parentModel: 'Photo'
     
     Spine.bind('change:canvas', @proxy @changeCanvas)
-    Gallery.bind('change', @proxy @renderToolbar)
-    Album.bind('change', @proxy @renderToolbar)
-    Photo.bind('change', @proxy @renderToolbar)
-    @bind('change:toolbar', @proxy @changeToolbar)
+    Gallery.bind('change', @proxy @changeToolbar)
+    Album.bind('change', @proxy @changeToolbar)
+    Photo.bind('change', @proxy @changeToolbar)
+    Spine.bind('change:toolbar', @proxy @changeToolbar)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
     @sOutValue = 110
@@ -116,11 +116,14 @@ class ShowView extends Spine.Controller
   changeCanvas: (controller) ->
     console.log 'ShowView::changeCanvas'
     @current = controller
-    @el.data current:@current.el.data()
+    @el.data
+      current: controller.el.data().current
+      className: controller.el.data().className
+    console.log @el.data()
     @canvasManager.change controller
     @headerManager.change controller.header
     
-  renderToolbar: (el) ->
+  renderToolbar: ->
     console.log 'ShowView::renderToolbar'
     
     @toolbarEl.html @toolsTemplate @currentToolbar
@@ -165,12 +168,15 @@ class ShowView extends Spine.Controller
 
   destroyGallery: (e) ->
     Spine.trigger('destroy:gallery')
+    @deselect()
   
   destroyAlbum: (e) ->
     Spine.trigger('destroy:album')
+    @deselect()
 
   destroyPhoto: (e) ->
     Spine.trigger('destroy:photo')
+    @deselect()
 
   showOverview: (e) ->
     Spine.trigger('show:overview')
@@ -257,11 +263,12 @@ class ShowView extends Spine.Controller
     else
       @activeControl = control
       
-  deselect: (e) =>
+  deselect: =>
     item = @el.data().current
-    switch item.constructor.className
+    className = @el.data().className
+    switch className
       when 'Photo'
-        ->
+        -> # nothing to do here
       when 'Album'
         Spine.Model['Album'].emptySelection()
         Photo.current()
@@ -271,18 +278,10 @@ class ShowView extends Spine.Controller
         Spine.Model['Gallery'].emptySelection()
         Album.current()
         Spine.trigger('album:exposeSelection')
-        Spine.trigger('change:selectedAlbum', item)
-      else
-        Gallery.current()
-        Spine.trigger('gallery:exposeSelection')
-        Spine.trigger('change:selectedGallery', false)
+        Spine.trigger('album:activate')
         
-    @trigger('change:toolbar')
+    @changeToolbar()
     @current.items.deselect()
-    
-    e.stopPropagation()
-    e.preventDefault()
-    false
     
   uploadProgress: (e, coll) ->
     console.log coll

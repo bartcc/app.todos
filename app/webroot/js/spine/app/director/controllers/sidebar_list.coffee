@@ -42,6 +42,7 @@ class SidebarList extends Spine.Controller
     Spine.bind('drag:timeout', @proxy @expandExpander)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
+    Spine.bind('gallery:activate', @proxy @activate)
     
   template: -> arguments[0]
 
@@ -64,7 +65,6 @@ class SidebarList extends Spine.Controller
         when 'create'
           @current = item
           
-#      @exposeSelection(@current)
     else
       @current = false
       switch mode
@@ -117,18 +117,31 @@ class SidebarList extends Spine.Controller
     
     @updateTemplate gallery  
   
-  activate: (gallery) ->
-    selection = Gallery.selectionList()
-    if selection.length is 1
-      newActive = Album.find(selection[0]) if Album.exists(selection[0])
-      if !newActive?.destroyed
-        Album.current(newActive)
-    else
+  activate: (gallery = Gallery.record) ->
+    selectedAlbums = Gallery.selectionList()
+    if selectedAlbums.length is 1
+      active = Album.find(selectedAlbums[0]) if Album.exists(selectedAlbums[0])
+      if active and !active.destroyed
+        Album.current(active)
+      else
         Album.current()
+    else
+      Album.current()
         
-    @exposeSelection(@current) if @current
-    Spine.trigger('change:selectedGallery', @current, @mode)
+    selectedPhotos = Album.selectionList()
+    if selectedPhotos.length is 1
+      active = Photo.find(selectedPhotos[0]) if Photo.exists(selectedPhotos[0])
+      if active and !active.destroyed
+        Photo.current(active)
+      else
+        Photo.current()
+    else
+      Photo.current()
+        
+    @exposeSelection(gallery) if gallery
+    Spine.trigger('change:selectedGallery', gallery, @mode)
     Spine.trigger('change:selectedAlbum', Album.record)
+    Spine.trigger('change:selectedPhoto', Photo.record)
   
   updateTemplate: (gallery) ->
     galleryEl = @children().forItem(gallery)
@@ -218,7 +231,7 @@ class SidebarList extends Spine.Controller
     
     @change item, 'show', e
     
-    App.showView.trigger('change:toolbar', 'Gallery')
+    Spine.trigger('change:toolbar', 'Gallery')
     
     e.stopPropagation()
     e.preventDefault()

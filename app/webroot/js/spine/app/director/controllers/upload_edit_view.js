@@ -27,7 +27,6 @@ UploadEditView = (function() {
     this.bind("change", this.change);
     Album.bind('change', this.proxy(this.render));
     Spine.bind('change:selectedAlbum', this.proxy(this.render));
-    Spine.bind('change:selectedGallery', this.proxy(this.render));
     Gallery.bind('refresh', this.proxy(this.render));
   }
   UploadEditView.prototype.render = function() {

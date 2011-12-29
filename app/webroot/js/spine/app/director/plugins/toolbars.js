@@ -108,12 +108,12 @@ Controller.Toolbars = {
           return this._renderToolbar(el);
         }
       },
-      _renderToolbar: function(el) {
+      _renderToolbar: function() {
         var _ref;
         if (!this.renderToolbar) {
           throw 'No renderToolbar method';
         }
-        this.renderToolbar(el);
+        this.renderToolbar();
         return (_ref = this.currentToolbar) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
       },
       changeTool: function(model) {

@@ -44,7 +44,8 @@ GalleriesList = (function() {
     if (item) {
       el = this.children().forItem(item);
       el.addClass("active");
-      return Spine.trigger('gallery:exposeSelection', item);
+      Spine.trigger('gallery:exposeSelection', item);
+      return Spine.trigger('change:toolbar');
     }
   };
   GalleriesList.prototype.click = function(e) {

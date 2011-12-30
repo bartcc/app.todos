@@ -67,10 +67,10 @@ class Sidebar extends Spine.Controller
     source = Spine.dragItem.source
     # check for drags from sublist and set its origin
     if el.parents('ul.sublist').length
-      id = el.parents('li.item')[0].id
-      Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
       fromSidebar = true
       selection = [source.id]
+      id = el.parents('li.item')[0].id
+      Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
     else
       switch source.constructor.className
         when 'Album'
@@ -89,18 +89,6 @@ class Sidebar extends Spine.Controller
           Spine.trigger('photo:exposeSelection', selection)
       
     @clonedSelection = selection.slice(0)
-#    if @clonedSelection.length > 1
-#      if @isCtrlClick(e)
-#        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_COPY, 60, 60)
-#      else
-#        event.dataTransfer.setDragImage(App.ALBUM_DOUBLE_MOVE, 60, 60)
-#    if @clonedSelection.length == 1
-#      if @isCtrlClick(e)
-#        event.dataTransfer.setDragImage(App.ALBUM_SINGLE_COPY, 60, 60)
-#      else
-#        event.dataTransfer.setDragImage(App.PHOTO_SINGLE_MOVE(), 60, 60)
-#        event.dataTransfer.setDragImage(App.ALBUM_SINGLE_MOVE(), 60, 60)
-        
 
   dragEnter: (e) =>
     return unless Spine.dragItem

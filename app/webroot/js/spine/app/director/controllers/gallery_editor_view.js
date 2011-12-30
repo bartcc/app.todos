@@ -38,8 +38,8 @@ GalleryEditorView = (function() {
     Gallery.bind("change", this.proxy(this.change));
     Spine.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
+    Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('save:gallery', this.proxy(this.save));
-    this.bind('render:toolbar', this.proxy(this.renderToolbar));
   }
   GalleryEditorView.prototype.change = function(item, mode) {
     console.log('GalleryEditView::change');

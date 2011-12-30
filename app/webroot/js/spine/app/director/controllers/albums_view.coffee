@@ -136,6 +136,7 @@ class AlbumsView extends Spine.Controller
       albums.push record unless list.indexOf(record.id) is -1
       
     if Gallery.record
+      console.log Gallery.record
       Gallery.emptySelection()
       Album.trigger('destroy:join', Gallery.record, albums)
     else

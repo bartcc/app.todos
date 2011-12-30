@@ -147,6 +147,7 @@ AlbumsView = (function() {
       }
     }, this));
     if (Gallery.record) {
+      console.log(Gallery.record);
       Gallery.emptySelection();
       return Album.trigger('destroy:join', Gallery.record, albums);
     } else {

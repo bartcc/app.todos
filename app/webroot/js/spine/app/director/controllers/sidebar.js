@@ -87,12 +87,12 @@ Sidebar = (function() {
     Spine.dragItem.targetEl = null;
     source = Spine.dragItem.source;
     if (el.parents('ul.sublist').length) {
+      fromSidebar = true;
+      selection = [source.id];
       id = el.parents('li.item')[0].id;
       if (id && Gallery.exists(id)) {
         Spine.dragItem.origin = Gallery.find(id);
       }
-      fromSidebar = true;
-      selection = [source.id];
     } else {
       switch (source.constructor.className) {
         case 'Album':

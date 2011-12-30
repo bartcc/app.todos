@@ -977,18 +977,17 @@ textarea {
 #content .preview {
   min-width: 120px;
   color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  border-radius: 5px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.9);
   background: rgba(100, 100, 100, 0.9);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(120, 120, 120, 0.9)), to(rgba(100, 100, 100, 0.9)));
   background: -moz-linear-gradient(center top , rgba(120, 120, 120, 0.9), rgba(100, 100, 100, 0.9));
   background: linear-gradient(center top , rgba(120, 120, 120, 0.9), rgba(100, 100, 100, 0.9));
-  padding: 0 15px;
+  padding: 10px 15px;
   position: absolute;
-  min-height: 45px;
   display: none;
   z-index: 1
 }

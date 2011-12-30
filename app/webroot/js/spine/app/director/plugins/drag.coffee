@@ -18,7 +18,7 @@ Controller.Drag =
         Spine.dragItem.el = el
         Spine.dragItem.source = el.item()
         parentDataElement = $(e.target).parents('.data')
-        Spine.dragItem.origin = parentDataElement.data().tmplItem?.data or parentDataElement.data()
+        Spine.dragItem.origin = parentDataElement.data().tmplItem?.data or parentDataElement.data().current.record
         event = e.originalEvent
         event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/html', Spine.dragItem);

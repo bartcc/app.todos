@@ -42,6 +42,9 @@ AlbumsView = (function() {
   };
   function AlbumsView() {
     AlbumsView.__super__.constructor.apply(this, arguments);
+    this.el.data({
+      current: Gallery
+    });
     this.preview = new Preview({
       el: this.previewEl,
       template: this.previewTemplate
@@ -52,6 +55,10 @@ AlbumsView = (function() {
       preview: this.preview
     });
     this.header.template = this.headerTemplate;
+    this.filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum'
+    };
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
@@ -64,10 +71,6 @@ AlbumsView = (function() {
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
-    this.filterOptions = {
-      key: 'gallery_id',
-      joinTable: 'GalleriesAlbum'
-    };
     $(this.views).queue("fx");
   }
   AlbumsView.prototype.change = function(item) {
@@ -83,9 +86,6 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.render = function(item) {
     console.log('AlbumsView::render');
-    this.el.data({
-      current: Gallery
-    });
     this.list.render(this.current);
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {

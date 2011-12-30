@@ -37,6 +37,7 @@ class AlbumsView extends Spine.Controller
  
   constructor: ->
     super
+    @el.data current: Gallery
     @preview = new Preview
       el: @previewEl
       template: @previewTemplate
@@ -45,6 +46,12 @@ class AlbumsView extends Spine.Controller
       template: @albumsTemplate
       preview: @preview
     @header.template = @headerTemplate
+    #interferes with html5 dnd!
+#    @initSortables
+#      helper: 'clone'
+    @filterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
@@ -57,14 +64,8 @@ class AlbumsView extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
-    #interferes with html5 dnd!
-#    @initSortables
-#      helper: 'clone'
-    @filterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
     $(@views).queue("fx")
-
+    
   change: (item) ->
     console.log 'AlbumsView::change'
     # item can be gallery         from Spine.bind 'change:selectedGallery'
@@ -82,11 +83,9 @@ class AlbumsView extends Spine.Controller
   render: (item) ->
     console.log 'AlbumsView::render'
     
-    # keep a reference of the parent (Gallery)
-    @el.data current: Gallery
-      
     @list.render @current
     @header.render()
+    
     # when Album is deleted in Photos View return to this View
     if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()

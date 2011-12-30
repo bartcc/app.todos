@@ -34,14 +34,17 @@ PhotoView = (function() {
     this.previewBye = __bind(this.previewBye, this);
     this.previewUp = __bind(this.previewUp, this);
     this.callback = __bind(this.callback, this);    PhotoView.__super__.constructor.apply(this, arguments);
+    this.el.data({
+      current: Photo
+    });
     this.preview = new Preview({
       el: this.previewEl,
       template: this.previewTemplate
     });
-    Spine.bind('show:photo', this.proxy(this.show));
-    AlbumsPhoto.bind('destroy', this.proxy(this.destroy));
     this.img = new Image;
     this.img.onload = this.imageLoad;
+    Spine.bind('show:photo', this.proxy(this.show));
+    AlbumsPhoto.bind('destroy', this.proxy(this.destroy));
   }
   PhotoView.prototype.change = function(item, changed) {
     console.log('PhotoView::change');
@@ -49,7 +52,6 @@ PhotoView = (function() {
   };
   PhotoView.prototype.render = function(item, mode) {
     console.log('PhotoView::render');
-    this.el.data(item);
     this.items.html(this.template(item));
     this.renderHeader(item);
     this.uri(item);

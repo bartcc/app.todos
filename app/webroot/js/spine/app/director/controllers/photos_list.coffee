@@ -136,7 +136,6 @@ class PhotosList extends Spine.Controller
   
   dblclick: (e) ->
     console.log 'PhotosList::dblclick'
-#    App.showView.photoView.render @current
     Spine.trigger('show:photo', @current)
     
     e.stopPropagation()

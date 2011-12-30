@@ -25,6 +25,12 @@ GalleriesView = (function() {
   };
   function GalleriesView() {
     GalleriesView.__super__.constructor.apply(this, arguments);
+    this.el.data({
+      current: {
+        className: null,
+        record: null
+      }
+    });
     this.list = new GalleriesList({
       el: this.items,
       template: this.template
@@ -43,12 +49,6 @@ GalleriesView = (function() {
   };
   GalleriesView.prototype.render = function(items) {
     console.log('GalleriesView::render');
-    this.el.data({
-      current: {
-        className: null,
-        record: null
-      }
-    });
     this.list.render(items);
     return this.header.render();
   };

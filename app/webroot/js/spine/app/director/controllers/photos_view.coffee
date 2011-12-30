@@ -36,6 +36,7 @@ class PhotosView extends Spine.Controller
     
   constructor: ->
     super
+    @el.data current: Album
     @preview = new Preview
       el: @previewEl
       template: @previewTemplate
@@ -77,7 +78,9 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::render'
     
     # keep a reference of the parent (Album)
-    @el.data current: Album
+#    @el.data current: Album
+    console.log @el
+    console.log @el.data()
     
     @items.empty() unless @list.children('li').length
     # show spinner

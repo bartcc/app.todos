@@ -21,14 +21,15 @@ class PhotoView extends Spine.Controller
     
   constructor: ->
     super
+    @el.data current: Photo
     @preview = new Preview
       el: @previewEl
       template: @previewTemplate
-    Spine.bind('show:photo', @proxy @show)
-#    AlbumsPhoto.bind('update', @proxy @update)
-    AlbumsPhoto.bind('destroy', @proxy @destroy)
     @img = new Image
     @img.onload = @imageLoad
+    
+    Spine.bind('show:photo', @proxy @show)
+    AlbumsPhoto.bind('destroy', @proxy @destroy)
     
   change: (item, changed) ->
     console.log 'PhotoView::change'
@@ -36,7 +37,6 @@ class PhotoView extends Spine.Controller
     
   render: (item, mode) ->
     console.log 'PhotoView::render'
-    @el.data item
     @items.html @template item
     @renderHeader item
     @uri item

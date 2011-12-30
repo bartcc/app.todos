@@ -44,6 +44,9 @@ PhotosView = (function() {
   };
   function PhotosView() {
     PhotosView.__super__.constructor.apply(this, arguments);
+    this.el.data({
+      current: Album
+    });
     this.preview = new Preview({
       el: this.previewEl,
       template: this.previewTemplate
@@ -86,9 +89,8 @@ PhotosView = (function() {
   };
   PhotosView.prototype.render = function(items, mode) {
     console.log('PhotosView::render');
-    this.el.data({
-      current: Album
-    });
+    console.log(this.el);
+    console.log(this.el.data());
     if (!this.list.children('li').length) {
       this.items.empty();
     }

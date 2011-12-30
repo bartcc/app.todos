@@ -16,6 +16,9 @@ class GalleriesView extends Spine.Controller
 
   constructor: ->
     super
+    @el.data current:
+      className: null
+      record: null
     @list = new GalleriesList
       el: @items
       template: @template
@@ -32,11 +35,6 @@ class GalleriesView extends Spine.Controller
     
   render: (items) ->
     console.log 'GalleriesView::render'
-    
-     # keep a reference of the parent (null)
-    @el.data current:
-      className: null
-      record: null
       
     @list.render items
     @header.render()

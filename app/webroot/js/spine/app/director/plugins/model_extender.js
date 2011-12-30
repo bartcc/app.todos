@@ -148,16 +148,12 @@ Model.Extender = {
         return originalList;
       },
       removeFromSelection: function(id) {
-        var list, record;
-        if (this.exists(id)) {
-          record = this.find(id);
-        }
-        if (!record) {
-          return;
-        }
+        var index, list;
         list = this.selectionList();
-        record.remove(list);
-        this.trigger('change:selection', list);
+        index = list.indexOf(id);
+        if (index !== -1) {
+          list.splice(index, 1);
+        }
         return list;
       },
       isArray: function(value) {
@@ -271,14 +267,6 @@ Model.Extender = {
           if (index !== -1) {
             list.splice(index, 1);
           }
-        }
-        return list;
-      },
-      remove: function(list) {
-        var index;
-        index = list.indexOf(this.id);
-        if (index !== -1) {
-          list.splice(index, 1);
         }
         return list;
       }

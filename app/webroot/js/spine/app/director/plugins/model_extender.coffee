@@ -88,11 +88,9 @@ Model.Extender =
         originalList
 
       removeFromSelection: (id) ->
-        record = @find(id) if @exists(id)
-        return unless record
         list = @selectionList()
-        record.remove list
-        @trigger('change:selection', list)
+        index = list.indexOf(id)
+        list.splice(index, 1) unless index is -1
         list
 
       isArray: (value) ->
@@ -181,12 +179,6 @@ Model.Extender =
           index = list.indexOf(@id)
           list.splice(index, 1) unless index is -1
         list
-
-      remove: (list) ->
-        index = list.indexOf(@id)
-        list.splice(index, 1) unless index is -1
-        list
- 
 
     @extend Extend
     @include Include

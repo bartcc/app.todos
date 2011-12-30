@@ -93,7 +93,6 @@ class AlbumsView extends Spine.Controller
     Spine.trigger('render:galleryAllSublist')
     Spine.trigger('album:exposeSelection')
     
-   
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
     @header.change Gallery.record
@@ -136,7 +135,6 @@ class AlbumsView extends Spine.Controller
       albums.push record unless list.indexOf(record.id) is -1
       
     if Gallery.record
-      console.log Gallery.record
       Gallery.emptySelection()
       Album.trigger('destroy:join', Gallery.record, albums)
     else
@@ -191,7 +189,7 @@ class AlbumsView extends Spine.Controller
       unless albums.indexOf(ga.album_id) is -1
         Gallery.removeFromSelection ga.album_id
         ga.destroy()
-
+    
     target.save()
 
   email: ->

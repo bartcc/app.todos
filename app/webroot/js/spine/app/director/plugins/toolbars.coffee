@@ -81,14 +81,13 @@ Controller.Toolbars =
         
       renderToolbar: -> arguments[0]
       
-      changeToolbar: (nameOrModel, cb, el) ->
+      changeToolbar: (nameOrModel, cb) ->
         @changeTool nameOrModel
         if @currentToolbar
-          @currentToolbar.cb = cb if cb
-          @_renderToolbar el
+          @currentToolbar.cb = cb if typeof cb is 'function'
+          @_renderToolbar()
 
       _renderToolbar: ->
-        throw('No renderToolbar method') unless @renderToolbar
         @renderToolbar()
         @currentToolbar?.cb?()
         

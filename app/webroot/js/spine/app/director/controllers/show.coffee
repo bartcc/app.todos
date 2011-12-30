@@ -279,7 +279,6 @@ class ShowView extends Spine.Controller
         Spine.trigger('album:exposeSelection')
         Spine.trigger('album:activate')
       else
-#        Spine.Model['Empty'].emptySelection()
         Gallery.current()
         Spine.trigger('gallery:exposeSelection')
         Spine.trigger('gallery:activate')

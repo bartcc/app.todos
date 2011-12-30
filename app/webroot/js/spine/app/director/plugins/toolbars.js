@@ -99,20 +99,17 @@ Controller.Toolbars = {
       renderToolbar: function() {
         return arguments[0];
       },
-      changeToolbar: function(nameOrModel, cb, el) {
+      changeToolbar: function(nameOrModel, cb) {
         this.changeTool(nameOrModel);
         if (this.currentToolbar) {
-          if (cb) {
+          if (typeof cb === 'function') {
             this.currentToolbar.cb = cb;
           }
-          return this._renderToolbar(el);
+          return this._renderToolbar();
         }
       },
       _renderToolbar: function() {
         var _ref;
-        if (!this.renderToolbar) {
-          throw 'No renderToolbar method';
-        }
         this.renderToolbar();
         return (_ref = this.currentToolbar) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
       },

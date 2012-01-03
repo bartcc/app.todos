@@ -39,6 +39,7 @@ class PhotosList extends Spine.Controller
         @[mode] @template items
         @exposeSelection() unless mode is 'append'
         @uri items, mode
+#        @el.imagegallery()
         @el
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
@@ -78,14 +79,12 @@ class PhotosList extends Spine.Controller
   # the actual final rendering method
   uri: (items, mode) ->
     console.log 'PhotosList::uri'
-    console.log @parent.sOutValue
     @size(@parent.sOutValue)
     
     if Album.record
       Album.record.uri @thumbSize(), mode, (xhr, record) => @callback items, xhr
     else
       Photo.uri @thumbSize(), mode, (xhr, record) => @callback items, xhr
-  
   
   callback: (items, json) =>
     console.log 'PhotosList::callback'
@@ -108,6 +107,12 @@ class PhotosList extends Spine.Controller
       'backgroundImage': css
       'backgroundPosition': 'center, center'
       'backgroundSize': '100%'
+    .append $(@).hide().attr
+      'href'  : @src
+      'title' : 'title'
+      'rel'   : 'gallery'
+    
+    delete @
     
   exposeSelection: ->
     console.log 'PhotosList::exposeSelection'
@@ -173,7 +178,7 @@ class PhotosList extends Spine.Controller
   sliderStart: =>
     console.log @thumb.length
     
-  size: (val, bg='100%') =>
+  size: (val, bg='none') =>
     # 2*10 = border radius
     @thumb.css
       'height'          : val+'px'

@@ -76,7 +76,7 @@ h1 {
 }
 h2 {
   font-size: 24pt;
-  color: #606060;
+  color: #505050;
   margin: 0;
 }
 h3 {
@@ -288,7 +288,7 @@ label input[type="text"] {
   cursor: auto;
 }
 button:disabled {
-  color: #373737;
+  color: #303030;
   cursor: auto;
   text-shadow: 0 1px 0 rgba(100, 100, 100, 0.4);
 }
@@ -496,6 +496,7 @@ textarea {
 }
 #content .header section.closeView ul {
   text-align: center;
+  font-weight: bold;
   padding: 7px 10px 7px 0;
   margin: 0 auto;
   float: left;
@@ -623,12 +624,12 @@ textarea {
 }
 #content .ui-symbol-gallery {
   position: absolute;
-  left: 0;
+  right: 0;
   top: -5px;
 }
 #content .ui-symbol-album {
   position: absolute;
-  left: 0;
+  right: 0;
   top: -5px;
 }
 .ui-symbol-album {
@@ -755,9 +756,9 @@ textarea {
 }
 #content .content .items .item:not(.thumbnail) {
   background-repeat: no-repeat;
-  -moz-background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
-	 -webkit-background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
-	 background-position: 30px 35px, 105px 35px, 30px 100px, 105px 100px;
+  -moz-background-position: 30px 35px, 100px 35px, 30px 100px, 100px 100px;
+	 -webkit-background-position: 30px 35px, 100px 35px, 30px 100px, 100px 100px;
+	 background-position: 30px 35px, 100px 35px, 30px 100px, 100px 100px;
 }
 #content .content .container.active {
 /*  background-repeat: no-repeat;
@@ -777,7 +778,7 @@ textarea {
 #content .content .item:hover {
 }
 .container:not(.item) {
-  background-color: #666666;
+  background-color: #555;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   padding: 10px;
   margin: 10px;
@@ -1071,5 +1072,10 @@ label {
 .container label.label {
   background: none;
   font-size: 1.2em;
-  color: #454545;
+  color: #353535;
+}
+.message.label span.error {
+  color: rgba(255, 50, 0, 0.8);
+  font-size: 1.3em;
+  text-shadow: -1px 0 0 rgba(255, 255, 255, 0.2);
 }

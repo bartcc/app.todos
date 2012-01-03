@@ -15,13 +15,13 @@ App = (function() {
     '#content .overview': 'overviewEl',
     '#content .show': 'showEl',
     '#content .edit': 'galleryEditEl',
-    '#gallery': 'galleryEl',
-    '#album': 'albumEl',
-    '#photo': 'photoEl',
-    '#slideshow': 'slideshowEl',
+    '#ga': 'galleryEl',
+    '#al': 'albumEl',
+    '#ph': 'photoEl',
+    '#fu': 'uploadEl',
+    '#sl': 'slideshowEl',
     '#loader': 'loaderEl',
     '#login': 'loginEl',
-    '#fu': 'uploadEl',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag',
     '.show .content': 'content',
@@ -153,7 +153,7 @@ App = (function() {
       }
       return this.loginView.render(User.first());
     };
-    return this.statusText.text('Thanks for Patience').fadeIn('slow', __bind(function() {
+    return this.statusText.text('Thanks for visiting us').fadeIn('slow', __bind(function() {
       return this.delay(cb, 1000);
     }, this));
   };

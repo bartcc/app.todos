@@ -89,7 +89,6 @@ PhotosView = (function() {
   };
   PhotosView.prototype.render = function(items, mode) {
     console.log('PhotosView::render');
-    console.log(mode);
     if (!this.list.children('li').length) {
       this.items.empty();
     }
@@ -173,8 +172,8 @@ PhotosView = (function() {
     Spine.trigger('change:selectedAlbum', Album.record, true);
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     Spine.trigger('change:toolbar', 'Photos', App.showView.initSlider);
-    this.renderHeader();
-    return Spine.trigger('change:canvas', this);
+    Spine.trigger('change:canvas', this);
+    return this.renderHeader();
   };
   PhotosView.prototype.save = function(item) {};
   PhotosView.prototype.prepareJoin = function(photos) {

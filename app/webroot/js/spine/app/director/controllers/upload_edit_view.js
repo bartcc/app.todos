@@ -35,20 +35,7 @@ UploadEditView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
   }
   UploadEditView.prototype.change = function(item) {
-    var changed;
-    console.log(item);
-    if (item) {
-      changed = !(item != null ? item.eql(this.current) : void 0);
-      console.log(changed);
-      if (changed) {
-        this.current = item;
-      }
-    } else {
-      this.current = false;
-    }
-    if (changed || !item) {
-      return this.render();
-    }
+    return this.render();
   };
   UploadEditView.prototype.render = function() {
     var album, gallery, selection;

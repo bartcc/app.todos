@@ -266,9 +266,7 @@
       </label>
       <input type="text" name="name" value="${name}">
 
-      <label class="label">
-        <span>Author: {{if author}}${author}{{else}}no author{{/if}}</span>
-      </label>
+      <label class="label"><span>Author: </span>{{if author}}${author}{{else}}no author{{/if}}</label>
       <label class="label">
         <span>Description</span>
       </label>
@@ -468,10 +466,10 @@
   {{if album}}
   <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
     <div>
-      <label class="label"><span>Uploaded images will be stored inside album:</span></label>
-      <select name="select">
+      <label class="label"><span>Uploaded images will be stored inside album: </span> ${album.title}</label>
+<!--      <select name="select">
       {{tmpl($item.data.album.allGalleryAlbums()) "#albumSelectTemplate"}}
-      </select>
+      </select>-->
     </div>
     <div class="row">
       <div class="span16 fileupload-buttonbar">

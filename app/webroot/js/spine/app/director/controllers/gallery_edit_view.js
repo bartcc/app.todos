@@ -41,11 +41,11 @@ GalleryEditView = (function() {
     } else {
       if (!Gallery.count()) {
         this.editEl.html($("#noSelectionTemplate").tmpl({
-          type: '<label class="invite"><span class="disabled invite">Director has no gallery yet &nbsp;</span><button class="optCreate dark invite">New Gallery</button></label>'
+          type: '<div class="invite"><span class="enlightened invite">Director has no gallery yet &nbsp;<button class="optCreate dark invite">New Gallery</button></span></div>'
         }));
       } else {
         this.editEl.html($("#noSelectionTemplate").tmpl({
-          type: '<label><span class="disabled">Select a gallery!</span></label>'
+          type: '<label class="label"><span class="enlightened">Select a gallery!</span></label>'
         }));
       }
     }

@@ -76,7 +76,6 @@ class PhotosView extends Spine.Controller
     
   render: (items, mode) ->
     console.log 'PhotosView::render'
-    console.log mode
     
     @items.empty() unless @list.children('li').length
     # show spinner
@@ -163,8 +162,8 @@ class PhotosView extends Spine.Controller
     Spine.trigger('change:selectedAlbum', Album.record, true)
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('change:toolbar', 'Photos', App.showView.initSlider)
-    @renderHeader()
     Spine.trigger('change:canvas', @)
+    @renderHeader()
   
   save: (item) ->
 

@@ -132,7 +132,22 @@
           </div>
           <div class="view photos content vbox flex data autoflow">
             <div class="hoverinfo"></div>
-            <div class="items sortable flex"></div>
+            <!-- gallery-loader is the loading animation container -->
+            <div id="gallery-loader"></div>
+            <!-- gallery-modal is the modal dialog used for the image gallery -->
+            <div id="gallery-modal" class="modal hide fade">
+              <div class="modal-header">
+                <a href="#" class="close">&times;</a>
+                <h3 class="title"></h3>
+              </div>
+              <div class="modal-body"></div>
+              <div class="modal-footer">
+                <a class="btn primary next">Next</a>
+                <a class="btn info prev">Previous</a>
+                <a class="btn success download" target="_blank">Download</a>
+              </div>
+            </div>
+            <div class="items sortable flex" id="gallery"></div>
           </div>
           <div class="view photo content vbox flex data autoflow">
             <div class="hoverinfo"></div>
@@ -142,21 +157,21 @@
         <div id="views" class="settings canvas-bg-light hbox autoflow">
           <div class="views content canvas vbox flex hdraggable">
             <div class="hdivide draghandle"></div>
-            <div id="gallery" class="view container flex autoflow" style="">
+            <div id="ga" class="view container flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
             </div>
-            <div id="album" class="view container flex autoflow" style="">
+            <div id="al" class="view container flex autoflow" style="">
               <div class="editAlbum">
                 <div class="content">No Albums found!</div>
               </div>
             </div>
-            <div id="photo" class="view container flex autoflow" style="">
+            <div id="ph" class="view container flex autoflow" style="">
               <div class="editPhoto">
                 <div class="content">No Photo found!</div>
               </div>
             </div>
             <div id="fu" class="view container flex autoflow" style=""></div>
-            <div id="slideshow" class="view flex autoflow" style="">
+            <div id="sl" class="view flex autoflow" style="">
               <label>
                 <span class="disabled">Not quite there yet</span>
               </label>
@@ -250,14 +265,6 @@
   <div>Images: <span class="cta">${iCount}</span></div>
 </script>
 
-<script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item container">
-    <div class="ui-symbol ui-symbol-album center"></div>
-    <div class="thumbnail left" draggable="true"></div>
-    <div class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</div>
-  </li>
-</script>
-
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">
   <div class="">
     <div class="">
@@ -273,6 +280,14 @@
       <textarea name="description">${description}</textarea>
     </div>
   </div>
+</script>
+
+<script id="albumsTemplate" type="text/x-jquery-tmpl">
+  <li class="item container">
+    <div class="ui-symbol ui-symbol-album center"></div>
+    <div class="thumbnail left" draggable="true"></div>
+    <div class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</div>
+  </li>
 </script>
 
 <script id="editAlbumTemplate" type="text/x-jquery-tmpl">
@@ -365,7 +380,7 @@
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <h3><span>Photo Originals</span><span style="color: rgba(255, 10, 10, 0.8);"> Caution: Deleted Photos are unrecoverable!</span></h3>
+    <h3><span>Photo Originals</span><label class="message label right"><span class="enlightened error"> Caution: Deleted Photos are unrecoverable!</span></label></h3>
     <h2>All Photos
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -420,7 +435,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li class="item container">
+  <li  class="item container">
     {{tmpl "#photoThumbnailTemplate"}}
   </li>
 </script>

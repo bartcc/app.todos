@@ -110,7 +110,6 @@ PhotosList = (function() {
   };
   PhotosList.prototype.uri = function(items, mode) {
     console.log('PhotosList::uri');
-    console.log(this.parent.sOutValue);
     this.size(this.parent.sOutValue);
     if (Album.record) {
       return Album.record.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
@@ -145,11 +144,16 @@ PhotosList = (function() {
   PhotosList.prototype.imageLoad = function() {
     var css;
     css = 'url(' + this.src + ')';
-    return $('.thumbnail', this.element).css({
+    $('.thumbnail', this.element).css({
       'backgroundImage': css,
       'backgroundPosition': 'center, center',
       'backgroundSize': '100%'
-    });
+    }).append($(this).hide().attr({
+      'href': this.src,
+      'title': 'title',
+      'rel': 'gallery'
+    }));
+    return delete this;
   };
   PhotosList.prototype.exposeSelection = function() {
     var current, el, id, item, list, _i, _len;
@@ -218,7 +222,7 @@ PhotosList = (function() {
   };
   PhotosList.prototype.size = function(val, bg) {
     if (bg == null) {
-      bg = '100%';
+      bg = 'none';
     }
     return this.thumb.css({
       'height': val + 'px',

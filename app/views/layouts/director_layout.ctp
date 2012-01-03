@@ -32,8 +32,10 @@
     echo $this->Html->css('fileupload/jquery.fileupload-ui');
     echo $this->Html->css('spine/director/modal');
     echo $this->Html->css('normalize');
-    echo $this->Html->css('http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css');
-    echo $this->Html->css('idealforms/idealforms');
+//    echo $this->Html->css('http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css');
+    echo $this->Html->css('twitter/bootstrap/1.4.0/bootstrap.min');
+    echo $this->Html->css('blueimp/bootstrap-image-gallery.min');
+//    echo $this->Html->css('idealforms/idealforms');
     echo $this->Html->css('spine/director/application');
 
     echo $html->scriptStart();
@@ -56,13 +58,15 @@
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.core');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
+    echo $this->Html->script('lib/twitter/bootstrap-modal.min.js');
     echo $this->Html->script('lib/blueimp/tmpl');
     echo $this->Html->script('lib/blueimp/load-image');
+    echo $this->Html->script('lib/blueimp/bootstrap-image-gallery');
     echo $this->Html->script('lib/blueimp/jquery.iframe-transport');
     echo $this->Html->script('lib/blueimp/jquery.fileupload');
     echo $this->Html->script('lib/blueimp/jquery.fileupload-ui');
-    echo $this->Html->script('http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.min.js');
-    echo $this->Html->script('lib/jquery/jquery.idealforms');
+//    echo $this->Html->script('http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.min.js');
+//    echo $this->Html->script('lib/jquery/jquery.idealforms');
 
     #echo $this->Html->script('spine/lib/spine_0.0.9');
     echo $this->Html->script('spine/lib/spine_1.0.5');

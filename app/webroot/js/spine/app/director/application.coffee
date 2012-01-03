@@ -11,14 +11,13 @@ class App extends Spine.Controller
     '#content .overview'  : 'overviewEl'
     '#content .show'      : 'showEl'
     '#content .edit'      : 'galleryEditEl'
-    '#gallery'            : 'galleryEl'
-    '#album'              : 'albumEl'
-    '#photo'              : 'photoEl'
-    '#slideshow'          : 'slideshowEl'
+    '#ga'                 : 'galleryEl'
+    '#al'                 : 'albumEl'
+    '#ph'                 : 'photoEl'
+    '#fu'                 : 'uploadEl'
+    '#sl'                 : 'slideshowEl'
     '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
-    '#fu'                 : 'uploadEl'
-#    '#fileupload .files'  : 'uploadFiles'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '.show .content'      : 'content'
@@ -123,7 +122,7 @@ class App extends Spine.Controller
       @openPanel('gallery', @showView.btnGallery) unless Gallery.count()
       @loginView.render User.first()
       
-    @statusText.text('Thanks for Patience').fadeIn('slow', => @delay cb, 1000)
+    @statusText.text('Thanks for visiting us').fadeIn('slow', => @delay cb, 1000)
     
 #  initFileupload: ->
 #    @uploadEl.fileupload()

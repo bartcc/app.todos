@@ -15,7 +15,7 @@ AlbumsView = (function() {
   __extends(AlbumsView, Spine.Controller);
   AlbumsView.extend(Spine.Controller.Drag);
   AlbumsView.prototype.elements = {
-    '.preview': 'previewEl',
+    '.hoverinfo': 'infoEl',
     '.items': 'items',
     '.content .sortable': 'sortable'
   };
@@ -37,22 +37,22 @@ AlbumsView = (function() {
   AlbumsView.prototype.headerTemplate = function(items) {
     return $("#headerAlbumTemplate").tmpl(items);
   };
-  AlbumsView.prototype.previewTemplate = function(item) {
-    return $('#albumPreviewTemplate').tmpl(item);
+  AlbumsView.prototype.infoTemplate = function(item) {
+    return $('#albumInfoTemplate').tmpl(item);
   };
   function AlbumsView() {
     AlbumsView.__super__.constructor.apply(this, arguments);
     this.el.data({
       current: Gallery
     });
-    this.preview = new Preview({
-      el: this.previewEl,
-      template: this.previewTemplate
+    this.info = new Info({
+      el: this.infoEl,
+      template: this.infoTemplate
     });
     this.list = new AlbumsList({
       el: this.items,
       template: this.albumsTemplate,
-      preview: this.preview
+      info: this.info
     });
     this.header.template = this.headerTemplate;
     this.filterOptions = {

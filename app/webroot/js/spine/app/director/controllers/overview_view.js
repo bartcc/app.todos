@@ -44,7 +44,7 @@ OverviewView = (function() {
     this.items.html(this.template(recents));
     return this.uri(recents);
   };
-  OverviewView.prototype.previewSize = function(width, height) {
+  OverviewView.prototype.thumbSize = function(width, height) {
     if (width == null) {
       width = 70;
     }
@@ -61,7 +61,7 @@ OverviewView = (function() {
       mode = 'html';
     }
     console.log('PhotoList::uri');
-    return Photo.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
       return this.callback(items, xhr);
     }, this));
   };

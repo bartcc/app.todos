@@ -1,0 +1,399 @@
+/* ----------------------------------------
+
+	* Ideal Forms 1.02
+	* Copyright 2011, Cedric Ruiz
+	* Free to use under the GPL license.
+	* http://www.spacirdesigns.com
+
+-------------------------------------------
+
+	* Play with the following values
+	* till you get something you like.
+	* Use darker colors than you would
+	* because of the gradients.
+
+-----------------------------------------*/
+/*	Global variables
+----------------------------------------*/
+/* Adjusts overall size */
+/* border-radius */
+/* ---------------------------------------
+	Colors
+----------------------------------------*/
+/* Select */
+/* Button */
+/* Radio & Check */
+/* Text */
+/* Fieldset */
+/* Required star */
+/* ---------------------------------------
+	Mixins
+----------------------------------------*/
+.element {
+  line-height: 1;
+  border: 0;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+}
+/* ---------------------------------------
+	Load Dingbat font for checkmark icon
+----------------------------------------*/
+@font-face {
+  font-family: 'DistroIIBats';
+  src: url('distro2_bats-webfont.eot');
+  src: url('distro2_bats-webfont.eot?#iefix') format('embedded-opentype'), url('distro2_bats-webfont.woff') format('woff'), url('distro2_bats-webfont.ttf') format('truetype'), url('distro2_bats-webfont.svg#DistroIIBats') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* ---------------------------------------
+	Remove default input focus outline
+----------------------------------------*/
+:focus {
+  outline: none;
+  outline-style: none;
+}
+::-moz-focus-inner {
+  border: 0;
+}
+/* ----------------------------------------
+
+	Ideal Forms Styles
+
+	* Be careful editing these values
+	* since everything is measured in ems
+	* you should only change values using
+	* the global variables and colors above.
+
+-----------------------------------------*/
+.idealform {
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  /* ---------------------------------------
+	Label
+----------------------------------------*/
+
+  /* ---------------------------------------
+	Text
+----------------------------------------*/
+
+  /* ---------------------------------------
+	Button
+----------------------------------------*/
+
+  /* ---------------------------------------
+	Select
+----------------------------------------*/
+
+  /* ---------------------------------------
+	Radio & Check
+----------------------------------------*/
+
+}
+.idealform :focus, .idealform :active {
+  outline: 0;
+}
+.idealform fieldset {
+  margin-bottom: 2em;
+  padding: 2em;
+  background: #fcfcfc;
+  -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), transparent 0 0 0;
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), transparent 0 0 0;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2), transparent 0 0 0;
+  -webkit-border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  border-radius: 4px 4px 4px 4px;
+}
+.idealform select, .idealform input[type="radio"], .idealform input[type="checkbox"] {
+  position: absolute;
+  left: -9999px;
+}
+.idealform label,
+.idealform .idealselect,
+.idealform .idealradio,
+.idealform .idealcheck {
+  display: inline-block;
+}
+.idealform div {
+  margin-bottom: 1em;
+}
+.idealform ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.idealform label {
+  vertical-align: top;
+  padding-right: 1em;
+}
+.idealform .main-label {
+  position: relative;
+  font-weight: bold;
+}
+.idealform .main-label span {
+  position: absolute;
+  left: -0.5em;
+  top: -0.3em;
+  font-family: Arial, sans-serif;
+  font-size: 1.5em;
+  color: #d1301b;
+}
+.idealform input[type="text"], .idealform input[type="password"], .idealform textarea {
+  line-height: 1;
+  border: 0;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  display: inline-block;
+  padding: .5em .5em;
+  border: 1px solid #b3b3b3;
+  background: #ffffff;
+  -moz-box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
+  -webkit-box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.2), transparent 0 0 0;
+  -webkit-border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  border-radius: 4px 4px 4px 4px;
+}
+.idealform input[type="text"]:focus, .idealform input[type="password"]:focus, .idealform textarea:focus {
+  border: 1px solid #1ba5c7;
+  -moz-box-shadow: 0 0 2px #1ba5c7, transparent 0 0 0;
+  -webkit-box-shadow: 0 0 2px #1ba5c7, transparent 0 0 0;
+  box-shadow: 0 0 2px #1ba5c7, transparent 0 0 0;
+}
+.idealform_ input[type="submit"], .idealform input[type="reset"], .idealform button {
+  line-height: 1;
+  border: 0;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  display: inline-block;
+  padding: .5em 1.5em;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.7);
+  border: 1px solid #126d84;
+  font-weight: bold;
+  color: #093540;
+  text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
+  -moz-box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  border-radius: 4px 4px 4px 4px;
+  background: #5fcee9;
+  background: -moz-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5fcee9), color-stop(100%, #1ba5c7));
+  background: -webkit-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  background: -o-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  background: -ms-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  background: linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5fcee9', endColorstr='#1ba5c7',GradientType=0 );
+}
+.idealform input[type="submit"]:hover, .idealform input[type="reset"]:hover, .idealform button:hover {
+  background: #8cdcef;
+  background: -moz-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8cdcef), color-stop(100%, #1ba5c7));
+  background: -webkit-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  background: -o-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  background: -ms-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  background: linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8cdcef', endColorstr='#1ba5c7',GradientType=0 );
+}
+.idealform input[type="submit"]:active, .idealform input[type="reset"]:active, .idealform button:active {
+  background: #1ba5c7;
+}
+.idealform .idealselect {
+  /* Title */
+
+  /* Menu */
+
+}
+.idealform .idealselect a {
+  line-height: 1;
+  border: 0;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  display: block;
+  padding: .5em .8em;
+  padding-right: 3em;
+}
+.idealform .idealselect .idealselect-title {
+  position: relative;
+  font-weight: bold;
+  color: #093540;
+  text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
+  border: 1px solid #126d84;
+  -moz-box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
+  background: #5fcee9;
+  background: -moz-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5fcee9), color-stop(100%, #1ba5c7));
+  background: -webkit-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  background: -o-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  background: -ms-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  background: linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5fcee9', endColorstr='#1ba5c7',GradientType=0 );
+  -webkit-border-radius: 4px 4px 4px 4px;
+  -moz-border-radius: 4px 4px 4px 4px;
+  border-radius: 4px 4px 4px 4px;
+  /* Arrow */
+
+}
+.idealform .idealselect .idealselect-title span {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: inline-block;
+  height: 100%;
+  width: 2em;
+  border-left: 1px solid #1ba5c7;
+  -moz-box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), transparent 0 0 0;
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), transparent 0 0 0;
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), transparent 0 0 0;
+  background: #b9e9f5;
+  background: -moz-linear-gradient(top, #b9e9f5 0%, #5fcee9 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b9e9f5), color-stop(100%, #5fcee9));
+  background: -webkit-linear-gradient(top, #b9e9f5 0%, #5fcee9 100%);
+  background: -o-linear-gradient(top, #b9e9f5 0%, #5fcee9 100%);
+  background: -ms-linear-gradient(top, #b9e9f5 0%, #5fcee9 100%);
+  background: linear-gradient(top, #b9e9f5 0%, #5fcee9 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b9e9f5', endColorstr='#5fcee9',GradientType=0 );
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+.idealform .idealselect .idealselect-title small {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  top: 50%;
+  left: 50%;
+  margin: -0.25em 0 0 -0.5em;
+  border-width: .5em;
+  border-style: solid;
+  border-color: #093540 transparent transparent transparent;
+}
+.idealform .idealselect ul {
+  position: absolute;
+  overflow-y: scroll;
+  z-index: 999;
+  border: 1px solid #969696;
+  border-top: 0;
+  background: #d6d6d6;
+  background: -moz-linear-gradient(top, #d6d6d6 0%, #fcfcfc 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d6d6d6), color-stop(100%, #fcfcfc));
+  background: -webkit-linear-gradient(top, #d6d6d6 0%, #fcfcfc 100%);
+  background: -o-linear-gradient(top, #d6d6d6 0%, #fcfcfc 100%);
+  background: -ms-linear-gradient(top, #d6d6d6 0%, #fcfcfc 100%);
+  background: linear-gradient(top, #d6d6d6 0%, #fcfcfc 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6d6d6', endColorstr='#fcfcfc',GradientType=0 );
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+}
+.idealform .idealselect ul li:last-child a {
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+}
+.idealform .idealselect ul a {
+  color: #3d3d3d;
+}
+.idealform .idealselect ul a:hover {
+  background: #c9c9c9;
+  color: #3d3d3d;
+}
+.idealform .idealselect:hover .idealselect-title {
+  background: #8cdcef;
+  background: -moz-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8cdcef), color-stop(100%, #1ba5c7));
+  background: -webkit-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  background: -o-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  background: -ms-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  background: linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8cdcef', endColorstr='#1ba5c7',GradientType=0 );
+}
+.idealform .idealselect:hover .idealselect-title span {
+  background: #e5f7fc;
+  background: -moz-linear-gradient(top, #e5f7fc 0%, #5fcee9 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e5f7fc), color-stop(100%, #5fcee9));
+  background: -webkit-linear-gradient(top, #e5f7fc 0%, #5fcee9 100%);
+  background: -o-linear-gradient(top, #e5f7fc 0%, #5fcee9 100%);
+  background: -ms-linear-gradient(top, #e5f7fc 0%, #5fcee9 100%);
+  background: linear-gradient(top, #e5f7fc 0%, #5fcee9 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5f7fc', endColorstr='#5fcee9',GradientType=0 );
+}
+.idealform .idealselect.open .idealselect-title {
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+.idealform .idealselect.open .idealselect-title span {
+  -webkit-border-radius: 0 4px 0 0;
+  -moz-border-radius: 0 4px 0 0;
+  border-radius: 0 4px 0 0;
+}
+.idealform .idealradio, .idealform .idealcheck {
+  margin-top: .3em;
+  /* Check */
+
+  /* Radio */
+
+}
+.idealform .idealradio label, .idealform .idealcheck label {
+  cursor: pointer;
+}
+.idealform .idealradio li, .idealform .idealcheck li {
+  margin-bottom: .6em;
+}
+.idealform .idealradio span, .idealform .idealcheck span {
+  display: inline-block;
+  vertical-align: top;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: .5em;
+  border: 1px solid #999999;
+  background: #ffffff;
+  background: -moz-linear-gradient(top, #ffffff 0%, #cccccc 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #cccccc));
+  background: -webkit-linear-gradient(top, #ffffff 0%, #cccccc 100%);
+  background: -o-linear-gradient(top, #ffffff 0%, #cccccc 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%, #cccccc 100%);
+  background: linear-gradient(top, #ffffff 0%, #cccccc 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#cccccc',GradientType=0 );
+}
+.idealform .idealradio .check, .idealform .idealcheck .check {
+  -webkit-border-radius: 2px 2px 2px 2px;
+  -moz-border-radius: 2px 2px 2px 2px;
+  border-radius: 2px 2px 2px 2px;
+}
+.idealform .idealradio .check.checked, .idealform .idealcheck .check.checked {
+  background: #ffffff;
+  /* Checkmark */
+
+}
+.idealform .idealradio .check.checked:after, .idealform .idealcheck .check.checked:after {
+  content: "|";
+  font-family: 'DistroIIBats';
+  font-size: 1.6em;
+  position: relative;
+  top: -0.3em;
+  left: .1em;
+  color: #d1301b;
+}
+.idealform .idealradio .radio, .idealform .idealcheck .radio {
+  -webkit-border-radius: 1.2em 1.2em 1.2em 1.2em;
+  -moz-border-radius: 1.2em 1.2em 1.2em 1.2em;
+  border-radius: 1.2em 1.2em 1.2em 1.2em;
+}
+.idealform .idealradio .radio.checked, .idealform .idealcheck .radio.checked {
+  -moz-box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
+  -webkit-box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
+  box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
+  filter: 0;
+  /* IE */
+
+  background: #d1301b;
+}

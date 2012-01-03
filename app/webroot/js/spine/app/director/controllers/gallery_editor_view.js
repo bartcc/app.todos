@@ -67,7 +67,7 @@ GalleryEditorView = (function() {
       }
     }
     this.changeToolbar('GalleryEdit');
-    return this;
+    return this.el;
   };
   GalleryEditorView.prototype.renderToolbar = function() {
     console.log('GalleryEditorView::renderToolbar');

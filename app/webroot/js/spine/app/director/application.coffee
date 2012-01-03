@@ -13,11 +13,12 @@ class App extends Spine.Controller
     '#content .edit'      : 'galleryEditEl'
     '#gallery'            : 'galleryEl'
     '#album'              : 'albumEl'
-    '#fileupload'         : 'uploadEl'
     '#photo'              : 'photoEl'
     '#slideshow'          : 'slideshowEl'
     '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
+    '#fu'                 : 'uploadEl'
+#    '#fileupload .files'  : 'uploadFiles'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '.show .content'      : 'content'
@@ -26,7 +27,8 @@ class App extends Spine.Controller
     '.status-symbol'      : 'statusSymbol'
     
   events:
-    'drop'                : 'drop'
+    'drop'                        : 'drop'
+#    'fileuploadsend #fileupload'  : 'fileuploadsend'
 
   constructor: ->
     super
@@ -92,7 +94,7 @@ class App extends Spine.Controller
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
     
-    @initFileupload()
+#    @initFileupload()
 
   validate: (user, json) ->
     console.log 'Pinger done'
@@ -123,16 +125,28 @@ class App extends Spine.Controller
       
     @statusText.text('Thanks for Patience').fadeIn('slow', => @delay cb, 1000)
     
-  initFileupload: ->
-    @uploadEl.fileupload()
-    $.getJSON $('form', @uploadEl).prop('action'), (files) ->
-      fu = uploadEl.data('fileupload')
-      fu._adjustMaxNumberOfFiles(-files.length)
-      fu._renderDownload(files)
-        .appendTo $('.files', @uploadEl)
-        .fadeIn ->
-          # Fix for IE7 and lower:
-          $(@).show();
+#  initFileupload: ->
+#    @uploadEl.fileupload()
+#    $.getJSON $('form', @uploadEl).prop('action'), (files) ->
+#      fu = uploadEl.data('fileupload')
+#      fu._adjustMaxNumberOfFiles(-files.length)
+#      template = fu._renderDownload(files)
+#        .appendTo @uploadFiles
+#      #Force reflow:
+#      fu._reflow = fu._transition && template.length && template[0].offsetWidth;
+#      template.addClass('in');
+#    
+#  fileuploadsend: (e, data) ->
+#    # Enable iframe cross-domain access via redirect page:
+#    redirectPage = window.location.href.replace /\/[^\/]*$/, '/result.html?%s'
+#    
+#    if (data.dataType.substr(0, 6) is 'iframe')
+#      target = $('<a/>').prop('href', data.url)[0]
+#      unless window.location.host is target.host
+#        data.formData.push
+#          name: 'redirect'
+#          value: redirectPage
+    
     
 $ ->
   

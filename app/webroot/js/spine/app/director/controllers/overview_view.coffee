@@ -32,14 +32,14 @@ class OverviewView extends Spine.Controller
     @items.html @template recents
     @uri recents
     
-  previewSize: (width = 70, height = 70) ->
+  thumbSize: (width = 70, height = 70) ->
     width: width
     height: height
     
   # mode tells Spine::uri wheter to append (=> append) or replace (=> html) the cache
   uri: (items, mode = 'html') ->
     console.log 'PhotoList::uri'
-    Photo.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
+    Photo.uri @thumbSize(), mode, (xhr, record) => @callback items, xhr
   
   callback: (items, json) =>
     console.log 'PhotoList::callback'

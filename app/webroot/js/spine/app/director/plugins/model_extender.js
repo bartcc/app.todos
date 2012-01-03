@@ -217,7 +217,10 @@ Model.Extender = {
       updateSelection: function(list) {
         var model;
         model = this.constructor['parentSelector'];
-        return list = Spine.Model[model].updateSelection(list, this.id);
+        if (!this.constructor.isArray(list)) {
+          list = [list];
+        }
+        return list = Spine.Model[model].updateSelection(list);
       },
       emptySelection: function() {
         var list, model;
@@ -269,7 +272,43 @@ Model.Extender = {
           }
         }
         return list;
-      }
+      },
+      allGalleryAlbums: __bind(function() {
+        var albums, ga, gallery, gas, _i, _len;
+        gallery = Gallery.record;
+        if (!gallery) {
+          return;
+        }
+        albums = [];
+        gas = GalleriesAlbum.filter(gallery.id, {
+          key: 'gallery_id'
+        });
+        for (_i = 0, _len = gas.length; _i < _len; _i++) {
+          ga = gas[_i];
+          if (Album.exists(ga.album_id)) {
+            albums.push(Album.find(ga.album_id));
+          }
+        }
+        return albums;
+      }, this),
+      allAlbumPhotos: __bind(function() {
+        var album, ap, aps, photos, _i, _len;
+        album = Album.record;
+        if (!album) {
+          return;
+        }
+        photos = [];
+        aps = AlbumsPhoto.filter(album.id, {
+          key: 'album_id'
+        });
+        for (_i = 0, _len = aps.length; _i < _len; _i++) {
+          ap = aps[_i];
+          if (Photo.exists(ap.album_id)) {
+            photos.push(Photo.find(ap.album_id));
+          }
+        }
+        return photos;
+      }, this)
     };
     this.extend(Extend);
     return this.include(Include);

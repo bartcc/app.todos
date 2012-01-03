@@ -101,7 +101,7 @@ class ShowView extends Spine.Controller
     Spine.bind('change:toolbar', @proxy @changeToolbar)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
-    @sOutValue = 110
+    @sOutValue = @thumbSize = 140
     
     if @activeControl
       @initControl @activeControl
@@ -223,6 +223,7 @@ class ShowView extends Spine.Controller
 
   toggleUploadShow: (e) ->
     @trigger("toggle:view", App.upload, e.target)
+#    App.upload.initFileupload()
     e.stopPropagation()
     e.preventDefault()
     false

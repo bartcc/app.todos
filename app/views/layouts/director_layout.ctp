@@ -29,11 +29,11 @@
     echo $this->Html->meta('icon');
     
     echo $this->Html->css('themes/jquery-ui/ui-darkness/jquery-ui-1.8.16.custom');
-//    echo $this->Html->css('themes/jquery-ui/ui-darkness/jquery.ui.slider');
-//    echo $this->Html->css('themes/jquery-ui/ui-darkness/jquery.ui.progressbar');
-    echo $this->Html->css('spine/director/jquery.fileupload-ui');
+    echo $this->Html->css('fileupload/jquery.fileupload-ui');
     echo $this->Html->css('spine/director/modal');
-    echo $this->Html->css('spine/director/reset');
+    echo $this->Html->css('normalize');
+    echo $this->Html->css('http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css');
+    echo $this->Html->css('idealforms/idealforms');
     echo $this->Html->css('spine/director/application');
 
     echo $html->scriptStart();
@@ -42,8 +42,7 @@
     <?php
     echo $html->scriptEnd();
     
-    echo $this->Html->script('lib/jquery/jquery-1.6.2');
-    echo $this->Html->script('lib/jquery/jquery.tmpl');
+    echo $this->Html->script('lib/jquery/jquery-1.7.1.min');
     echo $this->Html->script('lib/jquery/ui/jquery-ui-1.8.16');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.widget');
@@ -56,9 +55,14 @@
     echo $this->Html->script('lib/jquery/ui/jquery.ui.slider');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.core');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
-    echo $this->Html->script('lib/jquery/fileupload/jquery.iframe-transport');
-    echo $this->Html->script('lib/jquery/fileupload/jquery.fileupload');
-    echo $this->Html->script('lib/jquery/fileupload/jquery.fileupload-ui');
+    echo $this->Html->script('lib/jquery/jquery.tmpl');
+    echo $this->Html->script('lib/blueimp/tmpl');
+    echo $this->Html->script('lib/blueimp/load-image');
+    echo $this->Html->script('lib/blueimp/jquery.iframe-transport');
+    echo $this->Html->script('lib/blueimp/jquery.fileupload');
+    echo $this->Html->script('lib/blueimp/jquery.fileupload-ui');
+    echo $this->Html->script('http://twitter.github.com/bootstrap/1.4.0/bootstrap-modal.min.js');
+    echo $this->Html->script('lib/jquery/jquery.idealforms');
 
     #echo $this->Html->script('spine/lib/spine_0.0.9');
     echo $this->Html->script('spine/lib/spine_1.0.5');
@@ -86,7 +90,7 @@
     echo $this->Html->script('spine/app/director/models/error');
     echo $this->Html->script('spine/app/director/models/recent');
     echo $this->Html->script('spine/app/director/controllers/loader');
-    echo $this->Html->script('spine/app/director/controllers/preview');
+    echo $this->Html->script('spine/app/director/controllers/info');
     echo $this->Html->script('spine/app/director/controllers/overview_view');
     echo $this->Html->script('spine/app/director/controllers/gallery_editor_view');
     echo $this->Html->script('spine/app/director/controllers/galleries_view');
@@ -100,7 +104,6 @@
     echo $this->Html->script('spine/app/director/controllers/main');
     echo $this->Html->script('spine/app/director/controllers/login');
     echo $this->Html->script('spine/app/director/controllers/sidebar');
-//    echo $this->Html->script('spine/app/director/controllers/toolbar');
     echo $this->Html->script('spine/app/director/controllers/show');
     echo $this->Html->script('spine/app/director/controllers/sidebar_list');
     echo $this->Html->script('spine/app/director/controllers/galleries_list');
@@ -111,7 +114,6 @@
     echo $this->Html->script('spine/app/director/controllers/photo_edit_view');
     echo $this->Html->script('spine/app/director/controllers/upload_edit_view');
     echo $this->Html->script('spine/app/director/controllers/slideshow_edit_view');
-//    echo $this->Html->script('spine/app/director/upload');
     echo $this->Html->script('spine/app/director/application');
     ?>
 

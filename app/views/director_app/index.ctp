@@ -93,11 +93,11 @@
         <div class="flex vbox autoflow">
           <div class="container">
             <fieldset>
-              <label class="invite"><span class="enlightened">Recently Uploaded:</span></label>
+              <label class="label"><span class="enlightened">Recently Uploaded:</span></label>
               <div class="items"></div>
             </fieldset>
             <fieldset>
-              <label class="invite"><span class="enlightened">Summary:</span></label>
+              <label class="label"><span class="enlightened">Summary:</span></label>
               <div class="info">
                 Blank 
               </div>
@@ -105,7 +105,7 @@
           </div>
           <div class="container">
             <fieldset>
-              <label class="invite"><span class="enlightened">Informations:</span></label>
+              <label class="label"><span class="enlightened">Informations:</span></label>
             </fieldset>
           </div>
         </div>
@@ -123,40 +123,40 @@
             <div class="photoHeader view"></div>
           </div>
           <div class="view galleries content vbox flex data autoflow">
-            <div class="preview"></div>
+            <div class="hoverinfo"></div>
             <div class="items sortable"></div>
           </div>
           <div class="view albums content vbox flex data autoflow">
-            <div class="preview"></div>
+            <div class="hoverinfo"></div>
             <div class="items sortable"></div>
           </div>
           <div class="view photos content vbox flex data autoflow">
-            <div class="preview"></div>
+            <div class="hoverinfo"></div>
             <div class="items sortable flex"></div>
           </div>
           <div class="view photo content vbox flex data autoflow">
-            <div class="preview"></div>
+            <div class="hoverinfo"></div>
             <div class="items sortable flex">PHOTO</div>
           </div>
         </div>
-        <div id="views" class="canvas-bg-light hbox autoflow">
+        <div id="views" class="settings canvas-bg-light hbox autoflow">
           <div class="views content canvas vbox flex hdraggable">
             <div class="hdivide draghandle"></div>
-            <div id="gallery" class="view items flex autoflow" style="">
+            <div id="gallery" class="view container flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
             </div>
-            <div id="album" class="view items flex autoflow" style="">
+            <div id="album" class="view container flex autoflow" style="">
               <div class="editAlbum">
                 <div class="content">No Albums found!</div>
               </div>
             </div>
-            <div id="photo" class="view items flex autoflow" style="">
+            <div id="photo" class="view container flex autoflow" style="">
               <div class="editPhoto">
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fileupload" class="view items flex autoflow" style=""></div>
-            <div id="slideshow" class="view items flex autoflow" style="">
+            <div id="fu" class="view container flex autoflow" style=""></div>
+            <div id="slideshow" class="view flex autoflow" style="">
               <label>
                 <span class="disabled">Not quite there yet</span>
               </label>
@@ -176,12 +176,12 @@
           <li class="splitter disabled flex"></li>
         </ul>
       </div>
-      <div class="edit canvas-bg-light view vbox flex">
+      <div class="edit view vbox flex">
         <ul class="tools options hbox">
           <li class="optOptions"><button class="dark">Options</button></li>
           <ul class="toolbar hbox"></ul>
         </ul>
-        <div class="content canvas vbox flex autoflow"></div>
+        <div class="content container canvas vbox flex autoflow"></div>
       </div>
     </div>
   </div>
@@ -259,60 +259,61 @@
 </script>
 
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">
-  <div class="flex items">
-    <div class="left">
-      <label>
+  <div class="">
+    <div class="">
+      <label class="label">
         <span>Gallery Name</span>
-        <input type="text" name="name" value="${name}">
       </label>
+      <input type="text" name="name" value="${name}">
 
-      <label>
-        <span>Author</span>
-        <label>{{if author}}${author}{{else}}no author{{/if}}</label>
+      <label class="label">
+        <span>Author: {{if author}}${author}{{else}}no author{{/if}}</span>
       </label>
-    </div>
-    <div class="left">
-      <label>
+      <label class="label">
         <span>Description</span>
-        <textarea name="description">${description}</textarea>
       </label>
+      <textarea name="description">${description}</textarea>
     </div>
-    <input type="hidden" name="id" value="${id}">
   </div>
 </script>
 
 <script id="editAlbumTemplate" type="text/x-jquery-tmpl">
-  <div class="left">
-    <label>
-      <span>Album Title</span>
+  <div class="">
+    <div class="">
+      <label class="label">
+        <span>Album Title</span>
+      </label>
       <input type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
-    </label>
-  </div>
-  <div class="left">
-    <label>
-      <span>Description</span>
+    </div>
+    <div class="">
+      <label class="label">
+        <span>Description</span>
+      </label>
       <textarea name="description">${description}</textarea>
-    </label>
+    </div>
   </div>
 </script>
 
+<script id="albumSelectTemplate" type="text/x-jquery-tmpl">
+  <option {{if constructor.record.id == id}}selected{{/if}} value="${id}">${title}</option>
+</script>
+
 <script id="editPhotoTemplate" type="text/x-jquery-tmpl">
-  <div class="left">
-    <label>
+  <div class="">
+    <label class="label">
       <span>Photo Title</span>
-      <input type="text" name="title" value="${title}" >
     </label>
+    <input type="text" name="title" value="${title}" >
   </div>
-  <div class="left">
-    <label>
+  <div class="">
+    <label class="label">
       <span>Description</span>
-      <textarea name="description">${description}</textarea>
     </label>
+    <textarea name="description">${description}</textarea>
   </div>
 </script>
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
-  <li class="splitter disabled"></li>
   {{if name}}
   <li class="${klass}"><{{if type}}${type}{{else}}button class="dark" {{/if}}{{if style}} style="${style}"{{/if}} {{if disabled}}disabled{{/if}} class="tb-name">{{html name}}</{{if type}}${type}{{else}}button{{/if}}></li>
   {{/if}}
@@ -444,13 +445,13 @@
   </div>
 </script>
 
-<script id="albumPreviewTemplate" type="text/x-jquery-tmpl">
+<script id="albumInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
     <li class="name"><span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
   </ul>
 </script>
 
-<script id="photoPreviewTemplate" type="text/x-jquery-tmpl">
+<script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
     {{if title}}
       <li class="empty">{{html title}}</li>
@@ -465,17 +466,53 @@
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
   {{if album}}
-  <form action="" method="POST" enctype="multipart/form-data">
-    <label class="fileinput-button">
-      <div>
-        <span>Drag and drop files here...</span>
+  <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
+    <div>
+      <label class="label"><span>Uploaded images will be stored inside album:</span></label>
+      <select name="select">
+      {{tmpl($item.data.album.allGalleryAlbums()) "#albumSelectTemplate"}}
+      </select>
+    </div>
+    <div class="row">
+      <div class="span16 fileupload-buttonbar">
+        <div class="progressbar fileupload-progressbar"><div style="width:0%;"></div></div>
+        <span class="btn success fileinput-button">
+          <span>Add files...</span>
+          <input type="file" name="files[]" multiple>
+        </span>
+        <button type="submit" class="btn primary start">Start upload</button>
+        <button type="reset" class="btn info cancel">Cancel upload</button>
+        <button type="button" class="btn danger delete">Delete selected</button>
+        <input type="checkbox" class="toggle">
       </div>
-      <div>
-        <span>Target-Album: ${album.title}</span>
+    </div>
+    <br>
+    <div class="row">
+      <div class="span16">
+        <table class="zebra-striped"><tbody class="files"></tbody></table>
       </div>
-    </label>
+    </div>
   </form>
-  <div class="fileupload-content">
+  {{else}}
+  <label class="">
+    <span>Select a target album</span>
+  </label>
+  {{/if}}
+</script>
+<script id="fileuploadTemplate_" type="text/x-jquery-tmpl">
+  {{if album}}
+  <form action="" method="POST" enctype="multipart/form-data">
+    <label class="label fileinput-button">
+      <span>Uploaded images will be stored inside album:</span>
+    </label>
+    <select name="select">
+      {{tmpl($item.data.album.allGalleryAlbums()) "#albumSelectTemplate"}}
+    </select>
+  </form>
+  <div class="container fileupload-content">
+    <label class="label dropzone">
+      <span class="">Dropzone</span>
+    </label>
     <table class="files"></table>
     <div class="fileupload-progressbar"></div>
   </div>
@@ -486,7 +523,7 @@
   {{/if}}
 </script>
 
-<script id="uploadTemplate" type="text/x-jquery-tmpl">
+<script id="_uploadTemplate" type="text/x-jquery-tmpl">
   <tr class="template-upload{{if error}} ui-state-error{{/if}}">
     <td class="preview"></td>
     <td class="name">{{if name}}${name}{{else}}Untitled{{/if}}</td>
@@ -508,7 +545,7 @@
   </tr>
 </script>
 
-<script id="template-download" type="text/x-jquery-tmpl">
+<script id="_template-download" type="text/x-jquery-tmpl">
   <tr class="template-download{{if error}} ui-state-error{{/if}}">
     {{if error}}
     <td></td>
@@ -548,3 +585,62 @@
     </td>
   </tr>
 </script>
+
+<script>
+var fileUploadErrors = {
+    maxFileSize: 'File is too big',
+    minFileSize: 'File is too small',
+    acceptFileTypes: 'Filetype not allowed',
+    maxNumberOfFiles: 'Max number of files exceeded',
+    uploadedBytes: 'Uploaded bytes exceed file size',
+    emptyResult: 'Empty file upload result'
+};
+</script>
+
+<script id="template-upload" type="text/html">
+  {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
+    <tr class="template-upload fade">
+      <td class="preview"><span class="fade"></span></td>
+      <td class="name">{%=file.name%}</td>
+      <td class="size">{%=o.formatFileSize(file.size)%}</td>
+      {% if (file.error) { %}
+      <td class="error" colspan="2"><span class="label important">Error</span> {%=fileUploadErrors[file.error] || file.error%}</td>
+      {% } else if (o.files.valid && !i) { %}
+      <td class="progress"><div class="progressbar"><div style="width:0%;"></div></div></td>
+      <td class="start">{% if (!o.options.autoUpload) { %}<button class="btn primary">Start</button>{% } %}</td>
+      {% } else { %}
+      <td colspan="2"></td>
+      {% } %}
+      <td class="cancel">{% if (!i) { %}<button class="btn info">Cancel</button>{% } %}</td>
+    </tr>
+  {% } %}
+</script>
+
+<script id="template-download" type="text/html">
+  {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
+    <tr class="template-download fade">
+      {% if (file.error) { %}
+      <td></td>
+      <td class="name">{%=file.name%}</td>
+      <td class="size">{%=o.formatFileSize(file.size)%}</td>
+      <td class="error" colspan="2"><span class="label important">Error</span> {%=fileUploadErrors[file.error] || file.error%}</td>
+      {% } else { %}
+      <td class="preview">{% if (file.thumbnail_url) { %}
+        <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery"><img src="{%=file.thumbnail_url%}"></a>
+        {% } %}</td>
+      <td class="name">
+        <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}">{%=file.name%}</a>
+      </td>
+      <td class="size">{%=o.formatFileSize(file.size)%}</td>
+      <td colspan="2"></td>
+      {% } %}
+      <td class="delete">
+        <button class="btn danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">Delete</button>
+        <input type="checkbox" name="delete" value="1">
+      </td>
+    </tr>
+  {% } %}
+</script>
+
+        
+        

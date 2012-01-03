@@ -15,11 +15,13 @@ AlbumEditView = (function() {
   __extends(AlbumEditView, Spine.Controller);
   AlbumEditView.prototype.elements = {
     '.content': 'item',
-    '.editAlbum': 'editEl'
+    '.editAlbum': 'editEl',
+    'form': 'formEl'
   };
   AlbumEditView.prototype.events = {
-    "click": "click",
-    'keydown': 'saveOnEnter'
+    'click': 'click',
+    'keydown': 'saveOnEnter',
+    'change select': 'changeSelected'
   };
   AlbumEditView.prototype.template = function(item) {
     return $('#editAlbumTemplate').tmpl(item);
@@ -29,6 +31,14 @@ AlbumEditView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
   }
+  AlbumEditView.prototype.changeSelected = function(e) {
+    var album, el, id;
+    el = $(e.currentTarget);
+    id = el.val();
+    album = Album.find(id);
+    album.updateSelection([album.id]);
+    return Spine.trigger('album:activate');
+  };
   AlbumEditView.prototype.change = function(item, mode) {
     var firstID;
     console.log('Album::change');
@@ -50,20 +60,20 @@ AlbumEditView = (function() {
     selection = Gallery.selectionList();
     if (!(selection != null ? selection.length : void 0)) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: '<label><span class="disabled">Select or create an album!</span></label>'
+        type: '<label class="label"><span class="disabled">Select or create an album!</span></label>'
       }));
     } else if ((selection != null ? selection.length : void 0) > 1) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: '<label><span class="disabled">Multiple selection</span></label>'
+        type: '<label class="label"><span class="disabled">Multiple selection</span></label>'
       }));
     } else if (!item) {
       if (!Gallery.count()) {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: '<label><span class="disabled">Create a gallery!</span></label>'
+          type: '<label class="label"><span class="disabled">Create a gallery!</span></label>'
         }));
       } else {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: '<label><span class="disabled">Select a gallery!</span></label>'
+          type: '<label class="label"><span class="disabled">Select a gallery!</span></label>'
         }));
       }
     } else {

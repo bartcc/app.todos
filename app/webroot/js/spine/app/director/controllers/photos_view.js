@@ -15,7 +15,7 @@ PhotosView = (function() {
   __extends(PhotosView, Spine.Controller);
   PhotosView.extend(Spine.Controller.Drag);
   PhotosView.prototype.elements = {
-    '.preview': 'previewEl',
+    '.hoverinfo': 'infoEl',
     '.items': 'items'
   };
   PhotosView.prototype.events = {
@@ -39,22 +39,22 @@ PhotosView = (function() {
   PhotosView.prototype.headerTemplate = function(items) {
     return $("#headerPhotosTemplate").tmpl(items);
   };
-  PhotosView.prototype.previewTemplate = function(item) {
-    return $('#photoPreviewTemplate').tmpl(item);
+  PhotosView.prototype.infoTemplate = function(item) {
+    return $('#photoInfoTemplate').tmpl(item);
   };
   function PhotosView() {
     PhotosView.__super__.constructor.apply(this, arguments);
     this.el.data({
       current: Album
     });
-    this.preview = new Preview({
-      el: this.previewEl,
-      template: this.previewTemplate
+    this.info = new Info({
+      el: this.infoEl,
+      template: this.infoTemplate
     });
     this.list = new PhotosList({
       el: this.items,
       template: this.template,
-      preview: this.preview,
+      info: this.info,
       parent: this.parent
     });
     this.header.template = this.headerTemplate;
@@ -89,8 +89,7 @@ PhotosView = (function() {
   };
   PhotosView.prototype.render = function(items, mode) {
     console.log('PhotosView::render');
-    console.log(this.el);
-    console.log(this.el.data());
+    console.log(mode);
     if (!this.list.children('li').length) {
       this.items.empty();
     }

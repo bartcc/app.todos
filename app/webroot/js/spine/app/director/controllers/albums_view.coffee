@@ -6,7 +6,7 @@ class AlbumsView extends Spine.Controller
   @extend Spine.Controller.Drag
   
   elements:
-    '.preview'                : 'previewEl'
+    '.hoverinfo'              : 'infoEl'
     '.items'                  : 'items'
     
     '.content .sortable'      : 'sortable'
@@ -32,19 +32,19 @@ class AlbumsView extends Spine.Controller
   headerTemplate: (items) ->
     $("#headerAlbumTemplate").tmpl items
  
-  previewTemplate: (item) ->
-    $('#albumPreviewTemplate').tmpl item
+  infoTemplate: (item) ->
+    $('#albumInfoTemplate').tmpl item
  
   constructor: ->
     super
     @el.data current: Gallery
-    @preview = new Preview
-      el: @previewEl
-      template: @previewTemplate
+    @info = new Info
+      el: @infoEl
+      template: @infoTemplate
     @list = new AlbumsList
       el: @items
       template: @albumsTemplate
-      preview: @preview
+      info: @info
     @header.template = @headerTemplate
     #interferes with html5 dnd!
 #    @initSortables

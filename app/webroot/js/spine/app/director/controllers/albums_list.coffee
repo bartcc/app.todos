@@ -6,9 +6,9 @@ class AlbumsList extends Spine.Controller
   events:
     'click .item'                   : "click"    
     'dblclick .item'                : 'dblclick'
-    'mousemove .item .thumbnail'    : 'previewUp'
-    'mouseleave .item .thumbnail'   : 'previewBye'
-    'dragstart .item .thumbnail'    : 'stopPreview'
+    'mousemove .item .thumbnail'    : 'infoUp'
+    'mouseleave .item .thumbnail'   : 'infoBye'
+    'dragstart .item .thumbnail'    : 'stopInfo'
     
   constructor: ->
     super
@@ -52,9 +52,10 @@ class AlbumsList extends Spine.Controller
         Album.current(newActive)
     else
         Album.current()
-      
+    
     Spine.trigger('change:selectedAlbum', Album.record, Album.changed())
     Spine.trigger('change:selectedPhoto', Photo.record)
+    @exposeSelection()
   
   render: (items) ->
     console.log 'AlbumsList::render'
@@ -128,19 +129,19 @@ class AlbumsList extends Spine.Controller
     false
     
     
-  previewUp: (e) =>
+  infoUp: (e) =>
     e.stopPropagation()
     e.preventDefault()
-    @preview.up(e)
+    @info.up(e)
     false
     
-  previewBye: (e) =>
+  infoBye: (e) =>
     e.stopPropagation()
     e.preventDefault()
-    @preview.bye()
+    @info.bye()
     false
 
-  stopPreview: (e) =>
-    @preview.bye()
+  stopInfo: (e) =>
+    @info.bye()
   
 module?.exports = AlbumsList

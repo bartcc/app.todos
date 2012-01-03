@@ -41,11 +41,11 @@ PhotoEditView = (function() {
     selection = Album.selectionList();
     if (!(selection != null ? selection.length : void 0)) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: '<label><span class="disabled">No photo selected</span></label>'
+        type: '<label class="label"><span class="disabled">No photo selected</span></label>'
       }));
     } else if ((selection != null ? selection.length : void 0) > 1) {
       this.item.html($("#noSelectionTemplate").tmpl({
-        type: '<label><span class="disabled">Multiple selection</span></label>'
+        type: '<label class="label"><span class="disabled">Multiple selection</span></label>'
       }));
     } else if (!item) {
       if (!Album.count()) {

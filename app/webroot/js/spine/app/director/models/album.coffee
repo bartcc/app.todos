@@ -69,6 +69,6 @@ class Album extends Spine.Model
     ga = Spine.Model[options.joinTable].filter(id, options)
     for record in ga
       return true if record.album_id is @id
-      
+    
 Spine.Model.Album = Album
 

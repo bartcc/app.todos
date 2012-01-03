@@ -6,10 +6,12 @@ class AlbumEditView extends Spine.Controller
   elements:
     '.content'    : 'item'
     '.editAlbum'  : 'editEl'
+    'form'        : 'formEl'
 
   events:
-    "click"       : "click"
-    'keydown'     : 'saveOnEnter'
+    'click'         : 'click'
+    'keydown'       : 'saveOnEnter'
+    'change select' : 'changeSelected'
   
   template: (item) ->
     $('#editAlbumTemplate').tmpl item
@@ -18,6 +20,13 @@ class AlbumEditView extends Spine.Controller
     super
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)
+
+  changeSelected: (e) ->
+    el = $(e.currentTarget)
+    id = el.val()
+    album = Album.find(id)
+    album.updateSelection [album.id]
+    Spine.trigger('album:activate')
 
   change: (item, mode) ->
     console.log 'Album::change'
@@ -37,14 +46,14 @@ class AlbumEditView extends Spine.Controller
     selection = Gallery.selectionList()
 
     unless selection?.length
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">Select or create an album!</span></label>'})
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="disabled">Select or create an album!</span></label>'})
     else if selection?.length > 1
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">Multiple selection</span></label>'})
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="disabled">Multiple selection</span></label>'})
     else unless item
       unless Gallery.count()
-        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">Create a gallery!</span></label>'})
+        @item.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="disabled">Create a gallery!</span></label>'})
       else
-        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">Select a gallery!</span></label>'})
+        @item.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="disabled">Select a gallery!</span></label>'})
     else
       @item.html @template item
     @el

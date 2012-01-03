@@ -14,32 +14,32 @@ $ = Spine.$;
 PhotoView = (function() {
   __extends(PhotoView, Spine.Controller);
   PhotoView.prototype.elements = {
-    '.preview': 'previewEl',
+    '.info': 'infoEl',
     '.items': 'items',
     '.items .item': 'item'
   };
   PhotoView.prototype.events = {
-    'mousemove .item': 'previewUp',
-    'mouseleave  .item': 'previewBye',
-    'dragstart .item': 'stopPreview'
+    'mousemove .item': 'infoUp',
+    'mouseleave  .item': 'infoBye',
+    'dragstart .item': 'stopInfo'
   };
   PhotoView.prototype.template = function(item) {
     return $('#photoTemplate').tmpl(item);
   };
-  PhotoView.prototype.previewTemplate = function(item) {
-    return $('#photoPreviewTemplate').tmpl(item);
+  PhotoView.prototype.infoTemplate = function(item) {
+    return $('#photoInfoTemplate').tmpl(item);
   };
   function PhotoView() {
-    this.stopPreview = __bind(this.stopPreview, this);
-    this.previewBye = __bind(this.previewBye, this);
-    this.previewUp = __bind(this.previewUp, this);
+    this.stopInfo = __bind(this.stopInfo, this);
+    this.infoBye = __bind(this.infoBye, this);
+    this.infoUp = __bind(this.infoUp, this);
     this.callback = __bind(this.callback, this);    PhotoView.__super__.constructor.apply(this, arguments);
     this.el.data({
       current: Photo
     });
-    this.preview = new Preview({
-      el: this.previewEl,
-      template: this.previewTemplate
+    this.info = new Info({
+      el: this.infoEl,
+      template: this.infoTemplate
     });
     this.img = new Image;
     this.img.onload = this.imageLoad;
@@ -130,20 +130,20 @@ PhotoView = (function() {
       'backgroundImage': 'none'
     });
   };
-  PhotoView.prototype.previewUp = function(e) {
+  PhotoView.prototype.infoUp = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    this.preview.up(e);
+    this.info.up(e);
     return false;
   };
-  PhotoView.prototype.previewBye = function(e) {
+  PhotoView.prototype.infoBye = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    this.preview.bye();
+    this.info.bye();
     return false;
   };
-  PhotoView.prototype.stopPreview = function(e) {
-    return this.preview.bye();
+  PhotoView.prototype.stopInfo = function(e) {
+    return this.info.bye();
   };
   PhotoView.prototype.show = function(item) {
     Spine.trigger('change:toolbar', 'Photo');

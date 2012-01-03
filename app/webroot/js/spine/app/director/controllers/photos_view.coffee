@@ -6,8 +6,8 @@ class PhotosView extends Spine.Controller
   @extend Spine.Controller.Drag
   
   elements:
-    '.preview'      : 'previewEl'
-    '.items'        : 'items'
+    '.hoverinfo'      : 'infoEl'
+    '.items'          : 'items'
   
   events:
     'sortupdate .items .item'         : 'sortupdate'
@@ -31,19 +31,19 @@ class PhotosView extends Spine.Controller
   headerTemplate: (items) ->
     $("#headerPhotosTemplate").tmpl items
     
-  previewTemplate: (item) ->
-    $('#photoPreviewTemplate').tmpl item
+  infoTemplate: (item) ->
+    $('#photoInfoTemplate').tmpl item
     
   constructor: ->
     super
     @el.data current: Album
-    @preview = new Preview
-      el: @previewEl
-      template: @previewTemplate
+    @info = new Info
+      el: @infoEl
+      template: @infoTemplate
     @list = new PhotosList
       el: @items
       template: @template
-      preview: @preview
+      info: @info
       parent: @parent
     @header.template = @headerTemplate
     Photo.bind('refresh', @proxy @clearPhotoCache)
@@ -76,11 +76,7 @@ class PhotosView extends Spine.Controller
     
   render: (items, mode) ->
     console.log 'PhotosView::render'
-    
-    # keep a reference of the parent (Album)
-#    @el.data current: Album
-    console.log @el
-    console.log @el.data()
+    console.log mode
     
     @items.empty() unless @list.children('li').length
     # show spinner

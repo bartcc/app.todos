@@ -116,7 +116,7 @@ ShowView = (function() {
     Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.current = this.albumsView;
-    this.sOutValue = 110;
+    this.sOutValue = this.thumbSize = 140;
     if (this.activeControl) {
       this.initControl(this.activeControl);
     } else {

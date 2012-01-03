@@ -9,9 +9,9 @@ class PhotosList extends Spine.Controller
   events:
     'click .item'             : "click"
     'dblclick .item'          : 'dblclick'
-    'mousemove .item'         : 'previewUp'
-    'mouseleave  .item'       : 'previewBye'
-    'dragstart .item'         : 'stopPreview'
+    'mousemove .item'         : 'infoUp'
+    'mouseleave  .item'       : 'infoBye'
+    'dragstart .item'         : 'stopInfo'
   
   selectFirst: true
     
@@ -37,7 +37,7 @@ class PhotosList extends Spine.Controller
     if Album.record
       if items.length
         @[mode] @template items
-        @exposeSelection()
+        @exposeSelection() unless mode is 'append'
         @uri items, mode
         @el
       else
@@ -55,6 +55,7 @@ class PhotosList extends Spine.Controller
       @el
   
   update: (item) ->
+    console.log 'PhotosList::update'
     el = =>
       @children().forItem(item)
     tb = ->
@@ -70,19 +71,20 @@ class PhotosList extends Spine.Controller
     el().toggleClass('active', active)
     @refreshElements()
   
-  previewSize: (width = 140, height = 140) ->
+  thumbSize: (width = @parent.thumbSize, height = @parent.thumbSize) ->
     width: width
     height: height
   
   # the actual final rendering method
   uri: (items, mode) ->
     console.log 'PhotosList::uri'
-    @size(@parent.sOutValue, 'auto')
+    console.log @parent.sOutValue
+    @size(@parent.sOutValue)
     
     if Album.record
-      Album.record.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
+      Album.record.uri @thumbSize(), mode, (xhr, record) => @callback items, xhr
     else
-      Photo.uri @previewSize(), mode, (xhr, record) => @callback items, xhr
+      Photo.uri @thumbSize(), mode, (xhr, record) => @callback items, xhr
   
   
   callback: (items, json) =>
@@ -153,20 +155,20 @@ class PhotosList extends Spine.Controller
       helper: 'clone'
     @el.selectable()
     
-  previewUp: (e) =>
+  infoUp: (e) =>
     e.stopPropagation()
     e.preventDefault()
-    @preview.up(e)
+    @info.up(e)
     false
     
-  previewBye: (e) =>
+  infoBye: (e) =>
     e.stopPropagation()
     e.preventDefault()
-    @preview.bye()
+    @info.bye()
     false
     
-  stopPreview: (e) =>
-    @preview.bye()
+  stopInfo: (e) =>
+    @info.bye()
     
   sliderStart: =>
     console.log @thumb.length

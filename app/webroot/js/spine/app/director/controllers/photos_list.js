@@ -19,17 +19,17 @@ PhotosList = (function() {
   PhotosList.prototype.events = {
     'click .item': "click",
     'dblclick .item': 'dblclick',
-    'mousemove .item': 'previewUp',
-    'mouseleave  .item': 'previewBye',
-    'dragstart .item': 'stopPreview'
+    'mousemove .item': 'infoUp',
+    'mouseleave  .item': 'infoBye',
+    'dragstart .item': 'stopInfo'
   };
   PhotosList.prototype.selectFirst = true;
   function PhotosList() {
     this.size = __bind(this.size, this);
     this.sliderStart = __bind(this.sliderStart, this);
-    this.stopPreview = __bind(this.stopPreview, this);
-    this.previewBye = __bind(this.previewBye, this);
-    this.previewUp = __bind(this.previewUp, this);
+    this.stopInfo = __bind(this.stopInfo, this);
+    this.infoBye = __bind(this.infoBye, this);
+    this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
     Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
@@ -54,7 +54,9 @@ PhotosList = (function() {
     if (Album.record) {
       if (items.length) {
         this[mode](this.template(items));
-        this.exposeSelection();
+        if (mode !== 'append') {
+          this.exposeSelection();
+        }
         this.uri(items, mode);
         return this.el;
       } else {
@@ -77,6 +79,7 @@ PhotosList = (function() {
   };
   PhotosList.prototype.update = function(item) {
     var active, backgroundImage, css, el, tb, tmplItem;
+    console.log('PhotosList::update');
     el = __bind(function() {
       return this.children().forItem(item);
     }, this);
@@ -93,12 +96,12 @@ PhotosList = (function() {
     el().toggleClass('active', active);
     return this.refreshElements();
   };
-  PhotosList.prototype.previewSize = function(width, height) {
+  PhotosList.prototype.thumbSize = function(width, height) {
     if (width == null) {
-      width = 140;
+      width = this.parent.thumbSize;
     }
     if (height == null) {
-      height = 140;
+      height = this.parent.thumbSize;
     }
     return {
       width: width,
@@ -107,13 +110,14 @@ PhotosList = (function() {
   };
   PhotosList.prototype.uri = function(items, mode) {
     console.log('PhotosList::uri');
-    this.size(this.parent.sOutValue, 'auto');
+    console.log(this.parent.sOutValue);
+    this.size(this.parent.sOutValue);
     if (Album.record) {
-      return Album.record.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+      return Album.record.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
         return this.callback(items, xhr);
       }, this));
     } else {
-      return Photo.uri(this.previewSize(), mode, __bind(function(xhr, record) {
+      return Photo.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
         return this.callback(items, xhr);
       }, this));
     }
@@ -194,20 +198,20 @@ PhotosList = (function() {
     };
     return this.el.selectable();
   };
-  PhotosList.prototype.previewUp = function(e) {
+  PhotosList.prototype.infoUp = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    this.preview.up(e);
+    this.info.up(e);
     return false;
   };
-  PhotosList.prototype.previewBye = function(e) {
+  PhotosList.prototype.infoBye = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    this.preview.bye();
+    this.info.bye();
     return false;
   };
-  PhotosList.prototype.stopPreview = function(e) {
-    return this.preview.bye();
+  PhotosList.prototype.stopInfo = function(e) {
+    return this.info.bye();
   };
   PhotosList.prototype.sliderStart = function() {
     return console.log(this.thumb.length);

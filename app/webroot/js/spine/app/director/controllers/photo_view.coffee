@@ -4,27 +4,27 @@ $      = Spine.$
 class PhotoView extends Spine.Controller
   
   elements:
-    '.preview'            : 'previewEl'
-    '.items'              : 'items'
-    '.items .item'        : 'item'
+    '.info'            : 'infoEl'
+    '.items'           : 'items'
+    '.items .item'     : 'item'
   
   events:
-    'mousemove .item'     : 'previewUp'
-    'mouseleave  .item'   : 'previewBye'
-    'dragstart .item'     : 'stopPreview'
+    'mousemove .item'     : 'infoUp'
+    'mouseleave  .item'   : 'infoBye'
+    'dragstart .item'     : 'stopInfo'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
     
-  previewTemplate: (item) ->
-    $('#photoPreviewTemplate').tmpl item
+  infoTemplate: (item) ->
+    $('#photoInfoTemplate').tmpl item
     
   constructor: ->
     super
     @el.data current: Photo
-    @preview = new Preview
-      el: @previewEl
-      template: @previewTemplate
+    @info = new Info
+      el: @infoEl
+      template: @infoTemplate
     @img = new Image
     @img.onload = @imageLoad
     
@@ -96,20 +96,20 @@ class PhotoView extends Spine.Controller
         'backgroundColor'   : 'rgba(255, 255, 255, 0.5)'
         'backgroundImage'   : 'none'
   
-  previewUp: (e) =>
+  infoUp: (e) =>
     e.stopPropagation()
     e.preventDefault()
-    @preview.up(e)
+    @info.up(e)
     false
     
-  previewBye: (e) =>
+  infoBye: (e) =>
     e.stopPropagation()
     e.preventDefault()
-    @preview.bye()
+    @info.bye()
     false
     
-  stopPreview: (e) =>
-    @preview.bye()
+  stopInfo: (e) =>
+    @info.bye()
   
   show: (item) ->
     Spine.trigger('change:toolbar', 'Photo')

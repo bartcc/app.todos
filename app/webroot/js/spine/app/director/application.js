@@ -17,11 +17,11 @@ App = (function() {
     '#content .edit': 'galleryEditEl',
     '#gallery': 'galleryEl',
     '#album': 'albumEl',
-    '#fileupload': 'uploadEl',
     '#photo': 'photoEl',
     '#slideshow': 'slideshowEl',
     '#loader': 'loaderEl',
     '#login': 'loginEl',
+    '#fu': 'uploadEl',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag',
     '.show .content': 'content',
@@ -117,7 +117,6 @@ App = (function() {
     this.contentManager.change(this.showView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
-    this.initFileupload();
   }
   App.prototype.validate = function(user, json) {
     var cb, valid;
@@ -157,17 +156,6 @@ App = (function() {
     return this.statusText.text('Thanks for Patience').fadeIn('slow', __bind(function() {
       return this.delay(cb, 1000);
     }, this));
-  };
-  App.prototype.initFileupload = function() {
-    this.uploadEl.fileupload();
-    return $.getJSON($('form', this.uploadEl).prop('action'), function(files) {
-      var fu;
-      fu = uploadEl.data('fileupload');
-      fu._adjustMaxNumberOfFiles(-files.length);
-      return fu._renderDownload(files).appendTo($('.files', this.uploadEl).fadeIn(function() {
-        return $(this).show();
-      }));
-    });
   };
   return App;
 })();

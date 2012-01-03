@@ -32,7 +32,7 @@ class GalleryEditView extends Spine.Controller
       unless Gallery.count()
         @editEl.html $("#noSelectionTemplate").tmpl({type: '<label class="invite"><span class="disabled invite">Director has no gallery yet &nbsp;</span><button class="optCreate dark invite">New Gallery</button></label>'})
       else
-        @editEl.html $("#noSelectionTemplate").tmpl({type: '<label><span class="disabled">Select a gallery!</span></label>'})
+        @editEl.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="disabled">Select a gallery!</span></label>'})
     @
 
   saveOnEnter: (e) ->

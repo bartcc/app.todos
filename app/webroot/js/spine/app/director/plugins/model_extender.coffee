@@ -139,7 +139,8 @@ Model.Extender =
       
       updateSelection: (list) ->
         model = @constructor['parentSelector']
-        list = Spine.Model[model].updateSelection list, @id
+        list = [list] unless @constructor.isArray list
+        list = Spine.Model[model].updateSelection list
 
       emptySelection: ->
         model = @constructor['parentSelector']
@@ -179,8 +180,24 @@ Model.Extender =
           index = list.indexOf(@id)
           list.splice(index, 1) unless index is -1
         list
-
+        
+      allGalleryAlbums: =>
+        gallery = Gallery.record
+        return unless gallery
+        albums = []
+        gas = GalleriesAlbum.filter(gallery.id, key:'gallery_id')
+        for ga in gas
+          albums.push Album.find(ga.album_id) if Album.exists(ga.album_id)
+        albums
+        
+      allAlbumPhotos: =>
+        album = Album.record
+        return unless album
+        photos = []
+        aps = AlbumsPhoto.filter(album.id, key:'album_id')
+        for ap in aps
+          photos.push Photo.find(ap.album_id) if Photo.exists(ap.album_id)
+        photos
+        
     @extend Extend
     @include Include
-
-    

@@ -16,14 +16,14 @@ AlbumsList = (function() {
   AlbumsList.prototype.events = {
     'click .item': "click",
     'dblclick .item': 'dblclick',
-    'mousemove .item .thumbnail': 'previewUp',
-    'mouseleave .item .thumbnail': 'previewBye',
-    'dragstart .item .thumbnail': 'stopPreview'
+    'mousemove .item .thumbnail': 'infoUp',
+    'mouseleave .item .thumbnail': 'infoBye',
+    'dragstart .item .thumbnail': 'stopInfo'
   };
   function AlbumsList() {
-    this.stopPreview = __bind(this.stopPreview, this);
-    this.previewBye = __bind(this.previewBye, this);
-    this.previewUp = __bind(this.previewUp, this);
+    this.stopInfo = __bind(this.stopInfo, this);
+    this.infoBye = __bind(this.infoBye, this);
+    this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Spine.bind('album:exposeSelection', this.proxy(this.exposeSelection));
@@ -79,7 +79,8 @@ AlbumsList = (function() {
       Album.current();
     }
     Spine.trigger('change:selectedAlbum', Album.record, Album.changed());
-    return Spine.trigger('change:selectedPhoto', Photo.record);
+    Spine.trigger('change:selectedPhoto', Photo.record);
+    return this.exposeSelection();
   };
   AlbumsList.prototype.render = function(items) {
     console.log('AlbumsList::render');
@@ -171,20 +172,20 @@ AlbumsList = (function() {
     e.preventDefault();
     return false;
   };
-  AlbumsList.prototype.previewUp = function(e) {
+  AlbumsList.prototype.infoUp = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    this.preview.up(e);
+    this.info.up(e);
     return false;
   };
-  AlbumsList.prototype.previewBye = function(e) {
+  AlbumsList.prototype.infoBye = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    this.preview.bye();
+    this.info.bye();
     return false;
   };
-  AlbumsList.prototype.stopPreview = function(e) {
-    return this.preview.bye();
+  AlbumsList.prototype.stopInfo = function(e) {
+    return this.info.bye();
   };
   return AlbumsList;
 })();

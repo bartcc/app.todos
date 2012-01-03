@@ -32,7 +32,8 @@ class UploadEditView extends Spine.Controller
       console.log changed
       if changed
         @current = item
-        @render()
+    else @current = false
+    @render() if changed or !item
     
   render: ->
     console.log 'UploadView::render'

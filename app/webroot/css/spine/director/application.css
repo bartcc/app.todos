@@ -711,8 +711,8 @@ textarea {
 .options li:not(.ui-icon) {
 /*  border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0 20px;
-  line-height: 30px;*/
-  min-height: 37px;
+  line-height: 30px;
+  min-height: 37px;*/
 }
 .options li button:not(:disabled) {
   cursor: pointer;

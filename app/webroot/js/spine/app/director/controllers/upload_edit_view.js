@@ -42,8 +42,12 @@ UploadEditView = (function() {
       console.log(changed);
       if (changed) {
         this.current = item;
-        return this.render();
       }
+    } else {
+      this.current = false;
+    }
+    if (changed || !item) {
+      return this.render();
     }
   };
   UploadEditView.prototype.render = function() {

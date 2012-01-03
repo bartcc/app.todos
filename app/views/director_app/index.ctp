@@ -494,96 +494,10 @@
     </div>
   </form>
   {{else}}
-  <label class="">
+  <label class="label">
     <span>Select a target album</span>
   </label>
   {{/if}}
-</script>
-<script id="fileuploadTemplate_" type="text/x-jquery-tmpl">
-  {{if album}}
-  <form action="" method="POST" enctype="multipart/form-data">
-    <label class="label fileinput-button">
-      <span>Uploaded images will be stored inside album:</span>
-    </label>
-    <select name="select">
-      {{tmpl($item.data.album.allGalleryAlbums()) "#albumSelectTemplate"}}
-    </select>
-  </form>
-  <div class="container fileupload-content">
-    <label class="label dropzone">
-      <span class="">Dropzone</span>
-    </label>
-    <table class="files"></table>
-    <div class="fileupload-progressbar"></div>
-  </div>
-  {{else}}
-  <label class="">
-    <span>Select a target album</span>
-  </label>
-  {{/if}}
-</script>
-
-<script id="_uploadTemplate" type="text/x-jquery-tmpl">
-  <tr class="template-upload{{if error}} ui-state-error{{/if}}">
-    <td class="preview"></td>
-    <td class="name">{{if name}}${name}{{else}}Untitled{{/if}}</td>
-    <td class="size">${sizef}</td>
-    {{if error}}
-    <td class="error" colspan="2">Error:
-      {{if error === 'maxFileSize'}}File is too big
-      {{else error === 'minFileSize'}}File is too small
-      {{else error === 'acceptFileTypes'}}Filetype not allowed
-      {{else error === 'maxNumberOfFiles'}}Max number of files exceeded
-      {{else}}${error}
-      {{/if}}
-    </td>
-    {{else}}
-    <td class="progress"><div></div></td>
-    <td class="start"><button></button></td>
-    {{/if}}
-    <td class="cancel"><button></button></td>
-  </tr>
-</script>
-
-<script id="_template-download" type="text/x-jquery-tmpl">
-  <tr class="template-download{{if error}} ui-state-error{{/if}}">
-    {{if error}}
-    <td></td>
-    <td class="name">${name}</td>
-    <td class="size">${sizef}</td>
-    <td class="error" colspan="2">Error:
-      {{if error === 1}}File exceeds upload_max_filesize (php.ini directive)
-      {{else error === 2}}File exceeds MAX_FILE_SIZE (HTML form directive)
-      {{else error === 3}}File was only partially uploaded
-      {{else error === 4}}No File was uploaded
-      {{else error === 5}}Missing a temporary folder
-      {{else error === 6}}Failed to write file to disk
-      {{else error === 7}}File upload stopped by extension
-      {{else error === 'maxFileSize'}}File is too big
-      {{else error === 'minFileSize'}}File is too small
-      {{else error === 'acceptFileTypes'}}Filetype not allowed
-      {{else error === 'maxNumberOfFiles'}}Max number of files exceeded
-      {{else error === 'uploadedBytes'}}Uploaded bytes exceed file size
-      {{else error === 'emptyResult'}}Empty file upload result
-      {{else}}${error}
-      {{/if}}
-    </td>
-    {{else}}
-    <td class="preview">
-      {{if thumbnail_url}}
-      <a href="${url}" target="_blank"><img src="${thumbnail_url}"></a>
-      {{/if}}
-    </td>
-    <td class="name">
-      <a href="${url}"{{if thumbnail_url}} target="_blank"{{/if}}>${name}</a>
-    </td>
-    <td class="size">${sizef}</td>
-    <td colspan="2"></td>
-    {{/if}}
-    <td class="delete">
-      <button data-type="${delete_type}" data-url="${delete_url}"></button>
-    </td>
-  </tr>
 </script>
 
 <script>

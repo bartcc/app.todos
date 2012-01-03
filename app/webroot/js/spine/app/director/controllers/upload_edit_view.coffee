@@ -26,15 +26,15 @@ class UploadEditView extends Spine.Controller
 #    Gallery.bind('refresh', @proxy @change)
     
   change: (item) ->
-    console.log item
-    if item
-      changed = !(item?.eql @current)
-      console.log changed
-      if changed
-        @current = item
-    else @current = false
-    @render() if changed or !item
-    
+#    console.log item
+#    if item
+#      changed = !(item?.eql @current)
+#      console.log changed
+#      if changed
+#        @current = item
+#    else @current = false
+#    @render() if changed or !item
+    @render()
   render: ->
     console.log 'UploadView::render'
     selection = Gallery.selectionList()

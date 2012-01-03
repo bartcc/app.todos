@@ -295,7 +295,7 @@
 </script>
 
 <script id="albumSelectTemplate" type="text/x-jquery-tmpl">
-  <option {{if constructor.record.id == id}}selected{{/if}} value="${id}">${title}</option>
+  <option {{if ((constructor.record) && (constructor.record.id == id))}}selected{{/if}} value="${id}">${title}</option>
 </script>
 
 <script id="editPhotoTemplate" type="text/x-jquery-tmpl">

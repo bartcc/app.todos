@@ -28,6 +28,9 @@ body {
 header, footer {
   display: block;
 }
+footer.footer {
+  margin: 0;
+}
 .autoflow {
   overflow: auto;
 }

@@ -30,7 +30,7 @@
     echo $this->Html->css('spine/director/application_boxmodel');
 
     //$this->log($js->object($galleries), LOG_DEBUG);
-    echo $this->Html->script('lib/jquery/jquery-1.6.2');
+    echo $this->Html->script('lib/jquery/jquery-1.7.1.min');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
     echo $this->Html->script('spine/lib/spine_1.0.5');
     echo $this->Html->script('spine/lib/local');

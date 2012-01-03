@@ -47,7 +47,6 @@ UploadEditView = (function() {
       gallery: gallery,
       album: album
     }));
-    this.el.idealforms();
     this.initFileupload();
     this.refreshElements();
     return this.el;
@@ -101,12 +100,7 @@ UploadEditView = (function() {
     album.updateSelection([album.id]);
     return Spine.trigger('album:activate');
   };
-  UploadEditView.prototype.click = function(e) {
-    console.log('click');
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
-  };
+  UploadEditView.prototype.click = function(e) {};
   return UploadEditView;
 })();
 if (typeof module !== "undefined" && module !== null) {

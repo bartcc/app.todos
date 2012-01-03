@@ -9,11 +9,11 @@ class UploadEditView extends Spine.Controller
 
   events:
     'click'                       : 'click'
-    'fileuploadadd #fileupload'               : 'add'
-    'fileuploaddone #fileupload'              : 'done'
-    'fileuploadsubmit #fileupload'            : 'submit'
-    'change select'                           : 'changeSelected'
-    'fileuploadsend #fileupload'              : 'fileuploadsend'
+    'fileuploadadd #fileupload'   : 'add'
+    'fileuploaddone #fileupload'  : 'done'
+    'fileuploadsubmit #fileupload': 'submit'
+    'change select'               : 'changeSelected'
+    'fileuploadsend #fileupload'  : 'fileuploadsend'
     
   template: (item) ->
     $('#fileuploadTemplate').tmpl item
@@ -35,6 +35,7 @@ class UploadEditView extends Spine.Controller
 #    else @current = false
 #    @render() if changed or !item
     @render()
+    
   render: ->
     console.log 'UploadView::render'
     selection = Gallery.selectionList()
@@ -43,7 +44,7 @@ class UploadEditView extends Spine.Controller
     @html @template
       gallery: gallery
       album: album
-    @el.idealforms()
+#    @el.idealforms()
     @initFileupload()
     @refreshElements()
     @el
@@ -92,10 +93,10 @@ class UploadEditView extends Spine.Controller
     Spine.trigger('album:activate')
     
   click: (e) ->
-    console.log 'click'
-    
-    e.stopPropagation()
-    e.preventDefault()
-    false
+#    console.log 'click'
+#    
+#    e.stopPropagation()
+#    e.preventDefault()
+#    false
     
 module?.exports = UploadEditView

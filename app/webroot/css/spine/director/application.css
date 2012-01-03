@@ -236,7 +236,10 @@ button.invite {
   margin: 5px;
 }
 .invite {
-  text-align: center
+  display: table-cell;
+  font-size: 1.3em;
+  margin: 0 auto;
+  text-align: center;
 }
 .container label.label {
   display: block;
@@ -276,9 +279,8 @@ label input[type="text"] {
   box-sizing: border-box;*/
 }
 .view .enlightened {
-  color: #9A9A9A;
+  color: rgba(250, 250, 250, 0.5);
   font-family: serif;
-  font-size: 1.3em;
   font-style: italic;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 }
@@ -295,9 +297,8 @@ button:disabled {
   cursor: auto;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
-.view label span {
+.view label.label span {
   font-family: serif;
-  font-size: 1.3em;
   font-style: italic;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
   color: rgba(250, 250, 250, 0.4);
@@ -1069,4 +1070,6 @@ label {
 }
 .container label.label {
   background: none;
+  font-size: 1.2em;
+  color: #454545;
 }

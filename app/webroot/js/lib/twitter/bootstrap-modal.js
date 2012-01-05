@@ -187,13 +187,12 @@
   }
 
   function removeBackdrop() {
-    $('.modal-backdrop').each(function() {
-       $(this).remove();
-    })
+    this.$backdrop.remove()
+    this.$backdrop = null
+//    $('.modal-backdrop').each(function() {
+//       $(this).remove();
+//    })
   }
-//    this.$backdrop.remove()
-//    this.$backdrop = null
-//  }
 
   function escape() {
     var that = this

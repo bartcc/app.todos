@@ -82,7 +82,7 @@ PhotoView = (function() {
     }
     console.log('PhotoView::uri');
     return item.uri(this.params(), mode, __bind(function(xhr, record) {
-      return this.callback(item, xhr);
+      return this.callback(record, xhr);
     }, this));
   };
   PhotoView.prototype.callback = function(record, json) {

@@ -205,8 +205,10 @@ class Sidebar extends Spine.Controller
     App.galleryEditView.render()
     App.contentManager.change(App.galleryEditView)
 
-  toggleDraghandle: ->
-    
+  toggleDraghandle: (options) ->
+    if options.close
+      return if App.vmanager.sleep
+      
     width = =>
       max = App.vmanager.currentDim
       w =  @el.width()

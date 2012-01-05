@@ -144,16 +144,11 @@ PhotosList = (function() {
   PhotosList.prototype.imageLoad = function() {
     var css;
     css = 'url(' + this.src + ')';
-    $('.thumbnail', this.element).css({
+    return $('.thumbnail', this.element).css({
       'backgroundImage': css,
       'backgroundPosition': 'center, center',
       'backgroundSize': '100%'
-    }).append($(this).hide().attr({
-      'href': this.src,
-      'title': 'title',
-      'rel': 'gallery'
-    }));
-    return delete this;
+    });
   };
   PhotosList.prototype.exposeSelection = function() {
     var current, el, id, item, list, _i, _len;

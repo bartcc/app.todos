@@ -22,6 +22,7 @@ App = (function() {
     '#sl': 'slideshowEl',
     '#loader': 'loaderEl',
     '#login': 'loginEl',
+    '#gallery': 'slideshow',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag',
     '.show .content': 'content',
@@ -49,9 +50,6 @@ App = (function() {
     });
     this.upload = new UploadEditView({
       el: this.uploadEl
-    });
-    this.slideshow = new SlideshowEditView({
-      el: this.slideshowEl
     });
     this.overviewView = new OverviewView({
       el: this.overviewEl
@@ -95,10 +93,10 @@ App = (function() {
         return this.sidebar.inner.show();
       }, this)
     });
-    this.hmanager = new Spine.Manager(this.gallery, this.album, this.photo, this.upload, this.slideshow);
+    this.hmanager = new Spine.Manager(this.gallery, this.album, this.photo, this.upload);
     this.hmanager.initDrag(this.hDrag, {
       initSize: __bind(function() {
-        return this.el.height() / 3;
+        return this.el.height() / 2;
       }, this),
       disabled: false,
       axis: 'y',
@@ -106,7 +104,7 @@ App = (function() {
         return 20;
       },
       max: __bind(function() {
-        return this.el.height() / 3;
+        return this.el.height() / 2;
       }, this),
       goSleep: __bind(function() {
         var _ref;
@@ -117,6 +115,12 @@ App = (function() {
     this.contentManager.change(this.showView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
+    this.options = {
+      canvas: false,
+      backdrop: true,
+      slideshow: 2000
+    };
+    this.initializeGallery(this.options);
   }
   App.prototype.validate = function(user, json) {
     var cb, valid;
@@ -153,9 +157,12 @@ App = (function() {
       }
       return this.loginView.render(User.first());
     };
-    return this.statusText.text('Thanks for visiting us').fadeIn('slow', __bind(function() {
+    return this.statusText.text('Thanks for joining in').fadeIn('slow', __bind(function() {
       return this.delay(cb, 1000);
     }, this));
+  };
+  App.prototype.initializeGallery = function(options) {
+    return this.slideshow.imagegallery(options);
   };
   return App;
 })();

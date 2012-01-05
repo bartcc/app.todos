@@ -19,17 +19,18 @@ ShowView = (function() {
     '.header': 'albumHeader',
     '.optOverview': 'btnOverview',
     '.optEditGallery': 'btnEditGallery',
+    '.optPlay': 'btnPlay',
     '.optGallery .ui-icon': 'btnGallery',
     '.optAlbum .ui-icon': 'btnAlbum',
     '.optPhoto .ui-icon': 'btnPhoto',
     '.optUpload .ui-icon': 'btnUpload',
-    '.optSlideshow .ui-icon': 'btnSlideshow',
     '.toolbar': 'toolbarEl',
     '.props': 'propsEl',
     '.galleries': 'galleriesEl',
     '.albums': 'albumsEl',
     '.photos': 'photosEl',
     '.photo': 'photoEl',
+    '.slideshow': 'slideshowEl',
     '#slider': 'slider'
   };
   ShowView.prototype.events = {
@@ -47,12 +48,11 @@ ShowView = (function() {
     "click .optAlbum .ui-icon": "toggleAlbumShow",
     "click .optPhoto .ui-icon": "togglePhotoShow",
     "click .optUpload .ui-icon": "toggleUploadShow",
-    "click .optSlideshow .ui-icon": "toggleSlideshowShow",
     "click .optGallery": "toggleGallery",
     "click .optAlbum": "toggleAlbum",
     "click .optPhoto": "togglePhoto",
     "click .optUpload": "toggleUpload",
-    "click .optSlideshow": "toggleSlideshow",
+    "click .optPlay": "play",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
     'fileuploadprogress': "uploadProgress",
@@ -109,6 +109,13 @@ ShowView = (function() {
       parent: this,
       parentModel: 'Photo'
     });
+    this.slideshowView = new SlideshowView({
+      el: this.slideshowEl,
+      className: 'items',
+      header: false,
+      parent: this,
+      parentModel: 'Photo'
+    });
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
     Gallery.bind('change', this.proxy(this.changeToolbar));
     Album.bind('change', this.proxy(this.changeToolbar));
@@ -123,7 +130,7 @@ ShowView = (function() {
       throw 'need initial control';
     }
     this.edit = this.editGallery;
-    this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView);
+    this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView, this.slideshowView);
     this.canvasManager.change(this.current);
     this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader, this.photoHeader);
     this.headerManager.change(this.albumsHeader);
@@ -195,6 +202,9 @@ ShowView = (function() {
   };
   ShowView.prototype.showOverview = function(e) {
     return Spine.trigger('show:overview');
+  };
+  ShowView.prototype.play = function() {
+    return Spine.trigger('show:slideshow');
   };
   ShowView.prototype.animateView = function() {
     var hasActive, height;

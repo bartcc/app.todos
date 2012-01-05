@@ -11,17 +11,18 @@ class ShowView extends Spine.Controller
     '.header'                 : 'albumHeader'
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
+    '.optPlay'                : 'btnPlay'
     '.optGallery .ui-icon'    : 'btnGallery'
     '.optAlbum .ui-icon'      : 'btnAlbum'
     '.optPhoto .ui-icon'      : 'btnPhoto'
     '.optUpload .ui-icon'     : 'btnUpload'
-    '.optSlideshow .ui-icon'  : 'btnSlideshow'
     '.toolbar'                : 'toolbarEl'
     '.props'                  : 'propsEl'
     '.galleries'              : 'galleriesEl'
     '.albums'                 : 'albumsEl'
     '.photos'                 : 'photosEl'
     '.photo'                  : 'photoEl'
+    '.slideshow'              : 'slideshowEl'
     '#slider'                 : 'slider'
     
   events:
@@ -41,12 +42,11 @@ class ShowView extends Spine.Controller
     "click .optAlbum .ui-icon"        : "toggleAlbumShow"
     "click .optPhoto .ui-icon"        : "togglePhotoShow"
     "click .optUpload .ui-icon"       : "toggleUploadShow"
-    "click .optSlideshow .ui-icon"    : "toggleSlideshowShow"
     "click .optGallery"               : "toggleGallery"
     "click .optAlbum"                 : "toggleAlbum"
     "click .optPhoto"                 : "togglePhoto"
     "click .optUpload"                : "toggleUpload"
-    "click .optSlideshow"             : "toggleSlideshow"
+    "click .optPlay"                  : "play"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
     'fileuploadprogress'              : "uploadProgress" 
@@ -93,6 +93,12 @@ class ShowView extends Spine.Controller
       header: @photoHeader
       parent: @
       parentModel: 'Photo'
+    @slideshowView = new SlideshowView
+      el: @slideshowEl
+      className: 'items'
+      header: false
+      parent: @
+      parentModel: 'Photo'
     
     Spine.bind('change:canvas', @proxy @changeCanvas)
     Gallery.bind('change', @proxy @changeToolbar)
@@ -108,7 +114,7 @@ class ShowView extends Spine.Controller
     else throw 'need initial control'
     @edit = @editGallery
     
-    @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView)
+    @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
     @canvasManager.change @current
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
     @headerManager.change @albumsHeader
@@ -179,6 +185,9 @@ class ShowView extends Spine.Controller
 
   showOverview: (e) ->
     Spine.trigger('show:overview')
+
+  play: ->
+    Spine.trigger('show:slideshow')
 
   animateView: ->
     hasActive = ->

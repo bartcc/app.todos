@@ -60,7 +60,7 @@ class PhotoView extends Spine.Controller
     
   uri: (item, mode = 'html') ->
     console.log 'PhotoView::uri'
-    item.uri @params(), mode, (xhr, record) => @callback item, xhr
+    item.uri @params(), mode, (xhr, record) => @callback record, xhr
   
   callback: (record, json) =>
     console.log 'PhotoView::callback'

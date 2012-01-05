@@ -47,7 +47,7 @@
     echo $this->Html->script('lib/jquery/jquery-1.7.1.min');
     echo $this->Html->script('lib/jquery/ui/jquery-ui-1.8.16');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.widget');
+    echo $this->Html->script('lib/jquery/ui/jquery.ui.widget.min');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.mouse');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.draggable');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.droppable');
@@ -58,7 +58,7 @@
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.core');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
-    echo $this->Html->script('lib/twitter/bootstrap-modal.min.js');
+    echo $this->Html->script('lib/twitter/bootstrap-modal');
     echo $this->Html->script('lib/blueimp/tmpl');
     echo $this->Html->script('lib/blueimp/load-image');
     echo $this->Html->script('lib/blueimp/bootstrap-image-gallery');
@@ -101,6 +101,7 @@
     echo $this->Html->script('spine/app/director/controllers/albums_view');
     echo $this->Html->script('spine/app/director/controllers/photos_view');
     echo $this->Html->script('spine/app/director/controllers/photo_view');
+    echo $this->Html->script('spine/app/director/controllers/slideshow_view');
     echo $this->Html->script('spine/app/director/controllers/galleries_header');
     echo $this->Html->script('spine/app/director/controllers/albums_header');
     echo $this->Html->script('spine/app/director/controllers/photos_header');
@@ -117,7 +118,6 @@
     echo $this->Html->script('spine/app/director/controllers/album_edit_view');
     echo $this->Html->script('spine/app/director/controllers/photo_edit_view');
     echo $this->Html->script('spine/app/director/controllers/upload_edit_view');
-    echo $this->Html->script('spine/app/director/controllers/slideshow_edit_view');
     echo $this->Html->script('spine/app/director/application');
     ?>
 

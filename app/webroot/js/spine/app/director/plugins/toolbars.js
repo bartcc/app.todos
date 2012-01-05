@@ -63,7 +63,7 @@ Controller.Toolbars = {
               klass: 'optThumbsize ',
               name: '<span id="slider" style=""></span>',
               type: 'div',
-              style: 'width: 190px;'
+              style: 'width: 190px; position: relative;'
             }
           ],
           Photo: [
@@ -78,12 +78,6 @@ Controller.Toolbars = {
           Upload: [
             {
               name: 'Show Upload',
-              klass: ''
-            }
-          ],
-          Slideshow: [
-            {
-              name: 'Play',
               klass: ''
             }
           ]

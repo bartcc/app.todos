@@ -114,6 +114,10 @@
         <ul class="options hbox">
           <li class="optOverview"><button class="dark">Overview</button></li>
           <ul class="toolbar hbox"></ul>
+          <li class="splitter disabled flex"></li>
+          <li class="optPlay"><button class="dark">Slideshow</button></li>
+          <li class="splitter disabled"></li>
+          <li class="optFullscreen"><button class="dark">Fullscreen</button></li>
         </ul>
         <div class="contents views vbox flex">
           <div class="header views">
@@ -132,26 +136,14 @@
           </div>
           <div class="view photos content vbox flex data autoflow">
             <div class="hoverinfo"></div>
-            <!-- gallery-loader is the loading animation container -->
-            <div id="gallery-loader"></div>
-            <!-- gallery-modal is the modal dialog used for the image gallery -->
-            <div id="gallery-modal" class="modal hide fade">
-              <div class="modal-header">
-                <a href="#" class="close">&times;</a>
-                <h3 class="title"></h3>
-              </div>
-              <div class="modal-body"></div>
-              <div class="modal-footer">
-                <a class="btn primary next">Next</a>
-                <a class="btn info prev">Previous</a>
-                <a class="btn success download" target="_blank">Download</a>
-              </div>
-            </div>
-            <div class="items sortable flex" id="gallery"></div>
+            <div class="items sortable flex"></div>
           </div>
           <div class="view photo content vbox flex data autoflow">
             <div class="hoverinfo"></div>
             <div class="items sortable flex">PHOTO</div>
+          </div>
+          <div class="view slideshow content flex data autoflow">
+            <div id="gallery" class="items flex">Play</div>
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
@@ -171,11 +163,6 @@
               </div>
             </div>
             <div id="fu" class="view container flex autoflow" style=""></div>
-            <div id="sl" class="view flex autoflow" style="">
-              <label>
-                <span class="disabled">Not quite there yet</span>
-              </label>
-            </div>
           </div>
         </div>  
         <ul class="options props hbox">
@@ -187,8 +174,6 @@
           <li class="splitter disabled"></li>
           <li class="opt optUpload">Upload<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
           <li class="splitter disabled"></li>
-          <li class="opt optSlideshow">Slideshow<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
-          <li class="splitter disabled flex"></li>
         </ul>
       </div>
       <div class="edit view vbox flex">
@@ -201,6 +186,22 @@
     </div>
   </div>
 </div>
+<!-- gallery-loader is the loading animation container -->
+<div id="gallery-loader"></div>
+<!-- gallery-modal is the modal dialog used for the image gallery -->
+<div id="gallery-modal" class="modal hide fade fullscreen">
+  <div class="modal-header">
+    <a href="#" class="close">&times;</a>
+    <h3 class="title"></h3>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <a class="btn primary next">Next</a>
+    <a class="btn info prev">Previous</a>
+    <a class="btn success download" target="_blank">Download</a>
+  </div>
+</div>
+
 
 <!-- Templates -->
 
@@ -328,6 +329,7 @@
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
   {{if name}}
+  <li class="splitter disabled"></li>
   <li class="${klass}"><{{if type}}${type}{{else}}button class="dark" {{/if}}{{if style}} style="${style}"{{/if}} {{if disabled}}disabled{{/if}} class="tb-name">{{html name}}</{{if type}}${type}{{else}}button{{/if}}></li>
   {{/if}}
 </script>

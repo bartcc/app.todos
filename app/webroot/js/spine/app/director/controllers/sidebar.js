@@ -276,8 +276,13 @@ Sidebar = (function() {
     App.galleryEditView.render();
     return App.contentManager.change(App.galleryEditView);
   };
-  Sidebar.prototype.toggleDraghandle = function() {
+  Sidebar.prototype.toggleDraghandle = function(options) {
     var speed, w, width;
+    if (options.close) {
+      if (App.vmanager.sleep) {
+        return;
+      }
+    }
     width = __bind(function() {
       var max, w;
       max = App.vmanager.currentDim;

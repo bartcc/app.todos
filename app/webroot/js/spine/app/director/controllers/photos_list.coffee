@@ -39,7 +39,6 @@ class PhotosList extends Spine.Controller
         @[mode] @template items
         @exposeSelection() unless mode is 'append'
         @uri items, mode
-#        @el.imagegallery()
         @el
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
@@ -107,12 +106,6 @@ class PhotosList extends Spine.Controller
       'backgroundImage': css
       'backgroundPosition': 'center, center'
       'backgroundSize': '100%'
-    .append $(@).hide().attr
-      'href'  : @src
-      'title' : 'title'
-      'rel'   : 'gallery'
-    
-    delete @
     
   exposeSelection: ->
     console.log 'PhotosList::exposeSelection'

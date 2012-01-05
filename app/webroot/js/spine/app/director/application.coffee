@@ -18,6 +18,7 @@ class App extends Spine.Controller
     '#sl'                 : 'slideshowEl'
     '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
+    '#gallery'            : 'slideshow'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '.show .content'      : 'content'
@@ -51,8 +52,6 @@ class App extends Spine.Controller
       el: @photoEl
     @upload = new UploadEditView
       el: @uploadEl
-    @slideshow = new SlideshowEditView
-      el: @slideshowEl
     @overviewView = new OverviewView
       el: @overviewEl
     @showView = new ShowView
@@ -78,13 +77,13 @@ class App extends Spine.Controller
       goSleep: => @sidebar.inner.hide()
       awake: => @sidebar.inner.show()
 
-    @hmanager = new Spine.Manager(@gallery, @album, @photo, @upload, @slideshow)
+    @hmanager = new Spine.Manager(@gallery, @album, @photo, @upload)
     @hmanager.initDrag @hDrag,
-      initSize: => @el.height()/3
+      initSize: => @el.height()/2
       disabled: false
       axis: 'y'
       min: -> 20
-      max: => @el.height()/3
+      max: => @el.height()/2
       goSleep: => @showView.activeControl?.click()
 
     @contentManager = new Spine.Manager(@overviewView, @showView, @galleryEditView)
@@ -94,6 +93,11 @@ class App extends Spine.Controller
     @appManager.change @loaderView
     
 #    @initFileupload()
+    @options =
+      canvas: false
+      backdrop: true
+      slideshow: 2000
+    @initializeGallery @options
 
   validate: (user, json) ->
     console.log 'Pinger done'
@@ -122,30 +126,10 @@ class App extends Spine.Controller
       @openPanel('gallery', @showView.btnGallery) unless Gallery.count()
       @loginView.render User.first()
       
-    @statusText.text('Thanks for visiting us').fadeIn('slow', => @delay cb, 1000)
+    @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 1000)
     
-#  initFileupload: ->
-#    @uploadEl.fileupload()
-#    $.getJSON $('form', @uploadEl).prop('action'), (files) ->
-#      fu = uploadEl.data('fileupload')
-#      fu._adjustMaxNumberOfFiles(-files.length)
-#      template = fu._renderDownload(files)
-#        .appendTo @uploadFiles
-#      #Force reflow:
-#      fu._reflow = fu._transition && template.length && template[0].offsetWidth;
-#      template.addClass('in');
-#    
-#  fileuploadsend: (e, data) ->
-#    # Enable iframe cross-domain access via redirect page:
-#    redirectPage = window.location.href.replace /\/[^\/]*$/, '/result.html?%s'
-#    
-#    if (data.dataType.substr(0, 6) is 'iframe')
-#      target = $('<a/>').prop('href', data.url)[0]
-#      unless window.location.host is target.host
-#        data.formData.push
-#          name: 'redirect'
-#          value: redirectPage
-    
+  initializeGallery: (options) ->
+    @slideshow.imagegallery options
     
 $ ->
   

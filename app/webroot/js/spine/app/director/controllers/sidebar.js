@@ -278,10 +278,8 @@ Sidebar = (function() {
   };
   Sidebar.prototype.toggleDraghandle = function(options) {
     var speed, w, width;
-    if (options.close) {
-      if (App.vmanager.sleep) {
-        return;
-      }
+    if ((options != null ? options.close : void 0) && App.vmanager.sleep) {
+      return;
     }
     width = __bind(function() {
       var max, w;

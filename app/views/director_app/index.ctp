@@ -113,11 +113,10 @@
       <div class="show view canvas vbox flex">
         <ul class="options hbox">
           <li class="optOverview"><button class="dark">Overview</button></li>
-          <ul class="toolbar hbox"></ul>
+          <ul class="toolbarOne hbox"></ul>
           <li class="splitter disabled flex"></li>
-          <li class="optPlay"><button class="dark">Slideshow</button></li>
-          <li class="splitter disabled"></li>
-          <li class="optFullscreen"><button class="dark">Fullscreen</button></li>
+<!--          <li class="optSlideshow"><button class="dark">Slideshow</button></li>-->
+          <ul class="toolbarTwo hbox"></ul>
         </ul>
         <div class="contents views vbox flex">
           <div class="header views">
@@ -189,7 +188,7 @@
 <!-- gallery-loader is the loading animation container -->
 <div id="gallery-loader"></div>
 <!-- gallery-modal is the modal dialog used for the image gallery -->
-<div id="gallery-modal" class="modal hide fade fullscreen">
+<div id="gallery-modal" class="modal hide fade">
   <div class="modal-header">
     <a href="#" class="close">&times;</a>
     <h3 class="title"></h3>
@@ -201,7 +200,6 @@
     <a class="btn success download" target="_blank">Download</a>
   </div>
 </div>
-
 
 <!-- Templates -->
 

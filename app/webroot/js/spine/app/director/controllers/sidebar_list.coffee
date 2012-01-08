@@ -148,7 +148,7 @@ class SidebarList extends Spine.Controller
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryContentEl.tmplItem()
     tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
-    tmplItem.update()# unless Gallery.record.id is gallery.id
+    tmplItem.update()
     # restore active
     @exposeSublistSelection gallery
     
@@ -231,7 +231,7 @@ class SidebarList extends Spine.Controller
     
     @change item, 'show', e
     
-    Spine.trigger('change:toolbar', 'Gallery')
+    Spine.trigger('change:toolbarOne', ['Gallery'])
     
     e.stopPropagation()
     e.preventDefault()
@@ -240,9 +240,9 @@ class SidebarList extends Spine.Controller
   dblclick: (e) ->
     console.log 'SidebarList::dblclick'
     item = $(e.target).item()
-    App.showView.lockToolbar()
+#    App.showView.lockToolbar()
     @change item, 'edit', e
-    App.showView.unlockToolbar()
+#    App.showView.unlockToolbar()
     
     e.stopPropagation()
     e.preventDefault()

@@ -53,7 +53,7 @@ GalleriesView = (function() {
     return this.header.render();
   };
   GalleriesView.prototype.show = function() {
-    Spine.trigger('change:toolbar', 'Gallery');
+    Spine.trigger('change:toolbarOne', ['Gallery']);
     Album.activeRecord = false;
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('change:canvas', this);

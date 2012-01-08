@@ -4,8 +4,8 @@ Controller.Toolbars = {
   extended: function() {
     var Extend, Include;
     Include = {
-      toolBarList: function(item) {
-        var list;
+      toolBarList: function(items) {
+        var arr, it, item, itm, list, _i, _j, _len, _len2;
         list = {
           Gallery: [
             {
@@ -80,9 +80,38 @@ Controller.Toolbars = {
               name: 'Show Upload',
               klass: ''
             }
+          ],
+          Slideshow: [
+            {
+              name: 'Slideshow',
+              klass: 'optSlideshow',
+              disabled: function() {
+                return !Album.record;
+              }
+            }, {
+              name: 'Fullscreen',
+              klass: 'optFullscreen'
+            }
+          ],
+          Back: [
+            {
+              name: 'Back',
+              klass: 'optPrevious'
+            }
           ]
         };
-        return list[item];
+        arr = [];
+        for (_i = 0, _len = items.length; _i < _len; _i++) {
+          item = items[_i];
+          itm = list[(item != null ? item.constructor.className : void 0) || item];
+          console.log(item);
+          console.log(itm);
+          for (_j = 0, _len2 = itm.length; _j < _len2; _j++) {
+            it = itm[_j];
+            arr.push(it);
+          }
+        }
+        return arr;
       },
       lockToolbar: function() {
         return this.locked = true;
@@ -93,9 +122,25 @@ Controller.Toolbars = {
       renderToolbar: function() {
         return arguments[0];
       },
-      changeToolbar: function(nameOrModel, cb) {
-        this.changeTool(nameOrModel);
+      tboptions: {
+        cb: function() {
+          return arguments[0];
+        },
+        el: 'toolbarEl'
+      },
+      changeToolbar: function(nameOrModel, opts) {
+        var cb, options;
+        options = $.extend({}, this.tboptions, opts);
+        this.callback = options.cb;
+        this.element = options.el;
+        if (nameOrModel) {
+          if (!Album.isArray(nameOrModel)) {
+            nameOrModel = [nameOrModel];
+          }
+          this.changeTool(nameOrModel);
+        }
         if (this.currentToolbar) {
+          cb = this.callback;
           if (typeof cb === 'function') {
             this.currentToolbar.cb = cb;
           }
@@ -104,14 +149,15 @@ Controller.Toolbars = {
       },
       _renderToolbar: function() {
         var _ref;
-        this.renderToolbar();
+        this.trigger('render:toolbar', this.element);
         return (_ref = this.currentToolbar) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
       },
-      changeTool: function(model) {
+      changeTool: function(nameOrModel) {
         var toolbar;
         if (!this.locked) {
-          toolbar = this.toolBarList((model != null ? model.className : void 0) || model);
+          toolbar = this.toolBarList(nameOrModel);
         }
+        console.log(toolbar);
         if (toolbar) {
           return this.currentToolbar = toolbar;
         }

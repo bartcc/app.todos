@@ -84,7 +84,6 @@
     echo $this->Html->script('spine/app/director/plugins/ajax_relations');
     echo $this->Html->script('spine/app/director/plugins/cache');
     echo $this->Html->script('spine/app/director/plugins/uri');
-    echo $this->Html->script('spine/app/director/plugins/toolbars');
     echo $this->Html->script('spine/app/director/models/galleries_album');
     echo $this->Html->script('spine/app/director/models/albums_photo');
     echo $this->Html->script('spine/app/director/models/gallery');
@@ -93,6 +92,8 @@
     echo $this->Html->script('spine/app/director/models/user');
     echo $this->Html->script('spine/app/director/models/error');
     echo $this->Html->script('spine/app/director/models/recent');
+    echo $this->Html->script('spine/app/director/models/toolbar');
+    echo $this->Html->script('spine/app/director/controllers/toolbar_view');
     echo $this->Html->script('spine/app/director/controllers/loader');
     echo $this->Html->script('spine/app/director/controllers/info');
     echo $this->Html->script('spine/app/director/controllers/overview_view');

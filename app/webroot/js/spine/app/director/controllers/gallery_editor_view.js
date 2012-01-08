@@ -13,12 +13,11 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 GalleryEditorView = (function() {
   __extends(GalleryEditorView, Spine.Controller);
-  GalleryEditorView.extend(Spine.Controller.Toolbars);
   GalleryEditorView.prototype.elements = {
     ".content": "editContent",
     '.optDestroy': 'destroyBtn',
     '.optSave': 'saveBtn',
-    '.toolbar': 'toolBar'
+    '.toolbar': 'toolbarEl'
   };
   GalleryEditorView.prototype.events = {
     "click .optEdit": "edit",
@@ -35,10 +34,13 @@ GalleryEditorView = (function() {
   };
   function GalleryEditorView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    GalleryEditorView.__super__.constructor.apply(this, arguments);
+    this.toolbar = new ToolbarView({
+      el: this.toolbarEl,
+      template: this.toolsTemplate
+    });
     Gallery.bind("change", this.proxy(this.change));
     Spine.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
-    Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('save:gallery', this.proxy(this.save));
   }
   GalleryEditorView.prototype.change = function(item, mode) {
@@ -66,16 +68,23 @@ GalleryEditorView = (function() {
         }));
       }
     }
-    this.changeToolbar('GalleryEdit');
+    this.changeToolbar(['GalleryEdit']);
     return this.el;
   };
-  GalleryEditorView.prototype.renderToolbar = function() {
-    console.log('GalleryEditorView::renderToolbar');
-    this.toolBar.html(this.toolsTemplate(this.currentToolbar));
+  GalleryEditorView.prototype.changeToolbar = function(list) {
+    var tools;
+    tools = Toolbar.filter(list);
+    this.toolbar.change(tools);
+    return this.refreshElements();
+  };
+  GalleryEditorView.prototype.renderToolbar = function(el) {
+    var _ref;
+    if ((_ref = this[el]) != null) {
+      _ref.html(this.toolsTemplate(this.currentToolbar));
+    }
     return this.refreshElements();
   };
   GalleryEditorView.prototype.destroy = function(e) {
-    console.log('GalleryEditorView::destroy');
     if ($(e.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -83,7 +92,6 @@ GalleryEditorView = (function() {
   };
   GalleryEditorView.prototype.save = function(el) {
     var atts;
-    console.log('GalleryEditorView::save');
     if ($(el.currentTarget).hasClass('disabled')) {
       return;
     }
@@ -95,7 +103,6 @@ GalleryEditorView = (function() {
   };
   GalleryEditorView.prototype.saveOnEnter = function(e) {
     console.log('GalleryEditorView::saveOnEnter');
-    console.log(e.keyCode);
     if (e.keyCode !== 13) {
       return;
     }

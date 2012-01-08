@@ -21,19 +21,10 @@ class UploadEditView extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-    Album.bind('change', @proxy @change)
+#    Album.bind('change', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @change)
-#    Gallery.bind('refresh', @proxy @change)
     
   change: (item) ->
-#    console.log item
-#    if item
-#      changed = !(item?.eql @current)
-#      console.log changed
-#      if changed
-#        @current = item
-#    else @current = false
-#    @render() if changed or !item
     @render()
     
   render: ->
@@ -44,7 +35,6 @@ class UploadEditView extends Spine.Controller
     @html @template
       gallery: gallery
       album: album
-#    @el.idealforms()
     @initFileupload()
     @refreshElements()
     @el
@@ -63,10 +53,8 @@ class UploadEditView extends Spine.Controller
   initFileupload: ->
     console.log 'UploadEditView::initFileupload'
     @uploadEl.fileupload()
-    console.log @filesEl
     $.getJSON $('form', @uploadEl).prop('action'), (files) ->
       fu = @uploadEl.data('fileupload')
-      console.log fu
       fu._adjustMaxNumberOfFiles(-files.length)
       template = fu._renderDownload(files)
         .appendTo @filesEl

@@ -5,7 +5,7 @@ Controller.Toolbars =
   extended: ->
   
     Include =
-      toolBarList: (item) ->
+      toolBarList: (items) ->
         list =
           Gallery:
             [
@@ -65,7 +65,29 @@ Controller.Toolbars =
               name: 'Show Upload'
               klass: ''
             ]
-        list[item]
+          ,
+          Slideshow:
+            [
+              name: 'Slideshow'
+              klass: 'optSlideshow'
+              disabled: -> !Album.record
+            ,
+              name: 'Fullscreen'
+              klass: 'optFullscreen'
+            ]
+          ,
+          Back:
+            [
+              name: 'Back'
+              klass: 'optPrevious'
+            ]
+        arr = []
+        for item in items
+          itm = list[item?.constructor.className or item]
+          console.log item
+          console.log itm
+          arr.push it for it in itm
+        arr
         
       lockToolbar: ->
         @locked = true
@@ -75,18 +97,33 @@ Controller.Toolbars =
         
       renderToolbar: -> arguments[0]
       
-      changeToolbar: (nameOrModel, cb) ->
-        @changeTool nameOrModel
+      tboptions:
+        cb: -> arguments[0]
+        el: 'toolbarEl'
+      
+      changeToolbar: (nameOrModel, opts) ->
+        options = $.extend({}, @tboptions, opts)
+        @callback = options.cb
+        @element  = options.el
+        
+        if nameOrModel
+          unless Album.isArray(nameOrModel)
+            nameOrModel = [nameOrModel]
+          
+          @changeTool nameOrModel 
+        
         if @currentToolbar
+          cb = @callback
           @currentToolbar.cb = cb if typeof cb is 'function'
           @_renderToolbar()
 
       _renderToolbar: ->
-        @renderToolbar()
+        @trigger('render:toolbar', @element)
         @currentToolbar?.cb?()
         
-      changeTool: (model) ->
-        toolbar = @toolBarList(model?.className or model) unless @locked
+      changeTool: (nameOrModel) ->
+        toolbar = @toolBarList(nameOrModel) unless @locked
+        console.log toolbar
         @currentToolbar = toolbar if toolbar
         
     Extend = {}

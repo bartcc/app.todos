@@ -6,7 +6,6 @@ class SlideshowView extends Spine.Controller
   elements:
     '.items'           : 'items'
     '.thumbnail'       : 'thumb'
-    '.optFullscreen'   : 'btnFullscreen'
     '#gallery'         : 'galleryEl'
     
   events:
@@ -18,11 +17,12 @@ class SlideshowView extends Spine.Controller
 
   constructor: ->
     super
-    @el.data current: Album
+    @el.data current: false
     @thumbSize = 140
-    @autoplay = true
+#    @autoplay = true
     @active = false
     Spine.bind('show:slideshow', @proxy @show)
+    Spine.bind('play:slideshow', @proxy @play)
     
   render: (items) ->
     console.log 'SlideshowView::render'
@@ -67,7 +67,7 @@ class SlideshowView extends Spine.Controller
 #      $.when(@callbackModal items, xhr).then @play()
   
   callbackModal: (items, json) ->
-    console.log 'PhotosList::callbackModal'
+    console.log 'Slideshow::callbackModal'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -77,13 +77,12 @@ class SlideshowView extends Spine.Controller
         el = document.createElement('a')
         ele = @items.children().forItem(item)
           .children('.thumbnail')
-          .append $(el)
-          .hide()
-          .html(item.title)
+          .append $(el).hide()
           .attr
             'href'  : jsn.src
             'title' : item.title or item.src
             'rel'   : 'gallery'
+          
     @play()
         
   imageLoad: ->
@@ -94,6 +93,7 @@ class SlideshowView extends Spine.Controller
       'backgroundSize': '100%'
     
   show: ->
+    console.log 'Slideshow::show'
     return unless Album.record
     Spine.trigger('change:canvas', @)
     
@@ -110,20 +110,23 @@ class SlideshowView extends Spine.Controller
       'width'           : val+'px'
       'backgroundSize'  : bg
     
-  play: ->
+  play: (autoplay) ->
     @refreshElements()
-    first = @galleryEl.find('.thumbnail:first')
-    if @autoplay
+    if autoplay
+      first = @galleryEl.find('.thumbnail:first')
       window.setTimeout ->
         first.click()
       , 1
       
+  slideshowMode: (active) ->
+    val = if active then 5000 else false
+    @galleryEl.imagegallery 'option', 'slideshow', val
+    @play active if active
   
   # Toggle fullscreen mode:
-  fullscreen: ->
-    active = @btnFullscreen.hasClass('active')
+  fullscreenMode: (active) ->
     root = document.documentElement
-    unless active
+    if active
       $('#gallery-modal').addClass('fullscreen')
       if(root.webkitRequestFullScreen)
         root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT)
@@ -133,13 +136,9 @@ class SlideshowView extends Spine.Controller
       $('#gallery-modal').removeClass('fullscreen')
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
       
-  destroy: ->
-    @galleryEl.imagegallery('destroy')
-  
   click: (e) ->
     console.log 'SlideshowView::click'
     el =  $(e.target).find('a')
-    console.log el
     e.stopPropagation()
     e.preventDefault()
     el.click()

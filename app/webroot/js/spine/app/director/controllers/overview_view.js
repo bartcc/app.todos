@@ -13,7 +13,6 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 OverviewView = (function() {
   __extends(OverviewView, Spine.Controller);
-  OverviewView.extend(Spine.Controller.Toolbars);
   OverviewView.prototype.elements = {
     ".items": "items",
     '.optClose': 'btnClose'

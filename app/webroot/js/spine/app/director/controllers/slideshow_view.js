@@ -16,7 +16,6 @@ SlideshowView = (function() {
   SlideshowView.prototype.elements = {
     '.items': 'items',
     '.thumbnail': 'thumb',
-    '.optFullscreen': 'btnFullscreen',
     '#gallery': 'galleryEl'
   };
   SlideshowView.prototype.events = {
@@ -29,12 +28,12 @@ SlideshowView = (function() {
   function SlideshowView() {
     SlideshowView.__super__.constructor.apply(this, arguments);
     this.el.data({
-      current: Album
+      current: false
     });
     this.thumbSize = 140;
-    this.autoplay = true;
     this.active = false;
     Spine.bind('show:slideshow', this.proxy(this.show));
+    Spine.bind('play:slideshow', this.proxy(this.play));
   }
   SlideshowView.prototype.render = function(items) {
     console.log('SlideshowView::render');
@@ -106,7 +105,7 @@ SlideshowView = (function() {
   };
   SlideshowView.prototype.callbackModal = function(items, json) {
     var el, ele, item, jsn, searchJSON, _i, _len;
-    console.log('PhotosList::callbackModal');
+    console.log('Slideshow::callbackModal');
     searchJSON = function(id) {
       var itm, _i, _len;
       for (_i = 0, _len = json.length; _i < _len; _i++) {
@@ -121,7 +120,7 @@ SlideshowView = (function() {
       jsn = searchJSON(item.id);
       if (jsn) {
         el = document.createElement('a');
-        ele = this.items.children().forItem(item).children('.thumbnail').append($(el).hide().html(item.title).attr({
+        ele = this.items.children().forItem(item).children('.thumbnail').append($(el).hide().attr({
           'href': jsn.src,
           'title': item.title || item.src,
           'rel': 'gallery'
@@ -141,6 +140,7 @@ SlideshowView = (function() {
   };
   SlideshowView.prototype.show = function() {
     var filterOptions, items;
+    console.log('Slideshow::show');
     if (!Album.record) {
       return;
     }
@@ -165,21 +165,28 @@ SlideshowView = (function() {
       'backgroundSize': bg
     });
   };
-  SlideshowView.prototype.play = function() {
+  SlideshowView.prototype.play = function(autoplay) {
     var first;
     this.refreshElements();
-    first = this.galleryEl.find('.thumbnail:first');
-    if (this.autoplay) {
+    if (autoplay) {
+      first = this.galleryEl.find('.thumbnail:first');
       return window.setTimeout(function() {
         return first.click();
       }, 1);
     }
   };
-  SlideshowView.prototype.fullscreen = function() {
-    var active, root;
-    active = this.btnFullscreen.hasClass('active');
+  SlideshowView.prototype.slideshowMode = function(active) {
+    var val;
+    val = active ? 5000 : false;
+    this.galleryEl.imagegallery('option', 'slideshow', val);
+    if (active) {
+      return this.play(active);
+    }
+  };
+  SlideshowView.prototype.fullscreenMode = function(active) {
+    var root;
     root = document.documentElement;
-    if (!active) {
+    if (active) {
       $('#gallery-modal').addClass('fullscreen');
       if (root.webkitRequestFullScreen) {
         return root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT);
@@ -191,14 +198,10 @@ SlideshowView = (function() {
       return (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document);
     }
   };
-  SlideshowView.prototype.destroy = function() {
-    return this.galleryEl.imagegallery('destroy');
-  };
   SlideshowView.prototype.click = function(e) {
     var el;
     console.log('SlideshowView::click');
     el = $(e.target).find('a');
-    console.log(el);
     e.stopPropagation();
     e.preventDefault();
     return el.click();

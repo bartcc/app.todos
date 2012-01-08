@@ -3,7 +3,7 @@ $      = Spine.$
 
 class OverviewView extends Spine.Controller
 
-  @extend Spine.Controller.Toolbars
+#  @extend Spine.Controller.Toolbars
   
   elements:
     ".items"              : "items"

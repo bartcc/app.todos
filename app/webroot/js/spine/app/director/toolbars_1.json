@@ -1,0 +1,20 @@
+{
+  "group6": {
+    "name": "Upload",
+    "content": [
+      {
+        "name": "Show Upload",
+        "klass": "",
+        "disabled": "function(){Album.eval()}"
+      }
+    ]
+  },
+  "group7": {
+    "name": "Slideshow",
+    "content": 2
+  },
+  "group8": {
+    "name": "Back",
+    "content": ["Back","optPrevious"]
+  }
+}

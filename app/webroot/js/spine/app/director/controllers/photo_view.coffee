@@ -112,7 +112,7 @@ class PhotoView extends Spine.Controller
     @info.bye()
   
   show: (item) ->
-    Spine.trigger('change:toolbar', 'Photo')
+    Spine.trigger('change:toolbarOne', ['Photo'])
     Spine.trigger('change:canvas', @)
     @render item
     

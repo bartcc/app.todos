@@ -1,6 +1,6 @@
 class ShowView extends Spine.Controller
 
-  @extend Spine.Controller.Toolbars
+#  @extend Spine.Controller.Toolbars
   
   elements:
     '#views .views'           : 'views'
@@ -11,12 +11,14 @@ class ShowView extends Spine.Controller
     '.header'                 : 'albumHeader'
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
-    '.optPlay'                : 'btnPlay'
     '.optGallery .ui-icon'    : 'btnGallery'
     '.optAlbum .ui-icon'      : 'btnAlbum'
     '.optPhoto .ui-icon'      : 'btnPhoto'
     '.optUpload .ui-icon'     : 'btnUpload'
-    '.toolbar'                : 'toolbarEl'
+    '.optFullscreenMode'      : 'btnFullscreenMode'
+    '.optSlideshowMode'       : 'btnSlideshowMode'
+    '.toolbarOne'             : 'toolbarOneEl'
+    '.toolbarTwo'             : 'toolbarTwoEl'
     '.props'                  : 'propsEl'
     '.galleries'              : 'galleriesEl'
     '.albums'                 : 'albumsEl'
@@ -27,8 +29,11 @@ class ShowView extends Spine.Controller
     
   events:
     "click .optOverview"              : "showOverview"
-#    "click .optPhotos"                : "showPhotos"
-#    "click .optAlbums"                : "showAlbums"
+    "click .optSlideshow"             : "showSlideshow"
+    "click .optPrevious"              : "showPrevious"
+    "click .optFullscreenMode"        : "toggleFullscreenMode"
+    "click .optSlideshowMode"         : "toggleSlideshowMode"
+    "click .optPlay"                  : "play"
     "click .optCreatePhoto"           : "createPhoto"
     "click .optDestroyPhoto"          : "destroyPhoto"
     "click .optShowPhotos"            : "showPhotos"
@@ -46,12 +51,11 @@ class ShowView extends Spine.Controller
     "click .optAlbum"                 : "toggleAlbum"
     "click .optPhoto"                 : "togglePhoto"
     "click .optUpload"                : "toggleUpload"
-    "click .optPlay"                  : "play"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
     'fileuploadprogress'              : "uploadProgress" 
     'fileuploaddone'                  : "uploadDone"
-    'slide #slider'                   : 'sliderSlide'
+#    'slide #slider'                   : 'sliderSlide'
     'slidestop #slider'               : 'sliderStop'
     'slidestart #slider'              : 'sliderStart'
     
@@ -59,9 +63,13 @@ class ShowView extends Spine.Controller
     $("#toolsTemplate").tmpl items
 
   constructor: ->
-  
-#    @toolBar = new Toolbar()
     super
+    @toolbarOne = new ToolbarView
+      el: @toolbarOneEl
+      template: @toolsTemplate
+    @toolbarTwo = new ToolbarView
+      el: @toolbarTwoEl
+      template: @toolsTemplate
     @photoHeader = new PhotoHeader
       el: @photoHeaderEl
     @photosHeader = new PhotosHeader
@@ -99,12 +107,14 @@ class ShowView extends Spine.Controller
       header: false
       parent: @
       parentModel: 'Photo'
+      subview: true
     
     Spine.bind('change:canvas', @proxy @changeCanvas)
-    Gallery.bind('change', @proxy @changeToolbar)
-    Album.bind('change', @proxy @changeToolbar)
-    Photo.bind('change', @proxy @changeToolbar)
-    Spine.bind('change:toolbar', @proxy @changeToolbar)
+    Gallery.bind('change', @proxy @changeToolbarOne)
+    Album.bind('change', @proxy @changeToolbarOne)
+    Photo.bind('change', @proxy @changeToolbarOne)
+    Spine.bind('change:toolbarOne', @proxy @changeToolbarOne)
+    Spine.bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
     @sOutValue = @thumbSize = 140
@@ -119,19 +129,33 @@ class ShowView extends Spine.Controller
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
     @headerManager.change @albumsHeader
     
+    @defaultToolbarTwo = @toolbarTwo.change ['Slideshow']
+    
   changeCanvas: (controller) ->
     console.log 'ShowView::changeCanvas'
+    @previous = @current unless @current.subview
     @current = controller
     @el.data
       current: controller.el.data().current.record
       className: controller.el.data().current.className
     @canvasManager.change controller
     @headerManager.change controller.header
+#    @changeToolbarTwo()
     
-  renderToolbar: ->
+  renderToolbar_: (el) ->
     console.log 'ShowView::renderToolbar'
+    console.log el
     
-    @toolbarEl.html @toolsTemplate @currentToolbar
+    @[el]?.html @toolsTemplate @currentToolbar
+    @refreshElements()
+    
+  changeToolbarOne: (list=[], cb) ->
+    @toolbarOne.change list, cb
+    @toolbarTwo.refresh()
+    @refreshElements()
+    
+  changeToolbarTwo: (list=[], cb) ->
+    @toolbarTwo.change list, cb
     @refreshElements()
     
   renderViewControl: (controller, controlEl) ->
@@ -154,6 +178,23 @@ class ShowView extends Spine.Controller
   
   showPhotos: (e) ->
     Spine.trigger('show:photos')
+
+  showOverview: (e) ->
+    Spine.trigger('show:overview')
+
+  showSlideshow: ->
+    @changeToolbarTwo ['Back']
+    App.sidebar.toggleDraghandle(close:true)
+    @toolbarOne.clear()
+    @toolbarOne.lock()
+    Spine.trigger('show:slideshow')
+    
+  showPrevious: ->
+    @changeToolbarTwo ['Slideshow']
+    App.sidebar.toggleDraghandle()
+    @toolbarOne.unlock()
+    @toolbarOne.refresh()
+    Spine.trigger('change:canvas', @previous)
   
   createGallery: (e) ->
     Spine.trigger('create:gallery')
@@ -183,12 +224,6 @@ class ShowView extends Spine.Controller
     Spine.trigger('destroy:photo')
     @deselect()
 
-  showOverview: (e) ->
-    Spine.trigger('show:overview')
-
-  play: ->
-    Spine.trigger('show:slideshow')
-
   animateView: ->
     hasActive = ->
       if App.hmanager.hasActive()
@@ -210,7 +245,7 @@ class ShowView extends Spine.Controller
     false
     
   toggleGallery: (e) ->
-    @changeToolbar 'Gallery', e.target
+    @changeToolbarOne ['Gallery']
 
   toggleAlbumShow: (e) ->
     @trigger("toggle:view", App.album, e.target)
@@ -219,7 +254,7 @@ class ShowView extends Spine.Controller
     false
 
   toggleAlbum: (e) ->
-    @changeToolbar 'Album'
+    @changeToolbarOne ['Album']
     
   togglePhotoShow: (e) ->
     @trigger("toggle:view", App.photo, e.target)
@@ -228,27 +263,25 @@ class ShowView extends Spine.Controller
     false
     
   togglePhoto: (e) ->
-    @changeToolbar 'Photo', e.target, App.showView.initSlider
+    @changeToolbarOne ['Photos'], App.showView.initSlider
 
   toggleUploadShow: (e) ->
     @trigger("toggle:view", App.upload, e.target)
-#    App.upload.initFileupload()
     e.stopPropagation()
     e.preventDefault()
     false
     
   toggleUpload: (e) ->
-    @changeToolbar 'Upload', e.target
+    @changeToolbarOne ['Upload']
 
-  toggleSlideshowShow: (e) ->
-    @trigger("toggle:view", App.slideshow, e.target)
-    e.stopPropagation()
-    e.preventDefault()
-    false
+  toggleFullscreenMode: ->
+    active = @btnFullscreenMode.toggleClass('active').hasClass('active')
+    @slideshowView.fullscreenMode(active)
+    
+  toggleSlideshowMode: ->
+    active = @btnSlideshowMode.toggleClass('active').hasClass('active')
+    @slideshowView.slideshowMode(active)
 
-  toggleSlideshow: (e) ->
-    @changeToolbar 'Slideshow', e.target
-  
   toggleView: (controller, control) ->
     isActive = controller.isActive()
     
@@ -265,6 +298,9 @@ class ShowView extends Spine.Controller
   
   toggleDraghandle: ->
     @activeControl.click()
+  
+  play: ->
+    Spine.trigger('play:slideshow')
     
   initControl: (control) ->
     if Object::toString.call(control) is "[object String]"
@@ -286,6 +322,7 @@ class ShowView extends Spine.Controller
       when 'Gallery'
         Spine.Model['Gallery'].emptySelection()
         Album.current()
+        Photo.current()
         Spine.trigger('album:exposeSelection')
         Spine.trigger('album:activate')
       else
@@ -293,7 +330,7 @@ class ShowView extends Spine.Controller
         Spine.trigger('gallery:exposeSelection')
         Spine.trigger('gallery:activate')
         
-    @changeToolbar()
+    @changeToolbarOne() #unless locked
     @current.items.deselect()
     
   uploadProgress: (e, coll) ->
@@ -306,8 +343,8 @@ class ShowView extends Spine.Controller
     val = val or @sOutValue
     @sInValue=(val/2)-20
     
-  sliderOutValue: ->
-    val = @slider.slider('value')
+  sliderOutValue: (value) ->
+    val = value || @slider.slider('value')
     @sOutValue=(val+20)*2
     
   initSlider: =>
@@ -316,18 +353,19 @@ class ShowView extends Spine.Controller
     @slider.slider
       orientation: 'horizonatal'
       value: inValue
+      slide: (e, ui) =>
+        @sliderSlide ui.value
     
   showSlider: ->
     @initSlider()
-#    @slider.toggle()
     @sliderOutValue()
     @sliderInValue()
       
   sliderStart: =>
     @photosView.list.sliderStart()
     
-  sliderSlide: =>
-    @photosView.list.size @sliderOutValue()
+  sliderSlide: (val) =>
+    @photosView.list.size @sliderOutValue val
     
   sliderStop: =>
     # rerender thumbnails on the server to its final size

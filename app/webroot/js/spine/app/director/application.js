@@ -36,6 +36,7 @@ App = (function() {
   function App() {
     App.__super__.constructor.apply(this, arguments);
     User.bind('pinger', this.proxy(this.validate));
+    this.loadToolbars();
     this.galleryEditView = new GalleryEditorView({
       el: this.galleryEditEl
     });
@@ -115,12 +116,11 @@ App = (function() {
     this.contentManager.change(this.showView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
-    this.options = {
+    this.slideshowOptions = {
       canvas: false,
-      backdrop: true,
-      slideshow: 2000
+      backdrop: true
     };
-    this.initializeGallery(this.options);
+    this.initializeSlideshow();
   }
   App.prototype.validate = function(user, json) {
     var cb, valid;
@@ -161,8 +161,13 @@ App = (function() {
       return this.delay(cb, 1000);
     }, this));
   };
-  App.prototype.initializeGallery = function(options) {
+  App.prototype.initializeSlideshow = function(opts) {
+    var options;
+    options = $.extend(this.slideshowOptions, opts);
     return this.slideshow.imagegallery(options);
+  };
+  App.prototype.loadToolbars = function() {
+    return Toolbar.load();
   };
   return App;
 })();

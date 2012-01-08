@@ -146,7 +146,7 @@ PhotoView = (function() {
     return this.info.bye();
   };
   PhotoView.prototype.show = function(item) {
-    Spine.trigger('change:toolbar', 'Photo');
+    Spine.trigger('change:toolbarOne', ['Photo']);
     Spine.trigger('change:canvas', this);
     return this.render(item);
   };

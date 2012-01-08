@@ -31,7 +31,6 @@ UploadEditView = (function() {
   function UploadEditView() {
     UploadEditView.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
-    Album.bind('change', this.proxy(this.change));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
   }
   UploadEditView.prototype.change = function(item) {
@@ -68,11 +67,9 @@ UploadEditView = (function() {
   UploadEditView.prototype.initFileupload = function() {
     console.log('UploadEditView::initFileupload');
     this.uploadEl.fileupload();
-    console.log(this.filesEl);
     return $.getJSON($('form', this.uploadEl).prop('action'), function(files) {
       var fu, template;
       fu = this.uploadEl.data('fileupload');
-      console.log(fu);
       fu._adjustMaxNumberOfFiles(-files.length);
       template = fu._renderDownload(files).appendTo(this.filesEl);
       fu._reflow = fu._transition && template.length && template[0].offsetWidth;

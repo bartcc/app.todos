@@ -3,13 +3,13 @@ $      = Spine.$
 
 class GalleryEditorView extends Spine.Controller
 
-  @extend Spine.Controller.Toolbars
+#  @extend Spine.Controller.Toolbars
   
   elements:
     ".content"            : "editContent"
     '.optDestroy'         : 'destroyBtn'
     '.optSave'            : 'saveBtn'
-    '.toolbar'            : 'toolBar'
+    '.toolbar'            : 'toolbarEl'
     
   events:
     "click .optEdit"      : "edit"
@@ -26,12 +26,15 @@ class GalleryEditorView extends Spine.Controller
     
   constructor: ->
     super
+    @toolbar = new ToolbarView
+      el: @toolbarEl
+      template: @toolsTemplate
     Gallery.bind "change", @proxy @change
     Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
-    Spine.bind('change:toolbar', @proxy @changeToolbar)
+#    Spine.bind('change:toolbar', @proxy @changeToolbar)
     @bind('save:gallery', @proxy @save)
-#    @bind('render:toolbar', @proxy @renderToolbar)
+#    @bind('render:toolbar', @renderToolbar)
 
   change: (item, mode) ->
     console.log 'GalleryEditView::change'
@@ -52,21 +55,23 @@ class GalleryEditorView extends Spine.Controller
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Select a Gallery!'})
       else
         @editContent.html $("#noSelectionTemplate").tmpl({type: 'Create a Gallery!'})
-    @changeToolbar 'GalleryEdit'
+    @changeToolbar ['GalleryEdit']
     @el
 
-  renderToolbar: ->
-    console.log 'GalleryEditorView::renderToolbar'
-    @toolBar.html @toolsTemplate @currentToolbar
+  changeToolbar: (list) ->
+    tools = Toolbar.filter list
+    @toolbar.change tools
+    @refreshElements()
+
+  renderToolbar: (el) ->
+    @[el]?.html @toolsTemplate @currentToolbar
     @refreshElements()
     
   destroy: (e) ->
-    console.log 'GalleryEditorView::destroy'
     return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
   save: (el) ->
-    console.log 'GalleryEditorView::save'
     return if $(el.currentTarget).hasClass('disabled')
     if @current and Gallery.record
       atts = el.serializeForm?() or @el.serializeForm()
@@ -76,7 +81,6 @@ class GalleryEditorView extends Spine.Controller
 
   saveOnEnter: (e) =>
     console.log 'GalleryEditorView::saveOnEnter'
-    console.log e.keyCode
     return if(e.keyCode != 13)
     @trigger('save:gallery', @)
 

@@ -9,7 +9,6 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
 };
 ShowView = (function() {
   __extends(ShowView, Spine.Controller);
-  ShowView.extend(Spine.Controller.Toolbars);
   ShowView.prototype.elements = {
     '#views .views': 'views',
     '.galleriesHeader': 'galleriesHeaderEl',
@@ -19,12 +18,14 @@ ShowView = (function() {
     '.header': 'albumHeader',
     '.optOverview': 'btnOverview',
     '.optEditGallery': 'btnEditGallery',
-    '.optPlay': 'btnPlay',
     '.optGallery .ui-icon': 'btnGallery',
     '.optAlbum .ui-icon': 'btnAlbum',
     '.optPhoto .ui-icon': 'btnPhoto',
     '.optUpload .ui-icon': 'btnUpload',
-    '.toolbar': 'toolbarEl',
+    '.optFullscreenMode': 'btnFullscreenMode',
+    '.optSlideshowMode': 'btnSlideshowMode',
+    '.toolbarOne': 'toolbarOneEl',
+    '.toolbarTwo': 'toolbarTwoEl',
     '.props': 'propsEl',
     '.galleries': 'galleriesEl',
     '.albums': 'albumsEl',
@@ -35,6 +36,11 @@ ShowView = (function() {
   };
   ShowView.prototype.events = {
     "click .optOverview": "showOverview",
+    "click .optSlideshow": "showSlideshow",
+    "click .optPrevious": "showPrevious",
+    "click .optFullscreenMode": "toggleFullscreenMode",
+    "click .optSlideshowMode": "toggleSlideshowMode",
+    "click .optPlay": "play",
     "click .optCreatePhoto": "createPhoto",
     "click .optDestroyPhoto": "destroyPhoto",
     "click .optShowPhotos": "showPhotos",
@@ -52,12 +58,10 @@ ShowView = (function() {
     "click .optAlbum": "toggleAlbum",
     "click .optPhoto": "togglePhoto",
     "click .optUpload": "toggleUpload",
-    "click .optPlay": "play",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
     'fileuploadprogress': "uploadProgress",
     'fileuploaddone': "uploadDone",
-    'slide #slider': 'sliderSlide',
     'slidestop #slider': 'sliderStop',
     'slidestart #slider': 'sliderStart'
   };
@@ -70,6 +74,14 @@ ShowView = (function() {
     this.sliderStart = __bind(this.sliderStart, this);
     this.initSlider = __bind(this.initSlider, this);
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
+    this.toolbarOne = new ToolbarView({
+      el: this.toolbarOneEl,
+      template: this.toolsTemplate
+    });
+    this.toolbarTwo = new ToolbarView({
+      el: this.toolbarTwoEl,
+      template: this.toolsTemplate
+    });
     this.photoHeader = new PhotoHeader({
       el: this.photoHeaderEl
     });
@@ -114,13 +126,15 @@ ShowView = (function() {
       className: 'items',
       header: false,
       parent: this,
-      parentModel: 'Photo'
+      parentModel: 'Photo',
+      subview: true
     });
     Spine.bind('change:canvas', this.proxy(this.changeCanvas));
-    Gallery.bind('change', this.proxy(this.changeToolbar));
-    Album.bind('change', this.proxy(this.changeToolbar));
-    Photo.bind('change', this.proxy(this.changeToolbar));
-    Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
+    Gallery.bind('change', this.proxy(this.changeToolbarOne));
+    Album.bind('change', this.proxy(this.changeToolbarOne));
+    Photo.bind('change', this.proxy(this.changeToolbarOne));
+    Spine.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
+    Spine.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.current = this.albumsView;
     this.sOutValue = this.thumbSize = 140;
@@ -134,9 +148,13 @@ ShowView = (function() {
     this.canvasManager.change(this.current);
     this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader, this.photoHeader);
     this.headerManager.change(this.albumsHeader);
+    this.defaultToolbarTwo = this.toolbarTwo.change(['Slideshow']);
   }
   ShowView.prototype.changeCanvas = function(controller) {
     console.log('ShowView::changeCanvas');
+    if (!this.current.subview) {
+      this.previous = this.current;
+    }
     this.current = controller;
     this.el.data({
       current: controller.el.data().current.record,
@@ -145,9 +163,28 @@ ShowView = (function() {
     this.canvasManager.change(controller);
     return this.headerManager.change(controller.header);
   };
-  ShowView.prototype.renderToolbar = function() {
+  ShowView.prototype.renderToolbar_ = function(el) {
+    var _ref;
     console.log('ShowView::renderToolbar');
-    this.toolbarEl.html(this.toolsTemplate(this.currentToolbar));
+    console.log(el);
+    if ((_ref = this[el]) != null) {
+      _ref.html(this.toolsTemplate(this.currentToolbar));
+    }
+    return this.refreshElements();
+  };
+  ShowView.prototype.changeToolbarOne = function(list, cb) {
+    if (list == null) {
+      list = [];
+    }
+    this.toolbarOne.change(list, cb);
+    this.toolbarTwo.refresh();
+    return this.refreshElements();
+  };
+  ShowView.prototype.changeToolbarTwo = function(list, cb) {
+    if (list == null) {
+      list = [];
+    }
+    this.toolbarTwo.change(list, cb);
     return this.refreshElements();
   };
   ShowView.prototype.renderViewControl = function(controller, controlEl) {
@@ -172,6 +209,25 @@ ShowView = (function() {
   };
   ShowView.prototype.showPhotos = function(e) {
     return Spine.trigger('show:photos');
+  };
+  ShowView.prototype.showOverview = function(e) {
+    return Spine.trigger('show:overview');
+  };
+  ShowView.prototype.showSlideshow = function() {
+    this.changeToolbarTwo(['Back']);
+    App.sidebar.toggleDraghandle({
+      close: true
+    });
+    this.toolbarOne.clear();
+    this.toolbarOne.lock();
+    return Spine.trigger('show:slideshow');
+  };
+  ShowView.prototype.showPrevious = function() {
+    this.changeToolbarTwo(['Slideshow']);
+    App.sidebar.toggleDraghandle();
+    this.toolbarOne.unlock();
+    this.toolbarOne.refresh();
+    return Spine.trigger('change:canvas', this.previous);
   };
   ShowView.prototype.createGallery = function(e) {
     return Spine.trigger('create:gallery');
@@ -200,12 +256,6 @@ ShowView = (function() {
     Spine.trigger('destroy:photo');
     return this.deselect();
   };
-  ShowView.prototype.showOverview = function(e) {
-    return Spine.trigger('show:overview');
-  };
-  ShowView.prototype.play = function() {
-    return Spine.trigger('show:slideshow');
-  };
   ShowView.prototype.animateView = function() {
     var hasActive, height;
     hasActive = function() {
@@ -233,7 +283,7 @@ ShowView = (function() {
     return false;
   };
   ShowView.prototype.toggleGallery = function(e) {
-    return this.changeToolbar('Gallery', e.target);
+    return this.changeToolbarOne(['Gallery']);
   };
   ShowView.prototype.toggleAlbumShow = function(e) {
     this.trigger("toggle:view", App.album, e.target);
@@ -242,7 +292,7 @@ ShowView = (function() {
     return false;
   };
   ShowView.prototype.toggleAlbum = function(e) {
-    return this.changeToolbar('Album');
+    return this.changeToolbarOne(['Album']);
   };
   ShowView.prototype.togglePhotoShow = function(e) {
     this.trigger("toggle:view", App.photo, e.target);
@@ -251,7 +301,7 @@ ShowView = (function() {
     return false;
   };
   ShowView.prototype.togglePhoto = function(e) {
-    return this.changeToolbar('Photo', e.target, App.showView.initSlider);
+    return this.changeToolbarOne(['Photos'], App.showView.initSlider);
   };
   ShowView.prototype.toggleUploadShow = function(e) {
     this.trigger("toggle:view", App.upload, e.target);
@@ -260,16 +310,17 @@ ShowView = (function() {
     return false;
   };
   ShowView.prototype.toggleUpload = function(e) {
-    return this.changeToolbar('Upload', e.target);
+    return this.changeToolbarOne(['Upload']);
   };
-  ShowView.prototype.toggleSlideshowShow = function(e) {
-    this.trigger("toggle:view", App.slideshow, e.target);
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
+  ShowView.prototype.toggleFullscreenMode = function() {
+    var active;
+    active = this.btnFullscreenMode.toggleClass('active').hasClass('active');
+    return this.slideshowView.fullscreenMode(active);
   };
-  ShowView.prototype.toggleSlideshow = function(e) {
-    return this.changeToolbar('Slideshow', e.target);
+  ShowView.prototype.toggleSlideshowMode = function() {
+    var active;
+    active = this.btnSlideshowMode.toggleClass('active').hasClass('active');
+    return this.slideshowView.slideshowMode(active);
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;
@@ -287,6 +338,9 @@ ShowView = (function() {
   };
   ShowView.prototype.toggleDraghandle = function() {
     return this.activeControl.click();
+  };
+  ShowView.prototype.play = function() {
+    return Spine.trigger('play:slideshow');
   };
   ShowView.prototype.initControl = function(control) {
     if (Object.prototype.toString.call(control) === "[object String]") {
@@ -312,6 +366,7 @@ ShowView = (function() {
       case 'Gallery':
         Spine.Model['Gallery'].emptySelection();
         Album.current();
+        Photo.current();
         Spine.trigger('album:exposeSelection');
         Spine.trigger('album:activate');
         break;
@@ -320,7 +375,7 @@ ShowView = (function() {
         Spine.trigger('gallery:exposeSelection');
         Spine.trigger('gallery:activate');
     }
-    this.changeToolbar();
+    this.changeToolbarOne();
     return this.current.items.deselect();
   };
   ShowView.prototype.uploadProgress = function(e, coll) {
@@ -333,9 +388,9 @@ ShowView = (function() {
     val = val || this.sOutValue;
     return this.sInValue = (val / 2) - 20;
   };
-  ShowView.prototype.sliderOutValue = function() {
+  ShowView.prototype.sliderOutValue = function(value) {
     var val;
-    val = this.slider.slider('value');
+    val = value || this.slider.slider('value');
     return this.sOutValue = (val + 20) * 2;
   };
   ShowView.prototype.initSlider = function() {
@@ -344,7 +399,10 @@ ShowView = (function() {
     this.refreshElements();
     return this.slider.slider({
       orientation: 'horizonatal',
-      value: inValue
+      value: inValue,
+      slide: __bind(function(e, ui) {
+        return this.sliderSlide(ui.value);
+      }, this)
     });
   };
   ShowView.prototype.showSlider = function() {
@@ -355,8 +413,8 @@ ShowView = (function() {
   ShowView.prototype.sliderStart = function() {
     return this.photosView.list.sliderStart();
   };
-  ShowView.prototype.sliderSlide = function() {
-    return this.photosView.list.size(this.sliderOutValue());
+  ShowView.prototype.sliderSlide = function(val) {
+    return this.photosView.list.size(this.sliderOutValue(val));
   };
   ShowView.prototype.sliderStop = function() {};
   return ShowView;

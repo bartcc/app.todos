@@ -42,6 +42,8 @@ class App extends Spine.Controller
     
     User.bind('pinger', @proxy @validate)
     
+    @loadToolbars()
+    
     @galleryEditView = new GalleryEditorView
       el: @galleryEditEl
     @gallery = new GalleryEditView
@@ -92,12 +94,10 @@ class App extends Spine.Controller
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
     
-#    @initFileupload()
-    @options =
+    @slideshowOptions =
       canvas: false
       backdrop: true
-      slideshow: 2000
-    @initializeGallery @options
+    @initializeSlideshow()
 
   validate: (user, json) ->
     console.log 'Pinger done'
@@ -128,8 +128,13 @@ class App extends Spine.Controller
       
     @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 1000)
     
-  initializeGallery: (options) ->
+  initializeSlideshow: (opts) ->
+    options = $.extend(@slideshowOptions, opts)
     @slideshow.imagegallery options
+    
+  loadToolbars: ->
+    Toolbar.load()
+    
     
 $ ->
   

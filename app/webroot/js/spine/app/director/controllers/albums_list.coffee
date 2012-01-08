@@ -101,7 +101,7 @@ class AlbumsList extends Spine.Controller
     item = $(e.currentTarget).item()
     list = item.addRemoveSelection(@isCtrlClick(e))
     @select item, e
-    Spine.trigger('change:toolbar', 'Album')
+    Spine.trigger('change:toolbarOne', ['Album'])
     
     e.stopPropagation()
     e.preventDefault()
@@ -110,7 +110,7 @@ class AlbumsList extends Spine.Controller
   dblclick: (e) ->
     #@openPanel('album', App.showView.btnAlbum)
       
-    Spine.trigger('change:toolbar', 'Photos', App.showView.initSlider)
+    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
     Spine.trigger('show:photos')
     
     e.stopPropagation()

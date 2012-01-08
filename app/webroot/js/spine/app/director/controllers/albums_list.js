@@ -148,13 +148,13 @@ AlbumsList = (function() {
     item = $(e.currentTarget).item();
     list = item.addRemoveSelection(this.isCtrlClick(e));
     this.select(item, e);
-    Spine.trigger('change:toolbar', 'Album');
+    Spine.trigger('change:toolbarOne', ['Album']);
     e.stopPropagation();
     e.preventDefault();
     return false;
   };
   AlbumsList.prototype.dblclick = function(e) {
-    Spine.trigger('change:toolbar', 'Photos', App.showView.initSlider);
+    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider);
     Spine.trigger('show:photos');
     e.stopPropagation();
     e.preventDefault();

@@ -342,6 +342,7 @@ textarea {
   -webkit-border-radius: 10px;
   border-radius: 10px;
   height: 70px;
+  width: 100%;
 }
 .vdivide {
   width: 8px;
@@ -1050,7 +1051,7 @@ textarea {
   opacity: 0.3;
 }
 #views.settings div.view > div:nth-child(1) {
-  margin-left: 15px;
+  margin: 15px;
 }
 
 label.dropzone {
@@ -1078,4 +1079,8 @@ label {
   color: rgba(255, 50, 0, 0.8);
   font-size: 1.3em;
   text-shadow: -1px 0 0 rgba(255, 255, 255, 0.2);
+}
+li.active button.dark {
+  color: #00AABB;
+  text-shadow: 1px 0 3px rgba(0, 224, 256, 0.8);
 }

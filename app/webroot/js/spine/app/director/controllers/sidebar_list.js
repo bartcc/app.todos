@@ -305,7 +305,7 @@ SidebarList = (function() {
     console.log('SidebarList::click');
     item = $(e.currentTarget).item();
     this.change(item, 'show', e);
-    Spine.trigger('change:toolbar', 'Gallery');
+    Spine.trigger('change:toolbarOne', ['Gallery']);
     e.stopPropagation();
     e.preventDefault();
     return false;
@@ -314,9 +314,7 @@ SidebarList = (function() {
     var item;
     console.log('SidebarList::dblclick');
     item = $(e.target).item();
-    App.showView.lockToolbar();
     this.change(item, 'edit', e);
-    App.showView.unlockToolbar();
     e.stopPropagation();
     e.preventDefault();
     return false;

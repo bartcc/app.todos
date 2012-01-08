@@ -98,7 +98,7 @@ class AlbumsView extends Spine.Controller
     @header.change Gallery.record
   
   show: ->
-    Spine.trigger('change:toolbar', 'Album')
+    Spine.trigger('change:toolbarOne', ['Album'])
     Album.activeRecord = false
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('change:canvas', @)

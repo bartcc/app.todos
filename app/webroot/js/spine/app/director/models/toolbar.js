@@ -147,7 +147,7 @@ Toolbar = (function() {
           name: 'Autoplay Mode',
           klass: 'optSlideshowMode'
         }, {
-          name: 'Fullscreen Mode',
+          name: 'Chromless Mode',
           klass: 'optFullscreenMode'
         }, {
           name: 'Close',

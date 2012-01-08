@@ -41,6 +41,7 @@ GalleryEditorView = (function() {
     Gallery.bind("change", this.proxy(this.change));
     Spine.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
+    Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('save:gallery', this.proxy(this.save));
   }
   GalleryEditorView.prototype.change = function(item, mode) {
@@ -72,9 +73,7 @@ GalleryEditorView = (function() {
     return this.el;
   };
   GalleryEditorView.prototype.changeToolbar = function(list) {
-    var tools;
-    tools = Toolbar.filter(list);
-    this.toolbar.change(tools);
+    this.toolbar.change(list);
     return this.refreshElements();
   };
   GalleryEditorView.prototype.renderToolbar = function(el) {

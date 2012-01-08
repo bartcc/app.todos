@@ -305,7 +305,8 @@ SidebarList = (function() {
     console.log('SidebarList::click');
     item = $(e.currentTarget).item();
     this.change(item, 'show', e);
-    Spine.trigger('change:toolbarOne', ['Gallery']);
+    Spine.trigger('change:toolbar', ['Gallery']);
+    App.contentManager.change(App.showView);
     e.stopPropagation();
     e.preventDefault();
     return false;

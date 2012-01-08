@@ -202,6 +202,7 @@ ShowView = (function() {
     return App.contentManager.change(App.showView);
   };
   ShowView.prototype.showAlbums = function(e) {
+    App.contentManager.change(App.showView);
     return Spine.trigger('show:albums');
   };
   ShowView.prototype.showAllAlbums = function() {

@@ -171,6 +171,7 @@ class ShowView extends Spine.Controller
     App.contentManager.change(App.showView)
   
   showAlbums: (e) ->
+    App.contentManager.change(App.showView)
     Spine.trigger('show:albums')
   
   showAllAlbums: ->

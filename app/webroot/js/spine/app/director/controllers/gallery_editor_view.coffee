@@ -32,7 +32,7 @@ class GalleryEditorView extends Spine.Controller
     Gallery.bind "change", @proxy @change
     Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
-#    Spine.bind('change:toolbar', @proxy @changeToolbar)
+    Spine.bind('change:toolbar', @proxy @changeToolbar)
     @bind('save:gallery', @proxy @save)
 #    @bind('render:toolbar', @renderToolbar)
 
@@ -59,8 +59,7 @@ class GalleryEditorView extends Spine.Controller
     @el
 
   changeToolbar: (list) ->
-    tools = Toolbar.filter list
-    @toolbar.change tools
+    @toolbar.change list
     @refreshElements()
 
   renderToolbar: (el) ->
@@ -77,7 +76,6 @@ class GalleryEditorView extends Spine.Controller
       atts = el.serializeForm?() or @el.serializeForm()
       @current.updateChangedAttributes(atts)
     App.contentManager.change(App.showView)
-    #@openPanel('album', App.showView.btnAlbum)
 
   saveOnEnter: (e) =>
     console.log 'GalleryEditorView::saveOnEnter'

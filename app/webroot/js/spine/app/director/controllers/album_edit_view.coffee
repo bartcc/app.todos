@@ -68,8 +68,11 @@ class AlbumEditView extends Spine.Controller
 
   saveOnEnter: (e) =>
     console.log e.keyCode
+    console.log document.activeElement
+    console.log 'inner'
     @save @editEl if(e.keyCode == 13)
     if (e.keyCode == 9)
+      console.log 'stopping propagation'
       e.stopPropagation()
 #      e.preventDefault()
     
@@ -77,6 +80,5 @@ class AlbumEditView extends Spine.Controller
   click: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    false
 
 module?.exports = AlbumEditView

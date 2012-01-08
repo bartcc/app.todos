@@ -24,7 +24,6 @@ class PhotosView extends Spine.Controller
   template: (items) ->
     $('#photosTemplate').tmpl(items)
     
-    
   preloaderTemplate: ->
     $('#preloaderTemplate').tmpl()
     

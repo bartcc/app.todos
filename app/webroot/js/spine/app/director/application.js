@@ -173,6 +173,8 @@ App = (function() {
   App.prototype.keys = function(e) {
     var key;
     console.log($(e));
+    console.log(document.activeElement);
+    console.log('outer');
     key = e.keyCode;
     switch (key) {
       case 9:

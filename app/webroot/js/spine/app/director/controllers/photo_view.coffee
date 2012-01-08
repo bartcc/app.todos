@@ -3,15 +3,26 @@ $      = Spine.$
 
 class PhotoView extends Spine.Controller
   
+  @extend Spine.Controller.Drag
+  
   elements:
-    '.info'            : 'infoEl'
+    '.hoverinfo'       : 'infoEl'
     '.items'           : 'items'
     '.items .item'     : 'item'
   
   events:
-    'mousemove .item'     : 'infoUp'
-    'mouseleave  .item'   : 'infoBye'
-    'dragstart .item'     : 'stopInfo'
+    'mousemove  .item'                : 'infoUp'
+    'mouseleave .item'                : 'infoBye'
+    'dragstart  .item'                : 'stopInfo'
+    'dragstart  .items .thumbnail'    : 'dragstart'
+    'dragenter  .items .thumbnail'    : 'dragenter'
+    'dragover   .items .thumbnail'    : 'dragover'
+    'drop       .items .thumbnail'    : 'drop'
+    'dragend    .items .thumbnail'    : 'dragend'
+    'dragenter'                       : 'dragenter'
+    'dragover'                        : 'dragover'
+    'drop'                            : 'drop'
+    'dragend'                         : 'dragend'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -21,7 +32,7 @@ class PhotoView extends Spine.Controller
     
   constructor: ->
     super
-    @el.data current: Photo
+    @el.data current: Album
     @info = new Info
       el: @infoEl
       template: @infoTemplate

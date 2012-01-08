@@ -32,6 +32,9 @@ PhotosList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
+    this.el.data({
+      current: Album
+    });
     Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.customErrorHandler);

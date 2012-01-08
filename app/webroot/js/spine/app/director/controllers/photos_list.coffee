@@ -17,6 +17,7 @@ class PhotosList extends Spine.Controller
     
   constructor: ->
     super
+    @el.data current: Album
     Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.customErrorHandler)

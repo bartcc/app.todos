@@ -53,14 +53,14 @@ class UploadEditView extends Spine.Controller
   initFileupload: ->
     console.log 'UploadEditView::initFileupload'
     @uploadEl.fileupload()
-    $.getJSON $('form', @uploadEl).prop('action'), (files) ->
-      fu = @uploadEl.data('fileupload')
-      fu._adjustMaxNumberOfFiles(-files.length)
-      template = fu._renderDownload(files)
-        .appendTo @filesEl
-      #Force reflow:
-      fu._reflow = fu._transition && template.length && template[0].offsetWidth;
-      template.addClass('in');
+#    $.getJSON $('form', @uploadEl).prop('action'), (files) ->
+#      fu = @uploadEl.data('fileupload')
+#      fu._adjustMaxNumberOfFiles(-files.length)
+#      template = fu._renderDownload(files)
+#        .appendTo @filesEl
+#      #Force reflow:
+#      fu._reflow = fu._transition && template.length && template[0].offsetWidth;
+#      template.addClass('in');
     
   fileuploadsend: (e, data) ->
     # Enable iframe cross-domain access via redirect page:
@@ -82,9 +82,9 @@ class UploadEditView extends Spine.Controller
     
   click: (e) ->
 #    console.log 'click'
-#    
-#    e.stopPropagation()
-#    e.preventDefault()
-#    false
+    
+    e.stopPropagation()
+    e.preventDefault()
+    false
     
 module?.exports = UploadEditView

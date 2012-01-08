@@ -66,15 +66,7 @@ UploadEditView = (function() {
   };
   UploadEditView.prototype.initFileupload = function() {
     console.log('UploadEditView::initFileupload');
-    this.uploadEl.fileupload();
-    return $.getJSON($('form', this.uploadEl).prop('action'), function(files) {
-      var fu, template;
-      fu = this.uploadEl.data('fileupload');
-      fu._adjustMaxNumberOfFiles(-files.length);
-      template = fu._renderDownload(files).appendTo(this.filesEl);
-      fu._reflow = fu._transition && template.length && template[0].offsetWidth;
-      return template.addClass('in');
-    });
+    return this.uploadEl.fileupload();
   };
   UploadEditView.prototype.fileuploadsend = function(e, data) {
     var redirectPage, target;
@@ -97,7 +89,11 @@ UploadEditView = (function() {
     album.updateSelection([album.id]);
     return Spine.trigger('album:activate');
   };
-  UploadEditView.prototype.click = function(e) {};
+  UploadEditView.prototype.click = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
+  };
   return UploadEditView;
 })();
 if (typeof module !== "undefined" && module !== null) {

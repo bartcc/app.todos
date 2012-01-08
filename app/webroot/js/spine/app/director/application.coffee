@@ -27,7 +27,8 @@ class App extends Spine.Controller
     '.status-symbol'      : 'statusSymbol'
     
   events:
-    'drop'                        : 'drop'
+    'drop'                : 'drop'
+    'keypress'            : 'keys'
 #    'fileuploadsend #fileupload'  : 'fileuploadsend'
 
   constructor: ->
@@ -135,6 +136,11 @@ class App extends Spine.Controller
   loadToolbars: ->
     Toolbar.load()
     
+  keys: (e) =>
+    key = e.keyCode
+    switch key
+      when 9
+        @sidebar.toggleDraghandle()
     
 $ ->
   

@@ -32,7 +32,6 @@
     echo $this->Html->css('fileupload/jquery.fileupload-ui');
     echo $this->Html->css('spine/director/modal');
     echo $this->Html->css('normalize');
-//    echo $this->Html->css('http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css');
     echo $this->Html->css('twitter/bootstrap/1.4.0/bootstrap.min');
     echo $this->Html->css('blueimp/bootstrap-image-gallery.min');
 //    echo $this->Html->css('idealforms/idealforms');

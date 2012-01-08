@@ -98,7 +98,7 @@ class Toolbar extends Spine.Model
           name: 'Chromless Mode'
           klass: 'optFullscreenMode'
         ,
-          name: 'Close'
+          name: 'X'
           klass: 'optPrevious'
         ]
     

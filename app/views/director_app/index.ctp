@@ -5,7 +5,7 @@
         <div class="bg verticaltop" id="draggable-messenger-wrap">
           <header>
             <fieldset class="right">
-              <button class="_close light window input">x</button>
+              <button class="_close light window input">X</button>
             </fieldset>
           </header>
           <div class="dialogue-inner-wrap">
@@ -87,7 +87,7 @@
     <div id="content" class="views canvas-bg-dark vbox flex">
       <div class="overview view content canvas vbox flex">
         <ul class="tools options hbox">
-          <li class="optClose"><button class="dark">Close</button></li>
+          <li class="optClose"><button class="dark">X</button></li>
           <li class="splitter disabled flex"></li>
         </ul>
         <div class="flex vbox autoflow">

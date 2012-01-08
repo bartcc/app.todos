@@ -150,7 +150,7 @@ Toolbar = (function() {
           name: 'Chromless Mode',
           klass: 'optFullscreenMode'
         }, {
-          name: 'Close',
+          name: 'X',
           klass: 'optPrevious'
         }
       ]

@@ -212,9 +212,7 @@ PhotosList = (function() {
   PhotosList.prototype.stopInfo = function(e) {
     return this.info.bye();
   };
-  PhotosList.prototype.sliderStart = function() {
-    return console.log(this.thumb.length);
-  };
+  PhotosList.prototype.sliderStart = function() {};
   PhotosList.prototype.size = function(val, bg) {
     if (bg == null) {
       bg = 'none';

@@ -169,7 +169,6 @@ class PhotosList extends Spine.Controller
     @info.bye()
     
   sliderStart: =>
-    console.log @thumb.length
     
   size: (val, bg='none') =>
     # 2*10 = border radius

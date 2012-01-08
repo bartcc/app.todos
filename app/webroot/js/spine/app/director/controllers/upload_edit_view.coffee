@@ -81,10 +81,8 @@ class UploadEditView extends Spine.Controller
     Spine.trigger('album:activate')
     
   click: (e) ->
-#    console.log 'click'
-    
-    e.stopPropagation()
-    e.preventDefault()
-    false
+#    e.stopPropagation()
+#    e.preventDefault()
+#    false
     
 module?.exports = UploadEditView

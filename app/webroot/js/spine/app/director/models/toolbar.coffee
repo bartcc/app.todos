@@ -93,10 +93,10 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'Autoplay Mode'
-          klass: 'optSlideshowMode'
+          klass: -> 'optSlideshowMode '  + if App.showView.slideshowView.slideshowMode() then ' active' else ''
         ,
           name: 'Chromless Mode'
-          klass: 'optFullscreenMode'
+          klass: -> 'optFullscreenMode '  + if App.showView.slideshowView.fullscreenMode() then ' active' else ''
         ,
           name: 'X'
           klass: 'optPrevious'

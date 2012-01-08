@@ -19,7 +19,8 @@ SlideshowView = (function() {
     '#gallery': 'galleryEl'
   };
   SlideshowView.prototype.events = {
-    'click .thumbnail': 'click',
+    'click': 'click',
+    'click .thumbnail': 'clickThumb',
     'click a': 'anker'
   };
   SlideshowView.prototype.template = function(items) {
@@ -31,7 +32,8 @@ SlideshowView = (function() {
       current: false
     });
     this.thumbSize = 140;
-    this.active = false;
+    this.fullscreen = true;
+    this.autoplay = true;
     Spine.bind('show:slideshow', this.proxy(this.show));
     Spine.bind('play:slideshow', this.proxy(this.play));
   }
@@ -175,15 +177,30 @@ SlideshowView = (function() {
       }, 1);
     }
   };
-  SlideshowView.prototype.slideshowMode = function(active) {
+  SlideshowView.prototype.slideshow = function(active) {
     var val;
     val = active ? 5000 : false;
     this.galleryEl.imagegallery('option', 'slideshow', val);
-    if (active) {
-      return this.play(active);
+    if (val) {
+      return this.play(val);
     }
   };
+  SlideshowView.prototype.slideshowMode = function(active) {
+    if (active == null) {
+      active = this.autoplay;
+    }
+    this.autoplay = active !== false ? active : false;
+    return this.slideshow(this.autoplay);
+  };
   SlideshowView.prototype.fullscreenMode = function(active) {
+    if (active == null) {
+      active = this.fullscreen;
+    }
+    this.fullscreen = active !== false ? active : false;
+    this.toggleFullscreen(this.fullscreen);
+    return this.fullscreen;
+  };
+  SlideshowView.prototype.toggleFullscreen = function(active) {
     var root;
     root = document.documentElement;
     if (active) {
@@ -199,6 +216,11 @@ SlideshowView = (function() {
     }
   };
   SlideshowView.prototype.click = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    return false;
+  };
+  SlideshowView.prototype.clickThumb = function(e) {
     var el;
     console.log('SlideshowView::click');
     el = $(e.target).find('a');

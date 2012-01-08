@@ -92,13 +92,15 @@ AlbumEditView = (function() {
     }
   };
   AlbumEditView.prototype.saveOnEnter = function(e) {
-    if (e.keyCode !== 13) {
-      return;
+    console.log(e.keyCode);
+    if (e.keyCode === 13) {
+      this.save(this.editEl);
     }
-    return this.save(this.editEl);
+    if (e.keyCode === 9) {
+      return e.stopPropagation();
+    }
   };
   AlbumEditView.prototype.click = function(e) {
-    console.log('click');
     e.stopPropagation();
     e.preventDefault();
     return false;

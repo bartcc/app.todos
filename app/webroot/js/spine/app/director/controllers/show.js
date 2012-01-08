@@ -321,7 +321,8 @@ ShowView = (function() {
   ShowView.prototype.toggleSlideshowMode = function() {
     var active;
     active = this.btnSlideshowMode.toggleClass('active').hasClass('active');
-    return this.slideshowView.slideshowMode(active);
+    this.slideshowView.slideshowMode(active);
+    return this.slideshowView.slideshow();
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;

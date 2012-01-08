@@ -282,6 +282,7 @@ class ShowView extends Spine.Controller
   toggleSlideshowMode: ->
     active = @btnSlideshowMode.toggleClass('active').hasClass('active')
     @slideshowView.slideshowMode(active)
+    @slideshowView.slideshow()
 
   toggleView: (controller, control) ->
     isActive = controller.isActive()

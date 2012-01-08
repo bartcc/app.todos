@@ -58,8 +58,6 @@
             add: function (e, data) {
                 var that = $(this).data('fileupload'),
                     files = data.files;
-                console.log('ADD');
-                console.log(that);
                 that._adjustMaxNumberOfFiles(-files.length);
                 data.isAdjusted = true;
                 data.files.valid = data.isValidated = that._validate(files);
@@ -101,9 +99,6 @@
                 var that = $(this).data('fileupload'),
                     template,
                     preview;
-                console.log('DONE');
-                console.log($(this));
-                console.log(that);
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = ($.isArray(data.result) &&
@@ -324,7 +319,6 @@
                     window.loadImage(
                         files[index],
                         function (img) {
-                            console.log(img)
                             $(node).append(img);
                             // Force reflow:
                             that._reflow = that._transition &&

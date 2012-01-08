@@ -1081,6 +1081,6 @@ label {
   text-shadow: -1px 0 0 rgba(255, 255, 255, 0.2);
 }
 li.active button.dark {
-  color: #88EEFF;
-  text-shadow: 1px 0 3px rgba(0, 224, 256, 0.8);
+  color: #00BBCC;
+  text-shadow: 1px 0 10px rgba(0, 224, 255, 0.8), 1px 0 10px rgba(0, 224, 255, 0.2), -1px -1px 0 #000000;
 }

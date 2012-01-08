@@ -67,12 +67,14 @@ class AlbumEditView extends Spine.Controller
       Spine.trigger('expose:sublistSelection', Gallery.record)
 
   saveOnEnter: (e) =>
-    return if(e.keyCode != 13)
-    @save @editEl
+    console.log e.keyCode
+    @save @editEl if(e.keyCode == 13)
+    if (e.keyCode == 9)
+      e.stopPropagation()
+#      e.preventDefault()
+    
 
   click: (e) ->
-    console.log 'click'
-    
     e.stopPropagation()
     e.preventDefault()
     false

@@ -9,7 +9,8 @@ class SlideshowView extends Spine.Controller
     '#gallery'         : 'galleryEl'
     
   events:
-    'click .thumbnail' : 'click'
+    'click'            : 'click'
+    'click .thumbnail' : 'clickThumb'
     'click a'          : 'anker'
     
   template: (items) ->
@@ -19,8 +20,8 @@ class SlideshowView extends Spine.Controller
     super
     @el.data current: false
     @thumbSize = 140
-#    @autoplay = true
-    @active = false
+    @fullscreen = true
+    @autoplay = true
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('play:slideshow', @proxy @play)
     
@@ -118,13 +119,22 @@ class SlideshowView extends Spine.Controller
         first.click()
       , 1
       
-  slideshowMode: (active) ->
+  slideshow: (active) ->
     val = if active then 5000 else false
     @galleryEl.imagegallery 'option', 'slideshow', val
-    @play active if active
+    @play val if val
   
+  slideshowMode: (active=@autoplay) ->
+    @autoplay = unless active is false then active else false
+    @slideshow @autoplay
+  
+  fullscreenMode: (active=@fullscreen) ->
+    @fullscreen = unless active is false then active else false
+    @toggleFullscreen @fullscreen
+    @fullscreen
+    
   # Toggle fullscreen mode:
-  fullscreenMode: (active) ->
+  toggleFullscreen: (active) ->
     root = document.documentElement
     if active
       $('#gallery-modal').addClass('fullscreen')
@@ -137,6 +147,11 @@ class SlideshowView extends Spine.Controller
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
       
   click: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    false
+      
+  clickThumb: (e) ->
     console.log 'SlideshowView::click'
     el =  $(e.target).find('a')
     e.stopPropagation()

@@ -137,10 +137,14 @@ class App extends Spine.Controller
     Toolbar.load()
     
   keys: (e) =>
+    console.log $(e)
     key = e.keyCode
     switch key
       when 9
         @sidebar.toggleDraghandle()
+        e.preventDefault()
+        
+#    e.stopPropagation()
     
 $ ->
   

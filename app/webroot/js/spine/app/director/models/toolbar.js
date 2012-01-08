@@ -145,10 +145,14 @@ Toolbar = (function() {
       content: [
         {
           name: 'Autoplay Mode',
-          klass: 'optSlideshowMode'
+          klass: function() {
+            return 'optSlideshowMode ' + (App.showView.slideshowView.slideshowMode() ? ' active' : '');
+          }
         }, {
           name: 'Chromless Mode',
-          klass: 'optFullscreenMode'
+          klass: function() {
+            return 'optFullscreenMode ' + (App.showView.slideshowView.fullscreenMode() ? ' active' : '');
+          }
         }, {
           name: 'X',
           klass: 'optPrevious'

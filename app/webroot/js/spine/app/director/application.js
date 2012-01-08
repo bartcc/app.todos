@@ -172,10 +172,12 @@ App = (function() {
   };
   App.prototype.keys = function(e) {
     var key;
+    console.log($(e));
     key = e.keyCode;
     switch (key) {
       case 9:
-        return this.sidebar.toggleDraghandle();
+        this.sidebar.toggleDraghandle();
+        return e.preventDefault();
     }
   };
   return App;

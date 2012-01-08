@@ -13,10 +13,15 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 PhotoHeader = (function() {
   __extends(PhotoHeader, Spine.Controller);
+  PhotoHeader.extend(Spine.Controller.Drag);
   PhotoHeader.prototype.events = {
     'click .closeView .gal': 'backToGalleries',
     'click .closeView .alb': 'backToAlbums',
-    'click .closeView .pho': 'backToPhotos'
+    'click .closeView .pho': 'backToPhotos',
+    'dragenter': 'dragenter',
+    'dragover': 'dragover',
+    'dragend': 'dragend',
+    'drop': 'drop'
   };
   PhotoHeader.prototype.template = function(item) {
     return $("#headerPhotoTemplate").tmpl(item);
@@ -42,6 +47,10 @@ PhotoHeader = (function() {
   };
   PhotoHeader.prototype.render = function() {
     return this.html(this.template(this.current));
+  };
+  PhotoHeader.prototype.drop = function(e) {
+    e.stopPropagation();
+    return e.preventDefault();
   };
   return PhotoHeader;
 })();

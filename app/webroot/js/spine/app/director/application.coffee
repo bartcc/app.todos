@@ -1,6 +1,8 @@
 
 class App extends Spine.Controller
   
+  @extend Spine.Controller.Drag
+  
   # Note:
   # change toolbar like so
   # Spine.trigger('change:toolbar', 'Album')
@@ -27,9 +29,11 @@ class App extends Spine.Controller
     '.status-symbol'      : 'statusSymbol'
     
   events:
-    'drop'                : 'drop'
     'keypress'            : 'keys'
-#    'fileuploadsend #fileupload'  : 'fileuploadsend'
+    'drop'                : 'drop'
+    'dragenter'           : 'dragenter'
+    'dragover'            : 'dragover'
+    'dragend'             : 'dragend'
 
   constructor: ->
     super
@@ -118,6 +122,9 @@ class App extends Spine.Controller
     if Spine.dragItem?.closest
       Spine.dragItem.closest.removeClass('over nodrop')
       
+    e.stopPropagation()
+    e.preventDefault()
+      
   setupView: ->
     Spine.unbind('uri:alldone')
     @icon[0].src = '/img/validated.png'
@@ -146,8 +153,6 @@ class App extends Spine.Controller
         @sidebar.toggleDraghandle()
         e.preventDefault()
         
-#    e.stopPropagation()
-    
 $ ->
   
   User.ping()

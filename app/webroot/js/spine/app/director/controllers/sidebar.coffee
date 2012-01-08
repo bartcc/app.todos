@@ -11,17 +11,16 @@ class Sidebar extends Spine.Controller
     '.optAllPhotos'         : 'photos'
 
   events:
-    "click button.create"          : "create"
+    "keyup input"           : "filter"
+    "click button.create"   : "create"
     'click .optAllGalleries': 'allGalleries'
     'click .optAllAlbums'   : 'allAlbums'
     'click .optAllPhotos'   : 'allPhotos'
-    "keyup input"           : "filter"
     "dblclick .draghandle"  : 'toggleDraghandle'
 
     'dragenter .items .item': 'dragenter'
     'dragover  .items .item': 'dragover'
     'dragleave'             : 'dragleave'
-    'drop      .items .item': 'drop'
     'dragend   .items .item': 'dragend'
 
   template: (items) ->

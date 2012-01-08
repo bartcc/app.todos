@@ -9,6 +9,7 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
 };
 App = (function() {
   __extends(App, Spine.Controller);
+  App.extend(Spine.Controller.Drag);
   App.prototype.elements = {
     '#main': 'mainEl',
     '#sidebar': 'sidebarEl',
@@ -31,8 +32,11 @@ App = (function() {
     '.status-symbol': 'statusSymbol'
   };
   App.prototype.events = {
+    'keypress': 'keys',
     'drop': 'drop',
-    'keypress': 'keys'
+    'dragenter': 'dragenter',
+    'dragover': 'dragover',
+    'dragend': 'dragend'
   };
   function App() {
     this.keys = __bind(this.keys, this);    App.__super__.constructor.apply(this, arguments);
@@ -143,8 +147,10 @@ App = (function() {
   App.prototype.drop = function(e) {
     var _ref;
     if ((_ref = Spine.dragItem) != null ? _ref.closest : void 0) {
-      return Spine.dragItem.closest.removeClass('over nodrop');
+      Spine.dragItem.closest.removeClass('over nodrop');
     }
+    e.stopPropagation();
+    return e.preventDefault();
   };
   App.prototype.setupView = function() {
     var cb;

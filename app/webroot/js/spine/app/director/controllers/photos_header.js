@@ -13,9 +13,13 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 PhotosHeader = (function() {
   __extends(PhotosHeader, Spine.Controller);
+  PhotosHeader.extend(Spine.Controller.Drag);
   PhotosHeader.prototype.events = {
     'click .closeView .gal': 'backToGalleries',
-    'click .closeView .alb': 'backToAlbums'
+    'click .closeView .alb': 'backToAlbums',
+    'dragenter': 'dragenter',
+    'dragover': 'dragover',
+    'dragend': 'dragend'
   };
   function PhotosHeader() {
     PhotosHeader.__super__.constructor.apply(this, arguments);

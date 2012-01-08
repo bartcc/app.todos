@@ -3,10 +3,16 @@ $      = Spine.$
 
 class PhotoHeader extends Spine.Controller
   
+  @extend Spine.Controller.Drag
+  
   events:
     'click .closeView .gal'     : 'backToGalleries'
     'click .closeView .alb'     : 'backToAlbums'
     'click .closeView .pho'     : 'backToPhotos'
+    'dragenter'                 : 'dragenter'
+    'dragover'                  : 'dragover'
+    'dragend'                   : 'dragend'
+    'drop'                      : 'drop'
 
   template: (item) ->
     $("#headerPhotoTemplate").tmpl item
@@ -32,5 +38,9 @@ class PhotoHeader extends Spine.Controller
     
   render: ->
     @html @template @current
+    
+  drop: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
     
 module?.exports = PhotoHeader

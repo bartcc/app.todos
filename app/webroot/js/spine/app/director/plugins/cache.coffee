@@ -21,7 +21,7 @@ Model.Cache =
         return unless cache
         for item in cache
           return item[url] if item[url]
-
+          
       addToCache: (record, url, uri, mode) ->
         cache = @cacheList record?.id
         return unless cache
@@ -34,11 +34,17 @@ Model.Cache =
           cache.push dummy unless @cache(record, url)
         cache
 
+      removeFromCache: (record) ->
+        for item in @caches
+          if item[record.id]
+            console.log index = @caches.indexOf(item)
+            spliced = @caches.splice index,1
+            return spliced
+
       clearCache: (id) ->
         originalList = @cacheList(id)
         oldLength = originalList.length
         originalList[0...originalList.length] = []
-        newLength = originalList.length
         originalList
           
     Include =
@@ -49,11 +55,12 @@ Model.Cache =
       addToCache: (url, uri, mode) ->
         @constructor.addToCache(@, url, uri, mode)
 
+      removeFromCache: ->
+        @constructor.removeFromCache @
+
       clearCache: ->
         @constructor.clearCache @id
  
 
     @extend Extend
     @include Include
-
-    

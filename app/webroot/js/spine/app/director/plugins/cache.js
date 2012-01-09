@@ -59,12 +59,23 @@ Model.Cache = {
         }
         return cache;
       },
+      removeFromCache: function(record) {
+        var index, item, spliced, _i, _len, _ref;
+        _ref = this.caches;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          if (item[record.id]) {
+            console.log(index = this.caches.indexOf(item));
+            spliced = this.caches.splice(index, 1);
+            return spliced;
+          }
+        }
+      },
       clearCache: function(id) {
-        var newLength, oldLength, originalList, _ref;
+        var oldLength, originalList, _ref;
         originalList = this.cacheList(id);
         oldLength = originalList.length;
         [].splice.apply(originalList, [0, originalList.length - 0].concat(_ref = [])), _ref;
-        newLength = originalList.length;
         return originalList;
       }
     };
@@ -74,6 +85,9 @@ Model.Cache = {
       },
       addToCache: function(url, uri, mode) {
         return this.constructor.addToCache(this, url, uri, mode);
+      },
+      removeFromCache: function() {
+        return this.constructor.removeFromCache(this);
       },
       clearCache: function() {
         return this.constructor.clearCache(this.id);

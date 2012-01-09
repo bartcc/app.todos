@@ -20,7 +20,6 @@ class AlbumsView extends Spine.Controller
     'dragend    .items .thumbnail'    : 'dragend'
     'dragenter'                       : 'dragenter'
     'dragover'                        : 'dragover'
-    'drop'                            : 'drop'
     'dragend'                         : 'dragend'
 
   albumsTemplate: (items, options) ->

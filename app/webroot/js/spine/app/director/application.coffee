@@ -143,9 +143,6 @@ class App extends Spine.Controller
     Toolbar.load()
     
   keys: (e) =>
-    console.log $(e)
-    console.log document.activeElement
-    console.log 'outer'
     key = e.keyCode
     switch key
       when 9

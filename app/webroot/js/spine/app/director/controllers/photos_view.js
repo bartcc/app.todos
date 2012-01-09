@@ -27,7 +27,6 @@ PhotosView = (function() {
     'dragend    .items .thumbnail': 'dragend',
     'dragenter': 'dragenter',
     'dragover': 'dragover',
-    'drop': 'drop',
     'dragend': 'dragend'
   };
   PhotosView.prototype.template = function(items) {
@@ -58,7 +57,10 @@ PhotosView = (function() {
       parent: this.parent
     });
     this.header.template = this.headerTemplate;
-    Photo.bind('refresh', this.proxy(this.clearPhotoCache));
+    Photo.bind('refresh', this.proxy(this.prepareJoin));
+    Photo.bind('destroy', this.proxy(this.remove));
+    Photo.bind("create:join", this.proxy(this.createJoin));
+    Photo.bind("destroy:join", this.proxy(this.destroyJoin));
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
@@ -68,10 +70,6 @@ PhotosView = (function() {
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
-    Photo.bind('refresh', this.proxy(this.prepareJoin));
-    Photo.bind('destroy', this.proxy(this.remove));
-    Photo.bind("create:join", this.proxy(this.createJoin));
-    Photo.bind("destroy:join", this.proxy(this.destroyJoin));
     Gallery.bind('change', this.proxy(this.renderHeader));
   }
   PhotosView.prototype.change = function(item, changed) {
@@ -177,6 +175,7 @@ PhotosView = (function() {
   };
   PhotosView.prototype.save = function(item) {};
   PhotosView.prototype.prepareJoin = function(photos) {
+    this.clearPhotoCache();
     return this.createJoin(Album.record, photos);
   };
   PhotosView.prototype.createJoin = function(target, photos) {

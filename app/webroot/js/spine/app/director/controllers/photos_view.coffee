@@ -18,7 +18,6 @@ class PhotosView extends Spine.Controller
     'dragend    .items .thumbnail'    : 'dragend'
     'dragenter'                       : 'dragenter'
     'dragover'                        : 'dragover'
-    'drop'                            : 'drop'
     'dragend'                         : 'dragend'
     
   template: (items) ->
@@ -45,7 +44,11 @@ class PhotosView extends Spine.Controller
       info: @info
       parent: @parent
     @header.template = @headerTemplate
-    Photo.bind('refresh', @proxy @clearPhotoCache)
+#    Photo.bind('refresh', @proxy @cl earPhotoCache)
+    Photo.bind('refresh', @proxy @prepareJoin)
+    Photo.bind('destroy', @proxy @remove)
+    Photo.bind("create:join", @proxy @createJoin)
+    Photo.bind("destroy:join", @proxy @destroyJoin)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
@@ -55,12 +58,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)
-    Photo.bind('refresh', @proxy @prepareJoin)
-    Photo.bind('destroy', @proxy @remove)
-    Photo.bind("create:join", @proxy @createJoin)
-    Photo.bind("destroy:join", @proxy @destroyJoin)
     Gallery.bind('change', @proxy @renderHeader)
-#    @initSelectable()
       
   change: (item, changed) ->
     return unless changed
@@ -93,13 +91,6 @@ class PhotosView extends Spine.Controller
   # after albumsphoto jointable has been changed by delete or create trash the cache and rebuild it the next time
   # could be in any controller that listens to AlbumsPhoto - may be move to app?
   clearAlbumCache: (record) ->
-#    switch record.constructor.className
-#      when 'Photo'
-#        # get related albums
-#        aps = AlbumsPhoto.filter(record.id, 'photo_id')
-#        for ap in aps
-#          Album.clearCache ap.album_id
-#      when 'AlbumsPhoto'
     Album.clearCache record.album_id
 
   # for AlbumsPhoto & Photo
@@ -111,6 +102,7 @@ class PhotosView extends Spine.Controller
     if photo
       photoEl = @items.children().forItem(photo, true)
       photoEl.remove()
+#      photo.removeFromCache()
       
 #      start the 'real' rendering
     @render [] unless @items.children().length
@@ -167,6 +159,7 @@ class PhotosView extends Spine.Controller
   save: (item) ->
 
   prepareJoin: (photos) ->
+    @clearPhotoCache()
     @createJoin Album.record, photos
   
   createJoin: (target, photos) ->

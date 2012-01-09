@@ -28,7 +28,6 @@ AlbumsView = (function() {
     'dragend    .items .thumbnail': 'dragend',
     'dragenter': 'dragenter',
     'dragover': 'dragover',
-    'drop': 'drop',
     'dragend': 'dragend'
   };
   AlbumsView.prototype.albumsTemplate = function(items, options) {

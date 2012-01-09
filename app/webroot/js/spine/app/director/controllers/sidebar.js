@@ -32,8 +32,9 @@ Sidebar = (function() {
     "dblclick .draghandle": 'toggleDraghandle',
     'dragenter .items .item': 'dragenter',
     'dragover  .items .item': 'dragover',
+    'dragend   .items .item': 'dragend',
     'dragleave': 'dragleave',
-    'dragend   .items .item': 'dragend'
+    'drop': 'drop'
   };
   Sidebar.prototype.template = function(items) {
     return $("#sidebarTemplate").tmpl(items);

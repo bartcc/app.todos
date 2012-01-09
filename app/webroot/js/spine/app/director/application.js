@@ -149,7 +149,6 @@ App = (function() {
     if ((_ref = Spine.dragItem) != null ? _ref.closest : void 0) {
       Spine.dragItem.closest.removeClass('over nodrop');
     }
-    e.stopPropagation();
     return e.preventDefault();
   };
   App.prototype.setupView = function() {

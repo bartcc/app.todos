@@ -19,11 +19,10 @@ UploadEditView = (function() {
   };
   UploadEditView.prototype.events = {
     'click': 'click',
-    'fileuploadadd #fileupload': 'add',
-    'fileuploaddone #fileupload': 'done',
-    'fileuploadsubmit #fileupload': 'submit',
     'change select': 'changeSelected',
-    'fileuploadsend #fileupload': 'fileuploadsend'
+    'fileuploaddone': 'done',
+    'fileuploadsubmit': 'submit',
+    'fileuploadadd': 'add'
   };
   UploadEditView.prototype.template = function(item) {
     return $('#fileuploadTemplate').tmpl(item);
@@ -51,7 +50,9 @@ UploadEditView = (function() {
     return this.el;
   };
   UploadEditView.prototype.add = function(e, data) {
-    return console.log('UploadView::add');
+    if (Album.record) {
+      return this.openPanel('upload', App.showView.btnUpload);
+    }
   };
   UploadEditView.prototype.done = function(e, data) {
     var photos;
@@ -90,6 +91,11 @@ UploadEditView = (function() {
     return Spine.trigger('album:activate');
   };
   UploadEditView.prototype.click = function(e) {};
+  UploadEditView.prototype.drop = function(e) {
+    console.log(e);
+    e.stopPropagation();
+    return e.preventDefault();
+  };
   return UploadEditView;
 })();
 if (typeof module !== "undefined" && module !== null) {

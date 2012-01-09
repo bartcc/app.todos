@@ -144,6 +144,7 @@ class Sidebar extends Spine.Controller
         Photo.trigger('destroy:join', origin, photos) unless @isCtrlClick(e)
         
   validateDrop: (target, source, origin) =>
+    return unless target
     switch source.constructor.className
       when 'Album'
         unless target.constructor.className is 'Gallery'

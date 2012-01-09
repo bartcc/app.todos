@@ -380,12 +380,8 @@ ShowView = (function() {
     this.changeToolbarOne();
     return this.current.items.deselect();
   };
-  ShowView.prototype.uploadProgress = function(e, coll) {
-    return console.log(coll);
-  };
-  ShowView.prototype.uploadDone = function(e, coll) {
-    return console.log(coll);
-  };
+  ShowView.prototype.uploadProgress = function(e, coll) {};
+  ShowView.prototype.uploadDone = function(e, coll) {};
   ShowView.prototype.sliderInValue = function(val) {
     val = val || this.sOutValue;
     return this.sInValue = (val / 2) - 20;

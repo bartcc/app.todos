@@ -1,7 +1,5 @@
 class ShowView extends Spine.Controller
 
-#  @extend Spine.Controller.Toolbars
-  
   elements:
     '#views .views'           : 'views'
     '.galleriesHeader'        : 'galleriesHeaderEl'
@@ -336,10 +334,10 @@ class ShowView extends Spine.Controller
     @current.items.deselect()
     
   uploadProgress: (e, coll) ->
-    console.log coll
+#    console.log coll
     
   uploadDone: (e, coll) ->
-    console.log coll
+#    console.log coll
     
   sliderInValue: (val) ->
     val = val or @sOutValue

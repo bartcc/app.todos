@@ -122,7 +122,6 @@ class App extends Spine.Controller
     if Spine.dragItem?.closest
       Spine.dragItem.closest.removeClass('over nodrop')
       
-    e.stopPropagation()
     e.preventDefault()
       
   setupView: ->

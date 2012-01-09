@@ -184,6 +184,9 @@ Sidebar = (function() {
   };
   Sidebar.prototype.validateDrop = function(target, source, origin) {
     var item, items, _i, _j, _len, _len2;
+    if (!target) {
+      return;
+    }
     switch (source.constructor.className) {
       case 'Album':
         if (target.constructor.className !== 'Gallery') {

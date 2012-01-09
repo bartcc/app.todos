@@ -3,17 +3,18 @@ $      = Spine.$
 
 class UploadEditView extends Spine.Controller
 
+#  @extend Spine.Controller.Drag
+  
   elements:
     '#fileupload'                 : 'uploadEl'
     '#fileupload .files'          : 'filesEl'
 
   events:
     'click'                       : 'click'
-    'fileuploadadd #fileupload'   : 'add'
-    'fileuploaddone #fileupload'  : 'done'
-    'fileuploadsubmit #fileupload': 'submit'
     'change select'               : 'changeSelected'
-    'fileuploadsend #fileupload'  : 'fileuploadsend'
+    'fileuploaddone'              : 'done'
+    'fileuploadsubmit'            : 'submit'
+    'fileuploadadd'               : 'add'
     
   template: (item) ->
     $('#fileuploadTemplate').tmpl item
@@ -40,7 +41,7 @@ class UploadEditView extends Spine.Controller
     @el
     
   add: (e, data) ->
-    console.log 'UploadView::add'
+    @openPanel('upload', App.showView.btnUpload) if Album.record
     
   done: (e, data) ->
     console.log 'UploadView::done'
@@ -53,14 +54,6 @@ class UploadEditView extends Spine.Controller
   initFileupload: ->
     console.log 'UploadEditView::initFileupload'
     @uploadEl.fileupload()
-#    $.getJSON $('form', @uploadEl).prop('action'), (files) ->
-#      fu = @uploadEl.data('fileupload')
-#      fu._adjustMaxNumberOfFiles(-files.length)
-#      template = fu._renderDownload(files)
-#        .appendTo @filesEl
-#      #Force reflow:
-#      fu._reflow = fu._transition && template.length && template[0].offsetWidth;
-#      template.addClass('in');
     
   fileuploadsend: (e, data) ->
     # Enable iframe cross-domain access via redirect page:
@@ -84,5 +77,10 @@ class UploadEditView extends Spine.Controller
 #    e.stopPropagation()
 #    e.preventDefault()
 #    false
+
+  drop: (e) ->
+    console.log e
+    e.stopPropagation()
+    e.preventDefault()
     
 module?.exports = UploadEditView

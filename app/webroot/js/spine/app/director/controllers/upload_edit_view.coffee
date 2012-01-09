@@ -3,14 +3,11 @@ $      = Spine.$
 
 class UploadEditView extends Spine.Controller
 
-#  @extend Spine.Controller.Drag
-  
   elements:
     '#fileupload'                 : 'uploadEl'
     '#fileupload .files'          : 'filesEl'
 
   events:
-    'click'                       : 'click'
     'change select'               : 'changeSelected'
     'fileuploaddone'              : 'done'
     'fileuploadsubmit'            : 'submit'
@@ -72,15 +69,5 @@ class UploadEditView extends Spine.Controller
     album = Album.find(id)
     album.updateSelection [album.id]
     Spine.trigger('album:activate')
-    
-  click: (e) ->
-#    e.stopPropagation()
-#    e.preventDefault()
-#    false
-
-  drop: (e) ->
-    console.log e
-    e.stopPropagation()
-    e.preventDefault()
     
 module?.exports = UploadEditView

@@ -18,7 +18,6 @@ UploadEditView = (function() {
     '#fileupload .files': 'filesEl'
   };
   UploadEditView.prototype.events = {
-    'click': 'click',
     'change select': 'changeSelected',
     'fileuploaddone': 'done',
     'fileuploadsubmit': 'submit',
@@ -89,12 +88,6 @@ UploadEditView = (function() {
     album = Album.find(id);
     album.updateSelection([album.id]);
     return Spine.trigger('album:activate');
-  };
-  UploadEditView.prototype.click = function(e) {};
-  UploadEditView.prototype.drop = function(e) {
-    console.log(e);
-    e.stopPropagation();
-    return e.preventDefault();
   };
   return UploadEditView;
 })();

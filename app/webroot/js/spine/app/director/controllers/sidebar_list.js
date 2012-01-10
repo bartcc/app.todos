@@ -86,7 +86,6 @@ SidebarList = (function() {
           Spine.trigger('show:albums');
       }
     }
-    Gallery.current(this.current);
     return this.activate(this.current);
   };
   SidebarList.prototype.render = function(galleries, gallery, mode) {
@@ -154,10 +153,10 @@ SidebarList = (function() {
     return this.updateTemplate(gallery);
   };
   SidebarList.prototype.activate = function(gallery) {
-    var active, selectedAlbums, selectedPhotos;
-    if (gallery == null) {
-      gallery = Gallery.record;
-    }
+    var active, alb, gal, sameAlbum, sameGallery, selectedAlbums, selectedPhotos, _ref, _ref2;
+    alb = Album.record;
+    gal = Gallery.record;
+    Gallery.current(gallery);
     selectedAlbums = Gallery.selectionList();
     if (selectedAlbums.length === 1) {
       if (Album.exists(selectedAlbums[0])) {
@@ -184,9 +183,15 @@ SidebarList = (function() {
     } else {
       Photo.current();
     }
+    sameGallery = ((_ref = Gallery.record) != null ? typeof _ref.eql === "function" ? _ref.eql(gal) : void 0 : void 0) || gal;
+    sameAlbum = ((_ref2 = Album.record) != null ? typeof _ref2.eql === "function" ? _ref2.eql(alb) : void 0 : void 0) || alb;
     this.exposeSelection(gallery);
-    Spine.trigger('change:selectedGallery', gallery, this.mode);
-    Spine.trigger('change:selectedAlbum', Album.record);
+    if (!sameGallery) {
+      Spine.trigger('change:selectedGallery', gallery, this.mode);
+    }
+    if (!sameAlbum) {
+      Spine.trigger('change:selectedAlbum', Album.record);
+    }
     return Spine.trigger('change:selectedPhoto', Photo.record);
   };
   SidebarList.prototype.updateTemplate = function(gallery) {

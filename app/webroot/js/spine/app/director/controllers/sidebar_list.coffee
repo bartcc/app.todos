@@ -71,7 +71,7 @@ class SidebarList extends Spine.Controller
         when 'show'
           Spine.trigger('show:albums')
           
-    Gallery.current(@current)
+    
     @activate(@current)
         
   render: (galleries, gallery, mode) ->
@@ -117,7 +117,13 @@ class SidebarList extends Spine.Controller
     
     @updateTemplate gallery  
   
-  activate: (gallery = Gallery.record) ->
+  activate: (gallery) ->
+    
+    alb = Album.record
+    gal = Gallery.record
+    
+    Gallery.current(gallery)
+    
     selectedAlbums = Gallery.selectionList()
     if selectedAlbums.length is 1
       active = Album.find(selectedAlbums[0]) if Album.exists(selectedAlbums[0])
@@ -137,10 +143,14 @@ class SidebarList extends Spine.Controller
         Photo.current()
     else
       Photo.current()
-        
+      
+      
+    sameGallery = Gallery.record?.eql?(gal) or gal
+    sameAlbum = Album.record?.eql?(alb) or alb
+    
     @exposeSelection(gallery)
-    Spine.trigger('change:selectedGallery', gallery, @mode)
-    Spine.trigger('change:selectedAlbum', Album.record)
+    Spine.trigger('change:selectedGallery', gallery, @mode) unless sameGallery
+    Spine.trigger('change:selectedAlbum', Album.record) unless sameAlbum
     Spine.trigger('change:selectedPhoto', Photo.record)
   
   updateTemplate: (gallery) ->

@@ -77,7 +77,7 @@ class AlbumsView extends Spine.Controller
     else
       @current = Album.filter(gallery.id, @filterOptions)
       
-    @render(item)
+    @render item
     
   render: (item) ->
     console.log 'AlbumsView::render'

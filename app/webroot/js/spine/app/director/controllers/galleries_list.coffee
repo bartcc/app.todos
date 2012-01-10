@@ -33,7 +33,6 @@ class GalleriesList extends Spine.Controller
     @deselect()
     if item
       el = @children().forItem(item)
-      console.log el
       el.addClass("active")
       Spine.trigger('gallery:exposeSelection', item)
       Spine.trigger('change:toolbarOne')

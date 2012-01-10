@@ -42,7 +42,6 @@ GalleriesList = (function() {
     this.deselect();
     if (item) {
       el = this.children().forItem(item);
-      console.log(el);
       el.addClass("active");
       Spine.trigger('gallery:exposeSelection', item);
       return Spine.trigger('change:toolbarOne');

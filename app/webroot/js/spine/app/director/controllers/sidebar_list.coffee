@@ -93,7 +93,7 @@ class SidebarList extends Spine.Controller
     @change gallery, mode
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
-#        App.ready = true
+        App.ready = true
         @children(":first").click()
 
   renderAllSublist: ->

@@ -108,6 +108,7 @@ SidebarList = (function() {
     this.change(gallery, mode);
     if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
       if (!this.children(".active").length) {
+        App.ready = true;
         return this.children(":first").click();
       }
     }

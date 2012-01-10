@@ -101,6 +101,9 @@ AlbumsList = (function() {
   AlbumsList.prototype.renderBackgrounds = function(albums) {
     var album, _i, _len, _results;
     console.log('AlbumsList::renderBackgrounds');
+    if (!App.ready) {
+      return;
+    }
     _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];

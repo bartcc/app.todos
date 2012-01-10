@@ -78,7 +78,7 @@ class AlbumsList extends Spine.Controller
   
   renderBackgrounds: (albums) ->
     console.log 'AlbumsList::renderBackgrounds'
-#    return unless App.ready
+    return unless App.ready
     for album in albums
       album.uri
         width: 50

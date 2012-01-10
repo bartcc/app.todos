@@ -68,10 +68,8 @@ class UriCollection extends Base
   test: ->
     cache = @model.cache null, @url
     if cache
-      console.log 'have cache'
       @callback cache
     else if @photos.length
-      console.log 'no cache found'
       @get()
       
   recordResponse: (uris) =>

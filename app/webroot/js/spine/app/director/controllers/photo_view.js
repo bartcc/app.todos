@@ -141,16 +141,12 @@ PhotoView = (function() {
     });
   };
   PhotoView.prototype.infoUp = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
     this.info.up(e);
-    return false;
+    return e.preventDefault();
   };
   PhotoView.prototype.infoBye = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
     this.info.bye();
-    return false;
+    return e.preventDefault();
   };
   PhotoView.prototype.stopInfo = function(e) {
     return this.info.bye();

@@ -36,7 +36,7 @@
 
     echo $this->Html->script('lib/underscore');
 
-    echo $this->Html->script('lib/jquery/jquery-1.6.2');
+    echo $this->Html->script('lib/jquery/jquery-1.7.1.min');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.widget');

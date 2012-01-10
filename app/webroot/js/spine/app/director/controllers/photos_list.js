@@ -201,19 +201,19 @@ PhotosList = (function() {
     return this.el.selectable();
   };
   PhotosList.prototype.infoUp = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
     this.info.up(e);
+    e.preventDefault();
     return false;
   };
   PhotosList.prototype.infoBye = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
     this.info.bye();
+    e.preventDefault();
     return false;
   };
   PhotosList.prototype.stopInfo = function(e) {
-    return this.info.bye();
+    this.info.bye();
+    e.preventDefault();
+    return false;
   };
   PhotosList.prototype.sliderStart = function() {};
   PhotosList.prototype.size = function(val, bg) {

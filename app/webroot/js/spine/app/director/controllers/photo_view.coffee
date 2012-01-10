@@ -108,16 +108,12 @@ class PhotoView extends Spine.Controller
         'backgroundImage'   : 'none'
   
   infoUp: (e) =>
-    e.stopPropagation()
-    e.preventDefault()
     @info.up(e)
-    false
+    e.preventDefault()
     
   infoBye: (e) =>
-    e.stopPropagation()
-    e.preventDefault()
     @info.bye()
-    false
+    e.preventDefault()
     
   stopInfo: (e) =>
     @info.bye()

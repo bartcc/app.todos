@@ -294,8 +294,8 @@ SidebarList = (function() {
       Gallery.current(gallery);
       Album.current(album);
       Gallery.updateSelection([album.id]);
-      this.exposeSublistSelection(Gallery.record);
       sameAlbum = ((_ref = Album.record) != null ? typeof _ref.eql === "function" ? _ref.eql(alb) : void 0 : void 0) && !!alb;
+      this.exposeSublistSelection(Gallery.record);
       if (!sameAlbum) {
         Spine.trigger('change:selectedAlbum', album);
       }

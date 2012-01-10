@@ -61,7 +61,6 @@ class PhotosView extends Spine.Controller
     Gallery.bind('change', @proxy @renderHeader)
       
   change: (item, changed) ->
-    return unless changed
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'

@@ -223,17 +223,17 @@ class SidebarList extends Spine.Controller
 
 #      if App.hmanager.hasActive()
 #        @openPanel('album', App.showView.btnAlbum)
-
-      @exposeSublistSelection(Gallery.record)
       
       sameAlbum = Album.record?.eql?(alb) and !!alb
       
+      @exposeSublistSelection(Gallery.record)
       Spine.trigger('change:selectedAlbum', album) unless sameAlbum
       Spine.trigger('show:photos')
       @change Gallery.record, 'photo', e
     else
       Spine.trigger('show:allPhotos', true)
       
+    
     e.stopPropagation()
     e.preventDefault()
     false

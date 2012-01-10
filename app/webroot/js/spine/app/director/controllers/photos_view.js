@@ -74,9 +74,6 @@ PhotosView = (function() {
   }
   PhotosView.prototype.change = function(item, changed) {
     var filterOptions, items;
-    if (!changed) {
-      return;
-    }
     filterOptions = {
       key: 'album_id',
       joinTable: 'AlbumsPhoto'

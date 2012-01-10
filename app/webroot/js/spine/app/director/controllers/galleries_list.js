@@ -32,10 +32,9 @@ GalleriesList = (function() {
     return this.el;
   };
   GalleriesList.prototype.select = function(item) {
-    Gallery.current(item);
     this.exposeSelection(item);
     Spine.trigger('change:toolbarOne', ['Gallery']);
-    return Spine.trigger('gallery:activate');
+    return Spine.trigger('gallery:activate', item);
   };
   GalleriesList.prototype.exposeSelection = function(item) {
     var el;
@@ -43,6 +42,7 @@ GalleriesList = (function() {
     this.deselect();
     if (item) {
       el = this.children().forItem(item);
+      console.log(el);
       el.addClass("active");
       Spine.trigger('gallery:exposeSelection', item);
       return Spine.trigger('change:toolbarOne');
@@ -53,6 +53,7 @@ GalleriesList = (function() {
     console.log('GalleryList::click');
     item = $(e.currentTarget).item();
     this.select(item);
+    console.log(item);
     e.stopPropagation();
     e.preventDefault();
     return false;

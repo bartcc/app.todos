@@ -42,7 +42,11 @@ class AlbumsList extends Spine.Controller
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (album = Album.record) ->
+  activate: (album) ->
+  
+    alb = Album.record
+    gal = Gallery.record
+    
     selection = Gallery.selectionList()
     if selection.length is 1
       newActive = Album.find(selection[0]) if Album.exists(selection[0])
@@ -53,7 +57,9 @@ class AlbumsList extends Spine.Controller
     else
         Album.current()
     
-    Spine.trigger('change:selectedAlbum', Album.record, Album.changed())
+    sameAlbum = Album.record?.eql?(alb) and !!alb
+    
+    Spine.trigger('change:selectedAlbum', Album.record) unless sameAlbum
     Spine.trigger('change:selectedPhoto', Photo.record)
     @exposeSelection()
   

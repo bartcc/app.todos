@@ -62,10 +62,9 @@ AlbumsList = (function() {
     return Spine.trigger('expose:sublistSelection', Gallery.record);
   };
   AlbumsList.prototype.activate = function(album) {
-    var newActive, selection;
-    if (album == null) {
-      album = Album.record;
-    }
+    var alb, gal, newActive, sameAlbum, selection, _ref;
+    alb = Album.record;
+    gal = Gallery.record;
     selection = Gallery.selectionList();
     if (selection.length === 1) {
       if (Album.exists(selection[0])) {
@@ -78,7 +77,10 @@ AlbumsList = (function() {
     } else {
       Album.current();
     }
-    Spine.trigger('change:selectedAlbum', Album.record, Album.changed());
+    sameAlbum = ((_ref = Album.record) != null ? typeof _ref.eql === "function" ? _ref.eql(alb) : void 0 : void 0) && !!alb;
+    if (!sameAlbum) {
+      Spine.trigger('change:selectedAlbum', Album.record);
+    }
     Spine.trigger('change:selectedPhoto', Photo.record);
     return this.exposeSelection();
   };

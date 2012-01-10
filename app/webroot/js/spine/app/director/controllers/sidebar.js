@@ -336,9 +336,8 @@ Sidebar = (function() {
     if (deselect) {
       this.list.deselect();
     }
-    Gallery.current();
     Spine.trigger('show:albums');
-    return Spine.trigger('gallery:activate');
+    return Spine.trigger('gallery:activate', false);
   };
   return Sidebar;
 })();

@@ -183,8 +183,8 @@ SidebarList = (function() {
     } else {
       Photo.current();
     }
-    sameGallery = ((_ref = Gallery.record) != null ? typeof _ref.eql === "function" ? _ref.eql(gal) : void 0 : void 0) || gal;
-    sameAlbum = ((_ref2 = Album.record) != null ? typeof _ref2.eql === "function" ? _ref2.eql(alb) : void 0 : void 0) || alb;
+    sameGallery = ((_ref = Gallery.record) != null ? typeof _ref.eql === "function" ? _ref.eql(gal) : void 0 : void 0) && !!gal;
+    sameAlbum = ((_ref2 = Album.record) != null ? typeof _ref2.eql === "function" ? _ref2.eql(alb) : void 0 : void 0) && !!alb;
     this.exposeSelection(gallery);
     if (!sameGallery) {
       Spine.trigger('change:selectedGallery', gallery, this.mode);
@@ -236,6 +236,7 @@ SidebarList = (function() {
   };
   SidebarList.prototype.exposeSelection = function(gallery) {
     console.log('SidebarList::exposeSelection');
+    console.log(gallery);
     this.deselect();
     if (gallery) {
       this.children().forItem(gallery).addClass("active");

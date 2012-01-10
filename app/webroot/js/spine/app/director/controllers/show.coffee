@@ -321,14 +321,14 @@ class ShowView extends Spine.Controller
         Spine.trigger('change:selectedPhoto', item)
       when 'Gallery'
         Spine.Model['Gallery'].emptySelection()
-        Album.current()
+#        Album.current()
         Photo.current()
         Spine.trigger('album:exposeSelection')
-        Spine.trigger('album:activate')
+        Spine.trigger('album:activate', false)
       else
-        Gallery.current()
+#        Gallery.current()
         Spine.trigger('gallery:exposeSelection')
-        Spine.trigger('gallery:activate')
+        Spine.trigger('gallery:activate', false)
         
     @changeToolbarOne() #unless locked
     @current.items.deselect()

@@ -23,16 +23,17 @@ class GalleriesList extends Spine.Controller
     @el
 
   select: (item) =>
-    Gallery.current(item)
+#    Gallery.current(item)
     @exposeSelection(item)
     Spine.trigger('change:toolbarOne', ['Gallery'])
-    Spine.trigger('gallery:activate')
+    Spine.trigger('gallery:activate', item)
     
   exposeSelection: (item) ->
     console.log 'GalleryList::exposeSelection'
     @deselect()
     if item
       el = @children().forItem(item)
+      console.log el
       el.addClass("active")
       Spine.trigger('gallery:exposeSelection', item)
       Spine.trigger('change:toolbarOne')
@@ -41,6 +42,7 @@ class GalleriesList extends Spine.Controller
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()
     @select item
+    console.log item
     e.stopPropagation()
     e.preventDefault()
     false

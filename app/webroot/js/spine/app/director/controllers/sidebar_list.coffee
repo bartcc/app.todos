@@ -145,8 +145,9 @@ class SidebarList extends Spine.Controller
       Photo.current()
       
       
-    sameGallery = Gallery.record?.eql?(gal) or gal
-    sameAlbum = Album.record?.eql?(alb) or alb
+    sameGallery = Gallery.record?.eql?(gal) and !!gal
+    sameAlbum = Album.record?.eql?(alb) and !!alb
+    
     
     @exposeSelection(gallery)
     Spine.trigger('change:selectedGallery', gallery, @mode) unless sameGallery
@@ -178,6 +179,7 @@ class SidebarList extends Spine.Controller
   
   exposeSelection: (gallery) ->
     console.log 'SidebarList::exposeSelection'
+    console.log gallery
     @deselect()
     @children().forItem(gallery).addClass("active") if gallery
     @exposeSublistSelection gallery

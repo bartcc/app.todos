@@ -367,15 +367,13 @@ ShowView = (function() {
         break;
       case 'Gallery':
         Spine.Model['Gallery'].emptySelection();
-        Album.current();
         Photo.current();
         Spine.trigger('album:exposeSelection');
-        Spine.trigger('album:activate');
+        Spine.trigger('album:activate', false);
         break;
       default:
-        Gallery.current();
         Spine.trigger('gallery:exposeSelection');
-        Spine.trigger('gallery:activate');
+        Spine.trigger('gallery:activate', false);
     }
     this.changeToolbarOne();
     return this.current.items.deselect();

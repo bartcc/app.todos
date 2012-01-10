@@ -236,7 +236,6 @@ SidebarList = (function() {
   };
   SidebarList.prototype.exposeSelection = function(gallery) {
     console.log('SidebarList::exposeSelection');
-    console.log(gallery);
     this.deselect();
     if (gallery) {
       this.children().forItem(gallery).addClass("active");
@@ -284,19 +283,22 @@ SidebarList = (function() {
     }
   };
   SidebarList.prototype.clickAlb = function(e) {
-    var album, albumEl, gallery, galleryEl, previous;
+    var alb, album, albumEl, gallery, galleryEl, sameAlbum, _ref;
     console.log('SidebarList::albclick');
     albumEl = $(e.currentTarget);
     galleryEl = $(e.currentTarget).closest('li.gal');
     album = Album.activeRecord = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
-      previous = Album.record;
+      alb = Album.record;
       Gallery.current(gallery);
       Album.current(album);
       Gallery.updateSelection([album.id]);
       this.exposeSublistSelection(Gallery.record);
-      Spine.trigger('change:selectedAlbum', album, !previous || !(album.id === previous.id));
+      sameAlbum = ((_ref = Album.record) != null ? typeof _ref.eql === "function" ? _ref.eql(alb) : void 0 : void 0) && !!alb;
+      if (!sameAlbum) {
+        Spine.trigger('change:selectedAlbum', album);
+      }
       Spine.trigger('show:photos');
       this.change(Gallery.record, 'photo', e);
     } else {

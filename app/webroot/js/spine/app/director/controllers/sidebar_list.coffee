@@ -179,7 +179,6 @@ class SidebarList extends Spine.Controller
   
   exposeSelection: (gallery) ->
     console.log 'SidebarList::exposeSelection'
-    console.log gallery
     @deselect()
     @children().forItem(gallery).addClass("active") if gallery
     @exposeSublistSelection gallery
@@ -215,7 +214,9 @@ class SidebarList extends Spine.Controller
     gallery = galleryEl.item()
     
     unless @isCtrlClick(e)
-      previous = Album.record
+    
+      alb = Album.record
+      
       Gallery.current(gallery)
       Album.current(album)
       Gallery.updateSelection [album.id]
@@ -223,16 +224,16 @@ class SidebarList extends Spine.Controller
 #      if App.hmanager.hasActive()
 #        @openPanel('album', App.showView.btnAlbum)
 
-      
       @exposeSublistSelection(Gallery.record)
-#      Spine.trigger('change:selectedAlbum', album, Album.changed())
-      Spine.trigger('change:selectedAlbum', album, (!previous or !(album.id is previous.id)))
+      
+      sameAlbum = Album.record?.eql?(alb) and !!alb
+      
+      Spine.trigger('change:selectedAlbum', album) unless sameAlbum
       Spine.trigger('show:photos')
       @change Gallery.record, 'photo', e
     else
       Spine.trigger('show:allPhotos', true)
       
-    
     e.stopPropagation()
     e.preventDefault()
     false

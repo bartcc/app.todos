@@ -85,7 +85,7 @@ AlbumsView = (function() {
       this.show();
     }
     Spine.trigger('render:galleryAllSublist');
-    return Spine.trigger('album:exposeSelection');
+    return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.renderHeader = function() {
     console.log('AlbumsView::renderHeader');

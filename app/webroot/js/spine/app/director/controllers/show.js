@@ -135,7 +135,7 @@ ShowView = (function() {
     Photo.bind('change', this.proxy(this.changeToolbarOne));
     Spine.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
     Spine.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
-    Spine.bind('album:exposeSelection', this.proxy(this.refreshToolbars));
+    Spine.bind('album:activate', this.proxy(this.refreshToolbars));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.current = this.albumsView;
     this.sOutValue = this.thumbSize = 140;
@@ -368,17 +368,15 @@ ShowView = (function() {
       case 'Album':
         Spine.Model['Album'].emptySelection();
         Photo.current();
-        Spine.trigger('photo:exposeSelection');
+        Spine.trigger('photo:activate');
         Spine.trigger('change:selectedPhoto', item);
         break;
       case 'Gallery':
         Spine.Model['Gallery'].emptySelection();
         Photo.current();
-        Spine.trigger('album:exposeSelection');
         Spine.trigger('album:activate', false);
         break;
       default:
-        Spine.trigger('gallery:exposeSelection');
         Spine.trigger('gallery:activate', false);
     }
     this.changeToolbarOne();

@@ -113,7 +113,7 @@ class ShowView extends Spine.Controller
     Photo.bind('change', @proxy @changeToolbarOne)
     Spine.bind('change:toolbarOne', @proxy @changeToolbarOne)
     Spine.bind('change:toolbarTwo', @proxy @changeToolbarTwo)
-    Spine.bind('album:exposeSelection', @proxy @refreshToolbars)
+    Spine.bind('album:activate', @proxy @refreshToolbars)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
     @sOutValue = @thumbSize = 140
@@ -322,17 +322,17 @@ class ShowView extends Spine.Controller
       when 'Album'
         Spine.Model['Album'].emptySelection()
         Photo.current()
-        Spine.trigger('photo:exposeSelection')
+        Spine.trigger('photo:activate')
         Spine.trigger('change:selectedPhoto', item)
       when 'Gallery'
         Spine.Model['Gallery'].emptySelection()
 #        Album.current()
         Photo.current()
-        Spine.trigger('album:exposeSelection')
+#        Spine.trigger('album:exposeSelection')
         Spine.trigger('album:activate', false)
       else
 #        Gallery.current()
-        Spine.trigger('gallery:exposeSelection')
+#        Spine.trigger('gallery:exposeSelection')
         Spine.trigger('gallery:activate', false)
         
     @changeToolbarOne() #unless locked

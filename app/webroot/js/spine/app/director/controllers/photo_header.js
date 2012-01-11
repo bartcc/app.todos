@@ -30,11 +30,11 @@ PhotoHeader = (function() {
     PhotoHeader.__super__.constructor.apply(this, arguments);
   }
   PhotoHeader.prototype.backToGalleries = function() {
-    Spine.trigger('album:exposeSelection');
+    Spine.trigger('album:activate');
     return Spine.trigger('show:galleries');
   };
   PhotoHeader.prototype.backToAlbums = function() {
-    Spine.trigger('gallery:exposeSelection', Gallery.record);
+    Spine.trigger('gallery:activate', Gallery.record);
     return Spine.trigger('show:albums');
   };
   PhotoHeader.prototype.backToPhotos = function() {

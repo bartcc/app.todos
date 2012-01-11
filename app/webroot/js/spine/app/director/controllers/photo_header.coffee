@@ -21,11 +21,11 @@ class PhotoHeader extends Spine.Controller
     super
 
   backToGalleries: ->
-    Spine.trigger('album:exposeSelection')
+    Spine.trigger('album:activate')
     Spine.trigger('show:galleries')
     
   backToAlbums: ->
-    Spine.trigger('gallery:exposeSelection', Gallery.record)
+    Spine.trigger('gallery:activate', Gallery.record)
     Spine.trigger('show:albums')
     
   backToPhotos: ->

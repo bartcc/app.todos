@@ -41,7 +41,7 @@ class SidebarList extends Spine.Controller
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandExpander)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
-    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
+#    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
     Spine.bind('gallery:activate', @proxy @activate)
     
   template: -> arguments[0]
@@ -148,10 +148,10 @@ class SidebarList extends Spine.Controller
     sameGallery = Gallery.record?.eql?(gal) and !!gal
     sameAlbum = Album.record?.eql?(alb) and !!alb
     
-    @exposeSelection(gallery)
     Spine.trigger('change:selectedGallery', gallery, @mode) unless sameGallery
     Spine.trigger('change:selectedAlbum', Album.record) unless sameAlbum
     Spine.trigger('change:selectedPhoto', Photo.record)
+    @exposeSelection()
   
   updateTemplate: (gallery) ->
     galleryEl = @children().forItem(gallery)
@@ -176,13 +176,14 @@ class SidebarList extends Spine.Controller
     for ga in gas
       @renderItemFromGalleriesAlbum ga
   
-  exposeSelection: (gallery) ->
+  exposeSelection: ->
     console.log 'SidebarList::exposeSelection'
+    gallery = Gallery.record
     @deselect()
     @children().forItem(gallery).addClass("active") if gallery
-    @exposeSublistSelection gallery
+    @exposeSublistSelection()
         
-  exposeSublistSelection: (gallery) ->
+  exposeSublistSelection: ->
     console.log 'SidebarList::exposeSublistSelection'
     removeAlbumSelection = =>
       galleries = []

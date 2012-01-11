@@ -42,7 +42,7 @@ class GalleriesView extends Spine.Controller
   show: ->
     Spine.trigger('change:toolbarOne', ['Gallery'])
     Album.activeRecord = false
-    Spine.trigger('gallery:exposeSelection', Gallery.record)
+    Spine.trigger('gallery:activate', Gallery.record)
     Spine.trigger('change:canvas', @)
     
   newAttributes: ->

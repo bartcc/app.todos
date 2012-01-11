@@ -169,6 +169,25 @@ PhotosList = (function() {
     current = list.length === 1 ? list[0] : void 0;
     return Photo.current(current);
   };
+  PhotosList.prototype.activate = function() {
+    var newActive, pho, samePhoto, selection, _ref;
+    pho = Photo.record;
+    selection = Album.selectionList();
+    if (selection.length === 1) {
+      if (Photo.exists(selection[0])) {
+        newActive = Photo.find(selection[0]);
+      }
+      if (!(newActive != null ? newActive.destroyed : void 0)) {
+        this.current = newActive;
+        Photo.current(newActive);
+      }
+    } else {
+      Photo.current();
+    }
+    samePhoto = ((_ref = Photo.record) != null ? typeof _ref.eql === "function" ? _ref.eql(pho) : void 0 : void 0) && !!pho;
+    Spine.trigger('change:selectedPhoto', Photo.record);
+    return this.exposeSelection();
+  };
   PhotosList.prototype.click = function(e) {
     var item;
     console.log('PhotosList::click');

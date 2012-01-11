@@ -12,7 +12,6 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
-    Spine.bind('album:exposeSelection', @proxy @exposeSelection)
     Spine.bind('album:activate', @proxy @activate)
     
   template: -> arguments[0]

@@ -120,6 +120,25 @@ class PhotosList extends Spine.Controller
     current = if list.length is 1 then list[0] 
     Photo.current(current)
   
+  activate: ->
+  
+    pho = Photo.record
+    
+    selection = Album.selectionList()
+    if selection.length is 1
+      newActive = Photo.find(selection[0]) if Photo.exists(selection[0])
+
+      if !newActive?.destroyed
+        @current = newActive
+        Photo.current(newActive)
+    else
+        Photo.current()
+    
+    samePhoto = Photo.record?.eql?(pho) and !!pho
+    
+    Spine.trigger('change:selectedPhoto', Photo.record)
+    @exposeSelection()
+  
   click: (e) ->
     console.log 'PhotosList::click'
     item = $(e.currentTarget).item()

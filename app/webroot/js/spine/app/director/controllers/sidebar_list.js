@@ -49,7 +49,6 @@ SidebarList = (function() {
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
-    Spine.bind('gallery:exposeSelection', this.proxy(this.exposeSelection));
     Spine.bind('gallery:activate', this.proxy(this.activate));
   }
   SidebarList.prototype.template = function() {
@@ -186,14 +185,14 @@ SidebarList = (function() {
     }
     sameGallery = ((_ref = Gallery.record) != null ? typeof _ref.eql === "function" ? _ref.eql(gal) : void 0 : void 0) && !!gal;
     sameAlbum = ((_ref2 = Album.record) != null ? typeof _ref2.eql === "function" ? _ref2.eql(alb) : void 0 : void 0) && !!alb;
-    this.exposeSelection(gallery);
     if (!sameGallery) {
       Spine.trigger('change:selectedGallery', gallery, this.mode);
     }
     if (!sameAlbum) {
       Spine.trigger('change:selectedAlbum', Album.record);
     }
-    return Spine.trigger('change:selectedPhoto', Photo.record);
+    Spine.trigger('change:selectedPhoto', Photo.record);
+    return this.exposeSelection();
   };
   SidebarList.prototype.updateTemplate = function(gallery) {
     var galleryContentEl, galleryEl, tmplItem;
@@ -235,15 +234,17 @@ SidebarList = (function() {
     }
     return _results;
   };
-  SidebarList.prototype.exposeSelection = function(gallery) {
+  SidebarList.prototype.exposeSelection = function() {
+    var gallery;
     console.log('SidebarList::exposeSelection');
+    gallery = Gallery.record;
     this.deselect();
     if (gallery) {
       this.children().forItem(gallery).addClass("active");
     }
-    return this.exposeSublistSelection(gallery);
+    return this.exposeSublistSelection();
   };
-  SidebarList.prototype.exposeSublistSelection = function(gallery) {
+  SidebarList.prototype.exposeSublistSelection = function() {
     var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _ref2;
     console.log('SidebarList::exposeSublistSelection');
     removeAlbumSelection = __bind(function() {

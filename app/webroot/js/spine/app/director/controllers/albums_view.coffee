@@ -84,7 +84,7 @@ class AlbumsView extends Spine.Controller
       @show()
       
     Spine.trigger('render:galleryAllSublist')
-    Spine.trigger('album:exposeSelection')
+    Spine.trigger('album:activate')
     
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'

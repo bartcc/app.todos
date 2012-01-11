@@ -107,11 +107,11 @@ Sidebar = (function() {
       switch (source.constructor.className) {
         case 'Album':
           if (!fromSidebar) {
-            Spine.trigger('album:exposeSelection');
+            Spine.trigger('album:activate');
           }
           break;
         case 'Photo':
-          Spine.trigger('photo:exposeSelection');
+          Spine.trigger('photo:activate');
       }
     }
     return this.clonedSelection = selection.slice(0);

@@ -84,9 +84,9 @@ class Sidebar extends Spine.Controller
       source.emptySelection().push source.id
       switch source.constructor.className
         when 'Album'
-          Spine.trigger('album:exposeSelection', selection) unless fromSidebar
+          Spine.trigger('album:exposeSelection') unless fromSidebar
         when 'Photo'
-          Spine.trigger('photo:exposeSelection', selection)
+          Spine.trigger('photo:exposeSelection')
       
     @clonedSelection = selection.slice(0)
 

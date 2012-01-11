@@ -8,19 +8,13 @@ class AlbumsView extends Spine.Controller
   elements:
     '.hoverinfo'              : 'infoEl'
     '.items'                  : 'items'
-    
-    '.content .sortable'      : 'sortable'
+#    '.content .sortable'      : 'sortable'
     
   events:
     'sortupdate .items .item'         : 'sortupdate'
-    'dragstart  .items .thumbnail'    : 'dragstart'
-    'dragenter  .items .thumbnail'    : 'dragenter'
-    'dragover   .items .thumbnail'    : 'dragover'
+    'drop'                            : 'drop'
     'drop       .items .thumbnail'    : 'drop'
     'dragend    .items .thumbnail'    : 'dragend'
-    'dragenter'                       : 'dragenter'
-    'dragover'                        : 'dragover'
-    'dragend'                         : 'dragend'
 
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
@@ -190,6 +184,10 @@ class AlbumsView extends Spine.Controller
         ga.destroy()
     
     target.save()
+
+  addFile: (e) ->
+    console.log 'add.file'
+#    e.preventDefault()
 
   email: ->
     return if ( !@current.email ) 

@@ -85,7 +85,7 @@ class Toolbar extends Spine.Model
         [
           name: 'Slideshow'
           klass: 'optSlideshow'
-          disabled: -> !Album.record
+          disabled: -> !Gallery.selectionList().length
         ]
     group8:
       name: 'Back'

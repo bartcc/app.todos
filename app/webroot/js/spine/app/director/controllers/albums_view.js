@@ -16,19 +16,13 @@ AlbumsView = (function() {
   AlbumsView.extend(Spine.Controller.Drag);
   AlbumsView.prototype.elements = {
     '.hoverinfo': 'infoEl',
-    '.items': 'items',
-    '.content .sortable': 'sortable'
+    '.items': 'items'
   };
   AlbumsView.prototype.events = {
     'sortupdate .items .item': 'sortupdate',
-    'dragstart  .items .thumbnail': 'dragstart',
-    'dragenter  .items .thumbnail': 'dragenter',
-    'dragover   .items .thumbnail': 'dragover',
+    'drop': 'drop',
     'drop       .items .thumbnail': 'drop',
-    'dragend    .items .thumbnail': 'dragend',
-    'dragenter': 'dragenter',
-    'dragover': 'dragover',
-    'dragend': 'dragend'
+    'dragend    .items .thumbnail': 'dragend'
   };
   AlbumsView.prototype.albumsTemplate = function(items, options) {
     return $("#albumsTemplate").tmpl(items, options);
@@ -229,6 +223,9 @@ AlbumsView = (function() {
       }
     }
     return target.save();
+  };
+  AlbumsView.prototype.addFile = function(e) {
+    return console.log('add.file');
   };
   AlbumsView.prototype.email = function() {
     if (!this.current.email) {

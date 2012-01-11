@@ -103,8 +103,7 @@ Model.Extender =
         @record
         
       toID: (records = @records) ->
-        ids = for record in records
-          record.id
+        record.id for record in records
       
       errorHandler: (record, xhr, statusText, error) ->
         status = xhr.status

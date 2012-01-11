@@ -8,7 +8,7 @@ class AlbumsList extends Spine.Controller
     'dblclick .item'                : 'dblclick'
     'mousemove .item .thumbnail'    : 'infoUp'
     'mouseleave .item .thumbnail'   : 'infoBye'
-    'dragstart .item .thumbnail'    : 'stopInfo'
+    'dragstart .item .thumbnail'    : 'infoBye'
     
   constructor: ->
     super
@@ -27,7 +27,7 @@ class AlbumsList extends Spine.Controller
   select: (item, e) ->
     console.log 'AlbumsList::select'
     
-    @exposeSelection()
+#    @exposeSelection()
     @activate()
     
   exposeSelection: ->
@@ -105,13 +105,14 @@ class AlbumsList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.currentTarget).item()
+    
     list = item.addRemoveSelection(@isCtrlClick(e))
+    
     @select item, e
     Spine.trigger('change:toolbarOne', ['Album'])
     
     e.stopPropagation()
     e.preventDefault()
-    false
 
   dblclick: (e) ->
     #@openPanel('album', App.showView.btnAlbum)
@@ -132,22 +133,13 @@ class AlbumsList extends Spine.Controller
     @el.click()
     e.stopPropagation()
     e.preventDefault()
-    false
-    
     
   infoUp: (e) =>
     e.stopPropagation()
     e.preventDefault()
     @info.up(e)
-    false
     
   infoBye: (e) =>
-    e.stopPropagation()
-    e.preventDefault()
     @info.bye()
-    false
 
-  stopInfo: (e) =>
-    @info.bye()
-  
 module?.exports = AlbumsList

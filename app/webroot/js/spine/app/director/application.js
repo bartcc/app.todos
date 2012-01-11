@@ -36,7 +36,8 @@ App = (function() {
     'drop': 'drop',
     'dragenter': 'dragenter',
     'dragover': 'dragover',
-    'dragend': 'dragend'
+    'dragend': 'dragend',
+    'dragstart': 'dragstart'
   };
   function App() {
     this.keys = __bind(this.keys, this);    App.__super__.constructor.apply(this, arguments);
@@ -149,6 +150,7 @@ App = (function() {
     if ((_ref = Spine.dragItem) != null ? _ref.closest : void 0) {
       Spine.dragItem.closest.removeClass('over nodrop');
     }
+    console.log('App::drop');
     return e.preventDefault();
   };
   App.prototype.setupView = function() {

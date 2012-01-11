@@ -117,18 +117,18 @@ Sidebar = (function() {
     return this.clonedSelection = selection.slice(0);
   };
   Sidebar.prototype.dragEnter = function(e) {
-    var data, dataEl, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4, _ref5;
+    var data, dataEl, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
     if (!Spine.dragItem) {
       return;
     }
     el = $(e.target).closest('.data');
     dataEl = $(e.target).closest('.data');
     data = ((_ref = dataEl.tmplItem) != null ? _ref.data : void 0) || dataEl.data();
-    target = el.item() || el.data();
-    source = (_ref2 = Spine.dragItem) != null ? _ref2.source : void 0;
-    origin = ((_ref3 = Spine.dragItem) != null ? _ref3.origin : void 0) || Gallery.record;
-    if ((_ref4 = Spine.dragItem.closest) != null) {
-      _ref4.removeClass('over nodrop');
+    target = ((_ref2 = el.data()) != null ? (_ref3 = _ref2.current) != null ? _ref3.record : void 0 : void 0) || el.item();
+    source = (_ref4 = Spine.dragItem) != null ? _ref4.source : void 0;
+    origin = ((_ref5 = Spine.dragItem) != null ? _ref5.origin : void 0) || Gallery.record;
+    if ((_ref6 = Spine.dragItem.closest) != null) {
+      _ref6.removeClass('over nodrop');
     }
     Spine.dragItem.closest = el;
     if (this.validateDrop(target, source, origin)) {
@@ -139,19 +139,19 @@ Sidebar = (function() {
     id = el.attr('id');
     if (id && this._id !== id) {
       this._id = id;
-      return (_ref5 = Spine.dragItem.closest) != null ? _ref5.removeClass('over') : void 0;
+      return (_ref7 = Spine.dragItem.closest) != null ? _ref7.removeClass('over') : void 0;
     }
   };
   Sidebar.prototype.dragOver = function(e) {};
   Sidebar.prototype.dragLeave = function(e) {};
   Sidebar.prototype.dropComplete = function(e) {
-    var albums, origin, photos, source, target;
+    var albums, origin, photos, source, target, _ref, _ref2;
     console.log('Sidebar::dropComplete');
     if (!Spine.dragItem) {
       return;
     }
     Spine.dragItem.closest.removeClass('over nodrop');
-    target = Spine.dragItem.closest.item() || Spine.dragItem.closest.data();
+    target = ((_ref = Spine.dragItem.closest.data()) != null ? (_ref2 = _ref.current) != null ? _ref2.record : void 0 : void 0) || Spine.dragItem.closest.item();
     source = Spine.dragItem.source;
     origin = Spine.dragItem.origin;
     if (!this.validateDrop(target, source, origin)) {
@@ -159,6 +159,7 @@ Sidebar = (function() {
     }
     switch (source.constructor.className) {
       case 'Album':
+        console.log('Source is Album');
         albums = [];
         Album.each(__bind(function(record) {
           if (this.clonedSelection.indexOf(record.id) !== -1) {
@@ -315,7 +316,6 @@ Sidebar = (function() {
     return Spine.trigger('show:allPhotos', true);
   };
   Sidebar.prototype.showAllPhotos = function(deselect) {
-    var changed;
     if (deselect == null) {
       deselect = false;
     }
@@ -323,11 +323,8 @@ Sidebar = (function() {
       this.list.deselect();
     }
     this.showAllAlbums(deselect);
-    Gallery.current();
-    Album.current();
-    changed = Album.changed();
-    Spine.trigger('show:photos');
-    return Spine.trigger('change:selectedAlbum', false, changed);
+    Spine.trigger('album:activate', false);
+    return Spine.trigger('show:photos');
   };
   Sidebar.prototype.showAllAlbums = function(deselect) {
     if (deselect == null) {
@@ -336,8 +333,8 @@ Sidebar = (function() {
     if (deselect) {
       this.list.deselect();
     }
-    Spine.trigger('show:albums');
-    return Spine.trigger('gallery:activate', false);
+    Spine.trigger('gallery:activate', false);
+    return Spine.trigger('show:albums');
   };
   return Sidebar;
 })();

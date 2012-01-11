@@ -38,7 +38,8 @@ class UploadEditView extends Spine.Controller
     @el
     
   add: (e, data) ->
-    @openPanel('upload', App.showView.btnUpload) if Album.record
+    if Album.record and data.files.length
+      @openPanel('upload', App.showView.btnUpload) 
     
   done: (e, data) ->
     console.log 'UploadView::done'

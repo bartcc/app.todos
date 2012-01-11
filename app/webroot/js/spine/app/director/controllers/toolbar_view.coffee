@@ -7,7 +7,7 @@ class ToolbarView extends Spine.Controller
     @current      = []
     
   change: (list, cb) ->
-    if list.length
+    if list?.length
       tools = @filterTools list
       content = new Array
       $.merge(content, itm.content) for itm in tools

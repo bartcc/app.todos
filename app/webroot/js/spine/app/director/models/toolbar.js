@@ -134,7 +134,7 @@ Toolbar = (function() {
           name: 'Slideshow',
           klass: 'optSlideshow',
           disabled: function() {
-            return !Album.record;
+            return !Gallery.selectionList().length;
           }
         }
       ]

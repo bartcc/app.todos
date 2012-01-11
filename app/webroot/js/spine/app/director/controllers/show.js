@@ -135,6 +135,7 @@ ShowView = (function() {
     Photo.bind('change', this.proxy(this.changeToolbarOne));
     Spine.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
     Spine.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
+    Spine.bind('album:exposeSelection', this.proxy(this.refreshToolbars));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.current = this.albumsView;
     this.sOutValue = this.thumbSize = 140;
@@ -186,6 +187,11 @@ ShowView = (function() {
     }
     this.toolbarTwo.change(list, cb);
     return this.refreshElements();
+  };
+  ShowView.prototype.refreshToolbars = function() {
+    console.log('ShowView::refreshToolbars');
+    this.toolbarOne.change();
+    return this.toolbarTwo.change();
   };
   ShowView.prototype.renderViewControl = function(controller, controlEl) {
     var active;

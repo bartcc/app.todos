@@ -113,6 +113,7 @@ class ShowView extends Spine.Controller
     Photo.bind('change', @proxy @changeToolbarOne)
     Spine.bind('change:toolbarOne', @proxy @changeToolbarOne)
     Spine.bind('change:toolbarTwo', @proxy @changeToolbarTwo)
+    Spine.bind('album:exposeSelection', @proxy @refreshToolbars)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
     @sOutValue = @thumbSize = 140
@@ -138,7 +139,6 @@ class ShowView extends Spine.Controller
       className: controller.el.data().current.className
     @canvasManager.change controller
     @headerManager.change controller.header
-#    @changeToolbarTwo()
     
   renderToolbar_: (el) ->
     console.log 'ShowView::renderToolbar'
@@ -155,6 +155,11 @@ class ShowView extends Spine.Controller
   changeToolbarTwo: (list=[], cb) ->
     @toolbarTwo.change list, cb
     @refreshElements()
+    
+  refreshToolbars: ->
+    console.log 'ShowView::refreshToolbars'
+    @toolbarOne.change()
+    @toolbarTwo.change()
     
   renderViewControl: (controller, controlEl) ->
     active = controller.isActive()

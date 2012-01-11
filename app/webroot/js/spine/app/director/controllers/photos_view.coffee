@@ -10,15 +10,14 @@ class PhotosView extends Spine.Controller
     '.items'          : 'items'
   
   events:
-    'sortupdate .items .item'         : 'sortupdate'
     'dragstart  .items .thumbnail'    : 'dragstart'
-    'dragenter  .items .thumbnail'    : 'dragenter'
-    'dragover   .items .thumbnail'    : 'dragover'
+#    'dragenter  .items .thumbnail'    : 'dragenter'
+#    'dragover   .items .thumbnail'    : 'dragover'
+    'drop      '    : 'drop'
     'drop       .items .thumbnail'    : 'drop'
-    'dragend    .items .thumbnail'    : 'dragend'
-    'dragenter'                       : 'dragenter'
-    'dragover'                        : 'dragover'
-    'dragend'                         : 'dragend'
+#    'dragend    '    : 'dragend'
+#    'dragenter'                       : 'dragenter'
+#    'sortupdate .items .item'         : 'sortupdate'
     
   template: (items) ->
     $('#photosTemplate').tmpl(items)
@@ -44,7 +43,7 @@ class PhotosView extends Spine.Controller
       info: @info
       parent: @parent
     @header.template = @headerTemplate
-#    Photo.bind('refresh', @proxy @cl earPhotoCache)
+#    Photo.bind('refresh', @proxy @clearPhotoCache)
     Photo.bind('refresh', @proxy @prepareJoin)
     Photo.bind('destroy', @proxy @remove)
     Photo.bind("create:join", @proxy @createJoin)

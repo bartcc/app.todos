@@ -95,7 +95,7 @@ class Sidebar extends Spine.Controller
     el = $(e.target).closest('.data')
     dataEl = $(e.target).closest('.data')
     data = dataEl.tmplItem?.data or dataEl.data()
-    target = el.item() or el.data()
+    target = el.data()?.current?.record or el.item()
     source = Spine.dragItem?.source
     origin = Spine.dragItem?.origin or Gallery.record
     Spine.dragItem.closest?.removeClass('over nodrop')
@@ -120,7 +120,7 @@ class Sidebar extends Spine.Controller
     console.log 'Sidebar::dropComplete'
     return unless Spine.dragItem
     Spine.dragItem.closest.removeClass('over nodrop')
-    target = Spine.dragItem.closest.item() or Spine.dragItem.closest.data()
+    target = Spine.dragItem.closest.data()?.current?.record or Spine.dragItem.closest.item()
     source = Spine.dragItem.source
     origin = Spine.dragItem.origin
     
@@ -128,10 +128,10 @@ class Sidebar extends Spine.Controller
     
     switch source.constructor.className
       when 'Album'
+        console.log 'Source is Album'
         albums = []
         Album.each (record) =>
           albums.push record unless @clonedSelection.indexOf(record.id) is -1
-            
 
         Album.trigger('create:join', target, albums)
         Album.trigger('destroy:join', origin, albums) unless @isCtrlClick(e)
@@ -158,7 +158,6 @@ class Sidebar extends Spine.Controller
           if item.album_id is source.id
             return false
         return true
-        
       when 'Photo'
         unless target.constructor.className is 'Album'
           return false
@@ -170,6 +169,7 @@ class Sidebar extends Spine.Controller
           if item.photo_id is source.id
             return false
         return true
+        
       else return false
   
   newAttributes: ->
@@ -239,15 +239,11 @@ class Sidebar extends Spine.Controller
   showAllPhotos: (deselect=false) ->
     if deselect then @list.deselect()
     @showAllAlbums(deselect)
-    Gallery.current()
-    Album.current()
-    changed = Album.changed()
+    Spine.trigger('album:activate', false)
     Spine.trigger('show:photos')
-    Spine.trigger('change:selectedAlbum', false, changed)
     
   showAllAlbums: (deselect=false) ->
     if deselect then @list.deselect()
-    Spine.trigger('show:albums')
     Spine.trigger('gallery:activate', false)
-#    Spine.trigger('change:selectedGallery', false, true)
+    Spine.trigger('show:albums')
     

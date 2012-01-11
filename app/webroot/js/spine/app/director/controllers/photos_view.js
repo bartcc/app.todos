@@ -19,15 +19,9 @@ PhotosView = (function() {
     '.items': 'items'
   };
   PhotosView.prototype.events = {
-    'sortupdate .items .item': 'sortupdate',
     'dragstart  .items .thumbnail': 'dragstart',
-    'dragenter  .items .thumbnail': 'dragenter',
-    'dragover   .items .thumbnail': 'dragover',
-    'drop       .items .thumbnail': 'drop',
-    'dragend    .items .thumbnail': 'dragend',
-    'dragenter': 'dragenter',
-    'dragover': 'dragover',
-    'dragend': 'dragend'
+    'drop      ': 'drop',
+    'drop       .items .thumbnail': 'drop'
   };
   PhotosView.prototype.template = function(items) {
     return $('#photosTemplate').tmpl(items);

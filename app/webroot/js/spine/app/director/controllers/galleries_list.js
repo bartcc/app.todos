@@ -52,7 +52,6 @@ GalleriesList = (function() {
     console.log('GalleryList::click');
     item = $(e.currentTarget).item();
     this.select(item);
-    console.log(item);
     e.stopPropagation();
     e.preventDefault();
     return false;

@@ -141,13 +141,11 @@ class PhotosList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
-    false
   
   closeInfo: (e) =>
     @el.click()
     e.stopPropagation()
     e.preventDefault()
-    false
     
   initSelectable: ->
     options =
@@ -157,17 +155,13 @@ class PhotosList extends Spine.Controller
   infoUp: (e) =>
     @info.up(e)
     e.preventDefault()
-    false
     
   infoBye: (e) =>
     @info.bye()
     e.preventDefault()
-    false
     
   stopInfo: (e) =>
     @info.bye()
-    e.preventDefault()
-    false
     
   sliderStart: =>
     

@@ -49,7 +49,7 @@ UploadEditView = (function() {
     return this.el;
   };
   UploadEditView.prototype.add = function(e, data) {
-    if (Album.record) {
+    if (Album.record && data.files.length) {
       return this.openPanel('upload', App.showView.btnUpload);
     }
   };

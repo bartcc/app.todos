@@ -18,10 +18,9 @@ AlbumsList = (function() {
     'dblclick .item': 'dblclick',
     'mousemove .item .thumbnail': 'infoUp',
     'mouseleave .item .thumbnail': 'infoBye',
-    'dragstart .item .thumbnail': 'stopInfo'
+    'dragstart .item .thumbnail': 'infoBye'
   };
   function AlbumsList() {
-    this.stopInfo = __bind(this.stopInfo, this);
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
@@ -43,7 +42,6 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.select = function(item, e) {
     console.log('AlbumsList::select');
-    this.exposeSelection();
     return this.activate();
   };
   AlbumsList.prototype.exposeSelection = function() {
@@ -155,8 +153,7 @@ AlbumsList = (function() {
     this.select(item, e);
     Spine.trigger('change:toolbarOne', ['Album']);
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   AlbumsList.prototype.dblclick = function(e) {
     Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider);
@@ -174,22 +171,14 @@ AlbumsList = (function() {
   AlbumsList.prototype.closeInfo = function(e) {
     this.el.click();
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   AlbumsList.prototype.infoUp = function(e) {
     e.stopPropagation();
     e.preventDefault();
-    this.info.up(e);
-    return false;
+    return this.info.up(e);
   };
   AlbumsList.prototype.infoBye = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    this.info.bye();
-    return false;
-  };
-  AlbumsList.prototype.stopInfo = function(e) {
     return this.info.bye();
   };
   return AlbumsList;

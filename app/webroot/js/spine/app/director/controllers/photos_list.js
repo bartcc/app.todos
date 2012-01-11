@@ -184,14 +184,12 @@ PhotosList = (function() {
     console.log('PhotosList::dblclick');
     Spine.trigger('show:photo', this.current);
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   PhotosList.prototype.closeInfo = function(e) {
     this.el.click();
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   PhotosList.prototype.initSelectable = function() {
     var options;
@@ -202,18 +200,14 @@ PhotosList = (function() {
   };
   PhotosList.prototype.infoUp = function(e) {
     this.info.up(e);
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   PhotosList.prototype.infoBye = function(e) {
     this.info.bye();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   PhotosList.prototype.stopInfo = function(e) {
-    this.info.bye();
-    e.preventDefault();
-    return false;
+    return this.info.bye();
   };
   PhotosList.prototype.sliderStart = function() {};
   PhotosList.prototype.size = function(val, bg) {

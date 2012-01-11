@@ -34,6 +34,7 @@ class App extends Spine.Controller
     'dragenter'           : 'dragenter'
     'dragover'            : 'dragover'
     'dragend'             : 'dragend'
+    'dragstart'           : 'dragstart'
 
   constructor: ->
     super
@@ -121,7 +122,7 @@ class App extends Spine.Controller
   drop: (e) ->
     if Spine.dragItem?.closest
       Spine.dragItem.closest.removeClass('over nodrop')
-      
+    console.log 'App::drop'
     e.preventDefault()
       
   setupView: ->

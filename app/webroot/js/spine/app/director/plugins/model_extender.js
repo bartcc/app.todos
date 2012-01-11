@@ -166,19 +166,16 @@ Model.Extender = {
         return this.record;
       },
       toID: function(records) {
-        var ids, record;
+        var record, _i, _len, _results;
         if (records == null) {
           records = this.records;
         }
-        return ids = (function() {
-          var _i, _len, _results;
-          _results = [];
-          for (_i = 0, _len = records.length; _i < _len; _i++) {
-            record = records[_i];
-            _results.push(record.id);
-          }
-          return _results;
-        })();
+        _results = [];
+        for (_i = 0, _len = records.length; _i < _len; _i++) {
+          record = records[_i];
+          _results.push(record.id);
+        }
+        return _results;
       },
       errorHandler: function(record, xhr, statusText, error) {
         var status;

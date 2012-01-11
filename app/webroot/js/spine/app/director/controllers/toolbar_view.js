@@ -18,7 +18,7 @@ ToolbarView = (function() {
   }
   ToolbarView.prototype.change = function(list, cb) {
     var content, itm, tools, _i, _len;
-    if (list.length) {
+    if (list != null ? list.length : void 0) {
       tools = this.filterTools(list);
       content = new Array;
       for (_i = 0, _len = tools.length; _i < _len; _i++) {

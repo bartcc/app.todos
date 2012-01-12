@@ -60,8 +60,6 @@ ShowView = (function() {
     "click .optUpload": "toggleUpload",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
-    'fileuploadprogress': "uploadProgress",
-    'fileuploaddone': "uploadDone",
     'slidestop #slider': 'sliderStop',
     'slidestart #slider': 'sliderStart'
   };

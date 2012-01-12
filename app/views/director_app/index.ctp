@@ -161,7 +161,30 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fu" class="view container flex autoflow" style=""></div>
+            <div id="fu" class="view container flex autoflow" style="">
+              <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
+                <div class="uploadinfo"></div>
+                <div class="row">
+                  <div class="span16 fileupload-buttonbar">
+                    <div class="progressbar fileupload-progressbar"><div style="width:0%;"></div></div>
+                    <span class="btn success fileinput-button">
+                      <span>Add files...</span>
+                      <input type="file" name="files[]" multiple>
+                    </span>
+                    <button type="submit" class="btn primary start">Start upload</button>
+                    <button type="reset" class="btn info cancel">Cancel upload</button>
+                    <button type="button" class="btn danger delete">Delete selected</button>
+                    <input type="checkbox" class="toggle">
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="span16">
+                    <table class="zebra-striped"><tbody class="files"></tbody></table>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>  
         <ul class="options props hbox">
@@ -478,39 +501,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  {{if album}}
-  <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
-    <div>
-      <label class="label"><span>Uploaded images will be stored inside album: </span> ${album.title}</label>
-<!--      <select name="select">
-      {{tmpl($item.data.album.allGalleryAlbums()) "#albumSelectTemplate"}}
-      </select>-->
-    </div>
-    <div class="row">
-      <div class="span16 fileupload-buttonbar">
-        <div class="progressbar fileupload-progressbar"><div style="width:0%;"></div></div>
-        <span class="btn success fileinput-button">
-          <span>Add files...</span>
-          <input type="file" name="files[]" multiple>
-        </span>
-        <button type="submit" class="btn primary start">Start upload</button>
-        <button type="reset" class="btn info cancel">Cancel upload</button>
-        <button type="button" class="btn danger delete">Delete selected</button>
-        <input type="checkbox" class="toggle">
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="span16">
-        <table class="zebra-striped"><tbody class="files"></tbody></table>
-      </div>
-    </div>
-  </form>
-  {{else}}
-  <label class="label">
-    <span>Select a target album</span>
-  </label>
-  {{/if}}
+  <label class="label"><span>Upload into: </span>{{if album}} ${album.title}{{else}}No album selected{{/if}}</label>
 </script>
 
 <script>

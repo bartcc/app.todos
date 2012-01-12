@@ -16,8 +16,9 @@ class App extends Spine.Controller
     '#ga'                 : 'galleryEl'
     '#al'                 : 'albumEl'
     '#ph'                 : 'photoEl'
-    '#fu'                 : 'uploadEl'
     '#sl'                 : 'slideshowEl'
+    '#fu'                 : 'uploadEl'
+    '#fileupload'         : 'uploader'
     '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
     '#gallery'            : 'slideshow'
@@ -32,9 +33,9 @@ class App extends Spine.Controller
     'keypress'            : 'keys'
     'drop'                : 'drop'
     'dragenter'           : 'dragenter'
-    'dragover'            : 'dragover'
-    'dragend'             : 'dragend'
-    'dragstart'           : 'dragstart'
+#    'dragend'             : 'dragend'
+#    'dragover'            : 'dragover'
+#    'dragstart'           : 'dragstart'
 
   constructor: ->
     super
@@ -103,7 +104,9 @@ class App extends Spine.Controller
     @slideshowOptions =
       canvas: false
       backdrop: true
+      
     @initializeSlideshow()
+    @initializeFileupload()
 
   validate: (user, json) ->
     console.log 'Pinger done'
@@ -119,10 +122,11 @@ class App extends Spine.Controller
         @setupView()
       @delay cb, 1000
       
-  drop: (e) ->
+  drop: (e, data) ->
+    console.log 'App::drop'
     if Spine.dragItem?.closest
       Spine.dragItem.closest.removeClass('over nodrop')
-    console.log 'App::drop'
+    console.log data
     e.preventDefault()
       
   setupView: ->
@@ -139,6 +143,9 @@ class App extends Spine.Controller
   initializeSlideshow: (opts) ->
     options = $.extend(@slideshowOptions, opts)
     @slideshow.imagegallery options
+    
+  initializeFileupload: ->
+    @uploader.fileupload()
     
   loadToolbars: ->
     Toolbar.load()

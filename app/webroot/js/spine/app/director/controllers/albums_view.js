@@ -19,10 +19,8 @@ AlbumsView = (function() {
     '.items': 'items'
   };
   AlbumsView.prototype.events = {
-    'sortupdate .items .item': 'sortupdate',
-    'drop': 'drop',
-    'drop       .items .thumbnail': 'drop',
-    'dragend    .items .thumbnail': 'dragend'
+    'dragstart  .items .thumbnail': 'dragstart',
+    'drop .items': 'drop'
   };
   AlbumsView.prototype.albumsTemplate = function(items, options) {
     return $("#albumsTemplate").tmpl(items, options);

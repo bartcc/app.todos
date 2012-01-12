@@ -51,8 +51,8 @@ class ShowView extends Spine.Controller
     "click .optUpload"                : "toggleUpload"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
-    'fileuploadprogress'              : "uploadProgress" 
-    'fileuploaddone'                  : "uploadDone"
+#    'fileuploadprogress'              : "uploadProgress" 
+#    'fileuploaddone'                  : "uploadDone"
 #    'slide #slider'                   : 'sliderSlide'
     'slidestop #slider'               : 'sliderStop'
     'slidestart #slider'              : 'sliderStart'

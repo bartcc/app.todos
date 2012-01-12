@@ -30,11 +30,12 @@ Sidebar = (function() {
     'click .optAllAlbums': 'allAlbums',
     'click .optAllPhotos': 'allPhotos',
     "dblclick .draghandle": 'toggleDraghandle',
-    'dragenter .items .item': 'dragenter',
-    'dragover  .items .item': 'dragover',
-    'dragend   .items .item': 'dragend',
-    'dragleave': 'dragleave',
-    'drop': 'drop'
+    'dragstart  .items .item': 'dragstart',
+    'dragenter  .items .item': 'dragenter',
+    'dragover   .items .item': 'dragover',
+    'dragleave  .items .item': 'dragleave',
+    'drop       .items .item': 'drop',
+    'dragend    .items .item': 'dragend'
   };
   Sidebar.prototype.template = function(items) {
     return $("#sidebarTemplate").tmpl(items);

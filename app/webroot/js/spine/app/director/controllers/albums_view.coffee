@@ -8,13 +8,10 @@ class AlbumsView extends Spine.Controller
   elements:
     '.hoverinfo'              : 'infoEl'
     '.items'                  : 'items'
-#    '.content .sortable'      : 'sortable'
     
   events:
-    'sortupdate .items .item'         : 'sortupdate'
-    'drop'                            : 'drop'
-    'drop       .items .thumbnail'    : 'drop'
-    'dragend    .items .thumbnail'    : 'dragend'
+    'dragstart  .items .thumbnail'    : 'dragstart'
+    'drop .items'           : 'drop'
 
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options

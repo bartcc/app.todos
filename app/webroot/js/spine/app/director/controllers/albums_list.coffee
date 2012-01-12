@@ -25,8 +25,6 @@ class AlbumsList extends Spine.Controller
   
   select: (item, e) ->
     console.log 'AlbumsList::select'
-    
-#    @exposeSelection()
     @activate()
     
   exposeSelection: ->

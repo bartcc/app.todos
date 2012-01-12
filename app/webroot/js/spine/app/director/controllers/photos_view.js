@@ -19,9 +19,7 @@ PhotosView = (function() {
     '.items': 'items'
   };
   PhotosView.prototype.events = {
-    'dragstart  .items .thumbnail': 'dragstart',
-    'drop      ': 'drop',
-    'drop       .items .thumbnail': 'drop'
+    'dragstart  .items .thumbnail': 'dragstart'
   };
   PhotosView.prototype.template = function(items) {
     return $('#photosTemplate').tmpl(items);
@@ -51,7 +49,7 @@ PhotosView = (function() {
       parent: this.parent
     });
     this.header.template = this.headerTemplate;
-    Photo.bind('refresh', this.proxy(this.prepareJoin));
+    Photo.bind('refresh', this.proxy(this.refresh));
     Photo.bind('destroy', this.proxy(this.remove));
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
@@ -164,9 +162,13 @@ PhotosView = (function() {
     return this.renderHeader();
   };
   PhotosView.prototype.save = function(item) {};
-  PhotosView.prototype.prepareJoin = function(photos) {
+  PhotosView.prototype.refresh = function(photos) {
     this.clearPhotoCache();
-    return this.createJoin(Album.record, photos);
+    if (Album.record) {
+      return this.createJoin(Album.record, photos);
+    } else {
+      return this.render(photos);
+    }
   };
   PhotosView.prototype.createJoin = function(target, photos) {
     var ap, record, records, _i, _len;

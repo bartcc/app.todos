@@ -19,8 +19,9 @@ App = (function() {
     '#ga': 'galleryEl',
     '#al': 'albumEl',
     '#ph': 'photoEl',
-    '#fu': 'uploadEl',
     '#sl': 'slideshowEl',
+    '#fu': 'uploadEl',
+    '#fileupload': 'uploader',
     '#loader': 'loaderEl',
     '#login': 'loginEl',
     '#gallery': 'slideshow',
@@ -34,10 +35,7 @@ App = (function() {
   App.prototype.events = {
     'keypress': 'keys',
     'drop': 'drop',
-    'dragenter': 'dragenter',
-    'dragover': 'dragover',
-    'dragend': 'dragend',
-    'dragstart': 'dragstart'
+    'dragenter': 'dragenter'
   };
   function App() {
     this.keys = __bind(this.keys, this);    App.__super__.constructor.apply(this, arguments);
@@ -127,6 +125,7 @@ App = (function() {
       backdrop: true
     };
     this.initializeSlideshow();
+    this.initializeFileupload();
   }
   App.prototype.validate = function(user, json) {
     var cb, valid;
@@ -145,12 +144,13 @@ App = (function() {
       return this.delay(cb, 1000);
     }
   };
-  App.prototype.drop = function(e) {
+  App.prototype.drop = function(e, data) {
     var _ref;
+    console.log('App::drop');
     if ((_ref = Spine.dragItem) != null ? _ref.closest : void 0) {
       Spine.dragItem.closest.removeClass('over nodrop');
     }
-    console.log('App::drop');
+    console.log(data);
     return e.preventDefault();
   };
   App.prototype.setupView = function() {
@@ -173,6 +173,9 @@ App = (function() {
     var options;
     options = $.extend(this.slideshowOptions, opts);
     return this.slideshow.imagegallery(options);
+  };
+  App.prototype.initializeFileupload = function() {
+    return this.uploader.fileupload();
   };
   App.prototype.loadToolbars = function() {
     return Toolbar.load();

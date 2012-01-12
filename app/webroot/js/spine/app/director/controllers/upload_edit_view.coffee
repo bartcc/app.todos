@@ -3,9 +3,12 @@ $      = Spine.$
 
 class UploadEditView extends Spine.Controller
 
+#  @extend Spine.Controller.Drag
+  
   elements:
-    '#fileupload'                 : 'uploadEl'
-    '#fileupload .files'          : 'filesEl'
+    '#fileupload'                 : 'uploader'
+    '.files'                      : 'filesEl'
+    '.uploadinfo'                 : 'uploadinfoEl'
 
   events:
     'change select'               : 'changeSelected'
@@ -19,7 +22,7 @@ class UploadEditView extends Spine.Controller
   constructor: ->
     super
     @bind("change", @change)
-#    Album.bind('change', @proxy @change)
+    Album.bind('change', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @change)
     
   change: (item) ->
@@ -30,16 +33,19 @@ class UploadEditView extends Spine.Controller
     selection = Gallery.selectionList()
     gallery = Gallery.record
     album = Album.record
-    @html @template
+    @uploadinfoEl.html @template
       gallery: gallery
       album: album
-    @initFileupload()
+#    @initFileupload()
     @refreshElements()
     @el
     
   add: (e, data) ->
-    if Album.record and data.files.length
-      @openPanel('upload', App.showView.btnUpload) 
+    if data.files.length
+      @openPanel('upload', App.showView.btnUpload)
+    e.preventDefault()
+    e.stopPropagation()
+    
     
   done: (e, data) ->
     console.log 'UploadView::done'
@@ -51,7 +57,7 @@ class UploadEditView extends Spine.Controller
     
   initFileupload: ->
     console.log 'UploadEditView::initFileupload'
-    @uploadEl.fileupload()
+    @uploader.fileupload()
     
   fileuploadsend: (e, data) ->
     # Enable iframe cross-domain access via redirect page:

@@ -14,8 +14,9 @@ $ = Spine.$;
 UploadEditView = (function() {
   __extends(UploadEditView, Spine.Controller);
   UploadEditView.prototype.elements = {
-    '#fileupload': 'uploadEl',
-    '#fileupload .files': 'filesEl'
+    '#fileupload': 'uploader',
+    '.files': 'filesEl',
+    '.uploadinfo': 'uploadinfoEl'
   };
   UploadEditView.prototype.events = {
     'change select': 'changeSelected',
@@ -29,6 +30,7 @@ UploadEditView = (function() {
   function UploadEditView() {
     UploadEditView.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
+    Album.bind('change', this.proxy(this.change));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
   }
   UploadEditView.prototype.change = function(item) {
@@ -40,18 +42,19 @@ UploadEditView = (function() {
     selection = Gallery.selectionList();
     gallery = Gallery.record;
     album = Album.record;
-    this.html(this.template({
+    this.uploadinfoEl.html(this.template({
       gallery: gallery,
       album: album
     }));
-    this.initFileupload();
     this.refreshElements();
     return this.el;
   };
   UploadEditView.prototype.add = function(e, data) {
-    if (Album.record && data.files.length) {
-      return this.openPanel('upload', App.showView.btnUpload);
+    if (data.files.length) {
+      this.openPanel('upload', App.showView.btnUpload);
     }
+    e.preventDefault();
+    return e.stopPropagation();
   };
   UploadEditView.prototype.done = function(e, data) {
     var photos;
@@ -66,7 +69,7 @@ UploadEditView = (function() {
   };
   UploadEditView.prototype.initFileupload = function() {
     console.log('UploadEditView::initFileupload');
-    return this.uploadEl.fileupload();
+    return this.uploader.fileupload();
   };
   UploadEditView.prototype.fileuploadsend = function(e, data) {
     var redirectPage, target;

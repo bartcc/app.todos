@@ -13,14 +13,15 @@ Controller.Drag = {
         return Spine.dragItem = null;
       },
       dragstart: __bind(function(e, data) {
-        var el, event, parentDataElement, _ref;
+        var el, event, parentDataElement, _ref, _ref2, _ref3;
+        console.log('Drag::dragstart');
         el = $(e.target);
         el.addClass('dragged');
         Spine.dragItem = {};
         Spine.dragItem.el = el;
         Spine.dragItem.source = el.item();
         parentDataElement = $(e.target).parents('.data');
-        Spine.dragItem.origin = ((_ref = parentDataElement.data().tmplItem) != null ? _ref.data : void 0) || parentDataElement.data().current.record;
+        Spine.dragItem.origin = ((_ref = parentDataElement.data()) != null ? (_ref2 = _ref.tmplItem) != null ? _ref2.data : void 0 : void 0) || ((_ref3 = parentDataElement.data()) != null ? _ref3.current.record : void 0);
         event = e.originalEvent;
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text/html', Spine.dragItem);
@@ -28,6 +29,7 @@ Controller.Drag = {
       }, this),
       dragenter: function(e, data) {
         var func;
+        console.log('Drag::dragenter');
         func = function() {
           return Spine.trigger('drag:timeout', e);
         };
@@ -38,29 +40,29 @@ Controller.Drag = {
       dragover: function(e, data) {
         var event;
         event = e.originalEvent;
-        if (event.stopPropagation) {
-          event.stopPropagation();
-        }
+        event.stopPropagation();
         event.dataTransfer.dropEffect = 'move';
         Spine.trigger('drag:over', e, this);
         return false;
       },
       dragleave: function(e, data) {
+        console.log('Drag::dragleave');
         return Spine.trigger('drag:leave', e, this);
       },
       dragend: function(e, data) {
+        console.log('Drag::dragend');
         return $(e.target).removeClass('dragged');
       },
-      drop: __bind(function(e) {
-        var event;
+      drop: __bind(function(e, data) {
+        var event, _ref;
+        console.log('Drag::drop');
+        console.log(data);
         clearTimeout(Spine.timer);
         event = e.originalEvent;
-        if (event.stopPropagation) {
-          event.stopPropagation();
+        if ((_ref = Spine.dragItem) != null) {
+          _ref.el.removeClass('dragged');
         }
-        Spine.dragItem.el.removeClass('dragged');
-        Spine.trigger('drag:drop', e);
-        return false;
+        return Spine.trigger('drag:drop', e);
       }, this)
     };
     return this.include(Include);

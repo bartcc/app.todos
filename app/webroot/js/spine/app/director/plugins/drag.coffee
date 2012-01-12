@@ -12,19 +12,21 @@ Controller.Drag =
         Spine.dragItem = null
         
       dragstart: (e, data) =>
+        console.log 'Drag::dragstart'
         el = $(e.target)
         el.addClass('dragged')
         Spine.dragItem = {}
         Spine.dragItem.el = el
         Spine.dragItem.source = el.item()
         parentDataElement = $(e.target).parents('.data')
-        Spine.dragItem.origin = parentDataElement.data().tmplItem?.data or parentDataElement.data().current.record
+        Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data()?.current.record
         event = e.originalEvent
         event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/html', Spine.dragItem);
         Spine.trigger('drag:start', e, @)
 
       dragenter: (e, data) ->
+        console.log 'Drag::dragenter'
 #        $(e.target).addClass('over')
         func =  -> Spine.trigger('drag:timeout', e)
         clearTimeout Spine.timer
@@ -33,26 +35,25 @@ Controller.Drag =
 
       dragover: (e, data) ->
         event = e.originalEvent
-        event.stopPropagation() if event.stopPropagation
+        event.stopPropagation()
         event.dataTransfer.dropEffect = 'move'
         Spine.trigger('drag:over', e, @)
         false
 
       dragleave: (e, data) ->
-#        el = $(e.target)
-#        target = el.item()
-#        el.removeClass('over')
+        console.log 'Drag::dragleave'
         Spine.trigger('drag:leave', e, @)
 
       dragend: (e, data) ->
+        console.log 'Drag::dragend'
         $(e.target).removeClass('dragged')
 
-      drop: (e) =>
+      drop: (e, data) =>
+        console.log 'Drag::drop'
+        console.log data
         clearTimeout Spine.timer
         event = e.originalEvent
-        event.stopPropagation() if event.stopPropagation
-        Spine.dragItem.el.removeClass('dragged')
+        Spine.dragItem?.el.removeClass('dragged')
         Spine.trigger('drag:drop', e)
-        false
 
     @include Include

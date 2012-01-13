@@ -25,6 +25,7 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
+    Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
   }
   AlbumsList.prototype.template = function() {

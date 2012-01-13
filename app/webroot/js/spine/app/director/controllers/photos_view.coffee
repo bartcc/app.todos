@@ -40,6 +40,7 @@ class PhotosView extends Spine.Controller
     Photo.bind('destroy', @proxy @remove)
     Photo.bind("create:join", @proxy @createJoin)
     Photo.bind("destroy:join", @proxy @destroyJoin)
+    Photo.bind("ajaxError", Photo.errorHandler)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)

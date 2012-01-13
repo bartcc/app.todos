@@ -53,6 +53,7 @@ PhotosView = (function() {
     Photo.bind('destroy', this.proxy(this.remove));
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
+    Photo.bind("ajaxError", Photo.errorHandler);
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));

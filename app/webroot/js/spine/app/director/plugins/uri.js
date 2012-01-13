@@ -83,6 +83,7 @@ UriCollection = (function() {
       mode = 'html';
     }
     this.callback = callback;
+    this.errorResponse = __bind(this.errorResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
     UriCollection.__super__.constructor.apply(this, arguments);
     this.photos = this.model.all();
@@ -106,7 +107,9 @@ UriCollection = (function() {
     this.model.addToCache(null, this.url, uris, this.mode);
     return this.callback(uris);
   };
-  UriCollection.prototype.errorResponse = function() {};
+  UriCollection.prototype.errorResponse = function(xhr, statusText, error) {
+    return this.model.trigger('ajaxError', xhr, statusText, error);
+  };
   return UriCollection;
 })();
 Uri = (function() {
@@ -115,6 +118,7 @@ Uri = (function() {
     var ap, aps, options, type;
     this.record = record;
     this.callback = callback;
+    this.errorResponse = __bind(this.errorResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
     Uri.__super__.constructor.apply(this, arguments);
     type = this.record.constructor.className;
@@ -170,7 +174,9 @@ Uri = (function() {
     this.record.addToCache(this.url, uris, this.mode);
     return this.callback(uris, this.record);
   };
-  Uri.prototype.errorResponse = function() {};
+  Uri.prototype.errorResponse = function(xhr, statusText, error) {
+    return this.record.trigger('ajaxError', xhr, statusText, error);
+  };
   return Uri;
 })();
 Model.Uri = {

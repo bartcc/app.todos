@@ -12,6 +12,7 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
+    Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
     
   template: -> arguments[0]

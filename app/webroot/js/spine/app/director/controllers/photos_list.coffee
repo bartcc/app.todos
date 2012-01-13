@@ -21,7 +21,8 @@ class PhotosList extends Spine.Controller
 #    Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
     Spine.bind('photo:activate', @proxy @activate)
     Photo.bind('update', @proxy @update)
-    Photo.bind("ajaxError", Photo.customErrorHandler)
+    Photo.bind("ajaxError", Photo.errorHandler)
+    Album.bind("ajaxError", Album.errorHandler)
     Photo.bind('uri', @proxy @uri)
 #    @initSelectable()
     

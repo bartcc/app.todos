@@ -37,7 +37,8 @@ PhotosList = (function() {
     });
     Spine.bind('photo:activate', this.proxy(this.activate));
     Photo.bind('update', this.proxy(this.update));
-    Photo.bind("ajaxError", Photo.customErrorHandler);
+    Photo.bind("ajaxError", Photo.errorHandler);
+    Album.bind("ajaxError", Album.errorHandler);
     Photo.bind('uri', this.proxy(this.uri));
   }
   PhotosList.prototype.change = function() {

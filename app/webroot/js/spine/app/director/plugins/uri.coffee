@@ -76,7 +76,8 @@ class UriCollection extends Base
     @model.addToCache null, @url, uris, @mode
     @callback uris
     
-  errorResponse: ->
+  errorResponse: (xhr, statusText, error) =>
+    @model.trigger('ajaxError', xhr, statusText, error)
 
 class Uri extends Base
   constructor: (@record, params, mode, @callback, max) ->
@@ -122,7 +123,8 @@ class Uri extends Base
     @record.addToCache @url, uris, @mode
     @callback uris, @record
     
-  errorResponse: ->
+  errorResponse: (xhr, statusText, error) =>
+    @record.trigger('ajaxError', xhr, statusText, error)
   
 Model.Uri =
   

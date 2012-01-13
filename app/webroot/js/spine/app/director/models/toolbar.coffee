@@ -83,7 +83,7 @@ class Toolbar extends Spine.Model
       name: 'Slideshow'
       content:
         [
-          name: -> if Album.record.title then 'Play Album: ' + Album.record.title else 'No Slideshow (Select Album)'
+          name: -> if Album.record.title then 'Slideshow: ' + Album.record.title else 'No Slideshow (Select Album)'
           klass: 'optSlideshow'
           disabled: -> !Gallery.selectionList().length
         ]

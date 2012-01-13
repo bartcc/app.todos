@@ -133,7 +133,7 @@ Toolbar = (function() {
         {
           name: function() {
             if (Album.record.title) {
-              return 'Play Album: ' + Album.record.title;
+              return 'Slideshow: ' + Album.record.title;
             } else {
               return 'No Slideshow (Select Album)';
             }

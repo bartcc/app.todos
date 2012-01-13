@@ -285,19 +285,26 @@ SidebarList = (function() {
     }
   };
   SidebarList.prototype.clickAlb = function(e) {
-    var alb, album, albumEl, gallery, galleryEl, sameAlbum, _ref;
+    var alb, album, albumEl, gal, gallery, galleryEl, sameAlbum, sameGallery, _ref, _ref2, _ref3;
     console.log('SidebarList::albclick');
     albumEl = $(e.currentTarget);
     galleryEl = $(e.currentTarget).closest('li.gal');
     album = Album.activeRecord = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
+      gal = Gallery.record;
       alb = Album.record;
       Gallery.current(gallery);
       Album.current(album);
       Gallery.updateSelection([album.id]);
-      sameAlbum = ((_ref = Album.record) != null ? typeof _ref.eql === "function" ? _ref.eql(alb) : void 0 : void 0) && !!alb;
+      sameGallery = ((_ref = Gallery.record) != null ? typeof _ref.eql === "function" ? _ref.eql(gal) : void 0 : void 0) && !!gal;
+      sameAlbum = ((_ref2 = Album.record) != null ? typeof _ref2.eql === "function" ? _ref2.eql(alb) : void 0 : void 0) && !!alb;
+      console.log(sameGallery);
+      console.log((_ref3 = Gallery.record) != null ? _ref3.name : void 0);
       this.exposeSublistSelection(Gallery.record);
+      if (!sameGallery) {
+        Spine.trigger('change:selectedGallery', gallery);
+      }
       if (!sameAlbum) {
         Spine.trigger('change:selectedAlbum', album);
       }
@@ -332,6 +339,7 @@ SidebarList = (function() {
   };
   SidebarList.prototype.expandExpander = function(e) {
     var closest, el, expander;
+    clearTimeout(Spine.timer);
     el = $(e.target);
     closest = (el.closest('.item')) || [];
     if (closest.length) {

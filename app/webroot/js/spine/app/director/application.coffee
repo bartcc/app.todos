@@ -122,11 +122,12 @@ class App extends Spine.Controller
         @setupView()
       @delay cb, 1000
       
-  drop: (e, data) ->
+  drop: (e) ->
     console.log 'App::drop'
+    event = e.originalEvent
     if Spine.dragItem?.closest
       Spine.dragItem.closest.removeClass('over nodrop')
-    console.log data
+    e.stopPropagation() unless event.dataTransfer.files.length
     e.preventDefault()
       
   setupView: ->

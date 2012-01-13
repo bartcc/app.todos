@@ -619,7 +619,7 @@ textarea {
 }
 .ui-symbol {
   background-repeat: no-repeat;
-  display: block;
+  display: none;
   overflow: hidden;
   text-indent: -99999px;
 }
@@ -750,6 +750,8 @@ textarea {
 .contents.views {
 /*  margin-top: 2px;*/
 }
+#content .content .items .item:not(.thumbnail) {
+}
 #content .content .items .item:not(.thumbnail) li {
   color: rgba(0, 0, 0, 0.8);
   padding-top: 5px;
@@ -757,7 +759,7 @@ textarea {
 }
 #content .content .items .item:not(.thumbnail) {
   background-repeat: no-repeat;
-  -moz-background-position: 30px 35px, 100px 35px, 30px 100px, 100px 100px;
+  -moz-background-position: 30px 32px, 100px 32px, 30px 100px, 100px 100px;
 	 -webkit-background-position: 30px 35px, 100px 35px, 30px 100px, 100px 100px;
 	 background-position: 30px 35px, 100px 35px, 30px 100px, 100px 100px;
 }
@@ -1072,13 +1074,13 @@ label {
 }
 .container label.label {
   background: none;
-  font-size: 1.2em;
   color: #353535;
 }
 .message.label span.error {
   color: rgba(255, 50, 0, 0.8);
-  font-size: 1.3em;
-  text-shadow: -1px 0 0 rgba(255, 255, 255, 0.2);
+}
+.message.label span.info {
+  color: rgba(0, 255, 255, 0.8);
 }
 li.active button.dark {
   color: #00BBCC;

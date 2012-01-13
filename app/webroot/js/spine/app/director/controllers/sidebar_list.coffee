@@ -215,6 +215,8 @@ class SidebarList extends Spine.Controller
     
     unless @isCtrlClick(e)
     
+      
+      gal = Gallery.record
       alb = Album.record
       
       Gallery.current(gallery)
@@ -224,9 +226,12 @@ class SidebarList extends Spine.Controller
 #      if App.hmanager.hasActive()
 #        @openPanel('album', App.showView.btnAlbum)
       
+      sameGallery = Gallery.record?.eql?(gal) and !!gal
       sameAlbum = Album.record?.eql?(alb) and !!alb
-      
-      @exposeSublistSelection(Gallery.record)
+      console.log sameGallery
+      console.log Gallery.record?.name
+      @exposeSublistSelection Gallery.record
+      Spine.trigger('change:selectedGallery', gallery) unless sameGallery
       Spine.trigger('change:selectedAlbum', album) unless sameAlbum
       Spine.trigger('show:photos')
       @change Gallery.record, 'photo', e
@@ -262,6 +267,7 @@ class SidebarList extends Spine.Controller
     false
 
   expandExpander: (e) ->
+    clearTimeout Spine.timer
     el = $(e.target)
     closest = (el.closest('.item')) or []
     if closest.length

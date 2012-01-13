@@ -3,14 +3,9 @@ $      = Spine.$
 
 class PhotosHeader extends Spine.Controller
   
-  @extend Spine.Controller.Drag
-  
   events:
     'click .closeView .gal'     : 'backToGalleries'
     'click .closeView .alb'     : 'backToAlbums'
-    'dragenter'                 : 'dragenter'
-    'dragover'                  : 'dragover'
-    'dragend'                   : 'dragend'
 
   constructor: ->
     super

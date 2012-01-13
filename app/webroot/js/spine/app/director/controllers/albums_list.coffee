@@ -52,7 +52,7 @@ class AlbumsList extends Spine.Controller
         @current = newActive
         Album.current(newActive)
     else
-        Album.current()
+        Album.current(album)
     
     sameAlbum = Album.record?.eql?(alb) and !!alb
     

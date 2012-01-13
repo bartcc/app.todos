@@ -58,6 +58,7 @@ PhotosView = (function() {
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
     Album.bind('change', this.proxy(this.renderHeader));
+    Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Spine.bind('change:selectedAlbum', this.proxy(this.renderHeader));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));

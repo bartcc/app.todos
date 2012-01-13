@@ -34,6 +34,7 @@ Controller.Drag =
         Spine.trigger('drag:enter', e, @)
 
       dragover: (e, data) ->
+        console.log 'Drag::dragover'
         event = e.originalEvent
         event.stopPropagation()
         event.dataTransfer.dropEffect = 'move'
@@ -54,6 +55,7 @@ Controller.Drag =
         clearTimeout Spine.timer
         event = e.originalEvent
         Spine.dragItem?.el.removeClass('dragged')
-        Spine.trigger('drag:drop', e)
-
+        Spine.trigger('drag:drop', e, data)
+#        event.stopPropagation()
+        
     @include Include

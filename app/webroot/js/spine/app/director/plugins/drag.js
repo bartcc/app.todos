@@ -39,6 +39,7 @@ Controller.Drag = {
       },
       dragover: function(e, data) {
         var event;
+        console.log('Drag::dragover');
         event = e.originalEvent;
         event.stopPropagation();
         event.dataTransfer.dropEffect = 'move';
@@ -62,7 +63,7 @@ Controller.Drag = {
         if ((_ref = Spine.dragItem) != null) {
           _ref.el.removeClass('dragged');
         }
-        return Spine.trigger('drag:drop', e);
+        return Spine.trigger('drag:drop', e, data);
       }, this)
     };
     return this.include(Include);

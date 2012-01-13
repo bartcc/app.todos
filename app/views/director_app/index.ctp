@@ -163,6 +163,7 @@
             </div>
             <div id="fu" class="view container flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
+                <label class="message label right"><span class="enlightened">Drag your images anywhere into the browser window</span></label>
                 <div class="uploadinfo"></div>
                 <div class="row">
                   <div class="span16 fileupload-buttonbar">
@@ -501,7 +502,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  <label class="label"><span>Upload into: </span>{{if album}} ${album.title}{{else}}No album selected{{/if}}</label>
+  <label class="label"><span>Image Destination: </span>{{if album}}Album ${album.title}{{else}}All Photos{{/if}}</label>
 </script>
 
 <script>

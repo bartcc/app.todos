@@ -18,7 +18,8 @@ class PhotosList extends Spine.Controller
   constructor: ->
     super
     @el.data current: Album
-    Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
+#    Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
+    Spine.bind('photo:activate', @proxy @activate)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.customErrorHandler)
     Photo.bind('uri', @proxy @uri)
@@ -29,8 +30,8 @@ class PhotosList extends Spine.Controller
     
   select: (item, e) ->
     console.log 'PhotosList::select'
-    @exposeSelection()
     @current = item
+    @activate()
     Spine.trigger('change:selectedPhoto', item)
   
   render: (items, mode='html') ->
@@ -107,6 +108,9 @@ class PhotosList extends Spine.Controller
       'backgroundImage': css
       'backgroundPosition': 'center, center'
       'backgroundSize': '100%'
+    
+  activate: (photo) ->
+    @exposeSelection()
     
   exposeSelection: ->
     console.log 'PhotosList::exposeSelection'

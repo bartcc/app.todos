@@ -35,7 +35,7 @@ PhotosList = (function() {
     this.el.data({
       current: Album
     });
-    Spine.bind('photo:exposeSelection', this.proxy(this.exposeSelection));
+    Spine.bind('photo:activate', this.proxy(this.activate));
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.customErrorHandler);
     Photo.bind('uri', this.proxy(this.uri));
@@ -45,8 +45,8 @@ PhotosList = (function() {
   };
   PhotosList.prototype.select = function(item, e) {
     console.log('PhotosList::select');
-    this.exposeSelection();
     this.current = item;
+    this.activate();
     return Spine.trigger('change:selectedPhoto', item);
   };
   PhotosList.prototype.render = function(items, mode) {
@@ -152,6 +152,9 @@ PhotosList = (function() {
       'backgroundPosition': 'center, center',
       'backgroundSize': '100%'
     });
+  };
+  PhotosList.prototype.activate = function(photo) {
+    return this.exposeSelection();
   };
   PhotosList.prototype.exposeSelection = function() {
     var current, el, id, item, list, _i, _len;

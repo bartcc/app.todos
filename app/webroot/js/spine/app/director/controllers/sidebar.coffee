@@ -121,7 +121,6 @@ class Sidebar extends Spine.Controller
   dragOver: (e) =>
 
   dragLeave: (e) =>
-#    console.log 'Sidebar::dragLeave'
 
   dropComplete: (e) =>
     console.log 'Sidebar::dropComplete'

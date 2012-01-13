@@ -72,7 +72,7 @@ AlbumsList = (function() {
         Album.current(newActive);
       }
     } else {
-      Album.current();
+      Album.current(album);
     }
     sameAlbum = ((_ref = Album.record) != null ? typeof _ref.eql === "function" ? _ref.eql(alb) : void 0 : void 0) && !!alb;
     if (!sameAlbum) {

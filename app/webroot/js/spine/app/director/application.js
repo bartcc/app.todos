@@ -144,13 +144,16 @@ App = (function() {
       return this.delay(cb, 1000);
     }
   };
-  App.prototype.drop = function(e, data) {
-    var _ref;
+  App.prototype.drop = function(e) {
+    var event, _ref;
     console.log('App::drop');
+    event = e.originalEvent;
     if ((_ref = Spine.dragItem) != null ? _ref.closest : void 0) {
       Spine.dragItem.closest.removeClass('over nodrop');
     }
-    console.log(data);
+    if (!event.dataTransfer.files.length) {
+      e.stopPropagation();
+    }
     return e.preventDefault();
   };
   App.prototype.setupView = function() {

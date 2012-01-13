@@ -8,6 +8,13 @@ class Recent extends Spine.Model
     @fetch()
     @loadRecent(max)
     
+  @logout: ->
+    @destroyAll()
+    @redirect 'logout'
+  
+  @redirect: (url) ->
+    location.href = base_url + url
+    
   init: (instance) ->
     return unless instance
     
@@ -20,14 +27,15 @@ class Recent extends Spine.Model
       url: base_url + 'photos/recent/' + max
       type: 'GET'
       success: @proxy @success
-      error: @error
+      error: @proxy @error
   
   @success: (json) ->
     console.log 'Ajax::success'
-    @trigger('recent', json)
+    @trigger('success:recent', json)
 
-  @error: (xhr) =>
+  @error: (xhr) ->
     console.log 'Ajax::error'
-    console.log xhr
+    @logout()
+    @redirect 'users/login'
       
 Spine.Model.Recent = Recent

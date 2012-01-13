@@ -1,5 +1,5 @@
 var Recent;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -10,7 +10,6 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
 Recent = (function() {
   __extends(Recent, Spine.Model);
   function Recent() {
-    this.Recent = __bind(this.Recent, this);
     Recent.__super__.constructor.apply(this, arguments);
   }
   Recent.configure('Recent', 'id');
@@ -18,6 +17,13 @@ Recent = (function() {
   Recent.check = function(max) {
     this.fetch();
     return this.loadRecent(max);
+  };
+  Recent.logout = function() {
+    this.destroyAll();
+    return this.redirect('logout');
+  };
+  Recent.redirect = function(url) {
+    return location.href = base_url + url;
   };
   Recent.prototype.init = function(instance) {
     if (!instance) {}
@@ -36,16 +42,17 @@ Recent = (function() {
       url: base_url + 'photos/recent/' + max,
       type: 'GET',
       success: this.proxy(this.success),
-      error: this.error
+      error: this.proxy(this.error)
     });
   };
   Recent.success = function(json) {
     console.log('Ajax::success');
-    return this.trigger('recent', json);
+    return this.trigger('success:recent', json);
   };
   Recent.error = function(xhr) {
     console.log('Ajax::error');
-    return console.log(xhr);
+    this.logout();
+    return this.redirect('users/login');
   };
   return Recent;
 })();

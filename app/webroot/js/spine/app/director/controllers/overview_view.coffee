@@ -3,8 +3,6 @@ $      = Spine.$
 
 class OverviewView extends Spine.Controller
 
-#  @extend Spine.Controller.Toolbars
-  
   elements:
     ".items"              : "items"
     '.optClose'           : 'btnClose'
@@ -23,7 +21,8 @@ class OverviewView extends Spine.Controller
     @maxRecent = 16
     @bind('render:toolbar', @proxy @renderToolbar)
     Spine.bind('show:overview', @proxy @show)
-    Recent.bind('recent', @proxy @render)
+    Recent.bind('success:recent', @proxy @render)
+    Recent.bind('error:recent', @proxy @error)
     
   render: (items) ->
     recents = []
@@ -78,6 +77,9 @@ class OverviewView extends Spine.Controller
   close: ->
     App.contentManager.change @savedView
     
-  renderToolbar: ->
+  error: (xhr, statusText, error) ->
+    console.log xhr
+    alert 'error calling recent'
+    @record.trigger('ajaxError', xhr, statusText, error)
 
 module?.exports = OverviewView

@@ -5,15 +5,15 @@ class User extends Spine.Model
   @extend Spine.Model.Local
   
   @ping: ->
-    User.fetch()
-    if user = User.first()
+    @fetch()
+    if user = @first()
       user.confirm()
     else
-      User.redirect 'users/login'
+      @redirect 'users/login'
     
   @logout: ->
-    User.destroyAll()
-    User.redirect 'logout'
+    @destroyAll()
+    @redirect 'logout'
   
   @redirect: (url) ->
 #    window.location.replace base_url + url
@@ -32,7 +32,7 @@ class User extends Spine.Model
   
   success: (json) =>
     console.log 'Ajax::success'
-    User.trigger('pinger', @, json)
+    @constructor.trigger('pinger', @, json)
 
   error: (xhr) =>
     console.log 'Ajax::error'

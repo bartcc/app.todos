@@ -18,16 +18,16 @@ User = (function() {
   User.extend(Spine.Model.Local);
   User.ping = function() {
     var user;
-    User.fetch();
-    if (user = User.first()) {
+    this.fetch();
+    if (user = this.first()) {
       return user.confirm();
     } else {
-      return User.redirect('users/login');
+      return this.redirect('users/login');
     }
   };
   User.logout = function() {
-    User.destroyAll();
-    return User.redirect('logout');
+    this.destroyAll();
+    return this.redirect('logout');
   };
   User.redirect = function(url) {
     return location.href = base_url + url;
@@ -46,7 +46,7 @@ User = (function() {
   };
   User.prototype.success = function(json) {
     console.log('Ajax::success');
-    return User.trigger('pinger', this, json);
+    return this.constructor.trigger('pinger', this, json);
   };
   User.prototype.error = function(xhr) {
     console.log('Ajax::error');

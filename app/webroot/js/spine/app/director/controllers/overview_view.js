@@ -31,7 +31,8 @@ OverviewView = (function() {
     this.maxRecent = 16;
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
     Spine.bind('show:overview', this.proxy(this.show));
-    Recent.bind('recent', this.proxy(this.render));
+    Recent.bind('success:recent', this.proxy(this.render));
+    Recent.bind('error:recent', this.proxy(this.error));
   }
   OverviewView.prototype.render = function(items) {
     var item, recents, _i, _len;
@@ -119,7 +120,11 @@ OverviewView = (function() {
   OverviewView.prototype.close = function() {
     return App.contentManager.change(this.savedView);
   };
-  OverviewView.prototype.renderToolbar = function() {};
+  OverviewView.prototype.error = function(xhr, statusText, error) {
+    console.log(xhr);
+    alert('error calling recent');
+    return this.record.trigger('ajaxError', xhr, statusText, error);
+  };
   return OverviewView;
 })();
 if (typeof module !== "undefined" && module !== null) {

@@ -322,9 +322,10 @@ Sidebar = (function() {
     }
     if (deselect) {
       this.list.deselect();
+      console.log(this.list);
       Album.emptySelection();
     }
-    this.showAllAlbums(deselect);
+    Spine.trigger('gallery:activate', false);
     Spine.trigger('album:activate', false);
     return Spine.trigger('show:photos');
   };
@@ -334,6 +335,7 @@ Sidebar = (function() {
     }
     if (deselect) {
       this.list.deselect();
+      console.log(this.list);
       Gallery.emptySelection();
     }
     Spine.trigger('gallery:activate', false);

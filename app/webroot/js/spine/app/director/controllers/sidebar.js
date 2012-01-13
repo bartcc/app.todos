@@ -320,26 +320,26 @@ Sidebar = (function() {
     if (deselect == null) {
       deselect = false;
     }
+    Spine.trigger('show:photos');
     if (deselect) {
       this.list.deselect();
       console.log(this.list);
       Album.emptySelection();
     }
     Spine.trigger('gallery:activate', false);
-    Spine.trigger('album:activate', false);
-    return Spine.trigger('show:photos');
+    return Spine.trigger('album:activate', false);
   };
   Sidebar.prototype.showAllAlbums = function(deselect) {
     if (deselect == null) {
       deselect = false;
     }
+    Spine.trigger('show:albums');
     if (deselect) {
       this.list.deselect();
       console.log(this.list);
       Gallery.emptySelection();
     }
-    Spine.trigger('gallery:activate', false);
-    return Spine.trigger('show:albums');
+    return Spine.trigger('gallery:activate', false);
   };
   return Sidebar;
 })();

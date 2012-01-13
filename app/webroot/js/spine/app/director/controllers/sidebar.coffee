@@ -243,6 +243,7 @@ class Sidebar extends Spine.Controller
     Spine.trigger('show:allPhotos', true)
     
   showAllPhotos: (deselect=false) ->
+    Spine.trigger('show:photos')
     if deselect
       @list.deselect()
       console.log @list
@@ -250,13 +251,12 @@ class Sidebar extends Spine.Controller
 #    @showAllAlbums(deselect)
     Spine.trigger('gallery:activate', false)
     Spine.trigger('album:activate', false)
-    Spine.trigger('show:photos')
     
   showAllAlbums: (deselect=false) ->
+    Spine.trigger('show:albums')
     if deselect
       @list.deselect()
       console.log @list
       Gallery.emptySelection()
     Spine.trigger('gallery:activate', false)
-    Spine.trigger('show:albums')
     

@@ -9,9 +9,9 @@ class SlideshowView extends Spine.Controller
     '#gallery'         : 'galleryEl'
     
   events:
-    'click'            : 'click'
+#    'click'            : 'click'
     'click .thumbnail' : 'clickThumb'
-    'click a'          : 'anker'
+#    'click a'          : 'anker'
     
   template: (items) ->
     $("#photosTemplate").tmpl items
@@ -21,7 +21,7 @@ class SlideshowView extends Spine.Controller
     @el.data current: false
     @thumbSize = 140
     @fullscreen = true
-    @autoplay = true
+    @autoplay = false
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('play:slideshow', @proxy @play)
     
@@ -65,7 +65,6 @@ class SlideshowView extends Spine.Controller
   
   loadModal: (items, mode='html') ->
     Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal items, xhr
-#      $.when(@callbackModal items, xhr).then @play()
   
   callbackModal: (items, json) ->
     console.log 'Slideshow::callbackModal'
@@ -120,7 +119,7 @@ class SlideshowView extends Spine.Controller
       , 1
       
   slideshow: (active) ->
-    val = if active then 5000 else false
+    val = if active then 4000 else 0
     @galleryEl.imagegallery 'option', 'slideshow', val
     @play val if val
   
@@ -146,10 +145,9 @@ class SlideshowView extends Spine.Controller
       $('#gallery-modal').removeClass('fullscreen')
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
       
-  click: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
-    false
+#  click: (e) ->
+#    e.stopPropagation()
+#    e.preventDefault()
       
   clickThumb: (e) ->
     console.log 'SlideshowView::click'

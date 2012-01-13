@@ -19,9 +19,7 @@ SlideshowView = (function() {
     '#gallery': 'galleryEl'
   };
   SlideshowView.prototype.events = {
-    'click': 'click',
-    'click .thumbnail': 'clickThumb',
-    'click a': 'anker'
+    'click .thumbnail': 'clickThumb'
   };
   SlideshowView.prototype.template = function(items) {
     return $("#photosTemplate").tmpl(items);
@@ -33,7 +31,7 @@ SlideshowView = (function() {
     });
     this.thumbSize = 140;
     this.fullscreen = true;
-    this.autoplay = true;
+    this.autoplay = false;
     Spine.bind('show:slideshow', this.proxy(this.show));
     Spine.bind('play:slideshow', this.proxy(this.play));
   }
@@ -179,7 +177,7 @@ SlideshowView = (function() {
   };
   SlideshowView.prototype.slideshow = function(active) {
     var val;
-    val = active ? 5000 : false;
+    val = active ? 4000 : 0;
     this.galleryEl.imagegallery('option', 'slideshow', val);
     if (val) {
       return this.play(val);
@@ -214,11 +212,6 @@ SlideshowView = (function() {
       $('#gallery-modal').removeClass('fullscreen');
       return (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document);
     }
-  };
-  SlideshowView.prototype.click = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
   };
   SlideshowView.prototype.clickThumb = function(e) {
     var el;

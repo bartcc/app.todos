@@ -113,7 +113,7 @@ class ShowView extends Spine.Controller
     Photo.bind('change', @proxy @changeToolbarOne)
     Spine.bind('change:toolbarOne', @proxy @changeToolbarOne)
     Spine.bind('change:toolbarTwo', @proxy @changeToolbarTwo)
-    Spine.bind('album:activate', @proxy @refreshToolbars)
+    Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
     @sOutValue = @thumbSize = 140
@@ -285,7 +285,6 @@ class ShowView extends Spine.Controller
   toggleSlideshowMode: ->
     active = @btnSlideshowMode.toggleClass('active').hasClass('active')
     @slideshowView.slideshowMode(active)
-    @slideshowView.slideshow()
 
   toggleView: (controller, control) ->
     isActive = controller.isActive()

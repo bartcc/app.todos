@@ -133,7 +133,7 @@ ShowView = (function() {
     Photo.bind('change', this.proxy(this.changeToolbarOne));
     Spine.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
     Spine.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
-    Spine.bind('album:activate', this.proxy(this.refreshToolbars));
+    Spine.bind('change:selectedAlbum', this.proxy(this.refreshToolbars));
     this.bind("toggle:view", this.proxy(this.toggleView));
     this.current = this.albumsView;
     this.sOutValue = this.thumbSize = 140;
@@ -325,8 +325,7 @@ ShowView = (function() {
   ShowView.prototype.toggleSlideshowMode = function() {
     var active;
     active = this.btnSlideshowMode.toggleClass('active').hasClass('active');
-    this.slideshowView.slideshowMode(active);
-    return this.slideshowView.slideshow();
+    return this.slideshowView.slideshowMode(active);
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;

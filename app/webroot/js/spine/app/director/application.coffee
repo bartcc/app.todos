@@ -104,6 +104,7 @@ class App extends Spine.Controller
     @slideshowOptions =
       canvas: false
       backdrop: true
+      slideshow: 0
       
     @initializeSlideshow()
     @initializeFileupload()

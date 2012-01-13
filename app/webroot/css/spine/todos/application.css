@@ -140,7 +140,7 @@ header .info {
 }
 
 #tasks {
-/*  padding: 20px;*/
+  /*  padding: 20px;*/
 }
 
 #tasks h1 {
@@ -151,13 +151,13 @@ header .info {
 }
 
 #create-todo.new-todo {
-/*  padding: 6px 7px 5px 7px;
-  border: 1px solid #c5c5c5;
-  border-width: 1px 0 1px 0;
-  background: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
-  background: -moz-linear-gradient(top, #ffffff, #dedfe0);
-  background: linear-gradient(top, #ffffff, #dedfe0);*/
+  /*  padding: 6px 7px 5px 7px;
+    border: 1px solid #c5c5c5;
+    border-width: 1px 0 1px 0;
+    background: #ffffff;
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
+    background: -moz-linear-gradient(top, #ffffff, #dedfe0);
+    background: linear-gradient(top, #ffffff, #dedfe0);*/
 }
 #create-todo.new-todo input {
   font-size: 30px;
@@ -167,8 +167,8 @@ header .info {
   font-style: italic;
 }
 #tasks .items {
-/*  padding: 20px;
-  margin: 10px 0;*/
+  /*  padding: 20px;
+    margin: 10px 0;*/
   list-style: none;
 }
 #tasks .item {
@@ -231,19 +231,19 @@ footer {
   float: left;
 }
 #ballon {
-/*    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
-    border-radius: 12px 12px 12px 12px;
-    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);*/
-    text-shadow: 1px 0 1px #FFFFFF;
-    color: #555555;
-    cursor: pointer;
-    display: block;
-    font-size: 3em;
-    font-weight: bold;
-    line-height: 30px;
-    margin: 10px 8px 0 8px;
-    padding: 0 10px 1px;
-    text-decoration: none;
+  /*    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+      border-radius: 12px 12px 12px 12px;
+      box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);*/
+  text-shadow: 1px 0 1px #FFFFFF;
+  color: #555555;
+  cursor: pointer;
+  display: block;
+  font-size: 3em;
+  font-weight: bold;
+  line-height: 30px;
+  margin: 10px 8px 0 8px;
+  padding: 0 10px 1px;
+  text-decoration: none;
 }
 
 #create-todo input {
@@ -284,11 +284,12 @@ footer {
 }
 
 .ui-tooltip-top {
-    left: 50%;
-    margin-left: -270px;
-    position: absolute;
-    width: 170px;
-    z-index: 999;
+  left: 0;
+  margin-left: 274px;
+  position: absolute;
+  top: 114px;
+  width: 170px;
+  z-index: 999;
 }
 /*
  *  François 'cahnory' Germain

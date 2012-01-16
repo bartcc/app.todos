@@ -237,6 +237,7 @@ class Sidebar extends Spine.Controller
     
   showAllPhotos: ->
     Spine.trigger('show:photos')
+    Gallery.current()
     Spine.trigger('gallery:activate')
     Spine.trigger('album:activate')
     

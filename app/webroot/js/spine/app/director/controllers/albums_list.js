@@ -79,7 +79,6 @@ AlbumsList = (function() {
     if (!sameAlbum) {
       Spine.trigger('change:selectedAlbum', Album.record);
     }
-    Spine.trigger('change:selectedPhoto', Photo.record);
     return this.exposeSelection();
   };
   AlbumsList.prototype.render = function(items) {

@@ -58,7 +58,7 @@ class AlbumsList extends Spine.Controller
     sameAlbum = Album.record?.eql?(alb) and !!alb
     
     Spine.trigger('change:selectedAlbum', Album.record) unless sameAlbum
-    Spine.trigger('change:selectedPhoto', Photo.record)
+#    Spine.trigger('change:selectedPhoto', Photo.record)
     @exposeSelection()
   
   render: (items) ->

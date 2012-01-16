@@ -23,6 +23,7 @@ body {
 /*  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
   font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
   color: #414141;
+  user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
 }

@@ -23,15 +23,10 @@ $.Html5Sortable.defaultOptions = {
     el = $(source).prev('li') || $(source).next('li');
     return {
       'height': el.css('height'),
-      'width': el.css('width'),
       'padding-top': el.css('padding-top'),
-      'padding-right': el.css('padding-right'),
       'padding-bottom': el.css('padding-bottom'),
-      'padding-left': el.css('padding-left'),
       'margin-top': el.css('margin-top'),
-      'margin-right': el.css('margin-right'),
-      'margin-bottom': el.css('margin-bottom'),
-      'margin-left': el.css('margin-left')
+      'margin-bottom': el.css('margin-bottom')
     };
   },
   klass: function(source) {
@@ -57,9 +52,12 @@ $.fn.Html5Sortable = function(opts) {
     that = $(this);
     that.init = function(el) {
       return options.dragTarget(el).attr('draggable', true).bind('dragstart', function(e) {
+        var dt;
+        dt = e.originalEvent.dataTransfer;
+        dt.effectAllowed = 'move';
         Spine.sortItem = {};
         Spine.sortItem.data = el.data();
-        Spine.sortItem.dataTransfer = e.originalEvent.dataTransfer;
+        Spine.sortItem.dataTransfer = dt;
         Spine.sortItem.splitter = options.splitter(this);
         Spine.sortItem.dataTransfer.setData("Text", JSON.stringify({
           html: options.text(el),

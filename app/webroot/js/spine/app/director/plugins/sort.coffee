@@ -16,15 +16,15 @@ $.Html5Sortable = ->
     css:       (source) ->
       el = ($(source).prev('li') or $(source).next('li'))
       'height'        : el.css 'height'
-      'width'         : el.css 'width'
+#      'width'         : el.css 'width'
+#      'padding-right' : el.css 'padding-right'
+#      'margin-right'  : el.css 'margin-right'
+#      'padding-left'  : el.css 'padding-left'
+#      'margin-left'   : el.css 'margin-left'
       'padding-top'   : el.css 'padding-top'
-      'padding-right' : el.css 'padding-right'
       'padding-bottom': el.css 'padding-bottom'
-      'padding-left'  : el.css 'padding-left'
       'margin-top'    : el.css 'margin-top'
-      'margin-right'  : el.css 'margin-right'
       'margin-bottom' : el.css 'margin-bottom'
-      'margin-left'   : el.css 'margin-left'
     klass:          (source) -> 'html5sortable-state-highlight'
     splitter:     (source) -> ($($('li.'+@klass())[0] or $('<li class="'+@klass()+'"></li>'))).css @css source
     type:         $.Html5Sortable.DRAGANDDROP_DEFAULT_TYPE,
@@ -35,7 +35,7 @@ $.fn.Html5Sortable = (opts) ->
 
   # Set current ID
   $.Html5Sortable.s_currentID++
-
+  
   # specific type
   if options.type is $.Html5Sortable.DRAGANDDROP_DEFAULT_TYPE
     options.type = options.type + '_' + $.Html5Sortable.s_currentID
@@ -45,9 +45,11 @@ $.fn.Html5Sortable = (opts) ->
     that.init = (el) ->
       options.dragTarget(el).attr('draggable', true)
       .bind 'dragstart', (e) ->
+        dt = e.originalEvent.dataTransfer
+        dt.effectAllowed = 'move'
         Spine.sortItem = {}
         Spine.sortItem.data = el.data()
-        Spine.sortItem.dataTransfer = e.originalEvent.dataTransfer
+        Spine.sortItem.dataTransfer = dt
         Spine.sortItem.splitter = options.splitter(@)
 
         Spine.sortItem.dataTransfer.setData "Text", JSON.stringify
@@ -57,7 +59,7 @@ $.fn.Html5Sortable = (opts) ->
         # dt.setData("URL", options.type);
         $('._dragging').removeClass('_dragging')
         el.addClass('_dragging')
-
+        
         Spine.trigger('drag:start', e, @)
 #        return true
 

@@ -1,10 +1,10 @@
 .html5sortable-state-highlight {
-  border-left: 0px solid;
+  border-left: 2px solid;
   background-color:  rgba(255, 255, 0, 0.1);
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
   float: left;
+/*  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;*/
 }
 .html5sortable-state-highlight-horizontal {
   border: 1px solid rgba(255, 255, 0, 0.8);

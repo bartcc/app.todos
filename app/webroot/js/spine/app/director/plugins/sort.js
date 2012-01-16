@@ -134,7 +134,7 @@ $.fn.Html5Sortable = function(opts) {
         } else {
           options.splitter(this).insertBefore(this);
         }
-        Spine.trigger('drag:over', e, this);
+        Spine.trigger('drag:over_', e, this);
         return false;
       });
     };

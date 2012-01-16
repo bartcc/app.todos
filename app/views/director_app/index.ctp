@@ -60,7 +60,7 @@
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
     <h1>Photo Director</h1>
-    <div id="login" class="flex tright" style="margin-top: 8px;"></div>
+    <div id="login" class="flex tright" style="margin-top: 5px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views canvas-bg-medium hbox vdraggable">

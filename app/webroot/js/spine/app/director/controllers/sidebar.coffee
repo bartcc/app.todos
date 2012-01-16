@@ -20,7 +20,7 @@ class Sidebar extends Spine.Controller
 
     'dragstart  .items .item'        : 'dragstart'
     'dragenter  .items .item'        : 'dragenter'
-    'dragover   .items .item'        : 'dragover'
+#    'dragover   .items .item'        : 'dragover'
     'dragleave  .items .item'        : 'dragleave'
     'drop       .items .item'        : 'drop'
     'dragend    .items .item'        : 'dragend'

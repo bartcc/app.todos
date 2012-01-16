@@ -17,7 +17,7 @@ class SidebarList extends Spine.Controller
     "click      .expander"            : "expand"
     'dragstart  .sublist-item'        : 'dragstart'
     'dragenter  .sublist-item'        : 'dragenter'
-    'dragover   .sublist-item'        : 'dragover'
+#    'dragover   .sublist-item'        : 'dragover'
     'dragleave  .sublist-item'        : 'dragleave'
     'drop       .sublist-item'        : 'drop'
     'dragend    .sublist-item'        : 'dragend'

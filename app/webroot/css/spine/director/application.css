@@ -20,10 +20,11 @@ html, body {
   padding: 0;
 }
 body {
-/*  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;*/
-  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+/*  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
   color: #414141;
   -webkit-user-select: none;
+  -moz-user-select: none;
 }
 header, footer {
   display: block;
@@ -135,7 +136,7 @@ div.show div.content label.label span {
 button, .options li.opt {
   border: 1px solid #bbbbbb;
   text-shadow: 0 1px 1px #ffffff;
-  font-size: 14px;
+  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
   color: #565656;
   padding: 10px;
   outline: none;
@@ -388,8 +389,7 @@ textarea {
   background: linear-gradient(top, #474747, #303030);
 }
 #title h1 {
-  line-height: 2.5em;
-  font-size: 1.5em;
+  line-height: 2em;
   text-align: center;
   margin: 0;
   padding: 0;
@@ -400,7 +400,7 @@ textarea {
   box-shadow: 1px 0px 1px #525252;
   text-shadow: 0 -1px 1px black;
   font-weight: bold;
-  width: 200px
+  width: 250px;
 }
 .canvas {
   background: url(img/pattern.png) repeat  0 0;
@@ -437,13 +437,12 @@ textarea {
 }
 #sidebar .item:not(.sublist-item) {
   cursor: move;
-  position: relative;  
-/*  color: #D4D4D4;*/
+  position: relative; 
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  margin-top: 5px;
-  padding: 15px 0 15px;
+  margin-top: 2px;
+  padding: 19px 0 15px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 #sidebar .item.active {
@@ -452,7 +451,7 @@ textarea {
 #sidebar .gal.item {
   background: url("img/gradient-normal.png") repeat  0 0;
   background-size: 100% 100%;
-  font-size: 1.2em;
+  font-size: 1.4em;
   min-height: 20px;
 }
 #sidebar .gal.item.active {
@@ -465,7 +464,7 @@ textarea {
   background-image: url("img/gradient-nodrop.png");
 }
 #sidebar .item .cta {
-  padding: 0 10px;
+  padding: 2px 10px;
   right: 10px;
   border: 0 none;
 }
@@ -496,12 +495,12 @@ textarea {
   height: 36px;
 }
 #content .header section.closeView ul {
-  text-align: center;
-  font-weight: bold;
-  padding: 7px 10px 7px 0;
-  margin: 0 auto;
   float: left;
+  font-weight: 500;
   line-height: inherit;
+  margin: 2px auto;
+  padding: 7px 10px;
+  text-align: center;
 }
 .disabled {
   cursor: auto;

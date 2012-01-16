@@ -129,7 +129,7 @@ $.fn.Html5Sortable = (opts) ->
         else
           options.splitter(@).insertBefore @
 
-        Spine.trigger('drag:over', e, @)
+        Spine.trigger('drag:over_', e, @)
         return false
         
     that.children('li').each ->

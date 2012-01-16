@@ -83,7 +83,9 @@ PhotosView = (function() {
       this.items.empty();
     }
     list = this.list.render(items, mode || 'html');
-    list.sortable('photo');
+    if (Album.record) {
+      list.sortable('photo');
+    }
     return this.refreshElements();
   };
   PhotosView.prototype.renderHeader = function() {

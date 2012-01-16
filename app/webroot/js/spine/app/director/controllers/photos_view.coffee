@@ -71,7 +71,7 @@ class PhotosView extends Spine.Controller
 #      @items.html @preloaderTemplate()
     
     list = @list.render items, mode or 'html'
-    list.sortable 'photo'
+    list.sortable 'photo' if Album.record
     @refreshElements()
   
   renderHeader: ->

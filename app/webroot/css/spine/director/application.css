@@ -1,3 +1,10 @@
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+}
 html, body {
   background: none repeat scroll 0 0 #606067;
   
@@ -23,9 +30,12 @@ body {
 /*  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
   font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
   color: #414141;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
+}
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
 }
 header, footer {
   display: block;
@@ -127,7 +137,6 @@ li hr {
   color: rgba(0, 0, 0, 0.6);
 }
 .content, #views .views .view {
-  -webkit-user-select: none;
 }
 div.show div.content label.label span {
   font-weight: normal;

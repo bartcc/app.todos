@@ -319,10 +319,11 @@ Sidebar = (function() {
   };
   Sidebar.prototype.showAllPhotos = function() {
     Spine.trigger('show:photos');
-    Album.current();
     Gallery.current();
-    Spine.trigger('gallery:activate');
-    return Spine.trigger('album:activate');
+    Album.current();
+    Gallery.emptySelection();
+    Spine.trigger('album:activate');
+    return Spine.trigger('gallery:activate');
   };
   Sidebar.prototype.showAllAlbums = function() {
     Spine.trigger('show:albums');

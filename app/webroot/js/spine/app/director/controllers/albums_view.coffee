@@ -99,7 +99,6 @@ class AlbumsView extends Spine.Controller
   
   create: (e) ->
     console.log 'AlbumsView::create'
-    Gallery.emptySelection()
     album = new Album @newAttributes()
     album.save()
     Gallery.updateSelection [album.id]

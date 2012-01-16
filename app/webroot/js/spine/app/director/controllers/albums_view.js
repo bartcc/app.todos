@@ -108,7 +108,6 @@ AlbumsView = (function() {
   AlbumsView.prototype.create = function(e) {
     var album;
     console.log('AlbumsView::create');
-    Gallery.emptySelection();
     album = new Album(this.newAttributes());
     album.save();
     Gallery.updateSelection([album.id]);

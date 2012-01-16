@@ -149,8 +149,8 @@ class SidebarList extends Spine.Controller
     sameAlbum = Album.record?.eql?(alb) and !!alb
     
     Spine.trigger('change:selectedGallery', gallery, @mode) unless sameGallery
-    Spine.trigger('change:selectedAlbum', Album.record) unless sameAlbum
-    Spine.trigger('change:selectedPhoto', Photo.record)
+#    Spine.trigger('change:selectedAlbum', Album.record) unless sameAlbum
+#    Spine.trigger('change:selectedPhoto', Photo.record)
     @exposeSelection()
   
   updateTemplate: (gallery) ->

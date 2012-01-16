@@ -26,7 +26,6 @@ SidebarList = (function() {
     "click      .expander": "expand",
     'dragstart  .sublist-item': 'dragstart',
     'dragenter  .sublist-item': 'dragenter',
-    'dragover   .sublist-item': 'dragover',
     'dragleave  .sublist-item': 'dragleave',
     'drop       .sublist-item': 'drop',
     'dragend    .sublist-item': 'dragend'
@@ -188,10 +187,6 @@ SidebarList = (function() {
     if (!sameGallery) {
       Spine.trigger('change:selectedGallery', gallery, this.mode);
     }
-    if (!sameAlbum) {
-      Spine.trigger('change:selectedAlbum', Album.record);
-    }
-    Spine.trigger('change:selectedPhoto', Photo.record);
     return this.exposeSelection();
   };
   SidebarList.prototype.updateTemplate = function(gallery) {

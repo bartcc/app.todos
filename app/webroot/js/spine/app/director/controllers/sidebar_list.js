@@ -309,8 +309,7 @@ SidebarList = (function() {
       Spine.trigger('show:allPhotos', true);
     }
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   SidebarList.prototype.click = function(e) {
     var item;
@@ -320,8 +319,7 @@ SidebarList = (function() {
     Spine.trigger('change:toolbar', ['Gallery']);
     App.contentManager.change(App.showView);
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   SidebarList.prototype.dblclick = function(e) {
     var item;
@@ -329,8 +327,7 @@ SidebarList = (function() {
     item = $(e.target).item();
     this.change(item, 'edit', e);
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   SidebarList.prototype.expandExpander = function(e) {
     var closest, el, expander;
@@ -366,14 +363,12 @@ SidebarList = (function() {
       content.hide();
     }
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   SidebarList.prototype.show = function(e) {
     App.contentManager.change(App.showView);
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   return SidebarList;
 })();

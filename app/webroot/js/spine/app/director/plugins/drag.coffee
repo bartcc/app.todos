@@ -32,7 +32,6 @@ Controller.Drag =
         clearTimeout Spine.timer
         Spine.timer = setTimeout(func, 1000)
         Spine.trigger('drag:enter', e, @)
-        clearTimeout Spine.timer
         
       dragover: (e, data) ->
         console.log 'Drag::dragover'

@@ -128,6 +128,7 @@ class App extends Spine.Controller
     event = e.originalEvent
     if Spine.dragItem?.closest
       Spine.dragItem.closest.removeClass('over nodrop')
+    Spine.sortItem?.splitter.remove()
     e.stopPropagation() unless event.dataTransfer.files.length
     e.preventDefault()
       

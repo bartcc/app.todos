@@ -35,8 +35,7 @@ Controller.Drag = {
         };
         clearTimeout(Spine.timer);
         Spine.timer = setTimeout(func, 1000);
-        Spine.trigger('drag:enter', e, this);
-        return clearTimeout(Spine.timer);
+        return Spine.trigger('drag:enter', e, this);
       },
       dragover: function(e, data) {
         var event;

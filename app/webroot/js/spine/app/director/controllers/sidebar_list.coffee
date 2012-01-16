@@ -240,7 +240,7 @@ class SidebarList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
-    false
+#    false
     
   click: (e) ->
     console.log 'SidebarList::click'
@@ -253,7 +253,7 @@ class SidebarList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
-    false
+#    false
 
   dblclick: (e) ->
     console.log 'SidebarList::dblclick'
@@ -264,7 +264,7 @@ class SidebarList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
-    false
+#    false
 
   expandExpander: (e) ->
     clearTimeout Spine.timer
@@ -295,13 +295,13 @@ class SidebarList extends Spine.Controller
 
     e.stopPropagation()
     e.preventDefault()
-    false
+#    false
 
   show: (e) ->
     App.contentManager.change App.showView
     e.stopPropagation()
     e.preventDefault()
-    false
+#    false
     
     
 module?.exports = SidebarList

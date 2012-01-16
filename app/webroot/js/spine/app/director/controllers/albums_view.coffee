@@ -104,7 +104,7 @@ class AlbumsView extends Spine.Controller
     album.save()
     Gallery.updateSelection [album.id]
     Album.trigger('create:join', Gallery.record, album) if Gallery.record
-    Spine.trigger('change:selectedAlbum', album)
+    Album.current(album)
     @show()
     @change album
     @openPanel('album', App.showView.btnAlbum)
@@ -174,12 +174,4 @@ class AlbumsView extends Spine.Controller
     
     target.save()
 
-  addFile: (e) ->
-    console.log 'add.file'
-#    e.preventDefault()
-
-  email: ->
-    return if ( !@current.email ) 
-    window.location = "mailto:" + @current.email
-    
 module?.exports = AlbumsView

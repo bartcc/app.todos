@@ -115,7 +115,7 @@ AlbumsView = (function() {
     if (Gallery.record) {
       Album.trigger('create:join', Gallery.record, album);
     }
-    Spine.trigger('change:selectedAlbum', album);
+    Album.current(album);
     this.show();
     this.change(album);
     return this.openPanel('album', App.showView.btnAlbum);
@@ -214,15 +214,6 @@ AlbumsView = (function() {
       }
     }
     return target.save();
-  };
-  AlbumsView.prototype.addFile = function(e) {
-    return console.log('add.file');
-  };
-  AlbumsView.prototype.email = function() {
-    if (!this.current.email) {
-      return;
-    }
-    return window.location = "mailto:" + this.current.email;
   };
   return AlbumsView;
 })();

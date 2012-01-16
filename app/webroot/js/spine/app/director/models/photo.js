@@ -118,6 +118,7 @@ Photo = (function() {
     cache[instance.id] = [];
     return this.constructor.caches.push(cache);
   };
+  Photo.prototype.next = function() {};
   Photo.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;
     result = {};

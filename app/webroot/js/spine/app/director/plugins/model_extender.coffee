@@ -22,8 +22,10 @@ Model.Extender =
         id = recordOrID?.id or recordOrID
         rec = @find(id) if @exists(id)
         @oldPrevious = @previous
-        @previous = rec
+        prev = @record
         @record = rec
+        same = @record?.eql?(prev) and !!prev
+        Spine.trigger('change:selected'+@className, @record) unless same
 
       fromJSON: (objects) ->
         @createJoinTables objects

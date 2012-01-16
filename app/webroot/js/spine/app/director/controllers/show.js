@@ -366,7 +366,6 @@ ShowView = (function() {
         Spine.Model['Album'].emptySelection();
         Photo.current();
         Spine.trigger('photo:activate');
-        Spine.trigger('change:selectedPhoto', item);
         break;
       case 'Gallery':
         Spine.Model['Gallery'].emptySelection();
@@ -374,6 +373,7 @@ ShowView = (function() {
         Spine.trigger('album:activate', false);
         break;
       default:
+        Gallery.current();
         Spine.trigger('gallery:activate', false);
     }
     this.changeToolbarOne();

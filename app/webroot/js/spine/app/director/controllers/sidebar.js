@@ -312,35 +312,20 @@ Sidebar = (function() {
     return Spine.trigger('show:galleries');
   };
   Sidebar.prototype.allAlbums = function() {
-    return Spine.trigger('show:allAlbums', true);
+    return Spine.trigger('show:allAlbums');
   };
   Sidebar.prototype.allPhotos = function() {
-    return Spine.trigger('show:allPhotos', true);
+    return Spine.trigger('show:allPhotos');
   };
-  Sidebar.prototype.showAllPhotos = function(deselect) {
-    if (deselect == null) {
-      deselect = false;
-    }
+  Sidebar.prototype.showAllPhotos = function() {
     Spine.trigger('show:photos');
-    if (deselect) {
-      this.list.deselect();
-      console.log(this.list);
-      Album.emptySelection();
-    }
-    Spine.trigger('gallery:activate', false);
-    return Spine.trigger('album:activate', false);
+    Spine.trigger('gallery:activate');
+    return Spine.trigger('album:activate');
   };
-  Sidebar.prototype.showAllAlbums = function(deselect) {
-    if (deselect == null) {
-      deselect = false;
-    }
+  Sidebar.prototype.showAllAlbums = function() {
     Spine.trigger('show:albums');
-    if (deselect) {
-      this.list.deselect();
-      console.log(this.list);
-      Gallery.emptySelection();
-    }
-    return Spine.trigger('gallery:activate', false);
+    Gallery.current();
+    return Spine.trigger('gallery:activate');
   };
   return Sidebar;
 })();

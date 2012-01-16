@@ -44,8 +44,8 @@ PhotosList = (function() {
   PhotosList.prototype.select = function(item, e) {
     console.log('PhotosList::select');
     this.current = item;
-    this.activate();
-    return Spine.trigger('change:selectedPhoto', item);
+    Photo.current(item);
+    return this.activate();
   };
   PhotosList.prototype.render = function(items, mode) {
     if (mode == null) {
@@ -151,7 +151,7 @@ PhotosList = (function() {
       'backgroundSize': '100%'
     });
   };
-  PhotosList.prototype.activate = function(photo) {
+  PhotosList.prototype.activate = function() {
     return this.exposeSelection();
   };
   PhotosList.prototype.exposeSelection = function() {
@@ -171,22 +171,19 @@ PhotosList = (function() {
     return Photo.current(current);
   };
   PhotosList.prototype.activate = function() {
-    var newActive, pho, samePhoto, selection, _ref;
-    pho = Photo.record;
+    var first, selection;
     selection = Album.selectionList();
     if (selection.length === 1) {
       if (Photo.exists(selection[0])) {
-        newActive = Photo.find(selection[0]);
+        first = Photo.find(selection[0]);
       }
-      if (!(newActive != null ? newActive.destroyed : void 0)) {
-        this.current = newActive;
-        Photo.current(newActive);
+      if (!(first != null ? first.destroyed : void 0)) {
+        this.current = first;
+        Photo.current(first);
       }
     } else {
       Photo.current();
     }
-    samePhoto = ((_ref = Photo.record) != null ? typeof _ref.eql === "function" ? _ref.eql(pho) : void 0 : void 0) && !!pho;
-    Spine.trigger('change:selectedPhoto', Photo.record);
     return this.exposeSelection();
   };
   PhotosList.prototype.click = function(e) {

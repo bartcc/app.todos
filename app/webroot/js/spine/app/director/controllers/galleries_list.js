@@ -32,9 +32,9 @@ GalleriesList = (function() {
     return this.el;
   };
   GalleriesList.prototype.select = function(item) {
-    this.exposeSelection(item);
+    Gallery.current(item);
     Spine.trigger('change:toolbarOne', ['Gallery']);
-    return Spine.trigger('gallery:activate', item);
+    return Spine.trigger('gallery:activate');
   };
   GalleriesList.prototype.exposeSelection = function(item) {
     var el;

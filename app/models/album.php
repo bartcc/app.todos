@@ -26,7 +26,7 @@ class Album extends AppModel {
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'order',
 			'limit' => '',
 			'offset' => '',
 			'finderQuery' => '',

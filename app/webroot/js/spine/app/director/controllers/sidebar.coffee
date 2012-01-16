@@ -20,16 +20,9 @@ class Sidebar extends Spine.Controller
 
     'dragstart  .items .item'        : 'dragstart'
     'dragenter  .items .item'        : 'dragenter'
-#    'dragover   .items .item'        : 'dragover'
     'dragleave  .items .item'        : 'dragleave'
     'drop       .items .item'        : 'drop'
     'dragend    .items .item'        : 'dragend'
-
-#    'dragenter .items .item': 'dragenter'
-#    'dragover  .items .item': 'dragover'
-#    'dragend   .items .item': 'dragend'
-#    'dragleave'             : 'dragleave'
-#    'drop'                  : 'drop'
 
   template: (items) ->
     $("#sidebarTemplate").tmpl(items)
@@ -237,26 +230,18 @@ class Sidebar extends Spine.Controller
     Spine.trigger('show:galleries')
   
   allAlbums: ->
-    Spine.trigger('show:allAlbums', true)
+    Spine.trigger('show:allAlbums')
     
   allPhotos: ->
-    Spine.trigger('show:allPhotos', true)
+    Spine.trigger('show:allPhotos')
     
-  showAllPhotos: (deselect=false) ->
+  showAllPhotos: ->
     Spine.trigger('show:photos')
-    if deselect
-      @list.deselect()
-      console.log @list
-      Album.emptySelection()
-#    @showAllAlbums(deselect)
-    Spine.trigger('gallery:activate', false)
-    Spine.trigger('album:activate', false)
+    Spine.trigger('gallery:activate')
+    Spine.trigger('album:activate')
     
-  showAllAlbums: (deselect=false) ->
+  showAllAlbums: ->
     Spine.trigger('show:albums')
-    if deselect
-      @list.deselect()
-      console.log @list
-      Gallery.emptySelection()
-    Spine.trigger('gallery:activate', false)
+    Gallery.current()
+    Spine.trigger('gallery:activate')
     

@@ -107,6 +107,8 @@ class PhotosView extends Spine.Controller
       photo = Photo.find(ap.photo_id)
       @render [photo], 'append'
 
+  next: (album) ->
+    album.last()
   
   destroy: (e) ->
     console.log 'PhotosView::destroy'
@@ -143,8 +145,7 @@ class PhotosView extends Spine.Controller
   show: ->
     return if @isActive()
     Album.activeRecord = Album.record
-#    Spine.trigger('change:selectedAlbum', Album.record, true)
-    Spine.trigger('gallery:activate', Gallery.record)
+    Spine.trigger('gallery:activate')
     Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
     Spine.trigger('change:canvas', @)
     @renderHeader()

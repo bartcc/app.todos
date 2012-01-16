@@ -80,6 +80,9 @@ class Photo extends Spine.Model
     cache[instance.id] = []
     @constructor.caches.push(cache)
   
+  next: ->
+    
+  
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
@@ -91,6 +94,8 @@ class Photo extends Spine.Model
     ap = Spine.Model[options.joinTable].filter(id, options)
     for record in ap
       return true if record.photo_id is @id
+
+  
       
   details: ->
     details =

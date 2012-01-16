@@ -26,15 +26,19 @@ Model.Extender = {
         return !(this.oldPrevious === this.record) || !(this.pevious || (((_ref = this.record) != null ? _ref.id : void 0) === this.previous.id));
       },
       current: function(recordOrID) {
-        var id, rec;
+        var id, prev, rec, same, _ref;
         rec = false;
         id = (recordOrID != null ? recordOrID.id : void 0) || recordOrID;
         if (this.exists(id)) {
           rec = this.find(id);
         }
         this.oldPrevious = this.previous;
-        this.previous = rec;
-        return this.record = rec;
+        prev = this.record;
+        this.record = rec;
+        same = ((_ref = this.record) != null ? typeof _ref.eql === "function" ? _ref.eql(prev) : void 0 : void 0) && !!prev;
+        if (!same) {
+          return Spine.trigger('change:selected' + this.className, this.record);
+        }
       },
       fromJSON: function(objects) {
         var json, key;

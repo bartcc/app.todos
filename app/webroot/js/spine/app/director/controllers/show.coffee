@@ -51,9 +51,6 @@ class ShowView extends Spine.Controller
     "click .optUpload"                : "toggleUpload"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect" 
-#    'fileuploadprogress'              : "uploadProgress" 
-#    'fileuploaddone'                  : "uploadDone"
-#    'slide #slider'                   : 'sliderSlide'
     'slidestop #slider'               : 'sliderStop'
     'slidestart #slider'              : 'sliderStart'
     
@@ -211,7 +208,6 @@ class ShowView extends Spine.Controller
   
   editGallery: (e) ->
     Spine.trigger('edit:gallery')
-    #@focusFirstInput App.galleryEditView.el
 
   editAlbum: (e) ->
     Spine.trigger('edit:album')
@@ -322,19 +318,15 @@ class ShowView extends Spine.Controller
         Spine.Model['Album'].emptySelection()
         Photo.current()
         Spine.trigger('photo:activate')
-        Spine.trigger('change:selectedPhoto', item)
       when 'Gallery'
         Spine.Model['Gallery'].emptySelection()
-#        Album.current()
         Photo.current()
-#        Spine.trigger('album:exposeSelection')
         Spine.trigger('album:activate', false)
       else
-#        Gallery.current()
-#        Spine.trigger('gallery:exposeSelection')
+        Gallery.current()
         Spine.trigger('gallery:activate', false)
         
-    @changeToolbarOne() #unless locked
+    @changeToolbarOne()
     @current.items.deselect()
     
   uploadProgress: (e, coll) ->

@@ -84,7 +84,8 @@ SidebarList = (function() {
           Spine.trigger('show:albums');
       }
     }
-    return this.activate(this.current);
+    Gallery.current(this.current);
+    return this.exposeSelection();
   };
   SidebarList.prototype.render = function(galleries, gallery, mode) {
     console.log('SidebarList::render');
@@ -151,18 +152,15 @@ SidebarList = (function() {
     gallerySublist.html(this.sublistTemplate(albums));
     return this.updateTemplate(gallery);
   };
-  SidebarList.prototype.activate = function(gallery) {
-    var active, alb, gal, sameAlbum, sameGallery, selectedAlbums, selectedPhotos, _ref, _ref2;
-    alb = Album.record;
-    gal = Gallery.record;
-    Gallery.current(gallery);
+  SidebarList.prototype.activate = function() {
+    var active, first, selectedAlbums, selectedPhotos;
     selectedAlbums = Gallery.selectionList();
     if (selectedAlbums.length === 1) {
       if (Album.exists(selectedAlbums[0])) {
-        active = Album.find(selectedAlbums[0]);
+        first = Album.find(selectedAlbums[0]);
       }
-      if (active && !active.destroyed) {
-        Album.current(active);
+      if (first && !first.destroyed) {
+        Album.current(first);
       } else {
         Album.current();
       }
@@ -181,11 +179,6 @@ SidebarList = (function() {
       }
     } else {
       Photo.current();
-    }
-    sameGallery = ((_ref = Gallery.record) != null ? typeof _ref.eql === "function" ? _ref.eql(gal) : void 0 : void 0) && !!gal;
-    sameAlbum = ((_ref2 = Album.record) != null ? typeof _ref2.eql === "function" ? _ref2.eql(alb) : void 0 : void 0) && !!alb;
-    if (!sameGallery) {
-      Spine.trigger('change:selectedGallery', gallery, this.mode);
     }
     return this.exposeSelection();
   };
@@ -280,29 +273,17 @@ SidebarList = (function() {
     }
   };
   SidebarList.prototype.clickAlb = function(e) {
-    var alb, album, albumEl, gal, gallery, galleryEl, sameAlbum, sameGallery, _ref, _ref2, _ref3;
+    var album, albumEl, gallery, galleryEl;
     console.log('SidebarList::albclick');
     albumEl = $(e.currentTarget);
     galleryEl = $(e.currentTarget).closest('li.gal');
     album = Album.activeRecord = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
-      gal = Gallery.record;
-      alb = Album.record;
       Gallery.current(gallery);
       Album.current(album);
       Gallery.updateSelection([album.id]);
-      sameGallery = ((_ref = Gallery.record) != null ? typeof _ref.eql === "function" ? _ref.eql(gal) : void 0 : void 0) && !!gal;
-      sameAlbum = ((_ref2 = Album.record) != null ? typeof _ref2.eql === "function" ? _ref2.eql(alb) : void 0 : void 0) && !!alb;
-      console.log(sameGallery);
-      console.log((_ref3 = Gallery.record) != null ? _ref3.name : void 0);
       this.exposeSublistSelection(Gallery.record);
-      if (!sameGallery) {
-        Spine.trigger('change:selectedGallery', gallery);
-      }
-      if (!sameAlbum) {
-        Spine.trigger('change:selectedAlbum', album);
-      }
       Spine.trigger('show:photos');
       this.change(Gallery.record, 'photo', e);
     } else {

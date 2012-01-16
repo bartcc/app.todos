@@ -121,6 +121,9 @@ PhotosView = (function() {
       return this.render([photo], 'append');
     }
   };
+  PhotosView.prototype.next = function(album) {
+    return album.last();
+  };
   PhotosView.prototype.destroy = function(e) {
     var album, ap, aps, list, photo, photos, _i, _j, _k, _len, _len2, _len3, _results;
     console.log('PhotosView::destroy');
@@ -162,7 +165,7 @@ PhotosView = (function() {
       return;
     }
     Album.activeRecord = Album.record;
-    Spine.trigger('gallery:activate', Gallery.record);
+    Spine.trigger('gallery:activate');
     Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider);
     Spine.trigger('change:canvas', this);
     return this.renderHeader();

@@ -29,8 +29,9 @@ class PhotosList extends Spine.Controller
   select: (item, e) ->
     console.log 'PhotosList::select'
     @current = item
+    Photo.current(item)
     @activate()
-    Spine.trigger('change:selectedPhoto', item)
+#    Spine.trigger('change:selectedPhoto', item)
   
   render: (items, mode='html') ->
     console.log 'PhotosList::render'
@@ -107,7 +108,7 @@ class PhotosList extends Spine.Controller
       'backgroundPosition': 'center, center'
       'backgroundSize': '100%'
     
-  activate: (photo) ->
+  activate: ->
     @exposeSelection()
     
   exposeSelection: ->
@@ -124,21 +125,16 @@ class PhotosList extends Spine.Controller
   
   activate: ->
   
-    pho = Photo.record
-    
     selection = Album.selectionList()
     if selection.length is 1
-      newActive = Photo.find(selection[0]) if Photo.exists(selection[0])
+      first = Photo.find(selection[0]) if Photo.exists(selection[0])
 
-      if !newActive?.destroyed
-        @current = newActive
-        Photo.current(newActive)
+      if !first?.destroyed
+        @current = first
+        Photo.current(first)
     else
         Photo.current()
     
-    samePhoto = Photo.record?.eql?(pho) and !!pho
-    
-    Spine.trigger('change:selectedPhoto', Photo.record)
     @exposeSelection()
   
   click: (e) ->

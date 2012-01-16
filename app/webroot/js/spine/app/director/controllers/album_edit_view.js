@@ -37,7 +37,7 @@ AlbumEditView = (function() {
     id = el.val();
     album = Album.find(id);
     album.updateSelection([album.id]);
-    return Spine.trigger('album:activate', album);
+    return Spine.trigger('album:activate');
   };
   AlbumEditView.prototype.change = function(item, mode) {
     var firstID;
@@ -92,14 +92,10 @@ AlbumEditView = (function() {
     }
   };
   AlbumEditView.prototype.saveOnEnter = function(e) {
-    console.log(e.keyCode);
-    console.log(document.activeElement);
-    console.log('inner');
     if (e.keyCode === 13) {
       this.save(this.editEl);
     }
     if (e.keyCode === 9) {
-      console.log('stopping propagation');
       return e.stopPropagation();
     }
   };

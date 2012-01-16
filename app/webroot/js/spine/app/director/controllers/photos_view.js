@@ -77,11 +77,13 @@ PhotosView = (function() {
     return this.render(items);
   };
   PhotosView.prototype.render = function(items, mode) {
+    var list;
     console.log('PhotosView::render');
     if (!this.list.children('li').length) {
       this.items.empty();
     }
-    this.list.render(items, mode || 'html');
+    list = this.list.render(items, mode || 'html');
+    list.sortable('photo');
     return this.refreshElements();
   };
   PhotosView.prototype.renderHeader = function() {

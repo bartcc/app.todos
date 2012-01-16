@@ -20,7 +20,7 @@ Controller.Drag = {
         Spine.dragItem = {};
         Spine.dragItem.el = el;
         Spine.dragItem.source = el.item();
-        parentDataElement = $(e.target).parents('.data');
+        parentDataElement = $(e.target).parents('.view.data');
         Spine.dragItem.origin = ((_ref = parentDataElement.data()) != null ? (_ref2 = _ref.tmplItem) != null ? _ref2.data : void 0 : void 0) || ((_ref3 = parentDataElement.data()) != null ? _ref3.current.record : void 0);
         event = e.originalEvent;
         event.dataTransfer.effectAllowed = 'move';

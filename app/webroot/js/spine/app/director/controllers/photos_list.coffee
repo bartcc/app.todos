@@ -17,14 +17,11 @@ class PhotosList extends Spine.Controller
     
   constructor: ->
     super
-    @el.data current: Album
-#    Spine.bind('photo:exposeSelection', @proxy @exposeSelection)
     Spine.bind('photo:activate', @proxy @activate)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
     Photo.bind('uri', @proxy @uri)
-#    @initSelectable()
     
   change: ->
     console.log 'PhotosList::change'
@@ -42,11 +39,11 @@ class PhotosList extends Spine.Controller
         @[mode] @template items
         @exposeSelection() unless mode is 'append'
         @uri items, mode
-        @el
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else
       @renderAll()
+    @el
   
   renderAll: ->
     console.log 'PhotosList::renderAll'
@@ -55,7 +52,7 @@ class PhotosList extends Spine.Controller
       @html @template items
       @exposeSelection()
       @uri items, 'html'
-      @el
+    @el
   
   update: (item) ->
     console.log 'PhotosList::update'
@@ -188,6 +185,7 @@ class PhotosList extends Spine.Controller
     @info.bye()
     
   sliderStart: =>
+    @refreshElements()
     
   size: (val, bg='none') =>
     # 2*10 = border radius

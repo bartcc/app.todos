@@ -125,8 +125,8 @@ class Sidebar extends Spine.Controller
   dropComplete: (e) =>
     console.log 'Sidebar::dropComplete'
     return unless Spine.dragItem
-    Spine.dragItem.closest.removeClass('over nodrop')
-    target = Spine.dragItem.closest.data()?.current?.record or Spine.dragItem.closest.item()
+    Spine.dragItem.closest?.removeClass('over nodrop')
+    target = Spine.dragItem.closest?.data()?.current?.record or Spine.dragItem.closest?.item()
     source = Spine.dragItem.source
     origin = Spine.dragItem.origin
     

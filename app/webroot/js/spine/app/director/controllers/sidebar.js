@@ -146,13 +146,15 @@ Sidebar = (function() {
   Sidebar.prototype.dragOver = function(e) {};
   Sidebar.prototype.dragLeave = function(e) {};
   Sidebar.prototype.dropComplete = function(e) {
-    var albums, origin, photos, source, target, _ref, _ref2;
+    var albums, origin, photos, source, target, _ref, _ref2, _ref3, _ref4, _ref5;
     console.log('Sidebar::dropComplete');
     if (!Spine.dragItem) {
       return;
     }
-    Spine.dragItem.closest.removeClass('over nodrop');
-    target = ((_ref = Spine.dragItem.closest.data()) != null ? (_ref2 = _ref.current) != null ? _ref2.record : void 0 : void 0) || Spine.dragItem.closest.item();
+    if ((_ref = Spine.dragItem.closest) != null) {
+      _ref.removeClass('over nodrop');
+    }
+    target = ((_ref2 = Spine.dragItem.closest) != null ? (_ref3 = _ref2.data()) != null ? (_ref4 = _ref3.current) != null ? _ref4.record : void 0 : void 0 : void 0) || ((_ref5 = Spine.dragItem.closest) != null ? _ref5.item() : void 0);
     source = Spine.dragItem.source;
     origin = Spine.dragItem.origin;
     if (!this.validateDrop(target, source, origin)) {

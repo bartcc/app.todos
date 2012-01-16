@@ -459,7 +459,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  class="item container">
+  <li  class="item data container">
     {{tmpl "#photoThumbnailTemplate"}}
   </li>
 </script>

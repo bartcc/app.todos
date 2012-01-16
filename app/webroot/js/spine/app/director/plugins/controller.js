@@ -29,6 +29,9 @@ Spine.Controller.include({
   },
   deselect: function() {
     return this.el.deselect();
+  },
+  sortable: function(type) {
+    return this.el.sortable(type);
   }
 });
 Spine.Controller.extend({

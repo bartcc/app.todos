@@ -23,6 +23,9 @@ Spine.Controller.include
     
   deselect: () ->
     @el.deselect()
+    
+  sortable: (type) ->
+    @el.sortable type
 
 Spine.Controller.extend
 

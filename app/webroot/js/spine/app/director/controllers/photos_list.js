@@ -32,9 +32,6 @@ PhotosList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
-    this.el.data({
-      current: Album
-    });
     Spine.bind('photo:activate', this.proxy(this.activate));
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.errorHandler);
@@ -62,13 +59,13 @@ PhotosList = (function() {
           this.exposeSelection();
         }
         this.uri(items, mode);
-        return this.el;
       } else {
-        return this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
+        this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
       }
     } else {
-      return this.renderAll();
+      this.renderAll();
     }
+    return this.el;
   };
   PhotosList.prototype.renderAll = function() {
     var items;
@@ -78,8 +75,8 @@ PhotosList = (function() {
       this.html(this.template(items));
       this.exposeSelection();
       this.uri(items, 'html');
-      return this.el;
     }
+    return this.el;
   };
   PhotosList.prototype.update = function(item) {
     var active, backgroundImage, css, el, tb, tmplItem;
@@ -232,7 +229,9 @@ PhotosList = (function() {
   PhotosList.prototype.stopInfo = function(e) {
     return this.info.bye();
   };
-  PhotosList.prototype.sliderStart = function() {};
+  PhotosList.prototype.sliderStart = function() {
+    return this.refreshElements();
+  };
   PhotosList.prototype.size = function(val, bg) {
     if (bg == null) {
       bg = 'none';

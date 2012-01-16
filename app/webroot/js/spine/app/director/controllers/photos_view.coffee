@@ -70,7 +70,8 @@ class PhotosView extends Spine.Controller
     # show spinner
 #      @items.html @preloaderTemplate()
     
-    @list.render items, mode or 'html'
+    list = @list.render items, mode or 'html'
+    list.sortable 'photo'
     @refreshElements()
   
   renderHeader: ->

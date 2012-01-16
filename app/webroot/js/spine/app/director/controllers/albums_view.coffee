@@ -36,9 +36,6 @@ class AlbumsView extends Spine.Controller
       template: @albumsTemplate
       info: @info
     @header.template = @headerTemplate
-    #interferes with html5 dnd!
-#    @initSortables
-#      helper: 'clone'
     @filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
@@ -93,11 +90,6 @@ class AlbumsView extends Spine.Controller
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('change:canvas', @)
     
-  initSortables: ->
-    dragOptions =
-      helper: 'clone'
-    @items.draggable dragOptions
-
   newAttributes: ->
     if User.first()
       title   : 'New Title'

@@ -95,13 +95,6 @@ AlbumsView = (function() {
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('change:canvas', this);
   };
-  AlbumsView.prototype.initSortables = function() {
-    var dragOptions;
-    dragOptions = {
-      helper: 'clone'
-    };
-    return this.items.draggable(dragOptions);
-  };
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {
       return {

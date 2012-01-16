@@ -319,6 +319,7 @@ Sidebar = (function() {
   };
   Sidebar.prototype.showAllPhotos = function() {
     Spine.trigger('show:photos');
+    Album.current();
     Gallery.current();
     Spine.trigger('gallery:activate');
     return Spine.trigger('album:activate');

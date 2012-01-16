@@ -125,23 +125,23 @@
             <div class="photosHeader view"></div>
             <div class="photoHeader view"></div>
           </div>
-          <div class="view galleries content vbox flex data autoflow">
+          <div class="view galleries content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
             <div class="items sortable"></div>
           </div>
-          <div class="view albums content vbox flex data autoflow">
+          <div class="view albums content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
             <div class="items sortable"></div>
           </div>
-          <div class="view photos content vbox flex data autoflow">
+          <div class="view photos content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
             <div class="items sortable flex"></div>
           </div>
-          <div class="view photo content vbox flex data autoflow">
+          <div class="view photo content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
             <div class="items sortable flex">PHOTO</div>
           </div>
-          <div class="view slideshow content flex data autoflow">
+          <div class="view slideshow content flex data parent autoflow">
             <div id="gallery" class="items flex">Play</div>
           </div>
         </div>
@@ -228,7 +228,7 @@
 <!-- Templates -->
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item data" title="Deselect   Cmd-Click">
+  <li class="gal item data parent" title="Deselect   Cmd-Click">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#sidebarContentTemplate"}}

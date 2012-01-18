@@ -39,6 +39,7 @@ class AlbumsView extends Spine.Controller
     @filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
+#      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
@@ -63,7 +64,7 @@ class AlbumsView extends Spine.Controller
     if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
     else
-      @current = Album.filter(gallery.id, @filterOptions)
+      @current = Album.filterRelated(gallery.id, @filterOptions)
       
     @render item
     

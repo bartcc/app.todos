@@ -12,8 +12,8 @@ class AlbumsPhoto extends Spine.Model
     arr.sort (a, b) ->
       if a < b then -1 else if a > b then 1 else 0
     
-  select: (query, options) ->
-    return true if @[options.key] is query and @constructor.records[@id]
+  select: (id, options) ->
+    return true if @[options.key] is id and @constructor.records[@id]
     return false
     
   selectPhoto: (query) ->

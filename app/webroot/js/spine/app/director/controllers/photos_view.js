@@ -72,8 +72,7 @@ PhotosView = (function() {
       key: 'album_id',
       joinTable: 'AlbumsPhoto'
     };
-    items = Photo.filter(item != null ? item.id : void 0, filterOptions);
-    this.current = item;
+    items = Photo.filterRelated(item != null ? item.id : void 0, filterOptions);
     return this.render(items);
   };
   PhotosView.prototype.render = function(items, mode) {

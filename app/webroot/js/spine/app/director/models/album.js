@@ -92,11 +92,10 @@ Album = (function() {
     }
     return result;
   };
-  Album.prototype.select = function(id, options) {
-    var ga, record, _i, _len;
-    ga = Spine.Model[options.joinTable].filter(id, options);
-    for (_i = 0, _len = ga.length; _i < _len; _i++) {
-      record = ga[_i];
+  Album.prototype.select = function(joinTableItems) {
+    var record, _i, _len;
+    for (_i = 0, _len = joinTableItems.length; _i < _len; _i++) {
+      record = joinTableItems[_i];
       if (record.album_id === this.id) {
         return true;
       }

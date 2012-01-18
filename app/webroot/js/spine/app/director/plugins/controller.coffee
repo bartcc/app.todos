@@ -26,7 +26,7 @@ Spine.Controller.include
     
   sortable: (type) ->
     @el.sortable type
-
+    
 Spine.Controller.extend
 
   createImage: (url) ->

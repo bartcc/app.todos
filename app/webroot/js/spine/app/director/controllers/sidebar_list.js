@@ -135,7 +135,7 @@ SidebarList = (function() {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum'
     };
-    albums = Album.filter(gallery.id, filterOptions);
+    albums = Album.filterRelated(gallery.id, filterOptions);
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
       album.count = AlbumsPhoto.filter(album.id, {

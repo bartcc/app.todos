@@ -89,11 +89,10 @@ class Photo extends Spine.Model
     result
 
   # loops over each record
-  select: (id, options) ->
+  select: (joinTableItems) ->
     #id should be album.id
-    ap = Spine.Model[options.joinTable].filter(id, options)
-    for record in ap
-      return true if record.photo_id is @id
+    for record in joinTableItems
+      return true if record.photo_id is @id and @order = record.order
 
   
       

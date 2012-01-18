@@ -59,7 +59,7 @@ Gallery = (function() {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum'
     };
-    albums = Album.filter(this.id, filterOptions);
+    albums = Album.filterRelated(this.id, filterOptions);
     imagesCount = 0;
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
@@ -104,11 +104,10 @@ Gallery = (function() {
     }
     return result;
   };
-  Gallery.prototype.select = function(id, options) {
-    var ga, record, _i, _len;
-    ga = Spine.Model[options.joinTable].filter(id, options);
-    for (_i = 0, _len = ga.length; _i < _len; _i++) {
-      record = ga[_i];
+  Gallery.prototype.select = function(joinTableItems) {
+    var record, _i, _len;
+    for (_i = 0, _len = joinTableItems.length; _i < _len; _i++) {
+      record = joinTableItems[_i];
       if (record.gallery_id === this.id) {
         return true;
       }

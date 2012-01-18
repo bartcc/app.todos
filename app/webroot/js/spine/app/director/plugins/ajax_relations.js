@@ -44,7 +44,7 @@ Builder = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       key = _ref[_i];
       model = Spine.Model[key.className];
-      records = model.filter(this.record.id, {
+      records = model.filterRelated(this.record.id, {
         key: key.foreignKey,
         joinTable: key.joinTable
       });

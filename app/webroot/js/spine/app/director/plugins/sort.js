@@ -9,7 +9,7 @@ $.fn.sortable = function(type) {
 $.Html5Sortable = function() {
   return $.Html5Sortable.s_currentID = Math.floor(Math.random() * 10000001);
 };
-$.Html5Sortable.DRAGANDDROP_DEFAULT_TYPE = "fr.marcbuils.html5sortable";
+$.Html5Sortable.DRAGANDDROP_DEFAULT_TYPE = "de.webpremiere.html5sortable";
 $.Html5Sortable.s_currentID = 0;
 $.Html5Sortable.defaultOptions = {
   dragTarget: function(source) {
@@ -55,21 +55,19 @@ $.fn.Html5Sortable = function(opts) {
         var dt;
         dt = e.originalEvent.dataTransfer;
         dt.effectAllowed = 'move';
-        Spine.sortItem = {};
-        Spine.sortItem.data = el.data();
-        Spine.sortItem.dataTransfer = dt;
-        Spine.sortItem.splitter = options.splitter(this);
-        Spine.sortItem.dataTransfer.setData("Text", JSON.stringify({
+        dt.setData('Text', JSON.stringify({
           html: options.text(el),
           type: options.type
         }));
+        Spine.sortItem = {};
+        Spine.sortItem.data = el.data();
+        Spine.sortItem.splitter = options.splitter(this);
         $('._dragging').removeClass('_dragging');
-        el.addClass('_dragging');
-        return Spine.trigger('drag:start', e, this);
+        return el.addClass('_dragging');
       }).bind('dragend', function(e) {
         $('._dragging').removeClass('_dragging');
         try {
-          if (!(JSON.parse(Spine.sortItem.dataTransfer.getData("Text")).type === options.type)) {
+          if (!(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
             return true;
           }
         } catch (e) {
@@ -77,32 +75,27 @@ $.fn.Html5Sortable = function(opts) {
         }
         return Spine.sortItem.splitter.remove();
       }).bind('dragenter', function(e) {
-        try {
-          if (!(Spine.sortItem.dataTransfer.getData("Text") && JSON.parse(Spine.sortItem.dataTransfer.getData("Text")).type === options.type)) {
-            return true;
-          }
-        } catch (e) {
-          return true;
-        }
         if (e.pageY - $(this).position().top > $(this).height()) {
           Spine.sortItem.splitter.insertAfter(this);
         } else {
           Spine.sortItem.splitter.insertBefore(this);
         }
-        return Spine.trigger('drag:enter', e, this);
+        return false;
       }).bind('dragleave', function(e) {
         try {
-          if (!(Spine.sortItem.dataTransfer.getData("Text") && JSON.parse(Spine.sortItem.dataTransfer.getData("Text")).type === options.type)) {
+          if (!(e.originalEvent.dataTransfer.getData('Text') && JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
             return true;
           }
         } catch (e) {
           return true;
         }
-        return Spine.trigger('drag:leave', e, this);
+        return false;
       }).bind('drop', function(e) {
-        var it, sourceEl;
+        var it, parse, sourceEl;
+        console.log('Sort::drop');
+        parse = JSON.parse(e.originalEvent.dataTransfer.getData('Text'));
         try {
-          if (!(JSON.parse(Spine.sortItem.dataTransfer.getData("Text")).type === options.type)) {
+          if (!(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
             return true;
           }
         } catch (e) {
@@ -110,7 +103,9 @@ $.fn.Html5Sortable = function(opts) {
         }
         sourceEl = $('._dragging');
         Spine.sortItem.splitter.remove();
-        it = $(JSON.parse(Spine.sortItem.dataTransfer.getData('Text')).html).hide();
+        e.stopPropagation();
+        e.preventDefault();
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide();
         it.data(Spine.sortItem.data);
         if (e.pageY - $(this).position().top > $(this).height()) {
           it.insertAfter(this);
@@ -124,22 +119,6 @@ $.fn.Html5Sortable = function(opts) {
         sourceEl.remove();
         it.fadeIn();
         return Spine.trigger('drag:drop', e, this);
-      }).bind('dragover_', function(e) {
-        try {
-          if (!(e.originalEvent.dataTransfer.getData("Text") && JSON.parse(e.originalEvent.dataTransfer.getData("Text")).type === options.type)) {
-            return true;
-          }
-        } catch (e) {
-          return true;
-        }
-        Spine.sortItem.splitter.remove();
-        if (e.pageY - $(this).position().top > $(this).height()) {
-          Spine.sortItem.splitter.insertAfter(this);
-        } else {
-          Spine.sortItem.splitter.insertBefore(this);
-        }
-        Spine.trigger('drag:over_', e, this);
-        return false;
       });
     };
     return that.children('li').each(function() {

@@ -212,6 +212,23 @@ Model.Extender = {
           error.save();
           return User.redirect('users/login');
         }
+      },
+      filterRelated: function(id, options) {
+        var joinTableItems;
+        joinTableItems = Spine.Model[options.joinTable].filter(id, options);
+        return this.sort(this.filter(joinTableItems));
+      },
+      sort: function(arr) {
+        console.log('sort');
+        return arr.sort(function(a, b) {
+          if (a.order < b.order) {
+            return -1;
+          } else if (a.order > b.order) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
       }
     };
     Include = {

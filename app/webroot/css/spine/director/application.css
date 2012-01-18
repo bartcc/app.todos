@@ -31,6 +31,15 @@ body {
   font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
   color: #414141;
 }
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
+}
+
+*:-khtml-drag {
+  background-color: rgba(255,255,0, 0.5) !important;
+}
 input, textarea {
   user-select: text;
   -webkit-user-select: text;

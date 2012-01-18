@@ -64,10 +64,10 @@ class Album extends Spine.Model
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
-  select: (id, options) ->
+  select: (joinTableItems) ->
     #id should be gallery.id
-    ga = Spine.Model[options.joinTable].filter(id, options)
-    for record in ga
+#    ga = Spine.Model[options.joinTable].filter(id, options)
+    for record in joinTableItems
       return true if record.album_id is @id
     
 Spine.Model.Album = Album

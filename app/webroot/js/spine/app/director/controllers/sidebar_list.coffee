@@ -106,7 +106,7 @@ class SidebarList extends Spine.Controller
     filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
-    albums = Album.filter(gallery.id, filterOptions)
+    albums = Album.filterRelated(gallery.id, filterOptions)
     for album in albums
       album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
     albums.push {flash: 'no albums'} unless albums.length

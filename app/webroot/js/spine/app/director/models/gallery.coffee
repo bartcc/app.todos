@@ -36,7 +36,7 @@ class Gallery extends Spine.Model
     filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
-    albums = Album.filter(@id, filterOptions)
+    albums = Album.filterRelated(@id, filterOptions)
     imagesCount = 0
     for album in albums
       imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
@@ -61,9 +61,9 @@ class Gallery extends Spine.Model
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
-  select: (id, options) ->
-    ga = Spine.Model[options.joinTable].filter(id, options)
-    for record in ga
+  select: (joinTableItems) ->
+#    ga = Spine.Model[options.joinTable].filter(id, options)
+    for record in joinTableItems
       return true if record.gallery_id is @id
 #    @id is @constructor.record.id
 

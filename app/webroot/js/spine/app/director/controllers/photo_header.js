@@ -19,7 +19,6 @@ PhotoHeader = (function() {
     'click .closeView .alb': 'backToAlbums',
     'click .closeView .pho': 'backToPhotos',
     'dragenter': 'dragenter',
-    'dragover': 'dragover',
     'dragend': 'dragend',
     'drop': 'drop'
   };

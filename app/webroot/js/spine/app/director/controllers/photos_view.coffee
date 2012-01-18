@@ -58,18 +58,14 @@ class PhotosView extends Spine.Controller
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       
-    items = Photo.filter(item?.id, filterOptions)
-    
-    @current = item
+    items = Photo.filterRelated(item?.id, filterOptions)
     @render items
     
   render: (items, mode) ->
     console.log 'PhotosView::render'
-    
     @items.empty() unless @list.children('li').length
     # show spinner
 #      @items.html @preloaderTemplate()
-    
     list = @list.render items, mode or 'html'
     list.sortable 'photo' if Album.record
     @refreshElements()

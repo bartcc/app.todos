@@ -129,12 +129,11 @@ Photo = (function() {
     }
     return result;
   };
-  Photo.prototype.select = function(id, options) {
-    var ap, record, _i, _len;
-    ap = Spine.Model[options.joinTable].filter(id, options);
-    for (_i = 0, _len = ap.length; _i < _len; _i++) {
-      record = ap[_i];
-      if (record.photo_id === this.id) {
+  Photo.prototype.select = function(joinTableItems) {
+    var record, _i, _len;
+    for (_i = 0, _len = joinTableItems.length; _i < _len; _i++) {
+      record = joinTableItems[_i];
+      if (record.photo_id === this.id && (this.order = record.order)) {
         return true;
       }
     }

@@ -100,7 +100,7 @@ class SlideshowView extends Spine.Controller
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
-    items = Photo.filter(Album.record.id, filterOptions)
+    items = Photo.filterRelated(Album.record.id, filterOptions)
     @render items
     
   size: (val=@thumbSize, bg='none') ->

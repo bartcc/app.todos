@@ -6,7 +6,7 @@ $.fn.sortable = (type) ->
 $.Html5Sortable = ->
     $.Html5Sortable.s_currentID = Math.floor(Math.random()*10000001)
 
-  $.Html5Sortable.DRAGANDDROP_DEFAULT_TYPE = "fr.marcbuils.html5sortable"
+  $.Html5Sortable.DRAGANDDROP_DEFAULT_TYPE = "de.webpremiere.html5sortable"
   
   $.Html5Sortable.s_currentID = 0
     
@@ -16,11 +16,6 @@ $.Html5Sortable = ->
     css:       (source) ->
       el = ($(source).prev('li') or $(source).next('li'))
       'height'        : el.css 'height'
-#      'width'         : el.css 'width'
-#      'padding-right' : el.css 'padding-right'
-#      'margin-right'  : el.css 'margin-right'
-#      'padding-left'  : el.css 'padding-left'
-#      'margin-left'   : el.css 'margin-left'
       'padding-top'   : el.css 'padding-top'
       'padding-bottom': el.css 'padding-bottom'
       'margin-top'    : el.css 'margin-top'
@@ -47,27 +42,23 @@ $.fn.Html5Sortable = (opts) ->
       .bind 'dragstart', (e) ->
         dt = e.originalEvent.dataTransfer
         dt.effectAllowed = 'move'
-        Spine.sortItem = {}
-        Spine.sortItem.data = el.data()
-        Spine.sortItem.dataTransfer = dt
-        Spine.sortItem.splitter = options.splitter(@)
-
-        Spine.sortItem.dataTransfer.setData "Text", JSON.stringify
+        dt.setData 'Text', JSON.stringify
           html:   options.text(el)
           type:   options.type
-
+        Spine.sortItem = {}
+        Spine.sortItem.data = el.data()
+        Spine.sortItem.splitter = options.splitter(@)
         # dt.setData("URL", options.type);
         $('._dragging').removeClass('_dragging')
         el.addClass('_dragging')
         
-        Spine.trigger('drag:start', e, @)
-#        return true
+#        Spine.trigger('drag:start', e, @)
 
       .bind 'dragend', (e) ->
         $('._dragging').removeClass('_dragging')
-
+        
         try
-          unless (JSON.parse(Spine.sortItem.dataTransfer.getData("Text")).type is options.type)
+          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
             return true
         catch e
           return true
@@ -75,40 +66,38 @@ $.fn.Html5Sortable = (opts) ->
         Spine.sortItem.splitter.remove()
 
       .bind 'dragenter', (e) ->
-        try
-          unless (Spine.sortItem.dataTransfer.getData("Text") and JSON.parse(Spine.sortItem.dataTransfer.getData("Text")).type is options.type)
-            return true
-        catch e
-          return true
-          
-          
-        if (e.pageY - $(this).position().top > $(@).height())
+        if (e.pageY - $(@).position().top > $(@).height())
           Spine.sortItem.splitter.insertAfter @
         else
           Spine.sortItem.splitter.insertBefore @
           
-        Spine.trigger('drag:enter', e, @)
+        return false
 
       .bind 'dragleave', (e) ->
         try
-          unless (Spine.sortItem.dataTransfer.getData("Text") and JSON.parse(Spine.sortItem.dataTransfer.getData("Text")).type is options.type)
+          unless (e.originalEvent.dataTransfer.getData('Text') and JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
             return true;
         catch e
           return true
         
-        Spine.trigger('drag:leave', e, @)
+        return false
 
       .bind 'drop', (e) ->
+        console.log 'Sort::drop'
+        parse = JSON.parse(e.originalEvent.dataTransfer.getData('Text'))
         try
-          unless (JSON.parse(Spine.sortItem.dataTransfer.getData("Text")).type is options.type)
+          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
             return true
         catch e
           return true
           
         sourceEl = $('._dragging')
         Spine.sortItem.splitter.remove()
+        
+        e.stopPropagation()
+        e.preventDefault()
 
-        it = $(JSON.parse(Spine.sortItem.dataTransfer.getData('Text')).html).hide()
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide()
         it.data Spine.sortItem.data
 
         if (e.pageY - $(@).position().top > $(@).height())
@@ -126,23 +115,6 @@ $.fn.Html5Sortable = (opts) ->
         it.fadeIn()
 
         Spine.trigger('drag:drop', e, @)
-
-      .bind 'dragover_', (e) ->
-        try
-          unless (e.originalEvent.dataTransfer.getData("Text") and JSON.parse(e.originalEvent.dataTransfer.getData("Text")).type is options.type)
-            return true
-        catch e
-          return true
-
-        Spine.sortItem.splitter.remove()
-
-        if (e.pageY - $(this).position().top > $(@).height())
-          Spine.sortItem.splitter.insertAfter @
-        else
-          Spine.sortItem.splitter.insertBefore @
-
-        Spine.trigger('drag:over_', e, @)
-        return false
         
     that.children('li').each ->
         that.init $(@)

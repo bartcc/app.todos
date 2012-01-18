@@ -26,6 +26,7 @@ class ShowView extends Spine.Controller
     '#slider'                 : 'slider'
     
   events:
+    "click .optTest"                  : "test"
     "click .optOverview"              : "showOverview"
     "click .optSlideshow"             : "showSlideshow"
     "click .optPrevious"              : "showPrevious"
@@ -196,6 +197,9 @@ class ShowView extends Spine.Controller
     @toolbarOne.unlock()
     @toolbarOne.refresh()
     Spine.trigger('change:canvas', @previous)
+  
+  test: ->
+    console.log @sort()
   
   createGallery: (e) ->
     Spine.trigger('create:gallery')

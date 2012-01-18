@@ -20,7 +20,7 @@ class Builder
 
     for key in @fModels
       model = Spine.Model[key.className]
-      records = model.filter @record.id,
+      records = model.filterRelated @record.id,
         key: key.foreignKey
         joinTable: key.joinTable
 

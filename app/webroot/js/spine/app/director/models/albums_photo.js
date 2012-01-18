@@ -38,8 +38,8 @@ AlbumsPhoto = (function() {
       }
     });
   };
-  AlbumsPhoto.prototype.select = function(query, options) {
-    if (this[options.key] === query && this.constructor.records[this.id]) {
+  AlbumsPhoto.prototype.select = function(id, options) {
+    if (this[options.key] === id && this.constructor.records[this.id]) {
       return true;
     }
     return false;

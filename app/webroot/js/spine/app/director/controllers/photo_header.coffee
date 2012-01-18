@@ -10,7 +10,6 @@ class PhotoHeader extends Spine.Controller
     'click .closeView .alb'     : 'backToAlbums'
     'click .closeView .pho'     : 'backToPhotos'
     'dragenter'                 : 'dragenter'
-    'dragover'                  : 'dragover'
     'dragend'                   : 'dragend'
     'drop'                      : 'drop'
 

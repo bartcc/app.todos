@@ -149,7 +149,7 @@ SlideshowView = (function() {
       key: 'album_id',
       joinTable: 'AlbumsPhoto'
     };
-    items = Photo.filter(Album.record.id, filterOptions);
+    items = Photo.filterRelated(Album.record.id, filterOptions);
     return this.render(items);
   };
   SlideshowView.prototype.size = function(val, bg) {

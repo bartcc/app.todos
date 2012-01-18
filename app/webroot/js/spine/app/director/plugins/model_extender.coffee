@@ -136,6 +136,15 @@ Model.Extender =
           error.save()
           User.redirect 'users/login'
           
+      filterRelated: (id, options) ->
+        joinTableItems = Spine.Model[options.joinTable].filter(id, options)
+        @sort @filter joinTableItems
+        
+      sort: (arr) ->
+        console.log 'sort'
+        arr.sort (a, b) ->
+          if a.order < b.order then -1 else if a.order > b.order then 1 else 0
+          
     Include =
       
       updateSelection: (list) ->
@@ -199,6 +208,6 @@ Model.Extender =
         for ap in aps
           photos.push Photo.find(ap.album_id) if Photo.exists(ap.album_id)
         photos
-        
+      
     @extend Extend
     @include Include

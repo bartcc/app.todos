@@ -71,7 +71,7 @@ AlbumsView = (function() {
     if ((!gallery) || gallery.destroyed) {
       this.current = Album.filter();
     } else {
-      this.current = Album.filter(gallery.id, this.filterOptions);
+      this.current = Album.filterRelated(gallery.id, this.filterOptions);
     }
     return this.render(item);
   };

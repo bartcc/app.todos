@@ -103,7 +103,6 @@ $.fn.Html5Sortable = function(opts) {
         }
         sourceEl = $('._dragging');
         Spine.sortItem.splitter.remove();
-        e.stopPropagation();
         e.preventDefault();
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide();
         it.data(Spine.sortItem.data);

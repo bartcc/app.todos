@@ -48,7 +48,6 @@ Base = (function() {
   function Base() {}
   Base.prototype.defaults = {
     contentType: 'application/json',
-    dataType: 'json',
     processData: false,
     headers: {
       'X-Requested-With': 'XMLHttpRequest'

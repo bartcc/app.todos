@@ -94,7 +94,7 @@ $.fn.Html5Sortable = (opts) ->
         sourceEl = $('._dragging')
         Spine.sortItem.splitter.remove()
         
-        e.stopPropagation()
+#        e.stopPropagation()
         e.preventDefault()
 
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide()

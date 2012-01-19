@@ -56,7 +56,6 @@
             // widget (via file input selection, drag & drop or add API call).
             // See the basic file upload widget for more information:
             add: function (e, data) {
-                console.log(data)
                 var that = $(this).data('fileupload'),
                     files = data.files;
                 that._adjustMaxNumberOfFiles(-files.length);

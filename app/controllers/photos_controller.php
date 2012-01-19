@@ -137,7 +137,7 @@ class PhotosController extends AppController {
 //        $this->log($this->data, LOG_DEBUG);
         $array = array();
         foreach ($this->data['Photo'] as $data) {
-          $this->log($this->data, LOG_DEBUG);
+//          $this->log($this->data, LOG_DEBUG);
           $id = $data['id'];
           $path = PHOTOS . DS . $uid . DS . $id . DS . 'lg' . DS . '*.*';
           $files = glob($path);

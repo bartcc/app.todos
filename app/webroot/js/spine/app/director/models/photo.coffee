@@ -90,11 +90,8 @@ class Photo extends Spine.Model
 
   # loops over each record
   select: (joinTableItems) ->
-    #id should be album.id
     for record in joinTableItems
-      return true if record.photo_id is @id and @order = record.order
-
-  
+      return true if record.photo_id is @id and (@['order'] = record.order)?
       
   details: ->
     details =

@@ -133,7 +133,7 @@ Photo = (function() {
     var record, _i, _len;
     for (_i = 0, _len = joinTableItems.length; _i < _len; _i++) {
       record = joinTableItems[_i];
-      if (record.photo_id === this.id && (this.order = record.order)) {
+      if (record.photo_id === this.id && ((this['order'] = record.order) != null)) {
         return true;
       }
     }

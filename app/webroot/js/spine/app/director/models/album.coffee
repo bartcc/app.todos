@@ -65,8 +65,6 @@ class Album extends Spine.Model
     result
 
   select: (joinTableItems) ->
-    #id should be gallery.id
-#    ga = Spine.Model[options.joinTable].filter(id, options)
     for record in joinTableItems
       return true if record.album_id is @id
     

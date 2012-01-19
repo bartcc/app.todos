@@ -168,6 +168,7 @@ class PhotosView extends Spine.Controller
       ap = new AlbumsPhoto
         album_id: target.id
         photo_id: record.id
+        order: 0
       ap.save()
       
     target.save()

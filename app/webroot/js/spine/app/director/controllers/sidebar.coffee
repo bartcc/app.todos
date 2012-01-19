@@ -139,7 +139,7 @@ class Sidebar extends Spine.Controller
         photos = []
         Photo.each (record) =>
           photos.push record unless @clonedSelection.indexOf(record.id) is -1
-
+        
         Photo.trigger('create:join', target, photos)
         Photo.trigger('destroy:join', origin, photos) unless @isCtrlClick(e)
         

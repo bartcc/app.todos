@@ -131,7 +131,7 @@
           </div>
           <div class="view albums content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
-            <div class="items sortable"></div>
+            <div class="items sortable flex"></div>
           </div>
           <div class="view photos content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>

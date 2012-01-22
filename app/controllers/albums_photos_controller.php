@@ -23,21 +23,15 @@ class AlbumsPhotosController extends AppController {
   }
 
   function add() {
-    $this->log('AlbumsPhotosController::add', LOG_DEBUG);
     if (!empty($this->data)) {
-      $this->log($this->data, LOG_DEBUG);
       $this->AlbumsPhoto->create();
       if ($this->AlbumsPhoto->saveAll($this->data)) {
         $this->Session->setFlash(__('The albums photo has been saved', true));
-//        $this->redirect(array('action' => 'index'));
         $this->render(BLANK_RESPONSE);
       } else {
         $this->Session->setFlash(__('The albums photo could not be saved. Please, try again.', true));
       }
     }
-    $albums = $this->AlbumsPhoto->Album->find('list');
-    $photos = $this->AlbumsPhoto->Photo->find('list');
-    $this->set(compact('albums', 'photos'));
   }
 
   function edit($id = null) {
@@ -48,7 +42,7 @@ class AlbumsPhotosController extends AppController {
     if (!empty($this->data)) {
       if ($this->AlbumsPhoto->save($this->data)) {
         $this->Session->setFlash(__('The albums photo has been saved', true));
-        $this->redirect(array('action' => 'index'));
+        $this->render(BLANK_RESPONSE);
       } else {
         $this->Session->setFlash(__('The albums photo could not be saved. Please, try again.', true));
       }
@@ -56,9 +50,6 @@ class AlbumsPhotosController extends AppController {
     if (empty($this->data)) {
       $this->data = $this->AlbumsPhoto->read(null, $id);
     }
-    $albums = $this->AlbumsPhoto->Album->find('list');
-    $photos = $this->AlbumsPhoto->Photo->find('list');
-    $this->set(compact('albums', 'photos'));
   }
 
   function delete($id = null) {
@@ -68,10 +59,8 @@ class AlbumsPhotosController extends AppController {
     }
     if ($this->AlbumsPhoto->delete($id)) {
       $this->Session->setFlash(__('Albums photo deleted', true));
-      $this->redirect(array('action' => 'index'));
+      $this->render(BLANK_RESPONSE);
     }
-    $this->Session->setFlash(__('Albums photo was not deleted', true));
-    $this->redirect(array('action' => 'index'));
   }
 
 }

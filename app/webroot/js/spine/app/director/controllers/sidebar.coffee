@@ -115,7 +115,8 @@ class Sidebar extends Spine.Controller
 
   dragLeave: (e) =>
 
-  dropComplete: (e) =>
+  dropComplete: (e, record) =>
+    console.log $(record).item() if record
     console.log 'Sidebar::dropComplete'
     return unless Spine.dragItem
     Spine.dragItem.closest?.removeClass('over nodrop')

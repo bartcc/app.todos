@@ -149,8 +149,8 @@ App = (function() {
     var event, _ref, _ref2;
     console.log('App::drop');
     event = e.originalEvent;
-    if ((_ref = Spine.dragItem) != null ? _ref.closest : void 0) {
-      Spine.dragItem.closest.removeClass('over nodrop');
+    if ((_ref = Spine.dragItem.closest) != null) {
+      _ref.removeClass('over nodrop');
     }
     if ((_ref2 = Spine.sortItem) != null) {
       _ref2.splitter.remove();

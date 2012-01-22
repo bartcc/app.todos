@@ -32,6 +32,7 @@ PhotosList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
+    Spine.bind('sortupdate', this.proxy(this.sortupdate));
     Spine.bind('photo:activate', this.proxy(this.activate));
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.errorHandler);
@@ -202,6 +203,23 @@ PhotosList = (function() {
     Spine.trigger('show:photo', this.current);
     e.stopPropagation();
     return e.preventDefault();
+  };
+  PhotosList.prototype.sortupdate = function(e, item) {
+    var aps;
+    aps = AlbumsPhoto.filter(Album.record.id, {
+      key: 'album_id'
+    });
+    return this.children().each(function(index) {
+      var ap;
+      item = $(this).item();
+      ap = (AlbumsPhoto.filter(item.id, {
+        func: 'selectPhoto'
+      }))[0];
+      if ((ap != null ? ap.order : void 0) !== index) {
+        ap.order = index;
+        return ap.save();
+      }
+    });
   };
   PhotosList.prototype.closeInfo = function(e) {
     this.el.click();

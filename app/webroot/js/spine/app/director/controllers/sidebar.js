@@ -144,8 +144,11 @@ Sidebar = (function() {
   };
   Sidebar.prototype.dragOver = function(e) {};
   Sidebar.prototype.dragLeave = function(e) {};
-  Sidebar.prototype.dropComplete = function(e) {
+  Sidebar.prototype.dropComplete = function(e, record) {
     var albums, origin, photos, source, target, _ref, _ref2, _ref3, _ref4, _ref5;
+    if (record) {
+      console.log($(record).item());
+    }
     console.log('Sidebar::dropComplete');
     if (!Spine.dragItem) {
       return;

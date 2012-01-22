@@ -84,18 +84,17 @@ $.fn.Html5Sortable = (opts) ->
 
       .bind 'drop', (e) ->
         console.log 'Sort::drop'
-        parse = JSON.parse(e.originalEvent.dataTransfer.getData('Text'))
-        try
-          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
-            return true
-        catch e
-          return true
+#        try
+#          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
+#            return true
+#        catch e
+#          return true
           
         sourceEl = $('._dragging')
         Spine.sortItem.splitter.remove()
         
 #        e.stopPropagation()
-        e.preventDefault()
+#        e.preventDefault()
 
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide()
         it.data Spine.sortItem.data
@@ -114,7 +113,8 @@ $.fn.Html5Sortable = (opts) ->
         sourceEl.remove()
         it.fadeIn()
 
-        Spine.trigger('drag:drop', e, @)
+        Spine.trigger('drag:drop', e, it) # Why isn't it bubbeling up? Remove this line when it does!
+        Spine.trigger('sortupdate', e, it)
         
     that.children('li').each ->
         that.init $(@)

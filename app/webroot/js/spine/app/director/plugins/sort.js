@@ -91,19 +91,10 @@ $.fn.Html5Sortable = function(opts) {
         }
         return false;
       }).bind('drop', function(e) {
-        var it, parse, sourceEl;
+        var it, sourceEl;
         console.log('Sort::drop');
-        parse = JSON.parse(e.originalEvent.dataTransfer.getData('Text'));
-        try {
-          if (!(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
-            return true;
-          }
-        } catch (e) {
-          return true;
-        }
         sourceEl = $('._dragging');
         Spine.sortItem.splitter.remove();
-        e.preventDefault();
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide();
         it.data(Spine.sortItem.data);
         if (e.pageY - $(this).position().top > $(this).height()) {
@@ -117,7 +108,8 @@ $.fn.Html5Sortable = function(opts) {
         }
         sourceEl.remove();
         it.fadeIn();
-        return Spine.trigger('drag:drop', e, this);
+        Spine.trigger('drag:drop', e, it);
+        return Spine.trigger('sortupdate', e, it);
       });
     };
     return that.children('li').each(function() {

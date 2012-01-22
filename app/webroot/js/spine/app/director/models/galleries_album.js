@@ -12,7 +12,7 @@ GalleriesAlbum = (function() {
   function GalleriesAlbum() {
     GalleriesAlbum.__super__.constructor.apply(this, arguments);
   }
-  GalleriesAlbum.configure("GalleriesAlbum", 'gallery_id', 'album_id', 'name', 'order');
+  GalleriesAlbum.configure("GalleriesAlbum", 'gallery_id', 'album_id', 'order');
   GalleriesAlbum.extend(Spine.Model.Ajax);
   GalleriesAlbum.extend(Spine.Model.AjaxRelations);
   GalleriesAlbum.extend(Spine.Model.Filter);

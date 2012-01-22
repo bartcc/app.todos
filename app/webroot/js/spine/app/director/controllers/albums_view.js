@@ -121,7 +121,7 @@ AlbumsView = (function() {
     return this.openPanel('album', App.showView.btnAlbum);
   };
   AlbumsView.prototype.destroy = function(e) {
-    var album, albums, ga, gallery, gas, list, photos, t, _i, _j, _k, _len, _len2, _len3, _results;
+    var album, albums, ga, gallery, gas, list, photos, _i, _j, _k, _len, _len2, _len3, _results;
     console.log('AlbumsView::destroy');
     list = Gallery.selectionList().slice(0);
     albums = [];
@@ -144,13 +144,7 @@ AlbumsView = (function() {
           if (Gallery.exists(ga.gallery_id)) {
             gallery = Gallery.find(ga.gallery_id);
           }
-          t = new Timer();
-          t.start();
           photos = AlbumsPhoto.photos(album.id);
-          console.log(t.stop().ms);
-          t.start();
-          photos = AlbumsPhoto.photos_(album.id);
-          console.log(t.stop().ms);
           Spine.Ajax.disable(function() {
             return Photo.trigger('destroy:join', album, photos);
           });

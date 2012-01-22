@@ -88,7 +88,6 @@ class AlbumsView extends Spine.Controller
   
   show: ->
     Spine.trigger('change:toolbarOne', ['Album'])
-    Album.activeRecord = false
     Spine.trigger('gallery:exposeSelection', Gallery.record)
     Spine.trigger('change:canvas', @)
     
@@ -161,8 +160,6 @@ class AlbumsView extends Spine.Controller
         gallery_id: target.id
         album_id: record.id
       ga.save()
-
-#    target.save()
   
   destroyJoin: (target, albums) ->
     return unless target and target.constructor.className is 'Gallery'

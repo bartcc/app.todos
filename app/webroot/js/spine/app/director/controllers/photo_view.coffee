@@ -42,7 +42,7 @@ class PhotoView extends Spine.Controller
     
   change: (item, changed) ->
     console.log 'PhotoView::change'
-    Photo.activeRecord = @current = item
+    @current = item
     
   render: (item, mode) ->
     console.log 'PhotoView::render'

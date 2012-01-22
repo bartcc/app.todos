@@ -95,7 +95,6 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.show = function() {
     Spine.trigger('change:toolbarOne', ['Album']);
-    Album.activeRecord = false;
     Spine.trigger('gallery:exposeSelection', Gallery.record);
     return Spine.trigger('change:canvas', this);
   };

@@ -10,8 +10,6 @@ Model.Extender =
       
       record: false
 
-      activeRecord: false
-      
       selection: [global:[]]
 
       changed: ->

@@ -56,7 +56,7 @@ PhotoView = (function() {
   }
   PhotoView.prototype.change = function(item, changed) {
     console.log('PhotoView::change');
-    return Photo.activeRecord = this.current = item;
+    return this.current = item;
   };
   PhotoView.prototype.render = function(item, mode) {
     console.log('PhotoView::render');

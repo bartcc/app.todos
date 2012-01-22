@@ -163,7 +163,6 @@ PhotosView = (function() {
     if (this.isActive()) {
       return;
     }
-    Album.activeRecord = Album.record;
     Spine.trigger('gallery:activate');
     Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider);
     Spine.trigger('change:canvas', this);

@@ -140,7 +140,6 @@ class PhotosView extends Spine.Controller
     
   show: ->
     return if @isActive()
-    Album.activeRecord = Album.record
     Spine.trigger('gallery:activate')
     Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
     Spine.trigger('change:canvas', @)

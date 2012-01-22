@@ -264,8 +264,8 @@ SidebarList = (function() {
         }
         albums.forItem(album).addClass('selected');
       }
-      if (Album.exists((_ref2 = Album.activeRecord) != null ? _ref2.id : void 0)) {
-        album = Album.find(Album.activeRecord.id);
+      if (Album.exists((_ref2 = Album.record) != null ? _ref2.id : void 0)) {
+        album = Album.find(Album.record.id);
         return albums.forItem(album).addClass('active');
       }
     } else {
@@ -277,7 +277,7 @@ SidebarList = (function() {
     console.log('SidebarList::albclick');
     albumEl = $(e.currentTarget);
     galleryEl = $(e.currentTarget).closest('li.gal');
-    album = Album.activeRecord = albumEl.item();
+    album = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
       Gallery.current(gallery);

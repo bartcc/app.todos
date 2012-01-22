@@ -187,8 +187,8 @@ class SidebarList extends Spine.Controller
       for id in Gallery.selectionList()
         album = Album.find(id) if Album.exists(id)
         albums.forItem(album).addClass('selected')
-      if Album.exists(Album.activeRecord?.id)
-        album = Album.find(Album.activeRecord.id)
+      if Album.exists(Album.record?.id)
+        album = Album.find(Album.record.id)
         albums.forItem(album).addClass('active')
     else
       removeAlbumSelection()
@@ -198,7 +198,7 @@ class SidebarList extends Spine.Controller
     albumEl = $(e.currentTarget)
     galleryEl = $(e.currentTarget).closest('li.gal')
     
-    album = Album.activeRecord = albumEl.item()
+    album = albumEl.item()
     gallery = galleryEl.item()
     
     unless @isCtrlClick(e)

@@ -66,13 +66,13 @@ class AlbumsView extends Spine.Controller
     else
       @current = Album.filterRelated(gallery.id, @filterOptions)
       
-    @render item
+    @render @current
     
   render: (item) ->
     console.log 'AlbumsView::render'
     
     list = @list.render @current
-    list.sortable 'album' if Gallery.record
+    list.sortable 'album'# if Gallery.record
     @header.render()
     
     # when Album is deleted in Photos View return to this View

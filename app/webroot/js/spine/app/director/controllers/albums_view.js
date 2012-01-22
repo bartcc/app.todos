@@ -73,15 +73,13 @@ AlbumsView = (function() {
     } else {
       this.current = Album.filterRelated(gallery.id, this.filterOptions);
     }
-    return this.render(item);
+    return this.render(this.current);
   };
   AlbumsView.prototype.render = function(item) {
     var list;
     console.log('AlbumsView::render');
     list = this.list.render(this.current);
-    if (Gallery.record) {
-      list.sortable('album');
-    }
+    list.sortable('album');
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();

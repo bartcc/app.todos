@@ -40,5 +40,5 @@ Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'))
  */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-Router::mapResources(array('todos', 'tasks', 'contacts' ,'users', 'galleries', 'albums', 'photos', 'galleries_albums', 'albums_photos'));
+Router::mapResources(array('users', 'galleries', 'albums', 'photos', 'galleries_albums', 'albums_photos'));
 //Router::parseExtensions();

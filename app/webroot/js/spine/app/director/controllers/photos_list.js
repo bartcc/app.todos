@@ -32,6 +32,7 @@ PhotosList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
+    Photo.bind('sortupdate', this.proxy(this.sortupdate));
     Spine.bind('photo:activate', this.proxy(this.activate));
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.errorHandler);

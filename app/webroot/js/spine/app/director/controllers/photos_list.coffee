@@ -17,7 +17,7 @@ class PhotosList extends Spine.Controller
     
   constructor: ->
     super
-#    Photo.bind('sortupdate', @proxy @sortupdate)
+    Photo.bind('sortupdate', @proxy @sortupdate)
     Spine.bind('photo:activate', @proxy @activate)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.errorHandler)

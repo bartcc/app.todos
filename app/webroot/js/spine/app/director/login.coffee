@@ -47,7 +47,7 @@ class Login extends Spine.Controller
     user.save()
     @render @flashEl, @flashTemplate, json
     delayedFunc = -> 
-      User.redirect 'director_app'
+      User.redirect '/'
     @delay delayedFunc, 500
 
   error: (xhr) =>

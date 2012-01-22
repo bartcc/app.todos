@@ -14,7 +14,6 @@ Controller.Drag = {
       },
       dragstart: __bind(function(e, data) {
         var el, event, parentDataElement, _ref, _ref2, _ref3;
-        console.log('Drag::dragstart');
         el = $(e.target);
         el.addClass('dragged');
         Spine.dragItem = {};
@@ -29,7 +28,6 @@ Controller.Drag = {
       }, this),
       dragenter: function(e, data) {
         var func;
-        console.log('Drag::dragenter');
         func = function() {
           return Spine.trigger('drag:timeout', e);
         };
@@ -39,7 +37,6 @@ Controller.Drag = {
       },
       dragover: function(e, data) {
         var event;
-        console.log('Drag::dragover');
         event = e.originalEvent;
         event.stopPropagation();
         event.dataTransfer.dropEffect = 'move';
@@ -47,17 +44,13 @@ Controller.Drag = {
         return false;
       },
       dragleave: function(e, data) {
-        console.log('Drag::dragleave');
         return Spine.trigger('drag:leave', e, this);
       },
       dragend: function(e, data) {
-        console.log('Drag::dragend');
         return $(e.target).removeClass('dragged');
       },
       drop: __bind(function(e, data) {
         var event, _ref;
-        console.log('Drag::drop');
-        console.log(data);
         clearTimeout(Spine.timer);
         event = e.originalEvent;
         if ((_ref = Spine.dragItem) != null) {

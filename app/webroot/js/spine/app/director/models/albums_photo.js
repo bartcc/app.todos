@@ -13,8 +13,12 @@ AlbumsPhoto = (function() {
     AlbumsPhoto.__super__.constructor.apply(this, arguments);
   }
   AlbumsPhoto.configure("AlbumsPhoto", "album_id", 'photo_id', 'order');
-  AlbumsPhoto.extend(Spine.Model.Local);
+  AlbumsPhoto.extend(Spine.Model.Ajax);
+  AlbumsPhoto.extend(Spine.Model.AjaxRelations);
   AlbumsPhoto.extend(Spine.Model.Filter);
+  AlbumsPhoto.url = function() {
+    return 'albums_photos';
+  };
   AlbumsPhoto.prototype.select = function(id, options) {
     if (this[options.key] === id && this.constructor.records[this.id]) {
       return true;

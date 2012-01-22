@@ -1,9 +1,12 @@
 
 class GalleriesAlbum extends Spine.Model
-  @configure "GalleriesAlbum", 'gallery_id', 'album_id', 'name'
+  @configure "GalleriesAlbum", 'gallery_id', 'album_id', 'name', 'order'
 
-  @extend Spine.Model.Local
+  @extend Spine.Model.Ajax
+  @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
+  
+  @url: -> 'galleries_albums'
   
   @galleryHasAlbum: (gid, aid) ->
     gas = @filter gid, key: 'gallery_id'

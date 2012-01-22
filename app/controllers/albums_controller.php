@@ -49,9 +49,6 @@ class AlbumsController extends AppController {
     if (empty($this->data)) {
       $this->data = $this->Album->read(null, $id);
     }
-    $photos = $this->Album->Photo->find('list');
-    $galleries = $this->Album->Gallery->find('list');
-    $this->set(compact('photos', 'galleries'));
   }
 
   function delete($id = null) {

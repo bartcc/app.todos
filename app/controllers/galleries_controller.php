@@ -25,6 +25,8 @@ class GalleriesController extends AppController {
   function add() {
     if (!empty($this->data)) {
       $this->Gallery->create();
+      $this->log('GalleriesController::add', LOG_DEBUG);
+      $this->log($this->data, LOG_DEBUG);
       if ($this->Gallery->save($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));
         $this->render(BLANK_RESPONSE);
@@ -32,8 +34,6 @@ class GalleriesController extends AppController {
         $this->Session->setFlash(__('The gallery could not be saved. Please, try again.', true));
       }
     }
-    $albums = $this->Gallery->Album->find('list');
-    $this->set(compact('albums'));
   }
 
   function edit($id = null) {
@@ -42,18 +42,20 @@ class GalleriesController extends AppController {
       $this->redirect(array('action' => 'index'));
     }
     if (!empty($this->data)) {
-      if ($this->Gallery->save($this->data)) {
+      $this->log('GalleriesController::edit', LOG_DEBUG) ;
+      $this->log($this->data, LOG_DEBUG) ;
+      if ($this->Gallery->saveAll($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));
         $this->render(BLANK_RESPONSE);
       } else {
         $this->Session->setFlash(__('The gallery could not be saved. Please, try again.', true));
       }
     }
-    if (empty($this->data)) {
-      $this->data = $this->Gallery->read(null, $id);
-    }
-    $albums = $this->Gallery->Album->find('list');
-    $this->set(compact('albums'));
+//    if (empty($this->data)) {
+//      $this->data = $this->Gallery->read(null, $id);
+//    }
+//    $albums = $this->Gallery->Album->find('list');
+//    $this->set(compact('albums'));
   }
 
   function delete($id = null) {

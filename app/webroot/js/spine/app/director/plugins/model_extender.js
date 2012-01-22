@@ -98,6 +98,39 @@ Model.Extender = {
         var introspect, obj, res, _i, _len;
         res = [];
         introspect = __bind(function(obj) {
+          var item, key, val, _i, _j, _len, _len2, _results;
+          if (this.isObject(obj)) {
+            for (key in obj) {
+              val = obj[key];
+              if (key === tableName) {
+                for (_i = 0, _len = val.length; _i < _len; _i++) {
+                  item = val[_i];
+                  res.push(item);
+                }
+              } else {
+                introspect(obj[key]);
+              }
+            }
+          }
+          if (this.isArray(obj)) {
+            _results = [];
+            for (_j = 0, _len2 = obj.length; _j < _len2; _j++) {
+              val = obj[_j];
+              _results.push(introspect(val));
+            }
+            return _results;
+          }
+        }, this);
+        for (_i = 0, _len = json.length; _i < _len; _i++) {
+          obj = json[_i];
+          introspect(obj);
+        }
+        return res;
+      },
+      createJoin_: function(json, tableName) {
+        var introspect, obj, res, _i, _len;
+        res = [];
+        introspect = __bind(function(obj) {
           var key, val, _i, _len, _results;
           if (this.isObject(obj)) {
             for (key in obj) {

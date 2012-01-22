@@ -171,7 +171,7 @@ class PhotosView extends Spine.Controller
         order: 0
       ap.save()
       
-    target.save()
+#    target.save()
   
   destroyJoin: (target, photos) ->
     console.log 'PhotosView::destroyJoin'
@@ -190,6 +190,6 @@ class PhotosView extends Spine.Controller
         Album.removeFromSelection ap.photo_id
         ap.destroy()
 
-    target.save()
+#    target.save()
     
 module?.exports = PhotosView

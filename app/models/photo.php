@@ -1,10 +1,16 @@
-  <?php
-class Photo extends AppModel {
-	var $name = 'Photo';
-	var $useDbConfig = 'director_spine';
-	var $displayField = 'title';
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+<?php
 
+class Photo extends AppModel {
+
+  var $name = 'Photo';
+  var $useDbConfig = 'director_spine';
+  var $displayField = 'title';
+  
+//  var $hasMany = array(
+//      'AlbumsPhoto'
+//  );
+
+// The Associations below have been created with all possible keys, those that are not needed can be removed
 	var $hasAndBelongsToMany = array(
 		'Album' => array(
 			'className' => 'Album',
@@ -14,7 +20,7 @@ class Photo extends AppModel {
 			'unique' => true,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => 'AlbumsPhoto.order DESC',
 			'limit' => '',
 			'offset' => '',
 			'finderQuery' => '',
@@ -37,6 +43,6 @@ class Photo extends AppModel {
 			'insertQuery' => ''
 		)
 	);
-
 }
+
 ?>

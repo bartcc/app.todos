@@ -50,19 +50,19 @@ AlbumsView = (function() {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum'
     };
-    Album.bind("ajaxError", Album.errorHandler);
+    Album.bind('ajaxError', Album.errorHandler);
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
-    Album.bind("destroy:join", this.proxy(this.destroyJoin));
-    Album.bind("create:join", this.proxy(this.createJoin));
-    Album.bind("update destroy", this.proxy(this.change));
+    Album.bind('destroy:join', this.proxy(this.destroyJoin));
+    Album.bind('create:join', this.proxy(this.createJoin));
+    Album.bind('update destroy', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('show:albums', this.proxy(this.show));
     GalleriesAlbum.bind("change", this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
-    $(this.views).queue("fx");
+    $(this.views).queue('fx');
   }
   AlbumsView.prototype.change = function(item) {
     var gallery;
@@ -171,7 +171,7 @@ AlbumsView = (function() {
     }
   };
   AlbumsView.prototype.createJoin = function(target, albums) {
-    var ga, record, records, _i, _len;
+    var ga, record, records, _i, _len, _results;
     console.log('AlbumsView::createJoin');
     if (!(target && target.constructor.className === 'Gallery')) {
       return;
@@ -182,18 +182,19 @@ AlbumsView = (function() {
     } else {
       records = albums;
     }
+    _results = [];
     for (_i = 0, _len = records.length; _i < _len; _i++) {
       record = records[_i];
       ga = new GalleriesAlbum({
         gallery_id: target.id,
         album_id: record.id
       });
-      ga.save();
+      _results.push(ga.save());
     }
-    return target.save();
+    return _results;
   };
   AlbumsView.prototype.destroyJoin = function(target, albums) {
-    var ga, gas, records, _i, _len;
+    var ga, gas, records, _i, _len, _results;
     if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }
@@ -205,14 +206,12 @@ AlbumsView = (function() {
     }
     albums = Album.toID(records);
     gas = GalleriesAlbum.filter(target.id, this.filterOptions);
+    _results = [];
     for (_i = 0, _len = gas.length; _i < _len; _i++) {
       ga = gas[_i];
-      if (albums.indexOf(ga.album_id) !== -1) {
-        Gallery.removeFromSelection(ga.album_id);
-        ga.destroy();
-      }
+      _results.push(albums.indexOf(ga.album_id) !== -1 ? (Gallery.removeFromSelection(ga.album_id), ga.destroy()) : void 0);
     }
-    return target.save();
+    return _results;
   };
   return AlbumsView;
 })();

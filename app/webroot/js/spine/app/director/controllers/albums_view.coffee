@@ -40,19 +40,19 @@ class AlbumsView extends Spine.Controller
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
-    Album.bind("ajaxError", Album.errorHandler)
+    Album.bind('ajaxError', Album.errorHandler)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
-    Album.bind("destroy:join", @proxy @destroyJoin)
-    Album.bind("create:join", @proxy @createJoin)
-    Album.bind("update destroy", @proxy @change)
+    Album.bind('destroy:join', @proxy @destroyJoin)
+    Album.bind('create:join', @proxy @createJoin)
+    Album.bind('update destroy', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('show:albums', @proxy @show)
     GalleriesAlbum.bind("change", @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
-    $(@views).queue("fx")
+    $(@views).queue('fx')
     
   change: (item) ->
     console.log 'AlbumsView::change'
@@ -154,7 +154,7 @@ class AlbumsView extends Spine.Controller
         album_id: record.id
       ga.save()
 
-    target.save()
+#    target.save()
   
   destroyJoin: (target, albums) ->
     return unless target and target.constructor.className is 'Gallery'
@@ -172,6 +172,6 @@ class AlbumsView extends Spine.Controller
         Gallery.removeFromSelection ga.album_id
         ga.destroy()
     
-    target.save()
+#    target.save()
 
 module?.exports = AlbumsView

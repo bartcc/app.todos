@@ -124,7 +124,10 @@
     ?>
 
     <?php
-    //$this->log($galleries, LOG_DEBUG);
+    $this->log('******************** galleries **********************', LOG_DEBUG);
+    $this->log($galleries, LOG_DEBUG);
+    $this->log('******************** albums **********************', LOG_DEBUG);
+    $this->log($albums, LOG_DEBUG);
     echo $html->scriptStart();
     ?>
     

@@ -179,7 +179,7 @@ PhotosView = (function() {
     }
   };
   PhotosView.prototype.createJoin = function(target, photos) {
-    var ap, record, records, _i, _len;
+    var ap, record, records, _i, _len, _results;
     console.log('PhotosView::createJoin');
     if (!(target && target.constructor.className === 'Album')) {
       return;
@@ -190,6 +190,7 @@ PhotosView = (function() {
     } else {
       records = photos;
     }
+    _results = [];
     for (_i = 0, _len = records.length; _i < _len; _i++) {
       record = records[_i];
       ap = new AlbumsPhoto({
@@ -197,12 +198,12 @@ PhotosView = (function() {
         photo_id: record.id,
         order: 0
       });
-      ap.save();
+      _results.push(ap.save());
     }
-    return target.save();
+    return _results;
   };
   PhotosView.prototype.destroyJoin = function(target, photos) {
-    var ap, aps, records, _i, _len;
+    var ap, aps, records, _i, _len, _results;
     console.log('PhotosView::destroyJoin');
     if (!(target && target.constructor.className === 'Album')) {
       return;
@@ -217,14 +218,12 @@ PhotosView = (function() {
     aps = AlbumsPhoto.filter(target.id, {
       key: 'album_id'
     });
+    _results = [];
     for (_i = 0, _len = aps.length; _i < _len; _i++) {
       ap = aps[_i];
-      if (photos.indexOf(ap.photo_id) !== -1) {
-        Album.removeFromSelection(ap.photo_id);
-        ap.destroy();
-      }
+      _results.push(photos.indexOf(ap.photo_id) !== -1 ? (Album.removeFromSelection(ap.photo_id), ap.destroy()) : void 0);
     }
-    return target.save();
+    return _results;
   };
   return PhotosView;
 })();

@@ -6,7 +6,7 @@ class Builder
   constructor: (@record) ->
     @data = {}
     @model = @record.constructor
-    @foreignModels = @model.foreignModels()
+    @foreignModels = @model.foreignModels?()
 
   newWrapper: (key) ->
     throw('No classname found') unless key.className
@@ -15,18 +15,20 @@ class Builder
     data
     
   build: ->
-    @fModels = for key, value of @foreignModels
-      @foreignModels[key]
+    # for HABTM
+    if @foreignModels
+      @fModels = for key, value of @foreignModels
+        @foreignModels[key]
 
-    for key in @fModels
-      model = Spine.Model[key.className]
-      records = model.filterRelated @record.id,
-        key: key.foreignKey
-        joinTable: key.joinTable
+      for key in @fModels
+        model = Spine.Model[key.className]
+        records = model.filterRelated @record.id,
+          key: key.foreignKey
+          joinTable: key.joinTable
 
-      selected = @newWrapper model
-      selected[model.className] = @model.toID(records)
-      @data[model.className] = selected
+        selected = @newWrapper model
+        selected[model.className] = @model.toID(records)
+        @data[model.className] = selected
 
     @data[@model.className] = @record
     @data

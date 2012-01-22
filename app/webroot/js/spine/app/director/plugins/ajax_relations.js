@@ -14,10 +14,11 @@ $ = Spine.$;
 Model = Spine.Model;
 Builder = (function() {
   function Builder(record) {
+    var _base;
     this.record = record;
     this.data = {};
     this.model = this.record.constructor;
-    this.foreignModels = this.model.foreignModels();
+    this.foreignModels = typeof (_base = this.model).foreignModels === "function" ? _base.foreignModels() : void 0;
   }
   Builder.prototype.newWrapper = function(key) {
     var data;
@@ -30,27 +31,29 @@ Builder = (function() {
   };
   Builder.prototype.build = function() {
     var key, model, records, selected, value, _i, _len, _ref;
-    this.fModels = (function() {
-      var _ref, _results;
-      _ref = this.foreignModels;
-      _results = [];
-      for (key in _ref) {
-        value = _ref[key];
-        _results.push(this.foreignModels[key]);
+    if (this.foreignModels) {
+      this.fModels = (function() {
+        var _ref, _results;
+        _ref = this.foreignModels;
+        _results = [];
+        for (key in _ref) {
+          value = _ref[key];
+          _results.push(this.foreignModels[key]);
+        }
+        return _results;
+      }).call(this);
+      _ref = this.fModels;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        key = _ref[_i];
+        model = Spine.Model[key.className];
+        records = model.filterRelated(this.record.id, {
+          key: key.foreignKey,
+          joinTable: key.joinTable
+        });
+        selected = this.newWrapper(model);
+        selected[model.className] = this.model.toID(records);
+        this.data[model.className] = selected;
       }
-      return _results;
-    }).call(this);
-    _ref = this.fModels;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      key = _ref[_i];
-      model = Spine.Model[key.className];
-      records = model.filterRelated(this.record.id, {
-        key: key.foreignKey,
-        joinTable: key.joinTable
-      });
-      selected = this.newWrapper(model);
-      selected[model.className] = this.model.toID(records);
-      this.data[model.className] = selected;
     }
     this.data[this.model.className] = this.record;
     return this.data;

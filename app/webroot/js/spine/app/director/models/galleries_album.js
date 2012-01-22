@@ -12,9 +12,13 @@ GalleriesAlbum = (function() {
   function GalleriesAlbum() {
     GalleriesAlbum.__super__.constructor.apply(this, arguments);
   }
-  GalleriesAlbum.configure("GalleriesAlbum", 'gallery_id', 'album_id', 'name');
-  GalleriesAlbum.extend(Spine.Model.Local);
+  GalleriesAlbum.configure("GalleriesAlbum", 'gallery_id', 'album_id', 'name', 'order');
+  GalleriesAlbum.extend(Spine.Model.Ajax);
+  GalleriesAlbum.extend(Spine.Model.AjaxRelations);
   GalleriesAlbum.extend(Spine.Model.Filter);
+  GalleriesAlbum.url = function() {
+    return 'galleries_albums';
+  };
   GalleriesAlbum.galleryHasAlbum = function(gid, aid) {
     var ga, gas, _i, _len;
     gas = this.filter(gid, {

@@ -12,6 +12,7 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
+    Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
     
@@ -21,6 +22,7 @@ class AlbumsList extends Spine.Controller
     $('#albumPhotosTemplate').tmpl items
   
   change: (items) ->
+#    return
     console.log 'AlbumsList::change'
     @renderBackgrounds items if items.length
   
@@ -71,13 +73,14 @@ class AlbumsList extends Spine.Controller
     console.log 'AlbumsList::renderBackgrounds'
     return unless App.ready
     for album in albums
-      album.uri
-        width: 50
-        height: 50
-        , 'html'
-        , (xhr, album) =>
-          @callback(xhr, album)
-        , 3
+      if AlbumsPhoto.photos(album.id).length
+        album.uri
+          width: 50
+          height: 50
+          , 'html'
+          , (xhr, album) =>
+            @callback(xhr, album)
+          , 4
   
   callback: (json, item) =>
     console.log 'AlbumsList::callback'
@@ -119,6 +122,16 @@ class AlbumsList extends Spine.Controller
     console.log 'AlbumsList::edit'
     item = $(e.target).item()
     @change item
+    
+  sortupdate: (e, item) ->
+    @children().each (index) ->
+      item = $(@).item()
+      console.log item
+      if item
+        ga = (GalleriesAlbum.filter(item.id, func: 'selectAlbum'))[0]
+        unless (ga?.order) is index
+          ga.order = index
+          ga.save()
     
   closeInfo: (e) =>
     @el.click()

@@ -32,11 +32,36 @@ GalleriesAlbum = (function() {
     }
     return false;
   };
+  GalleriesAlbum.galleries = function(id) {
+    var ret;
+    ret = [];
+    this.each(function() {
+      if (item['album_id'] === id) {
+        return ret.push(Gallery.find(item['gallery_id']));
+      }
+    });
+    return ret;
+  };
+  GalleriesAlbum.albums = function(id) {
+    var ret;
+    ret = [];
+    this.each(function(item) {
+      if (item['gallery_id'] === id) {
+        return ret.push(Album.find(item['album_id']));
+      }
+    });
+    return ret;
+  };
   GalleriesAlbum.prototype.select = function(query, options) {
     if (this[options.key] === query && this.constructor.records[this.id]) {
       return true;
     }
     return false;
+  };
+  GalleriesAlbum.prototype.selectAlbum = function(query) {
+    if (this.album_id === query) {
+      return true;
+    }
   };
   return GalleriesAlbum;
 })();

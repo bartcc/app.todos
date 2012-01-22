@@ -98,6 +98,7 @@ $.fn.Html5Sortable = (opts) ->
 
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide()
         it.data Spine.sortItem.data
+        model = $(it).item().constructor.className
 
         if (e.pageY - $(@).position().top > $(@).height())
           it.insertAfter @
@@ -113,8 +114,8 @@ $.fn.Html5Sortable = (opts) ->
         sourceEl.remove()
         it.fadeIn()
 
-        Spine.trigger('drag:drop', e, it) # Why isn't it bubbeling up? Remove this line when it does!
-        Spine.trigger('sortupdate', e, it)
+        Spine.Model[model].trigger('sortupdate', e, it)
+#        Spine.trigger('drag:drop', e, it) # Why isn't it bubbeling up? Remove this line when it does!
         
     that.children('li').each ->
         that.init $(@)

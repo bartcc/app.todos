@@ -126,11 +126,11 @@ Uri = (function() {
         aps = AlbumsPhoto.filter(this.record.id, {
           key: 'album_id'
         });
-        max = max || aps.length - 1;
+        max = max || aps.length;
         this.mode = mode;
         this.photos = (function() {
           var _i, _len, _ref, _results;
-          _ref = aps.slice(0, (max + 1) || 9e9);
+          _ref = aps.slice(0, max);
           _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             ap = _ref[_i];

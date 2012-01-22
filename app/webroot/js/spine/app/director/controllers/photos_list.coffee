@@ -17,7 +17,7 @@ class PhotosList extends Spine.Controller
     
   constructor: ->
     super
-    Spine.bind('sortupdate', @proxy @sortupdate)
+#    Photo.bind('sortupdate', @proxy @sortupdate)
     Spine.bind('photo:activate', @proxy @activate)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.errorHandler)
@@ -161,8 +161,8 @@ class PhotosList extends Spine.Controller
     e.preventDefault()
   
   sortupdate: (e, item) ->
-    aps = AlbumsPhoto.filter Album.record.id, key:'album_id'
     @children().each (index) ->
+      console.log $(@)
       item = $(@).item()
       ap = (AlbumsPhoto.filter(item.id, func: 'selectPhoto'))[0]
       unless (ap?.order) is index

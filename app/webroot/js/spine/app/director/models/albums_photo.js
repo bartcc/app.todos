@@ -19,6 +19,51 @@ AlbumsPhoto = (function() {
   AlbumsPhoto.url = function() {
     return 'albums_photos';
   };
+  AlbumsPhoto.albumHasPhoto = function(aid, pid) {
+    var ap, aps, _i, _len;
+    aps = this.filter(aid, {
+      key: 'album_id'
+    });
+    for (_i = 0, _len = aps.length; _i < _len; _i++) {
+      ap = aps[_i];
+      if (ap.photo_id === pid) {
+        return true;
+      }
+    }
+    return false;
+  };
+  AlbumsPhoto.albums = function(id) {
+    var ret;
+    ret = [];
+    this.each(function() {
+      if (item['photo_id'] === id) {
+        return ret.push(Album.find(item['album_id']));
+      }
+    });
+    return ret;
+  };
+  AlbumsPhoto.photos = function(id) {
+    var ret;
+    ret = [];
+    this.each(function(item) {
+      if (item['album_id'] === id) {
+        return ret.push(Photo.find(item['photo_id']));
+      }
+    });
+    return ret;
+  };
+  AlbumsPhoto.photos_ = function(id) {
+    var ap, aps, ret, _i, _len;
+    aps = AlbumsPhoto.filter(id, {
+      key: 'album_id'
+    });
+    ret = [];
+    for (_i = 0, _len = aps.length; _i < _len; _i++) {
+      ap = aps[_i];
+      ret.push(Photo.find(ap.photo_id));
+    }
+    return ret;
+  };
   AlbumsPhoto.prototype.select = function(id, options) {
     if (this[options.key] === id && this.constructor.records[this.id]) {
       return true;

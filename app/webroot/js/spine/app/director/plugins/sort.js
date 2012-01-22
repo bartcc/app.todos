@@ -91,12 +91,13 @@ $.fn.Html5Sortable = function(opts) {
         }
         return false;
       }).bind('drop', function(e) {
-        var it, sourceEl;
+        var it, model, sourceEl;
         console.log('Sort::drop');
         sourceEl = $('._dragging');
         Spine.sortItem.splitter.remove();
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide();
         it.data(Spine.sortItem.data);
+        model = $(it).item().constructor.className;
         if (e.pageY - $(this).position().top > $(this).height()) {
           it.insertAfter(this);
         } else {
@@ -108,8 +109,7 @@ $.fn.Html5Sortable = function(opts) {
         }
         sourceEl.remove();
         it.fadeIn();
-        Spine.trigger('drag:drop', e, it);
-        return Spine.trigger('sortupdate', e, it);
+        return Spine.Model[model].trigger('sortupdate', e, it);
       });
     };
     return that.children('li').each(function() {

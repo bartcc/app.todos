@@ -25,6 +25,7 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
+    Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
   }
@@ -98,12 +99,12 @@ AlbumsList = (function() {
     _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
-      _results.push(album.uri({
+      _results.push(AlbumsPhoto.photos(album.id).length ? album.uri({
         width: 50,
         height: 50
       }, 'html', __bind(function(xhr, album) {
         return this.callback(xhr, album);
-      }, this), 3));
+      }, this), 4) : void 0);
     }
     return _results;
   };
@@ -160,6 +161,22 @@ AlbumsList = (function() {
     console.log('AlbumsList::edit');
     item = $(e.target).item();
     return this.change(item);
+  };
+  AlbumsList.prototype.sortupdate = function(e, item) {
+    return this.children().each(function(index) {
+      var ga;
+      item = $(this).item();
+      console.log(item);
+      if (item) {
+        ga = (GalleriesAlbum.filter(item.id, {
+          func: 'selectAlbum'
+        }))[0];
+        if ((ga != null ? ga.order : void 0) !== index) {
+          ga.order = index;
+          return ga.save();
+        }
+      }
+    });
   };
   AlbumsList.prototype.closeInfo = function(e) {
     this.el.click();

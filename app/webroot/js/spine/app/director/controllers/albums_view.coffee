@@ -71,7 +71,8 @@ class AlbumsView extends Spine.Controller
   render: (item) ->
     console.log 'AlbumsView::render'
     
-    @list.render @current
+    list = @list.render @current
+    list.sortable 'album' if Gallery.record
     @header.render()
     
     # when Album is deleted in Photos View return to this View
@@ -125,10 +126,17 @@ class AlbumsView extends Spine.Controller
         for ga in gas
           gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
           # find all photos in album
-          aps = AlbumsPhoto.filter(album.id, key: 'album_id')
-          photos = []
-          for ap in aps
-            photos.push Photo.find(ap.photo_id)
+          t = new Timer()
+          t.start()
+          photos = AlbumsPhoto.photos(album.id)
+          console.log t.stop().ms
+          t.start()
+          photos = AlbumsPhoto.photos_(album.id)
+          console.log t.stop().ms
+#          aps = AlbumsPhoto.filter(album.id, key: 'album_id')
+#          photos = []
+#          for ap in aps
+#            photos.push Photo.find(ap.photo_id)
           Spine.Ajax.disable ->
             Photo.trigger('destroy:join', album, photos)
           Spine.Ajax.disable ->

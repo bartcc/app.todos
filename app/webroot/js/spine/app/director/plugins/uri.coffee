@@ -86,9 +86,9 @@ class Uri extends Base
       when 'Album'
         # get all photos of the album
         aps = AlbumsPhoto.filter(@record.id, key: 'album_id')
-        max = max or aps.length-1
+        max = max or aps.length
         @mode = mode
-        @photos = for ap in aps[0..max]
+        @photos = for ap in aps[0...max]
           Photo.find(ap.photo_id)
       when 'Photo'
         @photos = [@record]

@@ -90,7 +90,7 @@ UploadEditView = (function() {
     id = el.val();
     album = Album.find(id);
     album.updateSelection([album.id]);
-    return Spine.trigger('album:activate', album);
+    return Spine.trigger('album:activate');
   };
   return UploadEditView;
 })();

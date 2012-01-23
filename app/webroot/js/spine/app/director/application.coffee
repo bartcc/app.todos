@@ -126,7 +126,7 @@ class App extends Spine.Controller
   drop: (e) ->
     console.log 'App::drop'
     event = e.originalEvent
-    Spine.dragItem.closest?.removeClass('over nodrop')
+    Spine.dragItem?.closest?.removeClass('over nodrop')
     Spine.sortItem?.splitter.remove()
     e.stopPropagation() unless event.dataTransfer.files.length
     e.preventDefault()

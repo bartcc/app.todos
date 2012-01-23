@@ -25,6 +25,7 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
+    AlbumsPhoto.bind('change', this.proxy(this.refreshBackgrounds));
     Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
@@ -36,18 +37,15 @@ AlbumsList = (function() {
     return $('#albumPhotosTemplate').tmpl(items);
   };
   AlbumsList.prototype.change = function(items) {
-    console.log('AlbumsList::change');
     if (items.length) {
       return this.renderBackgrounds(items);
     }
   };
   AlbumsList.prototype.select = function(item, e) {
-    console.log('AlbumsList::select');
     return this.activate();
   };
   AlbumsList.prototype.exposeSelection = function() {
     var el, id, item, list, _i, _len;
-    console.log('AlbumsList::exposeSelection');
     list = Gallery.selectionList();
     this.deselect();
     for (_i = 0, _len = list.length; _i < _len; _i++) {
@@ -89,6 +87,9 @@ AlbumsList = (function() {
     }
     this.change(items);
     return this.el;
+  };
+  AlbumsList.prototype.refreshBackgrounds = function(ap) {
+    return this.renderBackgrounds(ap.constructor.albums(ap.photo_id));
   };
   AlbumsList.prototype.renderBackgrounds = function(albums) {
     var album, _i, _len, _results;

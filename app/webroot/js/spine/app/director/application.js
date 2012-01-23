@@ -146,14 +146,16 @@ App = (function() {
     }
   };
   App.prototype.drop = function(e) {
-    var event, _ref, _ref2;
+    var event, _ref, _ref2, _ref3;
     console.log('App::drop');
     event = e.originalEvent;
-    if ((_ref = Spine.dragItem.closest) != null) {
-      _ref.removeClass('over nodrop');
+    if ((_ref = Spine.dragItem) != null) {
+      if ((_ref2 = _ref.closest) != null) {
+        _ref2.removeClass('over nodrop');
+      }
     }
-    if ((_ref2 = Spine.sortItem) != null) {
-      _ref2.splitter.remove();
+    if ((_ref3 = Spine.sortItem) != null) {
+      _ref3.splitter.remove();
     }
     if (!event.dataTransfer.files.length) {
       e.stopPropagation();

@@ -16,7 +16,7 @@ class AlbumsPhoto extends Spine.Model
     
   @albums: (id) ->
     ret = []
-    @each ->
+    @each (item) ->
       ret.push Album.find(item['album_id']) if item['photo_id'] is id
     ret
       

@@ -12,6 +12,8 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
+    AlbumsPhoto.bind('change', @proxy @refreshBackgrounds)
+#    AlbumsPhoto.bind('change', @proxy @change)
     Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
@@ -22,16 +24,12 @@ class AlbumsList extends Spine.Controller
     $('#albumPhotosTemplate').tmpl items
   
   change: (items) ->
-#    return
-    console.log 'AlbumsList::change'
     @renderBackgrounds items if items.length
   
   select: (item, e) ->
-    console.log 'AlbumsList::select'
     @activate()
     
   exposeSelection: ->
-    console.log 'AlbumsList::exposeSelection'
     list = Gallery.selectionList()
     @deselect()
     for id in list
@@ -68,6 +66,9 @@ class AlbumsList extends Spine.Controller
         
     @change items
     @el
+    
+  refreshBackgrounds: (ap) ->
+    @renderBackgrounds ap.constructor.albums(ap.photo_id)
   
   renderBackgrounds: (albums) ->
     console.log 'AlbumsList::renderBackgrounds'

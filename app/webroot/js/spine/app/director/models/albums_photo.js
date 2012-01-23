@@ -35,7 +35,7 @@ AlbumsPhoto = (function() {
   AlbumsPhoto.albums = function(id) {
     var ret;
     ret = [];
-    this.each(function() {
+    this.each(function(item) {
       if (item['photo_id'] === id) {
         return ret.push(Album.find(item['album_id']));
       }

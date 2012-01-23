@@ -75,6 +75,6 @@ class UploadEditView extends Spine.Controller
     id = el.val()
     album = Album.find(id)
     album.updateSelection [album.id]
-    Spine.trigger('album:activate', album)
+    Spine.trigger('album:activate')
     
 module?.exports = UploadEditView

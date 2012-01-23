@@ -66,9 +66,8 @@ class Album extends Spine.Model
 
   select: (joinTableItems) ->
     for record in joinTableItems
-      if record.album_id is @id
-        @['order'] = record.order
-        return true
+      return true if record.album_id is @id and @['order'] = record.order
+        
       
   selectAlbum: (id) ->
     return true if if id is @id

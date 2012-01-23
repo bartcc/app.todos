@@ -195,7 +195,7 @@ PhotosView = (function() {
       ap = new AlbumsPhoto({
         album_id: target.id,
         photo_id: record.id,
-        order: 10000000
+        order: 9999
       });
       _results.push(ap.save());
     }

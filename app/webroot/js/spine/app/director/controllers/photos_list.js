@@ -206,7 +206,7 @@ PhotosList = (function() {
   };
   PhotosList.prototype.sortupdate = function(e, item) {
     return this.children().each(function(index) {
-      var ap, photo;
+      var ap;
       item = $(this).item();
       if (Album.record) {
         ap = (AlbumsPhoto.filter(item.id, {
@@ -216,12 +216,6 @@ PhotosList = (function() {
           ap.order = index;
           return ap.save();
         }
-      } else {
-        photo = (Photo.filter(item.id, {
-          func: 'selectPhoto'
-        }))[0];
-        photo.order = index;
-        return photo.save();
       }
     });
   };

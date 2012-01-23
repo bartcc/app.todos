@@ -168,10 +168,10 @@ class PhotosList extends Spine.Controller
         unless (ap?.order) is index
           ap.order = index
           ap.save()
-      else
-        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
-        photo.order = index
-        photo.save()
+#      else
+#        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
+#        photo.order = index
+#        photo.save()
   
   closeInfo: (e) =>
     @el.click()

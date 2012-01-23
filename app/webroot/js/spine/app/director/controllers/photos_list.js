@@ -206,15 +206,22 @@ PhotosList = (function() {
   };
   PhotosList.prototype.sortupdate = function(e, item) {
     return this.children().each(function(index) {
-      var ap;
-      console.log($(this));
+      var ap, photo;
       item = $(this).item();
-      ap = (AlbumsPhoto.filter(item.id, {
-        func: 'selectPhoto'
-      }))[0];
-      if ((ap != null ? ap.order : void 0) !== index) {
-        ap.order = index;
-        return ap.save();
+      if (Album.record) {
+        ap = (AlbumsPhoto.filter(item.id, {
+          func: 'selectPhoto'
+        }))[0];
+        if ((ap != null ? ap.order : void 0) !== index) {
+          ap.order = index;
+          return ap.save();
+        }
+      } else {
+        photo = (Photo.filter(item.id, {
+          func: 'selectPhoto'
+        }))[0];
+        photo.order = index;
+        return photo.save();
       }
     });
   };

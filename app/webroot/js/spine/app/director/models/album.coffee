@@ -1,6 +1,6 @@
 
 class Album extends Spine.Model
-  @configure "Album", 'title', 'description', 'count', 'user_id'
+  @configure "Album", 'title', 'description', 'count', 'user_id', 'order'
 
   @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
@@ -66,7 +66,13 @@ class Album extends Spine.Model
 
   select: (joinTableItems) ->
     for record in joinTableItems
-      return true if record.album_id is @id
+      if record.album_id is @id
+        @['order'] = record.order
+        return true
+      
+  selectAlbum: (id) ->
+    return true if if id is @id
+    false
     
 Spine.Model.Album = Album
 

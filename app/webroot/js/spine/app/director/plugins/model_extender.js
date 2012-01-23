@@ -253,9 +253,12 @@ Model.Extender = {
       sort: function(arr) {
         console.log('sort');
         return arr.sort(function(a, b) {
-          if (a.order < b.order) {
+          var aInt, bInt;
+          aInt = parseInt(a.order);
+          bInt = parseInt(b.order);
+          if (aInt < bInt) {
             return -1;
-          } else if (a.order > b.order) {
+          } else if (aInt > bInt) {
             return 1;
           } else {
             return 0;

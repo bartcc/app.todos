@@ -15,7 +15,7 @@ Photo = (function() {
     this.Photo = __bind(this.Photo, this);
     Photo.__super__.constructor.apply(this, arguments);
   }
-  Photo.configure("Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id');
+  Photo.configure("Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order');
   Photo.extend(Spine.Model.Ajax);
   Photo.extend(Spine.Model.AjaxRelations);
   Photo.extend(Spine.Model.Filter);
@@ -137,6 +137,12 @@ Photo = (function() {
         return true;
       }
     }
+  };
+  Photo.prototype.selectPhoto = function(id) {
+    if (id === this.id) {
+      return true;
+    }
+    return false;
   };
   Photo.prototype.details = function() {
     var details;

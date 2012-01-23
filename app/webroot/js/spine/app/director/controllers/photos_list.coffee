@@ -162,12 +162,16 @@ class PhotosList extends Spine.Controller
   
   sortupdate: (e, item) ->
     @children().each (index) ->
-      console.log $(@)
       item = $(@).item()
-      ap = (AlbumsPhoto.filter(item.id, func: 'selectPhoto'))[0]
-      unless (ap?.order) is index
-        ap.order = index
-        ap.save()
+      if Album.record
+        ap = (AlbumsPhoto.filter(item.id, func: 'selectPhoto'))[0]
+        unless (ap?.order) is index
+          ap.order = index
+          ap.save()
+      else
+        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
+        photo.order = index
+        photo.save()
   
   closeInfo: (e) =>
     @el.click()

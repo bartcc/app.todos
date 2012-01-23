@@ -79,7 +79,6 @@ AlbumsView = (function() {
     var list;
     console.log('AlbumsView::render');
     list = this.list.render(this.current);
-    list.sortable('album');
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();

@@ -485,6 +485,7 @@
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
     <li class="name"><span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
+    <li class="">#: ${order}</li>
   </ul>
 </script>
 
@@ -498,6 +499,7 @@
     <li class="">iso: ${iso}</li>
     <li class="">model: ${model}</li>
     <li class="">date: ${captured}</li>
+    <li class="">#: ${order}</li>
   </ul>
 </script>
 

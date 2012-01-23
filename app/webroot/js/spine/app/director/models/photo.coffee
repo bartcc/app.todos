@@ -1,5 +1,5 @@
 class Photo extends Spine.Model
-  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id'
+  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
@@ -92,6 +92,10 @@ class Photo extends Spine.Model
   select: (joinTableItems) ->
     for record in joinTableItems
       return true if record.photo_id is @id and (@['order'] = record.order)?
+      
+  selectPhoto: (id) ->
+    return true if id is @id
+    false
       
   details: ->
     details =

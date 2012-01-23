@@ -158,7 +158,9 @@ Model.Extender =
       sort: (arr) ->
         console.log 'sort'
         arr.sort (a, b) ->
-          if a.order < b.order then -1 else if a.order > b.order then 1 else 0
+          aInt = parseInt(a.order)
+          bInt = parseInt(b.order)
+          if aInt < bInt then -1 else if aInt > bInt then 1 else 0
           
     Include =
       

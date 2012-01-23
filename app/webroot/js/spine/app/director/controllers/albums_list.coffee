@@ -127,10 +127,18 @@ class AlbumsList extends Spine.Controller
       item = $(@).item()
       console.log item
       if item
-        ga = (GalleriesAlbum.filter(item.id, func: 'selectAlbum'))[0]
-        unless (ga?.order) is index
-          ga.order = index
-          ga.save()
+        if Gallery.record
+          ga = (GalleriesAlbum.filter(item.id, func: 'selectAlbum'))[0]
+          unless (ga?.order) is index
+            ga.order = index
+            ga.save()
+          else
+            console.log ga.order
+            console.log index
+        else
+          album = (Album.filter(item.id, func: 'selectAlbum'))[0]
+          album.order = index
+          album.save()
     
   closeInfo: (e) =>
     @el.click()

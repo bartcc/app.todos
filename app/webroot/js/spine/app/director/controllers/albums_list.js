@@ -163,16 +163,27 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.sortupdate = function(e, item) {
     return this.children().each(function(index) {
-      var ga;
+      var album, ga;
       item = $(this).item();
       console.log(item);
       if (item) {
-        ga = (GalleriesAlbum.filter(item.id, {
-          func: 'selectAlbum'
-        }))[0];
-        if ((ga != null ? ga.order : void 0) !== index) {
-          ga.order = index;
-          return ga.save();
+        if (Gallery.record) {
+          ga = (GalleriesAlbum.filter(item.id, {
+            func: 'selectAlbum'
+          }))[0];
+          if ((ga != null ? ga.order : void 0) !== index) {
+            ga.order = index;
+            return ga.save();
+          } else {
+            console.log(ga.order);
+            return console.log(index);
+          }
+        } else {
+          album = (Album.filter(item.id, {
+            func: 'selectAlbum'
+          }))[0];
+          album.order = index;
+          return album.save();
         }
       }
     });

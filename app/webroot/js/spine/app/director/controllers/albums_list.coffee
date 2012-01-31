@@ -94,7 +94,7 @@ class AlbumsList extends Spine.Controller
     album.uri
       width: 50
       height: 50
-      , 'html'
+      , 'append'
       , (xhr, album) =>
         @callback(xhr, album)
       , 4

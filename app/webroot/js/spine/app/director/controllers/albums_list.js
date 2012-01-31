@@ -131,7 +131,7 @@ AlbumsList = (function() {
     return album.uri({
       width: 50,
       height: 50
-    }, 'html', __bind(function(xhr, album) {
+    }, 'append', __bind(function(xhr, album) {
       return this.callback(xhr, album);
     }, this), 4);
   };

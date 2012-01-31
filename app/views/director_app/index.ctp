@@ -59,7 +59,7 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1>GAP</h1>
+    <h1>Director</h1>
     <div id="login" class="flex tright" style="margin-top: 5px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">

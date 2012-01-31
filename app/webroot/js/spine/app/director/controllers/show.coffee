@@ -113,7 +113,8 @@ class ShowView extends Spine.Controller
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
-    @sOutValue = @thumbSize = 140
+    @sOutValue = 74 # size the thumbs initially shown
+    @thumbSize = 240 # size thumbs are created serverside
     
     if @activeControl
       @initControl @activeControl

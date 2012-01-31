@@ -46,6 +46,7 @@ class AlbumsView extends Spine.Controller
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('update destroy', @proxy @change)
+    Album.bind('destroy', @proxy @clearCache)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('show:albums', @proxy @show)
     GalleriesAlbum.bind("change", @proxy @change)
@@ -67,6 +68,9 @@ class AlbumsView extends Spine.Controller
       @current = Album.filterRelated(gallery.id, @filterOptions)
       
     @render @current
+    
+  clearCache: (album) ->
+    album.clearCache()
     
   render: (item) ->
     console.log 'AlbumsView::render'

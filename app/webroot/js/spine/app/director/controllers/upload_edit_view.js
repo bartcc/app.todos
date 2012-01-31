@@ -37,14 +37,14 @@ UploadEditView = (function() {
     return this.render();
   };
   UploadEditView.prototype.render = function() {
-    var album, gallery, selection;
+    var gallery, selection;
     console.log('UploadView::render');
     selection = Gallery.selectionList();
     gallery = Gallery.record;
-    album = Album.record;
+    this.album = Album.record;
     this.uploadinfoEl.html(this.template({
       gallery: gallery,
-      album: album
+      album: this.album
     }));
     this.refreshElements();
     return this.el;

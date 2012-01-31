@@ -32,10 +32,10 @@ class UploadEditView extends Spine.Controller
     console.log 'UploadView::render'
     selection = Gallery.selectionList()
     gallery = Gallery.record
-    album = Album.record
+    @album = Album.record
     @uploadinfoEl.html @template
       gallery: gallery
-      album: album
+      album: @album
 #    @initFileupload()
     @refreshElements()
     @el
@@ -45,7 +45,6 @@ class UploadEditView extends Spine.Controller
       @openPanel('upload', App.showView.btnUpload)
     e.preventDefault()
     e.stopPropagation()
-    
     
   done: (e, data) ->
     console.log 'UploadView::done'

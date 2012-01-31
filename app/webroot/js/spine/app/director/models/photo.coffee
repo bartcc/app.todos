@@ -57,7 +57,6 @@ class Photo extends Spine.Model
         error: @error
     else
       # continue with cached uris
-      console.log uri
       callback.call @, uri
   
   @success: (uri) =>

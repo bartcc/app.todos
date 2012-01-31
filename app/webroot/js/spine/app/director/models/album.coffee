@@ -47,7 +47,6 @@ class Album extends Spine.Model
     
     
   selChange: (list) ->
-    console.log list
   
   details: =>
     filterOptions =

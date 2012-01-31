@@ -36,16 +36,16 @@ class PhotosView extends Spine.Controller
       info: @info
       parent: @parent
     @header.template = @headerTemplate
-    Photo.bind('refresh', @proxy @refresh)
-    Photo.bind('destroy', @proxy @remove)
-    Photo.bind("create:join", @proxy @createJoin)
-    Photo.bind("destroy:join", @proxy @destroyJoin)
-    Photo.bind("ajaxError", Photo.errorHandler)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
     Album.bind('change', @proxy @renderHeader)
+    Photo.bind('refresh', @proxy @refresh)
+    Photo.bind('destroy', @proxy @remove)
+    Photo.bind("create:join", @proxy @createJoin)
+    Photo.bind("destroy:join", @proxy @destroyJoin)
+    Photo.bind("ajaxError", Photo.errorHandler)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroy)
@@ -79,7 +79,7 @@ class PhotosView extends Spine.Controller
   
   # after albumsphoto jointable has been changed by delete or create trash the cache and rebuild it the next time
   # could be in any controller that listens to AlbumsPhoto - may be move to app?
-  clearAlbumCache: (record) ->
+  clearAlbumCache: (record, mode) ->
     Album.clearCache record.album_id
 
   # for AlbumsPhoto & Photo

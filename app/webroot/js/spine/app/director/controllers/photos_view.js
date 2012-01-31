@@ -49,16 +49,16 @@ PhotosView = (function() {
       parent: this.parent
     });
     this.header.template = this.headerTemplate;
-    Photo.bind('refresh', this.proxy(this.refresh));
-    Photo.bind('destroy', this.proxy(this.remove));
-    Photo.bind("create:join", this.proxy(this.createJoin));
-    Photo.bind("destroy:join", this.proxy(this.destroyJoin));
-    Photo.bind("ajaxError", Photo.errorHandler);
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
     Album.bind('change', this.proxy(this.renderHeader));
+    Photo.bind('refresh', this.proxy(this.refresh));
+    Photo.bind('destroy', this.proxy(this.remove));
+    Photo.bind("create:join", this.proxy(this.createJoin));
+    Photo.bind("destroy:join", this.proxy(this.destroyJoin));
+    Photo.bind("ajaxError", Photo.errorHandler);
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Spine.bind('change:selectedAlbum', this.proxy(this.renderHeader));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
@@ -94,7 +94,7 @@ PhotosView = (function() {
   PhotosView.prototype.clearPhotoCache = function() {
     return Photo.clearCache();
   };
-  PhotosView.prototype.clearAlbumCache = function(record) {
+  PhotosView.prototype.clearAlbumCache = function(record, mode) {
     return Album.clearCache(record.album_id);
   };
   PhotosView.prototype.remove = function(record) {

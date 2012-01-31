@@ -25,7 +25,9 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
-    AlbumsPhoto.bind('change', this.proxy(this.refreshBackgrounds));
+    Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
+    AlbumsPhoto.bind('beforeDestroy', this.proxy(this.deleteBackgrounds));
+    AlbumsPhoto.bind('change', this.proxy(this.changeBackgrounds));
     Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
@@ -37,9 +39,7 @@ AlbumsList = (function() {
     return $('#albumPhotosTemplate').tmpl(items);
   };
   AlbumsList.prototype.change = function(items) {
-    if (items.length) {
-      return this.renderBackgrounds(items);
-    }
+    return this.renderBackgrounds(items);
   };
   AlbumsList.prototype.select = function(item, e) {
     return this.activate();
@@ -74,7 +74,7 @@ AlbumsList = (function() {
     }
     return this.exposeSelection();
   };
-  AlbumsList.prototype.render = function(items) {
+  AlbumsList.prototype.render = function(items, mode) {
     console.log('AlbumsList::render');
     if (items.length) {
       this.html(this.template(items));
@@ -85,52 +85,75 @@ AlbumsList = (function() {
         this.html('<div class="invite"><span class="enlightened invite">Time to create a new album. &nbsp;<button class="optCreateAlbum dark invite">New Album</button></span></div>');
       }
     }
-    this.change(items);
+    this.change(items, mode);
     return this.el;
   };
-  AlbumsList.prototype.refreshBackgrounds = function(ap) {
-    return this.renderBackgrounds(ap.constructor.albums(ap.photo_id));
+  AlbumsList.prototype.refreshBackgrounds = function(photos) {
+    var uploadAlbum;
+    uploadAlbum = App.upload.album;
+    if (uploadAlbum) {
+      return this.renderBackgrounds([uploadAlbum]);
+    }
   };
-  AlbumsList.prototype.renderBackgrounds = function(albums) {
-    var album, _i, _len, _results;
-    console.log('AlbumsList::renderBackgrounds');
+  AlbumsList.prototype.changeBackgrounds = function(ap, mode) {
+    var albums;
+    console.log('AlbumsList::changeBackgrounds');
+    albums = ap.albums();
+    return this.renderBackgrounds(albums, mode);
+  };
+  AlbumsList.prototype.deleteBackgrounds = function(ap) {
+    return this.savedAlbums = ap.albums();
+  };
+  AlbumsList.prototype.renderBackgrounds = function(albums, mode) {
+    var album, _i, _j, _len, _len2, _ref, _results, _results2;
     if (!App.ready) {
       return;
     }
-    _results = [];
-    for (_i = 0, _len = albums.length; _i < _len; _i++) {
-      album = albums[_i];
-      _results.push(AlbumsPhoto.photos(album.id).length ? album.uri({
-        width: 50,
-        height: 50
-      }, 'html', __bind(function(xhr, album) {
-        return this.callback(xhr, album);
-      }, this), 4) : void 0);
+    console.log('AlbumsList::renderBackgrounds');
+    if (albums.length) {
+      _results = [];
+      for (_i = 0, _len = albums.length; _i < _len; _i++) {
+        album = albums[_i];
+        _results.push(this.processAlbum(album));
+      }
+      return _results;
+    } else if (this.savedAlbums.length) {
+      _ref = this.savedAlbums;
+      _results2 = [];
+      for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+        album = _ref[_j];
+        _results2.push(this.processAlbum(album));
+      }
+      return _results2;
     }
-    return _results;
+  };
+  AlbumsList.prototype.processAlbum = function(album) {
+    return album.uri({
+      width: 50,
+      height: 50
+    }, 'html', __bind(function(xhr, album) {
+      return this.callback(xhr, album);
+    }, this), 4);
   };
   AlbumsList.prototype.callback = function(json, item) {
-    var css, el, itm, o, searchJSON;
+    var arr, css, el, itm, searchJSON;
     el = this.children().forItem(item);
     searchJSON = function(itm) {
-      var key, res, value;
-      return res = (function() {
-        var _results;
-        _results = [];
-        for (key in itm) {
-          value = itm[key];
-          _results.push(value);
-        }
-        return _results;
-      })();
+      var key, value, _results;
+      _results = [];
+      for (key in itm) {
+        value = itm[key];
+        _results.push(value);
+      }
+      return _results;
     };
     css = (function() {
       var _i, _len, _results;
       _results = [];
       for (_i = 0, _len = json.length; _i < _len; _i++) {
         itm = json[_i];
-        o = searchJSON(itm);
-        _results.push('url(' + o[0].src + ')');
+        arr = searchJSON(itm);
+        _results.push('url(' + arr[0].src + ')');
       }
       return _results;
     })();
@@ -166,7 +189,6 @@ AlbumsList = (function() {
     return this.children().each(function(index) {
       var album, ga;
       item = $(this).item();
-      console.log(item);
       if (item) {
         if (Gallery.record) {
           ga = (GalleriesAlbum.filter(item.id, {
@@ -175,9 +197,6 @@ AlbumsList = (function() {
           if ((ga != null ? ga.order : void 0) !== index) {
             ga.order = index;
             return ga.save();
-          } else {
-            console.log(ga.order);
-            return console.log(index);
           }
         } else {
           album = (Album.filter(item.id, {

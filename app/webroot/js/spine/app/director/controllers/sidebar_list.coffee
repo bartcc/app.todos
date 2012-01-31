@@ -115,7 +115,7 @@ class SidebarList extends Spine.Controller
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
     
-    @updateTemplate gallery  
+    @updateTemplate gallery
   
   activate: ->
     
@@ -187,9 +187,9 @@ class SidebarList extends Spine.Controller
       for id in Gallery.selectionList()
         album = Album.find(id) if Album.exists(id)
         albums.forItem(album).addClass('selected')
-      if Album.exists(Album.record?.id)
-        album = Album.find(Album.record.id)
-        albums.forItem(album).addClass('active')
+        if id is Album.record?.id
+          album = Album.find(Album.record.id)
+          albums.forItem(album).addClass('active')
     else
       removeAlbumSelection()
 

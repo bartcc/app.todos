@@ -84,8 +84,6 @@ Controller.Toolbars =
         arr = []
         for item in items
           itm = list[item?.constructor.className or item]
-          console.log item
-          console.log itm
           arr.push it for it in itm
         arr
         

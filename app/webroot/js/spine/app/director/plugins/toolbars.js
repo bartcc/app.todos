@@ -104,8 +104,6 @@ Controller.Toolbars = {
         for (_i = 0, _len = items.length; _i < _len; _i++) {
           item = items[_i];
           itm = list[(item != null ? item.constructor.className : void 0) || item];
-          console.log(item);
-          console.log(itm);
           for (_j = 0, _len2 = itm.length; _j < _len2; _j++) {
             it = itm[_j];
             arr.push(it);

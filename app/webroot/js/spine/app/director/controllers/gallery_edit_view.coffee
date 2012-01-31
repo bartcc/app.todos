@@ -37,7 +37,6 @@ class GalleryEditView extends Spine.Controller
 
   saveOnEnter: (e) ->
     console.log 'GalleryEditView::saveOnEnter'
-    console.log e.keyCode
     return if(e.keyCode != 13)
     Spine.trigger('save:gallery', @editEl)
     

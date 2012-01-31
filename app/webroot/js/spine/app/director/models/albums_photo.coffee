@@ -8,30 +8,45 @@ class AlbumsPhoto extends Spine.Model
   
   @url: -> 'albums_photos'
   
-  @albumHasPhoto: (aid, pid) ->
+  @albumHasPhoto_: (aid, pid) ->
     aps = @filter aid, key: 'album_id'
     for ap in aps
       return true if ap.photo_id == pid
     false
     
-  @albums: (id) ->
+  @albums_: (id) ->
     ret = []
+#    ap = @find(id) if @exists(id)
     @each (item) ->
       ret.push Album.find(item['album_id']) if item['photo_id'] is id
     ret
       
-  @photos: (id) ->
+  @albumPhotos: (aid) ->
     ret = []
     @each (item) ->
-      ret.push Photo.find(item['photo_id']) if item['album_id'] is id
+      ret.push Photo.find(item['photo_id']) if item['album_id'] is aid
     ret
     
-  @photos_: (id) ->
-    aps = AlbumsPhoto.filter(id, key: 'album_id')
-    ret = []
-    for ap in aps
-      ret.push Photo.find(ap.photo_id)
-    ret
+  @photos: (pid) ->
+    Photo.filterRelated(pid,
+      joinTable: 'AlbumsPhoto'
+      key: 'photo_id'
+    )
+    
+  @albums: (aid) ->
+    Album.filterRelated(aid,
+      joinTable: 'AlbumsPhoto'
+      key: 'album_id'
+    )
+
+  albums: ->
+    l = Album.filterRelated(@album_id,
+      joinTable: 'AlbumsPhoto'
+      key: 'album_id'
+    )
+#    alert 'destroyed (' + l.length + ')' if @destroyed
+#    console.log l
+    l
 
   select: (id, options) ->
     return true if @[options.key] is id and @constructor.records[@id]

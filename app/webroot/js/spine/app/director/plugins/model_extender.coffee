@@ -156,7 +156,6 @@ Model.Extender =
         @sort @filter joinTableItems
         
       sort: (arr) ->
-        console.log 'sort'
         arr.sort (a, b) ->
           aInt = parseInt(a.order)
           bInt = parseInt(b.order)

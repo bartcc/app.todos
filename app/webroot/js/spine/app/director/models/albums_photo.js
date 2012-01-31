@@ -19,7 +19,7 @@ AlbumsPhoto = (function() {
   AlbumsPhoto.url = function() {
     return 'albums_photos';
   };
-  AlbumsPhoto.albumHasPhoto = function(aid, pid) {
+  AlbumsPhoto.albumHasPhoto_ = function(aid, pid) {
     var ap, aps, _i, _len;
     aps = this.filter(aid, {
       key: 'album_id'
@@ -32,7 +32,7 @@ AlbumsPhoto = (function() {
     }
     return false;
   };
-  AlbumsPhoto.albums = function(id) {
+  AlbumsPhoto.albums_ = function(id) {
     var ret;
     ret = [];
     this.each(function(item) {
@@ -42,27 +42,35 @@ AlbumsPhoto = (function() {
     });
     return ret;
   };
-  AlbumsPhoto.photos = function(id) {
+  AlbumsPhoto.albumPhotos = function(aid) {
     var ret;
     ret = [];
     this.each(function(item) {
-      if (item['album_id'] === id) {
+      if (item['album_id'] === aid) {
         return ret.push(Photo.find(item['photo_id']));
       }
     });
     return ret;
   };
-  AlbumsPhoto.photos_ = function(id) {
-    var ap, aps, ret, _i, _len;
-    aps = AlbumsPhoto.filter(id, {
+  AlbumsPhoto.photos = function(pid) {
+    return Photo.filterRelated(pid, {
+      joinTable: 'AlbumsPhoto',
+      key: 'photo_id'
+    });
+  };
+  AlbumsPhoto.albums = function(aid) {
+    return Album.filterRelated(aid, {
+      joinTable: 'AlbumsPhoto',
       key: 'album_id'
     });
-    ret = [];
-    for (_i = 0, _len = aps.length; _i < _len; _i++) {
-      ap = aps[_i];
-      ret.push(Photo.find(ap.photo_id));
-    }
-    return ret;
+  };
+  AlbumsPhoto.prototype.albums = function() {
+    var l;
+    l = Album.filterRelated(this.album_id, {
+      joinTable: 'AlbumsPhoto',
+      key: 'album_id'
+    });
+    return l;
   };
   AlbumsPhoto.prototype.select = function(id, options) {
     if (this[options.key] === id && this.constructor.records[this.id]) {

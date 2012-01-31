@@ -35,7 +35,6 @@ ShowView = (function() {
     '#slider': 'slider'
   };
   ShowView.prototype.events = {
-    "click .optTest": "test",
     "click .optOverview": "showOverview",
     "click .optSlideshow": "showSlideshow",
     "click .optPrevious": "showPrevious",
@@ -166,7 +165,6 @@ ShowView = (function() {
   ShowView.prototype.renderToolbar_ = function(el) {
     var _ref;
     console.log('ShowView::renderToolbar');
-    console.log(el);
     if ((_ref = this[el]) != null) {
       _ref.html(this.toolsTemplate(this.currentToolbar));
     }
@@ -234,9 +232,6 @@ ShowView = (function() {
     this.toolbarOne.unlock();
     this.toolbarOne.refresh();
     return Spine.trigger('change:canvas', this.previous);
-  };
-  ShowView.prototype.test = function() {
-    return console.log(this.sort());
   };
   ShowView.prototype.createGallery = function(e) {
     return Spine.trigger('create:gallery');

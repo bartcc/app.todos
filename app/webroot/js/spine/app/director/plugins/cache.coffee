@@ -11,7 +11,7 @@ Model.Cache =
       caches: [global:[]]
       
       cacheList: (recordID) =>
-        id = recordID or @record.id or 'global'
+        id = recordID or 'global'
         return unless id
         for item in @caches
           return item[id] if item[id]
@@ -37,15 +37,12 @@ Model.Cache =
       removeFromCache: (record) ->
         for item in @caches
           if item[record.id]
-            console.log index = @caches.indexOf(item)
             spliced = @caches.splice index,1
             return spliced
 
       clearCache: (id) ->
         originalList = @cacheList(id)
-        oldLength = originalList.length
-        originalList[0...originalList.length] = []
-        originalList
+        originalList[0...originalList.length] = [] if originalList
           
     Include =
       
@@ -59,7 +56,7 @@ Model.Cache =
         @constructor.removeFromCache @
 
       clearCache: ->
-        @constructor.clearCache @id
+        list = @constructor.clearCache @id
  
 
     @extend Extend

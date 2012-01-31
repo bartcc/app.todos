@@ -12,8 +12,10 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
-    AlbumsPhoto.bind('change', @proxy @refreshBackgrounds)
-#    AlbumsPhoto.bind('change', @proxy @change)
+    Photo.bind('refresh', @proxy @refreshBackgrounds)
+    AlbumsPhoto.bind('beforeDestroy', @proxy @deleteBackgrounds)
+#    AlbumsPhoto.bind('create', @proxy @addBackgrounds)
+    AlbumsPhoto.bind('change', @proxy @changeBackgrounds)
     Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
@@ -24,7 +26,7 @@ class AlbumsList extends Spine.Controller
     $('#albumPhotosTemplate').tmpl items
   
   change: (items) ->
-    @renderBackgrounds items if items.length
+    @renderBackgrounds items# if items.length
   
   select: (item, e) ->
     @activate()
@@ -54,7 +56,7 @@ class AlbumsList extends Spine.Controller
     
     @exposeSelection()
   
-  render: (items) ->
+  render: (items, mode) ->
     console.log 'AlbumsList::render'
     if items.length
       @html @template items
@@ -64,33 +66,47 @@ class AlbumsList extends Spine.Controller
       else
         @html '<div class="invite"><span class="enlightened invite">Time to create a new album. &nbsp;<button class="optCreateAlbum dark invite">New Album</button></span></div>'
         
-    @change items
+    @change items, mode
     @el
     
-  refreshBackgrounds: (ap) ->
-    @renderBackgrounds ap.constructor.albums(ap.photo_id)
+  refreshBackgrounds: (photos) ->
+    uploadAlbum = App.upload.album
+    @renderBackgrounds [uploadAlbum] if uploadAlbum
   
-  renderBackgrounds: (albums) ->
-    console.log 'AlbumsList::renderBackgrounds'
+  changeBackgrounds: (ap, mode) ->
+    console.log 'AlbumsList::changeBackgrounds'
+    albums = ap.albums()
+    @renderBackgrounds albums, mode
+  
+  deleteBackgrounds: (ap) ->
+    @savedAlbums = ap.albums()
+  
+  renderBackgrounds: (albums, mode) ->
     return unless App.ready
-    for album in albums
-      if AlbumsPhoto.photos(album.id).length
-        album.uri
-          width: 50
-          height: 50
-          , 'html'
-          , (xhr, album) =>
-            @callback(xhr, album)
-          , 4
+    console.log 'AlbumsList::renderBackgrounds'
+
+    if albums.length
+      @processAlbum album for album in albums
+    else if @savedAlbums.length
+      @processAlbum album for album in @savedAlbums
+  
+  processAlbum: (album) ->
+    album.uri
+      width: 50
+      height: 50
+      , 'html'
+      , (xhr, album) =>
+        @callback(xhr, album)
+      , 4
   
   callback: (json, item) =>
     el = @children().forItem(item)
     searchJSON = (itm) ->
-      res = for key, value of itm
+      for key, value of itm
         value
     css = for itm in json
-      o = searchJSON itm
-      'url(' + o[0].src + ')'
+      arr = searchJSON itm
+      'url(' + arr[0].src + ')'
     el.css('backgroundImage', css)
   
   create: ->
@@ -126,16 +142,12 @@ class AlbumsList extends Spine.Controller
   sortupdate: (e, item) ->
     @children().each (index) ->
       item = $(@).item()
-      console.log item
       if item
         if Gallery.record
           ga = (GalleriesAlbum.filter(item.id, func: 'selectAlbum'))[0]
           unless (ga?.order) is index
             ga.order = index
             ga.save()
-          else
-            console.log ga.order
-            console.log index
         else
           album = (Album.filter(item.id, func: 'selectAlbum'))[0]
           album.order = index

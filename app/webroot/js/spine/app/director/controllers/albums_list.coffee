@@ -43,7 +43,8 @@ class AlbumsList extends Spine.Controller
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
   activate: ->
-  
+    @exposeSelection()
+    return
     selection = Gallery.selectionList()
     if selection.length is 1
       first = Album.find(selection[0]) if Album.exists(selection[0])
@@ -54,7 +55,6 @@ class AlbumsList extends Spine.Controller
     else
         Album.current()
     
-    @exposeSelection()
   
   render: (items, mode) ->
     console.log 'AlbumsList::render'

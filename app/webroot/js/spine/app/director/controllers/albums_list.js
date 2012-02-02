@@ -60,6 +60,8 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.activate = function() {
     var first, selection;
+    this.exposeSelection();
+    return;
     selection = Gallery.selectionList();
     if (selection.length === 1) {
       if (Album.exists(selection[0])) {
@@ -67,12 +69,11 @@ AlbumsList = (function() {
       }
       if (!(first != null ? first.destroyed : void 0)) {
         this.current = first;
-        Album.current(first);
+        return Album.current(first);
       }
     } else {
-      Album.current();
+      return Album.current();
     }
-    return this.exposeSelection();
   };
   AlbumsList.prototype.render = function(items, mode) {
     console.log('AlbumsList::render');

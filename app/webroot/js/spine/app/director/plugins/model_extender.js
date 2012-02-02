@@ -20,10 +20,6 @@ Model.Extender = {
           global: []
         }
       ],
-      changed: function() {
-        var _ref;
-        return !(this.oldPrevious === this.record) || !(this.pevious || (((_ref = this.record) != null ? _ref.id : void 0) === this.previous.id));
-      },
       current: function(recordOrID) {
         var id, prev, rec, same, _ref;
         rec = false;
@@ -31,13 +27,13 @@ Model.Extender = {
         if (this.exists(id)) {
           rec = this.find(id);
         }
-        this.oldPrevious = this.previous;
         prev = this.record;
         this.record = rec;
-        same = ((_ref = this.record) != null ? typeof _ref.eql === "function" ? _ref.eql(prev) : void 0 : void 0) && !!prev;
+        same = !!(((_ref = this.record) != null ? typeof _ref.eql === "function" ? _ref.eql(prev) : void 0 : void 0) && !!prev);
         if (!same) {
-          return Spine.trigger('change:selected' + this.className, this.record);
+          Spine.trigger('change:selected' + this.className, this.record);
         }
+        return this.record;
       },
       fromJSON: function(objects) {
         var json, key;
@@ -251,7 +247,6 @@ Model.Extender = {
         return this.sort(this.filter(joinTableItems));
       },
       sort: function(arr) {
-        console.log('sort');
         return arr.sort(function(a, b) {
           var aInt, bInt;
           aInt = parseInt(a.order);

@@ -46,7 +46,7 @@ class PhotosView extends Spine.Controller
     Photo.bind("create:join", @proxy @createJoin)
     Photo.bind("destroy:join", @proxy @destroyJoin)
     Photo.bind("ajaxError", Photo.errorHandler)
-    Spine.bind('change:selectedGallery', @proxy @renderHeader)
+#    Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)

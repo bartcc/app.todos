@@ -40,7 +40,6 @@ GalleryEditorView = (function() {
     });
     Gallery.bind("change", this.proxy(this.change));
     Spine.bind('save:gallery', this.proxy(this.save));
-    Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
     this.bind('save:gallery', this.proxy(this.save));
   }

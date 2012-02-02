@@ -87,7 +87,7 @@ class AlbumsList extends Spine.Controller
 
     if albums.length
       @processAlbum album for album in albums
-    else if @savedAlbums.length
+    else if @savedAlbums?.length
       @processAlbum album for album in @savedAlbums
   
   processAlbum: (album) ->

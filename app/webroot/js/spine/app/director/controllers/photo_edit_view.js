@@ -28,7 +28,6 @@ PhotoEditView = (function() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    PhotoEditView.__super__.constructor.apply(this, arguments);
     Spine.bind('change:selectedPhoto', this.proxy(this.change));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
-    Spine.bind('change:selectedGallery', this.proxy(this.change));
   }
   PhotoEditView.prototype.change = function(item) {
     if ((item != null ? item.constructor.className : void 0) === 'Photo') {

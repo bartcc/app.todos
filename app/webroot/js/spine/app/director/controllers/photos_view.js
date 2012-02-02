@@ -59,7 +59,6 @@ PhotosView = (function() {
     Photo.bind("create:join", this.proxy(this.createJoin));
     Photo.bind("destroy:join", this.proxy(this.destroyJoin));
     Photo.bind("ajaxError", Photo.errorHandler);
-    Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Spine.bind('change:selectedAlbum', this.proxy(this.renderHeader));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));

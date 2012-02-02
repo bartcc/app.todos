@@ -105,7 +105,7 @@ AlbumsList = (function() {
     return this.savedAlbums = ap.albums();
   };
   AlbumsList.prototype.renderBackgrounds = function(albums, mode) {
-    var album, _i, _j, _len, _len2, _ref, _results, _results2;
+    var album, _i, _j, _len, _len2, _ref, _ref2, _results, _results2;
     if (!App.ready) {
       return;
     }
@@ -117,11 +117,11 @@ AlbumsList = (function() {
         _results.push(this.processAlbum(album));
       }
       return _results;
-    } else if (this.savedAlbums.length) {
-      _ref = this.savedAlbums;
+    } else if ((_ref = this.savedAlbums) != null ? _ref.length : void 0) {
+      _ref2 = this.savedAlbums;
       _results2 = [];
-      for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
-        album = _ref[_j];
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        album = _ref2[_j];
         _results2.push(this.processAlbum(album));
       }
       return _results2;

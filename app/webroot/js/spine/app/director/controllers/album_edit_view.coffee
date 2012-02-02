@@ -19,7 +19,7 @@ class AlbumEditView extends Spine.Controller
   constructor: ->
     super
     Spine.bind('change:selectedAlbum', @proxy @change)
-    Spine.bind('change:selectedGallery', @proxy @change)
+#    Spine.bind('change:selectedGallery', @proxy @change)
 
   changeSelected: (e) ->
     el = $(e.currentTarget)

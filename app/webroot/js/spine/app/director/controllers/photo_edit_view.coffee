@@ -18,7 +18,7 @@ class PhotoEditView extends Spine.Controller
     super
     Spine.bind('change:selectedPhoto', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @change)
-    Spine.bind('change:selectedGallery', @proxy @change)
+#    Spine.bind('change:selectedGallery', @proxy @change)
   
   change: (item) ->
     if item?.constructor.className is 'Photo'

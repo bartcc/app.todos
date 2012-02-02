@@ -29,6 +29,7 @@ AlbumEditView = (function() {
   function AlbumEditView() {
     this.saveOnEnter = __bind(this.saveOnEnter, this);    AlbumEditView.__super__.constructor.apply(this, arguments);
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
+    Spine.bind('change:selectedGallery', this.proxy(this.change));
   }
   AlbumEditView.prototype.changeSelected = function(e) {
     var album, el, id;

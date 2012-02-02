@@ -41,7 +41,6 @@ GalleryEditorView = (function() {
     Gallery.bind("change", this.proxy(this.change));
     Spine.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
-    this.bind('save:gallery', this.proxy(this.save));
   }
   GalleryEditorView.prototype.change = function(item, mode) {
     console.log('GalleryEditView::change');
@@ -83,16 +82,10 @@ GalleryEditorView = (function() {
     return this.refreshElements();
   };
   GalleryEditorView.prototype.destroy = function(e) {
-    if ($(e.currentTarget).hasClass('disabled')) {
-      return;
-    }
     return Spine.trigger('destroy:gallery');
   };
   GalleryEditorView.prototype.save = function(el) {
     var atts;
-    if ($(el.currentTarget).hasClass('disabled')) {
-      return;
-    }
     if (this.current && Gallery.record) {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.el.serializeForm();
       this.current.updateChangedAttributes(atts);
@@ -104,7 +97,7 @@ GalleryEditorView = (function() {
     if (e.keyCode !== 13) {
       return;
     }
-    return this.trigger('save:gallery', this);
+    return Spine.trigger('save:gallery', this);
   };
   return GalleryEditorView;
 })();

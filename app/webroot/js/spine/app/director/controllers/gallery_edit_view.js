@@ -27,7 +27,6 @@ GalleryEditView = (function() {
   };
   function GalleryEditView() {
     GalleryEditView.__super__.constructor.apply(this, arguments);
-    Spine.bind('change:selectedGallery', this.proxy(this.change));
     Gallery.bind("refresh change", this.proxy(this.change));
   }
   GalleryEditView.prototype.change = function(item, mode) {
@@ -49,11 +48,10 @@ GalleryEditView = (function() {
         }));
       }
     }
-    return this;
+    return this.editEl;
   };
   GalleryEditView.prototype.saveOnEnter = function(e) {
     console.log('GalleryEditView::saveOnEnter');
-    console.log(e.keyCode);
     if (e.keyCode !== 13) {
       return;
     }

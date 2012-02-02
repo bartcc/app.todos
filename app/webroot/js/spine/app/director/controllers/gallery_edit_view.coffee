@@ -33,7 +33,7 @@ class GalleryEditView extends Spine.Controller
         @editEl.html $("#noSelectionTemplate").tmpl({type: '<div class="invite"><span class="enlightened invite">Director has no gallery yet &nbsp;<button class="optCreate dark invite">New Gallery</button></span></div>'})
       else
         @editEl.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="enlightened">Select a gallery!</span></label>'})
-    @
+    @editEl
 
   saveOnEnter: (e) ->
     console.log 'GalleryEditView::saveOnEnter'

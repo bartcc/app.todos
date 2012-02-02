@@ -33,7 +33,6 @@ class GalleryEditorView extends Spine.Controller
     Spine.bind('save:gallery', @proxy @save)
 #    Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:toolbar', @proxy @changeToolbar)
-    @bind('save:gallery', @proxy @save)
 
   change: (item, mode) ->
     console.log 'GalleryEditView::change'
@@ -66,11 +65,11 @@ class GalleryEditorView extends Spine.Controller
     @refreshElements()
     
   destroy: (e) ->
-    return if $(e.currentTarget).hasClass('disabled')
+#    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
   save: (el) ->
-    return if $(el.currentTarget).hasClass('disabled')
+#    return if $(el.currentTarget).hasClass('disabled')
     if @current and Gallery.record
       atts = el.serializeForm?() or @el.serializeForm()
       @current.updateChangedAttributes(atts)
@@ -79,6 +78,6 @@ class GalleryEditorView extends Spine.Controller
   saveOnEnter: (e) =>
     console.log 'GalleryEditorView::saveOnEnter'
     return if(e.keyCode != 13)
-    @trigger('save:gallery', @)
+    Spine.trigger('save:gallery', @)
 
 module?.exports = GalleryEditorView

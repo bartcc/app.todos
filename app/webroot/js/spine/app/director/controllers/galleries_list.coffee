@@ -11,11 +11,11 @@ class GalleriesList extends Spine.Controller
   
   constructor: ->
     super
-#    Spine.bind('change:selectedGallery', @proxy @exposeSelection)
+    Spine.bind('change:selectedGallery', @proxy @exposeSelection)
 
   change: ->
     console.log 'GalleryList::change'
-    Spine.trigger('show:albums')
+    
         
   render: (items) ->
     console.log 'GalleryList::render'
@@ -25,7 +25,7 @@ class GalleriesList extends Spine.Controller
   select: (item) =>
 #    Gallery.current item
     Spine.trigger('change:toolbarOne', ['Gallery'])
-    Spine.trigger('gallery:activate')
+    @current = item
     @exposeSelection item
     
   exposeSelection: (item) ->
@@ -40,13 +40,17 @@ class GalleriesList extends Spine.Controller
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()
-    @select Gallery.current item
+    
+    @select item
     e.stopPropagation()
     e.preventDefault()
 
   dblclick: (e) ->
     console.log 'GalleryList::dblclick'
-    @change()
+    Spine.trigger('show:albums')
+#    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
+    Spine.trigger('gallery:activate', @current)
+    
     e.stopPropagation()
     e.preventDefault()
 

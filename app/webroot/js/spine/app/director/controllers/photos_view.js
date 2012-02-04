@@ -76,6 +76,9 @@ PhotosView = (function() {
   };
   PhotosView.prototype.render = function(items, mode) {
     var list;
+    if (!this.isActive()) {
+      return;
+    }
     console.log('PhotosView::render');
     if (!this.list.children('li').length) {
       this.items.empty();

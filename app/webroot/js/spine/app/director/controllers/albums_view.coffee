@@ -40,15 +40,15 @@ class AlbumsView extends Spine.Controller
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
-    Album.bind('ajaxError', Album.errorHandler)
+    Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
+    Spine.bind('change:selectedGallery', @proxy @change)
+    Album.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('update destroy', @proxy @change)
     Album.bind('destroy', @proxy @clearCache)
-    Spine.bind('change:selectedGallery', @proxy @change)
-    Spine.bind('show:albums', @proxy @show)
     GalleriesAlbum.bind("change", @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
@@ -74,7 +74,7 @@ class AlbumsView extends Spine.Controller
     
   render: (item) ->
     console.log 'AlbumsView::render'
-    
+    return unless @isActive()
     list = @list.render @current
 #    list.sortable 'album' if Gallery.record
     @header.render()
@@ -91,9 +91,9 @@ class AlbumsView extends Spine.Controller
     @header.change Gallery.record
   
   show: ->
+    Spine.trigger('change:canvas', @)
     Spine.trigger('change:toolbarOne', ['Album'])
     Spine.trigger('gallery:exposeSelection', Gallery.record)
-    Spine.trigger('change:canvas', @)
     
   newAttributes: ->
     if User.first()

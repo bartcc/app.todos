@@ -19,7 +19,7 @@ Model.Extender =
         prev = @record
         @record = rec
         same = !!(@record?.eql?(prev) and !!prev)
-        Spine.trigger('change:selected'+@className, @record) unless same
+        Spine.trigger('change:selected'+@className, @record, same)
         @record
 
       fromJSON: (objects) ->

@@ -60,8 +60,6 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.activate = function() {
     var first, selection;
-    this.exposeSelection();
-    return;
     selection = Gallery.selectionList();
     if (selection.length === 1) {
       if (Album.exists(selection[0])) {
@@ -69,11 +67,12 @@ AlbumsList = (function() {
       }
       if (!(first != null ? first.destroyed : void 0)) {
         this.current = first;
-        return Album.current(first);
+        Album.current(first);
       }
     } else {
-      return Album.current();
+      Album.current();
     }
+    return this.exposeSelection();
   };
   AlbumsList.prototype.render = function(items, mode) {
     console.log('AlbumsList::render');
@@ -164,21 +163,20 @@ AlbumsList = (function() {
     return Spine.trigger('create:album');
   };
   AlbumsList.prototype.click = function(e) {
-    var item, list;
+    var item;
     console.log('AlbumsList::click');
     item = $(e.currentTarget).item();
-    list = item.addRemoveSelection(this.isCtrlClick(e));
-    this.select(Album.current(item));
+    item.addRemoveSelection(this.isCtrlClick(e));
+    this.exposeSelection();
     Spine.trigger('change:toolbarOne', ['Album']);
     e.stopPropagation();
     return e.preventDefault();
   };
   AlbumsList.prototype.dblclick = function(e) {
-    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider);
     Spine.trigger('show:photos');
+    this.activate();
     e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   AlbumsList.prototype.edit = function(e) {
     var item;

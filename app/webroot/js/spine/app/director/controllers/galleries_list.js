@@ -20,10 +20,10 @@ GalleriesList = (function() {
   };
   function GalleriesList() {
     this.select = __bind(this.select, this);    GalleriesList.__super__.constructor.apply(this, arguments);
+    Spine.bind('change:selectedGallery', this.proxy(this.exposeSelection));
   }
   GalleriesList.prototype.change = function() {
-    console.log('GalleryList::change');
-    return Spine.trigger('show:albums');
+    return console.log('GalleryList::change');
   };
   GalleriesList.prototype.render = function(items) {
     console.log('GalleryList::render');
@@ -32,7 +32,7 @@ GalleriesList = (function() {
   };
   GalleriesList.prototype.select = function(item) {
     Spine.trigger('change:toolbarOne', ['Gallery']);
-    Spine.trigger('gallery:activate');
+    this.current = item;
     return this.exposeSelection(item);
   };
   GalleriesList.prototype.exposeSelection = function(item) {
@@ -50,13 +50,14 @@ GalleriesList = (function() {
     var item;
     console.log('GalleryList::click');
     item = $(e.currentTarget).item();
-    this.select(Gallery.current(item));
+    this.select(item);
     e.stopPropagation();
     return e.preventDefault();
   };
   GalleriesList.prototype.dblclick = function(e) {
     console.log('GalleryList::dblclick');
-    this.change();
+    Spine.trigger('show:albums');
+    Spine.trigger('gallery:activate', this.current);
     e.stopPropagation();
     return e.preventDefault();
   };

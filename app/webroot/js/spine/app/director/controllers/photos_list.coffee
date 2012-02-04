@@ -29,8 +29,7 @@ class PhotosList extends Spine.Controller
     
   select: (item, e) ->
     console.log 'PhotosList::select'
-    @current = item
-    Photo.current(item)
+    @current = Photo.current(item)
     @activate()
 #    Spine.trigger('change:selectedPhoto', item)
   
@@ -110,7 +109,7 @@ class PhotosList extends Spine.Controller
       'backgroundSize': '100%'
     
   activate: ->
-    @exposeSelection()
+#    @exposeSelection()
     
   exposeSelection: ->
     console.log 'PhotosList::exposeSelection'

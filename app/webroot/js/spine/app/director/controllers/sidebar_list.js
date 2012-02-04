@@ -48,6 +48,7 @@ SidebarList = (function() {
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandExpander));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
+    Spine.bind('gallery:exposeSelection', this.proxy(this.exposeSelection));
     Spine.bind('gallery:activate', this.proxy(this.activate));
   }
   SidebarList.prototype.template = function() {
@@ -84,8 +85,7 @@ SidebarList = (function() {
           Spine.trigger('show:albums');
       }
     }
-    Gallery.current(this.current);
-    return this.exposeSelection();
+    return this.activate(this.current);
   };
   SidebarList.prototype.render = function(galleries, gallery, mode) {
     console.log('SidebarList::render');
@@ -152,8 +152,12 @@ SidebarList = (function() {
     gallerySublist.html(this.sublistTemplate(albums));
     return this.updateTemplate(gallery);
   };
-  SidebarList.prototype.activate = function() {
+  SidebarList.prototype.activate = function(gallery) {
     var active, first, selectedAlbums, selectedPhotos;
+    if (gallery == null) {
+      gallery = Gallery.record;
+    }
+    Gallery.current(gallery);
     selectedAlbums = Gallery.selectionList();
     if (selectedAlbums.length === 1) {
       if (Album.exists(selectedAlbums[0])) {
@@ -222,13 +226,14 @@ SidebarList = (function() {
     }
     return _results;
   };
-  SidebarList.prototype.exposeSelection = function() {
-    var gallery;
+  SidebarList.prototype.exposeSelection = function(item) {
+    if (item == null) {
+      item = Gallery.record;
+    }
     console.log('SidebarList::exposeSelection');
-    gallery = Gallery.record;
     this.deselect();
-    if (gallery) {
-      this.children().forItem(gallery).addClass("active");
+    if (item) {
+      this.children().forItem(item).addClass("active");
     }
     return this.exposeSublistSelection();
   };

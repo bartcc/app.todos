@@ -27,6 +27,7 @@ GalleryEditView = (function() {
   };
   function GalleryEditView() {
     GalleryEditView.__super__.constructor.apply(this, arguments);
+    Spine.bind('change:selectedGallery', this.proxy(this.change));
     Gallery.bind("refresh change", this.proxy(this.change));
   }
   GalleryEditView.prototype.change = function(item, mode) {

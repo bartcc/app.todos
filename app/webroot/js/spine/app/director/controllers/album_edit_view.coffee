@@ -45,7 +45,7 @@ class AlbumEditView extends Spine.Controller
     console.log 'AlbumView::render'
     selection = Gallery.selectionList()
 
-    if item
+    if item and selection?.length is 1
       @item.html @template item
     else
       unless selection?.length

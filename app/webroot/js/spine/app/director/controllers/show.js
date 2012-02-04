@@ -354,7 +354,7 @@ ShowView = (function() {
       return this.activeControl = control;
     }
   };
-  ShowView.prototype.deselect = function() {
+  ShowView.prototype.deselect = function(e) {
     var className, item;
     item = this.el.data().current;
     className = this.el.data().className;
@@ -364,20 +364,19 @@ ShowView = (function() {
         break;
       case 'Album':
         Spine.Model['Album'].emptySelection();
-        Photo.current();
         Spine.trigger('photo:activate');
         break;
       case 'Gallery':
         Spine.Model['Gallery'].emptySelection();
-        Photo.current();
-        Spine.trigger('album:activate', false);
+        Spine.trigger('album:activate');
         break;
       default:
-        Gallery.current();
         Spine.trigger('gallery:activate', false);
     }
     this.changeToolbarOne();
-    return this.current.items.deselect();
+    this.current.items.deselect();
+    e.stopPropagation();
+    return e.preventDefault();
   };
   ShowView.prototype.uploadProgress = function(e, coll) {};
   ShowView.prototype.uploadDone = function(e, coll) {};

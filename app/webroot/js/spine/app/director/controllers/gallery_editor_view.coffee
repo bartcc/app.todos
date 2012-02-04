@@ -31,7 +31,7 @@ class GalleryEditorView extends Spine.Controller
       template: @toolsTemplate
     Gallery.bind "change", @proxy @change
     Spine.bind('save:gallery', @proxy @save)
-#    Spine.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:toolbar', @proxy @changeToolbar)
 
   change: (item, mode) ->

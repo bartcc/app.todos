@@ -50,15 +50,15 @@ AlbumsView = (function() {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum'
     };
-    Album.bind('ajaxError', Album.errorHandler);
+    Spine.bind('show:albums', this.proxy(this.show));
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
+    Spine.bind('change:selectedGallery', this.proxy(this.change));
+    Album.bind('ajaxError', Album.errorHandler);
     Album.bind('destroy:join', this.proxy(this.destroyJoin));
     Album.bind('create:join', this.proxy(this.createJoin));
     Album.bind('update destroy', this.proxy(this.change));
     Album.bind('destroy', this.proxy(this.clearCache));
-    Spine.bind('change:selectedGallery', this.proxy(this.change));
-    Spine.bind('show:albums', this.proxy(this.show));
     GalleriesAlbum.bind("change", this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
@@ -82,6 +82,9 @@ AlbumsView = (function() {
   AlbumsView.prototype.render = function(item) {
     var list;
     console.log('AlbumsView::render');
+    if (!this.isActive()) {
+      return;
+    }
     list = this.list.render(this.current);
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
@@ -95,9 +98,9 @@ AlbumsView = (function() {
     return this.header.change(Gallery.record);
   };
   AlbumsView.prototype.show = function() {
+    Spine.trigger('change:canvas', this);
     Spine.trigger('change:toolbarOne', ['Album']);
-    Spine.trigger('gallery:exposeSelection', Gallery.record);
-    return Spine.trigger('change:canvas', this);
+    return Spine.trigger('gallery:exposeSelection', Gallery.record);
   };
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {

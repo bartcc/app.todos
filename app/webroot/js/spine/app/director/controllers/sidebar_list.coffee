@@ -40,7 +40,7 @@ class SidebarList extends Spine.Controller
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandExpander)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
-#    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
+    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
     Spine.bind('gallery:activate', @proxy @activate)
     
   template: -> arguments[0]
@@ -71,8 +71,7 @@ class SidebarList extends Spine.Controller
           Spine.trigger('show:albums')
           
     
-    Gallery.current(@current)
-    @exposeSelection()
+    @activate(@current)
         
   render: (galleries, gallery, mode) ->
     console.log 'SidebarList::render'
@@ -117,7 +116,9 @@ class SidebarList extends Spine.Controller
     
     @updateTemplate gallery
   
-  activate: ->
+  activate: (gallery = Gallery.record) ->
+    
+    Gallery.current gallery
     
     selectedAlbums = Gallery.selectionList()
     if selectedAlbums.length is 1
@@ -164,11 +165,10 @@ class SidebarList extends Spine.Controller
     for ga in gas
       @renderItemFromGalleriesAlbum ga
   
-  exposeSelection: ->
+  exposeSelection: (item = Gallery.record) ->
     console.log 'SidebarList::exposeSelection'
-    gallery = Gallery.record
     @deselect()
-    @children().forItem(gallery).addClass("active") if gallery
+    @children().forItem(item).addClass("active") if item
     @exposeSublistSelection()
         
   exposeSublistSelection: ->

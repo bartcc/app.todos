@@ -308,7 +308,7 @@ class ShowView extends Spine.Controller
     else
       @activeControl = control
       
-  deselect: =>
+  deselect: (e) =>
     item = @el.data().current
     className = @el.data().className
     switch className
@@ -316,18 +316,21 @@ class ShowView extends Spine.Controller
         -> # nothing to do here
       when 'Album'
         Spine.Model['Album'].emptySelection()
-        Photo.current()
+#        Photo.current()
         Spine.trigger('photo:activate')
       when 'Gallery'
         Spine.Model['Gallery'].emptySelection()
-        Photo.current()
-        Spine.trigger('album:activate', false)
+#        Album.current()
+        Spine.trigger('album:activate')
       else
-        Gallery.current()
+#        Gallery.current()
         Spine.trigger('gallery:activate', false)
         
     @changeToolbarOne()
     @current.items.deselect()
+    e.stopPropagation()
+    e.preventDefault()
+    
     
   uploadProgress: (e, coll) ->
 #    console.log coll

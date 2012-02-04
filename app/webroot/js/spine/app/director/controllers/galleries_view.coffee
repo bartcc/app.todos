@@ -35,7 +35,6 @@ class GalleriesView extends Spine.Controller
     
   render: (items) ->
     console.log 'GalleriesView::render'
-      
     @list.render items
     @header.render()
     

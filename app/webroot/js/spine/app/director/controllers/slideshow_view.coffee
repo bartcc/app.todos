@@ -26,6 +26,7 @@ class SlideshowView extends Spine.Controller
     Spine.bind('play:slideshow', @proxy @play)
     
   render: (items) ->
+    return unless @isActive()
     console.log 'SlideshowView::render'
     @items.html @template items
     @uri items, 'append'

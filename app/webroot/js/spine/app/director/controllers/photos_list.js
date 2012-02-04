@@ -44,8 +44,7 @@ PhotosList = (function() {
   };
   PhotosList.prototype.select = function(item, e) {
     console.log('PhotosList::select');
-    this.current = item;
-    Photo.current(item);
+    this.current = Photo.current(item);
     return this.activate();
   };
   PhotosList.prototype.render = function(items, mode) {
@@ -152,9 +151,7 @@ PhotosList = (function() {
       'backgroundSize': '100%'
     });
   };
-  PhotosList.prototype.activate = function() {
-    return this.exposeSelection();
-  };
+  PhotosList.prototype.activate = function() {};
   PhotosList.prototype.exposeSelection = function() {
     var current, el, id, item, list, _i, _len;
     console.log('PhotosList::exposeSelection');

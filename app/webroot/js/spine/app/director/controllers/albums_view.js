@@ -74,21 +74,18 @@ AlbumsView = (function() {
     } else {
       this.current = Album.filterRelated(gallery.id, this.filterOptions);
     }
-    if (changed || this.pending) {
+    if (changed || !!this.pending) {
       return this.render(this.current);
     }
-  };
-  AlbumsView.prototype.clearCache = function(album) {
-    return album.clearCache();
   };
   AlbumsView.prototype.render = function(item, changed) {
     var list;
     console.log('AlbumsView::render');
     if (!this.isActive()) {
-      this.pending = item;
+      this.pending = true;
       return;
     }
-    this.pending = null;
+    this.pending = false;
     list = this.list.render(item);
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
@@ -100,6 +97,9 @@ AlbumsView = (function() {
   AlbumsView.prototype.renderHeader = function() {
     console.log('AlbumsView::renderHeader');
     return this.header.change(Gallery.record);
+  };
+  AlbumsView.prototype.clearCache = function(album) {
+    return album.clearCache();
   };
   AlbumsView.prototype.show = function() {
     Spine.trigger('change:canvas', this);

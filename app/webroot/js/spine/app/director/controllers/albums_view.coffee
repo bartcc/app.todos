@@ -68,18 +68,15 @@ class AlbumsView extends Spine.Controller
     else
       @current = Album.filterRelated(gallery.id, @filterOptions)
       
-    @render @current if changed or @pending
-    
-  clearCache: (album) ->
-    album.clearCache()
+    @render @current if changed or !!@pending
     
   render: (item, changed) ->
     console.log 'AlbumsView::render'
     unless @isActive()
-      @pending = item
+      @pending = true
       return
     
-    @pending = null
+    @pending = false
     list = @list.render item
 #    list.sortable 'album' if Gallery.record
     @header.render()
@@ -94,6 +91,9 @@ class AlbumsView extends Spine.Controller
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
     @header.change Gallery.record
+    
+  clearCache: (album) ->
+    album.clearCache()
   
   show: ->
     Spine.trigger('change:canvas', @)

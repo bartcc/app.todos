@@ -117,8 +117,8 @@ class AlbumsList extends Spine.Controller
     
     item.addRemoveSelection(@isCtrlClick(e))
     
-#    @select item
-    @exposeSelection()
+    @activate()
+    
     Spine.trigger('change:toolbarOne', ['Album'])
     
     e.stopPropagation()

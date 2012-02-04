@@ -167,7 +167,7 @@ AlbumsList = (function() {
     console.log('AlbumsList::click');
     item = $(e.currentTarget).item();
     item.addRemoveSelection(this.isCtrlClick(e));
-    this.exposeSelection();
+    this.activate();
     Spine.trigger('change:toolbarOne', ['Album']);
     e.stopPropagation();
     return e.preventDefault();

@@ -58,6 +58,7 @@ AlbumEditView = (function() {
     var selection;
     console.log('AlbumView::render');
     selection = Gallery.selectionList();
+    console.log(item);
     if (item && (selection != null ? selection.length : void 0) === 1) {
       this.item.html(this.template(item));
     } else {

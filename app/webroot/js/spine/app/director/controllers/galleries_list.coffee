@@ -23,10 +23,8 @@ class GalleriesList extends Spine.Controller
     @el
 
   select: (item) =>
-#    Gallery.current item
     Spine.trigger('change:toolbarOne', ['Gallery'])
-    @current = item
-    @exposeSelection item
+    Spine.trigger('gallery:activate', item)
     
   exposeSelection: (item) ->
     console.log 'GalleryList::exposeSelection'
@@ -48,8 +46,7 @@ class GalleriesList extends Spine.Controller
   dblclick: (e) ->
     console.log 'GalleryList::dblclick'
     Spine.trigger('show:albums')
-#    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
-    Spine.trigger('gallery:activate', @current)
+    Spine.trigger('gallery:activate')
     
     e.stopPropagation()
     e.preventDefault()

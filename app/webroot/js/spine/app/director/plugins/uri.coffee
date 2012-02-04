@@ -104,6 +104,7 @@ class Uri extends Base
   
   test: ->
     cache = @record.cache @url
+    console.log cache
     if cache
       @callback cache, @record
     else
@@ -120,6 +121,9 @@ class Uri extends Base
 
   recordResponse: (uris) =>
     @record.addToCache @url, uris, @mode
+#    console.log @url
+#    console.log @url
+#    console.log @record.cache(@url)
     @callback uris, @record
     
   errorResponse: (xhr, statusText, error) =>

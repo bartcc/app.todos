@@ -26,12 +26,14 @@ Model.Cache =
         cache = @cacheList record?.id
         return unless cache
         dummy = {}
-        if mode is 'append'
-          cache = @cache(record, url) or dummy[url] = []
-          cache.push dummy[url]
-        else
-          dummy[url] = uri
-          cache.push dummy unless @cache(record, url)
+        dummy[url] = uri
+        cache.push dummy #unless @cache(record, url)
+#        if mode is 'append'
+#          cache = @cache(record, url) or dummy[url] = []
+#          cache.push dummy[url]
+#        else
+#          dummy[url] = uri
+#          cache.push dummy unless @cache(record, url)
         cache
 
       removeFromCache: (record) ->

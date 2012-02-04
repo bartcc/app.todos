@@ -48,15 +48,8 @@ Model.Cache = {
           return;
         }
         dummy = {};
-        if (mode === 'append') {
-          cache = this.cache(record, url) || (dummy[url] = []);
-          cache.push(dummy[url]);
-        } else {
-          dummy[url] = uri;
-          if (!this.cache(record, url)) {
-            cache.push(dummy);
-          }
-        }
+        dummy[url] = uri;
+        cache.push(dummy);
         return cache;
       },
       removeFromCache: function(record) {

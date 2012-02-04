@@ -154,6 +154,7 @@ Uri = (function() {
   Uri.prototype.test = function() {
     var cache;
     cache = this.record.cache(this.url);
+    console.log(cache);
     if (cache) {
       return this.callback(cache, this.record);
     } else {

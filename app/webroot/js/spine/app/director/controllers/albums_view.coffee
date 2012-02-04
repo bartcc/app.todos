@@ -79,6 +79,7 @@ class AlbumsView extends Spine.Controller
       @pending = item
       return
     
+    @pending = null
     list = @list.render item
 #    list.sortable 'album' if Gallery.record
     @header.render()
@@ -86,8 +87,6 @@ class AlbumsView extends Spine.Controller
     # when Album is deleted in Photos View return to this View
     if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
-
-    @pending = null
       
     Spine.trigger('render:galleryAllSublist')
     Spine.trigger('album:activate')

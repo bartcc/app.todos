@@ -88,12 +88,12 @@ AlbumsView = (function() {
       this.pending = item;
       return;
     }
+    this.pending = null;
     list = this.list.render(item);
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();
     }
-    this.pending = null;
     Spine.trigger('render:galleryAllSublist');
     return Spine.trigger('album:activate');
   };

@@ -83,9 +83,10 @@ PhotosView = (function() {
     if (!this.list.children('li').length) {
       this.items.empty();
     }
-    list = this.list.render(items, mode || 'html');
-    if (Album.record) {
-      list.sortable('photo');
+    if (list = this.list.render(items, mode || 'html')) {
+      if (Album.record) {
+        list.sortable('photo');
+      }
     }
     return this.refreshElements();
   };

@@ -65,7 +65,7 @@ AlbumsView = (function() {
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
     $(this.views).queue('fx');
   }
-  AlbumsView.prototype.change = function(item) {
+  AlbumsView.prototype.change = function(item, changed) {
     var gallery;
     console.log('AlbumsView::change');
     gallery = Gallery.record;
@@ -74,22 +74,26 @@ AlbumsView = (function() {
     } else {
       this.current = Album.filterRelated(gallery.id, this.filterOptions);
     }
-    return this.render(this.current);
+    if (changed || this.pending) {
+      return this.render(this.current);
+    }
   };
   AlbumsView.prototype.clearCache = function(album) {
     return album.clearCache();
   };
-  AlbumsView.prototype.render = function(item) {
+  AlbumsView.prototype.render = function(item, changed) {
     var list;
     console.log('AlbumsView::render');
     if (!this.isActive()) {
+      this.pending = item;
       return;
     }
-    list = this.list.render(this.current);
+    list = this.list.render(item);
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();
     }
+    this.pending = null;
     Spine.trigger('render:galleryAllSublist');
     return Spine.trigger('album:activate');
   };

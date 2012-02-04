@@ -316,14 +316,11 @@ class ShowView extends Spine.Controller
         -> # nothing to do here
       when 'Album'
         Spine.Model['Album'].emptySelection()
-#        Photo.current()
         Spine.trigger('photo:activate')
       when 'Gallery'
         Spine.Model['Gallery'].emptySelection()
-#        Album.current()
         Spine.trigger('album:activate')
       else
-#        Gallery.current()
         Spine.trigger('gallery:activate', false)
         
     @changeToolbarOne()

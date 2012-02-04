@@ -66,8 +66,8 @@ class PhotosView extends Spine.Controller
     @items.empty() unless @list.children('li').length
     # show spinner
 #      @items.html @preloaderTemplate()
-    list = @list.render items, mode or 'html'
-    list.sortable 'photo' if Album.record
+    if list = @list.render items, mode or 'html'
+      list.sortable 'photo' if Album.record
     @refreshElements()
   
   renderHeader: ->

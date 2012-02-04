@@ -55,33 +55,39 @@ class AlbumsView extends Spine.Controller
     Gallery.bind('refresh change', @proxy @renderHeader)
     $(@views).queue('fx')
     
-  change: (item) ->
+  change: (item, changed) ->
     console.log 'AlbumsView::change'
     # item can be gallery         from Spine.bind 'change:selectedGallery'
     # item can be album           from Album.bind 'change'
     # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
     gallery = Gallery.record 
     
+    
     if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
     else
       @current = Album.filterRelated(gallery.id, @filterOptions)
       
-    @render @current
+    @render @current if changed or @pending
     
   clearCache: (album) ->
     album.clearCache()
     
-  render: (item) ->
+  render: (item, changed) ->
     console.log 'AlbumsView::render'
-    return unless @isActive()
-    list = @list.render @current
+    unless @isActive()
+      @pending = item
+      return
+    
+    list = @list.render item
 #    list.sortable 'album' if Gallery.record
     @header.render()
-    
+
     # when Album is deleted in Photos View return to this View
     if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
+
+    @pending = null
       
     Spine.trigger('render:galleryAllSublist')
     Spine.trigger('album:activate')

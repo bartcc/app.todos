@@ -75,9 +75,7 @@ class AlbumsView extends Spine.Controller
      
   render: (item, changed) ->
     console.log 'AlbumsView::render'
-    return unless @isActive()
-    
-    @pending = false
+#    return unless @isActive()
     list = @list.render item
 #    list.sortable 'album' if Gallery.record
     @header.render()

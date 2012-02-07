@@ -83,10 +83,6 @@ AlbumsView = (function() {
   AlbumsView.prototype.render = function(item, changed) {
     var list;
     console.log('AlbumsView::render');
-    if (!this.isActive()) {
-      return;
-    }
-    this.pending = false;
     list = this.list.render(item);
     this.header.render();
     if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {

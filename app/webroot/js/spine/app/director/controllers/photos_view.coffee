@@ -81,11 +81,7 @@ class PhotosView extends Spine.Controller
   # could be in any controller that listens to AlbumsPhoto - may be move to app?
   # AlbumCache is mainly used for chaching album folder thumbnails
   clearAlbumCache: (record, mode) ->
-    console.log Album.cacheList(record.album_id)
-#    console.log record.cache('50/50/1/70')
     Album.clearCache record.album_id
-    console.log Album.cacheList(record.album_id)
-#    console.log record.cache('50/50/1/70')
 
   # for AlbumsPhoto & Photo
   remove: (record) ->

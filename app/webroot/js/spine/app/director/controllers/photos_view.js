@@ -97,9 +97,7 @@ PhotosView = (function() {
     return Photo.clearCache();
   };
   PhotosView.prototype.clearAlbumCache = function(record, mode) {
-    console.log(Album.cacheList(record.album_id));
-    Album.clearCache(record.album_id);
-    return console.log(Album.cacheList(record.album_id));
+    return Album.clearCache(record.album_id);
   };
   PhotosView.prototype.remove = function(record) {
     var photo, photoEl;

@@ -180,16 +180,18 @@ class SidebarList extends Spine.Controller
         galleryEl = @children().forItem(item)
         albums = galleryEl.find('li')
         albums.removeClass('selected').removeClass('active')
+        
     if Gallery.record
       removeAlbumSelection()
       galleryEl = @children().forItem(Gallery.record)
       albums = galleryEl.find('li')
       for id in Gallery.selectionList()
         album = Album.find(id) if Album.exists(id)
-        albums.forItem(album).addClass('selected')
-        if id is Album.record?.id
-          album = Album.find(Album.record.id)
-          albums.forItem(album).addClass('active')
+        if album
+          albums.forItem(album).addClass('selected')
+          if id is Album.record?.id
+            album = Album.find(Album.record.id)
+            albums.forItem(album).addClass('active')
     else
       removeAlbumSelection()
 

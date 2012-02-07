@@ -268,8 +268,7 @@ SidebarList = (function() {
         if (Album.exists(id)) {
           album = Album.find(id);
         }
-        albums.forItem(album).addClass('selected');
-        _results.push(id === ((_ref2 = Album.record) != null ? _ref2.id : void 0) ? (album = Album.find(Album.record.id), albums.forItem(album).addClass('active')) : void 0);
+        _results.push(album ? (albums.forItem(album).addClass('selected'), id === ((_ref2 = Album.record) != null ? _ref2.id : void 0) ? (album = Album.find(Album.record.id), albums.forItem(album).addClass('active')) : void 0) : void 0);
       }
       return _results;
     } else {

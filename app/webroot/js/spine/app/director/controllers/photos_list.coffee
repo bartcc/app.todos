@@ -108,6 +108,9 @@ class PhotosList extends Spine.Controller
       'backgroundPosition': 'center, center'
       'backgroundSize': '100%'
     
+  activate: ->
+#    @exposeSelection()
+    
   exposeSelection: ->
     console.log 'PhotosList::exposeSelection'
     @deselect()
@@ -147,6 +150,7 @@ class PhotosList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
+    false
   
   dblclick: (e) ->
     console.log 'PhotosList::dblclick'

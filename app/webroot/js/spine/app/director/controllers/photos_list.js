@@ -152,6 +152,7 @@ PhotosList = (function() {
       'backgroundSize': '100%'
     });
   };
+  PhotosList.prototype.activate = function() {};
   PhotosList.prototype.exposeSelection = function() {
     var current, el, id, item, list, _i, _len;
     console.log('PhotosList::exposeSelection');
@@ -192,7 +193,8 @@ PhotosList = (function() {
     Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider);
     this.select(item, e);
     e.stopPropagation();
-    return e.preventDefault();
+    e.preventDefault();
+    return false;
   };
   PhotosList.prototype.dblclick = function(e) {
     console.log('PhotosList::dblclick');

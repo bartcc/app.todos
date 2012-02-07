@@ -146,9 +146,6 @@ Sidebar = (function() {
   Sidebar.prototype.dragLeave = function(e) {};
   Sidebar.prototype.dropComplete = function(e, record) {
     var albums, origin, photos, source, target, _ref, _ref2, _ref3, _ref4, _ref5;
-    if (record) {
-      console.log($(record).item());
-    }
     console.log('Sidebar::dropComplete');
     if (!Spine.dragItem) {
       return;
@@ -324,14 +321,11 @@ Sidebar = (function() {
     Spine.trigger('show:photos');
     Gallery.current();
     Album.current();
-    Gallery.emptySelection();
-    Spine.trigger('album:activate');
-    return Spine.trigger('gallery:activate');
+    return Gallery.emptySelection();
   };
   Sidebar.prototype.showAllAlbums = function() {
     Spine.trigger('show:albums');
-    Gallery.current();
-    return Spine.trigger('gallery:activate');
+    return Gallery.current();
   };
   return Sidebar;
 })();

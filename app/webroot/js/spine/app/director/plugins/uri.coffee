@@ -66,7 +66,7 @@ class UriCollection extends Base
     
   test: ->
     cache = @model.cache null, @url
-    if cache
+    if cache.length
       @callback cache
     else if @photos.length
       @get()

@@ -240,11 +240,11 @@ class Sidebar extends Spine.Controller
     Gallery.current()
     Album.current()
     Gallery.emptySelection()
-    Spine.trigger('album:activate')
-    Spine.trigger('gallery:activate')
+#    Spine.trigger('album:activate')
+#    Spine.trigger('gallery:activate')
     
   showAllAlbums: ->
     Spine.trigger('show:albums')
     Gallery.current()
-    Spine.trigger('gallery:activate')
+#    Spine.trigger('gallery:activate')
     

@@ -96,7 +96,7 @@ UriCollection = (function() {
   UriCollection.prototype.test = function() {
     var cache;
     cache = this.model.cache(null, this.url);
-    if (cache) {
+    if (cache.length) {
       return this.callback(cache);
     } else if (this.photos.length) {
       return this.get();

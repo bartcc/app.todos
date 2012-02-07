@@ -101,7 +101,6 @@ class PhotosList extends Spine.Controller
         img.src = src
     
   imageLoad: ->
-    console.log @src + ' loaded'
     css = 'url(' + @src + ')'
     $('.thumbnail', @element).css
       'backgroundImage': css

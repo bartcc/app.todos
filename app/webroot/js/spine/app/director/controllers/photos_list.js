@@ -144,7 +144,6 @@ PhotosList = (function() {
   };
   PhotosList.prototype.imageLoad = function() {
     var css;
-    console.log(this.src + ' loaded');
     css = 'url(' + this.src + ')';
     return $('.thumbnail', this.element).css({
       'backgroundImage': css,

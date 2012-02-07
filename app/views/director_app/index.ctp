@@ -502,7 +502,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  <label class="label"><span>Image Destination: </span>{{if album}}Album ${album.title}{{else}}All Photos{{/if}}</label>
+  <label class="label"><span>Target Album: </span>{{if album}}Album ${album.title}{{else}}none (all photos){{/if}}</label>
 </script>
 
 <script>

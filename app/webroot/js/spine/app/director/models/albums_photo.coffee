@@ -40,13 +40,10 @@ class AlbumsPhoto extends Spine.Model
     )
 
   albums: ->
-    l = Album.filterRelated(@album_id,
+    Album.filterRelated(@album_id,
       joinTable: 'AlbumsPhoto'
       key: 'album_id'
     )
-#    alert 'destroyed (' + l.length + ')' if @destroyed
-#    console.log l
-    l
 
   select: (id, options) ->
     return true if @[options.key] is id and @constructor.records[@id]

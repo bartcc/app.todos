@@ -49,7 +49,6 @@ PhotosView = (function() {
       parent: this.parent
     });
     this.header.template = this.headerTemplate;
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
@@ -65,7 +64,7 @@ PhotosView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Gallery.bind('change', this.proxy(this.renderHeader));
   }
-  PhotosView.prototype.change = function(item, changed) {
+  PhotosView.prototype.change = function(item, mode, changed) {
     var filterOptions, items;
     filterOptions = {
       key: 'album_id',
@@ -98,7 +97,9 @@ PhotosView = (function() {
     return Photo.clearCache();
   };
   PhotosView.prototype.clearAlbumCache = function(record, mode) {
-    return Album.clearCache(record.album_id);
+    console.log(Album.cacheList(record.album_id));
+    Album.clearCache(record.album_id);
+    return console.log(Album.cacheList(record.album_id));
   };
   PhotosView.prototype.remove = function(record) {
     var photo, photoEl;

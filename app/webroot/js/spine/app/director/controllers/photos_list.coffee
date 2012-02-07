@@ -35,12 +35,10 @@ class PhotosList extends Spine.Controller
   render: (items, mode='html') ->
     console.log 'PhotosList::render'
     if Album.record
-      return if @album?.id is Album.record.id
       if items.length
         @[mode] @template items
         @exposeSelection() unless mode is 'append'
         @uri items, mode
-        @album = Album.record
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
     else

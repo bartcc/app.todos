@@ -43,24 +43,24 @@ class AlbumsView extends Spine.Controller
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @create)
     Spine.bind('destroy:album', @proxy @destroy)
-    Spine.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedGallery', @proxy @changeSelection)
     Album.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('update destroy', @proxy @change)
-    Album.bind('destroy', @proxy @clearCache)
+#    Album.bind('destroy', @proxy @clearCache)
     GalleriesAlbum.bind("change", @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
     $(@views).queue('fx')
     
-  change: (item, changed) ->
+  change: (item, mode) ->
     console.log 'AlbumsView::change'
     # item can be gallery         from Spine.bind 'change:selectedGallery'
     # item can be album           from Album.bind 'change'
     # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
-    gallery = Gallery.record 
+    gallery = Gallery.record
     
     
     if (!gallery) or (gallery.destroyed)
@@ -68,13 +68,14 @@ class AlbumsView extends Spine.Controller
     else
       @current = Album.filterRelated(gallery.id, @filterOptions)
       
-    @render @current if changed or !!@pending
+    @render @current
     
+  changeSelection: (item, changed) ->
+    @change item if changed# or !!@pending
+     
   render: (item, changed) ->
     console.log 'AlbumsView::render'
-    unless @isActive()
-      @pending = true
-      return
+    return unless @isActive()
     
     @pending = false
     list = @list.render item
@@ -109,12 +110,12 @@ class AlbumsView extends Spine.Controller
   
   create: (e) ->
     console.log 'AlbumsView::create'
+    @show()
     album = new Album @newAttributes()
     album.save()
     Gallery.updateSelection [album.id]
     Album.trigger('create:join', Gallery.record, album) if Gallery.record
     Album.current(album)
-    @show()
     @change album
     @openPanel('album', App.showView.btnAlbum)
 

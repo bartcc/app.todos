@@ -36,7 +36,7 @@ class PhotosView extends Spine.Controller
       info: @info
       parent: @parent
     @header.template = @headerTemplate
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
+#    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
@@ -52,7 +52,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('change:selectedAlbum', @proxy @change)
     Gallery.bind('change', @proxy @renderHeader)
       
-  change: (item, changed) ->
+  change: (item, mode, changed) ->
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
@@ -79,8 +79,13 @@ class PhotosView extends Spine.Controller
   
   # after albumsphoto jointable has been changed by delete or create trash the cache and rebuild it the next time
   # could be in any controller that listens to AlbumsPhoto - may be move to app?
+  # AlbumCache is mainly used for chaching album folder thumbnails
   clearAlbumCache: (record, mode) ->
+    console.log Album.cacheList(record.album_id)
+#    console.log record.cache('50/50/1/70')
     Album.clearCache record.album_id
+    console.log Album.cacheList(record.album_id)
+#    console.log record.cache('50/50/1/70')
 
   # for AlbumsPhoto & Photo
   remove: (record) ->

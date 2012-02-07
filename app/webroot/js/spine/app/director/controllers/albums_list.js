@@ -26,8 +26,9 @@ AlbumsList = (function() {
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
     AlbumsPhoto.bind('beforeDestroy', this.proxy(this.deleteBackgrounds));
-    AlbumsPhoto.bind('change', this.proxy(this.changeBackgrounds));
+    AlbumsPhoto.bind('destroy create', this.proxy(this.changeBackgrounds));
     Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
@@ -88,6 +89,13 @@ AlbumsList = (function() {
     this.change(items, mode);
     return this.el;
   };
+  AlbumsList.prototype.clearAlbumCache = function(record, mode) {
+    var album;
+    album = Album.find(record.album_id);
+    console.log('************ clearing cache ' + album.title + ' ***************');
+    Album.clearCache(record.album_id);
+    return console.log(Album.cacheList(record.album_id));
+  };
   AlbumsList.prototype.refreshBackgrounds = function(photos) {
     var uploadAlbum;
     uploadAlbum = App.upload.album;
@@ -105,7 +113,7 @@ AlbumsList = (function() {
     return this.savedAlbums = ap.albums();
   };
   AlbumsList.prototype.renderBackgrounds = function(albums, mode) {
-    var album, _i, _j, _len, _len2, _ref, _ref2, _results, _results2;
+    var album, _i, _j, _len, _len2, _ref, _ref2, _results;
     if (!App.ready) {
       return;
     }
@@ -119,19 +127,18 @@ AlbumsList = (function() {
       return _results;
     } else if ((_ref = this.savedAlbums) != null ? _ref.length : void 0) {
       _ref2 = this.savedAlbums;
-      _results2 = [];
       for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
         album = _ref2[_j];
-        _results2.push(this.processAlbum(album));
+        this.processAlbum(album);
       }
-      return _results2;
+      return this.savedAlbums = [];
     }
   };
   AlbumsList.prototype.processAlbum = function(album) {
     return album.uri({
       width: 50,
       height: 50
-    }, 'append', __bind(function(xhr, album) {
+    }, 'html', __bind(function(xhr, album) {
       return this.callback(xhr, album);
     }, this), 4);
   };
@@ -153,7 +160,7 @@ AlbumsList = (function() {
       for (_i = 0, _len = json.length; _i < _len; _i++) {
         itm = json[_i];
         arr = searchJSON(itm);
-        _results.push('url(' + arr[0].src + ')');
+        _results.push(arr.length ? 'url(' + arr[0].src + ')' : void 0);
       }
       return _results;
     })();

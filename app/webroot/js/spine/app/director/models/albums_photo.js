@@ -65,12 +65,10 @@ AlbumsPhoto = (function() {
     });
   };
   AlbumsPhoto.prototype.albums = function() {
-    var l;
-    l = Album.filterRelated(this.album_id, {
+    return Album.filterRelated(this.album_id, {
       joinTable: 'AlbumsPhoto',
       key: 'album_id'
     });
-    return l;
   };
   AlbumsPhoto.prototype.select = function(id, options) {
     if (this[options.key] === id && this.constructor.records[this.id]) {

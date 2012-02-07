@@ -29,7 +29,7 @@ Model.Cache = {
         }
       }, this),
       cache: function(record, url) {
-        var cache, item, _i, _len;
+        var cache, dummy, item, _i, _len;
         cache = this.cacheList(record != null ? record.id : void 0);
         if (!cache) {
           return;
@@ -40,16 +40,29 @@ Model.Cache = {
             return item[url];
           }
         }
+        dummy = {};
+        dummy[url] = [];
+        cache.push(dummy);
+        return this.cache(record, url);
       },
       addToCache: function(record, url, uri, mode) {
-        var cache, dummy;
+        var cache, dummy, ur, _i, _len, _ref;
         cache = this.cacheList(record != null ? record.id : void 0);
         if (!cache) {
           return;
         }
-        dummy = {};
-        dummy[url] = uri;
-        cache.push(dummy);
+        if (mode === 'append') {
+          cache = this.cache(record, url);
+          for (_i = 0, _len = uri.length; _i < _len; _i++) {
+            ur = uri[_i];
+            cache.push(ur);
+          }
+        } else {
+          dummy = {};
+          dummy[url] = uri;
+          [].splice.apply(cache, [0, cache.length - 0].concat(_ref = [])), _ref;
+          cache.push(dummy);
+        }
         return cache;
       },
       removeFromCache: function(record) {
@@ -67,8 +80,9 @@ Model.Cache = {
         var originalList, _ref;
         originalList = this.cacheList(id);
         if (originalList) {
-          return ([].splice.apply(originalList, [0, originalList.length - 0].concat(_ref = [])), _ref);
+          [].splice.apply(originalList, [0, originalList.length - 0].concat(_ref = [])), _ref;
         }
+        return originalList;
       }
     };
     Include = {

@@ -325,8 +325,8 @@ class ShowView extends Spine.Controller
         
     @changeToolbarOne()
     @current.items.deselect()
-    e.stopPropagation()
-    e.preventDefault()
+    e?.stopPropagation()
+    e?.preventDefault()
     
     
   uploadProgress: (e, coll) ->

@@ -375,8 +375,10 @@ ShowView = (function() {
     }
     this.changeToolbarOne();
     this.current.items.deselect();
-    e.stopPropagation();
-    return e.preventDefault();
+    if (e != null) {
+      e.stopPropagation();
+    }
+    return e != null ? e.preventDefault() : void 0;
   };
   ShowView.prototype.uploadProgress = function(e, coll) {};
   ShowView.prototype.uploadDone = function(e, coll) {};

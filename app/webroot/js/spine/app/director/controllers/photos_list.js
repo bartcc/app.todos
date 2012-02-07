@@ -48,22 +48,17 @@ PhotosList = (function() {
     return this.activate();
   };
   PhotosList.prototype.render = function(items, mode) {
-    var _ref;
     if (mode == null) {
       mode = 'html';
     }
     console.log('PhotosList::render');
     if (Album.record) {
-      if (((_ref = this.album) != null ? _ref.id : void 0) === Album.record.id) {
-        return;
-      }
       if (items.length) {
         this[mode](this.template(items));
         if (mode !== 'append') {
           this.exposeSelection();
         }
         this.uri(items, mode);
-        this.album = Album.record;
       } else {
         this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
       }

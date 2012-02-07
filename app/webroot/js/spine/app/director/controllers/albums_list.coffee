@@ -13,9 +13,10 @@ class AlbumsList extends Spine.Controller
   constructor: ->
     super
     Photo.bind('refresh', @proxy @refreshBackgrounds)
+    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
     AlbumsPhoto.bind('beforeDestroy', @proxy @deleteBackgrounds)
 #    AlbumsPhoto.bind('create', @proxy @addBackgrounds)
-    AlbumsPhoto.bind('change', @proxy @changeBackgrounds)
+    AlbumsPhoto.bind('destroy create', @proxy @changeBackgrounds)
     Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
@@ -68,6 +69,13 @@ class AlbumsList extends Spine.Controller
     @change items, mode
     @el
     
+  clearAlbumCache: (record, mode) ->
+    album = Album.find(record.album_id)
+    console.log '************ clearing cache ' + album.title + ' ***************'
+#    console.log record.cache('50/50/1/70')
+    Album.clearCache record.album_id
+    console.log Album.cacheList(record.album_id)
+    
   refreshBackgrounds: (photos) ->
     uploadAlbum = App.upload.album
     @renderBackgrounds [uploadAlbum] if uploadAlbum
@@ -88,12 +96,13 @@ class AlbumsList extends Spine.Controller
       @processAlbum album for album in albums
     else if @savedAlbums?.length
       @processAlbum album for album in @savedAlbums
+      @savedAlbums = []
   
   processAlbum: (album) ->
     album.uri
       width: 50
       height: 50
-      , 'append'
+      , 'html'
       , (xhr, album) =>
         @callback(xhr, album)
       , 4
@@ -105,7 +114,7 @@ class AlbumsList extends Spine.Controller
         value
     css = for itm in json
       arr = searchJSON itm
-      'url(' + arr[0].src + ')'
+      'url(' + arr[0].src + ')' if arr.length
     el.css('backgroundImage', css)
   
   create: ->

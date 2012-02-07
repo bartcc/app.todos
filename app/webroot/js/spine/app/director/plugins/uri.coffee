@@ -104,8 +104,7 @@ class Uri extends Base
   
   test: ->
     cache = @record.cache @url
-    console.log cache
-    if cache
+    if cache.length
       @callback cache, @record
     else
       @get()

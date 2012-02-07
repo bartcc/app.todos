@@ -53,19 +53,18 @@ AlbumsView = (function() {
     Spine.bind('show:albums', this.proxy(this.show));
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
-    Spine.bind('change:selectedGallery', this.proxy(this.change));
+    Spine.bind('change:selectedGallery', this.proxy(this.changeSelection));
     Album.bind('ajaxError', Album.errorHandler);
     Album.bind('destroy:join', this.proxy(this.destroyJoin));
     Album.bind('create:join', this.proxy(this.createJoin));
     Album.bind('update destroy', this.proxy(this.change));
-    Album.bind('destroy', this.proxy(this.clearCache));
     GalleriesAlbum.bind("change", this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
     $(this.views).queue('fx');
   }
-  AlbumsView.prototype.change = function(item, changed) {
+  AlbumsView.prototype.change = function(item, mode) {
     var gallery;
     console.log('AlbumsView::change');
     gallery = Gallery.record;
@@ -74,15 +73,17 @@ AlbumsView = (function() {
     } else {
       this.current = Album.filterRelated(gallery.id, this.filterOptions);
     }
-    if (changed || !!this.pending) {
-      return this.render(this.current);
+    return this.render(this.current);
+  };
+  AlbumsView.prototype.changeSelection = function(item, changed) {
+    if (changed) {
+      return this.change(item);
     }
   };
   AlbumsView.prototype.render = function(item, changed) {
     var list;
     console.log('AlbumsView::render');
     if (!this.isActive()) {
-      this.pending = true;
       return;
     }
     this.pending = false;
@@ -119,6 +120,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.create = function(e) {
     var album;
     console.log('AlbumsView::create');
+    this.show();
     album = new Album(this.newAttributes());
     album.save();
     Gallery.updateSelection([album.id]);
@@ -126,7 +128,6 @@ AlbumsView = (function() {
       Album.trigger('create:join', Gallery.record, album);
     }
     Album.current(album);
-    this.show();
     this.change(album);
     return this.openPanel('album', App.showView.btnAlbum);
   };

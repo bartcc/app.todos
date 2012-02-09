@@ -62,5 +62,8 @@ ToolbarView = (function() {
     this.html(this.template(list));
     return (_ref = this.current) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
   };
+  ToolbarView.prototype.current = function() {
+    return this.current;
+  };
   return ToolbarView;
 })();

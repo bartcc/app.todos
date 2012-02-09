@@ -34,7 +34,115 @@ Toolbar = (function() {
     }
     return list;
   };
+  Toolbar.dropdownGroups = {
+    group0: {
+      name: 'Views',
+      content: [
+        {
+          name: 'Show all galleries',
+          klass: 'optAllGalleries'
+        }, {
+          name: 'Show all albums',
+          klass: 'optAllAlbums'
+        }, {
+          name: 'Show all photos',
+          klass: 'optAllPhotos '
+        }, {
+          devider: true
+        }, {
+          name: 'Overview',
+          klass: 'optOverview '
+        }
+      ]
+    },
+    group1: {
+      name: 'Gallery',
+      content: [
+        {
+          name: 'New Gallery',
+          klass: 'optCreateGallery'
+        }, {
+          name: 'Edit Gallery (Exit View)',
+          klass: 'optEditGallery',
+          disabled: function() {
+            return !Gallery.record;
+          }
+        }, {
+          name: 'Edit Gallery',
+          klass: 'optGallery',
+          disabled: function() {
+            return !Gallery.record;
+          }
+        }, {
+          name: 'Delete Gallery',
+          klass: 'optDestroyGallery',
+          disabled: function() {
+            return !Gallery.record;
+          }
+        }
+      ]
+    },
+    group2: {
+      name: 'Album',
+      content: [
+        {
+          name: 'New Album',
+          klass: 'optCreateAlbum'
+        }, {
+          name: 'Edit Album',
+          klass: 'optAlbum'
+        }, {
+          name: 'Delete Album',
+          klass: 'optDestroyAlbum',
+          disabled: function() {
+            return !Gallery.selectionList().length;
+          }
+        }
+      ]
+    },
+    group3: {
+      name: 'Photo',
+      content: [
+        {
+          name: 'Edit Photo',
+          klass: 'optPhoto',
+          disabled: function() {
+            return !Album.selectionList().length;
+          }
+        }, {
+          name: 'Delete Photo',
+          klass: 'optDestroyPhoto ',
+          disabled: function() {
+            return !Album.selectionList().length;
+          }
+        }, {
+          devider: true
+        }, {
+          name: 'Upload',
+          klass: 'optUpload'
+        }
+      ]
+    }
+  };
   Toolbar.data = {
+    group0: {
+      name: 'Default',
+      content: [
+        {
+          dropdown: true,
+          itemGroup: Toolbar.dropdownGroups.group0
+        }, {
+          dropdown: true,
+          itemGroup: Toolbar.dropdownGroups.group1
+        }, {
+          dropdown: true,
+          itemGroup: Toolbar.dropdownGroups.group2
+        }, {
+          dropdown: true,
+          itemGroup: Toolbar.dropdownGroups.group3
+        }
+      ]
+    },
     group1: {
       name: 'Gallery',
       content: [
@@ -53,6 +161,9 @@ Toolbar = (function() {
           disabled: function() {
             return !Gallery.record;
           }
+        }, {
+          dropdown: true,
+          itemGroup: Toolbar.dropdownGroups.group0
         }
       ]
     },
@@ -93,14 +204,15 @@ Toolbar = (function() {
       name: 'Photos',
       content: [
         {
-          name: 'Delete Image',
-          klass: 'optDestroyPhoto ',
+          name: 'Delete Photo',
+          klass: 'optDestroyPhoto',
+          outerstyle: 'float: right;',
           disabled: function() {
             return !Album.selectionList().length;
           }
         }, {
-          klass: 'optThumbsize ',
           name: '<span id="slider" style=""></span>',
+          klass: 'optThumbsize ',
           type: 'div',
           style: 'width: 190px; position: relative;'
         }
@@ -133,9 +245,9 @@ Toolbar = (function() {
         {
           name: function() {
             if (Album.record.title) {
-              return 'Slideshow: ' + Album.record.title;
+              return 'Play';
             } else {
-              return 'No Slideshow (Select Album)';
+              return 'Play';
             }
           },
           klass: 'optSlideshow',

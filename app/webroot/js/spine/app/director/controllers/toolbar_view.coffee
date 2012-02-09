@@ -35,3 +35,6 @@ class ToolbarView extends Spine.Controller
     return if @locked
     @html @template list
     @current?.cb?()
+    
+  current: ->
+    @current

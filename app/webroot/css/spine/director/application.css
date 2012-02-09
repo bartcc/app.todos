@@ -114,8 +114,7 @@ h4 {
 }
 a {
   color: #363636;
-  cursor: move;
-  text-decoration: underline;
+  text-decoration: none;
 }
 pre { 
   margin: 0;
@@ -151,24 +150,6 @@ div.show div.content label.label span {
   font-weight: normal;
   font-family: serif;
   font-style: italic
-}
-button, .options li.opt {
-  border: 1px solid #bbbbbb;
-  text-shadow: 0 1px 1px #ffffff;
-  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
-  color: #565656;
-  padding: 10px;
-  outline: none;
-  background: #f9f9f9;
-  background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#e3e3e3));
-  background: -moz-linear-gradient(top, #f9f9f9, #e3e3e3);
-  background: linear-gradient(top, #f9f9f9, #e3e3e3);
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  -moz-box-shadow: 0 1px 1px #ffffff;
-  -webkit-box-shadow: 0 1px 1px #ffffff;
-  box-shadow: 0 1px 1px #ffffff;
 }
 button.clear {
   margin-right: 10px
@@ -206,8 +187,25 @@ button.dark:active:not(:disabled) {
   background: -moz-linear-gradient(top, #404040, #454545);
   background: linear-gradient(top, #404040, #454545);
 }
-button.dark, .options li.disabled, .options li.opt {
+button, .options li.opt, .options li.dropdown > a {
   border: 1px solid #555555;
+  text-shadow: 0 1px 1px #ffffff;
+/*  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
+  color: #565656;
+  padding: 10px;
+  outline: none;
+  background: #f9f9f9;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#e3e3e3));
+  background: -moz-linear-gradient(top, #f9f9f9, #e3e3e3);
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -moz-box-shadow: 0 1px 1px #ffffff;
+  -webkit-box-shadow: 0 1px 1px #ffffff;
+  box-shadow: 0 1px 1px #ffffff;
+}
+button.dark, .options li.disabled, .options li.opt, .options li.opt > a, .options li.dropdown > a {
   color: #6C6C6C;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
   background: #494949;
@@ -218,7 +216,7 @@ button.dark, .options li.disabled, .options li.opt {
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-.options button, .options li.opt {
+.options button, .options li.opt, .options li.dropdown > a {
   border-radius: 0px;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
@@ -230,7 +228,7 @@ button.dark, .options li.disabled, .options li.opt {
   -webkit-box-shadow: 0 0 0;*/
   border-color: #181818;
   border-style: solid;
-  border-width: 0 1px 0 0;
+  border-width: 0;
   margin: 0;
   cursor: pointer;
 }
@@ -315,7 +313,6 @@ button:disabled {
 .view label span, .disabled {
   color: #676767;
   cursor: auto;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 .view label.label span {
   font-family: serif;
@@ -512,6 +509,9 @@ textarea {
 }
 #content .header section.closeView {
   height: 36px;
+}
+#content .header section.closeView {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 #content .header section.closeView ul {
   float: left;
@@ -723,15 +723,11 @@ textarea {
   background: -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333333));
   background: -moz-linear-gradient(top, #494949, #333333);
   background: linear-gradient(top, #494949, #333333);
-  font-weight: bold;
 }
 #content .options {
   margin: 0;
   padding: 0;
-/*  overflow: hidden;*/
   list-style: none;
-  text-shadow: 0 1px 0px rgba(255, 255, 255, 0.6);
-/*  border-top: 1px solid rgba(0, 0, 0, 0.3);*/
 }
 .options li:not(.ui-icon) {
 /*  border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -751,7 +747,6 @@ textarea {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 .originals .options {
-  font-size: 0.8em;
   font-weight: normal;
 }
 .empty {
@@ -1016,7 +1011,7 @@ textarea {
 }
 #content ul {
   margin: 0;
-  padding: 0;
+/*  padding: 0;*/
 }
 #content .hoverinfo {
   min-width: 120px;
@@ -1062,6 +1057,7 @@ textarea {
 }
 #slider .ui-slider-handle {
   border-radius: 11px;
+  padding: 0;
 }
 .ui-widget {
   font-size: 1em;
@@ -1095,7 +1091,7 @@ label {
 }
 .container label.label {
   background: none;
-  color: #353535;
+  color: #151515;
 }
 .message.label span.error {
   color: rgba(255, 50, 0, 0.8);
@@ -1106,4 +1102,23 @@ label {
 li.active button.dark {
   color: #00BBCC;
   text-shadow: 1px 0 10px rgba(0, 224, 255, 0.8), 1px 0 10px rgba(0, 224, 255, 0.2), -1px -1px 0 #000000;
+}
+
+/* neutralize bootstrap classes*/
+.thumbnail {
+    border: 0 none;
+}
+.disabled {
+  color: rgba(0, 0, 0, 0.4);
+}
+.dropdown-menu a.disabled{
+  color: #BEBEBE;
+}
+.label {
+  font-size: 1.2em;
+}
+.options li button:hover:not(:disabled) {
+  background-color: transparent;
+  color: #FFFFFF;
+  text-decoration: none;
 }

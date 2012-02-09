@@ -36,6 +36,9 @@ SlideshowView = (function() {
     Spine.bind('play:slideshow', this.proxy(this.play));
   }
   SlideshowView.prototype.render = function(items) {
+    if (!this.isActive()) {
+      return;
+    }
     console.log('SlideshowView::render');
     this.items.html(this.template(items));
     this.uri(items, 'append');

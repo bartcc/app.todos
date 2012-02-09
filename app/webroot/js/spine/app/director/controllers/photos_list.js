@@ -188,7 +188,7 @@ PhotosList = (function() {
     console.log('PhotosList::click');
     item = $(e.currentTarget).item();
     item.addRemoveSelection(this.isCtrlClick(e));
-    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider);
+    Spine.trigger('change:toolbarOne');
     this.select(item, e);
     e.stopPropagation();
     return e.preventDefault();

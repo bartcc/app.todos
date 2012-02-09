@@ -166,7 +166,7 @@ PhotosView = (function() {
       return;
     }
     Spine.trigger('gallery:activate');
-    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider);
+    Spine.trigger('change:toolbarOne', ['Default', 'Photos'], App.showView.initSlider);
     Spine.trigger('change:canvas', this);
     return this.renderHeader();
   };

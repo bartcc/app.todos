@@ -50,14 +50,13 @@ ShowView = (function() {
     "click .optEditGallery": "editGallery",
     "click .optCreateGallery": "createGallery",
     "click .optDestroyGallery": "destroyGallery",
-    "click .optGallery .ui-icon": "toggleGalleryShow",
-    "click .optAlbum .ui-icon": "toggleAlbumShow",
-    "click .optPhoto .ui-icon": "togglePhotoShow",
-    "click .optUpload .ui-icon": "toggleUploadShow",
-    "click .optGallery": "toggleGallery",
-    "click .optAlbum": "toggleAlbum",
-    "click .optPhoto": "togglePhoto",
-    "click .optUpload": "toggleUpload",
+    "click .optGallery": "toggleGalleryShow",
+    "click .optAlbum": "toggleAlbumShow",
+    "click .optPhoto": "togglePhotoShow",
+    "click .optUpload": "toggleUploadShow",
+    'click .optAllGalleries': 'allGalleries',
+    'click .optAllAlbums': 'allAlbums',
+    'click .optAllPhotos': 'allPhotos',
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
     'slidestop #slider': 'sliderStop',
@@ -72,6 +71,7 @@ ShowView = (function() {
     this.sliderStart = __bind(this.sliderStart, this);
     this.initSlider = __bind(this.initSlider, this);
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
+    this.d = 'a.menu, .dropdown-toggle';
     this.toolbarOne = new ToolbarView({
       el: this.toolbarOneEl,
       template: this.toolsTemplate
@@ -283,36 +283,28 @@ ShowView = (function() {
   };
   ShowView.prototype.toggleGalleryShow = function(e) {
     this.trigger("toggle:view", App.gallery, e.target);
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   ShowView.prototype.toggleGallery = function(e) {
     return this.changeToolbarOne(['Gallery']);
   };
   ShowView.prototype.toggleAlbumShow = function(e) {
     this.trigger("toggle:view", App.album, e.target);
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   ShowView.prototype.toggleAlbum = function(e) {
     return this.changeToolbarOne(['Album']);
   };
   ShowView.prototype.togglePhotoShow = function(e) {
     this.trigger("toggle:view", App.photo, e.target);
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   ShowView.prototype.togglePhoto = function(e) {
     return this.changeToolbarOne(['Photos'], App.showView.initSlider);
   };
   ShowView.prototype.toggleUploadShow = function(e) {
     this.trigger("toggle:view", App.upload, e.target);
-    e.stopPropagation();
-    e.preventDefault();
-    return false;
+    return e.preventDefault();
   };
   ShowView.prototype.toggleUpload = function(e) {
     return this.changeToolbarOne(['Upload']);
@@ -374,14 +366,17 @@ ShowView = (function() {
         Spine.trigger('gallery:activate', false);
     }
     this.changeToolbarOne();
-    this.current.items.deselect();
-    if (e != null) {
-      e.stopPropagation();
-    }
-    return e != null ? e.preventDefault() : void 0;
+    return this.current.items.deselect();
   };
   ShowView.prototype.uploadProgress = function(e, coll) {};
   ShowView.prototype.uploadDone = function(e, coll) {};
+  ShowView.prototype.dropdown_ = function(e) {
+    var isActive, li;
+    li = $(e.target).parent('li');
+    isActive = li.hasClass('open');
+    !isActive && li.toggleClass('open');
+    return false;
+  };
   ShowView.prototype.sliderInValue = function(val) {
     val = val || this.sOutValue;
     return this.sInValue = (val / 2) - 20;
@@ -415,5 +410,14 @@ ShowView = (function() {
     return this.photosView.list.size(this.sliderOutValue(val));
   };
   ShowView.prototype.sliderStop = function() {};
+  ShowView.prototype.allGalleries = function() {
+    return Spine.trigger('show:galleries');
+  };
+  ShowView.prototype.allAlbums = function() {
+    return Spine.trigger('show:allAlbums');
+  };
+  ShowView.prototype.allPhotos = function() {
+    return Spine.trigger('show:allPhotos');
+  };
   return ShowView;
 })();

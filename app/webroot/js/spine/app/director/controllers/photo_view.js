@@ -150,7 +150,7 @@ PhotoView = (function() {
     return this.info.bye();
   };
   PhotoView.prototype.show = function(item) {
-    Spine.trigger('change:toolbarOne', ['Photo']);
+    Spine.trigger('change:toolbarOne', ['Default']);
     Spine.trigger('change:canvas', this);
     return this.render(item);
   };

@@ -175,7 +175,7 @@ AlbumsList = (function() {
     item = $(e.currentTarget).item();
     item.addRemoveSelection(this.isCtrlClick(e));
     this.activate();
-    Spine.trigger('change:toolbarOne', ['Album']);
+    Spine.trigger('change:toolbarOne');
     e.stopPropagation();
     return e.preventDefault();
   };

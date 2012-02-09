@@ -70,11 +70,7 @@
         </div>
         <div class="originals hbox">
           <ul class="options hbox flex">
-            <li class="optAllGalleries"><button class="dark">all galleries</button></li>
             <li class="splitter disabled"></li>
-            <li class="optAllAlbums"><button class="dark">all albums</button></li>
-            <li class="splitter disabled"></li>
-            <li class="optAllPhotos"><button class="dark">all photos</button></li>
           </ul>
         </div>
         <ul class="items canvas vbox flex autoflow"></ul>
@@ -111,12 +107,11 @@
         </div>
       </div>
       <div class="show view canvas vbox flex">
-        <ul class="options hbox">
-          <li class="optOverview"><button class="dark">Overview</button></li>
-          <ul class="toolbarOne hbox"></ul>
+        <ul class="options hbox navbar">
+          <ul class="toolbarOne hbox nav"></ul>
           <li class="splitter disabled flex"></li>
 <!--          <li class="optSlideshow"><button class="dark">Slideshow</button></li>-->
-          <ul class="toolbarTwo hbox"></ul>
+          <ul class="toolbarTwo hbox nav"></ul>
         </ul>
         <div class="contents views vbox flex">
           <div class="header views">
@@ -168,13 +163,13 @@
                 <div class="row">
                   <div class="span16 fileupload-buttonbar">
                     <div class="progressbar fileupload-progressbar"><div style="width:0%;"></div></div>
-                    <span class="btn success fileinput-button">
+                    <span class="btn btn-success fileinput-button">
                       <span>Add files...</span>
                       <input type="file" name="files[]" multiple>
                     </span>
-                    <button type="submit" class="btn primary start">Start upload</button>
-                    <button type="reset" class="btn info cancel">Cancel upload</button>
-                    <button type="button" class="btn danger delete">Delete selected</button>
+                    <button type="submit" class="btn btn-primary start">Start upload</button>
+                    <button type="reset" class="btn btn-info cancel">Cancel upload</button>
+                    <button type="button" class="btn btn-danger delete">Delete selected</button>
                     <input type="checkbox" class="toggle">
                   </div>
                 </div>
@@ -188,7 +183,7 @@
             </div>
           </div>
         </div>  
-        <ul class="options props hbox">
+        <ul class="options props hbox" style="display: none;">
           <li class="opt optGallery">Gallery<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
           <li class="splitter disabled"></li>
           <li class="opt optAlbum">Album<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
@@ -201,7 +196,6 @@
       </div>
       <div class="edit view vbox flex">
         <ul class="tools options hbox">
-          <li class="optOptions"><button class="dark">Options</button></li>
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="content container canvas vbox flex autoflow"></div>
@@ -350,9 +344,36 @@
 </script>
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">
-  {{if name}}
-  <li class="splitter disabled"></li>
-  <li class="${klass}"><{{if type}}${type}{{else}}button class="dark" {{/if}}{{if style}} style="${style}"{{/if}} {{if disabled}}disabled{{/if}} class="tb-name">{{html name}}</{{if type}}${type}{{else}}button{{/if}}></li>
+  {{if dropdown}}
+    {{tmpl(itemGroup)  "#dropdownTemplate"}}
+  {{else}}
+  <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}>
+    <{{if type}}${type} class="tb-name"{{else}}button class="dark" {{/if}}
+    {{if style}} style="${style}"{{/if}}
+    {{if disabled}}disabled{{/if}}>
+    {{html name}}
+    </{{if type}}${type}{{else}}button{{/if}}>
+  </li>
+  {{/if}}
+</script>
+
+<script id="dropdownTemplate" type="text/x-jquery-tmpl">
+  <li class="dropdown" id="menu1">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+      ${name}
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      {{tmpl(content) "#dropListItemTemplate"}}
+    </ul>
+  </li>
+</script>
+
+<script id="dropListItemTemplate" type="text/x-jquery-tmpl">
+  {{if devider}}
+  <li class="divider"></li>
+  {{else}}
+  <li><a class="${klass} {{if disabled}}disabled{{/if}}" href="#">${name}</a></li>
   {{/if}}
 </script>
 
@@ -378,7 +399,7 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <h3><span>Album Originals</span></h3>
+    <h3><span>Album Originals</span><label class="message label right"><span class="enlightened error"> Caution: Albums are unrecoverable!</span></label></h3>
     <h2>All Albums
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>

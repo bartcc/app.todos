@@ -12,7 +12,93 @@ class Toolbar extends Spine.Model
     list.push val for key, val of @data
     list
     
+  @dropdownGroups:
+    group0:
+      name: 'Views'
+      content:
+        [
+          name: 'Show all galleries'
+          klass: 'optAllGalleries'
+        ,
+          name: 'Show all albums'
+          klass: 'optAllAlbums'
+        ,
+          name: 'Show all photos'
+          klass: 'optAllPhotos '
+        ,
+          devider: true
+        ,
+          name: 'Overview'
+          klass: 'optOverview '
+        ]
+    group1:
+      name: 'Gallery'
+      content:
+        [
+          name: 'New Gallery'
+          klass: 'optCreateGallery'
+        ,
+          name: 'Edit Gallery (Exit View)'
+          klass: 'optEditGallery'
+          disabled: -> !Gallery.record
+        ,
+          name: 'Edit Gallery'
+          klass: 'optGallery'
+          disabled: -> !Gallery.record
+        ,
+          name: 'Delete Gallery'
+          klass: 'optDestroyGallery'
+          disabled: -> !Gallery.record
+        ]
+    group2:
+      name: 'Album'
+      content:
+        [
+          name: 'New Album'
+          klass: 'optCreateAlbum'
+        ,
+          name: 'Edit Album'
+          klass: 'optAlbum'
+        ,
+          name: 'Delete Album'
+          klass: 'optDestroyAlbum'
+          disabled: -> !Gallery.selectionList().length
+        ]
+    group3:
+      name: 'Photo'
+      content:
+        [
+          name: 'Edit Photo'
+          klass: 'optPhoto'
+          disabled: -> !Album.selectionList().length
+        ,
+          name: 'Delete Photo'
+          klass: 'optDestroyPhoto '
+          disabled: -> !Album.selectionList().length
+        ,
+          devider: true
+        ,
+          name: 'Upload'
+          klass: 'optUpload'
+        ]
+      
   @data:
+    group0:
+      name: 'Default'
+      content:
+        [
+          dropdown: true
+          itemGroup: @dropdownGroups.group0
+        ,
+          dropdown: true
+          itemGroup: @dropdownGroups.group1
+        ,
+          dropdown: true
+          itemGroup: @dropdownGroups.group2
+        ,
+          dropdown: true
+          itemGroup: @dropdownGroups.group3
+        ]
     group1:
       name: 'Gallery'
       content:
@@ -27,6 +113,9 @@ class Toolbar extends Spine.Model
           name: 'Delete Gallery'
           klass: 'optDestroyGallery'
           disabled: -> !Gallery.record
+        ,
+          dropdown: true
+          itemGroup: @dropdownGroups.group0
         ]
     group2:
       name: 'GalleryEdit'
@@ -55,12 +144,13 @@ class Toolbar extends Spine.Model
       name: 'Photos'
       content:
         [
-          name: 'Delete Image'
-          klass: 'optDestroyPhoto '
+          name: 'Delete Photo'
+          klass: 'optDestroyPhoto'
+          outerstyle: 'float: right;'
           disabled: -> !Album.selectionList().length
         ,
-          klass: 'optThumbsize '
           name: '<span id="slider" style=""></span>'
+          klass: 'optThumbsize '
           type: 'div'
           style: 'width: 190px; position: relative;'
         ]
@@ -83,7 +173,7 @@ class Toolbar extends Spine.Model
       name: 'Slideshow'
       content:
         [
-          name: -> if Album.record.title then 'Slideshow: ' + Album.record.title else 'No Slideshow (Select Album)'
+          name: -> if Album.record.title then 'Play' else 'Play'
           klass: 'optSlideshow'
           disabled: -> !Gallery.selectionList().length
         ]
@@ -101,7 +191,7 @@ class Toolbar extends Spine.Model
           name: 'X'
           klass: 'optPrevious'
         ]
-    
+        
   init: (ins) ->
     
   select: (list) ->

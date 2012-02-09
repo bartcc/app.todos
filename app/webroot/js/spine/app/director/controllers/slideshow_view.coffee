@@ -9,9 +9,7 @@ class SlideshowView extends Spine.Controller
     '#gallery'         : 'galleryEl'
     
   events:
-#    'click'            : 'click'
     'click .thumbnail' : 'clickThumb'
-#    'click a'          : 'anker'
     
   template: (items) ->
     $("#photosTemplate").tmpl items

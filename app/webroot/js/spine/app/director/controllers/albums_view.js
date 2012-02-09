@@ -100,7 +100,7 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.show = function() {
     Spine.trigger('change:canvas', this);
-    Spine.trigger('change:toolbarOne', ['Album']);
+    Spine.trigger('change:toolbarOne', ['Views', 'Default']);
     return Spine.trigger('gallery:exposeSelection', Gallery.record);
   };
   AlbumsView.prototype.newAttributes = function() {

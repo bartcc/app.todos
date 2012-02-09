@@ -31,7 +31,7 @@ GalleriesList = (function() {
     return this.el;
   };
   GalleriesList.prototype.select = function(item) {
-    Spine.trigger('change:toolbarOne', ['Gallery']);
+    Spine.trigger('change:toolbarOne', ['Default']);
     return Spine.trigger('gallery:activate', item);
   };
   GalleriesList.prototype.exposeSelection = function(item) {

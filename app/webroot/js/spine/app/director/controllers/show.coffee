@@ -26,6 +26,7 @@ class ShowView extends Spine.Controller
     '#slider'                 : 'slider'
     
   events:
+#    'click'                           : 'clearMenus'
     "click .optOverview"              : "showOverview"
     "click .optSlideshow"             : "showSlideshow"
     "click .optPrevious"              : "showPrevious"
@@ -41,24 +42,34 @@ class ShowView extends Spine.Controller
     "click .optEditGallery"           : "editGallery"
     "click .optCreateGallery"         : "createGallery"
     "click .optDestroyGallery"        : "destroyGallery"
-    "click .optGallery .ui-icon"      : "toggleGalleryShow"
-    "click .optAlbum .ui-icon"        : "toggleAlbumShow"
-    "click .optPhoto .ui-icon"        : "togglePhotoShow"
-    "click .optUpload .ui-icon"       : "toggleUploadShow"
-    "click .optGallery"               : "toggleGallery"
-    "click .optAlbum"                 : "toggleAlbum"
-    "click .optPhoto"                 : "togglePhoto"
-    "click .optUpload"                : "toggleUpload"
+    "click .optGallery"               : "toggleGalleryShow"
+    "click .optAlbum"                 : "toggleAlbumShow"
+    "click .optPhoto"                 : "togglePhotoShow"
+    "click .optUpload"                : "toggleUploadShow"
+    'click .optAllGalleries'          : 'allGalleries'
+    'click .optAllAlbums'             : 'allAlbums'
+    'click .optAllPhotos'             : 'allPhotos'
+#    "click .optGallery .ui-icon"      : "toggleGalleryShow"
+#    "click .optAlbum .ui-icon"        : "toggleAlbumShow"
+#    "click .optPhoto .ui-icon"        : "togglePhotoShow"
+#    "click .optUpload .ui-icon"       : "toggleUploadShow"
+#    "click .optGallery"               : "toggleGallery"
+#    "click .optAlbum"                 : "toggleAlbum"
+#    "click .optPhoto"                 : "togglePhoto"
+#    "click .optUpload"                : "toggleUpload"
     'dblclick .draghandle'            : 'toggleDraghandle'
-    'click .items'                    : "deselect" 
+    'click .items'                    : "deselect"
     'slidestop #slider'               : 'sliderStop'
     'slidestart #slider'              : 'sliderStart'
+#    'click .dropdown-toggle'          : "dropdown"
     
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
 
   constructor: ->
     super
+    @d = 'a.menu, .dropdown-toggle'
+    
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
       template: @toolsTemplate
@@ -114,7 +125,7 @@ class ShowView extends Spine.Controller
     @bind("toggle:view", @proxy @toggleView)
     @current = @albumsView
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
-    @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for optimal quality)
+    @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     
     if @activeControl
       @initControl @activeControl
@@ -125,6 +136,7 @@ class ShowView extends Spine.Controller
     @canvasManager.change @current
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
     @headerManager.change @albumsHeader
+#    @el.dropdown( '.dropdown-toggle' )
     
     @defaultToolbarTwo = @toolbarTwo.change ['Slideshow']
     
@@ -140,12 +152,14 @@ class ShowView extends Spine.Controller
     
   renderToolbar_: (el) ->
     console.log 'ShowView::renderToolbar'
-    
     @[el]?.html @toolsTemplate @currentToolbar
     @refreshElements()
     
   changeToolbarOne: (list=[], cb) ->
     @toolbarOne.change list, cb
+#    dd = $(@el).dropdown('[data-dropdown] a.menu, [data-dropdown] .dropdown-toggle')
+#    console.log dd
+    
     @toolbarTwo.refresh()
     @refreshElements()
     
@@ -240,36 +254,32 @@ class ShowView extends Spine.Controller
     
   toggleGalleryShow: (e) ->
     @trigger("toggle:view", App.gallery, e.target)
-    e.stopPropagation()
+#    e.stopPropagation()
     e.preventDefault()
-    false
     
   toggleGallery: (e) ->
     @changeToolbarOne ['Gallery']
 
   toggleAlbumShow: (e) ->
     @trigger("toggle:view", App.album, e.target)
-    e.stopPropagation()
+#    e.stopPropagation()
     e.preventDefault()
-    false
 
   toggleAlbum: (e) ->
     @changeToolbarOne ['Album']
     
   togglePhotoShow: (e) ->
     @trigger("toggle:view", App.photo, e.target)
-    e.stopPropagation()
+#    e.stopPropagation()
     e.preventDefault()
-    false
     
   togglePhoto: (e) ->
     @changeToolbarOne ['Photos'], App.showView.initSlider
 
   toggleUploadShow: (e) ->
     @trigger("toggle:view", App.upload, e.target)
-    e.stopPropagation()
+#    e.stopPropagation()
     e.preventDefault()
-    false
     
   toggleUpload: (e) ->
     @changeToolbarOne ['Upload']
@@ -325,15 +335,18 @@ class ShowView extends Spine.Controller
         
     @changeToolbarOne()
     @current.items.deselect()
-    e?.stopPropagation()
-    e?.preventDefault()
-    
     
   uploadProgress: (e, coll) ->
 #    console.log coll
     
   uploadDone: (e, coll) ->
 #    console.log coll
+    
+  dropdown_: (e) ->
+    li = $(e.target).parent('li')
+    isActive = li.hasClass('open')
+    !isActive && li.toggleClass('open')
+    false
     
   sliderInValue: (val) ->
     val = val or @sOutValue
@@ -366,3 +379,12 @@ class ShowView extends Spine.Controller
   sliderStop: =>
     # rerender thumbnails on the server to its final size
 #    @slider.toggle()
+
+  allGalleries: ->
+    Spine.trigger('show:galleries')
+  
+  allAlbums: ->
+    Spine.trigger('show:allAlbums')
+    
+  allPhotos: ->
+    Spine.trigger('show:allPhotos')

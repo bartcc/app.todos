@@ -137,7 +137,7 @@
             <div class="items sortable flex">PHOTO</div>
           </div>
           <div class="view slideshow content flex data parent autoflow">
-            <div id="gallery" class="items flex">Play</div>
+            <div id="gallery" class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-slideshow="5000">Play</div>
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
@@ -203,21 +203,21 @@
     </div>
   </div>
 </div>
-<!-- gallery-loader is the loading animation container -->
-<div id="gallery-loader"></div>
-<!-- gallery-modal is the modal dialog used for the image gallery -->
-<div id="gallery-modal" class="modal hide fade">
-  <div class="modal-header">
-    <a href="#" class="close">&times;</a>
-    <h3 class="title"></h3>
-  </div>
-  <div class="modal-body"></div>
-  <div class="modal-footer">
-    <a class="btn primary next">Next</a>
-    <a class="btn info prev">Previous</a>
-    <a class="btn success download" target="_blank">Download</a>
-  </div>
+<!-- modal-gallery is the modal dialog used for the image gallery -->
+<div id="modal-gallery" class="modal modal-gallery hide fade">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body"><div class="modal-image"></div></div>
+    <div class="modal-footer">
+        <a class="btn btn-primary modal-next">Next <i class="icon-arrow-right icon-white"></i></a>
+        <a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Previous</a>
+        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000"><i class="icon-play icon-white"></i> Slideshow</a>
+        <a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
+    </div>
 </div>
+
 
 <!-- Templates -->
 

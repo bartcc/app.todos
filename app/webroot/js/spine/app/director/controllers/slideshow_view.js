@@ -18,9 +18,6 @@ SlideshowView = (function() {
     '.thumbnail': 'thumb',
     '#gallery': 'galleryEl'
   };
-  SlideshowView.prototype.events = {
-    'click .thumbnail': 'clickThumb'
-  };
   SlideshowView.prototype.template = function(items) {
     return $("#photosTemplate").tmpl(items);
   };
@@ -173,25 +170,20 @@ SlideshowView = (function() {
     this.refreshElements();
     if (autoplay) {
       first = this.galleryEl.find('.thumbnail:first');
-      return window.setTimeout(function() {
-        return first.click();
-      }, 1);
+      return first.click();
     }
   };
   SlideshowView.prototype.slideshow = function(active) {
     var val;
     val = active ? 4000 : 0;
-    this.galleryEl.imagegallery('option', 'slideshow', val);
-    if (val) {
-      return this.play(val);
-    }
+    return this.play(val);
   };
   SlideshowView.prototype.slideshowMode = function(active) {
     if (active == null) {
       active = this.autoplay;
     }
     this.autoplay = active !== false ? active : false;
-    return this.slideshow(this.autoplay);
+    return console.log(this.autoplay);
   };
   SlideshowView.prototype.fullscreenMode = function(active) {
     if (active == null) {
@@ -205,22 +197,21 @@ SlideshowView = (function() {
     var root;
     root = document.documentElement;
     if (active) {
-      $('#gallery-modal').addClass('fullscreen');
+      $('#modal-gallery').addClass('modal-fullscreen');
       if (root.webkitRequestFullScreen) {
         return root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT);
       } else if (root.mozRequestFullScreen) {
         return root.mozRequestFullScreen();
       }
     } else {
-      $('#gallery-modal').removeClass('fullscreen');
+      $('#modal-gallery').removeClass('modal-fullscreen');
       return (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document);
     }
   };
   SlideshowView.prototype.clickThumb = function(e) {
     var el;
-    console.log('SlideshowView::click');
+    console.log('SlideshowView::clickThumb');
     el = $(e.target).find('a');
-    e.stopPropagation();
     e.preventDefault();
     return el.click();
   };

@@ -178,11 +178,7 @@ App = (function() {
       return this.delay(cb, 1000);
     }, this));
   };
-  App.prototype.initializeSlideshow = function(opts) {
-    var options;
-    options = $.extend(this.slideshowOptions, opts);
-    return this.slideshow.imagegallery(options);
-  };
+  App.prototype.initializeSlideshow = function(opts) {};
   App.prototype.initializeFileupload = function() {
     return this.uploader.fileupload();
   };

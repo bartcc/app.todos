@@ -1104,7 +1104,10 @@ li.active button.dark {
   text-shadow: 1px 0 10px rgba(0, 224, 255, 0.8), 1px 0 10px rgba(0, 224, 255, 0.2), -1px -1px 0 #000000;
 }
 
-/* neutralize bootstrap classes*/
+/* normalize bootstrap classes*/
+label, input, button, select, textarea {
+  font-size: 15px;
+}
 .thumbnail {
     border: 0 none;
 }
@@ -1115,7 +1118,7 @@ li.active button.dark {
   color: #BEBEBE;
 }
 .label {
-  font-size: 1.2em;
+  font-size: 1.0em;
 }
 .options li button:hover:not(:disabled) {
   background-color: transparent;

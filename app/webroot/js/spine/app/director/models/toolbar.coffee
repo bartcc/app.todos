@@ -173,7 +173,7 @@ class Toolbar extends Spine.Model
       name: 'Slideshow'
       content:
         [
-          name: -> if Album.record.title then 'Play' else 'Play'
+          name: -> if Album.record.title then 'Start Slideshow' else 'no album selected'
           klass: 'optSlideshow'
           disabled: -> !Gallery.selectionList().length
         ]
@@ -182,8 +182,9 @@ class Toolbar extends Spine.Model
       locked: true
       content:
         [
-          name: 'Autoplay Mode'
-          klass: -> 'optSlideshowMode '  + if App.showView.slideshowView.slideshowMode() then ' active' else ''
+          name: '<span class="label label-info">Click any image to start</span>'
+          klass: -> 'optSlideshowMode '  + if App.showView.slideshowView.slideshowMode() then ' active_' else ''
+          disabled: -> true
         ,
           name: 'Chromless Mode'
           klass: -> 'optFullscreenMode '  + if App.showView.slideshowView.fullscreenMode() then ' active' else ''

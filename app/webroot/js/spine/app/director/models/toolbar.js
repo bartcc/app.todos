@@ -245,9 +245,9 @@ Toolbar = (function() {
         {
           name: function() {
             if (Album.record.title) {
-              return 'Play';
+              return 'Start Slideshow';
             } else {
-              return 'Play';
+              return 'no album selected';
             }
           },
           klass: 'optSlideshow',
@@ -262,9 +262,12 @@ Toolbar = (function() {
       locked: true,
       content: [
         {
-          name: 'Autoplay Mode',
+          name: '<span class="label label-info">Click any image to start</span>',
           klass: function() {
-            return 'optSlideshowMode ' + (App.showView.slideshowView.slideshowMode() ? ' active' : '');
+            return 'optSlideshowMode ' + (App.showView.slideshowView.slideshowMode() ? ' active_' : '');
+          },
+          disabled: function() {
+            return true;
           }
         }, {
           name: 'Chromless Mode',

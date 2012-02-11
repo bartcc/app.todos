@@ -8,8 +8,8 @@ class SlideshowView extends Spine.Controller
     '.thumbnail'       : 'thumb'
     '#gallery'         : 'galleryEl'
     
-  events:
-    'click .thumbnail' : 'clickThumb'
+#  events:
+#    'click .thumbnail' : 'clickThumb'
     
   template: (items) ->
     $("#photosTemplate").tmpl items
@@ -113,18 +113,20 @@ class SlideshowView extends Spine.Controller
     @refreshElements()
     if autoplay
       first = @galleryEl.find('.thumbnail:first')
-      window.setTimeout ->
-        first.click()
-      , 1
+      first.click()
+#      window.setTimeout ->
+#        first.click()
+#      , 1
       
   slideshow: (active) ->
     val = if active then 4000 else 0
-    @galleryEl.imagegallery 'option', 'slideshow', val
-    @play val if val
-  
+#    @galleryEl.imagegallery 'option', 'slideshow', val
+    @play val
+    
   slideshowMode: (active=@autoplay) ->
     @autoplay = unless active is false then active else false
-    @slideshow @autoplay
+    console.log @autoplay
+#    @slideshow @autoplay
   
   fullscreenMode: (active=@fullscreen) ->
     @fullscreen = unless active is false then active else false
@@ -135,13 +137,13 @@ class SlideshowView extends Spine.Controller
   toggleFullscreen: (active) ->
     root = document.documentElement
     if active
-      $('#gallery-modal').addClass('fullscreen')
+      $('#modal-gallery').addClass('modal-fullscreen')
       if(root.webkitRequestFullScreen)
         root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT)
       else if(root.mozRequestFullScreen)
         root.mozRequestFullScreen()
     else
-      $('#gallery-modal').removeClass('fullscreen')
+      $('#modal-gallery').removeClass('modal-fullscreen')
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
       
 #  click: (e) ->
@@ -149,9 +151,9 @@ class SlideshowView extends Spine.Controller
 #    e.preventDefault()
       
   clickThumb: (e) ->
-    console.log 'SlideshowView::click'
+    console.log 'SlideshowView::clickThumb'
     el =  $(e.target).find('a')
-    e.stopPropagation()
+#    e.stopPropagation()
     e.preventDefault()
     el.click()
     

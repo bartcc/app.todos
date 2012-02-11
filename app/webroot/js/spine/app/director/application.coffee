@@ -143,8 +143,9 @@ class App extends Spine.Controller
     @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 1000)
     
   initializeSlideshow: (opts) ->
-    options = $.extend(@slideshowOptions, opts)
-    @slideshow.imagegallery options
+#    options = $.extend(@slideshowOptions, opts)
+#    console.log @slideshow
+#    @slideshow.imagegallery options
     
   initializeFileupload: ->
     @uploader.fileupload()

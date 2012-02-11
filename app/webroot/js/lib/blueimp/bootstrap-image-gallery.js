@@ -1,5 +1,5 @@
 /*
- * Bootstrap Image Gallery 2.0
+ * Bootstrap Image Gallery 2.1
  * https://github.com/blueimp/Bootstrap-Image-Gallery
  *
  * Copyright 2011, Sebastian Tschan
@@ -22,7 +22,7 @@
         // is accepted as parameter for $():
         delegate: document,
         // Selector for gallery links:
-        selector: 'li[ref=gallery]',
+        selector: null,
         // The index of the first gallery image to show:
         index: 0,
         // The href of the first gallery image to show (overrides index):
@@ -45,17 +45,19 @@
             var $this = this,
                 options = this.options,
                 selector = options.selector ||
-                    'a[data-target=' + options.target + ']';
+                    'a[data-target=' + options.target + ']',
+                index = 0;
             $(options.delegate).find(selector).each(function (i, node) {
-                var url = node.href;
+                var url = node.href || $(node).data('href');
                 // Check the the previously added url, to account for
                 // thumbnail and name linking twice to the same image:
                 if ($this.urls[$this.urls.length - 1] !== url) {
                     $this.urls.push(url);
                     $this.titles.push(node.title);
                     if (url === options.href) {
-                        options.index = i;
+                        options.index = index;
                     }
+                    index += 1;
                 }
             });
             if (!this.urls[options.index]) {
@@ -306,18 +308,10 @@
                 if (!options.selector) {
                     options.selector = 'a[rel=gallery]';
                 }
-//                console.log(options)
-//                console.log(options.selector);
                 link = $(e.target).closest(options.selector);
-//                console.log('modal.length');
-//                console.log(modal.length);
                 if (link.length && modal.length) {
-                    console.log('options');
-                    console.log(options);
-                    console.log('link');
-                    console.log(link);
                     e.preventDefault();
-                    options.href = link.prop('href');
+                    options.href = link.prop('href') || link.data('href');
                     options.delegate = link[0] !== this ? this : document;
                     if (data) {
                         $.extend(data.options, options);

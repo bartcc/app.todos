@@ -12,7 +12,6 @@ Controller.Drag =
         Spine.dragItem = null
         
       dragstart: (e, data) =>
-        console.log 'dragstart'
         el = $(e.target)
         el.addClass('dragged')
         Spine.dragItem = {}
@@ -46,7 +45,6 @@ Controller.Drag =
         $(e.target).removeClass('dragged')
 
       drop: (e, data) =>
-        console.log 'drop'
         clearTimeout Spine.timer
         event = e.originalEvent
         Spine.dragItem?.el.removeClass('dragged')

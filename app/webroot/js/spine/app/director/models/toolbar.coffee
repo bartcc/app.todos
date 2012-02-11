@@ -17,13 +17,13 @@ class Toolbar extends Spine.Model
       name: 'Views'
       content:
         [
-          name: 'Show all galleries'
+          name: 'All Galleries'
           klass: 'optAllGalleries'
         ,
-          name: 'Show all albums'
+          name: 'All Albums'
           klass: 'optAllAlbums'
         ,
-          name: 'Show all photos'
+          name: 'All Photos'
           klass: 'optAllPhotos '
         ,
           devider: true
@@ -182,12 +182,9 @@ class Toolbar extends Spine.Model
       locked: true
       content:
         [
-          name: '<span class="label label-info">Click any image to start</span>'
-          klass: -> 'optSlideshowMode '  + if App.showView.slideshowView.slideshowMode() then ' active' else ''
-          disabled: -> true
-        ,
-          name: 'Chromless Mode'
+          name: 'Chromless'
           klass: -> 'optFullscreenMode '  + if App.showView.slideshowView.fullscreenMode() then ' active' else ''
+          dataToggle: 'button'
         ,
           name: 'X'
           klass: 'optPrevious'

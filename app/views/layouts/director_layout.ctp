@@ -59,6 +59,7 @@
     echo $this->Html->script('lib/jquery/jquery.html5sortable');
     echo $this->Html->script('lib/twitter/bootstrap-modal');
     echo $this->Html->script('lib/twitter/bootstrap-dropdown');
+    echo $this->Html->script('lib/twitter/bootstrap-button');
 //    echo $this->Html->script('lib/twitter/bootstrap');
 //    echo $this->Html->script('http://blueimp.github.com/cdn/js/bootstrap.min.js');
 //    echo $this->Html->script('http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js');

@@ -9,9 +9,9 @@ class AlbumEditView extends Spine.Controller
     'form'        : 'formEl'
 
   events:
-    'click'         : 'click'
+#    'click'         : 'click'
     'keydown'       : 'saveOnEnter'
-    'change select' : 'changeSelected'
+#    'change select' : 'changeSelected'
   
   template: (item) ->
     $('#editAlbumTemplate').tmpl item
@@ -29,7 +29,7 @@ class AlbumEditView extends Spine.Controller
     Spine.trigger('album:activate')
 
   change: (item, mode) ->
-    console.log 'Album::change'
+    console.log 'AlbumEditView::change'
     if item?.constructor.className is 'Album'
       @current = item
     else
@@ -42,7 +42,7 @@ class AlbumEditView extends Spine.Controller
     @render @current, mode
 
   render: (item, mode) ->
-    console.log 'AlbumView::render'
+    console.log 'AlbumEditView::render'
     selection = Gallery.selectionList()
     if item and selection?.length is 1
       @item.html @template item
@@ -63,7 +63,7 @@ class AlbumEditView extends Spine.Controller
     @el
 
   save: (el) ->
-    console.log 'AlbumView::save'
+    console.log 'AlbumEditView::save'
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)

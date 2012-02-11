@@ -525,9 +525,6 @@ textarea {
 .disabled {
   cursor: auto;
 }
-#content .header section.closeView ul:not(.disabled){
-  cursor: pointer;
-}
 #content .header section {
   background: linear-gradient(center top, #B9B9B9, #979797);
   background: -moz-linear-gradient(center top, #B9B9B9, #979797);
@@ -1111,8 +1108,14 @@ label, input, button, select, textarea {
 .thumbnail {
     border: 0 none;
 }
-.disabled {
-  color: rgba(0, 0, 0, 0.4);
+.breadcrumb {
+  background-image: none;
+  background-color: transparent;
+  border: 0 none;
+  box-shadow: none;
+}
+.disabled, .breadcrumb .active {
+  color: rgba(0, 0, 0, 0.5);
 }
 .dropdown-menu a.disabled{
   color: #BEBEBE;

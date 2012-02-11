@@ -62,6 +62,7 @@ PhotosView = (function() {
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
+    Spine.bind('start:slideshow', this.proxy(this.slideshow));
     Gallery.bind('change', this.proxy(this.renderHeader));
   }
   PhotosView.prototype.change = function(item, mode, changed) {

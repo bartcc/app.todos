@@ -22,7 +22,7 @@
         // is accepted as parameter for $():
         delegate: document,
         // Selector for gallery links:
-        selector: null,
+        selector: 'li[ref=gallery]',
         // The index of the first gallery image to show:
         index: 0,
         // The href of the first gallery image to show (overrides index):
@@ -306,8 +306,16 @@
                 if (!options.selector) {
                     options.selector = 'a[rel=gallery]';
                 }
-                link = $(options.selector, e.target);
+//                console.log(options)
+//                console.log(options.selector);
+                link = $(e.target).closest(options.selector);
+//                console.log('modal.length');
+//                console.log(modal.length);
                 if (link.length && modal.length) {
+                    console.log('options');
+                    console.log(options);
+                    console.log('link');
+                    console.log(link);
                     e.preventDefault();
                     options.href = link.prop('href');
                     options.delegate = link[0] !== this ? this : document;

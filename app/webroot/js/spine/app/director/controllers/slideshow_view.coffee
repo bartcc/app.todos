@@ -8,11 +8,8 @@ class SlideshowView extends Spine.Controller
     '.thumbnail'       : 'thumb'
     '#gallery'         : 'galleryEl'
     
-#  events:
-#    'click .thumbnail' : 'clickThumb'
-    
   template: (items) ->
-    $("#photosTemplate").tmpl items
+    $("#photosSlideshowTemplate").tmpl items
 
   constructor: ->
     super
@@ -75,13 +72,10 @@ class SlideshowView extends Spine.Controller
       if jsn
         el = document.createElement('a')
         ele = @items.children().forItem(item)
-          .children('.thumbnail')
-          .append $(el).hide()
           .attr
             'href'  : jsn.src
             'title' : item.title or item.src
             'rel'   : 'gallery'
-          
     @play()
         
   imageLoad: ->
@@ -109,25 +103,10 @@ class SlideshowView extends Spine.Controller
       'width'           : val+'px'
       'backgroundSize'  : bg
     
-  play: (autoplay) ->
+  play: ->
     @refreshElements()
-    if autoplay
-      first = @galleryEl.find('.thumbnail:first')
-      first.click()
-#      window.setTimeout ->
-#        first.click()
-#      , 1
+    @galleryEl.find('.thumbnail:first').click()
       
-  slideshow: (active) ->
-    val = if active then 4000 else 0
-#    @galleryEl.imagegallery 'option', 'slideshow', val
-    @play val
-    
-  slideshowMode: (active=@autoplay) ->
-    @autoplay = unless active is false then active else false
-    console.log @autoplay
-#    @slideshow @autoplay
-  
   fullscreenMode: (active=@fullscreen) ->
     @fullscreen = unless active is false then active else false
     @toggleFullscreen @fullscreen
@@ -146,19 +125,4 @@ class SlideshowView extends Spine.Controller
       $('#modal-gallery').removeClass('modal-fullscreen')
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
       
-#  click: (e) ->
-#    e.stopPropagation()
-#    e.preventDefault()
-      
-  clickThumb: (e) ->
-    console.log 'SlideshowView::clickThumb'
-    el =  $(e.target).find('a')
-#    e.stopPropagation()
-    e.preventDefault()
-    el.click()
-    
-  anker: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
-    
 module?.exports = SlideshowView

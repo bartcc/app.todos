@@ -39,13 +39,13 @@ Toolbar = (function() {
       name: 'Views',
       content: [
         {
-          name: 'Show all galleries',
+          name: 'All Galleries',
           klass: 'optAllGalleries'
         }, {
-          name: 'Show all albums',
+          name: 'All Albums',
           klass: 'optAllAlbums'
         }, {
-          name: 'Show all photos',
+          name: 'All Photos',
           klass: 'optAllPhotos '
         }, {
           devider: true
@@ -262,18 +262,11 @@ Toolbar = (function() {
       locked: true,
       content: [
         {
-          name: '<span class="label label-info">Click any image to start</span>',
-          klass: function() {
-            return 'optSlideshowMode ' + (App.showView.slideshowView.slideshowMode() ? ' active' : '');
-          },
-          disabled: function() {
-            return true;
-          }
-        }, {
-          name: 'Chromless Mode',
+          name: 'Chromless',
           klass: function() {
             return 'optFullscreenMode ' + (App.showView.slideshowView.fullscreenMode() ? ' active' : '');
-          }
+          },
+          dataToggle: 'button'
         }, {
           name: 'X',
           klass: 'optPrevious'

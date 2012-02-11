@@ -19,9 +19,7 @@ AlbumEditView = (function() {
     'form': 'formEl'
   };
   AlbumEditView.prototype.events = {
-    'click': 'click',
-    'keydown': 'saveOnEnter',
-    'change select': 'changeSelected'
+    'keydown': 'saveOnEnter'
   };
   AlbumEditView.prototype.template = function(item) {
     return $('#editAlbumTemplate').tmpl(item);
@@ -41,7 +39,7 @@ AlbumEditView = (function() {
   };
   AlbumEditView.prototype.change = function(item, mode) {
     var firstID;
-    console.log('Album::change');
+    console.log('AlbumEditView::change');
     if ((item != null ? item.constructor.className : void 0) === 'Album') {
       this.current = item;
     } else {
@@ -56,7 +54,7 @@ AlbumEditView = (function() {
   };
   AlbumEditView.prototype.render = function(item, mode) {
     var selection;
-    console.log('AlbumView::render');
+    console.log('AlbumEditView::render');
     selection = Gallery.selectionList();
     if (item && (selection != null ? selection.length : void 0) === 1) {
       this.item.html(this.template(item));
@@ -75,7 +73,7 @@ AlbumEditView = (function() {
   };
   AlbumEditView.prototype.save = function(el) {
     var atts;
-    console.log('AlbumView::save');
+    console.log('AlbumEditView::save');
     if (this.current) {
       atts = (typeof el.serializeForm === "function" ? el.serializeForm() : void 0) || this.editEl.serializeForm();
       this.current.updateChangedAttributes(atts);

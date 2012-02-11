@@ -50,6 +50,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)
+    Spine.bind('start:slideshow', @proxy @slideshow)
     Gallery.bind('change', @proxy @renderHeader)
       
   change: (item, mode, changed) ->

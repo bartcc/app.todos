@@ -137,7 +137,7 @@
             <div class="items sortable flex">PHOTO</div>
           </div>
           <div class="view slideshow content flex data parent autoflow">
-            <div id="gallery" class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-slideshow="5000">Play</div>
+            <div id="gallery" class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-slideshow="5000"></div>
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
@@ -213,7 +213,7 @@
     <div class="modal-footer">
         <a class="btn btn-primary modal-next">Next <i class="icon-arrow-right icon-white"></i></a>
         <a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Previous</a>
-        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="5000"><i class="icon-play icon-white"></i> Slideshow</a>
+        <a class="btn btn-success modal-play modal-slideshow"><i class="icon-play icon-white"></i> Slideshow</a>
         <a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
     </div>
 </div>
@@ -348,7 +348,7 @@
     {{tmpl(itemGroup)  "#dropdownTemplate"}}
   {{else}}
   <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}>
-    <{{if type}}${type} class="tb-name"{{else}}button class="dark" {{/if}}
+    <{{if type}}${type} class="tb-name"{{else}}button class="dark" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
     {{if style}} style="${style}"{{/if}}
     {{if disabled}}disabled{{/if}}>
     {{html name}}
@@ -406,11 +406,11 @@
     {{/if}}
   </section>
   <section class="closeView options">
-    <ul class="gal">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Galleries</span>
-    </ul>
-    <ul class="alb disabled">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Albums</span>
+    <ul class="breadcrumb">
+      <li class="gal">
+        <a href="#">Galleries</a> <span class="divider">/</span>
+      </li>
+      <li class="alb active">Albums</li>
     </ul>
   </section>
 </script>
@@ -432,14 +432,14 @@
     {{/if}}
   </section>
   <section class="closeView options">
-    <ul class="gal">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Galleries</span>
-    </ul>
-    <ul class="alb">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Albums</span>
-    </ul>
-    <ul class="pho disabled">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Photos</span>
+    <ul class="breadcrumb">
+      <li class="gal">
+        <a href="#">Galleries</a> <span class="divider">/</span>
+      </li>
+      <li class="alb">
+        <a href="#">Albums</a> <span class="divider">/</span>
+      </li>
+      <li class="pho active">Photos</li>
     </ul>
   </section>
 </script>
@@ -450,17 +450,17 @@
     <h2>Photo: {{if title}}${title}{{else}}{{if src}}${src}{{else}}unknown{{/if}}{{/if}}</h2>
   </section>
   <section class="closeView options">
-    <ul class="gal">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Galleries</span>
-    </ul>
-    <ul class="alb">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Albums</span>
-    </ul>
-    <ul class="pho">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>Photos</span>
-    </ul>
-    <ul class="disabled">
-      <li class="ui-button-icon-primary ui-icon ui-icon-carat-1-w left"></li><span>{{if src}}${src}{{else}}deleted{{/if}}</span>
+    <ul class="breadcrumb">
+      <li class="gal">
+        <a href="#">Galleries</a> <span class="divider">/</span>
+      </li>
+      <li class="alb">
+        <a href="#">Albums</a> <span class="divider">/</span>
+      </li>
+      <li class="pho">
+        <a href="#">Photos</a> <span class="divider">/</span>
+      </li>
+      <li class="active">{{if src}}${src}{{else}}deleted{{/if}}</li>
     </ul>
   </section>
 </script>
@@ -483,6 +483,12 @@
   <li  class="item data container">
     {{tmpl "#photoThumbnailTemplate"}}
   </li>
+</script>
+
+<script id="photosSlideshowTemplate" type="text/x-jquery-tmpl">
+  <a  class="item data container">
+    {{tmpl "#photoThumbnailTemplate"}}
+  </a>
 </script>
 
 <script id="photoTemplate" type="text/x-jquery-tmpl">

@@ -19,7 +19,7 @@ SlideshowView = (function() {
     '#gallery': 'galleryEl'
   };
   SlideshowView.prototype.template = function(items) {
-    return $("#photosTemplate").tmpl(items);
+    return $("#photosSlideshowTemplate").tmpl(items);
   };
   function SlideshowView() {
     SlideshowView.__super__.constructor.apply(this, arguments);
@@ -120,11 +120,11 @@ SlideshowView = (function() {
       jsn = searchJSON(item.id);
       if (jsn) {
         el = document.createElement('a');
-        ele = this.items.children().forItem(item).children('.thumbnail').append($(el).hide().attr({
+        ele = this.items.children().forItem(item).attr({
           'href': jsn.src,
           'title': item.title || item.src,
           'rel': 'gallery'
-        }));
+        });
       }
     }
     return this.play();
@@ -165,25 +165,9 @@ SlideshowView = (function() {
       'backgroundSize': bg
     });
   };
-  SlideshowView.prototype.play = function(autoplay) {
-    var first;
+  SlideshowView.prototype.play = function() {
     this.refreshElements();
-    if (autoplay) {
-      first = this.galleryEl.find('.thumbnail:first');
-      return first.click();
-    }
-  };
-  SlideshowView.prototype.slideshow = function(active) {
-    var val;
-    val = active ? 4000 : 0;
-    return this.play(val);
-  };
-  SlideshowView.prototype.slideshowMode = function(active) {
-    if (active == null) {
-      active = this.autoplay;
-    }
-    this.autoplay = active !== false ? active : false;
-    return console.log(this.autoplay);
+    return this.galleryEl.find('.thumbnail:first').click();
   };
   SlideshowView.prototype.fullscreenMode = function(active) {
     if (active == null) {
@@ -207,17 +191,6 @@ SlideshowView = (function() {
       $('#modal-gallery').removeClass('modal-fullscreen');
       return (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document);
     }
-  };
-  SlideshowView.prototype.clickThumb = function(e) {
-    var el;
-    console.log('SlideshowView::clickThumb');
-    el = $(e.target).find('a');
-    e.preventDefault();
-    return el.click();
-  };
-  SlideshowView.prototype.anker = function(e) {
-    e.stopPropagation();
-    return e.preventDefault();
   };
   return SlideshowView;
 })();

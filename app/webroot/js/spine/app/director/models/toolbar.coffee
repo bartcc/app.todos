@@ -183,7 +183,7 @@ class Toolbar extends Spine.Model
       content:
         [
           name: '<span class="label label-info">Click any image to start</span>'
-          klass: -> 'optSlideshowMode '  + if App.showView.slideshowView.slideshowMode() then ' active_' else ''
+          klass: -> 'optSlideshowMode '  + if App.showView.slideshowView.slideshowMode() then ' active' else ''
           disabled: -> true
         ,
           name: 'Chromless Mode'

@@ -264,7 +264,7 @@ Toolbar = (function() {
         {
           name: '<span class="label label-info">Click any image to start</span>',
           klass: function() {
-            return 'optSlideshowMode ' + (App.showView.slideshowView.slideshowMode() ? ' active_' : '');
+            return 'optSlideshowMode ' + (App.showView.slideshowView.slideshowMode() ? ' active' : '');
           },
           disabled: function() {
             return true;

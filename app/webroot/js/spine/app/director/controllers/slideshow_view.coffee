@@ -73,7 +73,7 @@ class SlideshowView extends Spine.Controller
         el = document.createElement('a')
         ele = @items.children().forItem(item)
           .attr
-            'href'  : jsn.src
+            'data-href'  : jsn.src
             'title' : item.title or item.src
             'rel'   : 'gallery'
     @play()

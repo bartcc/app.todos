@@ -137,7 +137,7 @@
             <div class="items sortable flex">PHOTO</div>
           </div>
           <div class="view slideshow content flex data parent autoflow">
-            <div id="gallery" class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-slideshow="5000"></div>
+            <div id="gallery" class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="li" data-slideshow="5000"></div>
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
@@ -486,9 +486,9 @@
 </script>
 
 <script id="photosSlideshowTemplate" type="text/x-jquery-tmpl">
-  <a  class="item data container">
+  <li  class="item data container">
     {{tmpl "#photoThumbnailTemplate"}}
-  </a>
+  </li>
 </script>
 
 <script id="photoTemplate" type="text/x-jquery-tmpl">

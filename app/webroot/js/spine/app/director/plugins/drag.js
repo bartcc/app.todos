@@ -14,6 +14,7 @@ Controller.Drag = {
       },
       dragstart: __bind(function(e, data) {
         var el, event, parentDataElement, _ref, _ref2, _ref3;
+        console.log('dragstart');
         el = $(e.target);
         el.addClass('dragged');
         Spine.dragItem = {};
@@ -51,6 +52,7 @@ Controller.Drag = {
       },
       drop: __bind(function(e, data) {
         var event, _ref;
+        console.log('drop');
         clearTimeout(Spine.timer);
         event = e.originalEvent;
         if ((_ref = Spine.dragItem) != null) {

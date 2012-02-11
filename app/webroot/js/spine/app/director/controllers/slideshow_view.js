@@ -121,7 +121,7 @@ SlideshowView = (function() {
       if (jsn) {
         el = document.createElement('a');
         ele = this.items.children().forItem(item).attr({
-          'href': jsn.src,
+          'data-href': jsn.src,
           'title': item.title || item.src,
           'rel': 'gallery'
         });

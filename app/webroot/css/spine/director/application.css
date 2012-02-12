@@ -778,8 +778,8 @@ textarea {
 #content .content .items .item:not(.thumbnail) {
   background-repeat: no-repeat;
   -moz-background-position: 30px 32px, 100px 32px, 30px 100px, 100px 100px;
-	 -webkit-background-position: 30px 35px, 100px 35px, 30px 100px, 100px 100px;
-	 background-position: 30px 35px, 100px 35px, 30px 100px, 100px 100px;
+	 -webkit-background-position: 30px 32px, 100px 32px, 30px 100px, 100px 100px;
+	 background-position: 30px 32px, 100px 32px, 30px 100px, 100px 100px;
 }
 #content .content .container.active {
 /*  background-repeat: no-repeat;

@@ -27,7 +27,7 @@ AlbumsList = (function() {
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
-    AlbumsPhoto.bind('beforeDestroy', this.proxy(this.deleteBackgrounds));
+    AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbums));
     AlbumsPhoto.bind('destroy create', this.proxy(this.changeBackgrounds));
     Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
@@ -92,9 +92,7 @@ AlbumsList = (function() {
   AlbumsList.prototype.clearAlbumCache = function(record, mode) {
     var album;
     album = Album.find(record.album_id);
-    console.log('************ clearing cache ' + album.title + ' ***************');
-    Album.clearCache(record.album_id);
-    return console.log(Album.cacheList(record.album_id));
+    return Album.clearCache(record.album_id);
   };
   AlbumsList.prototype.refreshBackgrounds = function(photos) {
     var uploadAlbum;
@@ -109,15 +107,14 @@ AlbumsList = (function() {
     albums = ap.albums();
     return this.renderBackgrounds(albums, mode);
   };
-  AlbumsList.prototype.deleteBackgrounds = function(ap) {
-    return this.savedAlbums = ap.albums();
+  AlbumsList.prototype.widowedAlbums = function(ap) {
+    return this.widows = ap.albums();
   };
   AlbumsList.prototype.renderBackgrounds = function(albums, mode) {
     var album, _i, _j, _len, _len2, _ref, _ref2, _results;
     if (!App.ready) {
       return;
     }
-    console.log('AlbumsList::renderBackgrounds');
     if (albums.length) {
       _results = [];
       for (_i = 0, _len = albums.length; _i < _len; _i++) {
@@ -125,13 +122,13 @@ AlbumsList = (function() {
         _results.push(this.processAlbum(album));
       }
       return _results;
-    } else if ((_ref = this.savedAlbums) != null ? _ref.length : void 0) {
-      _ref2 = this.savedAlbums;
+    } else if ((_ref = this.widows) != null ? _ref.length : void 0) {
+      _ref2 = this.widows;
       for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
         album = _ref2[_j];
         this.processAlbum(album);
       }
-      return this.savedAlbums = [];
+      return this.widows = [];
     }
   };
   AlbumsList.prototype.processAlbum = function(album) {

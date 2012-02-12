@@ -14,7 +14,7 @@ class AlbumsList extends Spine.Controller
     super
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
-    AlbumsPhoto.bind('beforeDestroy', @proxy @deleteBackgrounds)
+    AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbums)
     AlbumsPhoto.bind('destroy create', @proxy @changeBackgrounds)
     Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
@@ -26,7 +26,7 @@ class AlbumsList extends Spine.Controller
     $('#albumPhotosTemplate').tmpl items
   
   change: (items) ->
-    @renderBackgrounds items# if items.length
+    @renderBackgrounds items
   
   select: (item, e) ->
     @activate()
@@ -70,10 +70,7 @@ class AlbumsList extends Spine.Controller
     
   clearAlbumCache: (record, mode) ->
     album = Album.find(record.album_id)
-    console.log '************ clearing cache ' + album.title + ' ***************'
-#    console.log record.cache('50/50/1/70')
     Album.clearCache record.album_id
-    console.log Album.cacheList(record.album_id)
     
   refreshBackgrounds: (photos) ->
     uploadAlbum = App.upload.album
@@ -84,18 +81,17 @@ class AlbumsList extends Spine.Controller
     albums = ap.albums()
     @renderBackgrounds albums, mode
   
-  deleteBackgrounds: (ap) ->
-    @savedAlbums = ap.albums()
+  widowedAlbums: (ap) ->
+    @widows = ap.albums()
   
   renderBackgrounds: (albums, mode) ->
     return unless App.ready
-    console.log 'AlbumsList::renderBackgrounds'
 
     if albums.length
       @processAlbum album for album in albums
-    else if @savedAlbums?.length
-      @processAlbum album for album in @savedAlbums
-      @savedAlbums = []
+    else if @widows?.length
+      @processAlbum album for album in @widows
+      @widows = []
   
   processAlbum: (album) ->
     album.uri
@@ -136,7 +132,6 @@ class AlbumsList extends Spine.Controller
   dblclick: (e) ->
     #@openPanel('album', App.showView.btnAlbum)
       
-#    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
     Spine.trigger('show:photos')
     @activate()
     

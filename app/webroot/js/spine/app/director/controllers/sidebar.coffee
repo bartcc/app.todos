@@ -29,7 +29,7 @@ class Sidebar extends Spine.Controller
 
   constructor: ->
     super
-    @el.width(350)
+    @el.width(440)
     @list = new SidebarList
       el: @items,
       template: @template

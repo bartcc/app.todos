@@ -23,10 +23,9 @@ class ShowView extends Spine.Controller
     '.photos'                 : 'photosEl'
     '.photo'                  : 'photoEl'
     '.slideshow'              : 'slideshowEl'
-    '#slider'                 : 'slider'
+    '.slider'                 : 'slider'
     
   events:
-#    'click'                           : 'clearMenus'
     "click .optOverview"              : "showOverview"
     "click .optSlideshow"             : "showSlideshow"
     "click .optPrevious"              : "showPrevious"
@@ -59,8 +58,8 @@ class ShowView extends Spine.Controller
 #    "click .optUpload"                : "toggleUpload"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect"
-    'slidestop #slider'               : 'sliderStop'
-    'slidestart #slider'              : 'sliderStart'
+    'slidestop .slider'               : 'sliderStop'
+    'slidestart .slider'              : 'sliderStart'
 #    'click .dropdown-toggle'          : "dropdown"
     
   toolsTemplate: (items) ->
@@ -68,8 +67,6 @@ class ShowView extends Spine.Controller
 
   constructor: ->
     super
-    @d = 'a.menu, .dropdown-toggle'
-    
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
       template: @toolsTemplate
@@ -157,8 +154,6 @@ class ShowView extends Spine.Controller
     
   changeToolbarOne: (list=[], cb) ->
     @toolbarOne.change list, cb
-#    dd = $(@el).dropdown('[data-dropdown] a.menu, [data-dropdown] .dropdown-toggle')
-#    console.log dd
     
     @toolbarTwo.refresh()
     @refreshElements()
@@ -198,7 +193,7 @@ class ShowView extends Spine.Controller
     Spine.trigger('show:overview')
 
   showSlideshow: ->
-    @changeToolbarTwo ['Back']
+    @changeToolbarTwo ['Back', 'Slider'], App.showView.initSlider
     App.sidebar.toggleDraghandle(close:true)
     @toolbarOne.clear()
     @toolbarOne.lock()
@@ -274,7 +269,7 @@ class ShowView extends Spine.Controller
     e.preventDefault()
     
   togglePhoto: (e) ->
-    @changeToolbarOne ['Photos'], App.showView.initSlider
+    @changeToolbarOne ['Photos', 'Slider'], App.showView.initSlider
 
   toggleUploadShow: (e) ->
     @trigger("toggle:view", App.upload, e.target)
@@ -371,10 +366,13 @@ class ShowView extends Spine.Controller
     @sliderInValue()
       
   sliderStart: =>
-    @photosView.list.sliderStart()
+    Spine.trigger('slider:start')
+#    @photosView.list.sliderStart()
     
   sliderSlide: (val) =>
-    @photosView.list.size @sliderOutValue val
+    newVal = @sliderOutValue val  
+    Spine.trigger('slider:change', newVal)
+    newVal
     
   sliderStop: =>
     # rerender thumbnails on the server to its final size

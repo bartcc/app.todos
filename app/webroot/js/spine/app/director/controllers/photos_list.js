@@ -25,7 +25,6 @@ PhotosList = (function() {
   };
   PhotosList.prototype.selectFirst = true;
   function PhotosList() {
-    this.size = __bind(this.size, this);
     this.sliderStart = __bind(this.sliderStart, this);
     this.stopInfo = __bind(this.stopInfo, this);
     this.infoBye = __bind(this.infoBye, this);
@@ -34,6 +33,8 @@ PhotosList = (function() {
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
     Photo.bind('sortupdate', this.proxy(this.sortupdate));
     Spine.bind('photo:activate', this.proxy(this.activate));
+    Spine.bind('slider:start', this.proxy(this.sliderStart));
+    Spine.bind('slider:change', this.proxy(this.size));
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.errorHandler);
     Album.bind("ajaxError", Album.errorHandler);

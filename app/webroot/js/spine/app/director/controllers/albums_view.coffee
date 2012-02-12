@@ -135,7 +135,6 @@ class AlbumsView extends Spine.Controller
           gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
           # find all photos in album
           photos = AlbumsPhoto.photos(album.id)
-#          photos = AlbumsPhoto.photos_(album.id)
           Spine.Ajax.disable ->
             Photo.trigger('destroy:join', album, photos)
           Spine.Ajax.disable ->

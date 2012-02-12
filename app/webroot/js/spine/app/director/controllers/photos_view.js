@@ -65,30 +65,34 @@ PhotosView = (function() {
     Spine.bind('start:slideshow', this.proxy(this.slideshow));
     Gallery.bind('change', this.proxy(this.renderHeader));
   }
-  PhotosView.prototype.change = function(item, mode, changed) {
+  PhotosView.prototype.change = function(item, changed) {
     var filterOptions, items;
     filterOptions = {
       key: 'album_id',
       joinTable: 'AlbumsPhoto'
     };
     items = Photo.filterRelated(item != null ? item.id : void 0, filterOptions);
-    return this.render(items);
+    if (changed) {
+      this.buffer = items;
+    }
+    if (this.buffer) {
+      return this.render(this.buffer);
+    }
   };
   PhotosView.prototype.render = function(items, mode) {
     var list;
     if (!this.isActive()) {
       return;
     }
-    console.log('PhotosView::render');
     if (!this.list.children('li').length) {
       this.items.empty();
     }
-    if (list = this.list.render(items, mode || 'html')) {
-      if (Album.record) {
-        list.sortable('photo');
-      }
+    list = this.list.render(items, mode || 'html');
+    if (Album.record) {
+      list.sortable('photo');
     }
-    return this.refreshElements();
+    this.refreshElements();
+    return delete this.buffer;
   };
   PhotosView.prototype.renderHeader = function() {
     console.log('PhotosView::renderHeader');
@@ -167,7 +171,7 @@ PhotosView = (function() {
       return;
     }
     Spine.trigger('gallery:activate');
-    Spine.trigger('change:toolbarOne', ['Default', 'Photos'], App.showView.initSlider);
+    Spine.trigger('change:toolbarOne', ['Default', 'Photos', 'Slider'], App.showView.initSlider);
     Spine.trigger('change:canvas', this);
     return this.renderHeader();
   };

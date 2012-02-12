@@ -1,12 +1,12 @@
 var $, SlideshowView;
-var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+};
 if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
@@ -22,7 +22,7 @@ SlideshowView = (function() {
     return $("#photosSlideshowTemplate").tmpl(items);
   };
   function SlideshowView() {
-    SlideshowView.__super__.constructor.apply(this, arguments);
+    this.sliderStart = __bind(this.sliderStart, this);    SlideshowView.__super__.constructor.apply(this, arguments);
     this.el.data({
       current: false
     });
@@ -31,6 +31,8 @@ SlideshowView = (function() {
     this.autoplay = false;
     Spine.bind('show:slideshow', this.proxy(this.show));
     Spine.bind('play:slideshow', this.proxy(this.play));
+    Spine.bind('slider:change', this.proxy(this.size));
+    Spine.bind('slider:start', this.proxy(this.sliderStart));
   }
   SlideshowView.prototype.render = function(items) {
     if (!this.isActive()) {
@@ -40,7 +42,7 @@ SlideshowView = (function() {
     this.items.html(this.template(items));
     this.uri(items, 'append');
     this.refreshElements();
-    this.size();
+    this.size(App.showView.sliderOutValue());
     return this.el;
   };
   SlideshowView.prototype.params = function(width, height) {
@@ -151,6 +153,9 @@ SlideshowView = (function() {
     };
     items = Photo.filterRelated(Album.record.id, filterOptions);
     return this.render(items);
+  };
+  SlideshowView.prototype.sliderStart = function() {
+    return this.refreshElements();
   };
   SlideshowView.prototype.size = function(val, bg) {
     if (val == null) {

@@ -210,11 +210,6 @@ Toolbar = (function() {
           disabled: function() {
             return !Album.selectionList().length;
           }
-        }, {
-          name: '<span id="slider" style=""></span>',
-          klass: 'optThumbsize ',
-          type: 'div',
-          style: 'width: 190px; position: relative;'
         }
       ]
     },
@@ -258,14 +253,27 @@ Toolbar = (function() {
       locked: true,
       content: [
         {
+          name: 'X',
+          klass: 'optPrevious',
+          outerstyle: 'float: right;'
+        }, {
           name: 'Chromless',
           klass: function() {
             return 'optFullscreenMode ' + (App.showView.slideshowView.fullscreenMode() ? ' active' : '');
           },
-          dataToggle: 'button'
-        }, {
-          name: 'X',
-          klass: 'optPrevious'
+          dataToggle: 'button',
+          outerstyle: 'float: right;'
+        }
+      ]
+    },
+    group9: {
+      name: 'Slider',
+      content: [
+        {
+          name: '<span class="slider" style=""></span>',
+          klass: 'optThumbsize ',
+          type: 'div',
+          style: 'width: 190px; position: relative;'
         }
       ]
     }

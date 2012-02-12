@@ -98,7 +98,8 @@ class Photo extends Spine.Model
       
   details: ->
     details =
-      album   : Album.record
       gallery : Gallery.record
+      album   : Album.record
+      photo   : Photo.record
 
 Spine.Model.Photo = Photo

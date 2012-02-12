@@ -19,6 +19,8 @@ class SlideshowView extends Spine.Controller
     @autoplay = false
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('play:slideshow', @proxy @play)
+    Spine.bind('slider:change', @proxy @size)
+    Spine.bind('slider:start', @proxy @sliderStart)
     
   render: (items) ->
     return unless @isActive()
@@ -26,7 +28,7 @@ class SlideshowView extends Spine.Controller
     @items.html @template items
     @uri items, 'append'
     @refreshElements()
-    @size()
+    @size(App.showView.sliderOutValue())
     @el
     
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->
@@ -95,6 +97,9 @@ class SlideshowView extends Spine.Controller
       joinTable: 'AlbumsPhoto'
     items = Photo.filterRelated(Album.record.id, filterOptions)
     @render items
+    
+  sliderStart: =>
+    @refreshElements()
     
   size: (val=@thumbSize, bg='none') ->
     # 2*10 = border radius

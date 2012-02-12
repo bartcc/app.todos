@@ -27,6 +27,7 @@ PhotoHeader = (function() {
   };
   function PhotoHeader() {
     PhotoHeader.__super__.constructor.apply(this, arguments);
+    Album.bind('change', this.proxy(this.change));
   }
   PhotoHeader.prototype.backToGalleries = function() {
     Spine.trigger('album:activate');
@@ -39,13 +40,12 @@ PhotoHeader = (function() {
   PhotoHeader.prototype.backToPhotos = function() {
     return Spine.trigger('show:photos');
   };
-  PhotoHeader.prototype.change = function(item) {
+  PhotoHeader.prototype.change = function() {
     console.log('PhotoHeader::change');
-    this.current = item;
     return this.render();
   };
   PhotoHeader.prototype.render = function() {
-    return this.html(this.template(this.current));
+    return this.html(this.template(Photo.record));
   };
   PhotoHeader.prototype.drop = function(e) {
     e.stopPropagation();

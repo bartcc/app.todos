@@ -26,6 +26,7 @@ class GalleryEditView extends Spine.Controller
 
   render: ->
     console.log 'GalleryEditView::render'
+#    return unless @isActive()
     if Gallery.record
       @editEl.html @template Gallery.record
     else

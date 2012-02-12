@@ -399,7 +399,7 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <h3><span>Album Originals</span><label class="message label right"><span class="enlightened error"> Caution: Albums are unrecoverable!</span></label></h3>
+    <label class="label"><span class=""> Caution: Albums are unrecoverable!</span></label>
     <h2>All Albums
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -425,8 +425,8 @@
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <h3><span>Photo Originals</span><label class="message label right"><span class="enlightened error"> Caution: Deleted Photos are unrecoverable!</span></label></h3>
-    <h2>All Photos
+    <label class="label"><span class=""> Caution: Deleted Photos are unrecoverable!</span></label>
+    <h2>All Photos (Originals)
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{/if}}
@@ -447,7 +447,6 @@
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
   <section class="top">
     {{if $item.data.details}}{{tmpl($item.data.details()) "#photoDetailsTemplate"}}{{/if}}
-    <h2>Photo: {{if title}}${title}{{else}}{{if src}}${src}{{else}}unknown{{/if}}{{/if}}</h2>
   </section>
   <section class="closeView options">
     <ul class="breadcrumb">
@@ -467,6 +466,7 @@
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
   <h3>{{if gallery}}<span>Gallery: ${gallery.name}</span>{{/if}}{{if album}}<span>Album: ${album.title}</span>{{/if}}</h3>
+  <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}unknown{{/if}}{{/if}}</h2>
 </script>
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">

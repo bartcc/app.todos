@@ -90,7 +90,6 @@ Photo = (function() {
         error: this.error
       });
     } else {
-      console.log(uri);
       return callback.call(this, uri);
     }
   };
@@ -147,8 +146,9 @@ Photo = (function() {
   Photo.prototype.details = function() {
     var details;
     return details = {
+      gallery: Gallery.record,
       album: Album.record,
-      gallery: Gallery.record
+      photo: Photo.record
     };
   };
   return Photo;

@@ -27,6 +27,7 @@ class PhotoEditView extends Spine.Controller
     @render @current
   
   render: (item) ->
+#    return unless @isActive()
     selection = Album.selectionList()
 
     unless selection?.length

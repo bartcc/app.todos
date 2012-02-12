@@ -148,11 +148,6 @@ class Toolbar extends Spine.Model
           klass: 'optDestroyPhoto'
           outerstyle: 'float: right;'
           disabled: -> !Album.selectionList().length
-        ,
-          name: '<span id="slider" style=""></span>'
-          klass: 'optThumbsize '
-          type: 'div'
-          style: 'width: 190px; position: relative;'
         ]
     group5:
       name: 'Photo'
@@ -182,12 +177,23 @@ class Toolbar extends Spine.Model
       locked: true
       content:
         [
+          name: 'X'
+          klass: 'optPrevious'
+          outerstyle: 'float: right;'
+        ,
           name: 'Chromless'
           klass: -> 'optFullscreenMode '  + if App.showView.slideshowView.fullscreenMode() then ' active' else ''
           dataToggle: 'button'
-        ,
-          name: 'X'
-          klass: 'optPrevious'
+          outerstyle: 'float: right;'
+        ]
+    group9:
+      name: 'Slider'
+      content:
+        [
+          name: '<span class="slider" style=""></span>'
+          klass: 'optThumbsize '
+          type: 'div'
+          style: 'width: 190px; position: relative;'
         ]
         
   init: (ins) ->

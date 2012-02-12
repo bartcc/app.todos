@@ -19,6 +19,8 @@ class PhotosList extends Spine.Controller
     super
     Photo.bind('sortupdate', @proxy @sortupdate)
     Spine.bind('photo:activate', @proxy @activate)
+    Spine.bind('slider:start', @proxy @sliderStart)
+    Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
@@ -192,7 +194,7 @@ class PhotosList extends Spine.Controller
   sliderStart: =>
     @refreshElements()
     
-  size: (val, bg='none') =>
+  size: (val, bg='none') ->
     # 2*10 = border radius
     @thumb.css
       'height'          : val+'px'

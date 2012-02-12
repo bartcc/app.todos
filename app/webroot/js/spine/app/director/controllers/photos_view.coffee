@@ -53,23 +53,22 @@ class PhotosView extends Spine.Controller
     Spine.bind('start:slideshow', @proxy @slideshow)
     Gallery.bind('change', @proxy @renderHeader)
       
-  change: (item, mode, changed) ->
+  change: (item, changed) ->
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       
     items = Photo.filterRelated(item?.id, filterOptions)
-    @render items
-    
+    @buffer = items if changed
+    @render @buffer if @buffer
+      
   render: (items, mode) ->
     return unless @isActive()
-    console.log 'PhotosView::render'
     @items.empty() unless @list.children('li').length
-    # show spinner
-#      @items.html @preloaderTemplate()
-    if list = @list.render items, mode or 'html'
-      list.sortable 'photo' if Album.record
+    list = @list.render items, mode or 'html'
+    list.sortable 'photo' if Album.record
     @refreshElements()
+    delete @buffer
   
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
@@ -144,7 +143,7 @@ class PhotosView extends Spine.Controller
     return if @isActive()
     Spine.trigger('gallery:activate')
 #    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
-    Spine.trigger('change:toolbarOne', ['Default', 'Photos'], App.showView.initSlider)
+    Spine.trigger('change:toolbarOne', ['Default', 'Photos', 'Slider'], App.showView.initSlider)
     Spine.trigger('change:canvas', @)
     @renderHeader()
   

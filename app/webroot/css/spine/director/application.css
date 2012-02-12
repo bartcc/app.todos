@@ -737,11 +737,18 @@ textarea {
 }
 .options li button:active:not(:disabled) {
   background: #00EEFF;
-  box-shadow: 0 0 10px #9C9C9C inset;
-  -moz-box-shadow: inset 0 0 10px #9c9c9c;
-  -webkit-box-shadow: inset 0 0 10px #9c9c9c;
+  box-shadow: 0 0 10px #1C1C1C inset;
+  -moz-box-shadow: inset 0 0 10px #1C1C1C;
+  -webkit-box-shadow: inset 0 0 10px #1C1C1C;
   color: rgba(50, 50, 50, 0.6);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.options li button:hover:not(:disabled) {
+/*  background-color: transparent;*/
+  color: #FFFFFF;
+}
+.options li button:active:not(:disabled) {
+  color: rgba(50, 50, 50, 0.6);
 }
 .originals .options {
   font-weight: normal;
@@ -1044,7 +1051,7 @@ textarea {
 .slider {
   
 }
-#slider {
+.slider {
   height: 10px;
   margin: 10px;
   position: absolute;
@@ -1052,7 +1059,7 @@ textarea {
   width: 150px;
   z-index: 1;
 }
-#slider .ui-slider-handle {
+.slider .ui-slider-handle {
   border-radius: 11px;
   padding: 0;
 }
@@ -1090,12 +1097,6 @@ label {
   background: none;
   color: #151515;
 }
-.message.label span.error {
-  color: rgba(255, 50, 0, 0.8);
-}
-.message.label span.info {
-  color: rgba(0, 255, 255, 0.8);
-}
 li.active button.dark {
   color: #00BBCC;
   text-shadow: 1px 0 10px rgba(0, 224, 255, 0.8), 1px 0 10px rgba(0, 224, 255, 0.2), -1px -1px 0 #000000;
@@ -1122,9 +1123,4 @@ label, input, button, select, textarea {
 }
 .label {
   font-size: 1.0em;
-}
-.options li button:hover:not(:disabled) {
-  background-color: transparent;
-  color: #FFFFFF;
-  text-decoration: none;
 }

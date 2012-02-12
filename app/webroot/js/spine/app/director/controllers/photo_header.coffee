@@ -18,6 +18,7 @@ class PhotoHeader extends Spine.Controller
 
   constructor: ->
     super
+    Album.bind('change', @proxy @change)
 
   backToGalleries: ->
     Spine.trigger('album:activate')
@@ -30,13 +31,12 @@ class PhotoHeader extends Spine.Controller
   backToPhotos: ->
     Spine.trigger('show:photos')
 
-  change: (item) ->
+  change: ->
     console.log 'PhotoHeader::change'
-    @current = item
     @render()
     
   render: ->
-    @html @template @current
+    @html @template  Photo.record
     
   drop: (e) ->
     e.stopPropagation()

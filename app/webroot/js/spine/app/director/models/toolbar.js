@@ -244,11 +244,7 @@ Toolbar = (function() {
       content: [
         {
           name: function() {
-            if (Album.record.title) {
-              return 'Start Slideshow';
-            } else {
-              return 'no album selected';
-            }
+            return 'Start Slideshow';
           },
           klass: 'optSlideshow',
           disabled: function() {

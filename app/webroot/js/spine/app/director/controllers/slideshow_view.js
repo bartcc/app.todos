@@ -167,7 +167,7 @@ SlideshowView = (function() {
   };
   SlideshowView.prototype.play = function() {
     this.refreshElements();
-    return this.galleryEl.find('.thumbnail:first').click();
+    return this.galleryEl.find('li:first').click();
   };
   SlideshowView.prototype.fullscreenMode = function(active) {
     if (active == null) {

@@ -23,7 +23,7 @@
   cursor: pointer;
 }
 .modal-loading .modal-image {
-  background: url(../img/loading.gif) center no-repeat;
+  background: url(img/loading.gif) center no-repeat;
 }
 .modal-gallery.fade .modal-image {
   -webkit-transition: width 0.15s ease, height 0.15s ease;

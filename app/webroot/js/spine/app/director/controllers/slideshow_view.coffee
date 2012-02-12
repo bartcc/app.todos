@@ -105,7 +105,7 @@ class SlideshowView extends Spine.Controller
     
   play: ->
     @refreshElements()
-    @galleryEl.find('.thumbnail:first').click()
+    @galleryEl.find('li:first').click()
       
   fullscreenMode: (active=@fullscreen) ->
     @fullscreen = unless active is false then active else false

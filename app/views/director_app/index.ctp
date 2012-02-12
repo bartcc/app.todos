@@ -399,7 +399,9 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <label class="label"><span class=""> Caution: Albums are unrecoverable!</span></label>
+    <label class="label label-important"><span class=""> Caution: These albums  are the original photo collections!</span></label>
+    <br>
+    <label class="label label-info"><span class="">Photos part of a destroyed collection are not removed permanently</span></label>
     <h2>All Albums
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -425,7 +427,7 @@
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <label class="label"><span class=""> Caution: Deleted Photos are unrecoverable!</span></label>
+    <label class="label label-important"><span class=""> Caution: Removing the original means destroying the photo on the server!</span></label>
     <h2>All Photos (Originals)
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>

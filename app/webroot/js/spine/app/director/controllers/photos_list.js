@@ -54,6 +54,7 @@ PhotosList = (function() {
     }
     console.log('PhotosList::render');
     if (Album.record) {
+      this.el.removeClass('all');
       if (items.length) {
         this[mode](this.template(items));
         if (mode !== 'append') {
@@ -64,6 +65,7 @@ PhotosList = (function() {
         this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
       }
     } else {
+      this.el.addClass('all');
       this.renderAll();
     }
     return this.el;

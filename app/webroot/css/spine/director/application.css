@@ -844,38 +844,38 @@ textarea {
 #content .content .item {
   outline: #121212;
 }
-#content .content .thumbnail {
+.galleries .thumbnail, .albums .thumbnail {
   background: url("img/bauer.png") no-repeat 0 0;
 }
-#content .content.galleries .thumbnail {
+.galleries .thumbnail {
   background-position: 0 -160px;
 }
-#content .content.albums .thumbnail {
+.thumbnail {
   background-position: 0 0;
 }
-#content .content .thumbnail {
+.thumbnail {
   outline: none;
   padding: 10px;
   color: rgba(200, 200, 200, 0.5);
   line-height: 1.2em
 }
-#content .content.galleries .items .thumbnail {
+.galleries .items .thumbnail {
   width: 140px;
   height: 140px;
 }
-#content .content.galleries .items .thumbnail {
+.galleries .items .thumbnail {
   color: rgba(0, 0, 0, 0.7);
   line-height: 2em;
   text-shadow: 0 1px 0.1px rgba(255, 255, 255, 0.3);
 }
-#content .content.galleries .items .thumbnail .inner {
+.galleries .items .thumbnail .inner {
   margin: 20px 15px 0 0;
   padding-left: 2px;
 }
-#content .content .items .thumbnail {
+.items .thumbnail {
   margin-bottom: 2px;
 }
-#content .content .items .thumbnail {
+.items .thumbnail {
   box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
@@ -883,19 +883,19 @@ textarea {
   -moz-border-radius: 17px;
   -webkit-border-radius: 17px;
 }
-#content .content.albums .items .thumbnail {
+.albums .thumbnail {
   width: 139px;
   height: 139px;
 }
-#content .content.overview .items .thumbnail {
+.overview .thumbnail {
   width: 50px;
   height: 50px;
 }
-#content .content.photos .items .thumbnail {
+.photos .thumbnail {
 /*  width: 120px;
   height: 120px;*/
 }
-#content .content .thumbnail.image {
+.thumbnail.image {
   background: url("img/photo-loader.gif") no-repeat center center;
   border: 1px solid #575757;
   -moz-border-radius: 10px;
@@ -907,15 +907,15 @@ textarea {
   height: 240px;
   width: 320px;
 }
-#content .content.photo .thumbnail.image {
+.photo .thumbnail.image {
   border: 2px dotted rgba(255, 255, 255, 0.7);
 }
-#content .content .item.active .thumbnail .name {
+.active .thumbnail .name {
   color: rgba(250, 192, 150, 0.4);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);
   font-family: Verdana, sans-serif;
 }
-#content .content .items {
+.items {
 }
 .item.active + .item {
 /*  margin-left: 120px;*/
@@ -979,7 +979,7 @@ textarea {
   box-shadow: 0px -1px 3px 5px rgba(0, 0, 0, 0.8)
 }
 .views .view div.left:nth-child(2) {
-  padding-left: 50px;
+/*  padding-left: 50px;*/
 }
 #sidebar .item-header {
 /*  min-height: 43px;*/
@@ -1101,7 +1101,9 @@ li.active button.dark {
   color: #00BBCC;
   text-shadow: 1px 0 10px rgba(0, 224, 255, 0.8), 1px 0 10px rgba(0, 224, 255, 0.2), -1px -1px 0 #000000;
 }
-
+.items.all .thumbnail {
+  border: 2px solid rgba(250, 0, 0, 0.5);
+}
 /* normalize bootstrap classes*/
 label, input, button, select, textarea {
   font-size: 15px;

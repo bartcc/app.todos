@@ -143,7 +143,6 @@
                 width: img.width,
                 height: img.height
             });
-            console.log($.support.transition && modal.hasClass('fade'))
             if (transition) {
                 clone = modal.clone().hide().appendTo(document.body);
             }

@@ -46,6 +46,11 @@ class PhotoView extends Spine.Controller
     
   render: (item, mode) ->
     console.log 'PhotoView::render'
+    if Album.record
+      @el.removeClass 'all'
+    else
+      @el.addClass 'all'
+      
     @items.html @template item
     @renderHeader item
     @uri item
@@ -99,9 +104,7 @@ class PhotoView extends Spine.Controller
         'opacity'         : 1
       .fadeIn()
       el.css
-        'borderWidth'       : '1px'
         'borderStyle'       : 'solid'
-        'borderColor'       : '#575757'
         'backgroundColor'   : 'rgba(255, 255, 255, 0.5)'
         'backgroundImage'   : 'none'
   

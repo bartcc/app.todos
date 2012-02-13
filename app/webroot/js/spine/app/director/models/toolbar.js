@@ -36,16 +36,16 @@ Toolbar = (function() {
   };
   Toolbar.dropdownGroups = {
     group0: {
-      name: 'Views',
+      name: 'View',
       content: [
         {
-          name: 'All Galleries',
+          name: 'Show all Galleries',
           klass: 'optAllGalleries'
         }, {
-          name: 'All Albums',
+          name: 'Show all Albums',
           klass: 'optAllAlbums'
         }, {
-          name: 'All Photos',
+          name: 'Show all Photos',
           klass: 'optAllPhotos '
         }, {
           devider: true
@@ -59,22 +59,22 @@ Toolbar = (function() {
       name: 'Gallery',
       content: [
         {
-          name: 'New Gallery',
+          name: 'New',
           klass: 'optCreateGallery'
         }, {
-          name: 'Edit Gallery (Exit View)',
+          name: 'Edit (Large View)',
           klass: 'optEditGallery',
           disabled: function() {
             return !Gallery.record;
           }
         }, {
-          name: 'Edit Gallery',
+          name: 'Edit',
           klass: 'optGallery',
           disabled: function() {
             return !Gallery.record;
           }
         }, {
-          name: 'Delete Gallery',
+          name: 'Destroy (permanently)',
           klass: 'optDestroyGallery',
           disabled: function() {
             return !Gallery.record;
@@ -86,13 +86,19 @@ Toolbar = (function() {
       name: 'Album',
       content: [
         {
-          name: 'New Album',
+          name: 'New',
           klass: 'optCreateAlbum'
         }, {
-          name: 'Edit Album',
+          name: 'Edit',
           klass: 'optAlbum'
         }, {
-          name: 'Delete Album',
+          name: function() {
+            if (Gallery.record) {
+              return 'Delete';
+            } else {
+              return 'Destroy (permanently)';
+            }
+          },
           klass: 'optDestroyAlbum',
           disabled: function() {
             return !Gallery.selectionList().length;
@@ -104,13 +110,19 @@ Toolbar = (function() {
       name: 'Photo',
       content: [
         {
-          name: 'Edit Photo',
+          name: 'Edit',
           klass: 'optPhoto',
           disabled: function() {
             return !Album.selectionList().length;
           }
         }, {
-          name: 'Delete Photo',
+          name: function() {
+            if (Album.record) {
+              return 'Delete';
+            } else {
+              return 'Destroy (permanently)';
+            }
+          },
           klass: 'optDestroyPhoto ',
           disabled: function() {
             return !Album.selectionList().length;
@@ -147,16 +159,16 @@ Toolbar = (function() {
       name: 'Gallery',
       content: [
         {
-          name: 'Edit Gallery',
+          name: 'Edit',
           klass: 'optEditGallery',
           disabled: function() {
             return !Gallery.record;
           }
         }, {
-          name: 'New Gallery',
+          name: 'New',
           klass: 'optCreateGallery'
         }, {
-          name: 'Delete Gallery',
+          name: 'Destroy (permanently)',
           klass: 'optDestroyGallery',
           disabled: function() {
             return !Gallery.record;
@@ -176,12 +188,6 @@ Toolbar = (function() {
           disabled: function() {
             return !Gallery.record;
           }
-        }, {
-          name: 'Delete Gallery',
-          klass: 'optDestroy',
-          disabled: function() {
-            return !Gallery.record;
-          }
         }
       ]
     },
@@ -189,10 +195,16 @@ Toolbar = (function() {
       name: 'Album',
       content: [
         {
-          name: 'New Album',
+          name: 'New',
           klass: 'optCreateAlbum'
         }, {
-          name: 'Delete Album',
+          name: function() {
+            if (Gallery.record) {
+              return 'Delete';
+            } else {
+              return 'Destroy';
+            }
+          },
           klass: 'optDestroyAlbum ',
           disabled: function() {
             return !Gallery.selectionList().length;
@@ -204,7 +216,13 @@ Toolbar = (function() {
       name: 'Photos',
       content: [
         {
-          name: 'Delete Photo',
+          name: function() {
+            if (Album.record) {
+              return 'Delete';
+            } else {
+              return 'Destroy';
+            }
+          },
           klass: 'optDestroyPhoto',
           outerstyle: 'float: right;',
           disabled: function() {
@@ -217,7 +235,13 @@ Toolbar = (function() {
       name: 'Photo',
       content: [
         {
-          name: 'Delete Image',
+          name: function() {
+            if (Album.record) {
+              return 'Delete';
+            } else {
+              return 'Destroy';
+            }
+          },
           klass: 'optDestroyPhoto ',
           disabled: function() {
             return !Album.selectionList().length;

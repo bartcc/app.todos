@@ -468,6 +468,9 @@
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
   <h3>{{if gallery}}<span>Gallery: ${gallery.name}</span>{{/if}}{{if album}}<span>Album: ${album.title}</span>{{/if}}</h3>
+  {{if !album}}
+  <label class="label label-important"><span class=""> Caution: Removing the original means destroying the photo on the server!</span></label>
+  {{/if}}
   <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}unknown{{/if}}{{/if}}</h2>
 </script>
 

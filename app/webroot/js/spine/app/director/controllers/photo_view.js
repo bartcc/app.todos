@@ -60,6 +60,11 @@ PhotoView = (function() {
   };
   PhotoView.prototype.render = function(item, mode) {
     console.log('PhotoView::render');
+    if (Album.record) {
+      this.el.removeClass('all');
+    } else {
+      this.el.addClass('all');
+    }
     this.items.html(this.template(item));
     this.renderHeader(item);
     this.uri(item);
@@ -131,9 +136,7 @@ PhotoView = (function() {
       }, this)
     });
     return el.css({
-      'borderWidth': '1px',
       'borderStyle': 'solid',
-      'borderColor': '#575757',
       'backgroundColor': 'rgba(255, 255, 255, 0.5)',
       'backgroundImage': 'none'
     });

@@ -42,10 +42,10 @@ Toolbar = (function() {
           name: 'Show all Galleries',
           klass: 'optAllGalleries'
         }, {
-          name: 'Show all Albums',
+          name: 'Master Albums',
           klass: 'optAllAlbums'
         }, {
-          name: 'Show all Photos',
+          name: 'Master Photos',
           klass: 'optAllPhotos '
         }, {
           devider: true

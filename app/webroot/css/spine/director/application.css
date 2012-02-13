@@ -1104,7 +1104,14 @@ li.active button.dark {
   text-shadow: 1px 0 10px rgba(0, 224, 255, 0.8), 1px 0 10px rgba(0, 224, 255, 0.2), -1px -1px 0 #000000;
 }
 .items.all .thumbnail {
-  border: 2px solid rgba(250, 0, 0, 0.5);
+  border-width: 2px;
+  border-style: solid;
+}
+.albums .items.all .thumbnail {
+  border-color:  #C09853;
+}
+.photos .items.all .thumbnail {
+  border-color:  rgba(250, 0, 0, 0.5);
 }
 /* normalize bootstrap classes*/
 label, input, button, select, textarea {

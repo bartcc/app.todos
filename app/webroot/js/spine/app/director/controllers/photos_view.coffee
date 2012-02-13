@@ -63,7 +63,8 @@ class PhotosView extends Spine.Controller
     @render @buffer if @buffer
       
   render: (items, mode) ->
-    return unless @isActive()
+    # render only if necessary
+    return unless @isActive() or (mode is 'append')
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode or 'html'
     list.sortable 'photo' if Album.record

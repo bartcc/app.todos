@@ -83,8 +83,8 @@
     <div id="content" class="views canvas-bg-dark vbox flex">
       <div class="overview view content canvas vbox flex">
         <ul class="tools options hbox">
-          <li class="optClose"><button class="dark">X</button></li>
           <li class="splitter disabled flex"></li>
+          <li class="optClose right"><button class="dark">X</button></li>
         </ul>
         <div class="flex vbox autoflow">
           <div class="container">

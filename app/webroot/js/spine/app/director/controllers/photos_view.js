@@ -81,7 +81,7 @@ PhotosView = (function() {
   };
   PhotosView.prototype.render = function(items, mode) {
     var list;
-    if (!this.isActive()) {
+    if (!(this.isActive() || (mode === 'append'))) {
       return;
     }
     if (!this.list.children('li').length) {

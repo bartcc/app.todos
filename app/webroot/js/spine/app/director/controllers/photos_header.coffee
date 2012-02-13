@@ -7,9 +7,13 @@ class PhotosHeader extends Spine.Controller
     'click .closeView .gal'     : 'backToGalleries'
     'click .closeView .alb'     : 'backToAlbums'
 
+  template: (item) ->
+    $("#headerPhotosTemplate").tmpl item
+
   constructor: ->
     super
     Album.bind('change', @proxy @change)
+    Photo.bind('change', @proxy @change)
     
   backToGalleries: ->
     console.log 'PhotosHeader::closeView'
@@ -19,14 +23,14 @@ class PhotosHeader extends Spine.Controller
     console.log 'PhotosHeader::closeView'
     Spine.trigger('show:albums')
 
-  change: (item) ->
-    @current = item
+  change:  ->
     @render()
     
   render: ->
     @html @template
       gallery: Gallery.record
-      record: @current
+      album: Album.record
+      photo: Photo.record
       count:  @count()
     
   count: ->

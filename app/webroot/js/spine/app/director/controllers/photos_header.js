@@ -17,9 +17,13 @@ PhotosHeader = (function() {
     'click .closeView .gal': 'backToGalleries',
     'click .closeView .alb': 'backToAlbums'
   };
+  PhotosHeader.prototype.template = function(item) {
+    return $("#headerPhotosTemplate").tmpl(item);
+  };
   function PhotosHeader() {
     PhotosHeader.__super__.constructor.apply(this, arguments);
     Album.bind('change', this.proxy(this.change));
+    Photo.bind('change', this.proxy(this.change));
   }
   PhotosHeader.prototype.backToGalleries = function() {
     console.log('PhotosHeader::closeView');
@@ -29,14 +33,14 @@ PhotosHeader = (function() {
     console.log('PhotosHeader::closeView');
     return Spine.trigger('show:albums');
   };
-  PhotosHeader.prototype.change = function(item) {
-    this.current = item;
+  PhotosHeader.prototype.change = function() {
     return this.render();
   };
   PhotosHeader.prototype.render = function() {
     return this.html(this.template({
       gallery: Gallery.record,
-      record: this.current,
+      album: Album.record,
+      photo: Photo.record,
       count: this.count()
     }));
   };

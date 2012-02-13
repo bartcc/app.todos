@@ -422,8 +422,8 @@
     {{if gallery}}
     <h3>Gallery: ${gallery.name}</h3>
     {{/if}}
-    {{if record}}
-    <h2>Album: ${record.title}
+    {{if album}}
+    <h2>Album: ${album.title}
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}

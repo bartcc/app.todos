@@ -60,7 +60,7 @@ class Toolbar extends Spine.Model
           name: 'Edit'
           klass: 'optAlbum'
         ,
-          name: -> if Gallery.record then 'Delete' else 'Destroy (permanently)'
+          name: -> if Gallery.record then 'Remove' else 'Destroy (permanently)'
           klass: 'optDestroyAlbum'
           disabled: -> !Gallery.selectionList().length
         ]
@@ -72,7 +72,7 @@ class Toolbar extends Spine.Model
           klass: 'optPhoto'
           disabled: -> !Album.selectionList().length
         ,
-          name: -> if Album.record then 'Delete' else 'Destroy (permanently)'
+          name: -> if Album.record then 'Remove' else 'Destroy (permanently)'
           klass: 'optDestroyPhoto '
           disabled: -> !Album.selectionList().length
         ,
@@ -132,7 +132,7 @@ class Toolbar extends Spine.Model
           name: 'New'
           klass: 'optCreateAlbum'
         ,
-          name: -> if Gallery.record then 'Delete' else 'Destroy'
+          name: -> if Gallery.record then 'Remove' else 'Destroy'
           klass: 'optDestroyAlbum '
           disabled: -> !Gallery.selectionList().length
         ]
@@ -140,7 +140,7 @@ class Toolbar extends Spine.Model
       name: 'Photos'
       content:
         [
-          name: -> if Album.record then 'Delete' else 'Destroy'
+          name: -> if Album.record then 'Remove' else 'Destroy'
           klass: 'optDestroyPhoto'
           outerstyle: 'float: right;'
           disabled: -> !Album.selectionList().length
@@ -149,7 +149,7 @@ class Toolbar extends Spine.Model
       name: 'Photo'
       content:
         [
-          name: -> if Album.record then 'Delete' else 'Destroy'
+          name: -> if Album.record then 'Remove' else 'Destroy'
           klass: 'optDestroyPhoto '
           disabled: -> !Album.selectionList().length
         ]

@@ -140,7 +140,7 @@ class Toolbar extends Spine.Model
       name: 'Photos'
       content:
         [
-          name: -> if Album.record then ('Remove '+ '('+Album.selectionList().length+')') else 'Destroy'
+          name: -> if Album.record then ('Remove '+ '('+Album.selectionList().length+')') else 'Destroy '+ '('+Album.selectionList().length+')'
           klass: 'optDestroyPhoto'
           outerstyle: 'float: right;'
           disabled: -> !Album.selectionList().length
@@ -149,7 +149,7 @@ class Toolbar extends Spine.Model
       name: 'Photo'
       content:
         [
-          name: -> if Album.record then ('Remove '+ '('+Album.selectionList().length+')') else 'Destroy'
+          name: -> if Album.record then ('Remove '+ '('+Album.selectionList().length+')') else 'Destroy '+ '('+Album.selectionList().length+')'
           klass: 'optDestroyPhoto '
           disabled: -> !Album.selectionList().length
         ]

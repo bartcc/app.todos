@@ -220,7 +220,7 @@ Toolbar = (function() {
             if (Album.record) {
               return 'Remove ' + '(' + Album.selectionList().length + ')';
             } else {
-              return 'Destroy';
+              return 'Destroy ' + '(' + Album.selectionList().length + ')';
             }
           },
           klass: 'optDestroyPhoto',
@@ -239,7 +239,7 @@ Toolbar = (function() {
             if (Album.record) {
               return 'Remove ' + '(' + Album.selectionList().length + ')';
             } else {
-              return 'Destroy';
+              return 'Destroy ' + '(' + Album.selectionList().length + ')';
             }
           },
           klass: 'optDestroyPhoto ',

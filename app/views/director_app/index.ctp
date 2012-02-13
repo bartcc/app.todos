@@ -534,7 +534,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  <label class="label"><span>Target Album: </span>{{if album}}Album ${album.title}{{else}}none (all photos){{/if}}</label>
+  <label class="label"><span>Target Album: </span>{{if album}} ${album.title}{{else}}none (all photos){{/if}}</label>
 </script>
 
 <script>

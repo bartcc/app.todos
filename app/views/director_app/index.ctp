@@ -399,7 +399,7 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <div class="alert alert-block"><h4 class="alert-heading">Warning!</h4>An album inside a gallery is just an link (alias) to its album-master. Destroying this master, will cause all existing links to be removed!</div>
+    <div class="alert alert-block"><h4 class="alert-heading">Warning!</h4>An album inside a gallery is just an link (alias) to its Album-Master. Destroying this master, will cause all existing links to be removed!</div>
     <h2>All Albums (Album-Masters)
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>

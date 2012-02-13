@@ -399,7 +399,7 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <div class="alert alert-block"><h4 class="alert-heading">Warning!</h4>An album inside a gallery is just an link (alias) to its master-album. Destroying this master, will also cause all existing links to be removed!</div>
+    <div class="alert alert-block"><h4 class="alert-heading">Warning!</h4>An album inside a gallery is just an link (alias) to its album-master. Destroying this master, will cause all existing links to be removed!</div>
     <h2>All Albums (Album-Masters)
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -425,7 +425,7 @@
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>A photo inside an album is just a link (alias) to its master. Destroying this master, will also cause all existing links to be removed!</div>
+    <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>A photo inside an album is just a link (alias) to its Photo-Master. Destroying this master, will cause all existing links to be removed!</div>
     <h2>All Photos (Photo-Masters)
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -467,7 +467,7 @@
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
   <h3>{{if gallery}}<span>Gallery: ${gallery.name}</span>{{/if}}{{if album}}<span>Album: ${album.title}</span>{{/if}}</h3>
   {{if !album}}
-  <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>A photo inside an album is just a link (alias) to its master. Destroying this master, will also cause all existing links to be removed!</div>
+  <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>A photo inside an album is just a link (alias) to its Photo-Master. Destroying this master, will cause all existing links to be removed!</div>
   {{/if}}
   <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}unknown{{/if}}{{/if}}</h2>
 </script>

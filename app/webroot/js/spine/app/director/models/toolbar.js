@@ -94,7 +94,7 @@ Toolbar = (function() {
         }, {
           name: function() {
             if (Gallery.record) {
-              return 'Remove';
+              return 'Remove ' + '(' + Gallery.selectionList().length + ')';
             } else {
               return 'Destroy (permanently)';
             }
@@ -118,7 +118,7 @@ Toolbar = (function() {
         }, {
           name: function() {
             if (Album.record) {
-              return 'Remove';
+              return 'Remove ' + '(' + Album.selectionList().length + ')';
             } else {
               return 'Destroy (permanently)';
             }
@@ -218,7 +218,7 @@ Toolbar = (function() {
         {
           name: function() {
             if (Album.record) {
-              return 'Remove';
+              return 'Remove ' + '(' + Album.selectionList().length + ')';
             } else {
               return 'Destroy';
             }
@@ -237,7 +237,7 @@ Toolbar = (function() {
         {
           name: function() {
             if (Album.record) {
-              return 'Remove';
+              return 'Remove ' + '(' + Album.selectionList().length + ')';
             } else {
               return 'Destroy';
             }

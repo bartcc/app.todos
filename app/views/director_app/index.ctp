@@ -158,28 +158,40 @@
             </div>
             <div id="fu" class="view container flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
-                <label class="message label right"><span class="enlightened">Drag your images anywhere into the browser window</span></label>
-                <div class="uploadinfo"></div>
-                <div class="row">
-                  <div class="span16 fileupload-buttonbar">
-                    <div class="progressbar fileupload-progressbar"><div style="width:0%;"></div></div>
-                    <span class="btn btn-success fileinput-button">
-                      <span>Add files...</span>
-                      <input type="file" name="files[]" multiple>
-                    </span>
-                    <button type="submit" class="btn btn-primary start">Start upload</button>
-                    <button type="reset" class="btn btn-info cancel">Cancel upload</button>
-                    <button type="button" class="btn btn-danger delete">Delete selected</button>
-                    <input type="checkbox" class="toggle">
+                <div class="alert alert-success"><h4 class="alert-heading">Upload your images to: <span class="label label-warning uploadinfo"></span></h4>First select or open an album. Now drag your images into the main browser window. Alternatively you can also use the upload controls below.
+                  <div class="row fileupload-buttonbar">
+                    <div class="span7">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                            <span><i class="icon-plus icon-white"></i> Add files...</span>
+                            <input type="file" name="files[]" multiple>
+                        </span>
+                        <button type="submit" class="btn btn-primary start">
+                            <i class="icon-upload icon-white"></i> Start upload
+                        </button>
+                        <button type="reset" class="btn btn-warning cancel">
+                            <i class="icon-ban-circle icon-white"></i> Cancel upload
+                        </button>
+                        <button type="button" class="btn btn-danger delete">
+                            <i class="icon-trash icon-white"></i> Delete
+                        </button>
+                        <input type="checkbox" class="toggle">
+                    </div>
+                    <div class="span5">
+                      <!-- The global progress bar -->
+                      <div class="progress progress-info progress-striped active fade">
+                        <div class="bar" style="width:0%;"></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <br>
-                <div class="row">
-                  <div class="span16">
-                    <table class="zebra-striped"><tbody class="files"></tbody></table>
-                  </div>
+                  <!-- The loading indicator is shown during image processing -->
+                  <div class="fileupload-loading"></div>
+                  <br>
+                  <!-- The table listing the files available for upload/download -->
+                  <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
                 </div>
               </form>
+              <div class="alert alert-info"><strong>Heads Up!</strong> If you haven't selected any album for upload, your images will still be uploaded and can be found under <strong>View->ShowPhoto Masters</strong></div>
             </div>
           </div>
         </div>  
@@ -532,7 +544,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  <label class="label"><span>Target Album: </span>{{if album}} ${album.title}{{else}}none (all photos){{/if}}</label>
+  {{if album}} ${album.title}{{else}}none (all photos){{/if}}
 </script>
 
 <script>

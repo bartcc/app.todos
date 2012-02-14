@@ -359,7 +359,7 @@
 
 <script id="dropdownTemplate" type="text/x-jquery-tmpl">
   <li class="dropdown" id="menu1">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <a class="dropdown-toggle" data-toggle="dropdown">
       {{html name}}
       <b class="caret"></b>
     </a>

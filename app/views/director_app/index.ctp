@@ -158,7 +158,7 @@
             </div>
             <div id="fu" class="view container flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
-                <div class="alert alert-success"><h4 class="alert-heading">Upload your images to: <span class="label label-warning uploadinfo"></span></h4>First select or open an album. Now drag your images into the main browser window. Alternatively you can also use the upload controls below.
+                <div class="alert alert-info"><h4 class="alert-heading">Upload your images to: <span class="label label-warning uploadinfo"></span></h4>First select or open an album. Now drag your images into the main browser window. Alternatively you can also use the upload controls below.
                   <div class="row fileupload-buttonbar">
                     <div class="span7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -544,7 +544,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  {{if album}} ${album.title}{{else}}none (all photos){{/if}}
+  {{if album}} ${album.title}{{else}}(all photos){{/if}}
 </script>
 
 <script>

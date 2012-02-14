@@ -40,8 +40,8 @@ class UploadEditView extends Spine.Controller
     @el
     
   add: (e, data) ->
-#    if data.files.length
-#      @openPanel('upload', App.showView.btnUpload)
+    if data.files.length
+      @openPanel('upload', App.showView.btnUpload)
     e.preventDefault()
     e.stopPropagation()
     

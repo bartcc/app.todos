@@ -50,6 +50,9 @@ UploadEditView = (function() {
     return this.el;
   };
   UploadEditView.prototype.add = function(e, data) {
+    if (data.files.length) {
+      this.openPanel('upload', App.showView.btnUpload);
+    }
     e.preventDefault();
     return e.stopPropagation();
   };

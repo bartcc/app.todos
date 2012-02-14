@@ -93,7 +93,10 @@ Toolbar = (function() {
         }, {
           name: 'Edit',
           icon: 'pencil',
-          klass: 'optAlbum'
+          klass: 'optAlbum',
+          disabled: function() {
+            return !Gallery.selectionList().length;
+          }
         }, {
           name: function() {
             var len, type;

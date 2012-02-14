@@ -39,13 +39,10 @@ Toolbar = (function() {
       name: 'View',
       content: [
         {
-          name: 'Show all Galleries',
-          klass: 'optAllGalleries'
-        }, {
-          name: 'Master Albums',
+          name: 'Show Album Masters',
           klass: 'optAllAlbums'
         }, {
-          name: 'Master Photos',
+          name: 'Show Photo Masters',
           klass: 'optAllPhotos '
         }, {
           devider: true
@@ -60,21 +57,25 @@ Toolbar = (function() {
       content: [
         {
           name: 'New',
+          icon: 'asterisk',
           klass: 'optCreateGallery'
         }, {
           name: 'Edit (Large View)',
+          icon: 'pencil',
           klass: 'optEditGallery',
           disabled: function() {
             return !Gallery.record;
           }
         }, {
           name: 'Edit',
+          icon: 'pencil',
           klass: 'optGallery',
           disabled: function() {
             return !Gallery.record;
           }
         }, {
-          name: 'Destroy (permanently)',
+          name: 'Destroy',
+          icon: 'trash',
           klass: 'optDestroyGallery',
           disabled: function() {
             return !Gallery.record;
@@ -87,18 +88,20 @@ Toolbar = (function() {
       content: [
         {
           name: 'New',
+          icon: 'asterisk',
           klass: 'optCreateAlbum'
         }, {
           name: 'Edit',
+          icon: 'pencil',
           klass: 'optAlbum'
         }, {
           name: function() {
-            if (Gallery.record) {
-              return 'Remove ' + '(' + Gallery.selectionList().length + ')';
-            } else {
-              return 'Destroy (permanently)';
-            }
+            var len, type;
+            len = '(' + Gallery.selectionList().length + ')';
+            type = Gallery.record ? 'Remove' : 'Destroy';
+            return type + ' ' + len;
           },
+          icon: 'trash',
           klass: 'optDestroyAlbum',
           disabled: function() {
             return !Gallery.selectionList().length;
@@ -111,18 +114,19 @@ Toolbar = (function() {
       content: [
         {
           name: 'Edit',
+          icon: 'pencil',
           klass: 'optPhoto',
           disabled: function() {
             return !Album.selectionList().length;
           }
         }, {
           name: function() {
-            if (Album.record) {
-              return 'Remove ' + '(' + Album.selectionList().length + ')';
-            } else {
-              return 'Destroy (permanently)';
-            }
+            var len, type;
+            len = '(' + Album.selectionList().length + ')';
+            type = Album.record ? 'Remove' : 'Destroy';
+            return type + ' ' + len;
           },
+          icon: 'trash',
           klass: 'optDestroyPhoto ',
           disabled: function() {
             return !Album.selectionList().length;
@@ -131,6 +135,7 @@ Toolbar = (function() {
           devider: true
         }, {
           name: 'Upload',
+          icon: 'upload',
           klass: 'optUpload'
         }
       ]
@@ -160,15 +165,18 @@ Toolbar = (function() {
       content: [
         {
           name: 'Edit',
+          icon: 'pencil',
           klass: 'optEditGallery',
           disabled: function() {
             return !Gallery.record;
           }
         }, {
           name: 'New',
+          icon: 'asterisk',
           klass: 'optCreateGallery'
         }, {
-          name: 'Destroy (permanently)',
+          name: 'Destroy',
+          icon: 'trash',
           klass: 'optDestroyGallery',
           disabled: function() {
             return !Gallery.record;
@@ -196,15 +204,16 @@ Toolbar = (function() {
       content: [
         {
           name: 'New',
+          icon: 'asterisk',
           klass: 'optCreateAlbum'
         }, {
           name: function() {
-            if (Gallery.record) {
-              return 'Remove';
-            } else {
-              return 'Destroy';
-            }
+            var len, type;
+            len = '(' + Gallery.selectionList().length + ')';
+            type = Gallery.record ? 'Remove' : 'Destroy';
+            return type + ' ' + len;
           },
+          icon: 'trash',
           klass: 'optDestroyAlbum ',
           disabled: function() {
             return !Gallery.selectionList().length;
@@ -217,11 +226,10 @@ Toolbar = (function() {
       content: [
         {
           name: function() {
-            if (Album.record) {
-              return 'Remove ' + '(' + Album.selectionList().length + ')';
-            } else {
-              return 'Destroy ' + '(' + Album.selectionList().length + ')';
-            }
+            var len, type;
+            len = '(' + Album.selectionList().length + ')';
+            type = Album.record ? 'Remove' : 'Destroy';
+            return type + ' ' + len;
           },
           klass: 'optDestroyPhoto',
           outerstyle: 'float: right;',
@@ -236,11 +244,10 @@ Toolbar = (function() {
       content: [
         {
           name: function() {
-            if (Album.record) {
-              return 'Remove ' + '(' + Album.selectionList().length + ')';
-            } else {
-              return 'Destroy ' + '(' + Album.selectionList().length + ')';
-            }
+            var len, type;
+            len = '(' + Album.selectionList().length + ')';
+            type = Album.record ? 'Remove' : 'Destroy';
+            return type + ' ' + len;
           },
           klass: 'optDestroyPhoto ',
           disabled: function() {
@@ -254,6 +261,7 @@ Toolbar = (function() {
       content: [
         {
           name: 'Show Upload',
+          icon: 'upload',
           klass: ''
         }
       ]

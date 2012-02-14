@@ -17,13 +17,10 @@ class Toolbar extends Spine.Model
       name: 'View'
       content:
         [
-          name: 'Show all Galleries'
-          klass: 'optAllGalleries'
-        ,
-          name: 'Master Albums'
+          name: 'Show Album Masters'
           klass: 'optAllAlbums'
         ,
-          name: 'Master Photos'
+          name: 'Show Photo Masters'
           klass: 'optAllPhotos '
         ,
           devider: true
@@ -36,17 +33,21 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'New'
+          icon: 'asterisk'
           klass: 'optCreateGallery'
         ,
           name: 'Edit (Large View)'
+          icon: 'pencil'
           klass: 'optEditGallery'
           disabled: -> !Gallery.record
         ,
           name: 'Edit'
+          icon: 'pencil'
           klass: 'optGallery'
           disabled: -> !Gallery.record
         ,
-          name: 'Destroy (permanently)'
+          name: 'Destroy'
+          icon: 'trash'
           klass: 'optDestroyGallery'
           disabled: -> !Gallery.record
         ]
@@ -55,12 +56,18 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'New'
+          icon: 'asterisk'
           klass: 'optCreateAlbum'
         ,
           name: 'Edit'
+          icon: 'pencil'
           klass: 'optAlbum'
         ,
-          name: -> if Gallery.record then ('Remove '+ '('+Gallery.selectionList().length+')') else 'Destroy (permanently)'
+          name: ->
+            len = '('+Gallery.selectionList().length+')'
+            type = if Gallery.record then 'Remove' else 'Destroy'
+            return type+' '+len
+          icon: 'trash'
           klass: 'optDestroyAlbum'
           disabled: -> !Gallery.selectionList().length
         ]
@@ -69,16 +76,22 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'Edit'
+          icon: 'pencil'
           klass: 'optPhoto'
           disabled: -> !Album.selectionList().length
         ,
-          name: -> if Album.record then ('Remove '+ '('+Album.selectionList().length+')') else 'Destroy (permanently)'
+          name: ->
+            len = '('+Album.selectionList().length+')'
+            type = if Album.record then 'Remove' else 'Destroy'
+            return type+' '+len
+          icon: 'trash'
           klass: 'optDestroyPhoto '
           disabled: -> !Album.selectionList().length
         ,
           devider: true
         ,
           name: 'Upload'
+          icon: 'upload'
           klass: 'optUpload'
         ]
       
@@ -104,13 +117,16 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'Edit'
+          icon: 'pencil'
           klass: 'optEditGallery'
           disabled: -> !Gallery.record
         ,
           name: 'New'
+          icon: 'asterisk'
           klass: 'optCreateGallery'
         ,
-          name: 'Destroy (permanently)'
+          name: 'Destroy'
+          icon: 'trash'
           klass: 'optDestroyGallery'
           disabled: -> !Gallery.record
         ,
@@ -130,9 +146,14 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'New'
+          icon: 'asterisk'
           klass: 'optCreateAlbum'
         ,
-          name: -> if Gallery.record then 'Remove' else 'Destroy'
+          name: ->
+            len = '('+Gallery.selectionList().length+')'
+            type = if Gallery.record then 'Remove' else 'Destroy'
+            return type+' '+len
+          icon: 'trash'
           klass: 'optDestroyAlbum '
           disabled: -> !Gallery.selectionList().length
         ]
@@ -140,7 +161,10 @@ class Toolbar extends Spine.Model
       name: 'Photos'
       content:
         [
-          name: -> if Album.record then ('Remove '+ '('+Album.selectionList().length+')') else 'Destroy '+ '('+Album.selectionList().length+')'
+          name: ->
+            len = '('+Album.selectionList().length+')'
+            type = if Album.record then 'Remove' else 'Destroy'
+            return type+' '+len
           klass: 'optDestroyPhoto'
           outerstyle: 'float: right;'
           disabled: -> !Album.selectionList().length
@@ -149,7 +173,10 @@ class Toolbar extends Spine.Model
       name: 'Photo'
       content:
         [
-          name: -> if Album.record then ('Remove '+ '('+Album.selectionList().length+')') else 'Destroy '+ '('+Album.selectionList().length+')'
+          name: ->
+            len = '('+Album.selectionList().length+')'
+            type = if Album.record then 'Remove' else 'Destroy'
+            return type+' '+len
           klass: 'optDestroyPhoto '
           disabled: -> !Album.selectionList().length
         ]
@@ -158,6 +185,7 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'Show Upload'
+          icon: 'upload'
           klass: ''
         ]
     group7:

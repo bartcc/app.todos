@@ -36,7 +36,6 @@ class UploadEditView extends Spine.Controller
     @uploadinfoEl.html @template
       gallery: gallery
       album: @album
-#    @initFileupload()
     @refreshElements()
     @el
     
@@ -50,24 +49,10 @@ class UploadEditView extends Spine.Controller
     console.log 'UploadView::done'
     photos = $.parseJSON(data.jqXHR.responseText)
     Photo.refresh(photos, clear: false)
+    Spine.trigger('album:updateBuffer', @album)
     
   submit: (e, data) ->
     console.log 'UploadView::submit'
-    
-  initFileupload: ->
-    console.log 'UploadEditView::initFileupload'
-    @uploader.fileupload()
-    
-  fileuploadsend: (e, data) ->
-    # Enable iframe cross-domain access via redirect page:
-    redirectPage = window.location.href.replace /\/[^\/]*$/, '/result.html?%s'
-    
-    if (data.dataType.substr(0, 6) is 'iframe')
-      target = $('<a/>').prop('href', data.url)[0]
-      unless window.location.host is target.host
-        data.formData.push
-          name: 'redirect'
-          value: redirectPage
     
   changeSelected: (e) ->
     el = $(e.currentTarget)

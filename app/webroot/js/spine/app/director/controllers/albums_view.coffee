@@ -62,7 +62,9 @@ class AlbumsView extends Spine.Controller
     # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
     gallery = Gallery.record
     
-    
+    if item.constructor.className is 'GalleriesAlbum' and item.destroyed
+      Spine.trigger('show:albums')
+        
     if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
     else
@@ -96,9 +98,8 @@ class AlbumsView extends Spine.Controller
   
   show: ->
     Spine.trigger('change:canvas', @)
-#    Spine.trigger('change:toolbarOne', ['Album'])
     Spine.trigger('change:toolbarOne', ['Views', 'Default'])
-    Spine.trigger('gallery:exposeSelection', Gallery.record)
+    Spine.trigger('album:activate')
     
   newAttributes: ->
     if User.first()

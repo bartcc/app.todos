@@ -1127,11 +1127,21 @@ label, input, button, select, textarea {
   box-shadow: none;
 }
 .disabled, .breadcrumb .active {
-  color: rgba(0, 0, 0, 0.5);
+  opacity: 0.5;
 }
-.dropdown-menu a.disabled{
-  color: #BEBEBE;
+.dropdown-menu .disabled:hover {
+  background-color: transparent;
+  color: inherit;
 }
 .label {
   font-size: 1.0em;
+}
+.the-icons i {
+  display: block;
+}
+.dropdown-menu i:after {
+  margin-right: 5px;
+}
+[class^="icon-"]:last-child {
+  margin-right: 5px;
 }

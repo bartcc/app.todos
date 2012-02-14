@@ -52,19 +52,22 @@ class PhotosView extends Spine.Controller
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('start:slideshow', @proxy @slideshow)
     Gallery.bind('change', @proxy @renderHeader)
+    Spine.bind('album:updateBuffer', @proxy @updateBuffer)
       
   change: (item, changed) ->
+    @updateBuffer item if changed
+    @render @buffer if @buffer
+  
+  updateBuffer: (item) ->
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       
-    items = Photo.filterRelated(item?.id, filterOptions)
-    @buffer = items if changed
-    @render @buffer if @buffer
-      
+    @buffer = Photo.filterRelated(item?.id, filterOptions)
+  
   render: (items, mode) ->
     # render only if necessary
-    return unless @isActive() or (mode is 'append')
+    return unless @isActive()
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode or 'html'
     list.sortable 'photo' if Album.record
@@ -144,7 +147,7 @@ class PhotosView extends Spine.Controller
     return if @isActive()
     Spine.trigger('gallery:activate')
 #    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
-    Spine.trigger('change:toolbarOne', ['Default', 'Photos', 'Slider'], App.showView.initSlider)
+    Spine.trigger('change:toolbarOne', ['Default', 'Slider'], App.showView.initSlider)
     Spine.trigger('change:canvas', @)
     @renderHeader()
   

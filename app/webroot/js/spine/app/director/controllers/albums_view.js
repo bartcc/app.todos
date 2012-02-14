@@ -68,6 +68,9 @@ AlbumsView = (function() {
     var gallery;
     console.log('AlbumsView::change');
     gallery = Gallery.record;
+    if (item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
+      Spine.trigger('show:albums');
+    }
     if ((!gallery) || gallery.destroyed) {
       this.current = Album.filter();
     } else {
@@ -101,7 +104,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.show = function() {
     Spine.trigger('change:canvas', this);
     Spine.trigger('change:toolbarOne', ['Views', 'Default']);
-    return Spine.trigger('gallery:exposeSelection', Gallery.record);
+    return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {

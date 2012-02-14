@@ -351,7 +351,7 @@
     <{{if type}}${type} class="tb-name"{{else}}button class="dark" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
     {{if style}} style="${style}"{{/if}}
     {{if disabled}}disabled{{/if}}>
-    {{html name}}
+    {{if icon}}<i class="icon-${icon}"></i>{{/if}}{{html name}}
     </{{if type}}${type}{{else}}button{{/if}}>
   </li>
   {{/if}}
@@ -360,7 +360,7 @@
 <script id="dropdownTemplate" type="text/x-jquery-tmpl">
   <li class="dropdown" id="menu1">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-      ${name}
+      {{html name}}
       <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
@@ -373,7 +373,7 @@
   {{if devider}}
   <li class="divider"></li>
   {{else}}
-  <li><a class="${klass} {{if disabled}}disabled{{/if}}" href="#">${name}</a></li>
+  <li><a class="${klass} {{if disabled}}disabled{{/if}}">{{if icon}}<i class="icon-${icon}"></i>{{/if}}${name}</a></li>
   {{/if}}
 </script>
 

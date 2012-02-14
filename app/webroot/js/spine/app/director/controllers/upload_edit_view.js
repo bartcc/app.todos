@@ -60,29 +60,13 @@ UploadEditView = (function() {
     var photos;
     console.log('UploadView::done');
     photos = $.parseJSON(data.jqXHR.responseText);
-    return Photo.refresh(photos, {
+    Photo.refresh(photos, {
       clear: false
     });
+    return Spine.trigger('album:updateBuffer', this.album);
   };
   UploadEditView.prototype.submit = function(e, data) {
     return console.log('UploadView::submit');
-  };
-  UploadEditView.prototype.initFileupload = function() {
-    console.log('UploadEditView::initFileupload');
-    return this.uploader.fileupload();
-  };
-  UploadEditView.prototype.fileuploadsend = function(e, data) {
-    var redirectPage, target;
-    redirectPage = window.location.href.replace(/\/[^\/]*$/, '/result.html?%s');
-    if (data.dataType.substr(0, 6) === 'iframe') {
-      target = $('<a/>').prop('href', data.url)[0];
-      if (window.location.host !== target.host) {
-        return data.formData.push({
-          name: 'redirect',
-          value: redirectPage
-        });
-      }
-    }
   };
   UploadEditView.prototype.changeSelected = function(e) {
     var album, el, id;

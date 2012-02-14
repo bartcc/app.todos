@@ -319,9 +319,9 @@ Sidebar = (function() {
   };
   Sidebar.prototype.showAllPhotos = function() {
     Spine.trigger('show:photos');
+    Gallery.emptySelection();
     Gallery.current();
-    Album.current();
-    return Gallery.emptySelection();
+    return Album.current();
   };
   Sidebar.prototype.showAllAlbums = function() {
     Spine.trigger('show:albums');

@@ -53,24 +53,20 @@ PhotosList = (function() {
       mode = 'html';
     }
     console.log('PhotosList::render');
-    if (Gallery.record) {
-      if (Album.record) {
-        this.el.removeClass('all');
-        if (items.length) {
-          this[mode](this.template(items));
-          if (mode !== 'append') {
-            this.exposeSelection();
-          }
-          this.uri(items, mode);
-        } else {
-          this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
+    if (Album.record) {
+      this.el.removeClass('all');
+      if (items.length) {
+        this[mode](this.template(items));
+        if (mode !== 'append') {
+          this.exposeSelection();
         }
+        this.uri(items, mode);
       } else {
-        this.el.addClass('all');
-        this.renderAll();
+        this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
       }
     } else {
-
+      this.el.addClass('all');
+      this.renderAll();
     }
     return this.el;
   };

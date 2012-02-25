@@ -17,10 +17,10 @@ class Toolbar extends Spine.Model
       name: 'View'
       content:
         [
-          name: 'Show Album Masters'
+          name: 'All Albums'
           klass: 'optAllAlbums'
         ,
-          name: 'Show Photo Masters'
+          name: 'All Photos'
           klass: 'optAllPhotos '
         ,
           devider: true

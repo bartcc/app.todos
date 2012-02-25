@@ -39,10 +39,10 @@ Toolbar = (function() {
       name: 'View',
       content: [
         {
-          name: 'Show Album Masters',
+          name: 'All Albums',
           klass: 'optAllAlbums'
         }, {
-          name: 'Show Photo Masters',
+          name: 'All Photos',
           klass: 'optAllPhotos '
         }, {
           devider: true

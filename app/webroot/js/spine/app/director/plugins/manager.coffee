@@ -63,6 +63,7 @@ Spine.Manager.include
       stop: (e, ui) =>
         unless @el.draggable("option", "disabled")
           @currentDim = $(ui.helper)[dim]() unless @sleep
+          
   hasActive: ->
     for controller in @controllers
       if controller.isActive()

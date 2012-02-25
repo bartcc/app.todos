@@ -140,6 +140,16 @@ Toolbar = (function() {
           name: 'Upload',
           icon: 'upload',
           klass: 'optUpload'
+        }, {
+          name: 'Auto Upload',
+          icon: function() {
+            if (App.showView.isQuickUpload()) {
+              return 'ok';
+            } else {
+              return '';
+            }
+          },
+          klass: 'optQuickUpload'
         }
       ]
     }

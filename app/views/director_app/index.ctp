@@ -158,7 +158,7 @@
             </div>
             <div id="fu" class="view container flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
-                <div class="alert alert-info"><h4 class="alert-heading">Upload your images to: <span class="label label-warning uploadinfo"></span></h4>First select or open an album. Now drag your images into the main browser window. Alternatively you can also use the upload controls below.
+                <div class="alert alert-info"><h4 class="alert-heading">Upload your images to: <span class="label label-warning uploadinfo"></span></h4>First select or open an album. Now drag your images into the main browser window. Alternatively you can use the 'Add Files' button below.
                   <div class="row fileupload-buttonbar">
                     <div class="span7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -370,7 +370,7 @@
 </script>
 
 <script id="dropdownTemplate" type="text/x-jquery-tmpl">
-  <li class="dropdown" id="menu1">
+  <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown">
       {{html name}}
       <b class="caret"></b>
@@ -385,7 +385,7 @@
   {{if devider}}
   <li class="divider"></li>
   {{else}}
-  <li><a class="${klass} {{if disabled}}disabled{{/if}}">{{if icon}}<i class="icon-${icon}"></i>{{/if}}${name}</a></li>
+  <li><a class="${klass} {{if disabled}}disabled{{/if}}"><i class="icon-{{if icon}}${icon}{{/if}}"></i>${name}</a></li>
   {{/if}}
 </script>
 
@@ -558,7 +558,7 @@ var fileUploadErrors = {
 };
 </script>
 
-<script id="template-upload" type="text/html">
+<script id="template-upload_" type="text/html">
   {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
     <tr class="template-upload fade">
       <td class="preview"><span class="fade"></span></td>
@@ -567,7 +567,7 @@ var fileUploadErrors = {
       {% if (file.error) { %}
       <td class="error" colspan="2"><span class="label important">Error</span> {%=fileUploadErrors[file.error] || file.error%}</td>
       {% } else if (o.files.valid && !i) { %}
-      <td class="progress"><div class="progressbar"><div style="width:0%;"></div></div></td>
+      <td class="progress"><div class="progress progressbar progress-info"><div class="bar" style="width:0%;"></div></div></td>
       <td class="start">{% if (!o.options.autoUpload) { %}<button class="btn primary">Start</button>{% } %}</td>
       {% } else { %}
       <td colspan="2"></td>
@@ -577,9 +577,40 @@ var fileUploadErrors = {
   {% } %}
 </script>
 
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
+    <tr class="template-upload fade">
+        <td class="previews">upload</td>
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name">{%=file.name%}</td>
+        <td class="size">{%=o.formatFileSize(file.size)%}</td>
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <td>
+                <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+            </td>
+            <td class="start">{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i> {%=locale.fileupload.start%}
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="2"></td>
+        {% } %}
+        <td class="cancel">{% if (!i) { %}
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i> {%=locale.fileupload.cancel%}
+            </button>
+        {% } %}</td>
+    </tr>
+{% } %}
+</script>
+
 <script id="template-download" type="text/html">
   {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
     <tr class="template-download fade">
+      <td>download</td>
       {% if (file.error) { %}
       <td></td>
       <td class="name">{%=file.name%}</td>

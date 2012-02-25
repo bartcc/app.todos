@@ -22,7 +22,8 @@ UploadEditView = (function() {
     'change select': 'changeSelected',
     'fileuploaddone': 'done',
     'fileuploadsubmit': 'submit',
-    'fileuploadadd': 'add'
+    'fileuploadadd': 'add',
+    'fileuploadpaste': 'paste'
   };
   UploadEditView.prototype.template = function(item) {
     return $('#fileuploadTemplate').tmpl(item);
@@ -51,22 +52,30 @@ UploadEditView = (function() {
   };
   UploadEditView.prototype.add = function(e, data) {
     if (data.files.length) {
-      this.openPanel('upload', App.showView.btnUpload);
+      this.c = App.hmanager.hasActive();
+      App.hmanager.change(this);
+      if (!App.showView.isQuickUpload()) {
+        this.openPanel('upload', App.showView.btnUpload);
+      }
     }
-    e.preventDefault();
-    return e.stopPropagation();
+    return e.preventDefault();
   };
   UploadEditView.prototype.done = function(e, data) {
     var photos;
-    console.log('UploadView::done');
     photos = $.parseJSON(data.jqXHR.responseText);
     Photo.refresh(photos, {
       clear: false
     });
-    return Spine.trigger('album:updateBuffer', this.album);
+    Spine.trigger('album:updateBuffer', this.album);
+    if (App.showView.isQuickUpload()) {
+      App.hmanager.change(this.c);
+    }
+    return e.preventDefault();
   };
+  UploadEditView.prototype.paste = function(e, data) {};
   UploadEditView.prototype.submit = function(e, data) {
-    return console.log('UploadView::submit');
+    console.log('UploadView::submit');
+    return e.stopPropagation();
   };
   UploadEditView.prototype.changeSelected = function(e) {
     var album, el, id;

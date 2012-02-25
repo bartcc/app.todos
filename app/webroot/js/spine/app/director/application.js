@@ -180,7 +180,9 @@ App = (function() {
   };
   App.prototype.initializeSlideshow = function(opts) {};
   App.prototype.initializeFileupload = function() {
-    return this.uploader.fileupload();
+    return this.uploader.fileupload({
+      autoUpload: false
+    });
   };
   App.prototype.loadToolbars = function() {
     return Toolbar.load();

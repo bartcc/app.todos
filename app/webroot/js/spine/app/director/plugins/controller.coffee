@@ -7,6 +7,9 @@ Spine.Controller.include
     $('input', el).first().focus().select() if el.is(':visible')
     el
 
+  panelIsActive: (controller) ->
+    App[controller].isActive()
+
   openPanel: (controller, target) ->
     App[controller].deactivate()
     target.click()

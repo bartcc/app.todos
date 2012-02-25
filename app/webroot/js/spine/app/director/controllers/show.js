@@ -22,6 +22,7 @@ ShowView = (function() {
     '.optAlbum .ui-icon': 'btnAlbum',
     '.optPhoto .ui-icon': 'btnPhoto',
     '.optUpload .ui-icon': 'btnUpload',
+    '.optQuickUpload': 'btnQuickUpload',
     '.optFullscreenMode': 'btnFullscreenMode',
     '.optSlideshowMode': 'btnSlideshowMode',
     '.toolbarOne': 'toolbarOneEl',
@@ -35,6 +36,7 @@ ShowView = (function() {
     '.slider': 'slider'
   };
   ShowView.prototype.events = {
+    "click .optQuickUpload": "toggleQuickUpload",
     "click .optOverview": "showOverview",
     "click .optSlideshow": "showSlideshow",
     "click .optPrevious": "showPrevious",
@@ -334,6 +336,21 @@ ShowView = (function() {
   };
   ShowView.prototype.toggleDraghandle = function() {
     return this.activeControl.click();
+  };
+  ShowView.prototype.toggleQuickUpload = function() {
+    var active;
+    this.refreshElements();
+    active = this.btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok');
+    this.quickUpload(active);
+    return active;
+  };
+  ShowView.prototype.quickUpload = function(active) {
+    return App.uploader.fileupload('option', {
+      autoUpload: active
+    });
+  };
+  ShowView.prototype.isQuickUpload = function() {
+    return this.btnQuickUpload.find('i').hasClass('icon-ok');
   };
   ShowView.prototype.play = function() {
     return Spine.trigger('play:slideshow');

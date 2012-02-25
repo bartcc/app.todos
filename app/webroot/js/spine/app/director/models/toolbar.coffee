@@ -94,6 +94,10 @@ class Toolbar extends Spine.Model
           name: 'Upload'
           icon: 'upload'
           klass: 'optUpload'
+        ,
+          name: 'Auto Upload'
+          icon: -> if App.showView.isQuickUpload() then 'ok' else ''
+          klass: 'optQuickUpload'
         ]
       
   @data:

@@ -111,14 +111,14 @@ Spine.Manager.include({
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       controller = _ref[_i];
       if (controller.isActive()) {
-        return true;
+        return controller;
       }
     }
     return false;
   }
 });
 Spine.Manager.extend({
-  deactivate_: function() {
+  deactivate: function() {
     console.log('deactivate');
     return this.constructor.apply(this, arguments);
   }

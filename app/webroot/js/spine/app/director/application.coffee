@@ -148,7 +148,8 @@ class App extends Spine.Controller
 #    @slideshow.imagegallery options
     
   initializeFileupload: ->
-    @uploader.fileupload()
+    @uploader.fileupload
+      autoUpload: false
     
   loadToolbars: ->
     Toolbar.load()

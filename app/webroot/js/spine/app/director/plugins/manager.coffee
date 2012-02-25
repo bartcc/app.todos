@@ -66,10 +66,10 @@ Spine.Manager.include
   hasActive: ->
     for controller in @controllers
       if controller.isActive()
-          return true
+          return controller
     false
 
 Spine.Manager.extend
-  deactivate_: ->
+  deactivate: ->
     console.log 'deactivate'
     @constructor.apply @, arguments

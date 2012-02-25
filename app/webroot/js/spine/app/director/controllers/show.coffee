@@ -13,6 +13,7 @@ class ShowView extends Spine.Controller
     '.optAlbum .ui-icon'      : 'btnAlbum'
     '.optPhoto .ui-icon'      : 'btnPhoto'
     '.optUpload .ui-icon'     : 'btnUpload'
+    '.optQuickUpload'         : 'btnQuickUpload'
     '.optFullscreenMode'      : 'btnFullscreenMode'
     '.optSlideshowMode'       : 'btnSlideshowMode'
     '.toolbarOne'             : 'toolbarOneEl'
@@ -26,6 +27,7 @@ class ShowView extends Spine.Controller
     '.slider'                 : 'slider'
     
   events:
+    "click .optQuickUpload"           : "toggleQuickUpload"
     "click .optOverview"              : "showOverview"
     "click .optSlideshow"             : "showSlideshow"
     "click .optPrevious"              : "showPrevious"
@@ -67,6 +69,7 @@ class ShowView extends Spine.Controller
 
   constructor: ->
     super
+    
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
       template: @toolsTemplate
@@ -304,6 +307,19 @@ class ShowView extends Spine.Controller
   toggleDraghandle: ->
     @activeControl.click()
   
+  toggleQuickUpload: ->
+    @refreshElements()
+    active = @btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok')
+    @quickUpload active
+    active
+    
+  quickUpload: (active) ->
+    App.uploader.fileupload 'option'
+      autoUpload: active
+    
+  isQuickUpload: ->
+    @btnQuickUpload.find('i').hasClass('icon-ok')
+    
   play: ->
     Spine.trigger('play:slideshow')
     

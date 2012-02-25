@@ -65,6 +65,7 @@
     echo $this->Html->script('lib/blueimp/load-image');
     echo $this->Html->script('lib/blueimp/bootstrap-image-gallery');
     echo $this->Html->script('lib/blueimp/jquery.iframe-transport');
+    echo $this->Html->script('lib/blueimp/locale');
     echo $this->Html->script('lib/blueimp/jquery.fileupload');
     echo $this->Html->script('lib/blueimp/canvas-to-blob.min');
     echo $this->Html->script('lib/blueimp/jquery.fileupload-ip');

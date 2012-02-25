@@ -13,6 +13,9 @@ Spine.Controller.include({
     }
     return el;
   },
+  panelIsActive: function(controller) {
+    return App[controller].isActive();
+  },
   openPanel: function(controller, target) {
     App[controller].deactivate();
     return target.click();

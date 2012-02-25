@@ -15,6 +15,7 @@ class UploadEditView extends Spine.Controller
     'fileuploaddone'              : 'done'
     'fileuploadsubmit'            : 'submit'
     'fileuploadadd'               : 'add'
+    'fileuploadpaste'             : 'paste'
     
   template: (item) ->
     $('#fileuploadTemplate').tmpl item
@@ -41,18 +42,28 @@ class UploadEditView extends Spine.Controller
     
   add: (e, data) ->
     if data.files.length
-      @openPanel('upload', App.showView.btnUpload)
+      @c = App.hmanager.hasActive()
+      App.hmanager.change @
+      unless App.showView.isQuickUpload()
+        @openPanel('upload', App.showView.btnUpload)
+        
     e.preventDefault()
-    e.stopPropagation()
+    
     
   done: (e, data) ->
-    console.log 'UploadView::done'
     photos = $.parseJSON(data.jqXHR.responseText)
     Photo.refresh(photos, clear: false)
     Spine.trigger('album:updateBuffer', @album)
+    if App.showView.isQuickUpload()
+      App.hmanager.change @c
+        
+    e.preventDefault()
+    
+  paste: (e, data) ->
     
   submit: (e, data) ->
     console.log 'UploadView::submit'
+    e.stopPropagation()
     
   changeSelected: (e) ->
     el = $(e.currentTarget)

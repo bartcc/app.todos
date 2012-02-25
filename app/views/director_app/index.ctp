@@ -580,7 +580,6 @@ var fileUploadErrors = {
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
     <tr class="template-upload fade">
-        <td class="previews">upload</td>
         <td class="preview"><span class="fade"></span></td>
         <td class="name">{%=file.name%}</td>
         <td class="size">{%=o.formatFileSize(file.size)%}</td>
@@ -610,7 +609,6 @@ var fileUploadErrors = {
 <script id="template-download" type="text/html">
   {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
     <tr class="template-download fade">
-      <td>download</td>
       {% if (file.error) { %}
       <td></td>
       <td class="name">{%=file.name%}</td>

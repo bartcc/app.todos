@@ -363,7 +363,7 @@
     <{{if type}}${type} class="tb-name"{{else}}button class="dark" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
     {{if style}} style="${style}"{{/if}}
     {{if disabled}}disabled{{/if}}>
-    {{if icon}}<i class="icon-${icon}"></i>{{/if}}{{html name}}
+    {{if icon}}<i class="icon-${icon}  {{if iconcolor}}icon-${iconcolor}{{/if}}"></i>{{/if}}{{html name}}
     </{{if type}}${type}{{else}}button{{/if}}>
   </li>
   {{/if}}
@@ -385,7 +385,7 @@
   {{if devider}}
   <li class="divider"></li>
   {{else}}
-  <li><a class="${klass} {{if disabled}}disabled{{/if}}"><i class="icon-{{if icon}}${icon}{{/if}}"></i>${name}</a></li>
+  <li><a class="${klass} {{if disabled}}disabled{{/if}}"><i class="icon-{{if icon}}${icon} {{if iconcolor}}icon-${iconcolor}{{/if}}{{/if}}"></i>${name}</a></li>
   {{/if}}
 </script>
 

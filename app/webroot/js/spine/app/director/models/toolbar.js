@@ -284,9 +284,11 @@ Toolbar = (function() {
       content: [
         {
           name: function() {
-            return 'Start Slideshow';
+            return 'Slideshow';
           },
           klass: 'optSlideshow',
+          icon: 'play',
+          iconcolor: 'white',
           disabled: function() {
             return !Gallery.selectionList().length;
           }

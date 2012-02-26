@@ -197,8 +197,10 @@ class Toolbar extends Spine.Model
       name: 'Slideshow'
       content:
         [
-          name: -> 'Start Slideshow'
+          name: -> 'Slideshow'
           klass: 'optSlideshow'
+          icon: 'play'
+          iconcolor: 'white'
           disabled: -> !Gallery.selectionList().length
         ]
     group8:

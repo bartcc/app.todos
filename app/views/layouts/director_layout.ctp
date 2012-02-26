@@ -62,7 +62,7 @@
 //    echo $this->Html->script('lib/twitter/bootstrap-dropdown');
 //    echo $this->Html->script('lib/twitter/bootstrap-button');
     echo $this->Html->script('lib/blueimp/tmpl');
-    echo $this->Html->script('lib/blueimp/load-image');
+//    echo $this->Html->script('lib/blueimp/load-image');
     echo $this->Html->script('lib/blueimp/bootstrap-image-gallery');
     echo $this->Html->script('lib/blueimp/jquery.iframe-transport');
     echo $this->Html->script('lib/blueimp/locale');

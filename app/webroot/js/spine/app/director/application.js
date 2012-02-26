@@ -181,7 +181,8 @@ App = (function() {
   App.prototype.initializeSlideshow = function(opts) {};
   App.prototype.initializeFileupload = function() {
     return this.uploader.fileupload({
-      autoUpload: false
+      autoUpload: false,
+      singleFileUploads: false
     });
   };
   App.prototype.loadToolbars = function() {

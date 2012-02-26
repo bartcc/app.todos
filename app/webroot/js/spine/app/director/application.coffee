@@ -149,7 +149,8 @@ class App extends Spine.Controller
     
   initializeFileupload: ->
     @uploader.fileupload
-      autoUpload: false
+      autoUpload        : false
+      singleFileUploads : false
     
   loadToolbars: ->
     Toolbar.load()

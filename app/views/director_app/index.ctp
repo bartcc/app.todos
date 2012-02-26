@@ -191,7 +191,7 @@
                   <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
                 </div>
               </form>
-              <div class="alert alert-info"><strong>Heads Up!</strong> If you haven't selected any album for upload, your images will still be uploaded and can be found under <strong>View->ShowPhoto Masters</strong></div>
+              <div class="alert alert-info"><strong>Heads Up!</strong> If you haven't selected any album for upload, your images will still be uploaded and can be found under <strong>View->All Photos</strong></div>
             </div>
           </div>
         </div>  

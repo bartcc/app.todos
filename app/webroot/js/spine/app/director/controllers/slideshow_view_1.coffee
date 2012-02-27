@@ -3,10 +3,20 @@ $      = Spine.$
 
 class SlideshowView extends Spine.Controller
   
+modal.toggleSlideShow()
+  
   #slideshow
   # modal = $('#modal-gallery').data('modal')
   # modal.startSlideShow()
   # modal.stopSlideShow()
+  # modal = $('#modal-gallery').data('modal')
+  # modal.stopSlideShow()
+  # modal.startSlideShow()
+  # modal.toggleSlideShow()
+  # modal.next()
+  # modal.show()
+  # modal.startSlideShow()
+  # modal.next()
   
   elements:
     '.items'           : 'items'
@@ -116,10 +126,18 @@ class SlideshowView extends Spine.Controller
   play: ->
     @refreshElements()
     @galleryEl.find('li:first').click()
-    
 #    modal = $('#modal-gallery').data('modal')
 #    modal.toggleSlideShow()
-      
+#    App.initializeSlideshow()
+    
+#  start: ->
+#    modal = $('#modal-gallery').data('modal')
+#    modal.startSlideShow()
+#    
+#  stop: ->
+#    modal = $('#modal-gallery').data('modal')
+#    modal.stopSlideShow()
+    
   fullscreenMode: (active=@fullscreen) ->
     @fullscreen = unless active is false then active else false
     @toggleFullscreen @fullscreen

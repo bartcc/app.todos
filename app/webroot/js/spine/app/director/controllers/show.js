@@ -384,6 +384,16 @@ ShowView = (function() {
     this.changeToolbarOne();
     return this.current.items.deselect();
   };
+  ShowView.prototype.selectAll = function() {
+    var _ref;
+    this.current.items.children().each(function(index, el) {
+      return $(el).item().addRemoveSelection(true);
+    });
+    if ((_ref = this.current.list) != null) {
+      _ref.activate();
+    }
+    return this.changeToolbarOne();
+  };
   ShowView.prototype.uploadProgress = function(e, coll) {};
   ShowView.prototype.uploadDone = function(e, coll) {};
   ShowView.prototype.dropdown_ = function(e) {

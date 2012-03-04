@@ -119,6 +119,9 @@ Model.Extender =
       toID: (records = @records) ->
         record.id for record in records
       
+      successHandler: (data, status, xhr) ->
+        console.log data
+        
       errorHandler: (record, xhr, statusText, error) ->
         status = xhr.status
         unless status is 200
@@ -171,7 +174,7 @@ Model.Extender =
 
       addRemoveSelection: (isMetaKey) ->
         model = @constructor['parentSelector']
-        list = Spine.Model[model].selectionList()
+        list = Spine.Model[model]?.selectionList()
         return unless list
         unless isMetaKey
           @addUnique(list)

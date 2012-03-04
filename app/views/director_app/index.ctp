@@ -59,14 +59,16 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1>Director</h1>
+    <h1><a href="/">Director</a></h1>
     <div id="login" class="flex tright" style="margin-top: 5px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views canvas-bg-medium hbox vdraggable">
       <div class="vbox flex inner">
         <div class="search">
-          <input type="search" placeholder="Search" results="0" incremental="true" autofocus>
+          <form class="form-search">
+            <input class="search-query" type="search" placeholder="Search" results="0" incremental="true" autofocus>
+          </form>
         </div>
         <div class="originals hbox">
           <ul class="options hbox flex">
@@ -359,7 +361,7 @@
   {{if dropdown}}
     {{tmpl(itemGroup)  "#dropdownTemplate"}}
   {{else}}
-  <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}>
+  <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}{{if id}} id="${id}"{{/if}}>
     <{{if type}}${type} class="tb-name"{{else}}button class="dark" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
     {{if style}} style="${style}"{{/if}}
     {{if disabled}}disabled{{/if}}>
@@ -370,7 +372,7 @@
 </script>
 
 <script id="dropdownTemplate" type="text/x-jquery-tmpl">
-  <li class="dropdown">
+  <li class="dropdown" {{if id}} id="${id}"{{/if}}>
     <a class="dropdown-toggle" data-toggle="dropdown">
       {{html name}}
       <b class="caret"></b>
@@ -411,7 +413,9 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
+    {{if count}}
     <div class="alert alert-block"><h4 class="alert-heading">Warning!</h4>An album inside a gallery is just an link (alias) to its Album-Master. Destroying this master, will cause all existing links to be removed!</div>
+    {{/if}}
     <h2>All Albums (Album-Masters)
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -437,7 +441,9 @@
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
+    {{if count}}
     <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying this master, will cause all derived photos (aliases) to be removed!</div>
+    {{/if}}
     <h2>All Photos (Photo-Masters)
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -631,6 +637,3 @@ var fileUploadErrors = {
     </tr>
   {% } %}
 </script>
-
-        
-        

@@ -52,6 +52,7 @@ Sidebar = (function() {
     });
     Gallery.bind("refresh change", this.proxy(this.render));
     Gallery.bind("ajaxError", Gallery.errorHandler);
+    Gallery.bind("ajaxSuccess", Gallery.successHandler);
     Spine.bind('create:gallery', this.proxy(this.create));
     Spine.bind('edit:gallery', this.proxy(this.edit));
     Spine.bind('destroy:gallery', this.proxy(this.destroy));

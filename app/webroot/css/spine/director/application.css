@@ -27,8 +27,9 @@ html, body {
   padding: 0;
 }
 body {
-/*  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
-  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
+/*  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;*/
+/*  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
+  font-size: 14px;
   color: #414141;
 }
 *[draggable=true] {
@@ -1110,39 +1111,4 @@ li.active button.dark {
 }
 .photos .items.all .thumbnail {
   border-color:  rgba(250, 0, 0, 0.5);
-}
-/* normalize bootstrap classes*/
-label, input, button, select, textarea {
-  font-size: 15px;
-}
-.thumbnail {
-    border: 0 none;
-}
-.breadcrumb {
-  background-image: none;
-  background-color: transparent;
-  border: 0 none;
-  box-shadow: none;
-}
-.disabled, .breadcrumb .active {
-  opacity: 0.5;
-}
-.dropdown-menu .disabled:hover {
-  background-color: transparent;
-  color: inherit;
-}
-.label {
-  font-size: 1.0em;
-}
-.the-icons i {
-  display: block;
-}
-.dropdown-menu i:after {
-  margin-right: 5px;
-}
-[class^="icon-"]:last-child {
-  margin-right: 5px;
-}
-button:disabled .icon-white {
-  opacity: 0.3
 }

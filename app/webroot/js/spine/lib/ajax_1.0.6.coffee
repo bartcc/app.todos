@@ -11,10 +11,13 @@ Ajax =
   requests: []
 
   disable: (callback) ->
-    @enabled = false
-    do callback
-    @enabled = true
-
+    if @enabled    
+      @enabled = false
+      do callback
+      @enabled = true
+    else
+      do callback
+    
   requestNext: ->
     next = @requests.shift()
     if next
@@ -67,15 +70,17 @@ class Collection extends Base
     ).success(@recordsResponse)
      .error(@errorResponse)
     
-  fetch: (params = {}) ->
+  fetch: (params = {}, options = {}) ->
     if id = params.id
       delete params.id
       @find(id, params).success (record) =>
-        @model.refresh(record)
+        @model.refresh(record, options)
     else
       @all(params).success (records) =>
-        @model.refresh(records)
-    
+        @model.refresh(records, options)
+
+  # Private
+
   recordsResponse: (data, status, xhr) =>
     @model.trigger('ajaxSuccess', null, status, xhr)
 
@@ -86,65 +91,69 @@ class Singleton extends Base
   constructor: (@record) ->
     @model = @record.constructor
   
-  reload: (params) ->
+  reload: (params, options) ->
     @queue =>
       @ajax(
         params,
         type: 'GET'
         url:  Ajax.getURL(@record)
-      ).success(@recordResponse)
-       .error(@errorResponse)
+      ).success(@recordResponse(options))
+       .error(@errorResponse(options))
   
-  create: (params) ->
+  create: (params, options) ->
     @queue =>
       @ajax(
         params,
         type: 'POST'
         data: JSON.stringify(@record)
         url:  Ajax.getURL(@model)
-      ).success(@recordResponse)
-       .error(@errorResponse)
+      ).success(@recordResponse(options))
+       .error(@errorResponse(options))
 
-  update: (params) ->
+  update: (params, options) ->
     @queue =>
       @ajax(
         params,
         type: 'PUT'
         data: JSON.stringify(@record)
         url:  Ajax.getURL(@record)
-      ).success(@recordResponse)
-       .error(@errorResponse)
+      ).success(@recordResponse(options))
+       .error(@errorResponse(options))
   
-  destroy: (params) ->
+  destroy: (params, options) ->
     @queue =>
       @ajax(
         params,
         type: 'DELETE'
         url:  Ajax.getURL(@record)
-      ).success(@recordResponse)
-       .error(@errorResponse)  
+      ).success(@recordResponse(options))
+       .error(@errorResponse(options))
 
   # Private
 
-  recordResponse: (data, status, xhr) =>
-    @record.trigger('ajaxSuccess', status, xhr)
+  recordResponse: (options = {}) =>
+    (data, status, xhr) =>
+      if Spine.isBlank(data)
+        data = false
+      else
+        data = @model.fromJSON(data)
     
-    return if Spine.isBlank(data)
-    data = @model.fromJSON(data)
-    
-    Ajax.disable =>        
-      # ID change, need to do some shifting
-      if data.id and @record.id isnt data.id
-        @record.changeID(data.id)
+      Ajax.disable =>
+        if data
+          # ID change, need to do some shifting
+          if data.id and @record.id isnt data.id
+            @record.changeID(data.id)
 
-      # Update with latest data
-      @record.updateAttributes(data.attributes())      
+          # Update with latest data
+          @record.updateAttributes(data.attributes())
+        
+      @record.trigger('ajaxSuccess', data, status, xhr)
+      options.success?.apply(@record)
       
-  blankResponse: (data, status, xhr) =>
-    @record.trigger('ajaxSuccess', status, xhr)
-
-  errorResponse: (xhr, statusText, error) =>
-    @record.trigger('ajaxError', xhr, statusText, error)
+  errorResponse: (options = {}) =>
+    (xhr, statusText, error) =>
+      @record.trigger('ajaxError', xhr, statusText, error)
+      options.error?.apply(@record)
 
 # Ajax endpoint
 Model.host = ''
@@ -152,17 +161,20 @@ Model.host = ''
 Include =
   ajax: -> new Singleton(this)
 
-  url: ->
-    base = Ajax.getURL(@constructor)
-    base += '/' unless base.charAt(base.length - 1) is '/'
-    base += encodeURIComponent(@id)
-    base
+  url: (args...) ->
+    url = Ajax.getURL(@constructor)
+    url += '/' unless url.charAt(url.length - 1) is '/'
+    url += encodeURIComponent(@id)
+    args.unshift(url)
+    args.join('/')
     
 Extend = 
   ajax: -> new Collection(this)
 
-  url: ->
-    "#{Model.host}/#{@className.toLowerCase()}s"
+  url: (args...) ->
+    args.unshift(@className.toLowerCase() + 's')
+    args.unshift(Model.host)
+    args.join('/')
       
 Model.Ajax =
   extended: ->
@@ -171,12 +183,15 @@ Model.Ajax =
     
     @extend Extend
     @include Include
-    
+
+  # Private
+
   ajaxFetch: ->
     @ajax().fetch(arguments...)
     
-  ajaxChange: (record, type) ->
-    record.ajax()[type]()
+  ajaxChange: (record, type, options = {}) ->
+    return if options.ajax is false
+    record.ajax()[type](options.ajax, options)
     
 Model.Ajax.Methods = 
   extended: ->
@@ -184,6 +199,7 @@ Model.Ajax.Methods =
     @include Include
     
 # Globals
+Ajax.defaults   = Base::defaults
 Spine.Ajax      = Ajax
 Spine.Singleton = Singleton
 module?.exports = Ajax

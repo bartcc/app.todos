@@ -45,7 +45,7 @@ class Gallery extends Spine.Model
       aCount: albums.length
     
   updateAttributes: (atts, options={}) ->
-    load(atts)
+    @load(atts)
     Spine.Ajax.enabled = false if options.silent
     @save()
     Spine.Ajax.enabled = true

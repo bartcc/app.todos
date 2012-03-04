@@ -34,6 +34,7 @@
     echo $this->Html->css('blueimp/bootstrap-image-gallery');
     echo $this->Html->css('blueimp/new/jquery.fileupload-ui');
     echo $this->Html->css('html5sortable/jquery.html5sortable');
+    echo $this->Html->css('base');
     echo $this->Html->css('spine/director/application');
 
     echo $html->scriptStart();
@@ -73,8 +74,8 @@
 
     #echo $this->Html->script('spine/lib/spine_0.0.9');
     echo $this->Html->script('spine/lib/spine_1.0.5');
+    echo $this->Html->script('spine/lib/ajax_1.0.5');
     echo $this->Html->script('spine/lib/local');
-    echo $this->Html->script('spine/lib/ajax');
     echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/lib/manager');
     echo $this->Html->script('spine/lib/tmpl');

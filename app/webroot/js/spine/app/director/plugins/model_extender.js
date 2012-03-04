@@ -207,6 +207,9 @@ Model.Extender = {
         }
         return _results;
       },
+      successHandler: function(data, status, xhr) {
+        return console.log(data);
+      },
       errorHandler: function(record, xhr, statusText, error) {
         var status;
         status = xhr.status;
@@ -274,9 +277,9 @@ Model.Extender = {
         return list = Spine.Model[model].emptySelection();
       },
       addRemoveSelection: function(isMetaKey) {
-        var list, model;
+        var list, model, _ref;
         model = this.constructor['parentSelector'];
-        list = Spine.Model[model].selectionList();
+        list = (_ref = Spine.Model[model]) != null ? _ref.selectionList() : void 0;
         if (!list) {
           return;
         }

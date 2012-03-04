@@ -125,7 +125,6 @@ class PhotosList extends Spine.Controller
     Photo.current(current)
   
   activate: ->
-  
     selection = Album.selectionList()
     if selection.length is 1
       first = Photo.find(selection[0]) if Photo.exists(selection[0])

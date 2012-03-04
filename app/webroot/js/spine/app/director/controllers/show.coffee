@@ -347,6 +347,12 @@ class ShowView extends Spine.Controller
     @changeToolbarOne()
     @current.items.deselect()
     
+  selectAll: ->
+    @current.items.children().each (index, el) ->
+      $(el).item().addRemoveSelection(true)
+    @current.list?.activate()
+    @changeToolbarOne()
+    
   uploadProgress: (e, coll) ->
 #    console.log coll
     

@@ -76,7 +76,7 @@ Gallery = (function() {
     if (options == null) {
       options = {};
     }
-    load(atts);
+    this.load(atts);
     if (options.silent) {
       Spine.Ajax.enabled = false;
     }

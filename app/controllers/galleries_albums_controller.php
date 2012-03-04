@@ -23,14 +23,14 @@ class GalleriesAlbumsController extends AppController {
   }
 
   function add() {
-    $this->log('GalleriesAlbumsController::add', LOG_DEBUG);
     if (!empty($this->data)) {
-      $this->log($this->data, LOG_DEBUG);
       $this->GalleriesAlbum->create();
+//      $this->data['GalleriesAlbum']['id'] = null;
+//      $this->log($this->data, LOG_DEBUG);
       if ($this->GalleriesAlbum->saveAll($this->data)) {
         $this->Session->setFlash(__('The galleries album has been saved', true));
-//				$this->redirect(array('action' => 'index'));
-        $this->render(BLANK_RESPONSE);
+        $this->set('json', array('id' => $this->GalleriesAlbum->id));
+        $this->render(SIMPLE_JSON);
       } else {
         $this->Session->setFlash(__('The galleries album could not be saved. Please, try again.', true));
       }

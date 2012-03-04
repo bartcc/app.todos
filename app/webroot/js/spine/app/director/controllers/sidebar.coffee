@@ -36,6 +36,7 @@ class Sidebar extends Spine.Controller
       
     Gallery.bind("refresh change", @proxy @render)
     Gallery.bind("ajaxError", Gallery.errorHandler)
+    Gallery.bind("ajaxSuccess", Gallery.successHandler)
     
     Spine.bind('create:gallery', @proxy @create)
     Spine.bind('edit:gallery', @proxy @edit)

@@ -31,6 +31,7 @@ class App extends Spine.Controller
     
   events:
     'keypress'            : 'keys'
+    'keypress'            : 'chars'
     'drop'                : 'drop'
     'dragenter'           : 'dragenter'
 #    'dragend'             : 'dragend'
@@ -161,6 +162,14 @@ class App extends Spine.Controller
       when 9
         @sidebar.toggleDraghandle()
         e.preventDefault()
+        
+  chars: (e) ->
+    key = e.charCode
+    switch key
+      when 97
+        if e.metaKey or e.ctrlKey
+          @showView.selectAll()
+          e.preventDefault()
         
 $ ->
   

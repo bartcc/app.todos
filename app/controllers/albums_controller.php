@@ -24,9 +24,11 @@ class AlbumsController extends AppController {
   function add() {
     if (!empty($this->data)) {
       $this->Album->create();
+//      $this->data['Album']['id'] = null;
       if ($this->Album->save($this->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
-        $this->render(BLANK_RESPONSE);
+        $this->set('json', array('id' => $this->Album->id));
+        $this->render(SIMPLE_JSON);
       } else {
         $this->Session->setFlash(__('The album could not be saved. Please, try again.', true));
       }

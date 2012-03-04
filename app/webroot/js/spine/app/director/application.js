@@ -34,6 +34,7 @@ App = (function() {
   };
   App.prototype.events = {
     'keypress': 'keys',
+    'keypress': 'chars',
     'drop': 'drop',
     'dragenter': 'dragenter'
   };
@@ -195,6 +196,17 @@ App = (function() {
       case 9:
         this.sidebar.toggleDraghandle();
         return e.preventDefault();
+    }
+  };
+  App.prototype.chars = function(e) {
+    var key;
+    key = e.charCode;
+    switch (key) {
+      case 97:
+        if (e.metaKey || e.ctrlKey) {
+          this.showView.selectAll();
+          return e.preventDefault();
+        }
     }
   };
   return App;

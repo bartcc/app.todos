@@ -400,13 +400,13 @@
 </script>
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
-  <section class="top">
+  <section class="top hoverinfo">
     <h2>Gallery Overview<span class="active cta right"><h2>${count}</h2></span></h2>
   </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
-  <section class="top">
+  <section class="top hoverinfo">
     {{if record}}
     <h3>Author: <label> ${record.author}</label></h3>
     <h2>Gallery: ${record.name}
@@ -421,7 +421,7 @@
     </h2>
     {{/if}}
   </section>
-  <section class="breadcrumb">
+  <section class="breadcrumb hoverinfo">
     <ul class="">
       <li class="gal">
         <a href="#">Galleries</a> <span class="divider">/</span>
@@ -432,7 +432,7 @@
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
-  <section class="top">
+  <section class="top hoverinfo">
     {{if gallery}}
     <h3>Gallery: ${gallery.name}</h3>
     {{/if}}
@@ -449,7 +449,7 @@
     </h2>
     {{/if}}
   </section>
-  <section class="breadcrumb">
+  <section class="breadcrumb hoverinfo">
     <ul class="">
       <li class="gal">
         <a href="#">Galleries</a> <span class="divider">/</span>
@@ -463,10 +463,10 @@
 </script>
 
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
-  <section class="top">
+  <section class="top hoverinfo">
     {{if $item.data.details}}{{tmpl($item.data.details()) "#photoDetailsTemplate"}}{{/if}}
   </section>
-  <section class="breadcrumb">
+  <section class="breadcrumb hoverinfo">
     <ul class="">
       <li class="gal">
         <a href="#">Galleries</a> <span class="divider">/</span>

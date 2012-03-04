@@ -434,13 +434,13 @@ textarea {
   background-image: url(img/gradient-nodrop.png)
 }
 #content .header section.top {
-  background: linear-gradient(center top, #B9B9B9, #979797);
+/*  background: linear-gradient(center top, #B9B9B9, #979797);
   background: -moz-linear-gradient(center top, #B9B9B9, #979797);
   background: -webkit-gradient(linear, center top, center bottom, from(#B9B9B9), to(#979797));
-/*  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);*/
-  padding: 20px 10px 20px 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  padding: 20px 10px 20px 15px;*/
 }
 #sidebar {
   width: 300px;
@@ -507,6 +507,7 @@ textarea {
 }
 #content .header section.breadcrumb {
   height: 36px;
+  padding: 0;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
   position: absolute;
   z-index: 10;
@@ -531,8 +532,11 @@ textarea {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);*/
-  border-radius: 3px 3px 3px 3px;
-  margin: 3px;
+  border-radius: 0;
+  margin: 3px 0 0 0;
+}
+#content .header section + section {
+  border-radius: 0 4px 4px 0;
 }
 .header section.top {
   position: relative;
@@ -1020,26 +1024,27 @@ textarea {
   margin: 0;
 /*  padding: 0;*/
 }
-#content .hoverinfo {
+.hoverinfo {
   min-width: 120px;
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   background: rgba(200, 200, 200, 0.9);
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, 0.9)), to(rgba(140, 140, 140, 0.9)));
-  background: -moz-linear-gradient(center top , rgba(200, 200, 200, 0.9), rgba(140, 140, 140, 0.9));
-  background: linear-gradient(center top , rgba(200, 200, 200, 0.9), rgba(140, 140, 140, 0.9));
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, 0.8)), to(rgba(140, 140, 140, 0.6)));
+  background: -moz-linear-gradient(center top , rgba(200, 200, 200, 0.8), rgba(140, 140, 140, 0.6));
+  background: linear-gradient(center top , rgba(200, 200, 200, 0.8), rgba(140, 140, 140, 0.6));
   padding: 10px 15px;
   position: absolute;
-  display: none;
   z-index: 1
+}
+.items .hoverinfo {
+  display: none;
 }
 #content .hoverinfo li {
   color: rgba(5, 5, 5, 0.8);
   text-shadow: 0 1px 0 rgba(250, 250, 250, 0.5);
   font-family: Verdana, sans-serif;
-  font-variant: small-caps;
 }
 #content .hoverinfo .cta {
   background-color: #898989;

@@ -69,7 +69,7 @@ Login = (function() {
     user.save();
     this.render(this.flashEl, this.flashTemplate, json);
     delayedFunc = function() {
-      return User.redirect('');
+      return User.redirect('director_app');
     };
     return this.delay(delayedFunc, 500);
   };

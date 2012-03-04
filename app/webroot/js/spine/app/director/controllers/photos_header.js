@@ -14,8 +14,8 @@ $ = Spine.$;
 PhotosHeader = (function() {
   __extends(PhotosHeader, Spine.Controller);
   PhotosHeader.prototype.events = {
-    'click .closeView .gal': 'backToGalleries',
-    'click .closeView .alb': 'backToAlbums'
+    'click .gal': 'backToGalleries',
+    'click .alb': 'backToAlbums'
   };
   PhotosHeader.prototype.template = function(item) {
     return $("#headerPhotosTemplate").tmpl(item);

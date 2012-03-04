@@ -421,8 +421,8 @@
     </h2>
     {{/if}}
   </section>
-  <section class="closeView options">
-    <ul class="breadcrumb">
+  <section class="breadcrumb">
+    <ul class="">
       <li class="gal">
         <a href="#">Galleries</a> <span class="divider">/</span>
       </li>
@@ -449,8 +449,8 @@
     </h2>
     {{/if}}
   </section>
-  <section class="closeView options">
-    <ul class="breadcrumb">
+  <section class="breadcrumb">
+    <ul class="">
       <li class="gal">
         <a href="#">Galleries</a> <span class="divider">/</span>
       </li>
@@ -466,8 +466,8 @@
   <section class="top">
     {{if $item.data.details}}{{tmpl($item.data.details()) "#photoDetailsTemplate"}}{{/if}}
   </section>
-  <section class="closeView options">
-    <ul class="breadcrumb">
+  <section class="breadcrumb">
+    <ul class="">
       <li class="gal">
         <a href="#">Galleries</a> <span class="divider">/</span>
       </li>

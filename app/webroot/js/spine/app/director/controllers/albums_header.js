@@ -14,7 +14,7 @@ $ = Spine.$;
 AlbumsHeader = (function() {
   __extends(AlbumsHeader, Spine.Controller);
   AlbumsHeader.prototype.events = {
-    'click .closeView .gal': 'backToGalleries'
+    'click .gal': 'backToGalleries'
   };
   function AlbumsHeader() {
     AlbumsHeader.__super__.constructor.apply(this, arguments);

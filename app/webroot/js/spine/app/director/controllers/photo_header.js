@@ -15,9 +15,9 @@ PhotoHeader = (function() {
   __extends(PhotoHeader, Spine.Controller);
   PhotoHeader.extend(Spine.Controller.Drag);
   PhotoHeader.prototype.events = {
-    'click .closeView .gal': 'backToGalleries',
-    'click .closeView .alb': 'backToAlbums',
-    'click .closeView .pho': 'backToPhotos',
+    'click .gal': 'backToGalleries',
+    'click .alb': 'backToAlbums',
+    'click .pho': 'backToPhotos',
     'dragenter': 'dragenter',
     'dragend': 'dragend',
     'drop': 'drop'

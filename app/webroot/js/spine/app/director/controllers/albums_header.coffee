@@ -4,7 +4,7 @@ $      = Spine.$
 class AlbumsHeader extends Spine.Controller
   
   events:
-    'click .closeView .gal'     : 'backToGalleries'
+    'click .gal'     : 'backToGalleries'
   
   constructor: ->
     super

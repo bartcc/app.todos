@@ -4,8 +4,8 @@ $      = Spine.$
 class PhotosHeader extends Spine.Controller
   
   events:
-    'click .closeView .gal'     : 'backToGalleries'
-    'click .closeView .alb'     : 'backToAlbums'
+    'click .gal'     : 'backToGalleries'
+    'click .alb'     : 'backToAlbums'
 
   template: (item) ->
     $("#headerPhotosTemplate").tmpl item

@@ -25,9 +25,15 @@ label, input, button, select, textarea {
 }
 .breadcrumb {
   background-image: none;
-  background-color: transparent;
+  background-color: #ABABAB;
   border: 0 none;
   box-shadow: none;
+  margin: 2px 0;
+  padding: 0;
+}
+.breadcrumb li, .header {
+  text-shadow: 0 1px 0 #DDDDDD;
+  color: rgba(10, 10, 10, 1);
 }
 .disabled, .breadcrumb .active {
   opacity: 0.5;

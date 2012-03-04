@@ -6,12 +6,12 @@ class PhotoHeader extends Spine.Controller
   @extend Spine.Controller.Drag
   
   events:
-    'click .closeView .gal'     : 'backToGalleries'
-    'click .closeView .alb'     : 'backToAlbums'
-    'click .closeView .pho'     : 'backToPhotos'
-    'dragenter'                 : 'dragenter'
-    'dragend'                   : 'dragend'
-    'drop'                      : 'drop'
+    'click .gal'    : 'backToGalleries'
+    'click .alb'    : 'backToAlbums'
+    'click .pho'    : 'backToPhotos'
+    'dragenter'     : 'dragenter'
+    'dragend'       : 'dragend'
+    'drop'          : 'drop'
 
   template: (item) ->
     $("#headerPhotoTemplate").tmpl item

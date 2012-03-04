@@ -1,9 +1,9 @@
 <div class="container">
   <header class="jumbotron masthead">
     <div class="inner">
-      <h1>Todos...</h1>
+      <h1>Sweet...</h1>
       <p>
-        Choose the Framework you want to run
+        Choose your Todos Framework...
       </p>
       <p class="download-info">
         <a href="/todos_app" class="btn btn-primary btn-large" type="submit">Backbone's Todos</a>

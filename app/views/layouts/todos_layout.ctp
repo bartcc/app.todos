@@ -29,7 +29,8 @@
     echo $this->Html->meta('icon');
 
     //echo $this->Html->css('cake.generic');
-
+    
+    echo $this->Html->css('base');
     echo $this->Html->css('backbone/todos/application_boxmodel');
     echo $this->Html->css('themes/jquery-ui/ui-darkness/jquery.ui.custom.css');
 

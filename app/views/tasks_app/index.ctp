@@ -30,7 +30,7 @@
 </script>
 
 <header id="title">
-  <h1>Todos</h1>
+  <h1><a href="/">Todos</a></h1>
 </header>
 
 <div id="wrapper" class="hbox flex">

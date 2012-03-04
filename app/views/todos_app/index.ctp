@@ -1,5 +1,5 @@
 <header id="title" class="hbox">
-  <h1>Todos</h1>
+  <h1><a href="/">Todos</a></h1>
   <div id="logout" class="flex tright" style="margin-top: 8px;"></div>
 </header>
 <div id="wrapper" class="hbox flex">

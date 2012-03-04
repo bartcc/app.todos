@@ -30,6 +30,7 @@
 
     //echo $this->Html->css('cake.generic');
 
+    echo $this->Html->css('base');
     echo $this->Html->css('spine/todos/application');
 
     echo $this->Html->script('lib/json2');

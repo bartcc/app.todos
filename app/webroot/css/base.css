@@ -17,8 +17,9 @@ a:hover, a:active { outline: 0; }
 
 
 /* normalize bootstrap classes*/
+
 label, input, button, select, textarea {
-  font-size: 15px;
+  font-size: inherit;
 }
 .thumbnail {
     border: 0 none;

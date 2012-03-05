@@ -234,11 +234,11 @@ class ShowView extends Spine.Controller
     hasActive = ->
       if App.hmanager.hasActive()
         return App.hmanager.enableDrag()
-      App.hmanager.disableDrag()
+      false
     
     height = ->
       App.hmanager.currentDim
-      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "8px"
+      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "18px"
     
     @views.animate
       height: height()

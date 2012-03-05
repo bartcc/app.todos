@@ -84,9 +84,9 @@
     </div>
     <div id="content" class="views canvas-bg-dark vbox flex">
       <div class="overview view content canvas vbox flex">
-        <ul class="tools options hbox">
+        <ul class="navbar options">
           <li class="splitter disabled flex"></li>
-          <li class="optClose right"><button class="dark">X</button></li>
+          <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><button class="dark chromeless">X</button></li>
         </ul>
         <div class="flex vbox autoflow">
           <div class="container">
@@ -211,7 +211,7 @@
         </ul>
       </div>
       <div class="edit view vbox flex">
-        <ul class="tools options hbox">
+        <ul class="navbar options hbox">
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="content container canvas vbox flex autoflow"></div>

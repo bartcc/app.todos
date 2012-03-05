@@ -271,14 +271,14 @@ ShowView = (function() {
       if (App.hmanager.hasActive()) {
         return App.hmanager.enableDrag();
       }
-      return App.hmanager.disableDrag();
+      return false;
     };
     height = function() {
       App.hmanager.currentDim;
       if (hasActive()) {
         return parseInt(App.hmanager.currentDim) + "px";
       } else {
-        return "8px";
+        return "18px";
       }
     };
     return this.views.animate({

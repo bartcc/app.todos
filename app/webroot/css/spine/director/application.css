@@ -371,7 +371,7 @@ textarea {
   cursor: w-resize
 }
 .hdivide {
-  height: 8px;
+  height: 18px;
   border: 1px solid #666666;
   border-width: 1px 0 1px 0;
   border-bottom-color: rgba(0, 0, 0, 0.7);
@@ -704,6 +704,11 @@ textarea {
   margin: 0;
   padding: 0;
   border: 0 none;
+}
+.navbar {
+  font: 15px sans-serif;
+  position: relative;
+  height: 39px;
 }
 #content .items .item {
   float: left;
@@ -1119,7 +1124,7 @@ button.chromeless, button.chromeless:hover {
   box-shadow: 0 0;
   color: #FFFFFF;
   float: right;
-  font: 12px/18px sans-serif;
-  padding: 0 7px;
+  font: 9px/12px sans-serif;
+  padding: 1px 5px;
   position: relative;
 }

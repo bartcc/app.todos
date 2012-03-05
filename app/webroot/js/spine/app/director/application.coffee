@@ -92,7 +92,7 @@ class App extends Spine.Controller
       initSize: => @el.height()/2
       disabled: false
       axis: 'y'
-      min: -> 20
+      min: -> 90
       max: => @el.height()/2
       goSleep: => @showView.activeControl?.click()
 

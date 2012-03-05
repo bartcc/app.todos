@@ -107,7 +107,7 @@ App = (function() {
       disabled: false,
       axis: 'y',
       min: function() {
-        return 20;
+        return 90;
       },
       max: __bind(function() {
         return this.el.height() / 2;

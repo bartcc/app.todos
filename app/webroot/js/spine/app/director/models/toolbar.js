@@ -303,16 +303,18 @@ Toolbar = (function() {
       locked: true,
       content: [
         {
-          name: 'X',
+          name: 'x',
           klass: 'optPrevious',
-          outerstyle: 'float: right;'
+          innerklass: 'chromeless',
+          outerstyle: 'float: right;',
+          innerstyle: 'left: -8px; top: 8px;'
         }, {
           name: 'Chromless',
           klass: function() {
             return 'optFullscreenMode ' + (App.showView.slideshowView.fullscreenMode() ? ' active' : '');
           },
           dataToggle: 'button',
-          outerstyle: 'float: right;'
+          outerstyle: ''
         }
       ]
     },
@@ -323,7 +325,7 @@ Toolbar = (function() {
           name: '<span class="slider" style=""></span>',
           klass: 'optThumbsize ',
           type: 'div',
-          style: 'width: 190px; position: relative;'
+          innerstyle: 'width: 190px; position: relative;'
         }
       ]
     }

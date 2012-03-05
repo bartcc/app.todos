@@ -33,7 +33,8 @@ ShowView = (function() {
     '.photos': 'photosEl',
     '.photo': 'photoEl',
     '.slideshow': 'slideshowEl',
-    '.slider': 'slider'
+    '.slider': 'slider',
+    '.close': 'btnClose'
   };
   ShowView.prototype.events = {
     "click .optQuickUpload": "toggleQuickUpload",
@@ -60,6 +61,7 @@ ShowView = (function() {
     'click .optAllAlbums': 'allAlbums',
     'click .optAllPhotos': 'allPhotos',
     'click .optSelectAll': 'selectAll',
+    "click .optClose": "toggleDraghandle",
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
     'slidestop .slider': 'sliderStop',
@@ -221,7 +223,7 @@ ShowView = (function() {
     return Spine.trigger('show:overview');
   };
   ShowView.prototype.showSlideshow = function() {
-    this.changeToolbarTwo(['Back', 'Slider'], App.showView.initSlider);
+    this.changeToolbarTwo(['Slider', 'Back'], App.showView.initSlider);
     App.sidebar.toggleDraghandle({
       close: true
     });
@@ -397,13 +399,6 @@ ShowView = (function() {
   };
   ShowView.prototype.uploadProgress = function(e, coll) {};
   ShowView.prototype.uploadDone = function(e, coll) {};
-  ShowView.prototype.dropdown_ = function(e) {
-    var isActive, li;
-    li = $(e.target).parent('li');
-    isActive = li.hasClass('open');
-    !isActive && li.toggleClass('open');
-    return false;
-  };
   ShowView.prototype.sliderInValue = function(val) {
     val = val || this.sOutValue;
     return this.sInValue = (val / 2) - 20;

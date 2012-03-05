@@ -212,14 +212,16 @@ class Toolbar extends Spine.Model
       locked: true
       content:
         [
-          name: 'X'
+          name: 'x'
           klass: 'optPrevious'
+          innerklass: 'chromeless'
           outerstyle: 'float: right;'
+          innerstyle: 'left: -8px; top: 8px;'
         ,
           name: 'Chromless'
           klass: -> 'optFullscreenMode '  + if App.showView.slideshowView.fullscreenMode() then ' active' else ''
           dataToggle: 'button'
-          outerstyle: 'float: right;'
+          outerstyle: ''
         ]
     group9:
       name: 'Slider'
@@ -228,7 +230,7 @@ class Toolbar extends Spine.Model
           name: '<span class="slider" style=""></span>'
           klass: 'optThumbsize '
           type: 'div'
-          style: 'width: 190px; position: relative;'
+          innerstyle: 'width: 190px; position: relative;'
         ]
         
   init: (ins) ->

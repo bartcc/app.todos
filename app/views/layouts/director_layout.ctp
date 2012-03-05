@@ -43,7 +43,7 @@
     <?php
     echo $html->scriptEnd();
     
-    echo $this->Html->script('lib/jquery/jquery-1.7.1.min');
+    echo $this->Html->script('lib/jquery/jquery-1.7.1');
     echo $this->Html->script('lib/jquery/ui/jquery-ui-1.8.16');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
     echo $this->Html->script('lib/jquery/ui/jquery.ui.widget.min');

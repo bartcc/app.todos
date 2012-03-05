@@ -25,6 +25,7 @@ class ShowView extends Spine.Controller
     '.photo'                  : 'photoEl'
     '.slideshow'              : 'slideshowEl'
     '.slider'                 : 'slider'
+    '.close'                  : 'btnClose'
     
   events:
     "click .optQuickUpload"           : "toggleQuickUpload"
@@ -51,19 +52,11 @@ class ShowView extends Spine.Controller
     'click .optAllAlbums'             : 'allAlbums'
     'click .optAllPhotos'             : 'allPhotos'
     'click .optSelectAll'             : 'selectAll'
-#    "click .optGallery .ui-icon"      : "toggleGalleryShow"
-#    "click .optAlbum .ui-icon"        : "toggleAlbumShow"
-#    "click .optPhoto .ui-icon"        : "togglePhotoShow"
-#    "click .optUpload .ui-icon"       : "toggleUploadShow"
-#    "click .optGallery"               : "toggleGallery"
-#    "click .optAlbum"                 : "toggleAlbum"
-#    "click .optPhoto"                 : "togglePhoto"
-#    "click .optUpload"                : "toggleUpload"
+    "click .optClose"                 : "toggleDraghandle"
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : "deselect"
     'slidestop .slider'               : 'sliderStop'
     'slidestart .slider'              : 'sliderStart'
-#    'click .dropdown-toggle'          : "dropdown"
     
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
@@ -197,7 +190,7 @@ class ShowView extends Spine.Controller
     Spine.trigger('show:overview')
 
   showSlideshow: ->
-    @changeToolbarTwo ['Back', 'Slider'], App.showView.initSlider
+    @changeToolbarTwo ['Slider', 'Back'], App.showView.initSlider
     App.sidebar.toggleDraghandle(close:true)
     @toolbarOne.clear()
     @toolbarOne.lock()
@@ -359,12 +352,6 @@ class ShowView extends Spine.Controller
     
   uploadDone: (e, coll) ->
 #    console.log coll
-    
-  dropdown_: (e) ->
-    li = $(e.target).parent('li')
-    isActive = li.hasClass('open')
-    !isActive && li.toggleClass('open')
-    false
     
   sliderInValue: (val) ->
     val = val or @sOutValue

@@ -5,7 +5,7 @@
         <div class="bg verticaltop" id="draggable-messenger-wrap">
           <header>
             <fieldset class="right">
-              <button class="_close light window input">X</button>
+              <button class="_close light window input chromeless">X</button>
             </fieldset>
           </header>
           <div class="dialogue-inner-wrap">
@@ -144,7 +144,9 @@
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
           <div class="views content canvas vbox flex hdraggable">
-            <div class="hdivide draghandle"></div>
+            <div class="hdivide draghandle">
+              <button class="chromeless right optClose">x</button>
+            </div>
             <div id="ga" class="view container flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
             </div>
@@ -350,8 +352,8 @@
     {{tmpl(itemGroup)  "#dropdownTemplate"}}
   {{else}}
   <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}{{if id}} id="${id}"{{/if}}>
-    <{{if type}}${type} class="tb-name"{{else}}button class="dark" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
-    {{if style}} style="${style}"{{/if}}
+    <{{if type}}${type} class="tb-name"{{else}}button class="dark {{if innerklass}}${innerklass}{{/if}}" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
+    {{if innerstyle}} style="${innerstyle}"{{/if}}
     {{if disabled}}disabled{{/if}}>
     {{if icon}}<i class="icon-${icon}  {{if iconcolor}}icon-${iconcolor}{{/if}}"></i>{{/if}}{{html name}}
     </{{if type}}${type}{{else}}button{{/if}}>

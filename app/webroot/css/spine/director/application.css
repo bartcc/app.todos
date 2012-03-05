@@ -1112,3 +1112,14 @@ li.active button.dark {
 .photos .items.all .thumbnail {
   border-color:  rgba(250, 0, 0, 0.5);
 }
+button.chromeless, button.chromeless:hover {
+  background: -moz-linear-gradient(center center , #999999, #222222) repeat scroll 2px 0 transparent;
+  border: 1px solid #888888;
+  border-radius: 2px 2px 2px 2px;
+  box-shadow: 0 0;
+  color: #FFFFFF;
+  float: right;
+  font: 12px/18px sans-serif;
+  padding: 0 7px;
+  position: relative;
+}

@@ -22,8 +22,6 @@ PhotosHeader = (function() {
   };
   function PhotosHeader() {
     PhotosHeader.__super__.constructor.apply(this, arguments);
-    Album.bind('change', this.proxy(this.change));
-    Photo.bind('change', this.proxy(this.change));
   }
   PhotosHeader.prototype.backToGalleries = function() {
     console.log('PhotosHeader::closeView');

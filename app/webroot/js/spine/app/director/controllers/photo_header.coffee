@@ -18,6 +18,7 @@ class PhotoHeader extends Spine.Controller
 
   constructor: ->
     super
+    Gallery.bind('change', @proxy @change)
     Album.bind('change', @proxy @change)
 
   backToGalleries: ->

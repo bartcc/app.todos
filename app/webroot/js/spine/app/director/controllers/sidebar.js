@@ -321,6 +321,7 @@ Sidebar = (function() {
   Sidebar.prototype.showAllPhotos = function() {
     Spine.trigger('show:photos');
     Gallery.emptySelection();
+    Album.emptySelection();
     Gallery.current();
     return Album.current();
   };

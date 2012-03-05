@@ -59,6 +59,7 @@ ShowView = (function() {
     'click .optAllGalleries': 'allGalleries',
     'click .optAllAlbums': 'allAlbums',
     'click .optAllPhotos': 'allPhotos',
+    'click .optSelectAll': 'selectAll',
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': "deselect",
     'slidestop .slider': 'sliderStop',

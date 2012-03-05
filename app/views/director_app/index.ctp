@@ -408,7 +408,7 @@
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
   <section class="top hoverinfo">
     {{if record}}
-    <h3>Author: <label> ${record.author}</label></h3>
+    <h3>Author: </h3><label> ${record.author}</label>
     <h2>Gallery: ${record.name}
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -434,12 +434,7 @@
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
   <section class="top hoverinfo">
     {{if gallery}}
-    <h3>Gallery: ${gallery.name}</h3>
-    {{/if}}
-    {{if album}}
-    <h2>Album: ${album.title}
-      <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
-    </h2>
+      {{tmpl() "#photosDetailsTemplate"}}
     {{else}}
     {{if count}}
     <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying this master, will cause all derived photos (aliases) to be removed!</div>
@@ -482,8 +477,13 @@
   </section>
 </script>
 
+<script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
+  {{if gallery}}<div class=""><h3>Gallery: </h3>${gallery.name}</div>{{/if}}
+  <h2>Album: {{if album.title}}${album.title}{{/if}}</h2>
+</script>
+
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
-  <h3>{{if gallery}}<span>Gallery: ${gallery.name}</span>{{/if}}{{if album}}<span>Album: ${album.title}</span>{{/if}}</h3>
+  {{if gallery}}<div class="left"><h3>Gallery: </h3>${gallery.name}</div>{{/if}}{{if album}}<div class=""><h3>Album: </h3>${album.title}</div>{{/if}}
   {{if !album}}
     <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying the master, will cause all derived photos (aliases) to be removed!</div>
   {{/if}}

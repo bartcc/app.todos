@@ -12,8 +12,6 @@ class PhotosHeader extends Spine.Controller
 
   constructor: ->
     super
-    Album.bind('change', @proxy @change)
-    Photo.bind('change', @proxy @change)
     
   backToGalleries: ->
     console.log 'PhotosHeader::closeView'

@@ -49,6 +49,9 @@ Toolbar = (function() {
         }, {
           name: 'Overview',
           klass: 'optOverview '
+        }, {
+          name: 'Invert Selection (Cmd + A)',
+          klass: 'optSelectAll'
         }
       ]
     },

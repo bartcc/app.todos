@@ -27,6 +27,7 @@ PhotoHeader = (function() {
   };
   function PhotoHeader() {
     PhotoHeader.__super__.constructor.apply(this, arguments);
+    Gallery.bind('change', this.proxy(this.change));
     Album.bind('change', this.proxy(this.change));
   }
   PhotoHeader.prototype.backToGalleries = function() {

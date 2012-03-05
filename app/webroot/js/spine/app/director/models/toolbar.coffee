@@ -27,6 +27,10 @@ class Toolbar extends Spine.Model
         ,
           name: 'Overview'
           klass: 'optOverview '
+        ,
+          name: 'Invert Selection (Cmd + A)'
+          klass: 'optSelectAll'
+        ,
         ]
     group1:
       name: 'Gallery'

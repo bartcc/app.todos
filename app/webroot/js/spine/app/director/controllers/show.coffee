@@ -50,6 +50,7 @@ class ShowView extends Spine.Controller
     'click .optAllGalleries'          : 'allGalleries'
     'click .optAllAlbums'             : 'allAlbums'
     'click .optAllPhotos'             : 'allPhotos'
+    'click .optSelectAll'             : 'selectAll'
 #    "click .optGallery .ui-icon"      : "toggleGalleryShow"
 #    "click .optAlbum .ui-icon"        : "toggleAlbumShow"
 #    "click .optPhoto .ui-icon"        : "togglePhotoShow"

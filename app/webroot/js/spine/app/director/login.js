@@ -19,7 +19,8 @@ Login = (function() {
     '#infoTemplate': 'infoTemplate'
   };
   Login.prototype.events = {
-    'click #guestLogin': 'guestLogin'
+    'click #guestLogin': 'guestLogin',
+    'click #cancel': 'cancel'
   };
   Login.prototype.template = function(el, item) {
     return el.tmpl(item);
@@ -93,6 +94,9 @@ Login = (function() {
       groupname: json.groupname,
       sessionid: json.sessionid
     };
+  };
+  Login.prototype.cancel = function() {
+    return User.redirect();
   };
   Login.prototype.guestLogin = function() {
     this.passwordEl.val('guest');

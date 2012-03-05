@@ -11,6 +11,7 @@ class Login extends Spine.Controller
     
   events:
     'click #guestLogin' : 'guestLogin'
+    'click #cancel'     : 'cancel'
 
   template: (el, item) ->
     el.tmpl(item)
@@ -63,6 +64,9 @@ class Login extends Spine.Controller
     name: json.name
     groupname: json.groupname
     sessionid: json.sessionid
+    
+  cancel: ->
+    User.redirect()
     
   guestLogin: ->
     @passwordEl.val('guest')

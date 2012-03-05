@@ -30,6 +30,9 @@ User = (function() {
     return this.redirect('logout');
   };
   User.redirect = function(url) {
+    if (url == null) {
+      url = '';
+    }
     return location.href = base_url + url;
   };
   User.prototype.init = function(instance) {

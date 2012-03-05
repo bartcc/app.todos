@@ -15,7 +15,7 @@ class User extends Spine.Model
     @destroyAll()
     @redirect 'logout'
   
-  @redirect: (url) ->
+  @redirect: (url='') ->
 #    window.location.replace base_url + url
     location.href = base_url + url
 

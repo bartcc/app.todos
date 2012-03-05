@@ -61,11 +61,11 @@ AlbumEditView = (function() {
     } else {
       if (!(selection != null ? selection.length : void 0)) {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: '<label class="label"><span class="enlightened">Select or create an album</span></label>'
+          type: '<label><span class="enlightened">Select or create an album</span></label>'
         }));
       } else if ((selection != null ? selection.length : void 0) > 1) {
         this.item.html($("#noSelectionTemplate").tmpl({
-          type: '<label class="label"><span class="enlightened">Multiple selection</span></label>'
+          type: '<label><span class="enlightened">Multiple selection</span></label>'
         }));
       }
     }

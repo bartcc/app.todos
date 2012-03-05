@@ -42,8 +42,12 @@ label, input, button, select, textarea {
   background-color: transparent;
   color: inherit;
 }
-.label {
-  font-size: 1.0em;
+label {
+  font-size: 1.3em;
+  color: #222222;
+  font-family: sans serif;
+  font-size: 1.3em;
+  font-style: italic;
 }
 .the-icons i {
   display: block;

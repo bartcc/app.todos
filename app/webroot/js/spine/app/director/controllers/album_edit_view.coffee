@@ -49,9 +49,9 @@ class AlbumEditView extends Spine.Controller
       @item.html @template item
     else
       unless selection?.length
-        @item.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="enlightened">Select or create an album</span></label>'})
+        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select or create an album</span></label>'})
       else if selection?.length > 1
-        @item.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="enlightened">Multiple selection</span></label>'})
+        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Multiple selection</span></label>'})
     
     
     

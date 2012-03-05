@@ -299,14 +299,12 @@
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">
   <div class="">
     <div class="">
-      <label class="label">
-        <span>Gallery Name</span>
+      <label>
+        <span class="enlightened">Gallery Name</span>
       </label>
       <input type="text" name="name" value="${name}">
-
-      <label class="label"><span>Author: </span>{{if author}}${author}{{else}}no author{{/if}}</label>
-      <label class="label">
-        <span>Description</span>
+      <label>
+        <span class="enlightened">Description</span>
       </label>
       <textarea name="description">${description}</textarea>
     </div>
@@ -322,20 +320,14 @@
 </script>
 
 <script id="editAlbumTemplate" type="text/x-jquery-tmpl">
-  <div class="">
-    <div class="">
-      <label class="label">
-        <span>Album Title</span>
-      </label>
-      <input type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
-    </div>
-    <div class="">
-      <label class="label">
-        <span>Description</span>
-      </label>
-      <textarea name="description">${description}</textarea>
-    </div>
-  </div>
+  <label class="">
+    <span class="enlightened">Album Title</span>
+  </label>
+  <input type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
+  <label class="">
+    <span class="enlightened">Description</span>
+  </label>
+  <textarea name="description">${description}</textarea>
 </script>
 
 <script id="albumSelectTemplate" type="text/x-jquery-tmpl">
@@ -343,18 +335,14 @@
 </script>
 
 <script id="editPhotoTemplate" type="text/x-jquery-tmpl">
-  <div class="">
-    <label class="label">
-      <span>Photo Title</span>
-    </label>
-    <input type="text" name="title" value="${title}" >
-  </div>
-  <div class="">
-    <label class="label">
-      <span>Description</span>
-    </label>
-    <textarea name="description">${description}</textarea>
-  </div>
+  <label class="">
+    <span class="enlightened">Photo Title</span>
+  </label>
+  <input type="text" name="title" value="${title}" >
+  <label class="">
+    <span class="enlightened">Description</span>
+  </label>
+  <textarea name="description">${description}</textarea>
 </script>
 
 <script id="toolsTemplate" type="text/x-jquery-tmpl">

@@ -237,17 +237,19 @@ button.dark, .options li.disabled, .options li.opt, .options li.opt > a, .option
 .options li:last-child button {
   box-shadow: none;
 }
-button.invite {
+button.large {
   font-size: 1.5em;
   line-height: 3em;
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   border-radius: 20px;
   margin: 5px;
+  font-family: serif;
+  font-style: inherit;
+  text-shadow: 0 -1px 0 #000000;
 }
 .invite {
-  display: table-cell;
-  font-size: 1.3em;
+  display: table;
   margin: 0 auto;
   text-align: center;
 }
@@ -303,7 +305,7 @@ button:disabled {
   text-shadow: 0 1px 0 rgba(100, 100, 100, 0.4);
 }
 .view label span, .disabled {
-  color: #676767;
+/*  color: #676767;*/
   cursor: auto;
 }
 .view label.label span {

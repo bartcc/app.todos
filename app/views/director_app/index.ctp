@@ -91,11 +91,11 @@
         <div class="flex vbox autoflow">
           <div class="container">
             <fieldset>
-              <label class="label"><span class="enlightened">Recently Uploaded:</span></label>
+              <label><span class="enlightened">Recently Uploaded:</span></label>
               <div class="items"></div>
             </fieldset>
             <fieldset>
-              <label class="label"><span class="enlightened">Summary:</span></label>
+              <label><span class="enlightened">Summary:</span></label>
               <div class="info">
                 Blank 
               </div>
@@ -103,7 +103,7 @@
           </div>
           <div class="container">
             <fieldset>
-              <label class="label"><span class="enlightened">Informations:</span></label>
+              <label><span class="enlightened">Informations:</span></label>
             </fieldset>
           </div>
         </div>

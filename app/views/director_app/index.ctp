@@ -466,7 +466,7 @@
 </script>
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  <h3>Gallery: </h3> {{if gallery.name}}${gallery.name}{{/if}}
+  {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{/if}}
   <h2>Album: {{if album.title}}${album.title}{{/if}}</h2>
 </script>
 

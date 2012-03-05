@@ -19,6 +19,7 @@ Login = (function() {
     '#infoTemplate': 'infoTemplate'
   };
   Login.prototype.events = {
+    'keypress': 'submitOnEnter',
     'click #guestLogin': 'guestLogin',
     'click #cancel': 'cancel'
   };
@@ -102,6 +103,13 @@ Login = (function() {
     this.passwordEl.val('guest');
     this.usernameEl.val('guest');
     return this.submit();
+  };
+  Login.prototype.submitOnEnter = function(e) {
+    if (e.keyCode !== 13) {
+      return;
+    }
+    this.submit();
+    return e.preventDefault();
   };
   return Login;
 })();

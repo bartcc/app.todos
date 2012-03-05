@@ -10,6 +10,7 @@ class Login extends Spine.Controller
     '#infoTemplate'     : 'infoTemplate'
     
   events:
+    'keypress'          : 'submitOnEnter'
     'click #guestLogin' : 'guestLogin'
     'click #cancel'     : 'cancel'
 
@@ -47,7 +48,7 @@ class Login extends Spine.Controller
     user = new User @newAttributes(json)
     user.save()
     @render @flashEl, @flashTemplate, json
-    delayedFunc = -> 
+    delayedFunc = ->
       User.redirect 'director_app'
     @delay delayedFunc, 500
 
@@ -73,5 +74,9 @@ class Login extends Spine.Controller
     @usernameEl.val('guest')
     @submit()
     
+  submitOnEnter: (e) ->
+    return if(e.keyCode != 13)
+    @submit()
+    e.preventDefault()
 $ ->
   window.Login = new Login el: $('body')

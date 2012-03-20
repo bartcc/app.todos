@@ -615,8 +615,9 @@ textarea {
   width: 100%;
   height: auto;
   background-color: #DDDDDD;
-  padding: 5px 0 5px 0;
+  padding: 0;
   border: 0 none;
+  line-height: 50px;
 }
 #sidebar .empty {
   font-style: italic;

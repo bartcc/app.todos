@@ -39,9 +39,9 @@ Controller.Drag = {
         var event;
         event = e.originalEvent;
         event.stopPropagation();
+        event.preventDefault();
         event.dataTransfer.dropEffect = 'move';
-        Spine.trigger('drag:over', e, this);
-        return false;
+        return Spine.trigger('drag:over', e, this);
       },
       dragleave: function(e, data) {
         return Spine.trigger('drag:leave', e, this);

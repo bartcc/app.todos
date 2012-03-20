@@ -34,9 +34,9 @@ Controller.Drag =
       dragover: (e, data) ->
         event = e.originalEvent
         event.stopPropagation()
+        event.preventDefault()
         event.dataTransfer.dropEffect = 'move'
         Spine.trigger('drag:over', e, @)
-        false
 
       dragleave: (e, data) ->
         Spine.trigger('drag:leave', e, @)

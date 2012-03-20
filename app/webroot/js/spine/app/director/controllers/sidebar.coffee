@@ -21,8 +21,9 @@ class Sidebar extends Spine.Controller
     'dragstart  .items .item'        : 'dragstart'
     'dragenter  .items .item'        : 'dragenter'
     'dragleave  .items .item'        : 'dragleave'
-    'drop       .items .item'        : 'drop'
+    'dragover   .items .item'        : 'dragover'
     'dragend    .items .item'        : 'dragend'
+    'drop       .items .item'        : 'drop'
 
   template: (items) ->
     $("#sidebarTemplate").tmpl(items)

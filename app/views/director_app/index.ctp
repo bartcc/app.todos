@@ -426,9 +426,7 @@
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
-    {{if count}}
     <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying this master, will cause all derived photos (aliases) to be removed!</div>
-    {{/if}}
     <h2>All Photos (Photo-Masters)
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -469,7 +467,9 @@
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
   {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{/if}}
-  <h2>Album: {{if album.title}}${album.title}{{/if}}</h2>
+  <h2>Album: {{if album.title}}${album.title}{{/if}}
+    <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
+  </h2>
 </script>
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">

@@ -33,8 +33,9 @@ Sidebar = (function() {
     'dragstart  .items .item': 'dragstart',
     'dragenter  .items .item': 'dragenter',
     'dragleave  .items .item': 'dragleave',
-    'drop       .items .item': 'drop',
-    'dragend    .items .item': 'dragend'
+    'dragover   .items .item': 'dragover',
+    'dragend    .items .item': 'dragend',
+    'drop       .items .item': 'drop'
   };
   Sidebar.prototype.template = function(items) {
     return $("#sidebarTemplate").tmpl(items);

@@ -69,23 +69,6 @@ Model.Extender =
           introspect(obj)
         res
         
-      createJoin_: (json, tableName) ->
-        res = []
-        introspect = (obj) =>
-          if @isObject(obj)
-            for key, val of obj
-              if key is tableName
-                res.push obj[key]
-              else introspect obj[key]
-          
-          if @isArray(obj)
-            for val in obj
-              introspect val
-
-        for obj in json
-          introspect(obj)
-        res
-      
       selectionList: (recordID) ->
         id = recordID or @record?.id
         return @selection[0].global unless id

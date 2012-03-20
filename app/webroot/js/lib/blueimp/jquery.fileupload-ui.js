@@ -56,7 +56,7 @@
             // image is shown, matched against the file type:
             previewSourceFileTypes: /^image\/(gif|jpeg|png)$/,
             // The maximum file size of images that are to be displayed as preview:
-            previewSourceMaxFileSize: 5000000, // 5MB
+            previewSourceMaxFileSize: 10000000, // 10MB
             // The maximum width of the preview images:
             previewMaxWidth: 80,
             // The maximum height of the preview images:

@@ -120,36 +120,6 @@ Model.Extender = {
         }
         return res;
       },
-      createJoin_: function(json, tableName) {
-        var introspect, obj, res, _i, _len;
-        res = [];
-        introspect = __bind(function(obj) {
-          var key, val, _i, _len, _results;
-          if (this.isObject(obj)) {
-            for (key in obj) {
-              val = obj[key];
-              if (key === tableName) {
-                res.push(obj[key]);
-              } else {
-                introspect(obj[key]);
-              }
-            }
-          }
-          if (this.isArray(obj)) {
-            _results = [];
-            for (_i = 0, _len = obj.length; _i < _len; _i++) {
-              val = obj[_i];
-              _results.push(introspect(val));
-            }
-            return _results;
-          }
-        }, this);
-        for (_i = 0, _len = json.length; _i < _len; _i++) {
-          obj = json[_i];
-          introspect(obj);
-        }
-        return res;
-      },
       selectionList: function(recordID) {
         var id, item, _i, _len, _ref, _ref2;
         id = recordID || ((_ref = this.record) != null ? _ref.id : void 0);

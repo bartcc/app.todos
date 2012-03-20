@@ -42,7 +42,7 @@
             // resized, given that the browser supports the operation:
             resizeSourceFileTypes: /^image\/(gif|jpeg|png)$/,
             // The maximum file size of images that are to be resized:
-            resizeSourceMaxFileSize: 20000000, // 20MB
+            resizeSourceMaxFileSize: 50000000, // 50MB
             // The maximum width of the resized images:
             resizeMaxWidth: undefined,
             // The maximum height of the resized images:

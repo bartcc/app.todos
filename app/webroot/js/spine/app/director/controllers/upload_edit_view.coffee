@@ -52,6 +52,7 @@ class UploadEditView extends Spine.Controller
     
   done: (e, data) ->
     photos = $.parseJSON(data.jqXHR.responseText)
+    console.log photos
     Photo.refresh(photos, clear: false)
     Spine.trigger('album:updateBuffer', @album)
     if App.showView.isQuickUpload()

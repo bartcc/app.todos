@@ -20,7 +20,8 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.events = {
     'dragstart  .items .thumbnail': 'dragstart',
-    'drop .items': 'drop'
+    'dragover   .items': 'dragover',
+    'drop       .items': 'drop'
   };
   AlbumsView.prototype.albumsTemplate = function(items, options) {
     return $("#albumsTemplate").tmpl(items, options);

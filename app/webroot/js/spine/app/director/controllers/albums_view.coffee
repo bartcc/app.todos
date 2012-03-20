@@ -6,12 +6,13 @@ class AlbumsView extends Spine.Controller
   @extend Spine.Controller.Drag
   
   elements:
-    '.hoverinfo'              : 'infoEl'
-    '.items'                  : 'items'
+    '.hoverinfo'                      : 'infoEl'
+    '.items'                          : 'items'
     
   events:
     'dragstart  .items .thumbnail'    : 'dragstart'
-    'drop .items'           : 'drop'
+    'dragover   .items'               : 'dragover'
+    'drop       .items'               : 'drop'
 
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options

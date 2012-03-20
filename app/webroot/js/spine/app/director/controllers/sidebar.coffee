@@ -21,7 +21,7 @@ class Sidebar extends Spine.Controller
     'dragstart  .items .item'        : 'dragstart'
     'dragenter  .items .item'        : 'dragenter'
     'dragleave  .items .item'        : 'dragleave'
-    'dragover   .items .item'        : 'dragover'
+    'dragover   .items .item'        : 'dragover' # Chrome only dispatches the drop event if this event is cancelled
     'dragend    .items .item'        : 'dragend'
     'drop       .items .item'        : 'drop'
 

@@ -40,9 +40,9 @@ class Gallery extends Spine.Model
     imagesCount = 0
     for album in albums
       imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
-    details =
-      iCount: imagesCount
-      aCount: albums.length
+
+    iCount: imagesCount
+    aCount: albums.length
     
   updateAttributes: (atts, options={}) ->
     @load(atts)

@@ -54,7 +54,7 @@ Gallery = (function() {
     return this.constructor.selection.push(newSelection);
   };
   Gallery.prototype.details = function() {
-    var album, albums, details, filterOptions, imagesCount, _i, _len;
+    var album, albums, filterOptions, imagesCount, _i, _len;
     filterOptions = {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum'
@@ -67,7 +67,7 @@ Gallery = (function() {
         key: 'album_id'
       }).length;
     }
-    return details = {
+    return {
       iCount: imagesCount,
       aCount: albums.length
     };

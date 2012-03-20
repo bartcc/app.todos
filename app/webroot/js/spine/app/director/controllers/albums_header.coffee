@@ -20,7 +20,11 @@ class AlbumsHeader extends Spine.Controller
     
   count: ->
     if Gallery.record
-      GalleriesAlbum.filter(Gallery.record.id, key:'gallery_id').length
+      filterOptions =
+        key:'gallery_id'
+        joinTable: 'GalleriesAlbum'
+      Album.filterRelated(Gallery.record.id, filterOptions).length
+#      GalleriesAlbum.filter(Gallery.record.id, key:'gallery_id').length
     else
       Album.all().length
       

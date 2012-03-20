@@ -30,10 +30,13 @@ AlbumsHeader = (function() {
     }));
   };
   AlbumsHeader.prototype.count = function() {
+    var filterOptions;
     if (Gallery.record) {
-      return GalleriesAlbum.filter(Gallery.record.id, {
-        key: 'gallery_id'
-      }).length;
+      filterOptions = {
+        key: 'gallery_id',
+        joinTable: 'GalleriesAlbum'
+      };
+      return Album.filterRelated(Gallery.record.id, filterOptions).length;
     } else {
       return Album.all().length;
     }

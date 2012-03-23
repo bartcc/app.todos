@@ -20,7 +20,7 @@ class SlideshowView extends Spine.Controller
     super
     @el.data current: false
     @thumbSize = 140
-    @fullscreen = false
+    @fullscreen = true
     @autoplay = false
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('play:slideshow', @proxy @play)

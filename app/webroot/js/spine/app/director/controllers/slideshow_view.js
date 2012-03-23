@@ -27,7 +27,7 @@ SlideshowView = (function() {
       current: false
     });
     this.thumbSize = 140;
-    this.fullscreen = false;
+    this.fullscreen = true;
     this.autoplay = false;
     Spine.bind('show:slideshow', this.proxy(this.show));
     Spine.bind('play:slideshow', this.proxy(this.play));

@@ -15,6 +15,9 @@ Info = (function() {
   __extends(Info, Spine.Controller);
   function Info() {
     this.position = __bind(this.position, this);    Info.__super__.constructor.apply(this, arguments);
+    this.el.css({
+      visibility: 'hidden'
+    });
   }
   Info.prototype.render = function(item) {
     this.html(this.template(item));
@@ -25,7 +28,9 @@ Info = (function() {
     if (!this.current) {
       el = $(e.currentTarget);
       this.current = el.item();
-      this.render(this.current).show();
+      this.render(this.current).css({
+        visibility: 'visible'
+      });
     }
     return this.position(e);
   };
@@ -33,7 +38,9 @@ Info = (function() {
     if (!this.current) {
       return;
     }
-    this.el.hide();
+    this.el.css({
+      visibility: 'hidden'
+    });
     return this.current = null;
   };
   Info.prototype.position = function(e) {
@@ -56,8 +63,7 @@ Info = (function() {
     }
     return this.el.css({
       top: posy + 'px',
-      left: posx + 'px',
-      display: 'block'
+      left: posx + 'px'
     });
   };
   return Info;

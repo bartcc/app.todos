@@ -67,22 +67,22 @@ Request = (function() {
     Request.__super__.constructor.apply(this, arguments);
     this.data = new Builder(this.record).build();
   }
-  Request.prototype.create = function(params) {
+  Request.prototype.create = function(params, options) {
     return this.queue(__bind(function() {
       return this.ajax(params, {
         type: "POST",
         data: JSON.stringify(this.data),
         url: Spine.Ajax.getURL(this.model)
-      }).success(this.recordResponse).error(this.errorResponse);
+      }).success(this.recordResponse(options)).error(this.errorResponse(options));
     }, this));
   };
-  Request.prototype.update = function(params) {
+  Request.prototype.update = function(params, options) {
     return this.queue(__bind(function() {
       return this.ajax(params, {
         type: "PUT",
         data: JSON.stringify(this.data),
         url: Spine.Ajax.getURL(this.record)
-      }).success(this.recordResponse).error(this.errorResponse);
+      }).success(this.recordResponse(options)).error(this.errorResponse(options));
     }, this));
   };
   return Request;

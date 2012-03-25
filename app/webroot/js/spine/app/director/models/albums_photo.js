@@ -12,7 +12,7 @@ AlbumsPhoto = (function() {
   function AlbumsPhoto() {
     AlbumsPhoto.__super__.constructor.apply(this, arguments);
   }
-  AlbumsPhoto.configure("AlbumsPhoto", "album_id", 'photo_id', 'order');
+  AlbumsPhoto.configure("AlbumsPhoto", 'id', 'album_id', 'photo_id', 'order');
   AlbumsPhoto.extend(Spine.Model.Ajax);
   AlbumsPhoto.extend(Spine.Model.AjaxRelations);
   AlbumsPhoto.extend(Spine.Model.Filter);

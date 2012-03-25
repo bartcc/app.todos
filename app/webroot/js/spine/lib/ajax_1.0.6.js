@@ -172,6 +172,7 @@
       }
       return __bind(function(data, status, xhr) {
         var _ref;
+        console.log('RECORD RESPONSE');
         if (Spine.isBlank(data)) {
           data = false;
         } else {

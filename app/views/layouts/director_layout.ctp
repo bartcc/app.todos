@@ -73,8 +73,8 @@
     echo $this->Html->script('lib/blueimp/jquery.fileupload-ui');
 
     #echo $this->Html->script('spine/lib/spine_0.0.9');
-    echo $this->Html->script('spine/lib/spine_1.0.5');
-    echo $this->Html->script('spine/lib/ajax_1.0.5');
+    echo $this->Html->script('spine/lib/spine_1.0.6');
+    echo $this->Html->script('spine/lib/ajax_1.0.6');
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/lib/manager');

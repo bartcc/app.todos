@@ -1,6 +1,6 @@
 
 class GalleriesAlbum extends Spine.Model
-  @configure "GalleriesAlbum", 'gallery_id', 'album_id', 'order'
+  @configure "GalleriesAlbum", 'id', 'gallery_id', 'album_id', 'order'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations

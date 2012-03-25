@@ -122,14 +122,18 @@ AlbumsView = (function() {
     console.log('AlbumsView::create');
     this.show();
     album = new Album(this.newAttributes());
-    album.save();
+    album.save({
+      success: this.createCallback
+    });
     Gallery.updateSelection([album.id]);
-    if (Gallery.record) {
-      Album.trigger('create:join', Gallery.record, album);
-    }
     Album.current(album);
     this.change(album);
     return this.openPanel('album', App.showView.btnAlbum);
+  };
+  AlbumsView.prototype.createCallback = function() {
+    if (Gallery.record) {
+      return Album.trigger('create:join', Gallery.record, this);
+    }
   };
   AlbumsView.prototype.destroy = function(e) {
     var album, albums, ga, gallery, gas, list, photos, _i, _j, _k, _len, _len2, _len3, _results;

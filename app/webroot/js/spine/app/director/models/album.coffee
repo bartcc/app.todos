@@ -1,6 +1,6 @@
 
 class Album extends Spine.Model
-  @configure "Album", 'title', 'description', 'count', 'user_id', 'order'
+  @configure "Album", 'id', 'title', 'description', 'count', 'user_id', 'order'
 
   @extend Spine.Model.Filter
   @extend Spine.Model.Ajax

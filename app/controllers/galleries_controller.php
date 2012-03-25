@@ -25,7 +25,7 @@ class GalleriesController extends AppController {
     $this->log('GalleriesController::add', LOG_DEBUG);
     if (!empty($this->data)) {
       $this->Gallery->create();
-//      $this->data['Gallery']['id'] = null;
+      $this->data['Gallery']['id'] = null;
       if ($this->Gallery->save($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));
         $this->set('json', array('id' => $this->Gallery->id));

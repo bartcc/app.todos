@@ -127,6 +127,8 @@ class Singleton extends Base
   # Private
 
   recordResponse: (data, status, xhr) =>
+    console.log 'RECORD RESPONSE'
+    console.log data
     @record.trigger('ajaxSuccess', status, xhr)
     
     return if Spine.isBlank(data)

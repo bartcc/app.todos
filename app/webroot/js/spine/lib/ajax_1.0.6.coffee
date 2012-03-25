@@ -133,6 +133,8 @@ class Singleton extends Base
 
   recordResponse: (options = {}) =>
     (data, status, xhr) =>
+      console.log 'RECORD RESPONSE'
+      console.log data
       if Spine.isBlank(data)
         data = false
       else

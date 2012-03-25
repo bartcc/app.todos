@@ -161,6 +161,7 @@
       }, this));
     };
     Singleton.prototype.recordResponse = function(data, status, xhr) {
+      console.log('RECORD RESPONSE');
       this.record.trigger('ajaxSuccess', status, xhr);
       if (Spine.isBlank(data)) {
         return;

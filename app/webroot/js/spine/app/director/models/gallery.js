@@ -13,7 +13,7 @@ Gallery = (function() {
     this.details = __bind(this.details, this);
     Gallery.__super__.constructor.apply(this, arguments);
   }
-  Gallery.configure('Gallery', 'name', 'author', "description", 'user_id');
+  Gallery.configure('Gallery', 'id', 'name', 'author', "description", 'user_id');
   Gallery.extend(Spine.Model.Filter);
   Gallery.extend(Spine.Model.Ajax);
   Gallery.extend(Spine.Model.AjaxRelations);

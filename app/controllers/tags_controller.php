@@ -24,8 +24,11 @@ class TagsController extends AppController {
   function add() {
     if (!empty($this->data)) {
       $this->Tag->create();
+      $this->data['Tag']['id'] = null;
       if ($this->Tag->save($this->data)) {
         $this->flash(__('Tag saved.', true), array('action' => 'index'));
+        $this->set('json', array('id' => $this->Tag->id));
+        $this->render(SIMPLE_JSON);
       } else {
         
       }

@@ -38,25 +38,25 @@ class Request extends Spine.Singleton
     super
     @data = new Builder(@record).build()
   
-  create: (params) ->
+  create: (params, options) ->
     @queue =>
       @ajax(
         params,
         type: "POST"
         data: JSON.stringify(@data)
         url:  Spine.Ajax.getURL(@model)
-      ).success(@recordResponse)
-       .error(@errorResponse)
+      ).success(@recordResponse(options))
+       .error(@errorResponse(options))
 
-  update: (params) ->
+  update: (params, options) ->
     @queue =>
       @ajax(
         params,
         type: "PUT"
         data: JSON.stringify(@data)
         url:  Spine.Ajax.getURL(@record)
-      ).success(@recordResponse)
-       .error(@errorResponse)
+      ).success(@recordResponse(options))
+       .error(@errorResponse(options))
 
 Model.AjaxRelations =
   

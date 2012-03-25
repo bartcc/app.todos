@@ -1,6 +1,6 @@
 
 class AlbumsPhoto extends Spine.Model
-  @configure "AlbumsPhoto", "album_id", 'photo_id', 'order'
+  @configure "AlbumsPhoto", 'id', 'album_id', 'photo_id', 'order'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations

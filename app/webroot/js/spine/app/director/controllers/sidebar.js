@@ -141,7 +141,7 @@ Sidebar = (function() {
     id = el.attr('id');
     if (id && this._id !== id) {
       this._id = id;
-      return (_ref7 = Spine.dragItem.closest) != null ? _ref7.removeClass('over') : void 0;
+      return (_ref7 = Spine.dragItem.closest) != null ? _ref7.removeClass('over nodrop') : void 0;
     }
   };
   Sidebar.prototype.dragOver = function(e) {};

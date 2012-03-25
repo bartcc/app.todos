@@ -111,7 +111,7 @@ class Sidebar extends Spine.Controller
     id = el.attr('id')
     if id and @_id != id
       @_id = id
-      Spine.dragItem.closest?.removeClass('over')
+      Spine.dragItem.closest?.removeClass('over nodrop')
 
   dragOver: (e) =>
 

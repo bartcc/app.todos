@@ -402,7 +402,7 @@ textarea {
   line-height: 2em;
   text-align: center;
   margin: 0;
-  padding: 0;
+  padding: 0 40px;
   color: #555;
   border-right: 1px solid #181818;
   -moz-box-shadow: 1px 0px 1px #525252;
@@ -410,7 +410,6 @@ textarea {
   box-shadow: 1px 0px 1px #525252;
   text-shadow: 0 -1px 1px black;
   font-weight: bold;
-  width: 250px;
 }
 .canvas {
   background: url(img/pattern.png) repeat  0 0;

@@ -238,7 +238,7 @@
 <!-- Templates -->
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item data parent" title="Deselect   Cmd-Click">
+  <li class="gal item data parent" title="Deselect   Cmd-Click" draggable="true">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#sidebarContentTemplate"}}

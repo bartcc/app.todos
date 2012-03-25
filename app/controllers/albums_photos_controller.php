@@ -55,8 +55,6 @@ class AlbumsPhotosController extends AppController {
   }
 
   function delete($id = null) {
-    $this->log('AlbumsPhotosController::delete', LOG_DEBUG);
-    $this->log($id, LOG_DEBUG);
     if (!$id) {
       $this->Session->setFlash(__('Invalid id for albums photo', true));
       $this->redirect(array('action' => 'index'));

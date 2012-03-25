@@ -59,7 +59,7 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1><a href="/">Director</a></h1>
+    <h1><a href="/">Photo Director</a></h1>
     <div id="login" class="flex tright" style="margin-top: 5px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">

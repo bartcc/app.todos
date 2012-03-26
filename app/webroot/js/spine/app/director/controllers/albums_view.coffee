@@ -170,7 +170,7 @@ class AlbumsView extends Spine.Controller
       ga = new GalleriesAlbum
         gallery_id: target.id
         album_id: record.id
-        order: 1000#GalleriesAlbum.next target.id
+        order: 1000 #GalleriesAlbum.next target.id
       ga.save()
   
   destroyJoin: (target, albums) ->

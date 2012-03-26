@@ -34,7 +34,7 @@
     echo $this->Html->script('lib/jquery/jquery.tmpl');
     echo $this->Html->script('spine/lib/spine_1.0.5');
     echo $this->Html->script('spine/lib/local');
-    echo $this->Html->script('spine/lib/filter');
+    echo $this->Html->script('spine/plugins/filter');
     echo $this->Html->script('spine/app/director/models/user');
     echo $this->Html->script('spine/app/director/models/error');
     echo $this->Html->script('spine/app/director/login');

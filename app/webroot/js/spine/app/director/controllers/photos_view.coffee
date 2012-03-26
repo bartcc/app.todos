@@ -11,6 +11,7 @@ class PhotosView extends Spine.Controller
   
   events:
     'dragstart  .items .thumbnail'    : 'dragstart'
+    'dragover   .items .thumbnail'    : 'dragover'
     
   template: (items) ->
     $('#photosTemplate').tmpl(items)

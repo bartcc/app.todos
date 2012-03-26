@@ -19,7 +19,8 @@ PhotosView = (function() {
     '.items': 'items'
   };
   PhotosView.prototype.events = {
-    'dragstart  .items .thumbnail': 'dragstart'
+    'dragstart  .items .thumbnail': 'dragstart',
+    'dragover   .items .thumbnail': 'dragover'
   };
   PhotosView.prototype.template = function(items) {
     return $('#photosTemplate').tmpl(items);

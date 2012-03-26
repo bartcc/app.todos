@@ -49,7 +49,8 @@ AlbumsView = (function() {
     this.header.template = this.headerTemplate;
     this.filterOptions = {
       key: 'gallery_id',
-      joinTable: 'GalleriesAlbum'
+      joinTable: 'GalleriesAlbum',
+      sorted: true
     };
     Spine.bind('show:albums', this.proxy(this.show));
     Spine.bind('create:album', this.proxy(this.create));
@@ -68,7 +69,10 @@ AlbumsView = (function() {
   AlbumsView.prototype.change = function(item, mode) {
     var gallery;
     console.log('AlbumsView::change');
-    gallery = Gallery.record;
+    if (mode === 'update') {
+      return;
+    }
+    this.gallery = gallery = Gallery.record;
     if (item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       Spine.trigger('show:albums');
     }
@@ -84,12 +88,18 @@ AlbumsView = (function() {
       return this.change(item);
     }
   };
-  AlbumsView.prototype.render = function(item, changed) {
-    var list;
+  AlbumsView.prototype.render = function(items) {
+    var it, itm, list, _i, _len;
     console.log('AlbumsView::render');
-    list = this.list.render(item);
+    itm = [];
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      it = items[_i];
+      itm.push(it.title);
+    }
+    list = this.list.render(items);
+    list.sortable('album');
     this.header.render();
-    if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
+    if (items && items.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();
     }
     Spine.trigger('render:galleryAllSublist');
@@ -111,7 +121,8 @@ AlbumsView = (function() {
     if (User.first()) {
       return {
         title: 'New Title',
-        user_id: User.first().id
+        user_id: User.first().id,
+        order: -1
       };
     } else {
       return User.ping();
@@ -196,7 +207,8 @@ AlbumsView = (function() {
       record = records[_i];
       ga = new GalleriesAlbum({
         gallery_id: target.id,
-        album_id: record.id
+        album_id: record.id,
+        order: 1000
       });
       _results.push(ga.save());
     }

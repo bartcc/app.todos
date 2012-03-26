@@ -78,7 +78,8 @@ PhotosView = (function() {
     var filterOptions;
     filterOptions = {
       key: 'album_id',
-      joinTable: 'AlbumsPhoto'
+      joinTable: 'AlbumsPhoto',
+      sorted: true
     };
     return this.buffer = Photo.filterRelated(item != null ? item.id : void 0, filterOptions);
   };
@@ -205,7 +206,7 @@ PhotosView = (function() {
       ap = new AlbumsPhoto({
         album_id: target.id,
         photo_id: record.id,
-        order: 9999
+        order: AlbumsPhoto.next(target.id)
       });
       _results.push(ap.save());
     }

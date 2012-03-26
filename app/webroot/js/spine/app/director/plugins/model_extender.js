@@ -215,9 +215,13 @@ Model.Extender = {
       filterRelated: function(id, options) {
         var joinTableItems;
         joinTableItems = Spine.Model[options.joinTable].filter(id, options);
-        return this.sort(this.filter(joinTableItems));
+        if (options.sorted) {
+          return this.sortArray(this.filter(joinTableItems));
+        } else {
+          return this.filter(joinTableItems);
+        }
       },
-      sort: function(arr) {
+      sortArray: function(arr) {
         return arr.sort(function(a, b) {
           var aInt, bInt;
           aInt = parseInt(a.order);

@@ -62,8 +62,10 @@ class PhotosView extends Spine.Controller
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
+      sorted: true
       
     @buffer = Photo.filterRelated(item?.id, filterOptions)
+    
   
   render: (items, mode) ->
     # render only if necessary
@@ -173,7 +175,7 @@ class PhotosView extends Spine.Controller
       ap = new AlbumsPhoto
         album_id: target.id
         photo_id: record.id
-        order: 9999
+        order: AlbumsPhoto.next target.id
       ap.save()
       
 #    target.save()

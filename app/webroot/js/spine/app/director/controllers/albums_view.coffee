@@ -40,6 +40,7 @@ class AlbumsView extends Spine.Controller
     @filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
+      sorted: true
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @create)
@@ -58,10 +59,12 @@ class AlbumsView extends Spine.Controller
     
   change: (item, mode) ->
     console.log 'AlbumsView::change'
+    return if mode is 'update'
     # item can be gallery         from Spine.bind 'change:selectedGallery'
     # item can be album           from Album.bind 'change'
     # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
-    gallery = Gallery.record
+    @gallery = gallery = Gallery.record
+    
     
     if item.constructor.className is 'GalleriesAlbum' and item.destroyed
       Spine.trigger('show:albums')
@@ -76,15 +79,19 @@ class AlbumsView extends Spine.Controller
   changeSelection: (item, changed) ->
     @change item if changed# or !!@pending
      
-  render: (item, changed) ->
+  render: (items) ->
     console.log 'AlbumsView::render'
 #    return unless @isActive()
-    list = @list.render item
-#    list.sortable 'album' if Gallery.record
+    itm = []
+    for it in items
+      itm.push it.title
+      
+    list = @list.render items
+    list.sortable 'album'# if Gallery.record
     @header.render()
 
     # when Album is deleted in Photos View return to this View
-    if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
+    if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
       
     Spine.trigger('render:galleryAllSublist')
@@ -106,6 +113,7 @@ class AlbumsView extends Spine.Controller
     if User.first()
       title   : 'New Title'
       user_id : User.first().id
+      order: -1
     else
       User.ping()
   
@@ -162,6 +170,7 @@ class AlbumsView extends Spine.Controller
       ga = new GalleriesAlbum
         gallery_id: target.id
         album_id: record.id
+        order: 1000#GalleriesAlbum.next target.id
       ga.save()
   
   destroyJoin: (target, albums) ->

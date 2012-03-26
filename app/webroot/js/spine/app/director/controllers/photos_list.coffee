@@ -18,6 +18,7 @@ class PhotosList extends Spine.Controller
   constructor: ->
     super
     Photo.bind('sortupdate', @proxy @sortupdate)
+#    AlbumsPhoto.bind('destroy', @proxy @sortupdate)
     Spine.bind('photo:activate', @proxy @activate)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
@@ -159,18 +160,21 @@ class PhotosList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
   
-  sortupdate: (e, item) ->
+  sortupdate: ->
     @children().each (index) ->
       item = $(@).item()
-      if Album.record
-        ap = (AlbumsPhoto.filter(item.id, func: 'selectPhoto'))[0]
-        unless (ap?.order) is index
+#      console.log AlbumsPhoto.filter(item.id, func: 'selectPhoto').length
+      if item and Album.record
+        ap = AlbumsPhoto.filter(item.id, func: 'selectPhoto')[0]
+        if ap and ap.order isnt index
           ap.order = index
           ap.save()
-#      else
-#        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
-#        photo.order = index
-#        photo.save()
+      else if item
+        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
+        photo.order = index
+        photo.save()
+        
+    @exposeSelection()
   
   closeInfo: (e) =>
     @el.click()

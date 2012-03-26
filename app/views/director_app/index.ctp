@@ -522,7 +522,8 @@
 
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class="name"><span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
+    <li class="name"><span class="">${id}</span><span class="right"></li>
+    <li class="name"><span class="">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
   </ul>
 </script>
 

@@ -8,6 +8,13 @@ Model.Extender =
 
     Extend =
       
+      counter: 0
+      
+      next: =>
+        c = @counter++
+        alert c
+        c
+      
       record: false
 
       selection: [global:[]]
@@ -136,9 +143,13 @@ Model.Extender =
           
       filterRelated: (id, options) ->
         joinTableItems = Spine.Model[options.joinTable].filter(id, options)
-        @sort @filter joinTableItems
+#        console.log joinTableItems
+        if options.sorted
+          return @sortArray @filter joinTableItems
+        else
+          return @filter joinTableItems
         
-      sort: (arr) ->
+      sortArray: (arr) ->
         arr.sort (a, b) ->
           aInt = parseInt(a.order)
           bInt = parseInt(b.order)

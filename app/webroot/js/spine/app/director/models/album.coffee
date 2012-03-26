@@ -1,6 +1,6 @@
 
 class Album extends Spine.Model
-  @configure "Album", 'id', 'title', 'description', 'count', 'user_id', 'order'
+  @configure "Album", 'title', 'description', 'count', 'user_id', 'order'
 
   @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
@@ -49,23 +49,21 @@ class Album extends Spine.Model
   selChange: (list) ->
   
   details: =>
-    filterOptions =
-      key:'album_id'
-      joinTable: 'AlbumsPhoto'
-    photos = AlbumsPhoto.filter(@id, filterOptions)
-    details =
-      iCount : photos.length
-      album  : Album.record
-      gallery: Gallery.record
+    photos = AlbumsPhoto.filter(@id, key: 'album_id')
+    
+    iCount : photos.length
+    album  : Album.record
+    gallery: Gallery.record
     
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
-
+  
+  # loops over each record
   select: (joinTableItems) ->
     for record in joinTableItems
-      return true if record.album_id is @id #and @['order'] = record.order
-        
+      return true if record.album_id is @id and (@['order'] = record.order)?
+      
 Spine.Model.Album = Album
 

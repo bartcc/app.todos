@@ -202,20 +202,27 @@ PhotosList = (function() {
     e.stopPropagation();
     return e.preventDefault();
   };
-  PhotosList.prototype.sortupdate = function(e, item) {
-    return this.children().each(function(index) {
-      var ap;
+  PhotosList.prototype.sortupdate = function() {
+    this.children().each(function(index) {
+      var ap, item, photo;
       item = $(this).item();
-      if (Album.record) {
-        ap = (AlbumsPhoto.filter(item.id, {
+      if (item && Album.record) {
+        ap = AlbumsPhoto.filter(item.id, {
           func: 'selectPhoto'
-        }))[0];
-        if ((ap != null ? ap.order : void 0) !== index) {
+        })[0];
+        if (ap && ap.order !== index) {
           ap.order = index;
           return ap.save();
         }
+      } else if (item) {
+        photo = (Photo.filter(item.id, {
+          func: 'selectPhoto'
+        }))[0];
+        photo.order = index;
+        return photo.save();
       }
     });
+    return this.exposeSelection();
   };
   PhotosList.prototype.closeInfo = function(e) {
     this.el.click();

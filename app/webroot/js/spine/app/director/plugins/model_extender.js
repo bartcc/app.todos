@@ -14,6 +14,13 @@ Model.Extender = {
   extended: function() {
     var Extend, Include;
     Extend = {
+      counter: 0,
+      next: __bind(function() {
+        var c;
+        c = this.counter++;
+        alert(c);
+        return c;
+      }, this),
       record: false,
       selection: [
         {
@@ -215,9 +222,13 @@ Model.Extender = {
       filterRelated: function(id, options) {
         var joinTableItems;
         joinTableItems = Spine.Model[options.joinTable].filter(id, options);
-        return this.sort(this.filter(joinTableItems));
+        if (options.sorted) {
+          return this.sortArray(this.filter(joinTableItems));
+        } else {
+          return this.filter(joinTableItems);
+        }
       },
-      sort: function(arr) {
+      sortArray: function(arr) {
         return arr.sort(function(a, b) {
           var aInt, bInt;
           aInt = parseInt(a.order);

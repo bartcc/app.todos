@@ -13,7 +13,7 @@ Album = (function() {
     this.details = __bind(this.details, this);
     Album.__super__.constructor.apply(this, arguments);
   }
-  Album.configure("Album", 'id', 'title', 'description', 'count', 'user_id', 'order');
+  Album.configure("Album", 'title', 'description', 'count', 'user_id', 'order');
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
@@ -68,13 +68,11 @@ Album = (function() {
   };
   Album.prototype.selChange = function(list) {};
   Album.prototype.details = function() {
-    var details, filterOptions, photos;
-    filterOptions = {
-      key: 'album_id',
-      joinTable: 'AlbumsPhoto'
-    };
-    photos = AlbumsPhoto.filter(this.id, filterOptions);
-    return details = {
+    var photos;
+    photos = AlbumsPhoto.filter(this.id, {
+      key: 'album_id'
+    });
+    return {
       iCount: photos.length,
       album: Album.record,
       gallery: Gallery.record
@@ -94,7 +92,7 @@ Album = (function() {
     var record, _i, _len;
     for (_i = 0, _len = joinTableItems.length; _i < _len; _i++) {
       record = joinTableItems[_i];
-      if (record.album_id === this.id) {
+      if (record.album_id === this.id && ((this['order'] = record.order) != null)) {
         return true;
       }
     }

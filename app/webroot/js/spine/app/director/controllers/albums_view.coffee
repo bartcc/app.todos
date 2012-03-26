@@ -57,11 +57,25 @@ class AlbumsView extends Spine.Controller
     $(@views).queue('fx')
     
   change: (item, mode) ->
+    sortedFilterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
+      sorted: true
+    unsortedFilterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
+    print = (list) ->
+      itm = []
+      for it in list
+        itm.push it.title
+      console.log itm
     console.log 'AlbumsView::change'
+    return if mode is 'update'
     # item can be gallery         from Spine.bind 'change:selectedGallery'
     # item can be album           from Album.bind 'change'
     # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
-    gallery = Gallery.record
+    @gallery = gallery = Gallery.record
+    
     
     if item.constructor.className is 'GalleriesAlbum' and item.destroyed
       Spine.trigger('show:albums')
@@ -69,22 +83,37 @@ class AlbumsView extends Spine.Controller
     if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
     else
-      @current = Album.filterRelated(gallery.id, @filterOptions)
+      
+      @current = Album.filterRelated(gallery.id, sortedFilterOptions)
+      
+      console.log ' S O R T E D'
+      print @current
+      current = Album.filterRelated(gallery.id, unsortedFilterOptions)
+      console.log ' U N S O R T E D'
+      print current
+      
+      
+#    for alb in @current
+#      console.log alb
       
     @render @current
     
   changeSelection: (item, changed) ->
     @change item if changed# or !!@pending
      
-  render: (item, changed) ->
+  render: (items) ->
     console.log 'AlbumsView::render'
 #    return unless @isActive()
-    list = @list.render item
-#    list.sortable 'album' if Gallery.record
+    itm = []
+    for it in items
+      itm.push it.title
+      
+    list = @list.render items
+    list.sortable 'album'# if Gallery.record
     @header.render()
 
     # when Album is deleted in Photos View return to this View
-    if item and item.constructor.className is 'GalleriesAlbum' and item.destroyed
+    if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
       
     Spine.trigger('render:galleryAllSublist')
@@ -106,6 +135,7 @@ class AlbumsView extends Spine.Controller
     if User.first()
       title   : 'New Title'
       user_id : User.first().id
+      order: -1
     else
       User.ping()
   
@@ -162,6 +192,7 @@ class AlbumsView extends Spine.Controller
       ga = new GalleriesAlbum
         gallery_id: target.id
         album_id: record.id
+        order: 1000#GalleriesAlbum.next target.id
       ga.save()
   
   destroyJoin: (target, albums) ->

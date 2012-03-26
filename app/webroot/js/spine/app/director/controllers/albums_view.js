@@ -208,7 +208,7 @@ AlbumsView = (function() {
       ga = new GalleriesAlbum({
         gallery_id: target.id,
         album_id: record.id,
-        order: 1000
+        order: GalleriesAlbum.count()
       });
       _results.push(ga.save());
     }

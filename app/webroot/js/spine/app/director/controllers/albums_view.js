@@ -49,7 +49,8 @@ AlbumsView = (function() {
     this.header.template = this.headerTemplate;
     this.filterOptions = {
       key: 'gallery_id',
-      joinTable: 'GalleriesAlbum'
+      joinTable: 'GalleriesAlbum',
+      sorted: true
     };
     Spine.bind('show:albums', this.proxy(this.show));
     Spine.bind('create:album', this.proxy(this.create));
@@ -66,42 +67,23 @@ AlbumsView = (function() {
     $(this.views).queue('fx');
   }
   AlbumsView.prototype.change = function(item, mode) {
-    var current, gallery, print, sortedFilterOptions, unsortedFilterOptions;
+    var gallery, sortedFilterOptions;
+    if (mode === 'update') {
+      return;
+    }
     sortedFilterOptions = {
       key: 'gallery_id',
       joinTable: 'GalleriesAlbum',
       sorted: true
     };
-    unsortedFilterOptions = {
-      key: 'gallery_id',
-      joinTable: 'GalleriesAlbum'
-    };
-    print = function(list) {
-      var it, itm, _i, _len;
-      itm = [];
-      for (_i = 0, _len = list.length; _i < _len; _i++) {
-        it = list[_i];
-        itm.push(it.title);
-      }
-      return console.log(itm);
-    };
-    console.log('AlbumsView::change');
-    if (mode === 'update') {
-      return;
-    }
-    this.gallery = gallery = Gallery.record;
+    gallery = Gallery.record;
     if (item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       Spine.trigger('show:albums');
     }
     if ((!gallery) || gallery.destroyed) {
       this.current = Album.filter();
     } else {
-      this.current = Album.filterRelated(gallery.id, sortedFilterOptions);
-      console.log(' S O R T E D');
-      print(this.current);
-      current = Album.filterRelated(gallery.id, unsortedFilterOptions);
-      console.log(' U N S O R T E D');
-      print(current);
+      this.current = Album.filterRelated(gallery.id, this.filterOptions);
     }
     return this.render(this.current);
   };

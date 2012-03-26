@@ -40,6 +40,7 @@ class AlbumsView extends Spine.Controller
     @filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
+      sorted: true
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @create)
@@ -57,24 +58,15 @@ class AlbumsView extends Spine.Controller
     $(@views).queue('fx')
     
   change: (item, mode) ->
+    return if mode is 'update'
     sortedFilterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
       sorted: true
-    unsortedFilterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
-    print = (list) ->
-      itm = []
-      for it in list
-        itm.push it.title
-      console.log itm
-    console.log 'AlbumsView::change'
-    return if mode is 'update'
     # item can be gallery         from Spine.bind 'change:selectedGallery'
     # item can be album           from Album.bind 'change'
     # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
-    @gallery = gallery = Gallery.record
+    gallery = Gallery.record
     
     
     if item.constructor.className is 'GalleriesAlbum' and item.destroyed
@@ -83,18 +75,7 @@ class AlbumsView extends Spine.Controller
     if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
     else
-      
-      @current = Album.filterRelated(gallery.id, sortedFilterOptions)
-      
-      console.log ' S O R T E D'
-      print @current
-      current = Album.filterRelated(gallery.id, unsortedFilterOptions)
-      console.log ' U N S O R T E D'
-      print current
-      
-      
-#    for alb in @current
-#      console.log alb
+      @current = Album.filterRelated(gallery.id, @filterOptions)
       
     @render @current
     

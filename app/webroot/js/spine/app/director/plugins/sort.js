@@ -65,7 +65,7 @@ $.fn.Html5Sortable = function(opts) {
         $('._dragging').removeClass('_dragging out');
         return el.addClass('_dragging out');
       }).bind('dragend', function(e) {
-        $('._dragging').removeClass('_dragging');
+        $('._dragging').removeClass('_dragging out');
         try {
           if (!(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
             return true;

@@ -55,7 +55,7 @@ $.fn.Html5Sortable = (opts) ->
 #        Spine.trigger('drag:start', e, @)
 
       .bind 'dragend', (e) ->
-        $('._dragging').removeClass('_dragging')
+        $('._dragging').removeClass('_dragging out')
         
         try
           unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)

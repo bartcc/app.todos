@@ -136,13 +136,9 @@ Model.Extender =
           
       filterRelated: (id, options) ->
         joinTableItems = Spine.Model[options.joinTable].filter(id, options)
-#        console.log joinTableItems
-        if options.sorted
-          return @sortArray @filter joinTableItems
-        else
-          return @filter joinTableItems
+        @sort @filter joinTableItems
         
-      sortArray: (arr) ->
+      sort: (arr) ->
         arr.sort (a, b) ->
           aInt = parseInt(a.order)
           bInt = parseInt(b.order)

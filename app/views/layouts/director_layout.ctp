@@ -76,16 +76,15 @@
     echo $this->Html->script('spine/lib/spine_1.0.6');
     echo $this->Html->script('spine/lib/ajax_1.0.6');
     echo $this->Html->script('spine/lib/local');
+    echo $this->Html->script('spine/lib/filter');
     echo $this->Html->script('spine/lib/manager');
     echo $this->Html->script('spine/lib/tmpl');
 
     echo $this->Html->script('spine/app/director/plugins/jquery-plugins');
-    echo $this->Html->script('spine/app/director/plugins/filter');
     echo $this->Html->script('spine/app/director/plugins/manager');
     echo $this->Html->script('spine/app/director/plugins/controller');
     echo $this->Html->script('spine/app/director/plugins/drag');
     echo $this->Html->script('spine/app/director/plugins/sort');
-    echo $this->Html->script('spine/app/director/plugins/base');
     echo $this->Html->script('spine/app/director/plugins/model_extender');
     echo $this->Html->script('spine/app/director/plugins/ajax_relations');
     echo $this->Html->script('spine/app/director/plugins/cache');

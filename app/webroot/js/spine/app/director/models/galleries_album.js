@@ -1,5 +1,5 @@
 var GalleriesAlbum;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
@@ -10,14 +10,12 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
 GalleriesAlbum = (function() {
   __extends(GalleriesAlbum, Spine.Model);
   function GalleriesAlbum() {
-    this.GalleriesAlbum = __bind(this.GalleriesAlbum, this);
     GalleriesAlbum.__super__.constructor.apply(this, arguments);
   }
-  GalleriesAlbum.configure("GalleriesAlbum", 'gallery_id', 'album_id', 'order');
+  GalleriesAlbum.configure("GalleriesAlbum", 'id', 'gallery_id', 'album_id', 'order');
   GalleriesAlbum.extend(Spine.Model.Ajax);
   GalleriesAlbum.extend(Spine.Model.AjaxRelations);
   GalleriesAlbum.extend(Spine.Model.Filter);
-  GalleriesAlbum.extend(Spine.Model.Base);
   GalleriesAlbum.url = function() {
     return 'galleries_albums';
   };
@@ -34,39 +32,34 @@ GalleriesAlbum = (function() {
     }
     return false;
   };
-  GalleriesAlbum.galleries = function(aid) {
+  GalleriesAlbum.galleries = function(id) {
     var ret;
     ret = [];
     this.each(function() {
-      if (item['album_id'] === aid) {
+      if (item['album_id'] === id) {
         return ret.push(Gallery.find(item['gallery_id']));
       }
     });
     return ret;
   };
-  GalleriesAlbum.albums = function(gid) {
+  GalleriesAlbum.albums = function(id) {
     var ret;
     ret = [];
     this.each(function(item) {
-      if (item['gallery_id'] === gid) {
+      if (item['gallery_id'] === id) {
         return ret.push(Album.find(item['album_id']));
       }
     });
     return ret;
   };
-  GalleriesAlbum.next = function(gid) {
-    var max;
-    max = Math.max(this.count + 1, this.albums(gid).length);
-    return this.counter = max;
-  };
-  GalleriesAlbum.prototype.select = function(id, options) {
-    if (this[options.key] === id && this.constructor.records[this.id]) {
+  GalleriesAlbum.prototype.select = function(query, options) {
+    if (this[options.key] === query && this.constructor.records[this.id]) {
       return true;
     }
     return false;
   };
-  GalleriesAlbum.prototype.selectAlbum = function(id) {
-    if (this.album_id === id && this.gallery_id === Gallery.record.id) {
+  GalleriesAlbum.prototype.selectAlbum = function(query) {
+    if (this.album_id === query) {
       return true;
     }
   };

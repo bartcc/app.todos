@@ -1,12 +1,10 @@
 
 class AlbumsPhoto extends Spine.Model
-  @configure "AlbumsPhoto", 'album_id', 'photo_id', 'order'
+  @configure "AlbumsPhoto", 'id', 'album_id', 'photo_id', 'order'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
-  @extend Spine.Model.Base
-  
   
   @url: -> 'albums_photos'
   
@@ -29,21 +27,17 @@ class AlbumsPhoto extends Spine.Model
       ret.push Photo.find(item['photo_id']) if item['album_id'] is aid
     ret
     
-  @photos: (aid) ->
-    Photo.filterRelated(aid,
-      joinTable: 'AlbumsPhoto'
-      key: 'album_id'
-    )
-    
-  @albums: (pid) ->
-    Album.filterRelated(pid,
+  @photos: (pid) ->
+    Photo.filterRelated(pid,
       joinTable: 'AlbumsPhoto'
       key: 'photo_id'
     )
-
-  @next: (aid) =>
-    max = Math.max(@counter+1, @photos(aid).length)
-    @counter = max
+    
+  @albums: (aid) ->
+    Album.filterRelated(aid,
+      joinTable: 'AlbumsPhoto'
+      key: 'album_id'
+    )
 
   albums: ->
     Album.filterRelated(@album_id,
@@ -55,7 +49,7 @@ class AlbumsPhoto extends Spine.Model
     return true if @[options.key] is id and @constructor.records[@id]
     return false
     
-  selectPhoto: (id) ->
-    return true if @photo_id is id and @album_id is Album.record.id
+  selectPhoto: (query) ->
+    return true if @photo_id is query
 
 Spine.Model.AlbumsPhoto = AlbumsPhoto

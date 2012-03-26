@@ -79,6 +79,9 @@ class Photo extends Spine.Model
     cache[instance.id] = []
     @constructor.caches.push(cache)
   
+  next: ->
+    
+  
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes
@@ -90,7 +93,7 @@ class Photo extends Spine.Model
       return true if record.photo_id is @id and (@['order'] = record.order)?
       
   selectPhoto: (id) ->
-    return true if @id is id
+    return true if id is @id
     false
       
   details: ->

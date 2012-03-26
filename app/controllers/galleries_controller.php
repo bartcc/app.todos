@@ -22,7 +22,7 @@ class GalleriesController extends AppController {
   }
 
   function add() {
-//    $this->log('GalleriesController::add', LOG_DEBUG);
+    $this->log('GalleriesController::add', LOG_DEBUG);
     if (!empty($this->data)) {
       $this->Gallery->create();
       $this->data['Gallery']['id'] = null;
@@ -52,8 +52,8 @@ class GalleriesController extends AppController {
   }
 
   function delete($id = null) {
-//    $this->log('GalleriesController::delete', LOG_DEBUG);
-//    $this->log($id, LOG_DEBUG);
+    $this->log('GalleriesController::delete', LOG_DEBUG);
+    $this->log($id, LOG_DEBUG);
     if (!$id) {
       $this->Session->setFlash(__('Invalid id for gallery', true));
       $this->redirect(array('action' => 'index'));

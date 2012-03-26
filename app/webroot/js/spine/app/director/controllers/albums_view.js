@@ -66,42 +66,16 @@ AlbumsView = (function() {
     $(this.views).queue('fx');
   }
   AlbumsView.prototype.change = function(item, mode) {
-    var current, gallery, print, sortedFilterOptions, unsortedFilterOptions;
-    sortedFilterOptions = {
-      key: 'gallery_id',
-      joinTable: 'GalleriesAlbum',
-      sorted: true
-    };
-    unsortedFilterOptions = {
-      key: 'gallery_id',
-      joinTable: 'GalleriesAlbum'
-    };
-    print = function(list) {
-      var it, itm, _i, _len;
-      itm = [];
-      for (_i = 0, _len = list.length; _i < _len; _i++) {
-        it = list[_i];
-        itm.push(it.title);
-      }
-      return console.log(itm);
-    };
+    var gallery;
     console.log('AlbumsView::change');
-    if (mode === 'update') {
-      return;
-    }
-    this.gallery = gallery = Gallery.record;
+    gallery = Gallery.record;
     if (item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       Spine.trigger('show:albums');
     }
     if ((!gallery) || gallery.destroyed) {
       this.current = Album.filter();
     } else {
-      this.current = Album.filterRelated(gallery.id, sortedFilterOptions);
-      console.log(' S O R T E D');
-      print(this.current);
-      current = Album.filterRelated(gallery.id, unsortedFilterOptions);
-      console.log(' U N S O R T E D');
-      print(current);
+      this.current = Album.filterRelated(gallery.id, this.filterOptions);
     }
     return this.render(this.current);
   };
@@ -110,18 +84,12 @@ AlbumsView = (function() {
       return this.change(item);
     }
   };
-  AlbumsView.prototype.render = function(items) {
-    var it, itm, list, _i, _len;
+  AlbumsView.prototype.render = function(item, changed) {
+    var list;
     console.log('AlbumsView::render');
-    itm = [];
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      it = items[_i];
-      itm.push(it.title);
-    }
-    list = this.list.render(items);
-    list.sortable('album');
+    list = this.list.render(item);
     this.header.render();
-    if (items && items.constructor.className === 'GalleriesAlbum' && item.destroyed) {
+    if (item && item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();
     }
     Spine.trigger('render:galleryAllSublist');
@@ -143,8 +111,7 @@ AlbumsView = (function() {
     if (User.first()) {
       return {
         title: 'New Title',
-        user_id: User.first().id,
-        order: -1
+        user_id: User.first().id
       };
     } else {
       return User.ping();
@@ -229,8 +196,7 @@ AlbumsView = (function() {
       record = records[_i];
       ga = new GalleriesAlbum({
         gallery_id: target.id,
-        album_id: record.id,
-        order: 1000
+        album_id: record.id
       });
       _results.push(ga.save());
     }

@@ -25,12 +25,11 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
-    Album.bind('sortupdate', this.proxy(this.sortupdate));
-    GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
     AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbums));
     AlbumsPhoto.bind('destroy create', this.proxy(this.changeBackgrounds));
+    Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
   }
@@ -191,26 +190,27 @@ AlbumsList = (function() {
     return this.change(item);
   };
   AlbumsList.prototype.sortupdate = function(e, item) {
-    this.children().each(function(index) {
+    return this.children().each(function(index) {
       var album, ga;
       item = $(this).item();
-      if (item && Gallery.record) {
-        ga = GalleriesAlbum.filter(item.id, {
-          func: 'selectAlbum'
-        })[0];
-        if (ga && ga.order !== index) {
-          ga.order = index;
-          return ga.save();
+      if (item) {
+        if (Gallery.record) {
+          ga = (GalleriesAlbum.filter(item.id, {
+            func: 'selectAlbum'
+          }))[0];
+          if ((ga != null ? ga.order : void 0) !== index) {
+            ga.order = index;
+            return ga.save();
+          }
+        } else {
+          album = (Album.filter(item.id, {
+            func: 'selectAlbum'
+          }))[0];
+          album.order = index;
+          return album.save();
         }
-      } else if (item) {
-        album = (Album.filter(item.id, {
-          func: 'selectAlbum'
-        }))[0];
-        album.order = index;
-        return album.save();
       }
     });
-    return this.exposeSelection();
   };
   AlbumsList.prototype.closeInfo = function(e) {
     this.el.click();

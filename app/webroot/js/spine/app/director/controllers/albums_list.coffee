@@ -12,12 +12,11 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
-    Album.bind('sortupdate', @proxy @sortupdate)
-    GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbums)
     AlbumsPhoto.bind('destroy create', @proxy @changeBackgrounds)
+    Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
     
@@ -149,18 +148,16 @@ class AlbumsList extends Spine.Controller
   sortupdate: (e, item) ->
     @children().each (index) ->
       item = $(@).item()
-#      console.log item
-      if item and Gallery.record
-        ga = GalleriesAlbum.filter(item.id, func: 'selectAlbum')[0]
-        if ga and ga.order isnt index
-          ga.order = index
-          ga.save()
-      else if item
-        album = (Album.filter(item.id, func: 'selectAlbum'))[0]
-        album.order = index
-        album.save()
-        
-    @exposeSelection()
+      if item
+        if Gallery.record
+          ga = (GalleriesAlbum.filter(item.id, func: 'selectAlbum'))[0]
+          unless (ga?.order) is index
+            ga.order = index
+            ga.save()
+        else
+          album = (Album.filter(item.id, func: 'selectAlbum'))[0]
+          album.order = index
+          album.save()
     
   closeInfo: (e) =>
     @el.click()

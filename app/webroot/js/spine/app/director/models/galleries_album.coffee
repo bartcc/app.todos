@@ -1,12 +1,11 @@
 
 class GalleriesAlbum extends Spine.Model
-  @configure "GalleriesAlbum", 'gallery_id', 'album_id', 'order'
+  @configure "GalleriesAlbum", 'id', 'gallery_id', 'album_id', 'order'
 
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
-  @extend Spine.Model.Base
-
+  
   @url: -> 'galleries_albums'
   
   @galleryHasAlbum: (gid, aid) ->
@@ -15,27 +14,23 @@ class GalleriesAlbum extends Spine.Model
       return true if ga.album_id == aid
     false
     
-  @galleries: (aid) ->
+  @galleries: (id) ->
     ret = []
     @each ->
-      ret.push Gallery.find(item['gallery_id']) if item['album_id'] is aid
+      ret.push Gallery.find(item['gallery_id']) if item['album_id'] is id
     ret
       
-  @albums: (gid) ->
+  @albums: (id) ->
     ret = []
     @each (item) ->
-      ret.push Album.find(item['album_id']) if item['gallery_id'] is gid
+      ret.push Album.find(item['album_id']) if item['gallery_id'] is id
     ret
     
-  @next: (gid) =>
-    max = Math.max(@count+1, @albums(gid).length)
-    @counter = max
-    
-  select: (id, options) ->
-    return true if @[options.key] is id and @constructor.records[@id]
+  select: (query, options) ->
+    return true if @[options.key] is query and @constructor.records[@id]
     return false
     
-  selectAlbum: (id) ->
-    return true if @album_id is id and @gallery_id is Gallery.record.id
+  selectAlbum: (query) ->
+    return true if @album_id is query
     
 Spine.Model.GalleriesAlbum = GalleriesAlbum

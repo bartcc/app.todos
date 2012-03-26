@@ -31,6 +31,8 @@ class Toolbar extends Spine.Model
           name: 'Invert Selection (Cmd + A)'
           klass: 'optSelectAll'
         ,
+          name: 'Toggle Fullscreen'
+          klass: 'optFullscreenMode'
         ]
     group1:
       name: 'Gallery'

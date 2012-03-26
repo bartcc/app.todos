@@ -107,6 +107,7 @@ h4 {
 }
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 pre { 
   margin: 0;

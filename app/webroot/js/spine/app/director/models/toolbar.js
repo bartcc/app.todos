@@ -52,6 +52,9 @@ Toolbar = (function() {
         }, {
           name: 'Invert Selection (Cmd + A)',
           klass: 'optSelectAll'
+        }, {
+          name: 'Toggle Fullscreen',
+          klass: 'optFullscreenMode'
         }
       ]
     },

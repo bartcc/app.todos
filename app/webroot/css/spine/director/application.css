@@ -953,6 +953,22 @@ textarea {
 #content .content .item ul {
   display: none;
 }
+._dragging.out {
+  opacity: 0.3;
+  -webkit-transition: opacity .8s linear;
+  -moz-transition: opacity .8s linear;
+  -ms-transition: opacity .8s linear;
+  -o-transition: opacity .8s linear;
+  transition: opacity .8s linear;
+}
+.in {
+  opacity: 1;
+  -webkit-transition: opacity .8s linear;
+  -moz-transition: opacity .8s linear;
+  -ms-transition: opacity .8s linear;
+  -o-transition: opacity .8s linear;
+  transition: opacity .8s linear;
+}
 #content .content .item.active ul {
   display: inherit;
   float: right;

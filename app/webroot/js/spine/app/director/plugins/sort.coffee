@@ -49,8 +49,8 @@ $.fn.Html5Sortable = (opts) ->
         Spine.sortItem.data = el.data()
         Spine.sortItem.splitter = options.splitter(@)
         # dt.setData("URL", options.type);
-        $('._dragging').removeClass('_dragging')
-        el.addClass('_dragging')
+        $('._dragging').removeClass('_dragging out')
+        el.addClass('_dragging out')
         
 #        Spine.trigger('drag:start', e, @)
 
@@ -96,7 +96,10 @@ $.fn.Html5Sortable = (opts) ->
 #        e.stopPropagation()
 #        e.preventDefault()
 
-        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).hide()
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).fadeOut 1000, ->
+          sourceEl.remove()
+          
+          
         it.data Spine.sortItem.data
         model = $(it).item().constructor.className
 
@@ -111,9 +114,8 @@ $.fn.Html5Sortable = (opts) ->
         if !options.drop(sourceEl.get(0), it.get(0))
           it.remove()
 
-        sourceEl.remove()
-        it.fadeIn()
-
+        it.fadeIn 1000
+        
         Spine.Model[model].trigger('sortupdate', e, it)
 #        Spine.trigger('drag:drop', e, it) # Why isn't it bubbeling up? Remove this line when it does!
         

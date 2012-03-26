@@ -113,7 +113,7 @@ class AlbumsView extends Spine.Controller
     if User.first()
       title   : 'New Title'
       user_id : User.first().id
-      order: -1
+      order: Album.all().length
     else
       User.ping()
   
@@ -168,9 +168,9 @@ class AlbumsView extends Spine.Controller
 
     for record in records
       ga = new GalleriesAlbum
-        gallery_id: target.id
-        album_id: record.id
-        order: GalleriesAlbum.count()
+        gallery_id  : target.id
+        album_id    : record.id
+        order       : GalleriesAlbum.next()
       ga.save()
   
   destroyJoin: (target, albums) ->

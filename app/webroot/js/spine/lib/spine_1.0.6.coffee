@@ -292,7 +292,6 @@ class Model extends Module
     @save()
 
   destroy: (options = {}) ->
-    console.log 'DESTROY'
     @trigger('beforeDestroy', options)
     delete @constructor.records[@id]
     delete @constructor.crecords[@cid]
@@ -337,7 +336,6 @@ class Model extends Module
   # Private
 
   update: (options) ->
-    console.log 'UPDATE'
     @trigger('beforeUpdate', options)
     records = @constructor.records
     records[@id].load @attributes()
@@ -347,7 +345,6 @@ class Model extends Module
     clone
 
   create: (options) ->
-    console.log 'CREATE'
     @trigger('beforeCreate', options)
     @id          = @cid unless @id
 

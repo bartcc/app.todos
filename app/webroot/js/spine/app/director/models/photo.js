@@ -143,8 +143,7 @@ Photo = (function() {
     return false;
   };
   Photo.prototype.details = function() {
-    var details;
-    return details = {
+    return {
       gallery: Gallery.record,
       album: Album.record,
       photo: Photo.record

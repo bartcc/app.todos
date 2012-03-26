@@ -5,7 +5,6 @@ class GalleriesAlbum extends Spine.Model
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
-  @extend Spine.Model.Base
 
   @url: -> 'galleries_albums'
   
@@ -27,9 +26,8 @@ class GalleriesAlbum extends Spine.Model
       ret.push Album.find(item['album_id']) if item['gallery_id'] is gid
     ret
     
-  @next: (gid) =>
-    max = Math.max(@count+1, @albums(gid).length)
-    @counter = max
+  @next: ->
+    @uid()
     
   select: (id, options) ->
     return true if @[options.key] is id and @constructor.records[@id]

@@ -5,8 +5,6 @@ class AlbumsPhoto extends Spine.Model
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
   @extend Spine.Model.Filter
-  @extend Spine.Model.Base
-  
   
   @url: -> 'albums_photos'
   
@@ -41,9 +39,10 @@ class AlbumsPhoto extends Spine.Model
       key: 'photo_id'
     )
 
-  @next: (aid) =>
-    max = Math.max(@counter+1, @photos(aid).length)
-    @counter = max
+  @c: 0
+
+  @next: ->
+    @uid()
 
   albums: ->
     Album.filterRelated(@album_id,

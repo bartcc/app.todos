@@ -91,12 +91,11 @@ class Photo extends Spine.Model
       
   selectPhoto: (id) ->
     return true if @id is id
-    false
+    return false
       
   details: ->
-    details =
-      gallery : Gallery.record
-      album   : Album.record
-      photo   : Photo.record
+    gallery : Gallery.record
+    album   : Album.record
+    photo   : Photo.record
 
 Spine.Model.Photo = Photo

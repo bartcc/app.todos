@@ -453,7 +453,6 @@
       if (options == null) {
         options = {};
       }
-      console.log('DESTROY');
       this.trigger('beforeDestroy', options);
       delete this.constructor.records[this.id];
       delete this.constructor.crecords[this.cid];
@@ -506,7 +505,6 @@
     };
     Model.prototype.update = function(options) {
       var clone, records;
-      console.log('UPDATE');
       this.trigger('beforeUpdate', options);
       records = this.constructor.records;
       records[this.id].load(this.attributes());
@@ -517,7 +515,6 @@
     };
     Model.prototype.create = function(options) {
       var clone, record;
-      console.log('CREATE');
       this.trigger('beforeCreate', options);
       if (!this.id) {
         this.id = this.cid;

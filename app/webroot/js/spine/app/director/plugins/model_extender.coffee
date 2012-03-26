@@ -8,13 +8,6 @@ Model.Extender =
 
     Extend =
       
-      counter: 0
-      
-      next: =>
-        c = @counter++
-        alert c
-        c
-      
       record: false
 
       selection: [global:[]]

@@ -14,13 +14,6 @@ Model.Extender = {
   extended: function() {
     var Extend, Include;
     Extend = {
-      counter: 0,
-      next: __bind(function() {
-        var c;
-        c = this.counter++;
-        alert(c);
-        return c;
-      }, this),
       record: false,
       selection: [
         {

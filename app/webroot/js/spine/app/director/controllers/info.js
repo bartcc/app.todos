@@ -16,7 +16,7 @@ Info = (function() {
   function Info() {
     this.position = __bind(this.position, this);    Info.__super__.constructor.apply(this, arguments);
     this.el.css({
-      'visibility': 'hidden'
+      visibility: 'hidden'
     });
   }
   Info.prototype.render = function(item) {
@@ -29,7 +29,7 @@ Info = (function() {
       el = $(e.currentTarget);
       this.current = el.item();
       this.render(this.current).css({
-        'visibility': 'visible'
+        visibility: 'visible'
       });
     }
     return this.position(e);
@@ -39,7 +39,7 @@ Info = (function() {
       return;
     }
     this.el.css({
-      'visibility': 'hidden'
+      visibility: 'hidden'
     });
     return this.current = null;
   };

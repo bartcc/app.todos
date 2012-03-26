@@ -123,7 +123,6 @@
             <div class="photoHeader view"></div>
           </div>
           <div class="view galleries content vbox flex data parent autoflow">
-            <div class="hoverinfo"></div>
             <div class="items sortable"></div>
           </div>
           <div class="view albums content vbox flex data parent autoflow">

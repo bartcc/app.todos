@@ -1036,9 +1036,6 @@ textarea {
   position: absolute;
   z-index: 1
 }
-.items .hoverinfo {
-  display: block;
-}
 #content .hoverinfo li {
   color: rgba(5, 5, 5, 0.8);
   text-shadow: 0 1px 0 rgba(250, 250, 250, 0.5);

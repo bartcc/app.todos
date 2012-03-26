@@ -176,11 +176,6 @@ class PhotosList extends Spine.Controller
         
     @exposeSelection()
   
-  closeInfo: (e) =>
-    @el.click()
-    e.stopPropagation()
-    e.preventDefault()
-    
   initSelectable: ->
     options =
       helper: 'clone'

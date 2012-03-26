@@ -14,16 +14,16 @@ $ = Spine.$;
 AlbumsList = (function() {
   __extends(AlbumsList, Spine.Controller);
   AlbumsList.prototype.events = {
-    'click .item': "click",
+    'click .item': 'click',
     'dblclick .item': 'dblclick',
-    'mousemove .item .thumbnail': 'infoUp',
-    'mouseleave .item .thumbnail': 'infoBye',
-    'dragstart .item .thumbnail': 'infoBye'
+    'mousemove .item': 'infoUp',
+    'mouseleave .item': 'infoBye',
+    'dragstart .item': 'stopInfo'
   };
   function AlbumsList() {
+    this.stopInfo = __bind(this.stopInfo, this);
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
-    this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Album.bind('sortupdate', this.proxy(this.sortupdate));
     GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
@@ -212,17 +212,15 @@ AlbumsList = (function() {
     });
     return this.exposeSelection();
   };
-  AlbumsList.prototype.closeInfo = function(e) {
-    this.el.click();
-    e.stopPropagation();
+  AlbumsList.prototype.infoUp = function(e) {
+    this.info.up(e);
     return e.preventDefault();
   };
-  AlbumsList.prototype.infoUp = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    return this.info.up(e);
-  };
   AlbumsList.prototype.infoBye = function(e) {
+    this.info.bye();
+    return e.preventDefault();
+  };
+  AlbumsList.prototype.stopInfo = function(e) {
     return this.info.bye();
   };
   return AlbumsList;

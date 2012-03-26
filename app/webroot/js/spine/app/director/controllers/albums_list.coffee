@@ -4,11 +4,11 @@ $      = Spine.$
 class AlbumsList extends Spine.Controller
   
   events:
-    'click .item'                   : "click"    
-    'dblclick .item'                : 'dblclick'
-    'mousemove .item .thumbnail'    : 'infoUp'
-    'mouseleave .item .thumbnail'   : 'infoBye'
-    'dragstart .item .thumbnail'    : 'infoBye'
+    'click .item'        : 'click'
+    'dblclick .item'     : 'dblclick'
+    'mousemove .item'    : 'infoUp'
+    'mouseleave .item'   : 'infoBye'
+    'dragstart .item'    : 'stopInfo'
     
   constructor: ->
     super
@@ -162,17 +162,15 @@ class AlbumsList extends Spine.Controller
         
     @exposeSelection()
     
-  closeInfo: (e) =>
-    @el.click()
-    e.stopPropagation()
-    e.preventDefault()
-    
   infoUp: (e) =>
-    e.stopPropagation()
-    e.preventDefault()
     @info.up(e)
+    e.preventDefault()
     
   infoBye: (e) =>
+    @info.bye()
+    e.preventDefault()
+    
+  stopInfo: (e) =>
     @info.bye()
 
 module?.exports = AlbumsList

@@ -29,7 +29,6 @@ PhotosList = (function() {
     this.stopInfo = __bind(this.stopInfo, this);
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
-    this.closeInfo = __bind(this.closeInfo, this);
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
     Photo.bind('sortupdate', this.proxy(this.sortupdate));
     Spine.bind('photo:activate', this.proxy(this.activate));
@@ -223,11 +222,6 @@ PhotosList = (function() {
       }
     });
     return this.exposeSelection();
-  };
-  PhotosList.prototype.closeInfo = function(e) {
-    this.el.click();
-    e.stopPropagation();
-    return e.preventDefault();
   };
   PhotosList.prototype.initSelectable = function() {
     var options;

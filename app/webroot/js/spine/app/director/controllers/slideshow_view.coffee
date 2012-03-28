@@ -18,7 +18,8 @@ class SlideshowView extends Spine.Controller
 
   constructor: ->
     super
-    @el.data current: false
+    @el.data
+      current: className: 'Slideshow'
     @thumbSize = 140
     @fullScreen = true
     @autoplay = false

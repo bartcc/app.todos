@@ -24,7 +24,9 @@ SlideshowView = (function() {
   function SlideshowView() {
     this.sliderStart = __bind(this.sliderStart, this);    SlideshowView.__super__.constructor.apply(this, arguments);
     this.el.data({
-      current: false
+      current: {
+        className: 'Slideshow'
+      }
     });
     this.thumbSize = 140;
     this.fullScreen = true;

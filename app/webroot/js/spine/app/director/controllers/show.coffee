@@ -137,9 +137,11 @@ class ShowView extends Spine.Controller
     console.log 'ShowView::changeCanvas'
     @previous = @current unless @current.subview
     @current = controller
+    console.log controller.el.data()
     @el.data
       current: controller.el.data().current.record
       className: controller.el.data().current.className
+    console.log @el.data()
     @canvasManager.change controller
     @headerManager.change controller.header
     
@@ -189,7 +191,7 @@ class ShowView extends Spine.Controller
     Spine.trigger('show:overview')
 
   showSlideshow: ->
-    @changeToolbarTwo ['Slider', 'Back'], App.showView.initSlider
+    @changeToolbarTwo ['Slider', 'Back', 'Slideshow'], App.showView.initSlider
     App.sidebar.toggleDraghandle(close:true)
     @toolbarOne.clear()
     @toolbarOne.lock()
@@ -334,8 +336,11 @@ class ShowView extends Spine.Controller
       when 'Gallery'
         Spine.Model['Gallery'].emptySelection()
         Spine.trigger('album:activate')
+      when 'Slideshow'
+        ->
       else
-        Spine.trigger('gallery:activate', false)
+        ->
+#        Spine.trigger('gallery:activate', false)
         
     @changeToolbarOne()
     @current.items.deselect()

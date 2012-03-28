@@ -159,10 +159,12 @@ ShowView = (function() {
       this.previous = this.current;
     }
     this.current = controller;
+    console.log(controller.el.data());
     this.el.data({
       current: controller.el.data().current.record,
       className: controller.el.data().current.className
     });
+    console.log(this.el.data());
     this.canvasManager.change(controller);
     return this.headerManager.change(controller.header);
   };
@@ -222,7 +224,7 @@ ShowView = (function() {
     return Spine.trigger('show:overview');
   };
   ShowView.prototype.showSlideshow = function() {
-    this.changeToolbarTwo(['Slider', 'Back'], App.showView.initSlider);
+    this.changeToolbarTwo(['Slider', 'Back', 'Slideshow'], App.showView.initSlider);
     App.sidebar.toggleDraghandle({
       close: true
     });
@@ -379,8 +381,11 @@ ShowView = (function() {
         Spine.Model['Gallery'].emptySelection();
         Spine.trigger('album:activate');
         break;
+      case 'Slideshow':
+        (function() {});
+        break;
       default:
-        Spine.trigger('gallery:activate', false);
+        (function() {});
     }
     this.changeToolbarOne();
     return this.current.items.deselect();

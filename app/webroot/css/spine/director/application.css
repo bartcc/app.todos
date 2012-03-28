@@ -425,9 +425,6 @@ textarea {
   background: url(img/gradient-over.png) repeat 0 0;
   background-size: 100% 100%;
 }
-#content .content.over.nodrop {
-  background-image: url(img/gradient-normal.png)
-}
 #content .header section.top {
 /*  background: linear-gradient(center top, #B9B9B9, #979797);
   background: -moz-linear-gradient(center top, #B9B9B9, #979797);
@@ -468,9 +465,6 @@ textarea {
 }
 #sidebar .gal.item.over {
   background-image: url("img/gradient-over.png");
-}
-#sidebar .gal.item.over.nodrop {
-  background-image: url("img/gradient-normal.png");
 }
 #sidebar .item .cta {
   padding: 2px 10px;
@@ -683,7 +677,7 @@ textarea {
 	 -webkit-background-position: 0 -150px;
 	 background-position: 0 -150px;
 }
-#sidebar ul.sublist li.sublist-item.over.nodrop .ui-symbol {
+#sidebar ul.sublist li.sublist-item.nodrop .ui-symbol {
   -moz-background-position: 0 -100px;
 	 -webkit-background-position: 0 -100px;
 	 background-position: 0 -100px;
@@ -953,21 +947,21 @@ textarea {
 #content .content .item ul {
   display: none;
 }
-._dragging.out {
+.out {
   opacity: 0.3;
-  -webkit-transition: opacity .8s linear;
-  -moz-transition: opacity .8s linear;
-  -ms-transition: opacity .8s linear;
-  -o-transition: opacity .8s linear;
-  transition: opacity .8s linear;
+  -webkit-transition: opacity .3s linear;
+  -moz-transition: opacity .3s linear;
+  -ms-transition: opacity .3s linear;
+  -o-transition: opacity .3s linear;
+  transition: opacity .3s linear;
 }
 .in {
   opacity: 1;
-  -webkit-transition: opacity .8s linear;
-  -moz-transition: opacity .8s linear;
-  -ms-transition: opacity .8s linear;
-  -o-transition: opacity .8s linear;
-  transition: opacity .8s linear;
+  -webkit-transition: opacity 0.5s linear;
+  -moz-transition: opacity 0.5s linear;
+  -ms-transition: opacity 0.5s linear;
+  -o-transition: opacity 0.5s linear;
+  transition: opacity 0.5s linear;
 }
 #content .content .item.active ul {
   display: inherit;

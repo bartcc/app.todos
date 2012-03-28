@@ -20,7 +20,7 @@ class SlideshowView extends Spine.Controller
     super
     @el.data current: false
     @thumbSize = 140
-    @fullscreen = true
+    @fullScreen = true
     @autoplay = false
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('play:slideshow', @proxy @play)
@@ -120,15 +120,16 @@ class SlideshowView extends Spine.Controller
 #    modal = $('#modal-gallery').data('modal')
 #    modal.toggleSlideShow()
       
-  fullscreenMode: (active=@fullscreen) ->
+  fullScreenMode_: (active=@fullScreen) ->
     @fullscreen = unless active is false then active else false
-    @toggleFullscreen @fullscreen
-    @fullscreen
+    @toggleFullScreen @fullScreen
+    @fullScreen
     
   # Toggle fullscreen mode:
-  toggleFullscreen: (active) ->
+  toggleFullScreen: (activate) ->
+    active = @fullScreenEnabled()
     root = document.documentElement
-    if active
+    unless active# or activate
       $('#modal-gallery').addClass('modal-fullscreen')
       if(root.webkitRequestFullScreen)
         root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT)
@@ -137,5 +138,9 @@ class SlideshowView extends Spine.Controller
     else
       $('#modal-gallery').removeClass('modal-fullscreen')
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
+#    App.showView.refreshToolbars()
+      
+  fullScreenEnabled: ->
+    !!(window.fullScreen)
       
 module?.exports = SlideshowView

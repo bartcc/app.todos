@@ -14,8 +14,8 @@ class ShowView extends Spine.Controller
     '.optPhoto .ui-icon'      : 'btnPhoto'
     '.optUpload .ui-icon'     : 'btnUpload'
     '.optQuickUpload'         : 'btnQuickUpload'
-    '.optFullscreenMode'      : 'btnFullscreenMode'
-    '.optSlideshowMode'       : 'btnSlideshowMode'
+    '.optFullScreen'          : 'btnFullScreen'
+    '.optSlideshow'           : 'btnSlideshow'
     '.toolbarOne'             : 'toolbarOneEl'
     '.toolbarTwo'             : 'toolbarTwoEl'
     '.props'                  : 'propsEl'
@@ -30,10 +30,9 @@ class ShowView extends Spine.Controller
   events:
     "click .optQuickUpload"           : "toggleQuickUpload"
     "click .optOverview"              : "showOverview"
-    "click .optSlideshow"             : "showSlideshow"
     "click .optPrevious"              : "showPrevious"
-    "click .optFullscreenMode"        : "toggleFullscreenMode"
-    "click .optSlideshowMode"         : "toggleSlideshowMode"
+    "click .optSlideshow"             : "showSlideshow"
+    "click .optFullScreen"            : "toggleFullScreen"
     "click .optPlay"                  : "play"
     "click .optCreatePhoto"           : "createPhoto"
     "click .optDestroyPhoto"          : "destroyPhoto"
@@ -276,12 +275,12 @@ class ShowView extends Spine.Controller
   toggleUpload: (e) ->
     @changeToolbarOne ['Upload']
 
-  toggleFullscreenMode: ->
-    active = @btnFullscreenMode.toggleClass('active').hasClass('active')
-    @slideshowView.fullscreenMode(active)
+  toggleFullScreen: () ->
+    @slideshowView.toggleFullScreen()
+    @toolbarTwo.change()
     
-  toggleSlideshowMode: ->
-    active = @btnSlideshowMode.toggleClass('active').hasClass('active')
+  toggleSlideshow: ->
+    active = @btnSlideshow.toggleClass('active').hasClass('active')
     @slideshowView.slideshowMode(active)
 
   toggleView: (controller, control) ->

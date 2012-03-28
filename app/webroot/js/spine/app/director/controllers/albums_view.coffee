@@ -50,7 +50,7 @@ class AlbumsView extends Spine.Controller
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('update destroy', @proxy @change)
-#    Album.bind('destroy', @proxy @clearCache)
+    Album.bind('destroy', @proxy @clearCache)
     GalleriesAlbum.bind("change", @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)

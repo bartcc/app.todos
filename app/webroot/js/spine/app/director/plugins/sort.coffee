@@ -45,24 +45,26 @@ $.fn.Html5Sortable = (opts) ->
         dt.setData 'Text', JSON.stringify
           html:   options.text(el)
           type:   options.type
-        Spine.sortItem = {}
-        Spine.sortItem.data = el.data()
-        Spine.sortItem.splitter = options.splitter(@)
+        Spine.sortItem =
+          el: el
+          data: el.data()
+          splitter: options.splitter(@)
+          
         # dt.setData("URL", options.type);
-        $('._dragging').removeClass('_dragging out')
+        $('._dragging').removeClass('_dragging')
         el.addClass('_dragging out')
         
-#        Spine.trigger('drag:start', e, @)
-
       .bind 'dragend', (e) ->
-        $('._dragging').removeClass('_dragging out')
-        
-        try
-          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
-            return true
-        catch e
-          return true
+        console.log 'Sort::dragend'
+        $('._dragging').removeClass('_dragging')
+#        try
+#          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
+#            return true
+#        catch e
+#          return true
           
+        Spine.sortItem.el?.addClass('in').removeClass('out in')
+        
         Spine.sortItem.splitter.remove()
 
       .bind 'dragenter', (e) ->
@@ -84,40 +86,37 @@ $.fn.Html5Sortable = (opts) ->
 
       .bind 'drop', (e) ->
         console.log 'Sort::drop'
-#        try
-#          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
-#            return true
-#        catch e
-#          return true
+        try
+          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
+            return true
+        catch e
+          return true
           
         sourceEl = $('._dragging')
         Spine.sortItem.splitter.remove()
         
-#        e.stopPropagation()
-#        e.preventDefault()
-
-        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).fadeOut 1000, ->
-          sourceEl.remove()
-          
-          
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out')
         it.data Spine.sortItem.data
         model = $(it).item().constructor.className
 
-        if (e.pageY - $(@).position().top > $(@).height())
-          it.insertAfter @
-        else
-          it.insertBefore @
-
-        that.init it
+        console.log Spine.sortItem.it
         
-        # data not saved
         if !options.drop(sourceEl.get(0), it.get(0))
+          # data not saved
           it.remove()
+        else
+          if (e.pageY - $(@).position().top > $(@).height())
+            it.insertAfter(@)
+          else
+            it.insertBefore(@)
 
-        it.fadeIn 1000
-        
-        Spine.Model[model].trigger('sortupdate', e, it)
-#        Spine.trigger('drag:drop', e, it) # Why isn't it bubbeling up? Remove this line when it does!
+          sourceEl.remove()
+          
+          that.init it
+          it.addClass('in')
+          $('._dragging').removeClass('_dragging')
+          it.removeClass('out in')
+          Spine.Model[model].trigger('sortupdate', e, it)
         
     that.children('li').each ->
-        that.init $(@)
+      that.init $(@)

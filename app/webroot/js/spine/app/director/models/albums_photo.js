@@ -32,16 +32,6 @@ AlbumsPhoto = (function() {
     }
     return false;
   };
-  AlbumsPhoto.albums_ = function(id) {
-    var ret;
-    ret = [];
-    this.each(function(item) {
-      if (item['photo_id'] === id) {
-        return ret.push(Album.find(item['album_id']));
-      }
-    });
-    return ret;
-  };
   AlbumsPhoto.albumPhotos = function(aid) {
     var ret;
     ret = [];

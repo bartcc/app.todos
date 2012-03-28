@@ -54,7 +54,7 @@ Toolbar = (function() {
           klass: 'optSelectAll'
         }, {
           name: 'Toggle Fullscreen',
-          klass: 'optFullscreenMode'
+          klass: 'optFullScreen'
         }
       ]
     },
@@ -314,7 +314,7 @@ Toolbar = (function() {
         }, {
           name: 'Chromless',
           klass: function() {
-            return 'optFullscreenMode ' + (App.showView.slideshowView.fullscreenMode() ? ' active' : '');
+            return 'optFullScreen' + (App.showView.slideshowView.fullScreenEnabled() ? ' active' : '');
           },
           dataToggle: 'button',
           outerstyle: ''

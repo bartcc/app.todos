@@ -32,7 +32,7 @@ class Toolbar extends Spine.Model
           klass: 'optSelectAll'
         ,
           name: 'Toggle Fullscreen'
-          klass: 'optFullscreenMode'
+          klass: 'optFullScreen'
         ]
     group1:
       name: 'Gallery'
@@ -221,7 +221,7 @@ class Toolbar extends Spine.Model
           innerstyle: 'left: -8px; top: 8px;'
         ,
           name: 'Chromless'
-          klass: -> 'optFullscreenMode '  + if App.showView.slideshowView.fullscreenMode() then ' active' else ''
+          klass: -> 'optFullScreen'  + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
           dataToggle: 'button'
           outerstyle: ''
         ]

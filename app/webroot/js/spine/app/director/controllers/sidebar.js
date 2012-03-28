@@ -119,13 +119,12 @@ Sidebar = (function() {
     return this.clonedSelection = selection.slice(0);
   };
   Sidebar.prototype.dragEnter = function(e) {
-    var data, dataEl, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
+    var data, el, id, origin, source, target, _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
     if (!Spine.dragItem) {
       return;
     }
     el = $(e.target).closest('.data');
-    dataEl = $(e.target).closest('.data');
-    data = ((_ref = dataEl.tmplItem) != null ? _ref.data : void 0) || dataEl.data();
+    data = ((_ref = el.tmplItem) != null ? _ref.data : void 0) || el.data();
     target = ((_ref2 = el.data()) != null ? (_ref3 = _ref2.current) != null ? _ref3.record : void 0 : void 0) || el.item();
     source = (_ref4 = Spine.dragItem) != null ? _ref4.source : void 0;
     origin = ((_ref5 = Spine.dragItem) != null ? _ref5.origin : void 0) || Gallery.record;
@@ -136,7 +135,7 @@ Sidebar = (function() {
     if (this.validateDrop(target, source, origin)) {
       Spine.dragItem.closest.addClass('over');
     } else {
-      Spine.dragItem.closest.addClass('over nodrop');
+      Spine.dragItem.closest.addClass('nodrop');
     }
     id = el.attr('id');
     if (id && this._id !== id) {

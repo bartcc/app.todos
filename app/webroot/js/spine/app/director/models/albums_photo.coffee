@@ -14,13 +14,6 @@ class AlbumsPhoto extends Spine.Model
       return true if ap.photo_id == pid
     false
     
-  @albums_: (id) ->
-    ret = []
-#    ap = @find(id) if @exists(id)
-    @each (item) ->
-      ret.push Album.find(item['album_id']) if item['photo_id'] is id
-    ret
-      
   @albumPhotos: (aid) ->
     ret = []
     @each (item) ->

@@ -60,6 +60,7 @@ AlbumsView = (function() {
     Album.bind('destroy:join', this.proxy(this.destroyJoin));
     Album.bind('create:join', this.proxy(this.createJoin));
     Album.bind('update destroy', this.proxy(this.change));
+    Album.bind('destroy', this.proxy(this.clearCache));
     GalleriesAlbum.bind("change", this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));

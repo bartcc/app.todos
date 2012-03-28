@@ -95,8 +95,7 @@ class Sidebar extends Spine.Controller
   dragEnter: (e) =>
     return unless Spine.dragItem
     el = $(e.target).closest('.data')
-    dataEl = $(e.target).closest('.data')
-    data = dataEl.tmplItem?.data or dataEl.data()
+    data = el.tmplItem?.data or el.data()
     target = el.data()?.current?.record or el.item()
     source = Spine.dragItem?.source
     origin = Spine.dragItem?.origin or Gallery.record
@@ -105,7 +104,7 @@ class Sidebar extends Spine.Controller
     if @validateDrop target, source, origin
       Spine.dragItem.closest.addClass('over')
     else
-      Spine.dragItem.closest.addClass('over nodrop')
+      Spine.dragItem.closest.addClass('nodrop')
         
 
     id = el.attr('id')

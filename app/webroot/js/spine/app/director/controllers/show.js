@@ -23,8 +23,8 @@ ShowView = (function() {
     '.optPhoto .ui-icon': 'btnPhoto',
     '.optUpload .ui-icon': 'btnUpload',
     '.optQuickUpload': 'btnQuickUpload',
-    '.optFullscreenMode': 'btnFullscreenMode',
-    '.optSlideshowMode': 'btnSlideshowMode',
+    '.optFullScreen': 'btnFullScreen',
+    '.optSlideshow': 'btnSlideshow',
     '.toolbarOne': 'toolbarOneEl',
     '.toolbarTwo': 'toolbarTwoEl',
     '.props': 'propsEl',
@@ -39,10 +39,9 @@ ShowView = (function() {
   ShowView.prototype.events = {
     "click .optQuickUpload": "toggleQuickUpload",
     "click .optOverview": "showOverview",
-    "click .optSlideshow": "showSlideshow",
     "click .optPrevious": "showPrevious",
-    "click .optFullscreenMode": "toggleFullscreenMode",
-    "click .optSlideshowMode": "toggleSlideshowMode",
+    "click .optSlideshow": "showSlideshow",
+    "click .optFullScreen": "toggleFullScreen",
     "click .optPlay": "play",
     "click .optCreatePhoto": "createPhoto",
     "click .optDestroyPhoto": "destroyPhoto",
@@ -313,14 +312,13 @@ ShowView = (function() {
   ShowView.prototype.toggleUpload = function(e) {
     return this.changeToolbarOne(['Upload']);
   };
-  ShowView.prototype.toggleFullscreenMode = function() {
-    var active;
-    active = this.btnFullscreenMode.toggleClass('active').hasClass('active');
-    return this.slideshowView.fullscreenMode(active);
+  ShowView.prototype.toggleFullScreen = function() {
+    this.slideshowView.toggleFullScreen();
+    return this.toolbarTwo.change();
   };
-  ShowView.prototype.toggleSlideshowMode = function() {
+  ShowView.prototype.toggleSlideshow = function() {
     var active;
-    active = this.btnSlideshowMode.toggleClass('active').hasClass('active');
+    active = this.btnSlideshow.toggleClass('active').hasClass('active');
     return this.slideshowView.slideshowMode(active);
   };
   ShowView.prototype.toggleView = function(controller, control) {

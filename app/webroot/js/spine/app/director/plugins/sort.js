@@ -59,19 +59,19 @@ $.fn.Html5Sortable = function(opts) {
           html: options.text(el),
           type: options.type
         }));
-        Spine.sortItem = {};
-        Spine.sortItem.data = el.data();
-        Spine.sortItem.splitter = options.splitter(this);
-        $('._dragging').removeClass('_dragging out');
+        Spine.sortItem = {
+          el: el,
+          data: el.data(),
+          splitter: options.splitter(this)
+        };
+        $('._dragging').removeClass('_dragging');
         return el.addClass('_dragging out');
       }).bind('dragend', function(e) {
-        $('._dragging').removeClass('_dragging out');
-        try {
-          if (!(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
-            return true;
-          }
-        } catch (e) {
-          return true;
+        var _ref;
+        console.log('Sort::dragend');
+        $('._dragging').removeClass('_dragging');
+        if ((_ref = Spine.sortItem.el) != null) {
+          _ref.addClass('in').removeClass('out in');
         }
         return Spine.sortItem.splitter.remove();
       }).bind('dragenter', function(e) {
@@ -93,24 +93,34 @@ $.fn.Html5Sortable = function(opts) {
       }).bind('drop', function(e) {
         var it, model, sourceEl;
         console.log('Sort::drop');
+        try {
+          if (!(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
+            return true;
+          }
+        } catch (e) {
+          return true;
+        }
         sourceEl = $('._dragging');
         Spine.sortItem.splitter.remove();
-        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).fadeOut(1000, function() {
-          return sourceEl.remove();
-        });
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out');
         it.data(Spine.sortItem.data);
         model = $(it).item().constructor.className;
-        if (e.pageY - $(this).position().top > $(this).height()) {
-          it.insertAfter(this);
-        } else {
-          it.insertBefore(this);
-        }
-        that.init(it);
+        console.log(Spine.sortItem.it);
         if (!options.drop(sourceEl.get(0), it.get(0))) {
-          it.remove();
+          return it.remove();
+        } else {
+          if (e.pageY - $(this).position().top > $(this).height()) {
+            it.insertAfter(this);
+          } else {
+            it.insertBefore(this);
+          }
+          sourceEl.remove();
+          that.init(it);
+          it.addClass('in');
+          $('._dragging').removeClass('_dragging');
+          it.removeClass('out in');
+          return Spine.Model[model].trigger('sortupdate', e, it);
         }
-        it.fadeIn(1000);
-        return Spine.Model[model].trigger('sortupdate', e, it);
       });
     };
     return that.children('li').each(function() {

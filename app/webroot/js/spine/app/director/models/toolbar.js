@@ -301,6 +301,22 @@ Toolbar = (function() {
         }
       ]
     },
+    group71: {
+      name: 'Play',
+      content: [
+        {
+          name: function() {
+            return 'Play';
+          },
+          klass: 'optSlideshow',
+          icon: 'play',
+          iconcolor: 'white',
+          disabled: function() {
+            return !Gallery.selectionList().length;
+          }
+        }
+      ]
+    },
     group8: {
       name: 'Back',
       locked: true,

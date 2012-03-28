@@ -189,7 +189,7 @@ class ShowView extends Spine.Controller
     Spine.trigger('show:overview')
 
   showSlideshow: ->
-    @changeToolbarTwo ['Slider', 'Back', 'Slideshow'], App.showView.initSlider
+    @changeToolbarTwo ['Slider', 'Back', 'Play'], App.showView.initSlider
     App.sidebar.toggleDraghandle(close:true)
     @toolbarOne.clear()
     @toolbarOne.lock()

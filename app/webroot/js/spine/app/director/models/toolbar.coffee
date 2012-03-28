@@ -209,6 +209,16 @@ class Toolbar extends Spine.Model
           iconcolor: 'white'
           disabled: -> !Gallery.selectionList().length
         ]
+    group71:
+      name: 'Play'
+      content:
+        [
+          name: -> 'Play'
+          klass: 'optSlideshow'
+          icon: 'play'
+          iconcolor: 'white'
+          disabled: -> !Gallery.selectionList().length
+        ]
     group8:
       name: 'Back'
       locked: true

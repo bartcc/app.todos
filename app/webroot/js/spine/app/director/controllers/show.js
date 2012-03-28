@@ -222,7 +222,7 @@ ShowView = (function() {
     return Spine.trigger('show:overview');
   };
   ShowView.prototype.showSlideshow = function() {
-    this.changeToolbarTwo(['Slider', 'Back', 'Slideshow'], App.showView.initSlider);
+    this.changeToolbarTwo(['Slider', 'Back', 'Play'], App.showView.initSlider);
     App.sidebar.toggleDraghandle({
       close: true
     });

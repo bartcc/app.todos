@@ -159,12 +159,10 @@ ShowView = (function() {
       this.previous = this.current;
     }
     this.current = controller;
-    console.log(controller.el.data());
     this.el.data({
       current: controller.el.data().current.record,
       className: controller.el.data().current.className
     });
-    console.log(this.el.data());
     this.canvasManager.change(controller);
     return this.headerManager.change(controller.header);
   };

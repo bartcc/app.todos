@@ -137,11 +137,9 @@ class ShowView extends Spine.Controller
     console.log 'ShowView::changeCanvas'
     @previous = @current unless @current.subview
     @current = controller
-    console.log controller.el.data()
     @el.data
       current: controller.el.data().current.record
       className: controller.el.data().current.className
-    console.log @el.data()
     @canvasManager.change controller
     @headerManager.change controller.header
     

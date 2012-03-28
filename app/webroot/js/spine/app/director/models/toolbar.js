@@ -327,7 +327,14 @@ Toolbar = (function() {
           innerklass: 'chromeless',
           outerstyle: 'float: right;',
           innerstyle: 'left: -8px; top: 8px;'
-        }, {
+        }
+      ]
+    },
+    group81: {
+      name: 'Chromeless',
+      locked: true,
+      content: [
+        {
           name: 'Chromless',
           klass: function() {
             return 'optFullScreen' + (App.showView.slideshowView.fullScreenEnabled() ? ' active' : '');

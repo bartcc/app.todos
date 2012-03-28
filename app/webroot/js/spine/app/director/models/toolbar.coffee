@@ -229,7 +229,12 @@ class Toolbar extends Spine.Model
           innerklass: 'chromeless'
           outerstyle: 'float: right;'
           innerstyle: 'left: -8px; top: 8px;'
-        ,
+        ]
+    group81:
+      name: 'Chromeless'
+      locked: true
+      content:
+        [
           name: 'Chromless'
           klass: -> 'optFullScreen'  + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
           dataToggle: 'button'

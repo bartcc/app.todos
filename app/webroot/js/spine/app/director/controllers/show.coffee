@@ -189,17 +189,17 @@ class ShowView extends Spine.Controller
     Spine.trigger('show:overview')
 
   showSlideshow: ->
+    @changeToolbarOne ['Chromeless']
     @changeToolbarTwo ['Slider', 'Back', 'Play'], App.showView.initSlider
     App.sidebar.toggleDraghandle(close:true)
-    @toolbarOne.clear()
-    @toolbarOne.lock()
+#    @toolbarOne.clear()
+#    @toolbarOne.lock()
     Spine.trigger('show:slideshow')
     
   showPrevious: ->
+    @changeToolbarOne ['Default']
     @changeToolbarTwo ['Slideshow']
     App.sidebar.toggleDraghandle()
-    @toolbarOne.unlock()
-    @toolbarOne.refresh()
     Spine.trigger('change:canvas', @previous)
   
   createGallery: (e) ->

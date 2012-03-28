@@ -222,19 +222,17 @@ ShowView = (function() {
     return Spine.trigger('show:overview');
   };
   ShowView.prototype.showSlideshow = function() {
+    this.changeToolbarOne(['Chromeless']);
     this.changeToolbarTwo(['Slider', 'Back', 'Play'], App.showView.initSlider);
     App.sidebar.toggleDraghandle({
       close: true
     });
-    this.toolbarOne.clear();
-    this.toolbarOne.lock();
     return Spine.trigger('show:slideshow');
   };
   ShowView.prototype.showPrevious = function() {
+    this.changeToolbarOne(['Default']);
     this.changeToolbarTwo(['Slideshow']);
     App.sidebar.toggleDraghandle();
-    this.toolbarOne.unlock();
-    this.toolbarOne.refresh();
     return Spine.trigger('change:canvas', this.previous);
   };
   ShowView.prototype.createGallery = function(e) {

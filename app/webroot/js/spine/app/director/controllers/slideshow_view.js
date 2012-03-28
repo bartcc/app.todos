@@ -149,7 +149,8 @@ SlideshowView = (function() {
     Spine.trigger('change:canvas', this);
     filterOptions = {
       key: 'album_id',
-      joinTable: 'AlbumsPhoto'
+      joinTable: 'AlbumsPhoto',
+      sorted: true
     };
     items = Photo.filterRelated(Album.record.id, filterOptions);
     return this.render(items);
@@ -173,14 +174,6 @@ SlideshowView = (function() {
   SlideshowView.prototype.play = function() {
     this.refreshElements();
     return this.galleryEl.find('li:first').click();
-  };
-  SlideshowView.prototype.fullScreenMode_ = function(active) {
-    if (active == null) {
-      active = this.fullScreen;
-    }
-    this.fullscreen = active !== false ? active : false;
-    this.toggleFullScreen(this.fullScreen);
-    return this.fullScreen;
   };
   SlideshowView.prototype.toggleFullScreen = function(activate) {
     var active, root;

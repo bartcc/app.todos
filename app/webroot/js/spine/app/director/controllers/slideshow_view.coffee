@@ -100,6 +100,7 @@ class SlideshowView extends Spine.Controller
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
+      sorted: true
     items = Photo.filterRelated(Album.record.id, filterOptions)
     @render items
     
@@ -120,11 +121,6 @@ class SlideshowView extends Spine.Controller
 #    modal = $('#modal-gallery').data('modal')
 #    modal.toggleSlideShow()
       
-  fullScreenMode_: (active=@fullScreen) ->
-    @fullscreen = unless active is false then active else false
-    @toggleFullScreen @fullScreen
-    @fullScreen
-    
   # Toggle fullscreen mode:
   toggleFullScreen: (activate) ->
     active = @fullScreenEnabled()
@@ -138,7 +134,6 @@ class SlideshowView extends Spine.Controller
     else
       $('#modal-gallery').removeClass('modal-fullscreen')
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
-#    App.showView.refreshToolbars()
       
   fullScreenEnabled: ->
     !!(window.fullScreen)

@@ -64,6 +64,8 @@ Toolbar = (function() {
           name: 'Toggle Fullscreen',
           klass: 'optFullScreen'
         }, {
+          devider: true
+        }, {
           name: 'Modal Test',
           icon: 'th',
           iconcolor: 'black',

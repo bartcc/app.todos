@@ -40,6 +40,8 @@ class Toolbar extends Spine.Model
           name: 'Toggle Fullscreen'
           klass: 'optFullScreen'
         ,
+          devider: true
+        ,
           name: 'Modal Test'
           icon: 'th'
           iconcolor: 'black'

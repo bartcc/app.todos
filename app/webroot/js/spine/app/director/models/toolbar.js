@@ -47,14 +47,16 @@ Toolbar = (function() {
         }, {
           devider: true
         }, {
-          name: 'Goto Overview',
+          name: 'Overview',
           klass: 'optOverview '
         }, {
-          name: 'Goto Slideshow',
+          name: 'Slides View',
           klass: 'optShowSlideshow ',
           disabled: function() {
             return Gallery.selectionList().length !== 1;
           }
+        }, {
+          devider: true
         }, {
           name: 'Invert Selection (Cmd + A)',
           klass: 'optSelectAll'

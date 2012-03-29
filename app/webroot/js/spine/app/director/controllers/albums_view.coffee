@@ -13,7 +13,7 @@ class AlbumsView extends Spine.Controller
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragover   .items'               : 'dragover'
     'drop       .items'               : 'drop'
-
+    
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
 

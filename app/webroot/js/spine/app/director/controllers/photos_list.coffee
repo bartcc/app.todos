@@ -10,11 +10,13 @@ class PhotosList extends Spine.Controller
     'click .item'             : 'click'
     'click .more-icon.delete' : 'deletePhoto'
     'dblclick .item'          : 'dblclick'
+    
     'mouseenter .item'        : 'infoEnter'
-    'mousemove  .item'        : 'infoMove'
-    'mouseleave .item'        : 'infoLeave'
-#    'mousemove .item'         : 'infoUp'
+    'mousemove'               : 'infoMove'
+    
+    'mousemove .item'         : 'infoUp'
     'mouseleave  .item'       : 'infoBye'
+    
     'dragstart .item'         : 'stopInfo'
     
   selectFirst: true
@@ -232,21 +234,6 @@ class PhotosList extends Spine.Controller
         
     @exposeSelection()
     
-  infoEnter: (e) ->
-    @elIn.removeClass('in') #unless @inEl
-    el = $(e.target).find('.more-icon')
-    el.addClass('in')
-#    e.preventDefault()
-    
-  infoMove: (e) ->
-    el = $(e.target).find('.more-icon')
-    @inEl = el.addClass('in')
-    
-  infoLeave: (e) ->
-    @elIn.removeClass('in')
-#    el.removeClass('in')
-#    e.preventDefault()
-    
   initSelectable: ->
     options =
       helper: 'clone'
@@ -262,6 +249,15 @@ class PhotosList extends Spine.Controller
     
   stopInfo: (e) =>
     @info.bye()
+    
+  infoEnter: (e) ->
+    el = $(e.target).find('.more-icon')
+    el.addClass('in')
+    
+  infoMove: (e) ->
+    return unless $(e.target).hasClass('items')
+    el = $(e.target).find('.more-icon')
+    el.removeClass('in')
     
   sliderStart: =>
     @refreshElements()

@@ -54,6 +54,7 @@ PhotosView = (function() {
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
     Album.bind('change', this.proxy(this.renderHeader));
+    Photo.bind('refresh destroy', this.proxy(this.renderHeader));
     Photo.bind('refresh', this.proxy(this.refresh));
     Photo.bind('destroy', this.proxy(this.remove));
     Photo.bind('create:join', this.proxy(this.createJoin));
@@ -108,7 +109,7 @@ PhotosView = (function() {
   };
   PhotosView.prototype.renderHeader = function() {
     console.log('PhotosView::renderHeader');
-    return this.header.change(Album.record);
+    return this.header.change();
   };
   PhotosView.prototype.clearPhotoCache = function() {
     return Photo.clearCache();
@@ -191,10 +192,11 @@ PhotosView = (function() {
   PhotosView.prototype.refresh = function(photos) {
     this.clearPhotoCache();
     if (Album.record) {
-      return this.createJoin(Album.record, photos);
+      this.createJoin(Album.record, photos);
     } else {
-      return this.render(photos);
+      this.render(photos);
     }
+    return this.renderHeader();
   };
   PhotosView.prototype.createJoin = function(target, photos) {
     var ap, record, records, _i, _len, _results;

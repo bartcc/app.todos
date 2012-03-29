@@ -15,7 +15,10 @@ AlbumsList = (function() {
   __extends(AlbumsList, Spine.Controller);
   AlbumsList.prototype.events = {
     'click .item': 'click',
+    'click .more-icon.delete': 'deleteAlbum',
     'dblclick .item': 'dblclick',
+    'mouseenter .item': 'infoEnter',
+    'mousemove': 'infoMove',
     'mousemove .item': 'infoUp',
     'mouseleave .item': 'infoBye',
     'dragstart .item': 'stopInfo'
@@ -90,6 +93,14 @@ AlbumsList = (function() {
     }
     this.change(items, mode);
     return this.el;
+  };
+  AlbumsList.prototype.deleteAlbum = function(e) {
+    var item;
+    item = $(e.target).closest('.item').item();
+    Gallery.updateSelection(item.id);
+    Spine.trigger('destroy:album');
+    this.stopInfo();
+    return false;
   };
   AlbumsList.prototype.clearAlbumCache = function(record, mode) {
     var album;
@@ -222,6 +233,19 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.stopInfo = function(e) {
     return this.info.bye();
+  };
+  AlbumsList.prototype.infoEnter = function(e) {
+    var el;
+    el = $(e.target).find('.more-icon');
+    return el.addClass('in');
+  };
+  AlbumsList.prototype.infoMove = function(e) {
+    var el;
+    if (!$(e.target).hasClass('items')) {
+      return;
+    }
+    el = $(e.target).find('.more-icon');
+    return el.removeClass('in');
   };
   return AlbumsList;
 })();

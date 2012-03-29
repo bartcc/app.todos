@@ -42,6 +42,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
     Album.bind('change', @proxy @renderHeader)
+    Photo.bind('refresh destroy', @proxy @renderHeader)
     Photo.bind('refresh', @proxy @refresh)
     Photo.bind('destroy', @proxy @remove)
     Photo.bind('create:join', @proxy @createJoin)
@@ -74,9 +75,6 @@ class PhotosView extends Spine.Controller
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode or 'html'
     list.sortable 'photo' if Album.record
-    
-#    @initializeSlideshow()
-    
     @refreshElements()
     delete @buffer
   
@@ -88,7 +86,7 @@ class PhotosView extends Spine.Controller
       
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
-    @header.change Album.record
+    @header.change()
   
   clearPhotoCache: ->
     Photo.clearCache()
@@ -172,6 +170,7 @@ class PhotosView extends Spine.Controller
       @createJoin Album.record, photos
     else
       @render photos
+    @renderHeader()
   
   createJoin: (target, photos) ->
     console.log 'PhotosView::createJoin'

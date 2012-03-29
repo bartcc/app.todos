@@ -4,11 +4,14 @@ $      = Spine.$
 class AlbumsList extends Spine.Controller
   
   events:
-    'click .item'        : 'click'
-    'dblclick .item'     : 'dblclick'
-    'mousemove .item'    : 'infoUp'
-    'mouseleave .item'   : 'infoBye'
-    'dragstart .item'    : 'stopInfo'
+    'click .item'             : 'click'
+    'click .more-icon.delete' : 'deleteAlbum'
+    'dblclick .item'          : 'dblclick'
+    'mouseenter .item'        : 'infoEnter'
+    'mousemove'               : 'infoMove'
+    'mousemove .item'         : 'infoUp'
+    'mouseleave .item'        : 'infoBye'
+    'dragstart .item'         : 'stopInfo'
     
   constructor: ->
     super
@@ -72,6 +75,13 @@ class AlbumsList extends Spine.Controller
         
     @change items, mode
     @el
+    
+  deleteAlbum: (e) ->
+    item = $(e.target).closest('.item').item()
+    Gallery.updateSelection item.id
+    Spine.trigger('destroy:album')
+    @stopInfo()
+    false
     
   clearAlbumCache: (record, mode) ->
     album = Album.find(record.album_id)
@@ -174,5 +184,14 @@ class AlbumsList extends Spine.Controller
     
   stopInfo: (e) =>
     @info.bye()
+    
+  infoEnter: (e) ->
+    el = $(e.target).find('.more-icon')
+    el.addClass('in')
+    
+  infoMove: (e) ->
+    return unless $(e.target).hasClass('items')
+    el = $(e.target).find('.more-icon')
+    el.removeClass('in')
 
 module?.exports = AlbumsList

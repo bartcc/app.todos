@@ -21,8 +21,8 @@ PhotosList = (function() {
     'click .more-icon.delete': 'deletePhoto',
     'dblclick .item': 'dblclick',
     'mouseenter .item': 'infoEnter',
-    'mousemove  .item': 'infoMove',
-    'mouseleave .item': 'infoLeave',
+    'mousemove': 'infoMove',
+    'mousemove .item': 'infoUp',
     'mouseleave  .item': 'infoBye',
     'dragstart .item': 'stopInfo'
   };
@@ -303,20 +303,6 @@ PhotosList = (function() {
     });
     return this.exposeSelection();
   };
-  PhotosList.prototype.infoEnter = function(e) {
-    var el;
-    this.elIn.removeClass('in');
-    el = $(e.target).find('.more-icon');
-    return el.addClass('in');
-  };
-  PhotosList.prototype.infoMove = function(e) {
-    var el;
-    el = $(e.target).find('.more-icon');
-    return this.inEl = el.addClass('in');
-  };
-  PhotosList.prototype.infoLeave = function(e) {
-    return this.elIn.removeClass('in');
-  };
   PhotosList.prototype.initSelectable = function() {
     var options;
     options = {
@@ -334,6 +320,19 @@ PhotosList = (function() {
   };
   PhotosList.prototype.stopInfo = function(e) {
     return this.info.bye();
+  };
+  PhotosList.prototype.infoEnter = function(e) {
+    var el;
+    el = $(e.target).find('.more-icon');
+    return el.addClass('in');
+  };
+  PhotosList.prototype.infoMove = function(e) {
+    var el;
+    if (!$(e.target).hasClass('items')) {
+      return;
+    }
+    el = $(e.target).find('.more-icon');
+    return el.removeClass('in');
   };
   PhotosList.prototype.sliderStart = function() {
     return this.refreshElements();

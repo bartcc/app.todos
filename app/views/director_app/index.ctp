@@ -326,6 +326,7 @@
   <li class="item container">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail left" draggable="true"></div>
+    <div class="delete more-icon icon-delete fade"></div>
     <div class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</div>
   </li>
 </script>

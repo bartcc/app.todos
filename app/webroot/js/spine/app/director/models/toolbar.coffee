@@ -89,6 +89,8 @@ class Toolbar extends Spine.Model
           klass: 'optDestroyAlbum'
           disabled: -> !Gallery.selectionList().length
         ,
+          devider: true
+        ,
           name: -> 'Start Slideshow'
           icon: 'play-circle'
           klass: 'optSlideshowPlay'

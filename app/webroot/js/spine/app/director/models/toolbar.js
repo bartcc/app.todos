@@ -129,6 +129,8 @@ Toolbar = (function() {
             return !Gallery.selectionList().length;
           }
         }, {
+          devider: true
+        }, {
           name: function() {
             return 'Start Slideshow';
           },

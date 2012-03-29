@@ -99,6 +99,13 @@ PhotosView = (function() {
     this.refreshElements();
     return delete this.buffer;
   };
+  PhotosView.prototype.initializeSlideshow = function() {
+    return this.el.modal({
+      selector: 'li',
+      slideshow: 10000,
+      show: false
+    });
+  };
   PhotosView.prototype.renderHeader = function() {
     console.log('PhotosView::renderHeader');
     return this.header.change(Album.record);

@@ -8,10 +8,10 @@ class SlideshowView extends Spine.Controller
   # modal.startSlideShow()
   # modal.stopSlideShow()
   
+  
   elements:
     '.items'           : 'items'
     '.thumbnail'       : 'thumb'
-    '#gallery'         : 'galleryEl'
     
   template: (items) ->
     $("#photosSlideshowTemplate").tmpl items
@@ -35,8 +35,10 @@ class SlideshowView extends Spine.Controller
     @uri items, 'append'
     @refreshElements()
     @size(App.showView.sliderOutValue())
-    @el
     
+    @items.sortable 'photo'
+    @el
+        
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->
     width: width
     height: height
@@ -51,6 +53,7 @@ class SlideshowView extends Spine.Controller
     console.log 'SlideshowView::uri'
     Album.record.uri @params(), mode, (xhr, record) => @callback items, xhr
     
+  # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
     console.log 'PhotosList::callback'
     searchJSON = (id) ->
@@ -67,6 +70,7 @@ class SlideshowView extends Spine.Controller
         img.src = src
     @loadModal items
   
+  # this loads the image-source attributes pointing to the regular sized image files necessary for the slideshow
   loadModal: (items, mode='html') ->
     Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal items, xhr
   
@@ -95,7 +99,7 @@ class SlideshowView extends Spine.Controller
     
   show: ->
     console.log 'Slideshow::show'
-    return unless Album.record
+#    return unless Album.record
     Spine.trigger('change:canvas', @)
     
     filterOptions =
@@ -117,7 +121,7 @@ class SlideshowView extends Spine.Controller
     
   play: ->
     @refreshElements()
-    @galleryEl.find('li:first').click()
+    @items.find('li:first').click()
     
 #    modal = $('#modal-gallery').data('modal')
 #    modal.toggleSlideShow()
@@ -126,7 +130,7 @@ class SlideshowView extends Spine.Controller
   toggleFullScreen: (activate) ->
     active = @fullScreenEnabled()
     root = document.documentElement
-    unless active# or activate
+    unless active
       $('#modal-gallery').addClass('modal-fullscreen')
       if(root.webkitRequestFullScreen)
         root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT)
@@ -137,6 +141,6 @@ class SlideshowView extends Spine.Controller
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
       
   fullScreenEnabled: ->
-    !!(window.fullScreen)
+    !!(window.fullScreen) or $('#modal-gallery').hasClass('modal-fullscreen')
       
 module?.exports = SlideshowView

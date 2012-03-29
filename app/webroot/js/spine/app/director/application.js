@@ -19,12 +19,12 @@ App = (function() {
     '#ga': 'galleryEl',
     '#al': 'albumEl',
     '#ph': 'photoEl',
-    '#sl': 'slideshowEl',
     '#fu': 'uploadEl',
     '#fileupload': 'uploader',
     '#loader': 'loaderEl',
     '#login': 'loginEl',
-    '#gallery': 'slideshow',
+    '#modal-gallery': 'slideshow',
+    '#modal-view': 'modalEl',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag',
     '.show .content': 'content',
@@ -42,6 +42,10 @@ App = (function() {
     this.keys = __bind(this.keys, this);    App.__super__.constructor.apply(this, arguments);
     User.bind('pinger', this.proxy(this.validate));
     this.loadToolbars();
+    this.modalView = new ModalView({
+      el: this.modalEl,
+      className: 'modal'
+    });
     this.galleryEditView = new GalleryEditorView({
       el: this.galleryEditEl
     });
@@ -62,7 +66,8 @@ App = (function() {
     });
     this.showView = new ShowView({
       el: this.showEl,
-      activeControl: 'btnGallery'
+      activeControl: 'btnGallery',
+      modalView: this.modalView
     });
     this.sidebar = new Sidebar({
       el: this.sidebarEl
@@ -126,7 +131,6 @@ App = (function() {
       backdrop: true,
       slideshow: 0
     };
-    this.initializeSlideshow();
     this.initializeFileupload();
   }
   App.prototype.validate = function(user, json) {
@@ -179,7 +183,6 @@ App = (function() {
       return this.delay(cb, 1000);
     }, this));
   };
-  App.prototype.initializeSlideshow = function(opts) {};
   App.prototype.initializeFileupload = function() {
     return this.uploader.fileupload({
       autoUpload: false,

@@ -15,8 +15,7 @@ SlideshowView = (function() {
   __extends(SlideshowView, Spine.Controller);
   SlideshowView.prototype.elements = {
     '.items': 'items',
-    '.thumbnail': 'thumb',
-    '#gallery': 'galleryEl'
+    '.thumbnail': 'thumb'
   };
   SlideshowView.prototype.template = function(items) {
     return $("#photosSlideshowTemplate").tmpl(items);
@@ -45,6 +44,7 @@ SlideshowView = (function() {
     this.uri(items, 'append');
     this.refreshElements();
     this.size(App.showView.sliderOutValue());
+    this.items.sortable('photo');
     return this.el;
   };
   SlideshowView.prototype.params = function(width, height) {
@@ -145,9 +145,6 @@ SlideshowView = (function() {
   SlideshowView.prototype.show = function() {
     var filterOptions, items;
     console.log('Slideshow::show');
-    if (!Album.record) {
-      return;
-    }
     Spine.trigger('change:canvas', this);
     filterOptions = {
       key: 'album_id',
@@ -175,7 +172,7 @@ SlideshowView = (function() {
   };
   SlideshowView.prototype.play = function() {
     this.refreshElements();
-    return this.galleryEl.find('li:first').click();
+    return this.items.find('li:first').click();
   };
   SlideshowView.prototype.toggleFullScreen = function(activate) {
     var active, root;
@@ -194,7 +191,7 @@ SlideshowView = (function() {
     }
   };
   SlideshowView.prototype.fullScreenEnabled = function() {
-    return !!window.fullScreen;
+    return !!window.fullScreen || $('#modal-gallery').hasClass('modal-fullscreen');
   };
   return SlideshowView;
 })();

@@ -16,12 +16,12 @@ class App extends Spine.Controller
     '#ga'                 : 'galleryEl'
     '#al'                 : 'albumEl'
     '#ph'                 : 'photoEl'
-    '#sl'                 : 'slideshowEl'
     '#fu'                 : 'uploadEl'
     '#fileupload'         : 'uploader'
     '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
-    '#gallery'            : 'slideshow'
+    '#modal-gallery'      : 'slideshow'
+    '#modal-view'         : 'modalEl'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '.show .content'      : 'content'
@@ -52,6 +52,9 @@ class App extends Spine.Controller
     
     @loadToolbars()
     
+    @modalView = new ModalView
+      el: @modalEl
+      className: 'modal'
     @galleryEditView = new GalleryEditorView
       el: @galleryEditEl
     @gallery = new GalleryEditView
@@ -67,6 +70,7 @@ class App extends Spine.Controller
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
+      modalView: @modalView
     @sidebar = new Sidebar
       el: @sidebarEl
     @loginView = new LoginView
@@ -107,7 +111,6 @@ class App extends Spine.Controller
       backdrop: true
       slideshow: 0
       
-    @initializeSlideshow()
     @initializeFileupload()
 
   validate: (user, json) ->
@@ -142,11 +145,6 @@ class App extends Spine.Controller
       @loginView.render User.first()
       
     @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 1000)
-    
-  initializeSlideshow: (opts) ->
-#    options = $.extend(@slideshowOptions, opts)
-#    console.log @slideshow
-#    @slideshow.imagegallery options
     
   initializeFileupload: ->
     @uploader.fileupload

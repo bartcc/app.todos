@@ -47,14 +47,25 @@ Toolbar = (function() {
         }, {
           devider: true
         }, {
-          name: 'Overview',
+          name: 'Goto Overview',
           klass: 'optOverview '
+        }, {
+          name: 'Goto Slideshow',
+          klass: 'optShowSlideshow ',
+          disabled: function() {
+            return Gallery.selectionList().length !== 1;
+          }
         }, {
           name: 'Invert Selection (Cmd + A)',
           klass: 'optSelectAll'
         }, {
           name: 'Toggle Fullscreen',
           klass: 'optFullScreen'
+        }, {
+          name: 'Modal Test',
+          icon: 'th',
+          iconcolor: 'black',
+          klass: 'optShowModal'
         }
       ]
     },
@@ -112,6 +123,16 @@ Toolbar = (function() {
           },
           icon: 'trash',
           klass: 'optDestroyAlbum',
+          disabled: function() {
+            return !Gallery.selectionList().length;
+          }
+        }, {
+          name: function() {
+            return 'Start Slideshow';
+          },
+          icon: 'play-circle',
+          klass: 'optSlideshowPlay',
+          dataToggle: 'modal-gallery',
           disabled: function() {
             return !Gallery.selectionList().length;
           }
@@ -290,13 +311,13 @@ Toolbar = (function() {
       content: [
         {
           name: function() {
-            return 'Slideshow';
+            return '';
           },
           klass: 'optSlideshow',
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            return !Gallery.selectionList().length;
+            return Gallery.selectionList().length !== 1;
           }
         }
       ]
@@ -312,7 +333,7 @@ Toolbar = (function() {
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            return !Gallery.selectionList().length;
+            return Gallery.selectionList().length !== 1;
           }
         }
       ]

@@ -7,12 +7,16 @@ class PhotosList extends Spine.Controller
     '.thumbnail'              : 'thumb'
     
   events:
-    'click .item'             : "click"
+    'click .item'             : 'click'
+    'click .more-icon.delete' : 'deletePhoto'
     'dblclick .item'          : 'dblclick'
-    'mousemove .item'         : 'infoUp'
+    'mouseenter .item'        : 'infoEnter'
+    'mousemove  .item'        : 'infoMove'
+    'mouseleave .item'        : 'infoLeave'
+#    'mousemove .item'         : 'infoUp'
     'mouseleave  .item'       : 'infoBye'
     'dragstart .item'         : 'stopInfo'
-  
+    
   selectFirst: true
     
   constructor: ->
@@ -33,7 +37,8 @@ class PhotosList extends Spine.Controller
   select: (item, e) ->
     console.log 'PhotosList::select'
     @current = Photo.current(item)
-    @activate()
+    @exposeSelection()
+#    @activate()
   
   render: (items, mode='html') ->
     console.log 'PhotosList::render'
@@ -48,7 +53,8 @@ class PhotosList extends Spine.Controller
     else
       @el.addClass 'all'
       @renderAll()
-      
+    
+    @elIn = $('.more-icon', @el)
     @el
   
   renderAll: ->
@@ -105,6 +111,7 @@ class PhotosList extends Spine.Controller
         img.element = ele
         img.onload = @imageLoad
         img.src = src
+    @loadModal items
     
   imageLoad: ->
     css = 'url(' + @src + ')'
@@ -113,6 +120,52 @@ class PhotosList extends Spine.Controller
       'backgroundPosition': 'center, center'
       'backgroundSize': '100%'
     
+    
+  #  ****** START ***** for the slideshow
+  
+  modalParams: ->
+    width: 600
+    height: 451
+    square: 2
+    force: false
+    
+  loadModal: (items, mode='html') ->
+    return unless Album.record
+    Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal items, xhr
+  
+  callbackModal: (items, json) ->
+    console.log 'Slideshow::callbackModal'
+    searchJSON = (id) ->
+      for itm in json
+        return itm[id] if itm[id]
+    for item in items
+      jsn = searchJSON item.id
+      if jsn
+        el = @children().forItem(item)
+        a = $('<a></a>').attr
+          'data-href'  : jsn.src
+          'title' : item.title or item.src
+          'rel'   : 'gallery'
+        $('.play', el).append a
+        
+    @play() unless @parent.silent
+    
+  play: ->
+    el = @children('li:first')
+    $('a', el).click()
+    @parent.silent = true
+    
+  playSlideshow: (e) ->
+    el = $(e.target).closest('li.item')
+    console.log $('.play a', el)
+#    @play(el)
+    $('.play a', el).click()
+    e.preventDefault()
+    e.stopPropagation()
+    false
+    
+  #  ****** END ***** 
+  
   exposeSelection: ->
     console.log 'PhotosList::exposeSelection'
     @deselect()
@@ -120,10 +173,10 @@ class PhotosList extends Spine.Controller
     for id in list
       if Photo.exists(id)
         item = Photo.find(id) 
-        el = @children().forItem(item)
-        el.addClass("active")
-    current = if list.length is 1 then list[0] 
-    Photo.current(current)
+        @children().forItem(item).addClass("active")
+#    current = if list.length is 1 then list[0] 
+#    Photo.current(current)
+    @activate()
   
   activate: ->
     selection = Album.selectionList()
@@ -136,8 +189,6 @@ class PhotosList extends Spine.Controller
     else
         Photo.current()
     
-    @exposeSelection()
-  
   click: (e) ->
     console.log 'PhotosList::click'
     item = $(e.currentTarget).item()
@@ -146,20 +197,25 @@ class PhotosList extends Spine.Controller
 #    if App.hmanager.hasActive()
 #      @openPanel('photo', App.showView.btnPhoto)
     
-#    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
     Spine.trigger('change:toolbarOne')
     @select item, e
-    
-    e.stopPropagation()
-    e.preventDefault()
+    e.stopPropagation() if $(e.target).hasClass('thumbnail')
+#    false
   
   dblclick: (e) ->
     console.log 'PhotosList::dblclick'
     Spine.trigger('show:photo', @current)
-    
+    @exposeSelection()
     e.stopPropagation()
     e.preventDefault()
   
+  deletePhoto: (e) ->
+    item = $(e.target).closest('.item').item()
+    Album.updateSelection item.id
+    Spine.trigger('destroy:photo')
+    @stopInfo()
+    false
+    
   sortupdate: ->
     @children().each (index) ->
       item = $(@).item()
@@ -175,7 +231,22 @@ class PhotosList extends Spine.Controller
         photo.save()
         
     @exposeSelection()
-  
+    
+  infoEnter: (e) ->
+    @elIn.removeClass('in') #unless @inEl
+    el = $(e.target).find('.more-icon')
+    el.addClass('in')
+#    e.preventDefault()
+    
+  infoMove: (e) ->
+    el = $(e.target).find('.more-icon')
+    @inEl = el.addClass('in')
+    
+  infoLeave: (e) ->
+    @elIn.removeClass('in')
+#    el.removeClass('in')
+#    e.preventDefault()
+    
   initSelectable: ->
     options =
       helper: 'clone'

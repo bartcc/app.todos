@@ -123,22 +123,22 @@
             <div class="photoHeader view"></div>
           </div>
           <div class="view galleries content vbox flex data parent autoflow">
-            <div class="items sortable"></div>
+            <div class="items"></div>
           </div>
           <div class="view albums content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
-            <div class="items sortable flex"></div>
+            <div class="items flex"></div>
           </div>
           <div class="view photos content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
-            <div class="items sortable flex"></div>
+            <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a" data-slideshow="1500"></div>
           </div>
           <div class="view photo content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
-            <div class="items sortable flex">PHOTO</div>
+            <div class="items flex">PHOTO</div>
           </div>
           <div class="view slideshow content flex data parent autoflow">
-            <div id="gallery" class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="li" data-slideshow="2500"></div>
+            <div class="items sortable flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="li" data-slideshow="1500"></div>
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
@@ -218,7 +218,7 @@
     </div>
   </div>
 </div>
-<!-- modal-gallery is the modal dialog used for the image gallery -->
+<!-- modal-image-gallery -->
 <div id="modal-gallery" class="modal modal-gallery hide fade">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
@@ -232,9 +232,20 @@
         <a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
     </div>
 </div>
+<!-- modal-dialogue -->
+<div id="modal-view" class="hide fade"></div>
 
 
 <!-- Templates -->
+
+<script id="modalTemplate" type="text/x-jquery-tmpl">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h3 class="modal-title">${header}</h3>
+  </div>
+  <div class="modal-body">${body}</div>
+    <div class="modal-footer">${footer}</div>
+</script>
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
   <li class="gal item data parent" title="Deselect   Cmd-Click" draggable="true">
@@ -246,7 +257,6 @@
     <ul class="sublist" style="display: none;"></ul>
   </li>
 </script>
-
 
 <script id="sidebarContentTemplate" type="text/x-jquery-tmpl">
   <div class="item-content">
@@ -361,7 +371,7 @@
 </script>
 
 <script id="dropdownTemplate" type="text/x-jquery-tmpl">
-  <li class="dropdown" {{if id}} id="${id}"{{/if}}>
+  <li class="dropdown" {{if id}} id="${id}"{{/if}} >
     <a class="dropdown-toggle" data-toggle="dropdown">
       {{html name}}
       <b class="caret"></b>
@@ -376,7 +386,7 @@
   {{if devider}}
   <li class="divider"></li>
   {{else}}
-  <li><a class="${klass} {{if disabled}}disabled{{/if}}"><i class="icon-{{if icon}}${icon} {{if iconcolor}}icon-${iconcolor}{{/if}}{{/if}}"></i>${name}</a></li>
+  <li><a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}}"><i class="icon-{{if icon}}${icon} {{if iconcolor}}icon-${iconcolor}{{/if}}{{/if}}"></i>${name}</a></li>
   {{/if}}
 </script>
 
@@ -509,6 +519,8 @@
 
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left" draggable="true"></div>
+  <div class="play"></div>
+  <div class="delete more-icon icon-delete fade"></div>
 </script>
 
 <script id="preloaderTemplate" type="text/x-jquery-tmpl">

@@ -12,6 +12,8 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
+    # initialize twitters slideshow
+#    @el.toggleSlideshow()
     Album.bind('sortupdate', @proxy @sortupdate)
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)

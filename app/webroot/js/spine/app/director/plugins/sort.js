@@ -105,7 +105,6 @@ $.fn.Html5Sortable = function(opts) {
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out');
         it.data(Spine.sortItem.data);
         model = $(it).item().constructor.className;
-        console.log(Spine.sortItem.it);
         if (!options.drop(sourceEl.get(0), it.get(0))) {
           return it.remove();
         } else {

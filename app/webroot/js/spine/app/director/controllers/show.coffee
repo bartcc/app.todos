@@ -28,41 +28,45 @@ class ShowView extends Spine.Controller
     '.close'                  : 'btnClose'
     
   events:
-    "click .optQuickUpload"           : "toggleQuickUpload"
-    "click .optOverview"              : "showOverview"
-    "click .optPrevious"              : "showPrevious"
-    "click .optSlideshow"             : "showSlideshow"
-    "click .optFullScreen"            : "toggleFullScreen"
-    "click .optPlay"                  : "play"
-    "click .optCreatePhoto"           : "createPhoto"
-    "click .optDestroyPhoto"          : "destroyPhoto"
-    "click .optShowPhotos"            : "showPhotos"
-    "click .optCreateAlbum"           : "createAlbum"
-    "click .optShowAllAlbums"         : "showAllAlbums"
-    "click .optDestroyAlbum"          : "destroyAlbum"
-    "click .optEditGallery"           : "editGallery"
-    "click .optCreateGallery"         : "createGallery"
-    "click .optDestroyGallery"        : "destroyGallery"
-    "click .optGallery"               : "toggleGalleryShow"
-    "click .optAlbum"                 : "toggleAlbumShow"
-    "click .optPhoto"                 : "togglePhotoShow"
-    "click .optUpload"                : "toggleUploadShow"
-    'click .optAllGalleries'          : 'allGalleries'
-    'click .optAllAlbums'             : 'allAlbums'
-    'click .optAllPhotos'             : 'allPhotos'
-    'click .optSelectAll'             : 'selectAll'
-    "click .optClose"                 : "toggleDraghandle"
+    'click .optQuickUpload:not(.disabled)'           : 'toggleQuickUpload'
+    'click .optOverview:not(.disabled)'              : 'showOverview'
+    'click .optPrevious:not(.disabled)'              : 'showPrevious'
+    'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
+    'click .optSlideshow:not(.disabled)'             : 'slideshowPlay'
+    'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
+    'click .optPlay:not(.disabled)'                  : 'play'
+    'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
+    'click .optDestroyPhoto:not(.disabled)'          : 'destroyPhoto'
+    'click .optShowPhotos:not(.disabled)'            : 'showPhotos'
+    'click .optCreateAlbum:not(.disabled)'           : 'createAlbum'
+    'click .optShowAllAlbums:not(.disabled)'         : 'showAllAlbums'
+    'click .optDestroyAlbum:not(.disabled)'          : 'destroyAlbum'
+    'click .optEditGallery:not(.disabled)'           : 'editGallery'
+    'click .optCreateGallery:not(.disabled)'         : 'createGallery'
+    'click .optDestroyGallery:not(.disabled)'        : 'destroyGallery'
+    'click .optGallery:not(.disabled)'               : 'toggleGalleryShow'
+    'click .optAlbum:not(.disabled)'                 : 'toggleAlbumShow'
+    'click .optPhoto:not(.disabled)'                 : 'togglePhotoShow'
+    'click .optUpload:not(.disabled)'                : 'toggleUploadShow'
+    'click .optAllGalleries:not(.disabled)'          : 'allGalleries'
+    'click .optAllAlbums:not(.disabled)'             : 'allAlbums'
+    'click .optAllPhotos:not(.disabled)'             : 'allPhotos'
+    'click .optSelectAll:not(.disabled)'             : 'selectAll'
+    'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
+    'click .optShowModal:not(.disabled)'             : 'showModal'
+    'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
+    'click .optSlideshowStop:not(.disabled)'         : 'slideshowStop'
     'dblclick .draghandle'            : 'toggleDraghandle'
-    'click .items'                    : "deselect"
+    'click .items'                    : 'deselect'
     'slidestop .slider'               : 'sliderStop'
     'slidestart .slider'              : 'sliderStart'
     
   toolsTemplate: (items) ->
-    $("#toolsTemplate").tmpl items
+    $('#toolsTemplate').tmpl items
 
   constructor: ->
     super
-    
+    @silent = true
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
       template: @toolsTemplate
@@ -115,7 +119,7 @@ class ShowView extends Spine.Controller
     Spine.bind('change:toolbarOne', @proxy @changeToolbarOne)
     Spine.bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
-    @bind("toggle:view", @proxy @toggleView)
+    @bind('toggle:view', @proxy @toggleView)
     @current = @albumsView
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
@@ -166,11 +170,11 @@ class ShowView extends Spine.Controller
   renderViewControl: (controller, controlEl) ->
     active = controller.isActive()
 
-    $(".options .opt").each ->
+    $('.options .opt').each ->
       if(@ == controlEl)
-        $(@).toggleClass("active", active)
+        $(@).toggleClass('active', active)
       else
-        $(@).removeClass("active")
+        $(@).removeClass('active')
   
   showGallery: ->
     App.contentManager.change(App.showView)
@@ -188,7 +192,7 @@ class ShowView extends Spine.Controller
   showOverview: (e) ->
     Spine.trigger('show:overview')
 
-  showSlideshow: ->
+  showSlideshow: (e) ->
     @changeToolbarOne ['Chromeless']
     @changeToolbarTwo ['Slider', 'Back', 'Play'], App.showView.initSlider
     App.sidebar.toggleDraghandle(close:true)
@@ -202,6 +206,13 @@ class ShowView extends Spine.Controller
     App.sidebar.toggleDraghandle()
     Spine.trigger('change:canvas', @previous)
   
+  showModal: ->
+    @modalView.render
+      header: 'Neuer Header'
+      body  : 'Neuer Body'
+      footer: 'Neuer Footer'
+    @modalView.show()
+    
   createGallery: (e) ->
     Spine.trigger('create:gallery')
   
@@ -237,14 +248,14 @@ class ShowView extends Spine.Controller
     
     height = ->
       App.hmanager.currentDim
-      if hasActive() then parseInt(App.hmanager.currentDim)+"px" else "18px"
+      if hasActive() then parseInt(App.hmanager.currentDim)+'px' else '18px'
     
     @views.animate
       height: height()
       400
     
   toggleGalleryShow: (e) ->
-    @trigger("toggle:view", App.gallery, e.target)
+    @trigger('toggle:view', App.gallery, e.target)
 #    e.stopPropagation()
     e.preventDefault()
     
@@ -252,24 +263,21 @@ class ShowView extends Spine.Controller
     @changeToolbarOne ['Gallery']
 
   toggleAlbumShow: (e) ->
-    @trigger("toggle:view", App.album, e.target)
-#    e.stopPropagation()
+    @trigger('toggle:view', App.album, e.target)
     e.preventDefault()
 
   toggleAlbum: (e) ->
     @changeToolbarOne ['Album']
     
   togglePhotoShow: (e) ->
-    @trigger("toggle:view", App.photo, e.target)
-#    e.stopPropagation()
+    @trigger('toggle:view', App.photo, e.target)
     e.preventDefault()
     
   togglePhoto: (e) ->
     @changeToolbarOne ['Photos', 'Slider'], App.showView.initSlider
 
   toggleUploadShow: (e) ->
-    @trigger("toggle:view", App.upload, e.target)
-#    e.stopPropagation()
+    @trigger('toggle:view', App.upload, e.target)
     e.preventDefault()
     
   toggleUpload: (e) ->
@@ -287,10 +295,10 @@ class ShowView extends Spine.Controller
     isActive = controller.isActive()
     
     if(isActive)
-      App.hmanager.trigger("change", false)
+      App.hmanager.trigger('change', false)
     else
       @activeControl = $(control)
-      App.hmanager.trigger("change", controller)
+      App.hmanager.trigger('change', controller)
     
     @propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s')
     $(control).toggleClass('ui-icon-carat-1-s', !isActive)
@@ -316,8 +324,27 @@ class ShowView extends Spine.Controller
   play: ->
     Spine.trigger('play:slideshow')
     
+  slideshowPlay: ->
+    slideshow = $('#modal-gallery').data('modal')
+    model = @current.el.data().current
+    
+    switch model.className
+      when 'Album'
+        @current.parent.silent = false
+        el = @current.items.find('li:first')
+        $('.play a', el).click()
+      when 'Gallery'
+        @current.parent.silent = false
+        Spine.trigger('show:photos')
+        Spine.trigger('change:selectedAlbum', Album.record, true)
+        
+    
+  slideshowStop: ->
+    slideshow = $('#modal-gallery').data('modal')
+    slideshow.stopSlideShow() if slideshow
+    
   initControl: (control) ->
-    if Object::toString.call(control) is "[object String]"
+    if Object::toString.call(control) is '[object String]'
       @activeControl = @[control]
     else
       @activeControl = control

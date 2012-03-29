@@ -25,14 +25,23 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: 'Overview'
+          name: 'Goto Overview'
           klass: 'optOverview '
+        ,
+          name: 'Goto Slideshow'
+          klass: 'optShowSlideshow '
+          disabled: -> Gallery.selectionList().length isnt 1
         ,
           name: 'Invert Selection (Cmd + A)'
           klass: 'optSelectAll'
         ,
           name: 'Toggle Fullscreen'
           klass: 'optFullScreen'
+        ,
+          name: 'Modal Test'
+          icon: 'th'
+          iconcolor: 'black'
+          klass: 'optShowModal'
         ]
     group1:
       name: 'Gallery'
@@ -76,6 +85,12 @@ class Toolbar extends Spine.Model
             return type+' '+len
           icon: 'trash'
           klass: 'optDestroyAlbum'
+          disabled: -> !Gallery.selectionList().length
+        ,
+          name: -> 'Start Slideshow'
+          icon: 'play-circle'
+          klass: 'optSlideshowPlay'
+          dataToggle: 'modal-gallery'
           disabled: -> !Gallery.selectionList().length
         ]
     group3:
@@ -203,11 +218,11 @@ class Toolbar extends Spine.Model
       name: 'Slideshow'
       content:
         [
-          name: -> 'Slideshow'
+          name: -> ''
           klass: 'optSlideshow'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> !Gallery.selectionList().length
+          disabled: -> Gallery.selectionList().length isnt 1
         ]
     group71:
       name: 'Play'
@@ -217,7 +232,7 @@ class Toolbar extends Spine.Model
           klass: 'optSlideshow'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> !Gallery.selectionList().length
+          disabled: -> Gallery.selectionList().length isnt 1
         ]
     group8:
       name: 'Back'

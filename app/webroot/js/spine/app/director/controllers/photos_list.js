@@ -17,9 +17,12 @@ PhotosList = (function() {
     '.thumbnail': 'thumb'
   };
   PhotosList.prototype.events = {
-    'click .item': "click",
+    'click .item': 'click',
+    'click .more-icon.delete': 'deletePhoto',
     'dblclick .item': 'dblclick',
-    'mousemove .item': 'infoUp',
+    'mouseenter .item': 'infoEnter',
+    'mousemove  .item': 'infoMove',
+    'mouseleave .item': 'infoLeave',
     'mouseleave  .item': 'infoBye',
     'dragstart .item': 'stopInfo'
   };
@@ -45,7 +48,7 @@ PhotosList = (function() {
   PhotosList.prototype.select = function(item, e) {
     console.log('PhotosList::select');
     this.current = Photo.current(item);
-    return this.activate();
+    return this.exposeSelection();
   };
   PhotosList.prototype.render = function(items, mode) {
     if (mode == null) {
@@ -67,6 +70,7 @@ PhotosList = (function() {
       this.el.addClass('all');
       this.renderAll();
     }
+    this.elIn = $('.more-icon', this.el);
     return this.el;
   };
   PhotosList.prototype.renderAll = function() {
@@ -125,7 +129,7 @@ PhotosList = (function() {
     }
   };
   PhotosList.prototype.callback = function(items, json) {
-    var ele, img, item, jsn, searchJSON, src, _i, _len, _results;
+    var ele, img, item, jsn, searchJSON, src, _i, _len;
     console.log('PhotosList::callback');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -136,13 +140,19 @@ PhotosList = (function() {
         }
       }
     };
-    _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);
-      _results.push(jsn ? (ele = this.children().forItem(item), src = jsn.src, img = new Image, img.element = ele, img.onload = this.imageLoad, img.src = src) : void 0);
+      if (jsn) {
+        ele = this.children().forItem(item);
+        src = jsn.src;
+        img = new Image;
+        img.element = ele;
+        img.onload = this.imageLoad;
+        img.src = src;
+      }
     }
-    return _results;
+    return this.loadModal(items);
   };
   PhotosList.prototype.imageLoad = function() {
     var css;
@@ -153,8 +163,71 @@ PhotosList = (function() {
       'backgroundSize': '100%'
     });
   };
+  PhotosList.prototype.modalParams = function() {
+    return {
+      width: 600,
+      height: 451,
+      square: 2,
+      force: false
+    };
+  };
+  PhotosList.prototype.loadModal = function(items, mode) {
+    if (mode == null) {
+      mode = 'html';
+    }
+    if (!Album.record) {
+      return;
+    }
+    return Album.record.uri(this.modalParams(), mode, __bind(function(xhr, record) {
+      return this.callbackModal(items, xhr);
+    }, this));
+  };
+  PhotosList.prototype.callbackModal = function(items, json) {
+    var a, el, item, jsn, searchJSON, _i, _len;
+    console.log('Slideshow::callbackModal');
+    searchJSON = function(id) {
+      var itm, _i, _len;
+      for (_i = 0, _len = json.length; _i < _len; _i++) {
+        itm = json[_i];
+        if (itm[id]) {
+          return itm[id];
+        }
+      }
+    };
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      item = items[_i];
+      jsn = searchJSON(item.id);
+      if (jsn) {
+        el = this.children().forItem(item);
+        a = $('<a></a>').attr({
+          'data-href': jsn.src,
+          'title': item.title || item.src,
+          'rel': 'gallery'
+        });
+        $('.play', el).append(a);
+      }
+    }
+    if (!this.parent.silent) {
+      return this.play();
+    }
+  };
+  PhotosList.prototype.play = function() {
+    var el;
+    el = this.children('li:first');
+    $('a', el).click();
+    return this.parent.silent = true;
+  };
+  PhotosList.prototype.playSlideshow = function(e) {
+    var el;
+    el = $(e.target).closest('li.item');
+    console.log($('.play a', el));
+    $('.play a', el).click();
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  };
   PhotosList.prototype.exposeSelection = function() {
-    var current, el, id, item, list, _i, _len;
+    var id, item, list, _i, _len;
     console.log('PhotosList::exposeSelection');
     this.deselect();
     list = Album.selectionList();
@@ -162,12 +235,10 @@ PhotosList = (function() {
       id = list[_i];
       if (Photo.exists(id)) {
         item = Photo.find(id);
-        el = this.children().forItem(item);
-        el.addClass("active");
+        this.children().forItem(item).addClass("active");
       }
     }
-    current = list.length === 1 ? list[0] : void 0;
-    return Photo.current(current);
+    return this.activate();
   };
   PhotosList.prototype.activate = function() {
     var first, selection;
@@ -178,12 +249,11 @@ PhotosList = (function() {
       }
       if (!(first != null ? first.destroyed : void 0)) {
         this.current = first;
-        Photo.current(first);
+        return Photo.current(first);
       }
     } else {
-      Photo.current();
+      return Photo.current();
     }
-    return this.exposeSelection();
   };
   PhotosList.prototype.click = function(e) {
     var item;
@@ -192,14 +262,24 @@ PhotosList = (function() {
     item.addRemoveSelection(this.isCtrlClick(e));
     Spine.trigger('change:toolbarOne');
     this.select(item, e);
-    e.stopPropagation();
-    return e.preventDefault();
+    if ($(e.target).hasClass('thumbnail')) {
+      return e.stopPropagation();
+    }
   };
   PhotosList.prototype.dblclick = function(e) {
     console.log('PhotosList::dblclick');
     Spine.trigger('show:photo', this.current);
+    this.exposeSelection();
     e.stopPropagation();
     return e.preventDefault();
+  };
+  PhotosList.prototype.deletePhoto = function(e) {
+    var item;
+    item = $(e.target).closest('.item').item();
+    Album.updateSelection(item.id);
+    Spine.trigger('destroy:photo');
+    this.stopInfo();
+    return false;
   };
   PhotosList.prototype.sortupdate = function() {
     this.children().each(function(index) {
@@ -222,6 +302,20 @@ PhotosList = (function() {
       }
     });
     return this.exposeSelection();
+  };
+  PhotosList.prototype.infoEnter = function(e) {
+    var el;
+    this.elIn.removeClass('in');
+    el = $(e.target).find('.more-icon');
+    return el.addClass('in');
+  };
+  PhotosList.prototype.infoMove = function(e) {
+    var el;
+    el = $(e.target).find('.more-icon');
+    return this.inEl = el.addClass('in');
+  };
+  PhotosList.prototype.infoLeave = function(e) {
+    return this.elIn.removeClass('in');
   };
   PhotosList.prototype.initSelectable = function() {
     var options;

@@ -99,8 +99,6 @@ $.fn.Html5Sortable = (opts) ->
         it.data Spine.sortItem.data
         model = $(it).item().constructor.className
 
-        console.log Spine.sortItem.it
-        
         if !options.drop(sourceEl.get(0), it.get(0))
           # data not saved
           it.remove()

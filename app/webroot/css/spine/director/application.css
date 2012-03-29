@@ -1135,3 +1135,18 @@ button.chromeless, button.chromeless:hover {
   padding: 1px 5px;
   position: relative;
 }
+.more-icon {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+}
+.more-icon.icon-play {
+  background: url(img/deleteButton.png);
+  top: -2px;
+  left: -2px;
+}
+.more-icon.icon-delete {
+  background: url(img/deleteButton.png);
+  top: -2px;
+  right: 2px;
+}

@@ -98,6 +98,7 @@
     echo $this->Html->script('spine/app/director/models/error');
     echo $this->Html->script('spine/app/director/models/recent');
     echo $this->Html->script('spine/app/director/models/toolbar');
+    echo $this->Html->script('spine/app/director/controllers/modal_view');
     echo $this->Html->script('spine/app/director/controllers/toolbar_view');
     echo $this->Html->script('spine/app/director/controllers/loader');
     echo $this->Html->script('spine/app/director/controllers/info');

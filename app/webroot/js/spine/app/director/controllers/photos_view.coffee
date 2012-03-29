@@ -64,7 +64,7 @@ class PhotosView extends Spine.Controller
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       sorted: true
-      
+    
     @buffer = Photo.filterRelated(item?.id, filterOptions)
     
   
@@ -74,9 +74,18 @@ class PhotosView extends Spine.Controller
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode or 'html'
     list.sortable 'photo' if Album.record
+    
+#    @initializeSlideshow()
+    
     @refreshElements()
     delete @buffer
   
+  initializeSlideshow: ->
+    @el.modal
+      selector: 'li'
+      slideshow: 10000
+      show: false
+      
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
     @header.change Album.record
@@ -153,6 +162,7 @@ class PhotosView extends Spine.Controller
     Spine.trigger('change:toolbarOne', ['Default', 'Slider'], App.showView.initSlider)
     Spine.trigger('change:canvas', @)
     @renderHeader()
+#    @render()
   
   save: (item) ->
 

@@ -324,21 +324,19 @@ class ShowView extends Spine.Controller
   play: ->
     Spine.trigger('play:slideshow')
     
+  slideshowable: ->
+    $('.play a', @current.el).length
+    
   slideshowPlay: ->
-    slideshow = $('#modal-gallery').data('modal')
-    model = @current.el.data().current
+    @current.parent.silent = false
     
-    switch model.className
-      when 'Album'
-        @current.parent.silent = false
-        el = @current.items.find('li:first')
-        $('.play a', el).click()
-      when 'Gallery'
-        @current.parent.silent = false
-        Spine.trigger('show:photos')
-        Spine.trigger('change:selectedAlbum', Album.record, true)
+    if @slideshowable()
+      el = @current.items.find('li:first')
+      $('.play a', el).click()
+    else
+      Spine.trigger('show:photos')
+      Spine.trigger('change:selectedAlbum', Album.record, true)
         
-    
   slideshowStop: ->
     slideshow = $('#modal-gallery').data('modal')
     slideshow.stopSlideShow() if slideshow

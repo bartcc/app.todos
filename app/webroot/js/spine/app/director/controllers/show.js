@@ -367,19 +367,18 @@ ShowView = (function() {
   ShowView.prototype.play = function() {
     return Spine.trigger('play:slideshow');
   };
+  ShowView.prototype.slideshowable = function() {
+    return $('.play a', this.current.el).length;
+  };
   ShowView.prototype.slideshowPlay = function() {
-    var el, model, slideshow;
-    slideshow = $('#modal-gallery').data('modal');
-    model = this.current.el.data().current;
-    switch (model.className) {
-      case 'Album':
-        this.current.parent.silent = false;
-        el = this.current.items.find('li:first');
-        return $('.play a', el).click();
-      case 'Gallery':
-        this.current.parent.silent = false;
-        Spine.trigger('show:photos');
-        return Spine.trigger('change:selectedAlbum', Album.record, true);
+    var el;
+    this.current.parent.silent = false;
+    if (this.slideshowable()) {
+      el = this.current.items.find('li:first');
+      return $('.play a', el).click();
+    } else {
+      Spine.trigger('show:photos');
+      return Spine.trigger('change:selectedAlbum', Album.record, true);
     }
   };
   ShowView.prototype.slideshowStop = function() {

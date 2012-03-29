@@ -95,7 +95,7 @@ PhotosView = (function() {
     }
     list = this.list.render(items, mode || 'html');
     if (Album.record) {
-      list.sortable('photo');
+      list.Html5Sortable('photo');
     }
     this.refreshElements();
     return delete this.buffer;

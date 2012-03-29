@@ -87,7 +87,7 @@ class AlbumsView extends Spine.Controller
       itm.push it.title
       
     list = @list.render items
-    list.sortable 'album'# if Gallery.record
+    list.Html5Sortable 'album'# if Gallery.record
     @header.render()
 
     # when Album is deleted in Photos View return to this View

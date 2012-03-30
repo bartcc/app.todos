@@ -273,6 +273,7 @@ class Toolbar extends Spine.Model
         
   init: (ins) ->
     
+  # for the filter
   select: (list) ->
     @name in list
     

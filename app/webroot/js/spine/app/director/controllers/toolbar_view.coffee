@@ -6,7 +6,7 @@ class ToolbarView extends Spine.Controller
     super
     @current      = []
     
-  change: (list, cb) ->
+  change: (list) ->
     if list?.length
       tools = @filterTools list
       content = new Array

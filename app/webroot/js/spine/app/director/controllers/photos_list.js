@@ -209,15 +209,6 @@ PhotosList = (function() {
     }
     return this.parent.play();
   };
-  PhotosList.prototype.playSlideshow_ = function(e) {
-    var el;
-    el = $(e.target).closest('li.item');
-    console.log($('.play a', el));
-    $('.play a', el).click();
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  };
   PhotosList.prototype.exposeSelection = function() {
     var id, item, list, _i, _len;
     console.log('PhotosList::exposeSelection');

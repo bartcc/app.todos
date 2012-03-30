@@ -74,7 +74,7 @@ class PhotosView extends Spine.Controller
     return unless @isActive()
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode or 'html'
-    list.Html5Sortable 'photo' if Album.record
+    list.html5Sortable 'photo' if Album.record
     @refreshElements()
     delete @buffer
   

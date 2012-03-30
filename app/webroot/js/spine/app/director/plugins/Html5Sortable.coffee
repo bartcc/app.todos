@@ -1,4 +1,4 @@
-$.fn.Html5Sortable = (type) ->
+$.fn.html5Sortable = (type) ->
   $(@).Html5Sortable
     type: type
     drop: (source, target) -> return true
@@ -130,16 +130,3 @@ $.fn.Html5Sortable = (opts) ->
         
     that.children('li').each ->
       that.init $(@)
-      
-#    console.log that
-#    that.bind 'dragenter', (e) ->
-#      console.log 'dragenter'
-#      false
-#    .bind 'dragleave', (e) ->
-#      console.log 'dragleave'
-#      false
-#    .bind 'drop', (e) ->
-#      console.log 'drop'
-#      that.init $(@)
-      
-#that

@@ -152,15 +152,6 @@ class PhotosList extends Spine.Controller
         
     @parent.play() #if @parent.slideshowMode
     
-  playSlideshow_: (e) ->
-    el = $(e.target).closest('li.item')
-    console.log $('.play a', el)
-#    @play(el)
-    $('.play a', el).click()
-    e.preventDefault()
-    e.stopPropagation()
-    false
-    
   #  ****** END ***** 
   
   exposeSelection: ->
@@ -171,8 +162,6 @@ class PhotosList extends Spine.Controller
       if Photo.exists(id)
         item = Photo.find(id) 
         @children().forItem(item).addClass("active")
-#    current = if list.length is 1 then list[0] 
-#    Photo.current(current)
     @activate()
   
   activate: ->

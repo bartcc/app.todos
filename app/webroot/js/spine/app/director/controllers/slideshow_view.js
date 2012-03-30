@@ -44,7 +44,7 @@ SlideshowView = (function() {
     this.uri(items, 'append');
     this.refreshElements();
     this.size(App.showView.sliderOutValue());
-    this.items.sortable('photo');
+    this.items.html5Sortable('photo');
     return this.el;
   };
   SlideshowView.prototype.params = function(width, height) {

@@ -1,4 +1,4 @@
-$.fn.Html5Sortable = function(type) {
+$.fn.html5Sortable = function(type) {
   return $(this).Html5Sortable({
     type: type,
     drop: function(source, target) {

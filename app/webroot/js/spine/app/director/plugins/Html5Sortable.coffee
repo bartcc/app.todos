@@ -108,17 +108,16 @@ $.fn.Html5Sortable = (opts) ->
         it.data Spine.sortItem.data
         model = $(it).item().constructor.className
 
-        if options.drop(sourceEl.get(0), it.get(0))
-          # data not saved
-          alert 'data not saved'
-          console.log sourceEl.get(0)
-          console.log it.get(0)
-          it.remove()
+#        if options.drop(sourceEl.get(0), it.get(0))
+#          # data not saved
+#          console.log sourceEl.get(0)
+#          console.log it.get(0)
+#          it.remove()
+#        else
+        if (positionAfter)
+          it.insertAfter @
         else
-          if (positionAfter)
-            it.insertAfter @
-          else
-            it.insertBefore @
+          it.insertBefore @
 
           sourceEl.remove()
           

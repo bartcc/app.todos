@@ -113,17 +113,10 @@ $.fn.Html5Sortable = function(opts) {
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out');
         it.data(Spine.sortItem.data);
         model = $(it).item().constructor.className;
-        if (options.drop(sourceEl.get(0), it.get(0))) {
-          alert('data not saved');
-          console.log(sourceEl.get(0));
-          console.log(it.get(0));
-          return it.remove();
+        if (positionAfter) {
+          return it.insertAfter(this);
         } else {
-          if (positionAfter) {
-            it.insertAfter(this);
-          } else {
-            it.insertBefore(this);
-          }
+          it.insertBefore(this);
           sourceEl.remove();
           that.init(it);
           it.addClass('in');

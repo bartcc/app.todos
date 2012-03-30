@@ -98,7 +98,7 @@ AlbumsView = (function() {
       itm.push(it.title);
     }
     list = this.list.render(items);
-    list.Html5Sortable('album');
+    list.sortable('album');
     this.header.render();
     if (items && items.constructor.className === 'GalleriesAlbum' && item.destroyed) {
       this.show();

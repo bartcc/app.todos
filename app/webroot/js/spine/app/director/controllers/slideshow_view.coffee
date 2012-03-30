@@ -36,7 +36,7 @@ class SlideshowView extends Spine.Controller
     @refreshElements()
     @size(App.showView.sliderOutValue())
     
-    @items.html5Sortable 'photo'
+    @items.sortable 'photo'
     @el
         
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->

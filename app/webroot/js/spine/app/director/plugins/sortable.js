@@ -1,4 +1,4 @@
-$.fn.html5Sortable = function(type) {
+$.fn.sortable = function(type) {
   return $(this).Html5Sortable({
     type: type,
     drop: function(source, target) {
@@ -47,13 +47,12 @@ $.fn.Html5Sortable = function(opts) {
   if (options.type === $.Html5Sortable.DRAGANDDROP_DEFAULT_TYPE) {
     options.type = options.type + '_' + $.Html5Sortable.s_currentID;
   }
-  return this.each(function(index) {
+  return this.each(function() {
     var that;
     that = $(this);
     that.init = function(el) {
       return options.dragTarget(el).attr('draggable', true).bind('dragstart', function(e) {
         var dt;
-        console.log(index);
         dt = e.originalEvent.dataTransfer;
         dt.effectAllowed = 'move';
         dt.setData('Text', JSON.stringify({
@@ -63,10 +62,11 @@ $.fn.Html5Sortable = function(opts) {
         Spine.sortItem = {
           el: el,
           data: el.data(),
-          splitter: options.splitter(this)
+          splitter: options.splitter(this),
+          cond: null
         };
         $('._dragging').removeClass('_dragging');
-        return el.addClass('_dragging ');
+        return el.addClass('_dragging out');
       }).bind('dragend', function(e) {
         var _ref;
         console.log('Sort::dragend');
@@ -76,18 +76,13 @@ $.fn.Html5Sortable = function(opts) {
         }
         return Spine.sortItem.splitter.remove();
       }).bind('dragenter', function(e) {
-        var a, b, c, cond;
-        a = e.originalEvent.pageX;
-        b = $(this).position().left;
-        c = $(this).width();
-        cond = (a - b) > c;
-        console.log(cond);
+        var cond;
+        Spine.sortItem.cond = cond = (e.originalEvent.pageX - $(this).position().left) > ($(this).width());
         if (cond) {
           Spine.sortItem.splitter.insertAfter(this);
         } else {
           Spine.sortItem.splitter.insertBefore(this);
         }
-        Spine.sortItem.positionAfter = cond;
         return false;
       }).bind('dragleave', function(e) {
         try {
@@ -99,8 +94,9 @@ $.fn.Html5Sortable = function(opts) {
         }
         return false;
       }).bind('drop', function(e) {
-        var it, model, positionAfter, sourceEl;
-        positionAfter = Spine.sortItem.positionAfter;
+        var cond, it, model, sourceEl;
+        console.log('Sort::drop');
+        cond = Spine.sortItem.cond;
         try {
           if (!(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
             return true;
@@ -110,13 +106,17 @@ $.fn.Html5Sortable = function(opts) {
         }
         sourceEl = $('._dragging');
         Spine.sortItem.splitter.remove();
-        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html);
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out');
         it.data(Spine.sortItem.data);
         model = $(it).item().constructor.className;
-        if (positionAfter) {
-          return it.insertAfter(this);
+        if (!options.drop(sourceEl.get(0), it.get(0))) {
+          return it.remove();
         } else {
-          it.insertBefore(this);
+          if (cond) {
+            it.insertAfter(this);
+          } else {
+            it.insertBefore(this);
+          }
           sourceEl.remove();
           that.init(it);
           it.addClass('in');

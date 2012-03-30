@@ -84,7 +84,7 @@
     echo $this->Html->script('spine/app/director/plugins/manager');
     echo $this->Html->script('spine/app/director/plugins/controller');
     echo $this->Html->script('spine/app/director/plugins/drag');
-    echo $this->Html->script('spine/app/director/plugins/Html5Sortable');
+    echo $this->Html->script('spine/app/director/plugins/sortable');
     echo $this->Html->script('spine/app/director/plugins/model_extender');
     echo $this->Html->script('spine/app/director/plugins/ajax_relations');
     echo $this->Html->script('spine/app/director/plugins/cache');

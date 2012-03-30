@@ -331,10 +331,10 @@ class ShowView extends Spine.Controller
     res = @slideshowable()
     if res.length
       res[0].click()
+      @slideshowMode = App.SILENTMODE
     else
       Spine.trigger('show:photos')
       Spine.trigger('change:selectedAlbum', Album.record, true)
-    @slideshowMode = App.SILENTMODE
         
   slideshowPlay: ->
     @slideshowMode = App.SLIDESHOWMODE

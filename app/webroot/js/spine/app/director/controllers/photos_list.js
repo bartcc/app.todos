@@ -207,9 +207,7 @@ PhotosList = (function() {
         $('.play', el).append(a);
       }
     }
-    if (this.parent.slideshowMode) {
-      return this.parent.play();
-    }
+    return this.parent.play();
   };
   PhotosList.prototype.playSlideshow_ = function(e) {
     var el;

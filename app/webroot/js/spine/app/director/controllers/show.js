@@ -375,11 +375,11 @@ ShowView = (function() {
     res = this.slideshowable();
     if (res.length) {
       res[0].click();
+      return this.slideshowMode = App.SILENTMODE;
     } else {
       Spine.trigger('show:photos');
-      Spine.trigger('change:selectedAlbum', Album.record, true);
+      return Spine.trigger('change:selectedAlbum', Album.record, true);
     }
-    return this.slideshowMode = App.SILENTMODE;
   };
   ShowView.prototype.slideshowPlay = function() {
     this.slideshowMode = App.SLIDESHOWMODE;

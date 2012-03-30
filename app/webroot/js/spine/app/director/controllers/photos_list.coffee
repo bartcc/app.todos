@@ -150,7 +150,7 @@ class PhotosList extends Spine.Controller
           'rel'   : 'gallery'
         $('.play', el).append a
         
-    @parent.play() if @parent.slideshowMode
+    @parent.play() #if @parent.slideshowMode
     
   playSlideshow_: (e) ->
     el = $(e.target).closest('li.item')

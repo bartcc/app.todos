@@ -183,7 +183,7 @@ PhotosList = (function() {
     }, this));
   };
   PhotosList.prototype.callbackModal = function(items, json) {
-    var a, el, item, jsn, searchJSON, _i, _len, _results;
+    var a, el, item, jsn, searchJSON, _i, _len;
     console.log('Slideshow::callbackModal');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -194,17 +194,22 @@ PhotosList = (function() {
         }
       }
     };
-    _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);
-      _results.push(jsn ? (el = this.children().forItem(item), a = $('<a></a>').attr({
-        'data-href': jsn.src,
-        'title': item.title || item.src,
-        'rel': 'gallery'
-      }), $('.play', el).append(a)) : void 0);
+      if (jsn) {
+        el = this.children().forItem(item);
+        a = $('<a></a>').attr({
+          'data-href': jsn.src,
+          'title': item.title || item.src,
+          'rel': 'gallery'
+        });
+        $('.play', el).append(a);
+      }
     }
-    return _results;
+    if (this.parent.slideshowMode) {
+      return this.parent.play();
+    }
   };
   PhotosList.prototype.playSlideshow_ = function(e) {
     var el;

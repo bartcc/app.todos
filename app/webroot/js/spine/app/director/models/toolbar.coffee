@@ -95,9 +95,9 @@ class Toolbar extends Spine.Model
         ,
           name: -> 'Start Slideshow'
           icon: 'play-circle'
-          klass: 'optSlideshowPlay'
+          klass: 'optPlaySlideshow'
           dataToggle: 'modal-gallery'
-          disabled: -> !Gallery.selectionList().length
+          disabled: -> (!Gallery.selectionList().length) or !(Album.record?.contains())
         ]
     group3:
       name: 'Photo'

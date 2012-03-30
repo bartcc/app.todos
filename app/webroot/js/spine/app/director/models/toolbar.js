@@ -138,10 +138,11 @@ Toolbar = (function() {
             return 'Start Slideshow';
           },
           icon: 'play-circle',
-          klass: 'optSlideshowPlay',
+          klass: 'optPlaySlideshow',
           dataToggle: 'modal-gallery',
           disabled: function() {
-            return !Gallery.selectionList().length;
+            var _ref;
+            return (!Gallery.selectionList().length) || !((_ref = Album.record) != null ? _ref.contains() : void 0);
           }
         }
       ]

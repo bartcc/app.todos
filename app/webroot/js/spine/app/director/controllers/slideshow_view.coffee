@@ -88,8 +88,6 @@ class SlideshowView extends Spine.Controller
           'data-href'  : jsn.src
           'title' : item.title or item.src
           'rel'   : 'gallery'
-          
-    @play()
         
   imageLoad: ->
     css = 'url(' + @src + ')'
@@ -122,7 +120,10 @@ class SlideshowView extends Spine.Controller
     
   play: ->
     return if @parent.slideshowMode is App.SILENTMODE
-    @items.find('li:first').click()
+    res = @parent.slideshowable()
+    if res.length
+      res[0].click()
+    @parent.slideshowMode = App.SILENTMODE
     
 #    modal = $('#modal-gallery').data('modal')
 #    modal.toggleSlideShow()

@@ -183,7 +183,7 @@ PhotosList = (function() {
     }, this));
   };
   PhotosList.prototype.callbackModal = function(items, json) {
-    var a, el, item, jsn, searchJSON, _i, _len;
+    var a, el, item, jsn, searchJSON, _i, _len, _results;
     console.log('Slideshow::callbackModal');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -194,30 +194,19 @@ PhotosList = (function() {
         }
       }
     };
+    _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);
-      if (jsn) {
-        el = this.children().forItem(item);
-        a = $('<a></a>').attr({
-          'data-href': jsn.src,
-          'title': item.title || item.src,
-          'rel': 'gallery'
-        });
-        $('.play', el).append(a);
-      }
+      _results.push(jsn ? (el = this.children().forItem(item), a = $('<a></a>').attr({
+        'data-href': jsn.src,
+        'title': item.title || item.src,
+        'rel': 'gallery'
+      }), $('.play', el).append(a)) : void 0);
     }
-    return this.play();
+    return _results;
   };
-  PhotosList.prototype.play = function() {
-    var el;
-    if (this.parent.slideshowMode === App.SILENTMODE) {
-      return;
-    }
-    el = this.children('li:first');
-    return $('a', el).click();
-  };
-  PhotosList.prototype.playSlideshow = function(e) {
+  PhotosList.prototype.playSlideshow_ = function(e) {
     var el;
     el = $(e.target).closest('li.item');
     console.log($('.play a', el));

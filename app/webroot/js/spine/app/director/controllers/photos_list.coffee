@@ -149,16 +149,8 @@ class PhotosList extends Spine.Controller
           'title' : item.title or item.src
           'rel'   : 'gallery'
         $('.play', el).append a
-        
-    @play()
     
-  play: ->
-    return if @parent.slideshowMode is App.SILENTMODE
-    el = @children('li:first')
-    $('a', el).click()
-    
-    
-  playSlideshow: (e) ->
+  playSlideshow_: (e) ->
     el = $(e.target).closest('li.item')
     console.log $('.play a', el)
 #    @play(el)

@@ -108,7 +108,7 @@ SlideshowView = (function() {
     }, this));
   };
   SlideshowView.prototype.callbackModal = function(items, json) {
-    var el, item, jsn, searchJSON, _i, _len;
+    var el, item, jsn, searchJSON, _i, _len, _results;
     console.log('Slideshow::callbackModal');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -119,19 +119,17 @@ SlideshowView = (function() {
         }
       }
     };
+    _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);
-      if (jsn) {
-        el = this.items.children().forItem(item);
-        $('div.thumbnail', el).attr({
-          'data-href': jsn.src,
-          'title': item.title || item.src,
-          'rel': 'gallery'
-        });
-      }
+      _results.push(jsn ? (el = this.items.children().forItem(item), $('div.thumbnail', el).attr({
+        'data-href': jsn.src,
+        'title': item.title || item.src,
+        'rel': 'gallery'
+      })) : void 0);
     }
-    return this.play();
+    return _results;
   };
   SlideshowView.prototype.imageLoad = function() {
     var css;
@@ -171,10 +169,15 @@ SlideshowView = (function() {
     });
   };
   SlideshowView.prototype.play = function() {
+    var res;
     if (this.parent.slideshowMode === App.SILENTMODE) {
       return;
     }
-    return this.items.find('li:first').click();
+    res = this.parent.slideshowable();
+    if (res.length) {
+      res[0].click();
+    }
+    return this.parent.slideshowMode = App.SILENTMODE;
   };
   SlideshowView.prototype.toggleFullScreen = function(activate) {
     var active, root;

@@ -32,9 +32,8 @@ class ShowView extends Spine.Controller
     'click .optOverview:not(.disabled)'              : 'showOverview'
     'click .optPrevious:not(.disabled)'              : 'showPrevious'
     'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
-    'click .optPlaySlideshow:not(.disabled)'         : 'playSlideshow'
+    'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
     'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
-    'click .optPlaySlideshow:not(.disabled)'         : 'playSlideshow'
     'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
     'click .optDestroyPhoto:not(.disabled)'          : 'destroyPhoto'
     'click .optShowPhotos:not(.disabled)'            : 'showPhotos'
@@ -324,21 +323,22 @@ class ShowView extends Spine.Controller
   isQuickUpload: ->
     @btnQuickUpload.find('i').hasClass('icon-ok')
     
-  play: ->
-    @slideshowMode = App.SLIDESHOWMODE
-    Spine.trigger('play:slideshow')
-    
   slideshowable: ->
     $('[rel="gallery"]', @current.el)
     
-  playSlideshow: ->
-    @slideshowMode = App.SLIDESHOWMODE
+  play: ->
+    return if @slideshowMode is App.SILENTMODE
     res = @slideshowable()
     if res.length
       res[0].click()
     else
       Spine.trigger('show:photos')
       Spine.trigger('change:selectedAlbum', Album.record, true)
+    @slideshowMode = App.SILENTMODE
+        
+  slideshowPlay: ->
+    @slideshowMode = App.SLIDESHOWMODE
+    @play()
         
   slideshowStop: ->
     slideshow = $('#modal-gallery').data('modal')

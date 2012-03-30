@@ -53,8 +53,7 @@ Toolbar = (function() {
           name: 'Slides View',
           klass: 'optShowSlideshow ',
           disabled: function() {
-            var _ref;
-            return (Gallery.selectionList().length !== 1) || !((_ref = Album.record) != null ? _ref.contains() : void 0);
+            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
           }
         }, {
           devider: true
@@ -138,11 +137,10 @@ Toolbar = (function() {
             return 'Start Slideshow';
           },
           icon: 'play-circle',
-          klass: 'optPlaySlideshow',
+          klass: 'optSlideshowPlay',
           dataToggle: 'modal-gallery',
           disabled: function() {
-            var _ref;
-            return (!Gallery.selectionList().length) || !((_ref = Album.record) != null ? _ref.contains() : void 0);
+            return (!Gallery.selectionList().length) || !(Album.record && Album.record.contains());
           }
         }
       ]
@@ -321,12 +319,11 @@ Toolbar = (function() {
           name: function() {
             return '';
           },
-          klass: 'optPlaySlideshow',
+          klass: 'optSlideshowPlay',
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            var _ref;
-            return (Gallery.selectionList().length !== 1) || !((_ref = Album.record) != null ? _ref.contains() : void 0);
+            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
           }
         }
       ]
@@ -338,12 +335,11 @@ Toolbar = (function() {
           name: function() {
             return 'Play';
           },
-          klass: 'optPlaySlideshow',
+          klass: 'optSlideshowPlay',
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            var _ref;
-            return (Gallery.selectionList().length !== 1) || !((_ref = Album.record) != null ? _ref.contains() : void 0);
+            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
           }
         }
       ]

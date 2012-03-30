@@ -30,7 +30,7 @@ class Toolbar extends Spine.Model
         ,
           name: 'Slides View'
           klass: 'optShowSlideshow '
-          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record?.contains())
+          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
         ,
           devider: true
         ,
@@ -95,9 +95,9 @@ class Toolbar extends Spine.Model
         ,
           name: -> 'Start Slideshow'
           icon: 'play-circle'
-          klass: 'optPlaySlideshow'
+          klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
-          disabled: -> (!Gallery.selectionList().length) or !(Album.record?.contains())
+          disabled: -> (!Gallery.selectionList().length) or !(Album.record and Album.record.contains())
         ]
     group3:
       name: 'Photo'
@@ -225,20 +225,20 @@ class Toolbar extends Spine.Model
       content:
         [
           name: -> ''
-          klass: 'optPlaySlideshow'
+          klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record?.contains())
+          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
         ]
     group71:
       name: 'Play'
       content:
         [
           name: -> 'Play'
-          klass: 'optPlaySlideshow'
+          klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record?.contains())
+          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
         ]
     group8:
       name: 'Back'

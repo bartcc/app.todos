@@ -330,7 +330,7 @@ class ShowView extends Spine.Controller
     return if @slideshowMode is App.SILENTMODE
     res = @slideshowable()
     if res.length
-      res[0].click()
+      $(res[0]).click()
       @slideshowMode = App.SILENTMODE
     else
       Spine.trigger('show:photos')

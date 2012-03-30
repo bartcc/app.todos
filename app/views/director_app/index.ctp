@@ -138,7 +138,7 @@
             <div class="items flex">PHOTO</div>
           </div>
           <div class="view slideshow content flex data parent autoflow">
-            <div class="items sortable flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="li" data-slideshow="1500"></div>
+            <div class="items sortable flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail" data-slideshow="1500"></div>
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">

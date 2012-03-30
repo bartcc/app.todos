@@ -207,15 +207,15 @@ PhotosList = (function() {
         $('.play', el).append(a);
       }
     }
-    if (!this.parent.silent) {
-      return this.play();
-    }
+    return this.play();
   };
   PhotosList.prototype.play = function() {
     var el;
+    if (this.parent.slideshowMode === App.SILENTMODE) {
+      return;
+    }
     el = this.children('li:first');
-    $('a', el).click();
-    return this.parent.silent = true;
+    return $('a', el).click();
   };
   PhotosList.prototype.playSlideshow = function(e) {
     var el;

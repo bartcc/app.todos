@@ -41,9 +41,9 @@ ShowView = (function() {
     'click .optOverview:not(.disabled)': 'showOverview',
     'click .optPrevious:not(.disabled)': 'showPrevious',
     'click .optShowSlideshow:not(.disabled)': 'showSlideshow',
-    'click .optSlideshow:not(.disabled)': 'slideshowPlay',
+    'click .optPlaySlideshow:not(.disabled)': 'playSlideshow',
     'click .optFullScreen:not(.disabled)': 'toggleFullScreen',
-    'click .optPlay:not(.disabled)': 'play',
+    'click .optPlaySlideshow:not(.disabled)': 'playSlideshow',
     'click .optCreatePhoto:not(.disabled)': 'createPhoto',
     'click .optDestroyPhoto:not(.disabled)': 'destroyPhoto',
     'click .optShowPhotos:not(.disabled)': 'showPhotos',
@@ -63,7 +63,6 @@ ShowView = (function() {
     'click .optSelectAll:not(.disabled)': 'selectAll',
     'click .optClose:not(.disabled)': 'toggleDraghandle',
     'click .optShowModal:not(.disabled)': 'showModal',
-    'click .optSlideshowPlay:not(.disabled)': 'slideshowPlay',
     'click .optSlideshowStop:not(.disabled)': 'slideshowStop',
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': 'deselect',
@@ -144,6 +143,7 @@ ShowView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.refreshToolbars));
     this.bind('toggle:view', this.proxy(this.toggleView));
     this.current = this.albumsView;
+    this.slideshowMode = App.SILENTMODE;
     this.sOutValue = 74;
     this.thumbSize = 240;
     if (this.activeControl) {
@@ -227,6 +227,7 @@ ShowView = (function() {
     return Spine.trigger('show:overview');
   };
   ShowView.prototype.showSlideshow = function(e) {
+    this.slideshowMode = App.SILENTMODE;
     this.changeToolbarOne(['Chromeless']);
     this.changeToolbarTwo(['Slider', 'Back', 'Play'], App.showView.initSlider);
     App.sidebar.toggleDraghandle({
@@ -365,17 +366,18 @@ ShowView = (function() {
     return this.btnQuickUpload.find('i').hasClass('icon-ok');
   };
   ShowView.prototype.play = function() {
+    this.slideshowMode = App.SLIDESHOWMODE;
     return Spine.trigger('play:slideshow');
   };
   ShowView.prototype.slideshowable = function() {
-    return $('.play a', this.current.el).length;
+    return $('[rel="gallery"]', this.current.el);
   };
-  ShowView.prototype.slideshowPlay = function() {
-    var el;
-    this.current.parent.silent = false;
-    if (this.slideshowable()) {
-      el = this.current.items.find('li:first');
-      return $('.play a', el).click();
+  ShowView.prototype.playSlideshow = function() {
+    var res;
+    this.slideshowMode = App.SLIDESHOWMODE;
+    res = this.slideshowable();
+    if (res.length) {
+      return res[0].click();
     } else {
       Spine.trigger('show:photos');
       return Spine.trigger('change:selectedAlbum', Album.record, true);

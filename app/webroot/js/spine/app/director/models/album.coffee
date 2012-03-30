@@ -35,6 +35,9 @@ class Album extends Spine.Model
       foreignKey            : 'album_id'
       associationForeignKey : 'photo_id'
     
+  @contains: (id) ->
+    AlbumsPhoto.filter(id, key: 'album_id').length
+    
   init: (instance) ->
     return unless instance
     newSelection = {}
@@ -48,10 +51,10 @@ class Album extends Spine.Model
     
   selChange: (list) ->
   
+  contains: -> @constructor.contains @id
+  
   details: =>
-    photos = AlbumsPhoto.filter(@id, key: 'album_id')
-    
-    iCount : photos.length
+    iCount : @constructor.contains @id
     album  : Album.record
     gallery: Gallery.record
     

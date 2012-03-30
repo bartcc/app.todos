@@ -30,7 +30,7 @@ class Toolbar extends Spine.Model
         ,
           name: 'Slides View'
           klass: 'optShowSlideshow '
-          disabled: -> Gallery.selectionList().length isnt 1
+          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record?.contains())
         ,
           devider: true
         ,
@@ -225,20 +225,20 @@ class Toolbar extends Spine.Model
       content:
         [
           name: -> ''
-          klass: 'optSlideshow'
+          klass: 'optPlaySlideshow'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> Gallery.selectionList().length isnt 1
+          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record?.contains())
         ]
     group71:
       name: 'Play'
       content:
         [
           name: -> 'Play'
-          klass: 'optSlideshow'
+          klass: 'optPlaySlideshow'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> Gallery.selectionList().length isnt 1
+          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record?.contains())
         ]
     group8:
       name: 'Back'

@@ -40,6 +40,8 @@ App = (function() {
   };
   function App() {
     this.keys = __bind(this.keys, this);    App.__super__.constructor.apply(this, arguments);
+    this.SILENTMODE = 'silent';
+    this.SLIDESHOWMODE = 'slideshow';
     User.bind('pinger', this.proxy(this.validate));
     this.loadToolbars();
     this.modalView = new ModalView({

@@ -123,7 +123,7 @@ class PhotosList extends Spine.Controller
       'backgroundSize': '100%'
     
     
-  #  ****** START ***** for the slideshow
+  #  ****** START SLIDESHOW SPECIFICS *****
   
   modalParams: ->
     width: 600
@@ -150,12 +150,13 @@ class PhotosList extends Spine.Controller
           'rel'   : 'gallery'
         $('.play', el).append a
         
-    @play() unless @parent.silent
+    @play()
     
   play: ->
+    return if @parent.slideshowMode is App.SILENTMODE
     el = @children('li:first')
     $('a', el).click()
-    @parent.silent = true
+    
     
   playSlideshow: (e) ->
     el = $(e.target).closest('li.item')

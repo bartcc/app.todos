@@ -47,6 +47,8 @@ class App extends Spine.Controller
 #    @ALBUM_DOUBLE_COPY = @constructor.createImage('/img/dragndrop/album_double_copy.png')
 #
 #    @PHOTO_SINGLE_MOVE = @constructor.createImage
+    @SILENTMODE = 'silent'
+    @SLIDESHOWMODE = 'slideshow'
     
     User.bind('pinger', @proxy @validate)
     

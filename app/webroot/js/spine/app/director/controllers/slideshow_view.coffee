@@ -76,18 +76,19 @@ class SlideshowView extends Spine.Controller
   
   callbackModal: (items, json) ->
     console.log 'Slideshow::callbackModal'
+    
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
     for item in items
       jsn = searchJSON item.id
       if jsn
-        el = document.createElement('a')
-        ele = @items.children().forItem(item)
-          .attr
-            'data-href'  : jsn.src
-            'title' : item.title or item.src
-            'rel'   : 'gallery'
+        el = @items.children().forItem(item)
+        $('div.thumbnail', el).attr
+          'data-href'  : jsn.src
+          'title' : item.title or item.src
+          'rel'   : 'gallery'
+          
     @play()
         
   imageLoad: ->
@@ -120,7 +121,7 @@ class SlideshowView extends Spine.Controller
       'backgroundSize'  : bg
     
   play: ->
-    @refreshElements()
+    return if @parent.slideshowMode is App.SILENTMODE
     @items.find('li:first').click()
     
 #    modal = $('#modal-gallery').data('modal')

@@ -53,7 +53,8 @@ Toolbar = (function() {
           name: 'Slides View',
           klass: 'optShowSlideshow ',
           disabled: function() {
-            return Gallery.selectionList().length !== 1;
+            var _ref;
+            return (Gallery.selectionList().length !== 1) || !((_ref = Album.record) != null ? _ref.contains() : void 0);
           }
         }, {
           devider: true
@@ -319,11 +320,12 @@ Toolbar = (function() {
           name: function() {
             return '';
           },
-          klass: 'optSlideshow',
+          klass: 'optPlaySlideshow',
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            return Gallery.selectionList().length !== 1;
+            var _ref;
+            return (Gallery.selectionList().length !== 1) || !((_ref = Album.record) != null ? _ref.contains() : void 0);
           }
         }
       ]
@@ -335,11 +337,12 @@ Toolbar = (function() {
           name: function() {
             return 'Play';
           },
-          klass: 'optSlideshow',
+          klass: 'optPlaySlideshow',
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            return Gallery.selectionList().length !== 1;
+            var _ref;
+            return (Gallery.selectionList().length !== 1) || !((_ref = Album.record) != null ? _ref.contains() : void 0);
           }
         }
       ]

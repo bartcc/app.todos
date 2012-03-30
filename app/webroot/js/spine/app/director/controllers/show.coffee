@@ -32,9 +32,9 @@ class ShowView extends Spine.Controller
     'click .optOverview:not(.disabled)'              : 'showOverview'
     'click .optPrevious:not(.disabled)'              : 'showPrevious'
     'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
-    'click .optSlideshow:not(.disabled)'             : 'slideshowPlay'
+    'click .optPlaySlideshow:not(.disabled)'         : 'playSlideshow'
     'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
-    'click .optPlay:not(.disabled)'                  : 'play'
+    'click .optPlaySlideshow:not(.disabled)'         : 'playSlideshow'
     'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
     'click .optDestroyPhoto:not(.disabled)'          : 'destroyPhoto'
     'click .optShowPhotos:not(.disabled)'            : 'showPhotos'
@@ -54,7 +54,7 @@ class ShowView extends Spine.Controller
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
     'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
     'click .optShowModal:not(.disabled)'             : 'showModal'
-    'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
+#    'click .optSlideshow:not(.disabled)'             : 'slideshowPlay'
     'click .optSlideshowStop:not(.disabled)'         : 'slideshowStop'
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : 'deselect'
@@ -121,6 +121,7 @@ class ShowView extends Spine.Controller
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
     @bind('toggle:view', @proxy @toggleView)
     @current = @albumsView
+    @slideshowMode = App.SILENTMODE
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     
@@ -193,11 +194,13 @@ class ShowView extends Spine.Controller
     Spine.trigger('show:overview')
 
   showSlideshow: (e) ->
+    @slideshowMode = App.SILENTMODE
     @changeToolbarOne ['Chromeless']
     @changeToolbarTwo ['Slider', 'Back', 'Play'], App.showView.initSlider
     App.sidebar.toggleDraghandle(close:true)
 #    @toolbarOne.clear()
 #    @toolbarOne.lock()
+    
     Spine.trigger('show:slideshow')
     
   showPrevious: ->
@@ -322,17 +325,17 @@ class ShowView extends Spine.Controller
     @btnQuickUpload.find('i').hasClass('icon-ok')
     
   play: ->
+    @slideshowMode = App.SLIDESHOWMODE
     Spine.trigger('play:slideshow')
     
   slideshowable: ->
-    $('.play a', @current.el).length
+    $('[rel="gallery"]', @current.el)
     
-  slideshowPlay: ->
-    @current.parent.silent = false
-    
-    if @slideshowable()
-      el = @current.items.find('li:first')
-      $('.play a', el).click()
+  playSlideshow: ->
+    @slideshowMode = App.SLIDESHOWMODE
+    res = @slideshowable()
+    if res.length
+      res[0].click()
     else
       Spine.trigger('show:photos')
       Spine.trigger('change:selectedAlbum', Album.record, true)

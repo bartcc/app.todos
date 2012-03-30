@@ -108,7 +108,7 @@ SlideshowView = (function() {
     }, this));
   };
   SlideshowView.prototype.callbackModal = function(items, json) {
-    var el, ele, item, jsn, searchJSON, _i, _len;
+    var el, item, jsn, searchJSON, _i, _len;
     console.log('Slideshow::callbackModal');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -123,8 +123,8 @@ SlideshowView = (function() {
       item = items[_i];
       jsn = searchJSON(item.id);
       if (jsn) {
-        el = document.createElement('a');
-        ele = this.items.children().forItem(item).attr({
+        el = this.items.children().forItem(item);
+        $('div.thumbnail', el).attr({
           'data-href': jsn.src,
           'title': item.title || item.src,
           'rel': 'gallery'
@@ -171,7 +171,9 @@ SlideshowView = (function() {
     });
   };
   SlideshowView.prototype.play = function() {
-    this.refreshElements();
+    if (this.parent.slideshowMode === App.SILENTMODE) {
+      return;
+    }
     return this.items.find('li:first').click();
   };
   SlideshowView.prototype.toggleFullScreen = function(activate) {

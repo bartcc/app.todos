@@ -54,6 +54,11 @@ Album = (function() {
       }
     };
   };
+  Album.contains = function(id) {
+    return AlbumsPhoto.filter(id, {
+      key: 'album_id'
+    }).length;
+  };
   Album.prototype.init = function(instance) {
     var cache, newSelection;
     if (!instance) {
@@ -67,13 +72,12 @@ Album = (function() {
     return this.constructor.caches.push(cache);
   };
   Album.prototype.selChange = function(list) {};
+  Album.prototype.contains = function() {
+    return this.constructor.contains(this.id);
+  };
   Album.prototype.details = function() {
-    var photos;
-    photos = AlbumsPhoto.filter(this.id, {
-      key: 'album_id'
-    });
     return {
-      iCount: photos.length,
+      iCount: this.constructor.contains(this.id),
       album: Album.record,
       gallery: Gallery.record
     };

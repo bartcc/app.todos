@@ -1,26 +1,33 @@
 class ToolbarView extends Spine.Controller
   
-  template: -> arguments[0]
+  template: (items) ->
+    $('#toolsTemplate').tmpl items
   
   constructor: (instance) ->
     super
-    @current      = []
+    @current = []
     
-  change: (list) ->
-    if list?.length
-      tools = @filterTools list
+  change: (list = []) ->
+    if list.length
+      tools = Toolbar.filter list
+#      console.log tools
       content = new Array
       $.merge(content, itm.content) for itm in tools
+#      console.log content
+        
       @current = content
-      @current.cb = cb if typeof cb is 'function'
-    @render @current 
-    @current
+      @current.cb = itm if typeof itm is 'function' for itm in list
+      
+    @render()
     
   filterTools: (list) ->
-    Toolbar.filter list
+    Toolbar.select list
     
-  refresh: (list = @current) ->
-    @render list
+  sort: (a, b) ->
+    
+    
+  refresh: ->
+    @render()
     
   lock: ->
     @locked = true
@@ -29,12 +36,10 @@ class ToolbarView extends Spine.Controller
     @locked = false
     
   clear: ->
-    @render []
+    @current = []
+    @render()
     
   render: (list=@current) ->
     return if @locked
     @html @template list
     @current?.cb?()
-    
-  current: ->
-    @current

@@ -15,6 +15,7 @@ GalleriesList = (function() {
   __extends(GalleriesList, Spine.Controller);
   GalleriesList.extend(Spine.Controller.Drag);
   GalleriesList.prototype.events = {
+    'click': 'clickDeselect',
     'click .item': 'click',
     'dblclick .item': 'dblclick'
   };
@@ -41,9 +42,12 @@ GalleriesList = (function() {
     if (item) {
       el = this.children().forItem(item);
       el.addClass("active");
-      Spine.trigger('gallery:exposeSelection', item);
-      return Spine.trigger('change:toolbarOne');
+      Spine.trigger('change:toolbarOne');
     }
+    return Spine.trigger('gallery:exposeSelection', item);
+  };
+  GalleriesList.prototype.clickDeselect = function(e) {
+    return Gallery.current();
   };
   GalleriesList.prototype.click = function(e) {
     var item;

@@ -14,6 +14,33 @@ Filter = function() {
       return this.select(function(item) {
         return item[opts.func](query, opts);
       });
+    },
+    sortByOrder: function(arr) {
+      return arr.sort(function(a, b) {
+        var aInt, bInt;
+        aInt = parseInt(a.order);
+        bInt = parseInt(b.order);
+        if (aInt < bInt) {
+          return -1;
+        } else if (aInt > bInt) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    },
+    sortByName: function(arr) {
+      return arr.sort(function(a, b) {
+        a = a._name;
+        b = b._name;
+        if (a < b) {
+          return -1;
+        } else if (a > b) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
     }
   };
   include = {

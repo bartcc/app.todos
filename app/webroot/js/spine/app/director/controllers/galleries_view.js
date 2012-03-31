@@ -54,6 +54,7 @@ GalleriesView = (function() {
   };
   GalleriesView.prototype.show = function() {
     Spine.trigger('change:toolbarOne', ['Default']);
+    Spine.trigger('change:toolbarTwo', ['']);
     Spine.trigger('gallery:activate', Gallery.record);
     return Spine.trigger('change:canvas', this);
   };

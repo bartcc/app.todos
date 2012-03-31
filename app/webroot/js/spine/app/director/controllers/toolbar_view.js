@@ -9,38 +9,46 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
 };
 ToolbarView = (function() {
   __extends(ToolbarView, Spine.Controller);
-  ToolbarView.prototype.template = function() {
-    return arguments[0];
+  ToolbarView.prototype.template = function(items) {
+    return $('#toolsTemplate').tmpl(items);
   };
   function ToolbarView(instance) {
     ToolbarView.__super__.constructor.apply(this, arguments);
     this.current = [];
   }
-  ToolbarView.prototype.change = function(list, cb) {
+  ToolbarView.prototype.change = function(list) {
     var content, itm, tools, _i, _len;
-    if (list != null ? list.length : void 0) {
-      tools = this.filterTools(list);
+    if (list == null) {
+      list = [];
+    }
+    if (list.length) {
+      tools = Toolbar.filter(list);
       content = new Array;
       for (_i = 0, _len = tools.length; _i < _len; _i++) {
         itm = tools[_i];
         $.merge(content, itm.content);
       }
       this.current = content;
-      if (typeof cb === 'function') {
-        this.current.cb = cb;
+      if ((function() {
+        var _j, _len2, _results;
+        _results = [];
+        for (_j = 0, _len2 = list.length; _j < _len2; _j++) {
+          itm = list[_j];
+          _results.push(typeof itm === 'function');
+        }
+        return _results;
+      })()) {
+        this.current.cb = itm;
       }
     }
-    this.render(this.current);
-    return this.current;
+    return this.render();
   };
   ToolbarView.prototype.filterTools = function(list) {
-    return Toolbar.filter(list);
+    return Toolbar.select(list);
   };
-  ToolbarView.prototype.refresh = function(list) {
-    if (list == null) {
-      list = this.current;
-    }
-    return this.render(list);
+  ToolbarView.prototype.sort = function(a, b) {};
+  ToolbarView.prototype.refresh = function() {
+    return this.render();
   };
   ToolbarView.prototype.lock = function() {
     return this.locked = true;
@@ -49,7 +57,8 @@ ToolbarView = (function() {
     return this.locked = false;
   };
   ToolbarView.prototype.clear = function() {
-    return this.render([]);
+    this.current = [];
+    return this.render();
   };
   ToolbarView.prototype.render = function(list) {
     var _ref;
@@ -61,9 +70,6 @@ ToolbarView = (function() {
     }
     this.html(this.template(list));
     return (_ref = this.current) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
-  };
-  ToolbarView.prototype.current = function() {
-    return this.current;
   };
   return ToolbarView;
 })();

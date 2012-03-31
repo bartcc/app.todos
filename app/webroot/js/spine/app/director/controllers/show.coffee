@@ -59,19 +59,14 @@ class ShowView extends Spine.Controller
     'click .items'                    : 'deselect'
     'slidestop .slider'               : 'sliderStop'
     'slidestart .slider'              : 'sliderStart'
-    
-  toolsTemplate: (items) ->
-    $('#toolsTemplate').tmpl items
 
   constructor: ->
     super
     @silent = true
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
-      template: @toolsTemplate
     @toolbarTwo = new ToolbarView
       el: @toolbarTwoEl
-      template: @toolsTemplate
     @photoHeader = new PhotoHeader
       el: @photoHeaderEl
     @photosHeader = new PhotosHeader
@@ -147,25 +142,19 @@ class ShowView extends Spine.Controller
     @canvasManager.change controller
     @headerManager.change controller.header
     
-  renderToolbar_: (el) ->
-    console.log 'ShowView::renderToolbar'
-    @[el]?.html @toolsTemplate @currentToolbar
-    @refreshElements()
-    
-  changeToolbarOne: (list=[], cb) ->
-    @toolbarOne.change list, cb
-    
+  changeToolbarOne: (list) ->
+    @toolbarOne.change list
     @toolbarTwo.refresh()
     @refreshElements()
     
-  changeToolbarTwo: (list=[], cb) ->
-    @toolbarTwo.change list, cb
+  changeToolbarTwo: (list) ->
+    @toolbarTwo.change list
     @refreshElements()
     
   refreshToolbars: ->
     console.log 'ShowView::refreshToolbars'
-    @toolbarOne.change()
-    @toolbarTwo.change()
+    @toolbarOne.refresh()
+    @toolbarTwo.refresh()
     
   renderViewControl: (controller, controlEl) ->
     active = controller.isActive()
@@ -194,8 +183,8 @@ class ShowView extends Spine.Controller
 
   showSlideshow: (e) ->
     @slideshowMode = App.SILENTMODE
-    @changeToolbarOne ['Chromeless']
-    @changeToolbarTwo ['Slider', 'Back', 'Play'], App.showView.initSlider
+#    @changeToolbarOne ['Chromeless']
+#    @changeToolbarTwo @slideshowView.toolbar #['Slider', 'Back', 'Play', App.showView.initSlider]
     App.sidebar.toggleDraghandle(close:true)
 #    @toolbarOne.clear()
 #    @toolbarOne.lock()
@@ -203,10 +192,8 @@ class ShowView extends Spine.Controller
     Spine.trigger('show:slideshow')
     
   showPrevious: ->
-    @changeToolbarOne ['Default']
-    @changeToolbarTwo ['Slideshow']
     App.sidebar.toggleDraghandle()
-    Spine.trigger('change:canvas', @previous)
+    @previous.show()
   
   showModal: ->
     @modalView.render
@@ -276,7 +263,7 @@ class ShowView extends Spine.Controller
     e.preventDefault()
     
   togglePhoto: (e) ->
-    @changeToolbarOne ['Photos', 'Slider'], App.showView.initSlider
+    @changeToolbarOne ['Photos', 'Slider']#, App.showView.initSlider
 
   toggleUploadShow: (e) ->
     @trigger('toggle:view', App.upload, e.target)

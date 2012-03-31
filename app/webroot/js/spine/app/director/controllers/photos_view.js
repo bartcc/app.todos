@@ -67,7 +67,6 @@ PhotosView = (function() {
     Spine.bind('start:slideshow', this.proxy(this.slideshow));
     Gallery.bind('change', this.proxy(this.renderHeader));
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
-    this.toolbar = ['Default', 'Slider', App.showView.initSlider];
   }
   PhotosView.prototype.change = function(item, changed) {
     if (changed) {
@@ -185,7 +184,8 @@ PhotosView = (function() {
       return;
     }
     Spine.trigger('gallery:activate');
-    Spine.trigger('change:toolbarOne', this.toolbar);
+    Spine.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider]);
+    Spine.trigger('change:toolbarTwo', ['Slideshow']);
     Spine.trigger('change:canvas', this);
     return this.renderHeader();
   };

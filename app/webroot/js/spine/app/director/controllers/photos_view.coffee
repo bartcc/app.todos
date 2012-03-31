@@ -56,7 +56,7 @@ class PhotosView extends Spine.Controller
     Gallery.bind('change', @proxy @renderHeader)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
     
-    @toolbar = ['Default', 'Slider', App.showView.initSlider]
+#    @toolbar = ['Default', 'Slider']
       
   change: (item, changed) ->
     @updateBuffer item if changed
@@ -158,8 +158,9 @@ class PhotosView extends Spine.Controller
   show: ->
     return if @isActive()
     Spine.trigger('gallery:activate')
-#    Spine.trigger('change:toolbarOne', ['Photos'], App.showView.initSlider)
-    Spine.trigger('change:toolbarOne', @toolbar)
+    Spine.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
+    Spine.trigger('change:toolbarTwo', ['Slideshow'])
+#    Spine.trigger('change:toolbarOne')
     Spine.trigger('change:canvas', @)
     @renderHeader()
 #    @render()

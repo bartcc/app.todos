@@ -9,6 +9,18 @@ Filter =
         return @all() unless query
         @select (item) ->
           item[opts.func] query, opts
+          
+      sortByOrder: (arr) ->
+        arr.sort (a, b) ->
+          aInt = parseInt(a.order)
+          bInt = parseInt(b.order)
+          if aInt < bInt then -1 else if aInt > bInt then 1 else 0
+          
+      sortByName: (arr) ->
+        arr.sort (a, b) ->
+          a = a._name
+          b = b._name
+          if a < b then -1 else if a > b then 1 else 0
 
     include =
       select: (query) ->

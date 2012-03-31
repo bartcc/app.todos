@@ -100,11 +100,12 @@ class SidebarList extends Spine.Controller
       @renderOneSublist gal
   
   renderOneSublist: (gallery = Gallery.record) ->
-    console.log 'SidebarList::renderSublist'
+    console.log 'SidebarList::renderOneSublist'
     return unless gallery
     filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
+      sorted: true
     albums = Album.filterRelated(gallery.id, filterOptions)
     for album in albums
       album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length

@@ -1,5 +1,6 @@
 class Toolbar extends Spine.Model
 
+
   @configure 'Toolbar', 'id', 'name', 'content'
   
   @extend Spine.Model.Filter
@@ -8,9 +9,7 @@ class Toolbar extends Spine.Model
     @refresh(@tools(), clear:true)
   
   @tools: ->
-    list = []
-    list.push val for key, val of @data
-    list
+    val for key, val of @data
     
   @dropdownGroups:
     group0:
@@ -128,7 +127,7 @@ class Toolbar extends Spine.Model
         ]
       
   @data:
-    group0:
+    group01:
       name: 'Default'
       content:
         [
@@ -144,7 +143,7 @@ class Toolbar extends Spine.Model
           dropdown: true
           itemGroup: @dropdownGroups.group3
         ]
-    group1:
+    group02:
       name: 'Gallery'
       content:
         [
@@ -165,7 +164,7 @@ class Toolbar extends Spine.Model
           dropdown: true
           itemGroup: @dropdownGroups.group0
         ]
-    group2:
+    group03:
       name: 'GalleryEdit'
       content:
         [
@@ -173,7 +172,7 @@ class Toolbar extends Spine.Model
           klass: 'optSave default'
           disabled: -> !Gallery.record
         ]
-    group3:
+    group04:
       name: 'Album'
       content:
         [
@@ -189,7 +188,7 @@ class Toolbar extends Spine.Model
           klass: 'optDestroyAlbum '
           disabled: -> !Gallery.selectionList().length
         ]
-    group4:
+    group05:
       name: 'Photos'
       content:
         [
@@ -201,7 +200,7 @@ class Toolbar extends Spine.Model
           outerstyle: 'float: right;'
           disabled: -> !Album.selectionList().length
         ]
-    group5:
+    group06:
       name: 'Photo'
       content:
         [
@@ -212,7 +211,7 @@ class Toolbar extends Spine.Model
           klass: 'optDestroyPhoto '
           disabled: -> !Album.selectionList().length
         ]
-    group6:
+    group07:
       name: 'Upload'
       content:
         [
@@ -220,7 +219,7 @@ class Toolbar extends Spine.Model
           icon: 'upload'
           klass: ''
         ]
-    group7:
+    group08:
       name: 'Slideshow'
       content:
         [
@@ -230,7 +229,7 @@ class Toolbar extends Spine.Model
           iconcolor: 'white'
           disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
         ]
-    group71:
+    group09:
       name: 'Play'
       content:
         [
@@ -240,7 +239,7 @@ class Toolbar extends Spine.Model
           iconcolor: 'white'
           disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
         ]
-    group8:
+    group10:
       name: 'Back'
       locked: true
       content:
@@ -251,17 +250,17 @@ class Toolbar extends Spine.Model
           outerstyle: 'float: right;'
           innerstyle: 'left: -8px; top: 8px;'
         ]
-    group81:
+    group11:
       name: 'Chromeless'
       locked: true
       content:
         [
           name: 'Chromless'
-          klass: -> 'optFullScreen'  + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
+          klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
           dataToggle: 'button'
           outerstyle: ''
         ]
-    group9:
+    group12:
       name: 'Slider'
       content:
         [

@@ -177,9 +177,7 @@ Model.Extender = {
         }
         return _results;
       },
-      successHandler: function(data, status, xhr) {
-        return console.log(data);
-      },
+      successHandler: function(data, status, xhr) {},
       errorHandler: function(record, xhr, statusText, error) {
         var status;
         status = xhr.status;
@@ -216,24 +214,10 @@ Model.Extender = {
         var joinTableItems;
         joinTableItems = Spine.Model[options.joinTable].filter(id, options);
         if (options.sorted) {
-          return this.sortArray(this.filter(joinTableItems));
+          return this.sortByOrder(this.filter(joinTableItems));
         } else {
           return this.filter(joinTableItems);
         }
-      },
-      sortArray: function(arr) {
-        return arr.sort(function(a, b) {
-          var aInt, bInt;
-          aInt = parseInt(a.order);
-          bInt = parseInt(b.order);
-          if (aInt < bInt) {
-            return -1;
-          } else if (aInt > bInt) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
       }
     };
     Include = {

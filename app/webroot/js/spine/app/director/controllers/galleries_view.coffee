@@ -39,8 +39,8 @@ class GalleriesView extends Spine.Controller
     @header.render()
     
   show: ->
-#    Spine.trigger('change:toolbarOne', ['Gallery'])
     Spine.trigger('change:toolbarOne', ['Default'])
+    Spine.trigger('change:toolbarTwo', [''])
     Spine.trigger('gallery:activate', Gallery.record)
     Spine.trigger('change:canvas', @)
     

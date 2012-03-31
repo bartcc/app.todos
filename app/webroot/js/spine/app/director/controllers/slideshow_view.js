@@ -144,6 +144,8 @@ SlideshowView = (function() {
     var filterOptions, items;
     console.log('Slideshow::show');
     Spine.trigger('change:canvas', this);
+    Spine.trigger('change:toolbarOne', ['Chromeless']);
+    Spine.trigger('change:toolbarTwo', ['Slider', 'Back', 'Slideshow', App.showView.initSlider]);
     filterOptions = {
       key: 'album_id',
       joinTable: 'AlbumsPhoto',

@@ -115,7 +115,8 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.show = function() {
     Spine.trigger('change:canvas', this);
-    Spine.trigger('change:toolbarOne', ['Views', 'Default']);
+    Spine.trigger('change:toolbarOne', ['Default']);
+    Spine.trigger('change:toolbarTwo', ['Slideshow']);
     return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.newAttributes = function() {

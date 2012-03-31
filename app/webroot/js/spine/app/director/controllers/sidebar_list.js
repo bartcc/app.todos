@@ -127,13 +127,14 @@ SidebarList = (function() {
     if (gallery == null) {
       gallery = Gallery.record;
     }
-    console.log('SidebarList::renderSublist');
+    console.log('SidebarList::renderOneSublist');
     if (!gallery) {
       return;
     }
     filterOptions = {
       key: 'gallery_id',
-      joinTable: 'GalleriesAlbum'
+      joinTable: 'GalleriesAlbum',
+      sorted: true
     };
     albums = Album.filterRelated(gallery.id, filterOptions);
     for (_i = 0, _len = albums.length; _i < _len; _i++) {

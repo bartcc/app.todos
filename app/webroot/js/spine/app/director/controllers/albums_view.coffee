@@ -106,7 +106,8 @@ class AlbumsView extends Spine.Controller
   
   show: ->
     Spine.trigger('change:canvas', @)
-    Spine.trigger('change:toolbarOne', ['Views', 'Default'])
+    Spine.trigger('change:toolbarOne', ['Default'])
+    Spine.trigger('change:toolbarTwo', ['Slideshow'])
     Spine.trigger('album:activate')
     
   newAttributes: ->

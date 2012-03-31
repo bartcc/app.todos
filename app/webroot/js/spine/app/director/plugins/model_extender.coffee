@@ -29,7 +29,7 @@ Model.Extender =
         json || @__super__.constructor.fromJSON.call @, objects
 
       createJoinTables: (arr) ->
-        return unless @isArray(arr)
+        return unless @isArray arr
         joinTables = @joinTables()
  
         for key in joinTables
@@ -103,7 +103,7 @@ Model.Extender =
         record.id for record in records
       
       successHandler: (data, status, xhr) ->
-        console.log data
+#        console.log data
         
       errorHandler: (record, xhr, statusText, error) ->
         status = xhr.status
@@ -136,17 +136,10 @@ Model.Extender =
           
       filterRelated: (id, options) ->
         joinTableItems = Spine.Model[options.joinTable].filter(id, options)
-#        console.log joinTableItems
         if options.sorted
-          return @sortArray @filter joinTableItems
+          return @sortByOrder @filter joinTableItems
         else
           return @filter joinTableItems
-        
-      sortArray: (arr) ->
-        arr.sort (a, b) ->
-          aInt = parseInt(a.order)
-          bInt = parseInt(b.order)
-          if aInt < bInt then -1 else if aInt > bInt then 1 else 0
           
     Include =
       

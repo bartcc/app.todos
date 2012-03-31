@@ -68,9 +68,6 @@ ShowView = (function() {
     'slidestop .slider': 'sliderStop',
     'slidestart .slider': 'sliderStart'
   };
-  ShowView.prototype.toolsTemplate = function(items) {
-    return $('#toolsTemplate').tmpl(items);
-  };
   function ShowView() {
     this.sliderStop = __bind(this.sliderStop, this);
     this.sliderSlide = __bind(this.sliderSlide, this);
@@ -79,12 +76,10 @@ ShowView = (function() {
     this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
     this.silent = true;
     this.toolbarOne = new ToolbarView({
-      el: this.toolbarOneEl,
-      template: this.toolsTemplate
+      el: this.toolbarOneEl
     });
     this.toolbarTwo = new ToolbarView({
-      el: this.toolbarTwoEl,
-      template: this.toolsTemplate
+      el: this.toolbarTwoEl
     });
     this.photoHeader = new PhotoHeader({
       el: this.photoHeaderEl
@@ -170,33 +165,19 @@ ShowView = (function() {
     this.canvasManager.change(controller);
     return this.headerManager.change(controller.header);
   };
-  ShowView.prototype.renderToolbar_ = function(el) {
-    var _ref;
-    console.log('ShowView::renderToolbar');
-    if ((_ref = this[el]) != null) {
-      _ref.html(this.toolsTemplate(this.currentToolbar));
-    }
-    return this.refreshElements();
-  };
-  ShowView.prototype.changeToolbarOne = function(list, cb) {
-    if (list == null) {
-      list = [];
-    }
-    this.toolbarOne.change(list, cb);
+  ShowView.prototype.changeToolbarOne = function(list) {
+    this.toolbarOne.change(list);
     this.toolbarTwo.refresh();
     return this.refreshElements();
   };
-  ShowView.prototype.changeToolbarTwo = function(list, cb) {
-    if (list == null) {
-      list = [];
-    }
-    this.toolbarTwo.change(list, cb);
+  ShowView.prototype.changeToolbarTwo = function(list) {
+    this.toolbarTwo.change(list);
     return this.refreshElements();
   };
   ShowView.prototype.refreshToolbars = function() {
     console.log('ShowView::refreshToolbars');
-    this.toolbarOne.change();
-    return this.toolbarTwo.change();
+    this.toolbarOne.refresh();
+    return this.toolbarTwo.refresh();
   };
   ShowView.prototype.renderViewControl = function(controller, controlEl) {
     var active;
@@ -227,18 +208,14 @@ ShowView = (function() {
   };
   ShowView.prototype.showSlideshow = function(e) {
     this.slideshowMode = App.SILENTMODE;
-    this.changeToolbarOne(['Chromeless']);
-    this.changeToolbarTwo(['Slider', 'Back', 'Play'], App.showView.initSlider);
     App.sidebar.toggleDraghandle({
       close: true
     });
     return Spine.trigger('show:slideshow');
   };
   ShowView.prototype.showPrevious = function() {
-    this.changeToolbarOne(['Default']);
-    this.changeToolbarTwo(['Slideshow']);
     App.sidebar.toggleDraghandle();
-    return Spine.trigger('change:canvas', this.previous);
+    return this.previous.show();
   };
   ShowView.prototype.showModal = function() {
     this.modalView.render({
@@ -314,7 +291,7 @@ ShowView = (function() {
     return e.preventDefault();
   };
   ShowView.prototype.togglePhoto = function(e) {
-    return this.changeToolbarOne(['Photos', 'Slider'], App.showView.initSlider);
+    return this.changeToolbarOne(['Photos', 'Slider']);
   };
   ShowView.prototype.toggleUploadShow = function(e) {
     this.trigger('toggle:view', App.upload, e.target);

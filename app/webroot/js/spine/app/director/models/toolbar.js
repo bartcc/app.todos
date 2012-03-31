@@ -25,14 +25,14 @@ Toolbar = (function() {
     });
   };
   Toolbar.tools = function() {
-    var key, list, val, _ref;
-    list = [];
+    var key, val, _ref, _results;
     _ref = this.data;
+    _results = [];
     for (key in _ref) {
       val = _ref[key];
-      list.push(val);
+      _results.push(val);
     }
-    return list;
+    return _results;
   };
   Toolbar.dropdownGroups = {
     group0: {
@@ -188,7 +188,7 @@ Toolbar = (function() {
     }
   };
   Toolbar.data = {
-    group0: {
+    group01: {
       name: 'Default',
       content: [
         {
@@ -206,7 +206,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group1: {
+    group02: {
       name: 'Gallery',
       content: [
         {
@@ -233,7 +233,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group2: {
+    group03: {
       name: 'GalleryEdit',
       content: [
         {
@@ -245,7 +245,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group3: {
+    group04: {
       name: 'Album',
       content: [
         {
@@ -267,7 +267,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group4: {
+    group05: {
       name: 'Photos',
       content: [
         {
@@ -285,7 +285,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group5: {
+    group06: {
       name: 'Photo',
       content: [
         {
@@ -302,7 +302,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group6: {
+    group07: {
       name: 'Upload',
       content: [
         {
@@ -312,7 +312,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group7: {
+    group08: {
       name: 'Slideshow',
       content: [
         {
@@ -328,7 +328,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group71: {
+    group09: {
       name: 'Play',
       content: [
         {
@@ -344,7 +344,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group8: {
+    group10: {
       name: 'Back',
       locked: true,
       content: [
@@ -357,7 +357,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group81: {
+    group11: {
       name: 'Chromeless',
       locked: true,
       content: [
@@ -371,7 +371,7 @@ Toolbar = (function() {
         }
       ]
     },
-    group9: {
+    group12: {
       name: 'Slider',
       content: [
         {

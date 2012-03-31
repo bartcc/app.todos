@@ -6,6 +6,7 @@ class GalleriesList extends Spine.Controller
   @extend Spine.Controller.Drag
   
   events:
+    'click'   : 'clickDeselect'
     'click .item'   : 'click'
     'dblclick .item': 'dblclick'
   
@@ -33,9 +34,12 @@ class GalleriesList extends Spine.Controller
     if item
       el = @children().forItem(item)
       el.addClass("active")
-      Spine.trigger('gallery:exposeSelection', item)
       Spine.trigger('change:toolbarOne')
+    Spine.trigger('gallery:exposeSelection', item)
         
+  clickDeselect: (e) ->
+    Gallery.current()
+    
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()

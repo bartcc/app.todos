@@ -23,6 +23,7 @@ class SlideshowView extends Spine.Controller
     @thumbSize = 140
     @fullScreen = true
     @autoplay = false
+    
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('play:slideshow', @proxy @play)
     Spine.bind('slider:change', @proxy @size)
@@ -100,6 +101,9 @@ class SlideshowView extends Spine.Controller
     console.log 'Slideshow::show'
 #    return unless Album.record
     Spine.trigger('change:canvas', @)
+    
+    Spine.trigger('change:toolbarOne', ['Chromeless'])
+    Spine.trigger('change:toolbarTwo', ['Slider', 'Back', 'Slideshow', App.showView.initSlider])
     
     filterOptions =
       key: 'album_id'

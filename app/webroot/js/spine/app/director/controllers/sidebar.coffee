@@ -204,7 +204,7 @@ class Sidebar extends Spine.Controller
 
   edit: ->
     App.galleryEditView.render()
-    App.contentManager.change(App.galleryEditView)
+    App.contentManager.change(App.galleryEditView, -> alert 'activated')
 
   toggleDraghandle: (options) ->
     return if options?.close and App.vmanager.sleep

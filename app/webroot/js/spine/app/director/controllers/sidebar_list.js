@@ -46,7 +46,7 @@ SidebarList = (function() {
     GalleriesAlbum.bind('change', this.proxy(this.renderItemFromGalleriesAlbum));
     Album.bind('change', this.proxy(this.renderItemFromAlbum));
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
-    Spine.bind('drag:timeout', this.proxy(this.expandExpander));
+    Spine.bind('drag:timeout', this.proxy(this.expandAfterTimeout));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
     Spine.bind('gallery:exposeSelection', this.proxy(this.exposeSelection));
     Spine.bind('gallery:activate', this.proxy(this.activate));
@@ -297,9 +297,10 @@ SidebarList = (function() {
     return e.preventDefault();
   };
   SidebarList.prototype.click = function(e) {
-    var item;
+    var el, item;
     console.log('SidebarList::click');
-    item = $(e.currentTarget).item();
+    el = $(e.target);
+    item = el.item();
     this.change(item, 'show', e);
     Spine.trigger('change:toolbar', ['Gallery']);
     App.contentManager.change(App.showView);
@@ -314,7 +315,7 @@ SidebarList = (function() {
     e.stopPropagation();
     return e.preventDefault();
   };
-  SidebarList.prototype.expandExpander = function(e) {
+  SidebarList.prototype.expandAfterTimeout = function(e) {
     var closest, el, expander;
     clearTimeout(Spine.timer);
     el = $(e.target);
@@ -326,6 +327,7 @@ SidebarList = (function() {
       }
     }
   };
+  SidebarList.prototype.close = function() {};
   SidebarList.prototype.expand = function(e, force) {
     var content, gallery, icon, parent;
     if (force == null) {
@@ -342,7 +344,7 @@ SidebarList = (function() {
     }
     if ($('.expand', parent).length) {
       this.renderOneSublist(gallery);
-      this.exposeSublistSelection(Gallery.record);
+      this.exposeSublistSelection();
       content.show();
     } else {
       content.hide();

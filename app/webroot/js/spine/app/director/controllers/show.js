@@ -128,14 +128,14 @@ ShowView = (function() {
       parentModel: 'Photo',
       subview: true
     });
-    Spine.bind('change:canvas', this.proxy(this.changeCanvas));
+    this.bind('canvas', this.proxy(this.canvas));
+    this.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
+    this.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
+    this.bind('toggle:view', this.proxy(this.toggleView));
     Gallery.bind('change', this.proxy(this.changeToolbarOne));
     Album.bind('change', this.proxy(this.changeToolbarOne));
     Photo.bind('change', this.proxy(this.changeToolbarOne));
-    Spine.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
-    Spine.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
     Spine.bind('change:selectedAlbum', this.proxy(this.refreshToolbars));
-    this.bind('toggle:view', this.proxy(this.toggleView));
     this.current = this.albumsView;
     this.slideshowMode = App.SILENTMODE;
     this.sOutValue = 74;
@@ -150,9 +150,8 @@ ShowView = (function() {
     this.canvasManager.change(this.current);
     this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader, this.photoHeader);
     this.headerManager.change(this.albumsHeader);
-    this.defaultToolbarTwo = this.toolbarTwo.change(['Slideshow']);
   }
-  ShowView.prototype.changeCanvas = function(controller) {
+  ShowView.prototype.canvas = function(controller) {
     console.log('ShowView::changeCanvas');
     if (!this.current.subview) {
       this.previous = this.current;

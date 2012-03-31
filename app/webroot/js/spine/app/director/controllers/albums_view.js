@@ -114,10 +114,10 @@ AlbumsView = (function() {
     return album.clearCache();
   };
   AlbumsView.prototype.show = function() {
-    Spine.trigger('change:canvas', this);
-    Spine.trigger('change:toolbarOne', ['Default']);
-    Spine.trigger('change:toolbarTwo', ['Slideshow']);
-    return Spine.trigger('album:activate');
+    Spine.trigger('album:activate');
+    App.showView.trigger('change:toolbarOne', ['Default']);
+    App.showView.trigger('change:toolbarTwo', ['Slideshow']);
+    return App.showView.trigger('canvas', this);
   };
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {

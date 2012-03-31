@@ -39,10 +39,10 @@ class GalleriesView extends Spine.Controller
     @header.render()
     
   show: ->
-    Spine.trigger('change:toolbarOne', ['Default'])
-    Spine.trigger('change:toolbarTwo', [''])
-    Spine.trigger('gallery:activate', Gallery.record)
-    Spine.trigger('change:canvas', @)
+    Spine.trigger('gallery:activate')
+    App.showView.trigger('change:toolbarOne', ['Default'])
+    App.showView.trigger('change:toolbarTwo', [''])
+    App.showView.trigger('canvas', @)
     
   newAttributes: ->
     if User.first()

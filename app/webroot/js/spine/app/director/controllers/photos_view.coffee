@@ -41,6 +41,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
+    Gallery.bind('change', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
     Photo.bind('refresh destroy', @proxy @renderHeader)
     Photo.bind('refresh', @proxy @refresh)
@@ -53,11 +54,11 @@ class PhotosView extends Spine.Controller
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('start:slideshow', @proxy @slideshow)
-    Gallery.bind('change', @proxy @renderHeader)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
+#    @bind 'active', @proxy @onActive
+#    @active @activeCallback
+#    @active -> @proxy @onActive
     
-#    @toolbar = ['Default', 'Slider']
-      
   change: (item, changed) ->
     @updateBuffer item if changed
     @render @buffer if @buffer
@@ -69,7 +70,6 @@ class PhotosView extends Spine.Controller
       sorted: true
     
     @buffer = Photo.filterRelated(item?.id, filterOptions)
-    
   
   render: (items, mode) ->
     # render only if necessary
@@ -158,12 +158,9 @@ class PhotosView extends Spine.Controller
   show: ->
     return if @isActive()
     Spine.trigger('gallery:activate')
-    Spine.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
-    Spine.trigger('change:toolbarTwo', ['Slideshow'])
-#    Spine.trigger('change:toolbarOne')
-    Spine.trigger('change:canvas', @)
-    @renderHeader()
-#    @render()
+    App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
+    App.showView.trigger('change:toolbarTwo', ['Slideshow'])
+    App.showView.trigger('canvas', @)
   
   save: (item) ->
 

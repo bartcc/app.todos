@@ -153,8 +153,8 @@ PhotoView = (function() {
     return this.info.bye();
   };
   PhotoView.prototype.show = function(item) {
-    Spine.trigger('change:toolbarOne', ['Default']);
-    Spine.trigger('change:canvas', this);
+    App.showView.trigger('change:toolbarOne', ['Default']);
+    App.showView.trigger('canvas', this);
     return this.render(item);
   };
   return PhotoView;

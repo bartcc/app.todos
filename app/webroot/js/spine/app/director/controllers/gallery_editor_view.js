@@ -42,7 +42,12 @@ GalleryEditorView = (function() {
     Spine.bind('save:gallery', this.proxy(this.save));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('change:toolbar', this.proxy(this.changeToolbar));
+    this.bind('change', this.proxy(this.changed));
+    this.bind('active', this.proxy(this.changed));
   }
+  GalleryEditorView.prototype.changed = function() {
+    return alert('changed to galleries\' edit view');
+  };
   GalleryEditorView.prototype.change = function(item, mode) {
     console.log('GalleryEditView::change');
     if (!(item != null ? item.destroyed : void 0)) {

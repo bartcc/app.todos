@@ -53,10 +53,10 @@ GalleriesView = (function() {
     return this.header.render();
   };
   GalleriesView.prototype.show = function() {
-    Spine.trigger('change:toolbarOne', ['Default']);
-    Spine.trigger('change:toolbarTwo', ['']);
-    Spine.trigger('gallery:activate', Gallery.record);
-    return Spine.trigger('change:canvas', this);
+    Spine.trigger('gallery:activate');
+    App.showView.trigger('change:toolbarOne', ['Default']);
+    App.showView.trigger('change:toolbarTwo', ['']);
+    return App.showView.trigger('canvas', this);
   };
   GalleriesView.prototype.newAttributes = function() {
     if (User.first()) {

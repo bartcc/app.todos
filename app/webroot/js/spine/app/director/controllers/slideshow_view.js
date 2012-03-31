@@ -143,9 +143,9 @@ SlideshowView = (function() {
   SlideshowView.prototype.show = function() {
     var filterOptions, items;
     console.log('Slideshow::show');
-    Spine.trigger('change:canvas', this);
-    Spine.trigger('change:toolbarOne', ['Chromeless']);
-    Spine.trigger('change:toolbarTwo', ['Slider', 'Back', 'Slideshow', App.showView.initSlider]);
+    App.showView.trigger('change:toolbarOne', ['Chromeless']);
+    App.showView.trigger('change:toolbarTwo', ['Slider', 'Back', 'Slideshow', App.showView.initSlider]);
+    App.showView.trigger('canvas', this);
     filterOptions = {
       key: 'album_id',
       joinTable: 'AlbumsPhoto',

@@ -105,10 +105,10 @@ class AlbumsView extends Spine.Controller
     album.clearCache()
   
   show: ->
-    Spine.trigger('change:canvas', @)
-    Spine.trigger('change:toolbarOne', ['Default'])
-    Spine.trigger('change:toolbarTwo', ['Slideshow'])
     Spine.trigger('album:activate')
+    App.showView.trigger('change:toolbarOne', ['Default'])
+    App.showView.trigger('change:toolbarTwo', ['Slideshow'])
+    App.showView.trigger('canvas', @)
     
   newAttributes: ->
     if User.first()

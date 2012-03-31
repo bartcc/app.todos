@@ -106,14 +106,15 @@ class ShowView extends Spine.Controller
       parentModel: 'Photo'
       subview: true
     
-    Spine.bind('change:canvas', @proxy @changeCanvas)
+    @bind('canvas', @proxy @canvas)
+    @bind('change:toolbarOne', @proxy @changeToolbarOne)
+    @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
+    @bind('toggle:view', @proxy @toggleView)
+    
     Gallery.bind('change', @proxy @changeToolbarOne)
     Album.bind('change', @proxy @changeToolbarOne)
     Photo.bind('change', @proxy @changeToolbarOne)
-    Spine.bind('change:toolbarOne', @proxy @changeToolbarOne)
-    Spine.bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
-    @bind('toggle:view', @proxy @toggleView)
     @current = @albumsView
     @slideshowMode = App.SILENTMODE
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
@@ -130,15 +131,16 @@ class ShowView extends Spine.Controller
     @headerManager.change @albumsHeader
 #    @el.dropdown( '.dropdown-toggle' )
     
-    @defaultToolbarTwo = @toolbarTwo.change ['Slideshow']
     
-  changeCanvas: (controller) ->
+  canvas: (controller) ->
     console.log 'ShowView::changeCanvas'
     @previous = @current unless @current.subview
     @current = controller
     @el.data
       current: controller.el.data().current.record
       className: controller.el.data().current.className
+#    controller.trigger 'active'
+#    controller.header.trigger 'active' if controller.header
     @canvasManager.change controller
     @headerManager.change controller.header
     

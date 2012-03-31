@@ -33,6 +33,10 @@ class GalleryEditorView extends Spine.Controller
     Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:toolbar', @proxy @changeToolbar)
+    @bind 'change', @proxy @changed
+    @bind 'active', @proxy @changed
+
+  changed: -> alert 'changed to galleries\' edit view'
 
   change: (item, mode) ->
     console.log 'GalleryEditView::change'

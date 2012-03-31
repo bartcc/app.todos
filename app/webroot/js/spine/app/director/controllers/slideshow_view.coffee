@@ -99,11 +99,10 @@ class SlideshowView extends Spine.Controller
     
   show: ->
     console.log 'Slideshow::show'
-#    return unless Album.record
-    Spine.trigger('change:canvas', @)
     
-    Spine.trigger('change:toolbarOne', ['Chromeless'])
-    Spine.trigger('change:toolbarTwo', ['Slider', 'Back', 'Slideshow', App.showView.initSlider])
+    App.showView.trigger('change:toolbarOne', ['Chromeless'])
+    App.showView.trigger('change:toolbarTwo', ['Slider', 'Back', 'Slideshow', App.showView.initSlider])
+    App.showView.trigger('canvas', @)
     
     filterOptions =
       key: 'album_id'

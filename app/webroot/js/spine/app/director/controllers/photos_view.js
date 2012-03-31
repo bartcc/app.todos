@@ -53,6 +53,7 @@ PhotosView = (function() {
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
+    Gallery.bind('change', this.proxy(this.renderHeader));
     Album.bind('change', this.proxy(this.renderHeader));
     Photo.bind('refresh destroy', this.proxy(this.renderHeader));
     Photo.bind('refresh', this.proxy(this.refresh));
@@ -65,7 +66,6 @@ PhotosView = (function() {
     Spine.bind('show:photos', this.proxy(this.show));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Spine.bind('start:slideshow', this.proxy(this.slideshow));
-    Gallery.bind('change', this.proxy(this.renderHeader));
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
   }
   PhotosView.prototype.change = function(item, changed) {
@@ -184,10 +184,9 @@ PhotosView = (function() {
       return;
     }
     Spine.trigger('gallery:activate');
-    Spine.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider]);
-    Spine.trigger('change:toolbarTwo', ['Slideshow']);
-    Spine.trigger('change:canvas', this);
-    return this.renderHeader();
+    App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider]);
+    App.showView.trigger('change:toolbarTwo', ['Slideshow']);
+    return App.showView.trigger('canvas', this);
   };
   PhotosView.prototype.save = function(item) {};
   PhotosView.prototype.refresh = function(photos) {

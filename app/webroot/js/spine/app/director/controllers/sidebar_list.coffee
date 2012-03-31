@@ -38,7 +38,7 @@ class SidebarList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Album.bind('change', @proxy @renderItemFromAlbum)
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
-    Spine.bind('drag:timeout', @proxy @expandExpander)
+    Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
     Spine.bind('gallery:activate', @proxy @activate)
@@ -225,7 +225,8 @@ class SidebarList extends Spine.Controller
     
   click: (e) ->
     console.log 'SidebarList::click'
-    item = $(e.currentTarget).item()
+    el = $(e.target)
+    item = el.item()
     
     @change item, 'show', e
     
@@ -243,7 +244,7 @@ class SidebarList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
 
-  expandExpander: (e) ->
+  expandAfterTimeout: (e) ->
     clearTimeout Spine.timer
     el = $(e.target)
     closest = (el.closest('.item')) or []
@@ -252,6 +253,9 @@ class SidebarList extends Spine.Controller
       if expander.length
         @expand(e, true)
 
+  close: () ->
+    
+    
   expand: (e, force = false) ->
     parent = $(e.target).parents('li')
     gallery = parent.item()
@@ -265,20 +269,17 @@ class SidebarList extends Spine.Controller
       
     if $('.expand', parent).length
       @renderOneSublist gallery
-      @exposeSublistSelection Gallery.record
+      @exposeSublistSelection()
       content.show()
     else
       content.hide()
 
     e.stopPropagation()
     e.preventDefault()
-#    false
 
   show: (e) ->
     App.contentManager.change App.showView
     e.stopPropagation()
     e.preventDefault()
-#    false
-    
     
 module?.exports = SidebarList

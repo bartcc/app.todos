@@ -331,6 +331,7 @@ SidebarList = (function() {
     item = el.item();
     this.change(item, 'show', e);
     Spine.trigger('change:toolbar', ['Gallery']);
+    App.contentManager.change(App.showView);
     e.stopPropagation();
     return e.preventDefault();
   };

@@ -24,14 +24,13 @@ class PhotosList extends Spine.Controller
   constructor: ->
     super
     Photo.bind('sortupdate', @proxy @sortupdate)
-#    AlbumsPhoto.bind('destroy', @proxy @sortupdate)
     Spine.bind('photo:activate', @proxy @activate)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
-    Photo.bind('uri', @proxy @uri)
+#    Photo.bind('uri', @proxy @uri)
     
   change: ->
     console.log 'PhotosList::change'
@@ -56,7 +55,6 @@ class PhotosList extends Spine.Controller
       @el.addClass 'all'
       @renderAll()
     
-    @elIn = $('.more-icon', @el)
     @el
   
   renderAll: ->

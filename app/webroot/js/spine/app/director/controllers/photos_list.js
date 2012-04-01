@@ -40,7 +40,6 @@ PhotosList = (function() {
     Photo.bind('update', this.proxy(this.update));
     Photo.bind("ajaxError", Photo.errorHandler);
     Album.bind("ajaxError", Album.errorHandler);
-    Photo.bind('uri', this.proxy(this.uri));
   }
   PhotosList.prototype.change = function() {
     return console.log('PhotosList::change');
@@ -70,7 +69,6 @@ PhotosList = (function() {
       this.el.addClass('all');
       this.renderAll();
     }
-    this.elIn = $('.more-icon', this.el);
     return this.el;
   };
   PhotosList.prototype.renderAll = function() {

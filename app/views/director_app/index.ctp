@@ -164,7 +164,7 @@
                 <div class="alert alert-info"><h4 class="alert-heading">
                     Upload your images to: <span class="label label-warning uploadinfo"></span></h4>
                     <span  style="font-size: 0.8em;">First select or open an album. Now drag your images into the main browser window.
-                      Alternatively you can use the 'Add Files' button below.</span></div>
+                      Alternatively you can use the <span class="label label-info"> Add Files </span> button below.</span></div>
                   <div class="row fileupload-buttonbar">
                     <div class="span7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -197,8 +197,8 @@
                   <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
                 
               </form>
-              <div class="alert alert-info" style="font-size: 0.8em;"><span class="label label-warning">Heads Up!</span>  If you check <strong>Photo->Auto Upload</strong> this dialogue will entirely get out of your way.</div>
-              <div class="alert alert-info" style="font-size: 0.8em;"><span class="label label-warning">Heads Up!</span> If you haven't selected any album for upload, your images will still be uploaded and can be found under <strong>View->All Photos</strong></div>
+              <div class="alert alert-info" style="font-size: 0.8em;"><h5 class="alert-heading">Heads Up!</h5>  If you check <span class="label label-info optQuickUpload"> Photo->Auto Upload </span> this dialogue will entirely get out of your way.</div>
+              <div class="alert alert-info" style="font-size: 0.8em;"><h5 class="alert-heading">Heads Up!</h5> If you haven't selected any album for upload, your images will still be uploaded and can be found under <span class="label label-info optAllPhotos"> View->All Photos </span></div>
             </div>
           </div>
         </div>  

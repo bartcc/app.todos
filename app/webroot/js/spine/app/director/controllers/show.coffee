@@ -312,14 +312,24 @@ class ShowView extends Spine.Controller
   isQuickUpload: ->
     @btnQuickUpload.find('i').hasClass('icon-ok')
     
-  slideshowable: ->
-    $('[rel="gallery"]', @current.el)
+  slideshowable: (selector) ->
+    $('[rel="gallery"]', selector)
     
   play: ->
 #    return if @slideshowMode is App.SILENTMODE
-    res = @slideshowable()
+    res = @slideshowable @current.el
+    getElement = =>
+      list = Album.selectionList()
+      if list.length
+        id = list[0] 
+        item = Photo.find(id) if Photo.exists(id)
+        root = @current.el.children('.items')
+        el = root.children().forItem(item)
+        @slideshowable el
+      else $(res[0])
     if res.length
-      $(res[0]).click()
+#      $(res[0]).click()
+      getElement().click()
       @slideshowMode = App.SILENTMODE
     else
       Spine.trigger('show:photos')
@@ -371,7 +381,6 @@ class ShowView extends Spine.Controller
     
   selectAll: (e) ->
     root = @current.el.children('.items')
-#    console.log root.children()
     root.children().each (index, el) ->
       item = $(@).item()
       item.addRemoveSelection(true)

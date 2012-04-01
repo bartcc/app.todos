@@ -169,12 +169,10 @@ class App extends Spine.Controller
       when 97
         if e.metaKey or e.ctrlKey
           @showView.selectAll()
-          false
+          e.preventDefault()
       when 32
         @showView.pause()
         e.preventDefault()
-      else
-        console.log key
         
 $ ->
   

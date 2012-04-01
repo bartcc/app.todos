@@ -210,14 +210,12 @@ App = (function() {
       case 97:
         if (e.metaKey || e.ctrlKey) {
           this.showView.selectAll();
-          return false;
+          return e.preventDefault();
         }
         break;
       case 32:
         this.showView.pause();
         return e.preventDefault();
-      default:
-        return console.log(key);
     }
   };
   return App;

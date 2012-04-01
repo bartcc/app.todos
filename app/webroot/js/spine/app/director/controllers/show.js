@@ -340,14 +340,29 @@ ShowView = (function() {
   ShowView.prototype.isQuickUpload = function() {
     return this.btnQuickUpload.find('i').hasClass('icon-ok');
   };
-  ShowView.prototype.slideshowable = function() {
-    return $('[rel="gallery"]', this.current.el);
+  ShowView.prototype.slideshowable = function(selector) {
+    return $('[rel="gallery"]', selector);
   };
   ShowView.prototype.play = function() {
-    var res;
-    res = this.slideshowable();
+    var getElement, res;
+    res = this.slideshowable(this.current.el);
+    getElement = __bind(function() {
+      var el, id, item, list, root;
+      list = Album.selectionList();
+      if (list.length) {
+        id = list[0];
+        if (Photo.exists(id)) {
+          item = Photo.find(id);
+        }
+        root = this.current.el.children('.items');
+        el = root.children().forItem(item);
+        return this.slideshowable(el);
+      } else {
+        return $(res[0]);
+      }
+    }, this);
     if (res.length) {
-      $(res[0]).click();
+      getElement().click();
       return this.slideshowMode = App.SILENTMODE;
     } else {
       Spine.trigger('show:photos');

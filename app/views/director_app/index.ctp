@@ -162,7 +162,7 @@
             <div id="fu" class="view container flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
                 <div class="alert alert-info"><h4 class="alert-heading">
-                    Upload your images to: <span class="label label-warning uploadinfo"></span></h4>
+                    Upload your images to: </h4><h2><span class="label label-info uploadinfo"></span></h2>
                     <span  style="font-size: 0.8em;">First select or open an album. Now drag your images into the main browser window.
                       Alternatively you can use the <span class="label label-info"> Add Files </span> button below.</span></div>
                   <div class="row fileupload-buttonbar">

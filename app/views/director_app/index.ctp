@@ -161,7 +161,10 @@
             </div>
             <div id="fu" class="view container flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
-                <div class="alert alert-info"><h4 class="alert-heading">Upload your images to: <span class="label label-warning uploadinfo"></span></h4>First select or open an album. Now drag your images into the main browser window. Alternatively you can use the 'Add Files' button below.
+                <div class="alert alert-info"><h4 class="alert-heading">
+                    Upload your images to: <span class="label label-warning uploadinfo"></span></h4>
+                    First select or open an album. Now drag your images into the main browser window.
+                    Alternatively you can use the 'Add Files' button below.
                   <div class="row fileupload-buttonbar">
                     <div class="span7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -194,6 +197,7 @@
                   <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
                 </div>
               </form>
+              <div class="alert alert-info"><strong>Heads Up!</strong>  If you check <strong>Photo->Auto Upload</strong> this dialogue will entirely get out of your way.</div>
               <div class="alert alert-info"><strong>Heads Up!</strong> If you haven't selected any album for upload, your images will still be uploaded and can be found under <strong>View->All Photos</strong></div>
             </div>
           </div>
@@ -475,7 +479,7 @@
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
   {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{/if}}
-  <h2>Album: {{if album.title}}${album.title} / {{/if}}
+  <h2>Album: {{if album.title}}${album.title}{{/if}}
     <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
   </h2>
 </script>

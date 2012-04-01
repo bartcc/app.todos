@@ -413,9 +413,7 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    {{if count}}
-    <div class="alert alert-block"><h4 class="alert-heading">Warning!</h4>An album inside a gallery is just an link (alias) to its Album-Master. Destroying this master, will cause all existing links to be removed!</div>
-    {{/if}}
+    <div class="alert alert-block"><h4 class="alert-heading">Caution</h4>Albums which get removed from this place, will also be permanently removed from <strong class="alert-heading">any</strong> Gallery holding it! You may want try removing it from a specific Gallery instead. <em>(Images won't be deleted.)</em></div>
     <h2>All Albums (Album-Masters)
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -436,7 +434,7 @@
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
-    <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying this master, will cause all derived photos (aliases) to be removed!</div>
+    <div class="alert alert-error"><h4 class="alert-heading">Caution!</h4>Photos which get removed from this place, will also be permanently removed from <strong class="alert-heading">any</strong> Album that might hold it!</div>
     <h2>All Photos (Photo-Masters)
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>

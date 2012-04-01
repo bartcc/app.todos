@@ -163,8 +163,8 @@
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
                 <div class="alert alert-info"><h4 class="alert-heading">
                     Upload your images to: <span class="label label-warning uploadinfo"></span></h4>
-                    First select or open an album. Now drag your images into the main browser window.
-                    Alternatively you can use the 'Add Files' button below.
+                    <span  style="font-size: 0.8em;">First select or open an album. Now drag your images into the main browser window.
+                      Alternatively you can use the 'Add Files' button below.</span></div>
                   <div class="row fileupload-buttonbar">
                     <div class="span7">
                         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -195,10 +195,10 @@
                   <br>
                   <!-- The table listing the files available for upload/download -->
                   <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-                </div>
+                
               </form>
-              <div class="alert alert-info"><strong>Heads Up!</strong>  If you check <strong>Photo->Auto Upload</strong> this dialogue will entirely get out of your way.</div>
-              <div class="alert alert-info"><strong>Heads Up!</strong> If you haven't selected any album for upload, your images will still be uploaded and can be found under <strong>View->All Photos</strong></div>
+              <div class="alert alert-info" style="font-size: 0.8em;"><span class="label label-warning">Heads Up!</span>  If you check <strong>Photo->Auto Upload</strong> this dialogue will entirely get out of your way.</div>
+              <div class="alert alert-info" style="font-size: 0.8em;"><span class="label label-warning">Heads Up!</span> If you haven't selected any album for upload, your images will still be uploaded and can be found under <strong>View->All Photos</strong></div>
             </div>
           </div>
         </div>  

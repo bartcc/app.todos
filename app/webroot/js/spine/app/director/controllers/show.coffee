@@ -316,7 +316,7 @@ class ShowView extends Spine.Controller
     $('[rel="gallery"]', @current.el)
     
   play: ->
-    return if @slideshowMode is App.SILENTMODE
+#    return if @slideshowMode is App.SILENTMODE
     res = @slideshowable()
     if res.length
       $(res[0]).click()
@@ -325,6 +325,15 @@ class ShowView extends Spine.Controller
       Spine.trigger('show:photos')
       Spine.trigger('change:selectedAlbum', Album.record, true)
         
+  pause: ->
+    modal = $('#modal-gallery').data('modal')
+    isShown = modal?.isShown
+    unless isShown
+      @play()
+    else
+      $('#modal-gallery').data('modal').toggleSlideShow()
+      
+  
   slideshowPlay: ->
     @slideshowMode = App.SLIDESHOWMODE
     @play()
@@ -360,10 +369,13 @@ class ShowView extends Spine.Controller
     @changeToolbarOne()
     @current.items.deselect()
     
-  selectAll: ->
-    @current.items.children().each (index, el) ->
-      $(el).item().addRemoveSelection(true)
-    @current.list?.activate()
+  selectAll: (e) ->
+    root = @current.el.children('.items')
+#    console.log root.children()
+    root.children().each (index, el) ->
+      item = $(@).item()
+      item.addRemoveSelection(true)
+    @current.list?.select()
     @changeToolbarOne()
     
   uploadProgress: (e, coll) ->

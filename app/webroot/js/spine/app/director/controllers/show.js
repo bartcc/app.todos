@@ -345,9 +345,6 @@ ShowView = (function() {
   };
   ShowView.prototype.play = function() {
     var res;
-    if (this.slideshowMode === App.SILENTMODE) {
-      return;
-    }
     res = this.slideshowable();
     if (res.length) {
       $(res[0]).click();
@@ -355,6 +352,16 @@ ShowView = (function() {
     } else {
       Spine.trigger('show:photos');
       return Spine.trigger('change:selectedAlbum', Album.record, true);
+    }
+  };
+  ShowView.prototype.pause = function() {
+    var isShown, modal;
+    modal = $('#modal-gallery').data('modal');
+    isShown = modal != null ? modal.isShown : void 0;
+    if (!isShown) {
+      return this.play();
+    } else {
+      return $('#modal-gallery').data('modal').toggleSlideShow();
     }
   };
   ShowView.prototype.slideshowPlay = function() {
@@ -400,13 +407,16 @@ ShowView = (function() {
     this.changeToolbarOne();
     return this.current.items.deselect();
   };
-  ShowView.prototype.selectAll = function() {
-    var _ref;
-    this.current.items.children().each(function(index, el) {
-      return $(el).item().addRemoveSelection(true);
+  ShowView.prototype.selectAll = function(e) {
+    var root, _ref;
+    root = this.current.el.children('.items');
+    root.children().each(function(index, el) {
+      var item;
+      item = $(this).item();
+      return item.addRemoveSelection(true);
     });
     if ((_ref = this.current.list) != null) {
-      _ref.activate();
+      _ref.select();
     }
     return this.changeToolbarOne();
   };

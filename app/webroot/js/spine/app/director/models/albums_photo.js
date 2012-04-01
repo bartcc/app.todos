@@ -58,7 +58,7 @@ AlbumsPhoto = (function() {
   };
   AlbumsPhoto.c = 0;
   AlbumsPhoto.next = function() {
-    return this.uid();
+    return -1;
   };
   AlbumsPhoto.prototype.albums = function() {
     return Album.filterRelated(this.album_id, {

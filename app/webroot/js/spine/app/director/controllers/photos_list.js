@@ -59,7 +59,7 @@ PhotosList = (function() {
       this.el.removeClass('all');
       if (items.length) {
         this[mode](this.template(items));
-        if (mode !== 'append') {
+        if (mode === 'html') {
           this.exposeSelection();
         }
         this.uri(items, mode);

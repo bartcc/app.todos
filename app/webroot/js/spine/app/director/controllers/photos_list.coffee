@@ -48,7 +48,7 @@ class PhotosList extends Spine.Controller
       @el.removeClass 'all'
       if items.length
         @[mode] @template items
-        @exposeSelection() unless mode is 'append'
+        @exposeSelection() if mode is 'html'
         @uri items, mode
       else
         @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'

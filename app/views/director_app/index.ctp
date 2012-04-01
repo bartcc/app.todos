@@ -417,7 +417,7 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
-    <div class="alert alert-block"><h4 class="alert-heading">Caution</h4>Albums which get removed from this place, will also be permanently removed from <strong class="alert-heading">any</strong> Gallery holding it! You may want try removing it from a specific Gallery instead. <em>(Images won't be deleted.)</em></div>
+    <div class="alert alert-block"><h4 class="alert-heading">Caution</h4>Albums which get removed from this place, will also be permanently removed from <strong class="alert-heading">any</strong> linked Galleries! You may want try removing it from a specific Gallery instead. <em>(Images won't be deleted.)</em></div>
     <h2>All Albums (Album-Masters)
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -438,7 +438,7 @@
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
-    <div class="alert alert-error"><h4 class="alert-heading">Caution!</h4>Photos which get removed from this place, will also be permanently removed from <strong class="alert-heading">any</strong> Album that might hold it!</div>
+    <div class="alert alert-error"><h4 class="alert-heading">Caution!</h4>Photos which get removed from this place, will also be permanently removed from <strong class="alert-heading">any</strong> linked Albums!</div>
     <h2>All Photos (Photo-Masters)
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>

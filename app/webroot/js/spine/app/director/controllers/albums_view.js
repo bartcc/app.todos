@@ -114,10 +114,18 @@ AlbumsView = (function() {
     return album.clearCache();
   };
   AlbumsView.prototype.show = function() {
+    var alb, albums, _i, _len, _results;
     Spine.trigger('album:activate');
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
-    return App.showView.trigger('canvas', this);
+    App.showView.trigger('canvas', this);
+    albums = GalleriesAlbum.albums();
+    _results = [];
+    for (_i = 0, _len = albums.length; _i < _len; _i++) {
+      alb = albums[_i];
+      _results.push(!alb.invalid ? this.list.refreshBackgrounds(alb) : void 0);
+    }
+    return _results;
   };
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {

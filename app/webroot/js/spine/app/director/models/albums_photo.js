@@ -45,13 +45,15 @@ AlbumsPhoto = (function() {
   AlbumsPhoto.photos = function(aid) {
     return Photo.filterRelated(aid, {
       joinTable: 'AlbumsPhoto',
-      key: 'album_id'
+      key: 'album_id',
+      sorted: true
     });
   };
   AlbumsPhoto.albums = function(pid) {
     return Album.filterRelated(pid, {
       joinTable: 'AlbumsPhoto',
-      key: 'photo_id'
+      key: 'photo_id',
+      sorted: true
     });
   };
   AlbumsPhoto.c = 0;

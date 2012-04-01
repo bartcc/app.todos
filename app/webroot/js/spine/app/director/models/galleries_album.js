@@ -33,24 +33,18 @@ GalleriesAlbum = (function() {
     return false;
   };
   GalleriesAlbum.galleries = function(aid) {
-    var ret;
-    ret = [];
-    this.each(function() {
-      if (item['album_id'] === aid) {
-        return ret.push(Gallery.find(item['gallery_id']));
-      }
+    return Gallery.filterRelated(aid, {
+      joinTable: 'GalleriesAlbum',
+      key: 'album_id',
+      sorted: true
     });
-    return ret;
   };
   GalleriesAlbum.albums = function(gid) {
-    var ret;
-    ret = [];
-    this.each(function(item) {
-      if (item['gallery_id'] === gid) {
-        return ret.push(Album.find(item['album_id']));
-      }
+    return Album.filterRelated(gid, {
+      joinTable: 'GalleriesAlbum',
+      key: 'gallery_id',
+      sorted: true
     });
-    return ret;
   };
   GalleriesAlbum.next = function() {
     return this.uid();

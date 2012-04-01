@@ -29,6 +29,7 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Album.bind('sortupdate', this.proxy(this.sortupdate));
+    Photo.bind('sortupdate', this.proxy(this.invalidateAlbum));
     GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
@@ -102,28 +103,36 @@ AlbumsList = (function() {
     this.stopInfo();
     return false;
   };
-  AlbumsList.prototype.clearAlbumCache = function(record, mode) {
-    var album;
-    album = Album.find(record.album_id);
-    return Album.clearCache(record.album_id);
-  };
-  AlbumsList.prototype.refreshBackgrounds = function(photos) {
-    var uploadAlbum;
-    uploadAlbum = App.upload.album;
-    if (uploadAlbum) {
-      return this.renderBackgrounds([uploadAlbum]);
+  AlbumsList.prototype.clearAlbumCache = function(record) {
+    var id;
+    id = (record != null ? record.album_id : void 0) || (record != null ? record.id : void 0);
+    if (id) {
+      return Album.clearCache(id);
     }
+  };
+  AlbumsList.prototype.invalidateAlbum = function() {
+    if (Album.record) {
+      return Album.record.clearCache();
+    }
+  };
+  AlbumsList.prototype.refreshBackgrounds = function(alb) {
+    var album;
+    album = App.upload.album ||  alb;
+    if (album) {
+      this.renderBackgrounds([album]);
+    }
+    return album;
   };
   AlbumsList.prototype.changeBackgrounds = function(ap, mode) {
     var albums;
     console.log('AlbumsList::changeBackgrounds');
     albums = ap.albums();
-    return this.renderBackgrounds(albums, mode);
+    return this.renderBackgrounds(albums);
   };
   AlbumsList.prototype.widowedAlbums = function(ap) {
     return this.widows = ap.albums();
   };
-  AlbumsList.prototype.renderBackgrounds = function(albums, mode) {
+  AlbumsList.prototype.renderBackgrounds = function(albums) {
     var album, _i, _j, _len, _len2, _ref, _ref2, _results;
     if (!App.ready) {
       return;
@@ -185,7 +194,7 @@ AlbumsList = (function() {
     item = $(e.currentTarget).item();
     item.addRemoveSelection(this.isCtrlClick(e));
     this.activate();
-    Spine.trigger('change:toolbarOne');
+    App.showView.trigger('change:toolbarOne');
     e.stopPropagation();
     return e.preventDefault();
   };

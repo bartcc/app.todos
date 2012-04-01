@@ -18,6 +18,7 @@ class AlbumsList extends Spine.Controller
     # initialize twitters slideshow
 #    @el.toggleSlideshow()
     Album.bind('sortupdate', @proxy @sortupdate)
+    Photo.bind('sortupdate', @proxy @invalidateAlbum)
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
@@ -83,23 +84,28 @@ class AlbumsList extends Spine.Controller
     @stopInfo()
     false
     
-  clearAlbumCache: (record, mode) ->
-    album = Album.find(record.album_id)
-    Album.clearCache record.album_id
+  clearAlbumCache: (record) ->
+    id = record?.album_id or record?.id
+    Album.clearCache id if id
     
-  refreshBackgrounds: (photos) ->
-    uploadAlbum = App.upload.album
-    @renderBackgrounds [uploadAlbum] if uploadAlbum
+  invalidateAlbum: ->
+    if Album.record
+      Album.record.clearCache()
+    
+  refreshBackgrounds: (alb) ->
+    album = App.upload.album || alb
+    @renderBackgrounds [album] if album
+    album
   
   changeBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::changeBackgrounds'
     albums = ap.albums()
-    @renderBackgrounds albums, mode
+    @renderBackgrounds albums
   
   widowedAlbums: (ap) ->
     @widows = ap.albums()
   
-  renderBackgrounds: (albums, mode) ->
+  renderBackgrounds: (albums) ->
     return unless App.ready
 
     if albums.length
@@ -157,7 +163,7 @@ class AlbumsList extends Spine.Controller
     console.log 'AlbumsList::edit'
     item = $(e.target).item()
     @change item
-    
+  
   sortupdate: (e, item) ->
     @children().each (index) ->
       item = $(@).item()

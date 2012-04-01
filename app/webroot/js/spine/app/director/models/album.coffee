@@ -1,6 +1,6 @@
 
 class Album extends Spine.Model
-  @configure "Album", 'title', 'description', 'count', 'user_id', 'order'
+  @configure "Album", 'title', 'description', 'count', 'user_id', 'order', 'ivalid'
 
   @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
@@ -37,6 +37,13 @@ class Album extends Spine.Model
     
   @contains: (id) ->
     AlbumsPhoto.filter(id, key: 'album_id').length
+    
+  @renew: ->
+    saved = Album.record
+    if saved
+      saved.invalid = true
+      Album.clearCache saved
+      Album.current saved 
     
   init: (instance) ->
     return unless instance

@@ -114,7 +114,7 @@ UriCollection = (function() {
 Uri = (function() {
   __extends(Uri, Base);
   function Uri(record, params, mode, callback, max) {
-    var ap, aps, options, type;
+    var options, photos, type;
     this.record = record;
     this.callback = callback;
     this.errorResponse = __bind(this.errorResponse, this);
@@ -123,21 +123,10 @@ Uri = (function() {
     type = this.record.constructor.className;
     switch (type) {
       case 'Album':
-        aps = AlbumsPhoto.filter(this.record.id, {
-          key: 'album_id'
-        });
-        max = max || aps.length;
+        photos = AlbumsPhoto.photos(this.record.id);
+        max = max || photos.length;
         this.mode = mode;
-        this.photos = (function() {
-          var _i, _len, _ref, _results;
-          _ref = aps.slice(0, max);
-          _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            ap = _ref[_i];
-            _results.push(Photo.find(ap.photo_id));
-          }
-          return _results;
-        })();
+        this.photos = photos.slice(0, max);
         break;
       case 'Photo':
         this.photos = [this.record];

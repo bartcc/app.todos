@@ -15,17 +15,19 @@ class GalleriesAlbum extends Spine.Model
     false
     
   @galleries: (aid) ->
-    ret = []
-    @each ->
-      ret.push Gallery.find(item['gallery_id']) if item['album_id'] is aid
-    ret
-      
-  @albums: (gid) ->
-    ret = []
-    @each (item) ->
-      ret.push Album.find(item['album_id']) if item['gallery_id'] is gid
-    ret
+    Gallery.filterRelated(aid,
+      joinTable: 'GalleriesAlbum'
+      key: 'album_id'
+      sorted: true
+    )
     
+  @albums: (gid) ->
+    Album.filterRelated(gid,
+      joinTable: 'GalleriesAlbum'
+      key: 'gallery_id'
+      sorted: true
+    )
+      
   @next: ->
     @uid()
     

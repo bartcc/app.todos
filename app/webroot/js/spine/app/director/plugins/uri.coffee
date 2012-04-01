@@ -85,11 +85,10 @@ class Uri extends Base
     switch type
       when 'Album'
         # get all photos of the album
-        aps = AlbumsPhoto.filter(@record.id, key: 'album_id')
-        max = max or aps.length
+        photos = AlbumsPhoto.photos(@record.id)
+        max = max or photos.length
         @mode = mode
-        @photos = for ap in aps[0...max]
-          Photo.find(ap.photo_id)
+        @photos = photos[0...max]
       when 'Photo'
         @photos = [@record]
         

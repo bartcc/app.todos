@@ -24,12 +24,14 @@ class AlbumsPhoto extends Spine.Model
     Photo.filterRelated(aid,
       joinTable: 'AlbumsPhoto'
       key: 'album_id'
+      sorted: true
     )
     
   @albums: (pid) ->
     Album.filterRelated(pid,
       joinTable: 'AlbumsPhoto'
       key: 'photo_id'
+      sorted: true
     )
 
   @c: 0

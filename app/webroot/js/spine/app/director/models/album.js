@@ -13,7 +13,7 @@ Album = (function() {
     this.details = __bind(this.details, this);
     Album.__super__.constructor.apply(this, arguments);
   }
-  Album.configure("Album", 'title', 'description', 'count', 'user_id', 'order');
+  Album.configure("Album", 'title', 'description', 'count', 'user_id', 'order', 'ivalid');
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
@@ -58,6 +58,15 @@ Album = (function() {
     return AlbumsPhoto.filter(id, {
       key: 'album_id'
     }).length;
+  };
+  Album.renew = function() {
+    var saved;
+    saved = Album.record;
+    if (saved) {
+      saved.invalid = true;
+      Album.clearCache(saved);
+      return Album.current(saved);
+    }
   };
   Album.prototype.init = function(instance) {
     var cache, newSelection;

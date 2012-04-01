@@ -183,7 +183,7 @@ class PhotosList extends Spine.Controller
 #    if App.hmanager.hasActive()
 #      @openPanel('photo', App.showView.btnPhoto)
     
-    Spine.trigger('change:toolbarOne')
+    App.showView.trigger('change:toolbarOne')
     @select item, e
     e.stopPropagation() if $(e.target).hasClass('thumbnail')
 #    false

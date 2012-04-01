@@ -70,30 +70,53 @@ class SidebarList extends Spine.Controller
         when 'show'
           Spine.trigger('show:albums')
           
-    
     @activate(@current)
         
   render: (galleries, gallery, mode) ->
     console.log 'SidebarList::render'
     # render a specific (activated) item
     if gallery and mode
-      switch mode
-        when 'update'
-          @updateTemplate gallery
-        when 'create'
-          @append @template gallery
-        when 'destroy'
-          @children().forItem(gallery, true).remove()
-          
+      @updateOne gallery, mode
+      @reorder gallery
     else if galleries
-      @items = galleries
-      @html @template @items
+      @updateAll galleries
+      
     
     @change gallery, mode
+    
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
         App.ready = true
         @children(":first").click()
+  
+  reorder: (item) ->
+    id = item.id
+    index = (id, list) ->
+      for itm, i in list
+        return i if itm.id is id
+      i
+    
+    children = @children()
+    oldEl = @children().forItem(item)
+    idxBeforeSort =  @children().index(oldEl)
+    idxAfterSort = index(id, Gallery.all().sort(Gallery.nameSort))
+    newEl = $(children[idxAfterSort])
+    if idxBeforeSort < idxAfterSort
+      newEl.after oldEl
+    else if idxBeforeSort > idxAfterSort
+      newEl.before oldEl
+    
+  updateOne: (item, mode) ->
+    switch mode
+      when 'update'
+        @updateTemplate item
+      when 'create'
+        @append @template item
+      when 'destroy'
+        @children().forItem(item, true).remove()
+  
+  updateAll: (items) ->
+    @html @template items.sort(Gallery.nameSort)
 
   renderAllSublist: ->
     for gal in Gallery.records
@@ -231,7 +254,7 @@ class SidebarList extends Spine.Controller
     @change item, 'show', e
     
     Spine.trigger('change:toolbar', ['Gallery'])
-    App.contentManager.change(App.showView)
+#    App.contentManager.change(App.showView)
     
     e.stopPropagation()
     e.preventDefault()

@@ -138,7 +138,7 @@ class AlbumsList extends Spine.Controller
     
     @activate()
     
-    Spine.trigger('change:toolbarOne')
+    App.showView.trigger('change:toolbarOne')
 #    Spine.trigger('change:toolbarOne', ['Album'])
     
     e.stopPropagation()

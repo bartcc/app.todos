@@ -5,7 +5,7 @@ class App extends Spine.Controller
   
   # Note:
   # change toolbar like so
-  # Spine.trigger('change:toolbar', 'Album')
+  # App.showView.trigger('change:toolbar', 'Album')
   
   elements:
     '#main'               : 'mainEl'

@@ -32,8 +32,8 @@ GalleriesList = (function() {
     return this.el;
   };
   GalleriesList.prototype.select = function(item) {
-    Spine.trigger('change:toolbarOne', ['Default']);
-    return Spine.trigger('gallery:activate', item);
+    Spine.trigger('gallery:activate', item);
+    return App.showView.trigger('change:toolbarOne', ['Default']);
   };
   GalleriesList.prototype.exposeSelection = function(item) {
     var el;
@@ -42,7 +42,7 @@ GalleriesList = (function() {
     if (item) {
       el = this.children().forItem(item);
       el.addClass("active");
-      Spine.trigger('change:toolbarOne');
+      App.showView.trigger('change:toolbarOne');
     }
     return Spine.trigger('gallery:exposeSelection', item);
   };

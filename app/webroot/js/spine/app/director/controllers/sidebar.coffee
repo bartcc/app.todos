@@ -58,6 +58,7 @@ class Sidebar extends Spine.Controller
     console.log 'Sidebar::render'
     items = Gallery.filter(@query, func: 'searchSelect')
     items = items.sort Gallery.nameSort
+#    sorted = Gallery.sortByName items
     @list.render items, item, mode
 
   dragStart: (e, controller) ->
@@ -204,7 +205,7 @@ class Sidebar extends Spine.Controller
 
   edit: ->
     App.galleryEditView.render()
-    App.contentManager.change(App.galleryEditView, -> alert 'activated')
+    App.contentManager.change(App.galleryEditView)
 
   toggleDraghandle: (options) ->
     return if options?.close and App.vmanager.sleep

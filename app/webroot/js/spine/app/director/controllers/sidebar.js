@@ -281,9 +281,7 @@ Sidebar = (function() {
   };
   Sidebar.prototype.edit = function() {
     App.galleryEditView.render();
-    return App.contentManager.change(App.galleryEditView, function() {
-      return alert('activated');
-    });
+    return App.contentManager.change(App.galleryEditView);
   };
   Sidebar.prototype.toggleDraghandle = function(options) {
     var speed, w, width;

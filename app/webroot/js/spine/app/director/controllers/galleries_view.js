@@ -44,7 +44,7 @@ GalleriesView = (function() {
   GalleriesView.prototype.change = function() {
     var items;
     console.log('GalleriesView::change');
-    items = Gallery.all();
+    items = Gallery.all().sort(Gallery.nameSort);
     return this.render(items);
   };
   GalleriesView.prototype.render = function(items) {

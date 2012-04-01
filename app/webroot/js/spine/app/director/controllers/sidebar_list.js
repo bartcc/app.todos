@@ -90,19 +90,10 @@ SidebarList = (function() {
   SidebarList.prototype.render = function(galleries, gallery, mode) {
     console.log('SidebarList::render');
     if (gallery && mode) {
-      switch (mode) {
-        case 'update':
-          this.updateTemplate(gallery);
-          break;
-        case 'create':
-          this.append(this.template(gallery));
-          break;
-        case 'destroy':
-          this.children().forItem(gallery, true).remove();
-      }
+      this.updateOne(gallery, mode);
+      this.reorder(gallery);
     } else if (galleries) {
-      this.items = galleries;
-      this.html(this.template(this.items));
+      this.updateAll(galleries);
     }
     this.change(gallery, mode);
     if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
@@ -111,6 +102,43 @@ SidebarList = (function() {
         return this.children(":first").click();
       }
     }
+  };
+  SidebarList.prototype.reorder = function(item) {
+    var children, id, idxAfterSort, idxBeforeSort, index, newEl, oldEl;
+    id = item.id;
+    index = function(id, list) {
+      var i, itm, _len;
+      for (i = 0, _len = list.length; i < _len; i++) {
+        itm = list[i];
+        if (itm.id === id) {
+          return i;
+        }
+      }
+      return i;
+    };
+    children = this.children();
+    oldEl = this.children().forItem(item);
+    idxBeforeSort = this.children().index(oldEl);
+    idxAfterSort = index(id, Gallery.all().sort(Gallery.nameSort));
+    newEl = $(children[idxAfterSort]);
+    if (idxBeforeSort < idxAfterSort) {
+      return newEl.after(oldEl);
+    } else if (idxBeforeSort > idxAfterSort) {
+      return newEl.before(oldEl);
+    }
+  };
+  SidebarList.prototype.updateOne = function(item, mode) {
+    switch (mode) {
+      case 'update':
+        return this.updateTemplate(item);
+      case 'create':
+        return this.append(this.template(item));
+      case 'destroy':
+        return this.children().forItem(item, true).remove();
+    }
+  };
+  SidebarList.prototype.updateAll = function(items) {
+    return this.html(this.template(items.sort(Gallery.nameSort)));
   };
   SidebarList.prototype.renderAllSublist = function() {
     var gal, _i, _len, _ref, _results;
@@ -303,7 +331,6 @@ SidebarList = (function() {
     item = el.item();
     this.change(item, 'show', e);
     Spine.trigger('change:toolbar', ['Gallery']);
-    App.contentManager.change(App.showView);
     e.stopPropagation();
     return e.preventDefault();
   };

@@ -30,7 +30,7 @@ class GalleriesView extends Spine.Controller
 
   change: ->
     console.log 'GalleriesView::change'
-    items = Gallery.all()
+    items = Gallery.all().sort Gallery.nameSort
     @render items
     
   render: (items) ->

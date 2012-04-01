@@ -243,7 +243,7 @@ PhotosList = (function() {
     console.log('PhotosList::click');
     item = $(e.currentTarget).item();
     item.addRemoveSelection(this.isCtrlClick(e));
-    Spine.trigger('change:toolbarOne');
+    App.showView.trigger('change:toolbarOne');
     this.select(item, e);
     if ($(e.target).hasClass('thumbnail')) {
       return e.stopPropagation();

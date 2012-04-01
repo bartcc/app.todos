@@ -25,8 +25,8 @@ class GalleriesList extends Spine.Controller
 
   select: (item) =>
 #    Spine.trigger('change:toolbarOne', ['Gallery'])
-    Spine.trigger('change:toolbarOne', ['Default'])
     Spine.trigger('gallery:activate', item)
+    App.showView.trigger('change:toolbarOne', ['Default'])
     
   exposeSelection: (item) ->
     console.log 'GalleryList::exposeSelection'
@@ -34,7 +34,7 @@ class GalleriesList extends Spine.Controller
     if item
       el = @children().forItem(item)
       el.addClass("active")
-      Spine.trigger('change:toolbarOne')
+      App.showView.trigger('change:toolbarOne')
     Spine.trigger('gallery:exposeSelection', item)
         
   clickDeselect: (e) ->

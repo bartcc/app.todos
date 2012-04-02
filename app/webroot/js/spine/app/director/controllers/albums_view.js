@@ -124,7 +124,7 @@ AlbumsView = (function() {
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       alb = albums[_i];
       _results.push(alb.invalid ? (Album.clearCache(alb.id), this.list.refreshBackgrounds(alb), alb.invalid = false, alb.save({
-        ajax: disabled
+        ajax: false
       })) : void 0);
     }
     return _results;

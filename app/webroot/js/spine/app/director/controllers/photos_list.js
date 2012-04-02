@@ -284,7 +284,7 @@ PhotosList = (function() {
     });
     Album.record.invalid = true;
     Album.record.save({
-      ajax: disabled
+      ajax: false
     });
     return this.exposeSelection();
   };

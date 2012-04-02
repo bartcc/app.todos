@@ -115,7 +115,7 @@ class AlbumsView extends Spine.Controller
         Album.clearCache alb.id
         @list.refreshBackgrounds alb
         alb.invalid = false
-        alb.save(ajax:disabled)
+        alb.save(ajax:false)
     
   newAttributes: ->
     if User.first()

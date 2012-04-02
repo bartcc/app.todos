@@ -138,6 +138,10 @@ class PhotosList extends Spine.Controller
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
+        
+    return
+    @parent.play()
+    
     for item in items
       jsn = searchJSON item.id
       if jsn

@@ -192,6 +192,8 @@ PhotosList = (function() {
         }
       }
     };
+    return;
+    this.parent.play();
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);

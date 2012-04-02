@@ -16,6 +16,15 @@ ToolbarView = (function() {
     ToolbarView.__super__.constructor.apply(this, arguments);
     this.current = [];
   }
+  ToolbarView.prototype.elements = {
+    'li': 'items'
+  };
+  ToolbarView.prototype.events = {
+    'click': 'click'
+  };
+  ToolbarView.prototype.click = function(e) {
+    return this.lastcontrol = $(e.target);
+  };
   ToolbarView.prototype.change = function(list) {
     var content, itm, tools, _i, _len;
     if (list == null) {
@@ -50,7 +59,7 @@ ToolbarView = (function() {
   ToolbarView.prototype.refresh = function() {
     return this.change();
   };
-  ToolbarView.prototype.click = function(e) {
+  ToolbarView.prototype.click_ = function(e) {
     this.refresh();
     console.log('click');
     return e.preventDefault();
@@ -73,8 +82,14 @@ ToolbarView = (function() {
     if (this.locked) {
       return;
     }
+    this.trigger('before:refresh', this);
     this.html(this.template(list));
-    return (_ref = this.current) != null ? typeof _ref.cb === "function" ? _ref.cb() : void 0 : void 0;
+    if ((_ref = this.current) != null) {
+      if (typeof _ref.cb === "function") {
+        _ref.cb();
+      }
+    }
+    return this.trigger('refresh', this, this.lastcontrol);
   };
   return ToolbarView;
 })();

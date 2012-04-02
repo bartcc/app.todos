@@ -3,13 +3,15 @@ $      = Spine.$
 
 class AlbumEditView extends Spine.Controller
   
+  @extend Spine.Controller.KeyEnhancer
+  
   elements:
     '.content'    : 'item'
     '.editAlbum'  : 'editEl'
     'form'        : 'formEl'
 
   events:
-    'keydown'       : 'saveOnEnter'
+    'keydown'         : 'saveOnEnter'
   
   template: (item) ->
     $('#editAlbumTemplate').tmpl item

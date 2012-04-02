@@ -3,7 +3,7 @@ $      = Spine.$
 
 class GalleryEditorView extends Spine.Controller
 
-#  @extend Spine.Controller.Toolbars
+  @extend Spine.Controller.KeyEnhancer
   
   elements:
     ".content"            : "editContent"

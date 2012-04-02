@@ -13,6 +13,7 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 GalleryEditView = (function() {
   __extends(GalleryEditView, Spine.Controller);
+  GalleryEditView.extend(Spine.Controller.KeyEnhancer);
   GalleryEditView.prototype.elements = {
     '.editGallery': 'editEl',
     '.optCreate': 'createGalleryEl'

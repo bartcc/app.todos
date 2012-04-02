@@ -67,10 +67,21 @@ Spine.Manager.include
   hasActive: ->
     for controller in @controllers
       if controller.isActive()
-          return controller
+          return @last = controller
     false
+  
+  active: ->
+    @hasActive()
+  
+  lastActive: ->
+    @last or @controllers[0]
+  
+  externalUI: ->
+    activeController = @lastActive()
+    $(activeController.externalUI, @external.el)
 
 Spine.Manager.extend
+
   deactivate: ->
     console.log 'deactivate'
     @constructor.apply @, arguments

@@ -19,9 +19,6 @@ ShowView = (function() {
     '.optOverview': 'btnOverview',
     '.optEditGallery': 'btnEditGallery',
     '.optGallery .ui-icon': 'btnGallery',
-    '.optAlbum .ui-icon': 'btnAlbum',
-    '.optPhoto .ui-icon': 'btnPhoto',
-    '.optUpload .ui-icon': 'btnUpload',
     '.optQuickUpload': 'btnQuickUpload',
     '.optFullScreen': 'btnFullScreen',
     '.optSlideshow': 'btnSlideshow',
@@ -34,7 +31,11 @@ ShowView = (function() {
     '.photo': 'photoEl',
     '.slideshow': 'slideshowEl',
     '.slider': 'slider',
-    '.close': 'btnClose'
+    '.close': 'btnClose',
+    '.optAlbum': 'btnAlbum',
+    '.optGallery': 'btnGallery',
+    '.optPhoto': 'btnPhoto',
+    '.optUpload': 'btnUpload'
   };
   ShowView.prototype.events = {
     'click .optQuickUpload:not(.disabled)': 'toggleQuickUpload',
@@ -53,14 +54,15 @@ ShowView = (function() {
     'click .optAlbum:not(.disabled)': 'toggleAlbumShow',
     'click .optPhoto:not(.disabled)': 'togglePhotoShow',
     'click .optUpload:not(.disabled)': 'toggleUploadShow',
-    'click .optAllAlbums:not(.disabled)': 'showAllAlbums',
-    'click .optAllPhotos:not(.disabled)': 'showAllPhotos',
+    'click .optShowAllAlbums:not(.disabled)': 'showAllAlbums',
+    'click .optShowAllPhotos:not(.disabled)': 'showAllPhotos',
     'click .optSlideshowAutoStart:not(.disabled)': 'toggleSlideshowAutoStart',
     'click .optShowSlideshow:not(.disabled)': 'showSlideshow',
     'click .optSlideshowPlay:not(.disabled)': 'slideshowPlay',
     'click .optClose:not(.disabled)': 'toggleDraghandle',
     'click .optSelectAll:not(.disabled)': 'selectAll',
-    'dblclick .draghandle': 'toggleDraghandle',
+    'click .draghandle': 'toggleDraghandle',
+    'click .draghandle.optClose': 'closeDraghandle',
     'click .items': 'deselect',
     'slidestop .slider': 'sliderStop',
     'slidestart .slider': 'sliderStart'
@@ -93,6 +95,7 @@ ShowView = (function() {
     this.galleriesView = new GalleriesView({
       el: this.galleriesEl,
       className: 'items',
+      assocControl: 'optGallery',
       header: this.galleriesHeader,
       parent: this
     });
@@ -100,15 +103,15 @@ ShowView = (function() {
       el: this.albumsEl,
       className: 'items',
       header: this.albumsHeader,
-      parent: this,
-      parentModel: 'Gallery'
+      parentModel: 'Gallery',
+      parent: this
     });
     this.photosView = new PhotosView({
       el: this.photosEl,
       className: 'items',
       header: this.photosHeader,
-      parent: this,
-      parentModel: 'Album'
+      parentModel: 'Album',
+      parent: this
     });
     this.photoView = new PhotoView({
       el: this.photoEl,
@@ -129,6 +132,7 @@ ShowView = (function() {
     this.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
     this.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
     this.bind('toggle:view', this.proxy(this.toggleView));
+    this.toolbarOne.bind('refresh', this.proxy(this.refreshToolbar));
     Gallery.bind('change', this.proxy(this.changeToolbarOne));
     Album.bind('change', this.proxy(this.changeToolbarOne));
     Photo.bind('change', this.proxy(this.changeToolbarOne));
@@ -173,6 +177,7 @@ ShowView = (function() {
     this.toolbarTwo.change(list);
     return this.refreshElements();
   };
+  ShowView.prototype.refreshToolbar = function(toolbar, lastControl) {};
   ShowView.prototype.refreshToolbars = function() {
     console.log('ShowView::refreshToolbars');
     this.toolbarOne.refresh();
@@ -215,26 +220,6 @@ ShowView = (function() {
   ShowView.prototype.destroyPhoto = function(e) {
     Spine.trigger('destroy:photo');
     return this.deselect();
-  };
-  ShowView.prototype.animateView = function() {
-    var hasActive, height;
-    hasActive = function() {
-      if (App.hmanager.hasActive()) {
-        return App.hmanager.enableDrag();
-      }
-      return false;
-    };
-    height = function() {
-      App.hmanager.currentDim;
-      if (hasActive()) {
-        return parseInt(App.hmanager.currentDim) + 'px';
-      } else {
-        return '18px';
-      }
-    };
-    return this.views.animate({
-      height: height()
-    }, 400);
   };
   ShowView.prototype.toggleGalleryShow = function(e) {
     this.trigger('toggle:view', App.gallery, e.target);
@@ -279,22 +264,13 @@ ShowView = (function() {
     this.refreshToolbars();
     return x;
   };
-  ShowView.prototype.toggleView = function(controller, control) {
-    var isActive;
-    isActive = controller.isActive();
-    if (isActive) {
-      App.hmanager.trigger('change', false);
-    } else {
-      this.activeControl = $(control);
-      App.hmanager.trigger('change', controller);
-    }
-    this.propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s');
-    $(control).toggleClass('ui-icon-carat-1-s', !isActive);
-    this.renderViewControl(controller, control);
-    return this.animateView();
-  };
   ShowView.prototype.toggleDraghandle = function() {
-    return this.activeControl.click();
+    App.hmanager.externalUI().click();
+    return false;
+  };
+  ShowView.prototype.closeDraghandle = function() {
+    App.hmanager.externalUI().click();
+    return false;
   };
   ShowView.prototype.toggleQuickUpload = function() {
     var active;
@@ -302,6 +278,42 @@ ShowView = (function() {
     active = this.btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok');
     this.quickUpload(active);
     return active;
+  };
+  ShowView.prototype.toggleView = function(controller, control) {
+    var isActive;
+    isActive = controller.isActive();
+    if (isActive) {
+      App.hmanager.trigger('change', false);
+    } else {
+      this.activeControl = App.hmanager.externalUI();
+      App.hmanager.trigger('change', controller);
+    }
+    this.propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s');
+    $(control).toggleClass('ui-icon-carat-1-s', !isActive);
+    this.renderViewControl(controller, control);
+    return this.animateView();
+  };
+  ShowView.prototype.animateView = function() {
+    var hasActive, height;
+    hasActive = function() {
+      if (App.hmanager.hasActive()) {
+        return App.hmanager.enableDrag();
+      }
+      return false;
+    };
+    height = function() {
+      App.hmanager.currentDim;
+      if (hasActive()) {
+        return parseInt(App.hmanager.currentDim) + 'px';
+      } else {
+        return '18px';
+      }
+    };
+    return this.views.animate({
+      height: height()
+    }, 400, function() {
+      return $(this).toggleClass('open');
+    });
   };
   ShowView.prototype.quickUpload = function(active) {
     return App.uploader.fileupload('option', {

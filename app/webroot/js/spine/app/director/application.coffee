@@ -31,7 +31,6 @@ class App extends Spine.Controller
     
   events:
     'keypress'            : 'keys'
-    'keypress'            : 'chars'
     'drop'                : 'drop'
     'dragenter'           : 'dragenter'
 #    'dragend'             : 'dragend'
@@ -47,8 +46,6 @@ class App extends Spine.Controller
 #    @ALBUM_DOUBLE_COPY = @constructor.createImage('/img/dragndrop/album_double_copy.png')
 #
 #    @PHOTO_SINGLE_MOVE = @constructor.createImage
-    @SILENTMODE = 'silent'
-    @SLIDESHOWMODE = 'slideshow'
     
     User.bind('pinger', @proxy @validate)
     
@@ -61,12 +58,16 @@ class App extends Spine.Controller
       el: @galleryEditEl
     @gallery = new GalleryEditView
       el: @galleryEl
+      externalUI: '.optGallery'
     @album = new AlbumEditView
       el: @albumEl
+      externalUI: '.optAlbum'
     @photo = new PhotoEditView
       el: @photoEl
+      externalUI: '.optPhoto'
     @upload = new UploadEditView
       el: @uploadEl
+      externalUI: '.optUpload'
     @overviewView = new OverviewView
       el: @overviewEl
     @showView = new ShowView
@@ -94,6 +95,7 @@ class App extends Spine.Controller
       awake: => @sidebar.inner.show()
 
     @hmanager = new Spine.Manager(@gallery, @album, @photo, @upload)
+    @hmanager.external = @showView.toolbarOne
     @hmanager.initDrag @hDrag,
       initSize: => @el.height()/2
       disabled: false
@@ -101,6 +103,7 @@ class App extends Spine.Controller
       min: -> 90
       max: => @el.height()/2
       goSleep: => @showView.activeControl?.click()
+      awake: => #@showView.activeControl?.click()
 
     @contentManager = new Spine.Manager(@overviewView, @showView, @galleryEditView)
     @contentManager.change @showView
@@ -156,24 +159,29 @@ class App extends Spine.Controller
   loadToolbars: ->
     Toolbar.load()
     
-  keys: (e) =>
-    key = e.keyCode
-    switch key
-      when 9 #tabKey -> toggle sidebar
-        @sidebar.toggleDraghandle()
-        e.preventDefault()
-        
-  chars: (e) ->
-    key = e.charCode
-    switch key
-      when 97 #ctrl A -> select all / invert selection
+  keys: (e) ->
+    charCode = e.charCode
+    keyCode = e.keyCode
+    
+    # KEYS
+    switch charCode
+      when 97
+        #ctrl A -> select all / invert selection
         if e.metaKey or e.ctrlKey
           @showView.selectAll()
           e.preventDefault()
-      when 32 #spacebar -> play/stop slideshow
+      when 32
+        #spacebar -> play/stop slideshow
         @showView.pause(e)
         e.preventDefault()
         
+        
+    # CHARS
+    switch keyCode
+      when 9
+        #tabKey -> toggle sidebar
+        @sidebar.toggleDraghandle()
+        e.preventDefault()
 $ ->
   
   User.ping()

@@ -13,7 +13,7 @@ class Sidebar extends Spine.Controller
   events:
     "keyup input"           : "filter"
     "click button.create"   : "create"
-    "dblclick .draghandle"  : 'toggleDraghandle'
+    "click .draghandle"     : 'toggleDraghandle'
 
     'dragstart  .items .item'        : 'dragstart'
     'dragenter  .items .item'        : 'dragenter'
@@ -203,7 +203,8 @@ class Sidebar extends Spine.Controller
     App.contentManager.change(App.galleryEditView)
 
   toggleDraghandle: (options) ->
-    return if options?.close and App.vmanager.sleep
+    console.log 'tab'
+#    return if options?.close and App.vmanager.sleep
       
     width = =>
       max = App.vmanager.currentDim

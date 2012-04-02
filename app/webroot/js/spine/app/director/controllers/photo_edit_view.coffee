@@ -3,6 +3,8 @@ $      = Spine.$
 
 class PhotoEditView extends Spine.Controller
 
+  @extend Spine.Controller.KeyEnhancer
+  
   elements:
     '.content'        : 'item'
     '.editPhoto'      : 'editEl'

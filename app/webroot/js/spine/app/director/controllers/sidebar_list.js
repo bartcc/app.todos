@@ -14,6 +14,7 @@ $ = Spine.$;
 SidebarList = (function() {
   __extends(SidebarList, Spine.Controller);
   SidebarList.extend(Spine.Controller.Drag);
+  SidebarList.extend(Spine.Controller.KeyEnhancer);
   SidebarList.prototype.elements = {
     '.gal.item': 'item',
     '.expander': 'expander'

@@ -49,7 +49,6 @@ class UploadEditView extends Spine.Controller
         
     e.preventDefault()
     
-    
   done: (e, data) ->
     photos = $.parseJSON(data.jqXHR.responseText)
     console.log photos

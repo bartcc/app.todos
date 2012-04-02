@@ -1,12 +1,12 @@
 var App;
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
   ctor.prototype = parent.prototype;
   child.prototype = new ctor;
   child.__super__ = parent.prototype;
   return child;
-};
+}, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 App = (function() {
   __extends(App, Spine.Controller);
   App.extend(Spine.Controller.Drag);
@@ -34,14 +34,11 @@ App = (function() {
   };
   App.prototype.events = {
     'keypress': 'keys',
-    'keypress': 'chars',
     'drop': 'drop',
     'dragenter': 'dragenter'
   };
   function App() {
-    this.keys = __bind(this.keys, this);    App.__super__.constructor.apply(this, arguments);
-    this.SILENTMODE = 'silent';
-    this.SLIDESHOWMODE = 'slideshow';
+    App.__super__.constructor.apply(this, arguments);
     User.bind('pinger', this.proxy(this.validate));
     this.loadToolbars();
     this.modalView = new ModalView({
@@ -52,16 +49,20 @@ App = (function() {
       el: this.galleryEditEl
     });
     this.gallery = new GalleryEditView({
-      el: this.galleryEl
+      el: this.galleryEl,
+      externalUI: '.optGallery'
     });
     this.album = new AlbumEditView({
-      el: this.albumEl
+      el: this.albumEl,
+      externalUI: '.optAlbum'
     });
     this.photo = new PhotoEditView({
-      el: this.photoEl
+      el: this.photoEl,
+      externalUI: '.optPhoto'
     });
     this.upload = new UploadEditView({
-      el: this.uploadEl
+      el: this.uploadEl,
+      externalUI: '.optUpload'
     });
     this.overviewView = new OverviewView({
       el: this.overviewEl
@@ -107,6 +108,7 @@ App = (function() {
       }, this)
     });
     this.hmanager = new Spine.Manager(this.gallery, this.album, this.photo, this.upload);
+    this.hmanager.external = this.showView.toolbarOne;
     this.hmanager.initDrag(this.hDrag, {
       initSize: __bind(function() {
         return this.el.height() / 2;
@@ -122,7 +124,8 @@ App = (function() {
       goSleep: __bind(function() {
         var _ref;
         return (_ref = this.showView.activeControl) != null ? _ref.click() : void 0;
-      }, this)
+      }, this),
+      awake: __bind(function() {}, this)
     });
     this.contentManager = new Spine.Manager(this.overviewView, this.showView, this.galleryEditView);
     this.contentManager.change(this.showView);
@@ -195,26 +198,23 @@ App = (function() {
     return Toolbar.load();
   };
   App.prototype.keys = function(e) {
-    var key;
-    key = e.keyCode;
-    switch (key) {
-      case 9:
-        this.sidebar.toggleDraghandle();
-        return e.preventDefault();
-    }
-  };
-  App.prototype.chars = function(e) {
-    var key;
-    key = e.charCode;
-    switch (key) {
+    var charCode, keyCode;
+    charCode = e.charCode;
+    keyCode = e.keyCode;
+    switch (charCode) {
       case 97:
         if (e.metaKey || e.ctrlKey) {
           this.showView.selectAll();
-          return e.preventDefault();
+          e.preventDefault();
         }
         break;
       case 32:
         this.showView.pause(e);
+        e.preventDefault();
+    }
+    switch (keyCode) {
+      case 9:
+        this.sidebar.toggleDraghandle();
         return e.preventDefault();
     }
   };

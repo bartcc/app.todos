@@ -413,7 +413,7 @@
   <section class="top hoverinfo">
     {{if record}}
     <h3>Author: </h3><label> ${record.author}</label>
-    <h2>Gallery: ${record.name}
+    <h2>Gallery: {{if record.name}}${record.name}{{else}}no title{{/if}}
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{else}}
@@ -478,8 +478,8 @@
 </script>
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{/if}}
-  <h2>Album: {{if album.title}}${album.title}{{/if}}
+  {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{else}}no title{{/if}}
+  <h2>Album: {{if album.title}}${album.title}{{else}}no title{{/if}}
     <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
   </h2>
 </script>
@@ -489,7 +489,7 @@
   {{if !album}}
     <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying the master, will cause all derived photos (aliases) to be removed!</div>
   {{/if}}
-  <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}unknown{{/if}}{{/if}}</h2>
+  <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}no title{{/if}}{{/if}}</h2>
 </script>
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">
@@ -554,7 +554,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  {{if album}} ${album.title}{{else}}(all photos){{/if}}
+  {{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}(all photos){{/if}}
 </script>
 
 <script>

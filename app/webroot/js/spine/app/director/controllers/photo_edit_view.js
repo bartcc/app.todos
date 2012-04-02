@@ -13,6 +13,7 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 PhotoEditView = (function() {
   __extends(PhotoEditView, Spine.Controller);
+  PhotoEditView.extend(Spine.Controller.KeyEnhancer);
   PhotoEditView.prototype.elements = {
     '.content': 'item',
     '.editPhoto': 'editEl'

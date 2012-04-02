@@ -10,9 +10,6 @@ class ShowView extends Spine.Controller
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery .ui-icon'    : 'btnGallery'
-    '.optAlbum .ui-icon'      : 'btnAlbum'
-    '.optPhoto .ui-icon'      : 'btnPhoto'
-    '.optUpload .ui-icon'     : 'btnUpload'
     '.optQuickUpload'         : 'btnQuickUpload'
     '.optFullScreen'          : 'btnFullScreen'
     '.optSlideshow'           : 'btnSlideshow'
@@ -26,6 +23,10 @@ class ShowView extends Spine.Controller
     '.slideshow'              : 'slideshowEl'
     '.slider'                 : 'slider'
     '.close'                  : 'btnClose'
+    '.optAlbum'               : 'btnAlbum'
+    '.optGallery'             : 'btnGallery'
+    '.optPhoto'               : 'btnPhoto'
+    '.optUpload'              : 'btnUpload'
     
   events:
     'click .optQuickUpload:not(.disabled)'           : 'toggleQuickUpload'
@@ -33,32 +34,29 @@ class ShowView extends Spine.Controller
     'click .optPrevious:not(.disabled)'              : 'showPrevious'
     'click .optShowModal:not(.disabled)'             : 'showModal'
     'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
-#    'click .optShowPhotos:not(.disabled)'            : 'showPhotos'
     'click .optCreateGallery:not(.disabled)'         : 'createGallery'
     'click .optCreateAlbum:not(.disabled)'           : 'createAlbum'
     'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
-#    'click .optShowAllAlbums:not(.disabled)'         : 'showAllAlbums'
-#    'click .optShowAllPhotos:not(.disabled)'         : 'showAllPhotos'
     'click .optDestroyGallery:not(.disabled)'        : 'destroyGallery'
     'click .optDestroyAlbum:not(.disabled)'          : 'destroyAlbum'
     'click .optDestroyPhoto:not(.disabled)'          : 'destroyPhoto'
-    'click .optEditGallery:not(.disabled)'           : 'editGallery'
+    'click .optEditGallery:not(.disabled)'           : 'editGallery' # for the large edit view
     'click .optGallery:not(.disabled)'               : 'toggleGalleryShow'
     'click .optAlbum:not(.disabled)'                 : 'toggleAlbumShow'
     'click .optPhoto:not(.disabled)'                 : 'togglePhotoShow'
     'click .optUpload:not(.disabled)'                : 'toggleUploadShow'
-    'click .optAllAlbums:not(.disabled)'             : 'showAllAlbums'
-    'click .optAllPhotos:not(.disabled)'             : 'showAllPhotos'
+    'click .optShowAllAlbums:not(.disabled)'         : 'showAllAlbums'
+    'click .optShowAllPhotos:not(.disabled)'         : 'showAllPhotos'
     'click .optSlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
     'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
     'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
     'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
-#    'click .optSlideshow:not(.disabled)'             : 'slideshowPlay'
-    'dblclick .draghandle'            : 'toggleDraghandle'
-    'click .items'                    : 'deselect'
-    'slidestop .slider'               : 'sliderStop'
-    'slidestart .slider'              : 'sliderStart'
+    'click .draghandle'                              : 'toggleDraghandle'
+    'click .draghandle.optClose'                     : 'closeDraghandle'
+    'click .items'                                   : 'deselect'
+    'slidestop .slider'                              : 'sliderStop'
+    'slidestart .slider'                             : 'sliderStart'
 
   constructor: ->
     super
@@ -78,20 +76,21 @@ class ShowView extends Spine.Controller
     @galleriesView = new GalleriesView
       el: @galleriesEl
       className: 'items'
+      assocControl: 'optGallery'
       header: @galleriesHeader
       parent: @
     @albumsView = new AlbumsView
       el: @albumsEl
       className: 'items'
       header: @albumsHeader
-      parent: @
       parentModel: 'Gallery'
+      parent: @
     @photosView = new PhotosView
       el: @photosEl
       className: 'items'
       header: @photosHeader
-      parent: @
       parentModel: 'Album'
+      parent: @
     @photoView = new PhotoView
       el: @photoEl
       className: 'items'
@@ -110,6 +109,7 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
+    @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
     Album.bind('change', @proxy @changeToolbarOne)
@@ -124,7 +124,7 @@ class ShowView extends Spine.Controller
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @slideshowAutoStart = true
-    
+#    @activeControll
     if @activeControl
       @initControl @activeControl
     else throw 'need initial control'
@@ -157,6 +157,8 @@ class ShowView extends Spine.Controller
   changeToolbarTwo: (list) ->
     @toolbarTwo.change list
     @refreshElements()
+    
+  refreshToolbar: (toolbar, lastControl) ->
     
   refreshToolbars: ->
     console.log 'ShowView::refreshToolbars'
@@ -199,20 +201,6 @@ class ShowView extends Spine.Controller
     Spine.trigger('destroy:photo')
     @deselect()
 
-  animateView: ->
-    hasActive = ->
-      if App.hmanager.hasActive()
-        return App.hmanager.enableDrag()
-      false
-    
-    height = ->
-      App.hmanager.currentDim
-      if hasActive() then parseInt(App.hmanager.currentDim)+'px' else '18px'
-    
-    @views.animate
-      height: height()
-      400
-    
   toggleGalleryShow: (e) ->
     @trigger('toggle:view', App.gallery, e.target)
 #    e.stopPropagation()
@@ -254,30 +242,50 @@ class ShowView extends Spine.Controller
     x = @slideshowAutoStart = !@slideshowAutoStart
     @refreshToolbars()
     x
-
-  toggleView: (controller, control) ->
-    isActive = controller.isActive()
-    
-    if(isActive)
-      App.hmanager.trigger('change', false)
-    else
-      @activeControl = $(control)
-      App.hmanager.trigger('change', controller)
-    
-    @propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s')
-    $(control).toggleClass('ui-icon-carat-1-s', !isActive)
-    @renderViewControl controller, control
-    @animateView()
   
   toggleDraghandle: ->
-    @activeControl.click()
-  
+    App.hmanager.externalUI().click()
+    false
+    
+  closeDraghandle: ->
+    App.hmanager.externalUI().click()
+    false
+    
   toggleQuickUpload: ->
     @refreshElements()
     active = @btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok')
     @quickUpload active
     active
     
+  toggleView: (controller, control) ->
+    isActive = controller.isActive()
+    
+    if(isActive)
+      App.hmanager.trigger('change', false)
+    else
+      @activeControl = App.hmanager.externalUI()
+      App.hmanager.trigger('change', controller)
+    
+    @propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s')
+    $(control).toggleClass('ui-icon-carat-1-s', !isActive)
+    @renderViewControl controller, control
+    @animateView()
+    
+  animateView: ->
+    hasActive = ->
+      if App.hmanager.hasActive()
+        return App.hmanager.enableDrag()
+      false
+    
+    height = ->
+      App.hmanager.currentDim
+      if hasActive() then parseInt(App.hmanager.currentDim)+'px' else '18px'
+    
+    @views.animate
+      height: height()
+      400
+      -> $(@).toggleClass('open')
+  
   quickUpload: (active) ->
     App.uploader.fileupload 'option'
       autoUpload: active
@@ -306,9 +314,12 @@ class ShowView extends Spine.Controller
     
     if @slideshowable()
       el = elFromSelection() or elFromCanvas()
+      # prevent ghosted backdrops
       return if $('.modal-backdrop').length
-      el.click() if @slideshowAutoStart || e?.type
+      if @slideshowAutoStart || e?.type
+        el.click()
     else
+      # do nothing unless there is a seleted album
       return unless Gallery.selectionList().length
       Spine.trigger('show:photos')
       Spine.trigger('change:selectedAlbum', Album.record, true)

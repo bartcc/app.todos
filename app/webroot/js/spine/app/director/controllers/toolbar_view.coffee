@@ -7,6 +7,15 @@ class ToolbarView extends Spine.Controller
     super
     @current = []
     
+  elements:
+    'li' :  'items'
+    
+  events:
+    'click'   : 'click'
+    
+  click: (e) ->
+    @lastcontrol = $(e.target) #.addClass('active')
+    
   change: (list = []) ->
     if list.length
       tools = Toolbar.filter list
@@ -29,7 +38,7 @@ class ToolbarView extends Spine.Controller
   refresh: ->
     @change()
   
-  click: (e) ->
+  click_: (e) ->
     @refresh()
     console.log 'click'
     e.preventDefault()
@@ -46,5 +55,7 @@ class ToolbarView extends Spine.Controller
     
   render: (list=@current) ->
     return if @locked
+    @trigger 'before:refresh', @
     @html @template list
     @current?.cb?()
+    @trigger 'refresh', @, @lastcontrol

@@ -3,6 +3,8 @@ $      = Spine.$
 
 class GalleryEditView extends Spine.Controller
   
+  @extend Spine.Controller.KeyEnhancer
+  
   elements:
     '.editGallery'    : 'editEl'
     '.optCreate'      : 'createGalleryEl'

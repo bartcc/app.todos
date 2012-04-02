@@ -4,7 +4,8 @@ $      = Spine.$
 class SidebarList extends Spine.Controller
 
   @extend Spine.Controller.Drag
-
+  @extend Spine.Controller.KeyEnhancer
+  
   elements:
     '.gal.item'               : 'item'
     '.expander'               : 'expander'

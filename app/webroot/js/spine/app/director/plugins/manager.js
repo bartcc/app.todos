@@ -111,10 +111,21 @@ Spine.Manager.include({
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       controller = _ref[_i];
       if (controller.isActive()) {
-        return controller;
+        return this.last = controller;
       }
     }
     return false;
+  },
+  active: function() {
+    return this.hasActive();
+  },
+  lastActive: function() {
+    return this.last || this.controllers[0];
+  },
+  externalUI: function() {
+    var activeController;
+    activeController = this.lastActive();
+    return $(activeController.externalUI, this.external.el);
   }
 });
 Spine.Manager.extend({

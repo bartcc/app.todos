@@ -13,6 +13,7 @@ if (typeof Spine === "undefined" || Spine === null) {
 $ = Spine.$;
 AlbumEditView = (function() {
   __extends(AlbumEditView, Spine.Controller);
+  AlbumEditView.extend(Spine.Controller.KeyEnhancer);
   AlbumEditView.prototype.elements = {
     '.content': 'item',
     '.editAlbum': 'editEl',

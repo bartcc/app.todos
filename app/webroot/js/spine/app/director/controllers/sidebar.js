@@ -26,7 +26,7 @@ Sidebar = (function() {
   Sidebar.prototype.events = {
     "keyup input": "filter",
     "click button.create": "create",
-    "dblclick .draghandle": 'toggleDraghandle',
+    "click .draghandle": 'toggleDraghandle',
     'dragstart  .items .item': 'dragstart',
     'dragenter  .items .item': 'dragenter',
     'dragleave  .items .item': 'dragleave',
@@ -280,9 +280,7 @@ Sidebar = (function() {
   };
   Sidebar.prototype.toggleDraghandle = function(options) {
     var speed, w, width;
-    if ((options != null ? options.close : void 0) && App.vmanager.sleep) {
-      return;
-    }
+    console.log('tab');
     width = __bind(function() {
       var max, w;
       max = App.vmanager.currentDim;

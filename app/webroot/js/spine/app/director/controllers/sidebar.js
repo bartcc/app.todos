@@ -26,9 +26,6 @@ Sidebar = (function() {
   Sidebar.prototype.events = {
     "keyup input": "filter",
     "click button.create": "create",
-    'click .optAllGalleries': 'allGalleries',
-    'click .optAllAlbums': 'allAlbums',
-    'click .optAllPhotos': 'allPhotos',
     "dblclick .draghandle": 'toggleDraghandle',
     'dragstart  .items .item': 'dragstart',
     'dragenter  .items .item': 'dragenter',
@@ -62,8 +59,6 @@ Sidebar = (function() {
     Spine.bind('drag:over', this.proxy(this.dragOver));
     Spine.bind('drag:leave', this.proxy(this.dragLeave));
     Spine.bind('drag:drop', this.proxy(this.dropComplete));
-    Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
-    Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
   }
   Sidebar.prototype.filter = function() {
     this.query = this.input.val();
@@ -308,26 +303,6 @@ Sidebar = (function() {
     }, speed, __bind(function() {
       return this.clb();
     }, this));
-  };
-  Sidebar.prototype.allGalleries = function() {
-    return Spine.trigger('show:galleries');
-  };
-  Sidebar.prototype.allAlbums = function() {
-    return Spine.trigger('show:allAlbums');
-  };
-  Sidebar.prototype.allPhotos = function() {
-    return Spine.trigger('show:allPhotos');
-  };
-  Sidebar.prototype.showAllPhotos = function() {
-    Spine.trigger('show:photos');
-    Gallery.emptySelection();
-    Album.emptySelection();
-    Gallery.current();
-    return Album.current();
-  };
-  Sidebar.prototype.showAllAlbums = function() {
-    Spine.trigger('show:albums');
-    return Gallery.current();
   };
   return Sidebar;
 })();

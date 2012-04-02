@@ -9,9 +9,7 @@ class AlbumEditView extends Spine.Controller
     'form'        : 'formEl'
 
   events:
-#    'click'         : 'click'
     'keydown'       : 'saveOnEnter'
-#    'change select' : 'changeSelected'
   
   template: (item) ->
     $('#editAlbumTemplate').tmpl item

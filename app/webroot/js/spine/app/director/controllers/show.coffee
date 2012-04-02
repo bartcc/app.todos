@@ -31,29 +31,29 @@ class ShowView extends Spine.Controller
     'click .optQuickUpload:not(.disabled)'           : 'toggleQuickUpload'
     'click .optOverview:not(.disabled)'              : 'showOverview'
     'click .optPrevious:not(.disabled)'              : 'showPrevious'
-    'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
-    'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
+    'click .optShowModal:not(.disabled)'             : 'showModal'
     'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
-    'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
-    'click .optDestroyPhoto:not(.disabled)'          : 'destroyPhoto'
-    'click .optShowPhotos:not(.disabled)'            : 'showPhotos'
-    'click .optCreateAlbum:not(.disabled)'           : 'createAlbum'
-    'click .optShowAllAlbums:not(.disabled)'         : 'showAllAlbums'
-    'click .optDestroyAlbum:not(.disabled)'          : 'destroyAlbum'
-    'click .optEditGallery:not(.disabled)'           : 'editGallery'
+#    'click .optShowPhotos:not(.disabled)'            : 'showPhotos'
     'click .optCreateGallery:not(.disabled)'         : 'createGallery'
+    'click .optCreateAlbum:not(.disabled)'           : 'createAlbum'
+    'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
+#    'click .optShowAllAlbums:not(.disabled)'         : 'showAllAlbums'
+#    'click .optShowAllPhotos:not(.disabled)'         : 'showAllPhotos'
     'click .optDestroyGallery:not(.disabled)'        : 'destroyGallery'
+    'click .optDestroyAlbum:not(.disabled)'          : 'destroyAlbum'
+    'click .optDestroyPhoto:not(.disabled)'          : 'destroyPhoto'
+    'click .optEditGallery:not(.disabled)'           : 'editGallery'
     'click .optGallery:not(.disabled)'               : 'toggleGalleryShow'
     'click .optAlbum:not(.disabled)'                 : 'toggleAlbumShow'
     'click .optPhoto:not(.disabled)'                 : 'togglePhotoShow'
     'click .optUpload:not(.disabled)'                : 'toggleUploadShow'
-    'click .optAllGalleries:not(.disabled)'          : 'allGalleries'
-    'click .optAllAlbums:not(.disabled)'             : 'allAlbums'
-    'click .optAllPhotos:not(.disabled)'             : 'allPhotos'
-    'click .optSelectAll:not(.disabled)'             : 'selectAll'
-    'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
-    'click .optShowModal:not(.disabled)'             : 'showModal'
+    'click .optAllAlbums:not(.disabled)'             : 'showAllAlbums'
+    'click .optAllPhotos:not(.disabled)'             : 'showAllPhotos'
     'click .optSlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
+    'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
+    'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
+    'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
+    'click .optSelectAll:not(.disabled)'             : 'selectAll'
 #    'click .optSlideshow:not(.disabled)'             : 'slideshowPlay'
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : 'deselect'
@@ -115,6 +115,10 @@ class ShowView extends Spine.Controller
     Album.bind('change', @proxy @changeToolbarOne)
     Photo.bind('change', @proxy @changeToolbarOne)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
+    
+    Spine.bind('show:allPhotos', @proxy @showAllPhotos)
+    Spine.bind('show:allAlbums', @proxy @showAllAlbums)
+    
     @current = @albumsView
     @slideshowMode = App.SILENTMODE
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
@@ -168,43 +172,6 @@ class ShowView extends Spine.Controller
       else
         $(@).removeClass('active')
   
-  showGallery: ->
-    App.contentManager.change(App.showView)
-  
-  showAlbums: (e) ->
-    App.contentManager.change(App.showView)
-    Spine.trigger('show:albums')
-  
-  showAllAlbums: ->
-    Spine.trigger('show:allAlbums')
-  
-  showPhotos: (e) ->
-    Spine.trigger('show:photos')
-
-  showOverview: (e) ->
-    Spine.trigger('show:overview')
-
-  showSlideshow: (e) ->
-    @slideshowMode = App.SILENTMODE
-#    @changeToolbarOne ['Chromeless']
-#    @changeToolbarTwo @slideshowView.toolbar #['Slider', 'Back', 'Play', App.showView.initSlider]
-    App.sidebar.toggleDraghandle(close:true)
-#    @toolbarOne.clear()
-#    @toolbarOne.lock()
-    
-    Spine.trigger('show:slideshow')
-    
-  showPrevious: ->
-    App.sidebar.toggleDraghandle()
-    @previous.show()
-  
-  showModal: ->
-    @modalView.render
-      header: 'Neuer Header'
-      body  : 'Neuer Body'
-      footer: 'Neuer Footer'
-    @modalView.show()
-    
   createGallery: (e) ->
     Spine.trigger('create:gallery')
   
@@ -337,17 +304,17 @@ class ShowView extends Spine.Controller
     elFromCanvas = =>
       firstEl = $('[rel="gallery"]', @current.el).first()
     
-    
-    
-    
     if @slideshowable()
       el = elFromSelection() or elFromCanvas()
+      return if $('.modal-backdrop').length
       el.click() if @slideshowAutoStart || e?.type
     else
+      return unless Gallery.selectionList().length
       Spine.trigger('show:photos')
       Spine.trigger('change:selectedAlbum', Album.record, true)
         
   pause: (e) ->
+    
     
     modal = $('#modal-gallery').data('modal')
     isShown = modal?.isShown
@@ -356,6 +323,8 @@ class ShowView extends Spine.Controller
       @play(e)
     else
       $('#modal-gallery').data('modal').toggleSlideShow()
+      
+    false
   
   slideshowPlay: (e) ->
     @play(e)
@@ -436,11 +405,36 @@ class ShowView extends Spine.Controller
     # rerender thumbnails on the server to its final size
 #    @slider.toggle()
 
-  allGalleries: ->
-    Spine.trigger('show:galleries')
-  
-  allAlbums: ->
-    Spine.trigger('show:allAlbums')
+  showOverview: (e) ->
+    Spine.trigger('show:overview')
+
+  showSlideshow: (e) ->
+    @slideshowMode = App.SILENTMODE
+#    @changeToolbarOne ['Chromeless']
+#    @changeToolbarTwo @slideshowView.toolbar #['Slider', 'Back', 'Play', App.showView.initSlider]
+    App.sidebar.toggleDraghandle(close:true)
+#    @toolbarOne.clear()
+#    @toolbarOne.lock()
     
-  allPhotos: ->
-    Spine.trigger('show:allPhotos')
+    Spine.trigger('show:slideshow')
+    
+  showPrevious: ->
+    App.sidebar.toggleDraghandle()
+    @previous.show()
+  
+  showModal: ->
+    @modalView.render
+      header: 'Neuer Header'
+      body  : 'Neuer Body'
+      footer: 'Neuer Footer'
+    @modalView.show()
+    
+  showAllPhotos: ->
+    Spine.trigger('show:photos')
+    Gallery.emptySelection()
+    Album.emptySelection()
+    Album.current()
+    
+  showAllAlbums: ->
+    Spine.trigger('show:albums')
+    Gallery.current()

@@ -40,29 +40,26 @@ ShowView = (function() {
     'click .optQuickUpload:not(.disabled)': 'toggleQuickUpload',
     'click .optOverview:not(.disabled)': 'showOverview',
     'click .optPrevious:not(.disabled)': 'showPrevious',
-    'click .optShowSlideshow:not(.disabled)': 'showSlideshow',
-    'click .optSlideshowPlay:not(.disabled)': 'slideshowPlay',
+    'click .optShowModal:not(.disabled)': 'showModal',
     'click .optFullScreen:not(.disabled)': 'toggleFullScreen',
-    'click .optCreatePhoto:not(.disabled)': 'createPhoto',
-    'click .optDestroyPhoto:not(.disabled)': 'destroyPhoto',
-    'click .optShowPhotos:not(.disabled)': 'showPhotos',
-    'click .optCreateAlbum:not(.disabled)': 'createAlbum',
-    'click .optShowAllAlbums:not(.disabled)': 'showAllAlbums',
-    'click .optDestroyAlbum:not(.disabled)': 'destroyAlbum',
-    'click .optEditGallery:not(.disabled)': 'editGallery',
     'click .optCreateGallery:not(.disabled)': 'createGallery',
+    'click .optCreateAlbum:not(.disabled)': 'createAlbum',
+    'click .optCreatePhoto:not(.disabled)': 'createPhoto',
     'click .optDestroyGallery:not(.disabled)': 'destroyGallery',
+    'click .optDestroyAlbum:not(.disabled)': 'destroyAlbum',
+    'click .optDestroyPhoto:not(.disabled)': 'destroyPhoto',
+    'click .optEditGallery:not(.disabled)': 'editGallery',
     'click .optGallery:not(.disabled)': 'toggleGalleryShow',
     'click .optAlbum:not(.disabled)': 'toggleAlbumShow',
     'click .optPhoto:not(.disabled)': 'togglePhotoShow',
     'click .optUpload:not(.disabled)': 'toggleUploadShow',
-    'click .optAllGalleries:not(.disabled)': 'allGalleries',
-    'click .optAllAlbums:not(.disabled)': 'allAlbums',
-    'click .optAllPhotos:not(.disabled)': 'allPhotos',
-    'click .optSelectAll:not(.disabled)': 'selectAll',
-    'click .optClose:not(.disabled)': 'toggleDraghandle',
-    'click .optShowModal:not(.disabled)': 'showModal',
+    'click .optAllAlbums:not(.disabled)': 'showAllAlbums',
+    'click .optAllPhotos:not(.disabled)': 'showAllPhotos',
     'click .optSlideshowAutoStart:not(.disabled)': 'toggleSlideshowAutoStart',
+    'click .optShowSlideshow:not(.disabled)': 'showSlideshow',
+    'click .optSlideshowPlay:not(.disabled)': 'slideshowPlay',
+    'click .optClose:not(.disabled)': 'toggleDraghandle',
+    'click .optSelectAll:not(.disabled)': 'selectAll',
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': 'deselect',
     'slidestop .slider': 'sliderStop',
@@ -136,6 +133,8 @@ ShowView = (function() {
     Album.bind('change', this.proxy(this.changeToolbarOne));
     Photo.bind('change', this.proxy(this.changeToolbarOne));
     Spine.bind('change:selectedAlbum', this.proxy(this.refreshToolbars));
+    Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
+    Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
     this.current = this.albumsView;
     this.slideshowMode = App.SILENTMODE;
     this.sOutValue = 74;
@@ -189,41 +188,6 @@ ShowView = (function() {
         return $(this).removeClass('active');
       }
     });
-  };
-  ShowView.prototype.showGallery = function() {
-    return App.contentManager.change(App.showView);
-  };
-  ShowView.prototype.showAlbums = function(e) {
-    App.contentManager.change(App.showView);
-    return Spine.trigger('show:albums');
-  };
-  ShowView.prototype.showAllAlbums = function() {
-    return Spine.trigger('show:allAlbums');
-  };
-  ShowView.prototype.showPhotos = function(e) {
-    return Spine.trigger('show:photos');
-  };
-  ShowView.prototype.showOverview = function(e) {
-    return Spine.trigger('show:overview');
-  };
-  ShowView.prototype.showSlideshow = function(e) {
-    this.slideshowMode = App.SILENTMODE;
-    App.sidebar.toggleDraghandle({
-      close: true
-    });
-    return Spine.trigger('show:slideshow');
-  };
-  ShowView.prototype.showPrevious = function() {
-    App.sidebar.toggleDraghandle();
-    return this.previous.show();
-  };
-  ShowView.prototype.showModal = function() {
-    this.modalView.render({
-      header: 'Neuer Header',
-      body: 'Neuer Body',
-      footer: 'Neuer Footer'
-    });
-    return this.modalView.show();
   };
   ShowView.prototype.createGallery = function(e) {
     return Spine.trigger('create:gallery');
@@ -371,10 +335,16 @@ ShowView = (function() {
     }, this);
     if (this.slideshowable()) {
       el = elFromSelection() || elFromCanvas();
+      if ($('.modal-backdrop').length) {
+        return;
+      }
       if (this.slideshowAutoStart || (e != null ? e.type : void 0)) {
         return el.click();
       }
     } else {
+      if (!Gallery.selectionList().length) {
+        return;
+      }
       Spine.trigger('show:photos');
       return Spine.trigger('change:selectedAlbum', Album.record, true);
     }
@@ -384,10 +354,11 @@ ShowView = (function() {
     modal = $('#modal-gallery').data('modal');
     isShown = modal != null ? modal.isShown : void 0;
     if (!isShown) {
-      return this.play(e);
+      this.play(e);
     } else {
-      return $('#modal-gallery').data('modal').toggleSlideShow();
+      $('#modal-gallery').data('modal').toggleSlideShow();
     }
+    return false;
   };
   ShowView.prototype.slideshowPlay = function(e) {
     return this.play(e);
@@ -475,14 +446,37 @@ ShowView = (function() {
     return newVal;
   };
   ShowView.prototype.sliderStop = function() {};
-  ShowView.prototype.allGalleries = function() {
-    return Spine.trigger('show:galleries');
+  ShowView.prototype.showOverview = function(e) {
+    return Spine.trigger('show:overview');
   };
-  ShowView.prototype.allAlbums = function() {
-    return Spine.trigger('show:allAlbums');
+  ShowView.prototype.showSlideshow = function(e) {
+    this.slideshowMode = App.SILENTMODE;
+    App.sidebar.toggleDraghandle({
+      close: true
+    });
+    return Spine.trigger('show:slideshow');
   };
-  ShowView.prototype.allPhotos = function() {
-    return Spine.trigger('show:allPhotos');
+  ShowView.prototype.showPrevious = function() {
+    App.sidebar.toggleDraghandle();
+    return this.previous.show();
+  };
+  ShowView.prototype.showModal = function() {
+    this.modalView.render({
+      header: 'Neuer Header',
+      body: 'Neuer Body',
+      footer: 'Neuer Footer'
+    });
+    return this.modalView.show();
+  };
+  ShowView.prototype.showAllPhotos = function() {
+    Spine.trigger('show:photos');
+    Gallery.emptySelection();
+    Album.emptySelection();
+    return Album.current();
+  };
+  ShowView.prototype.showAllAlbums = function() {
+    Spine.trigger('show:albums');
+    return Gallery.current();
   };
   return ShowView;
 })();

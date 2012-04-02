@@ -13,9 +13,6 @@ class Sidebar extends Spine.Controller
   events:
     "keyup input"           : "filter"
     "click button.create"   : "create"
-    'click .optAllGalleries': 'allGalleries'
-    'click .optAllAlbums'   : 'allAlbums'
-    'click .optAllPhotos'   : 'allPhotos'
     "dblclick .draghandle"  : 'toggleDraghandle'
 
     'dragstart  .items .item'        : 'dragstart'
@@ -47,8 +44,6 @@ class Sidebar extends Spine.Controller
     Spine.bind('drag:over', @proxy @dragOver)
     Spine.bind('drag:leave', @proxy @dragLeave)
     Spine.bind('drag:drop', @proxy @dropComplete)
-    Spine.bind('show:allPhotos', @proxy @showAllPhotos)
-    Spine.bind('show:allAlbums', @proxy @showAllAlbums)
 
   filter: ->
     @query = @input.val();
@@ -228,26 +223,26 @@ class Sidebar extends Spine.Controller
       speed
       => @clb()
   
-  allGalleries: ->
-    Spine.trigger('show:galleries')
-  
-  allAlbums: ->
-    Spine.trigger('show:allAlbums')
-    
-  allPhotos: ->
-    Spine.trigger('show:allPhotos')
-    
-  showAllPhotos: ->
-    Spine.trigger('show:photos')
-    Gallery.emptySelection()
-    Album.emptySelection()
-    Gallery.current()
-    Album.current()
-#    Spine.trigger('album:activate')
-#    Spine.trigger('gallery:activate')
-    
-  showAllAlbums: ->
-    Spine.trigger('show:albums')
-    Gallery.current()
-#    Spine.trigger('gallery:activate')
+#  allGalleries: ->
+#    Spine.trigger('show:galleries')
+#  
+#  allAlbums: ->
+#    Spine.trigger('show:allAlbums')
+#    
+#  allPhotos: ->
+#    Spine.trigger('show:allPhotos')
+#    
+#  showAllPhotos: ->
+#    Spine.trigger('show:photos')
+#    Gallery.emptySelection()
+#    Album.emptySelection()
+#    Gallery.current()
+#    Album.current()
+##    Spine.trigger('album:activate')
+##    Spine.trigger('gallery:activate')
+#    
+#  showAllAlbums: ->
+#    Spine.trigger('show:albums')
+#    Gallery.current()
+##    Spine.trigger('gallery:activate')
     

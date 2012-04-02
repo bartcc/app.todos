@@ -55,9 +55,6 @@ class PhotosView extends Spine.Controller
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('start:slideshow', @proxy @slideshow)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
-#    @bind 'active', @proxy @onActive
-#    @active @activeCallback
-#    @active -> @proxy @onActive
     
   change: (item, changed) ->
     @updateBuffer item if changed

@@ -18,7 +18,7 @@ class Recent extends Spine.Model
   init: (instance) ->
     return unless instance
     
-  @loadRecent: (max = 9) ->
+  @loadRecent: (max = 100) ->
     $.ajax
       contentType: 'application/json'
       dataType: 'json'

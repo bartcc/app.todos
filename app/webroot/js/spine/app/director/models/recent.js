@@ -30,7 +30,7 @@ Recent = (function() {
   };
   Recent.loadRecent = function(max) {
     if (max == null) {
-      max = 9;
+      max = 100;
     }
     return $.ajax({
       contentType: 'application/json',

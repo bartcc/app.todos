@@ -125,7 +125,7 @@ class PhotosController extends AppController {
         'limit' => $max
       )
     );
-    $this->log($recent, LOG_DEBUG);
+//    $this->log($recent, LOG_DEBUG);
     $json = $this->set('json', $recent);
     $this->render(SIMPLE_JSON);
   }

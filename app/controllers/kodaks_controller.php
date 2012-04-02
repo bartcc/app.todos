@@ -143,12 +143,13 @@ class KodaksController extends AppController {
     $etag = md5($path_to_cache . $mtime);
     if (!$noob) {
       if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && ($_SERVER['HTTP_IF_NONE_MATCH'] == $etag)) {
-        $this->log('no noob', LOG_DEBUG);
+        $this->log('no noob 1', LOG_DEBUG);
         header("HTTP/1.1 304 Not Modified");
         exit;
       }
 
       if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && (strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= filemtime($path_to_cache))) {
+        $this->log('no noob 2', LOG_DEBUG);
         header("HTTP/1.1 304 Not Modified");
         exit;
       }

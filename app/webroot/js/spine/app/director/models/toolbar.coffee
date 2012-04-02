@@ -54,11 +54,6 @@ class Toolbar extends Spine.Model
           icon: 'asterisk'
           klass: 'optCreateGallery'
         ,
-          name: 'Edit (Large View)'
-          icon: 'pencil'
-          klass: 'optEditGallery'
-          disabled: -> !Gallery.record
-        ,
           name: 'Edit'
           icon: 'pencil'
           klass: 'optGallery'
@@ -67,6 +62,13 @@ class Toolbar extends Spine.Model
           name: 'Destroy'
           icon: 'trash'
           klass: 'optDestroyGallery'
+          disabled: -> !Gallery.record
+        ,
+          devider: true
+        ,
+          name: 'Large Edit View'
+          icon: 'pencil'
+          klass: 'optEditGallery'
           disabled: -> !Gallery.record
         ]
     group2:
@@ -107,6 +109,10 @@ class Toolbar extends Spine.Model
       name: 'Photo'
       content:
         [
+          name: 'Upload'
+          icon: 'upload'
+          klass: 'optUpload'
+        ,
           name: 'Edit'
           icon: 'pencil'
           klass: 'optPhoto'
@@ -121,10 +127,6 @@ class Toolbar extends Spine.Model
           disabled: -> !Album.selectionList().length
         ,
           devider: true
-        ,
-          name: 'Upload'
-          icon: 'upload'
-          klass: 'optUpload'
         ,
           name: 'Auto Upload'
           icon: -> if App.showView.isQuickUpload() then 'ok' else ''

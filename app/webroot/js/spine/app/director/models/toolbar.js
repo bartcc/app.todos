@@ -81,13 +81,6 @@ Toolbar = (function() {
           icon: 'asterisk',
           klass: 'optCreateGallery'
         }, {
-          name: 'Edit (Large View)',
-          icon: 'pencil',
-          klass: 'optEditGallery',
-          disabled: function() {
-            return !Gallery.record;
-          }
-        }, {
           name: 'Edit',
           icon: 'pencil',
           klass: 'optGallery',
@@ -98,6 +91,15 @@ Toolbar = (function() {
           name: 'Destroy',
           icon: 'trash',
           klass: 'optDestroyGallery',
+          disabled: function() {
+            return !Gallery.record;
+          }
+        }, {
+          devider: true
+        }, {
+          name: 'Large Edit View',
+          icon: 'pencil',
+          klass: 'optEditGallery',
           disabled: function() {
             return !Gallery.record;
           }
@@ -164,6 +166,10 @@ Toolbar = (function() {
       name: 'Photo',
       content: [
         {
+          name: 'Upload',
+          icon: 'upload',
+          klass: 'optUpload'
+        }, {
           name: 'Edit',
           icon: 'pencil',
           klass: 'optPhoto',
@@ -184,10 +190,6 @@ Toolbar = (function() {
           }
         }, {
           devider: true
-        }, {
-          name: 'Upload',
-          icon: 'upload',
-          klass: 'optUpload'
         }, {
           name: 'Auto Upload',
           icon: function() {

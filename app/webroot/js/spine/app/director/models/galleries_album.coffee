@@ -21,6 +21,12 @@ class GalleriesAlbum extends Spine.Model
       sorted: true
     )
     
+  @albums_do_not_uses_is_slow: (gid) ->
+    ret = []
+    @each (item) ->
+      ret.push Album.find(item['album_id']) if item['gallery_id'] is gid
+    ret
+    
   @albums: (gid) ->
     Album.filterRelated(gid,
       joinTable: 'GalleriesAlbum'

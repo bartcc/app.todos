@@ -95,8 +95,6 @@ class AlbumsList extends Spine.Controller
   refreshBackgrounds: (alb) ->
     album = App.upload.album || alb
     @renderBackgrounds [album]
-    album.valid = true
-    album
   
   changeBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::changeBackgrounds'
@@ -110,7 +108,8 @@ class AlbumsList extends Spine.Controller
     return unless App.ready
 
     if albums.length
-      @processAlbum album for album in albums
+      for album in albums
+        @processAlbum album
     else if @widows?.length
       @processAlbum album for album in @widows
       @widows = []

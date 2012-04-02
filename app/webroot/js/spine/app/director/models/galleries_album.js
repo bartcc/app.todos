@@ -39,6 +39,16 @@ GalleriesAlbum = (function() {
       sorted: true
     });
   };
+  GalleriesAlbum.albums_do_not_uses_is_slow = function(gid) {
+    var ret;
+    ret = [];
+    this.each(function(item) {
+      if (item['gallery_id'] === gid) {
+        return ret.push(Album.find(item['album_id']));
+      }
+    });
+    return ret;
+  };
   GalleriesAlbum.albums = function(gid) {
     return Album.filterRelated(gid, {
       joinTable: 'GalleriesAlbum',

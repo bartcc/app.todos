@@ -109,10 +109,12 @@ class AlbumsView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
-    albums = GalleriesAlbum.albums()
+    albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
+      console.log alb
       unless alb.invalid
         @list.refreshBackgrounds alb
+        alb.invalid = false
     
   newAttributes: ->
     if User.first()

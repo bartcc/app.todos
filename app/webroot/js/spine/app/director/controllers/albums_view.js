@@ -119,11 +119,12 @@ AlbumsView = (function() {
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
     App.showView.trigger('canvas', this);
-    albums = GalleriesAlbum.albums();
+    albums = GalleriesAlbum.albums(Gallery.record.id);
     _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       alb = albums[_i];
-      _results.push(!alb.invalid ? this.list.refreshBackgrounds(alb) : void 0);
+      console.log(alb);
+      _results.push(!alb.invalid ? (this.list.refreshBackgrounds(alb), alb.invalid = false) : void 0);
     }
     return _results;
   };

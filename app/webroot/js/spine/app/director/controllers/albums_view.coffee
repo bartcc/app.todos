@@ -111,16 +111,18 @@ class AlbumsView extends Spine.Controller
     App.showView.trigger('canvas', @)
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
-      console.log alb
-      unless alb.invalid
+      if alb.invalid
+        Album.clearCache alb.id
         @list.refreshBackgrounds alb
         alb.invalid = false
+        alb.save(ajax:disabled)
     
   newAttributes: ->
     if User.first()
-      title   : 'New Title'
+      title   : 'Brandnew Title'
+      invalid : false
       user_id : User.first().id
-      order: Album.all().length
+      order   : Album.all().length
     else
       User.ping()
   

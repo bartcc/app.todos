@@ -18,7 +18,6 @@ class AlbumsList extends Spine.Controller
     # initialize twitters slideshow
 #    @el.toggleSlideshow()
     Album.bind('sortupdate', @proxy @sortupdate)
-    Photo.bind('sortupdate', @proxy @invalidateAlbum)
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
@@ -88,20 +87,17 @@ class AlbumsList extends Spine.Controller
     id = record?.album_id or record?.id
     Album.clearCache id if id
     
-  invalidateAlbum: ->
-    if Album.record
-      Album.record.clearCache()
-    
   refreshBackgrounds: (alb) ->
     album = App.upload.album || alb
-    @renderBackgrounds [album]
+    @renderBackgrounds [album] if album
   
   changeBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::changeBackgrounds'
     albums = ap.albums()
     @renderBackgrounds albums
   
-  widowedAlbums: (ap) ->
+  # remember the AlbumPhoto before it gets deleted (needed to remove widowed photo thumbnails)
+  widowedAlbumsPhoto: (ap) ->
     @widows = ap.albums()
   
   renderBackgrounds: (albums) ->
@@ -111,6 +107,7 @@ class AlbumsList extends Spine.Controller
       for album in albums
         @processAlbum album
     else if @widows?.length
+      
       @processAlbum album for album in @widows
       @widows = []
   

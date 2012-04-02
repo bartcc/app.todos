@@ -123,15 +123,17 @@ AlbumsView = (function() {
     _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       alb = albums[_i];
-      console.log(alb);
-      _results.push(!alb.invalid ? (this.list.refreshBackgrounds(alb), alb.invalid = false) : void 0);
+      _results.push(alb.invalid ? (Album.clearCache(alb.id), this.list.refreshBackgrounds(alb), alb.invalid = false, alb.save({
+        ajax: disabled
+      })) : void 0);
     }
     return _results;
   };
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {
       return {
-        title: 'New Title',
+        title: 'Brandnew Title',
+        invalid: false,
         user_id: User.first().id,
         order: Album.all().length
       };

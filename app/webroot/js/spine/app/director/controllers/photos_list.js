@@ -282,6 +282,10 @@ PhotosList = (function() {
         return photo.save();
       }
     });
+    Album.record.invalid = true;
+    Album.record.save({
+      ajax: disabled
+    });
     return this.exposeSelection();
   };
   PhotosList.prototype.initSelectable = function() {

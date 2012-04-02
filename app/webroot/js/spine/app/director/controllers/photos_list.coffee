@@ -215,6 +215,9 @@ class PhotosList extends Spine.Controller
         photo.order = index
         photo.save()
         
+    # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated
+    Album.record.invalid = true
+    Album.record.save(ajax:disabled)
     @exposeSelection()
     
   initSelectable: ->

@@ -29,7 +29,6 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Album.bind('sortupdate', this.proxy(this.sortupdate));
-    Photo.bind('sortupdate', this.proxy(this.invalidateAlbum));
     GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
@@ -110,15 +109,12 @@ AlbumsList = (function() {
       return Album.clearCache(id);
     }
   };
-  AlbumsList.prototype.invalidateAlbum = function() {
-    if (Album.record) {
-      return Album.record.clearCache();
-    }
-  };
   AlbumsList.prototype.refreshBackgrounds = function(alb) {
     var album;
     album = App.upload.album ||  alb;
-    return this.renderBackgrounds([album]);
+    if (album) {
+      return this.renderBackgrounds([album]);
+    }
   };
   AlbumsList.prototype.changeBackgrounds = function(ap, mode) {
     var albums;
@@ -126,7 +122,7 @@ AlbumsList = (function() {
     albums = ap.albums();
     return this.renderBackgrounds(albums);
   };
-  AlbumsList.prototype.widowedAlbums = function(ap) {
+  AlbumsList.prototype.widowedAlbumsPhoto = function(ap) {
     return this.widows = ap.albums();
   };
   AlbumsList.prototype.renderBackgrounds = function(albums) {

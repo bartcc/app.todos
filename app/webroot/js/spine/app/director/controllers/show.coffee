@@ -241,7 +241,10 @@ class ShowView extends Spine.Controller
   
   toggleDraghandle: ->
     UI = App.hmanager.externalUI()
-    UI.removeClass('disabled').click().addClass('disabled')
+    if UI.hasClass('disabled')
+      UI.removeClass('disabled').click().addClass('disabled')
+    else
+      UI.click()
     false
     
   closeDraghandle: ->

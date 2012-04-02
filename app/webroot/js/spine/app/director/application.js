@@ -122,8 +122,7 @@ App = (function() {
         return this.el.height() / 2;
       }, this),
       goSleep: __bind(function() {
-        var _ref;
-        return (_ref = this.showView.activeControl) != null ? _ref.click() : void 0;
+        return this.showView.toggleDraghandle.click();
       }, this),
       awake: __bind(function() {}, this)
     });

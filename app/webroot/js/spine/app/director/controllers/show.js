@@ -262,7 +262,11 @@ ShowView = (function() {
   ShowView.prototype.toggleDraghandle = function() {
     var UI;
     UI = App.hmanager.externalUI();
-    UI.removeClass('disabled').click().addClass('disabled');
+    if (UI.hasClass('disabled')) {
+      UI.removeClass('disabled').click().addClass('disabled');
+    } else {
+      UI.click();
+    }
     return false;
   };
   ShowView.prototype.closeDraghandle = function() {

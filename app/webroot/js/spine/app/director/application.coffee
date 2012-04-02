@@ -102,7 +102,7 @@ class App extends Spine.Controller
       axis: 'y'
       min: -> 90
       max: => @el.height()/2
-      goSleep: => @showView.activeControl?.click()
+      goSleep: => @showView.toggleDraghandle.click()
       awake: => #@showView.activeControl?.click()
 
     @contentManager = new Spine.Manager(@overviewView, @showView, @galleryEditView)

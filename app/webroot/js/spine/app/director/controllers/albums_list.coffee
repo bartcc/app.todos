@@ -94,7 +94,8 @@ class AlbumsList extends Spine.Controller
     
   refreshBackgrounds: (alb) ->
     album = App.upload.album || alb
-    @renderBackgrounds [album] if album
+    @renderBackgrounds [album]
+    album.valid = true
     album
   
   changeBackgrounds: (ap, mode) ->

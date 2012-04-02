@@ -154,8 +154,7 @@ PhotoView = (function() {
   };
   PhotoView.prototype.show = function(item) {
     App.showView.trigger('change:toolbarOne', ['Default']);
-    App.showView.trigger('canvas', this);
-    return this.render(item);
+    return App.showView.trigger('canvas', this);
   };
   return PhotoView;
 })();

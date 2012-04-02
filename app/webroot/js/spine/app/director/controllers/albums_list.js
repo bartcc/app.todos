@@ -118,9 +118,8 @@ AlbumsList = (function() {
   AlbumsList.prototype.refreshBackgrounds = function(alb) {
     var album;
     album = App.upload.album ||  alb;
-    if (album) {
-      this.renderBackgrounds([album]);
-    }
+    this.renderBackgrounds([album]);
+    album.valid = true;
     return album;
   };
   AlbumsList.prototype.changeBackgrounds = function(ap, mode) {

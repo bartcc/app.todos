@@ -122,7 +122,6 @@ class PhotoView extends Spine.Controller
   show: (item) ->
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)
-    @render item
     
     
 module?.exports = PhotoView

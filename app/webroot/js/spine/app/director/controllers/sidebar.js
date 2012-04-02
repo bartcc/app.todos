@@ -280,7 +280,6 @@ Sidebar = (function() {
   };
   Sidebar.prototype.toggleDraghandle = function(options) {
     var speed, w, width;
-    console.log('tab');
     width = __bind(function() {
       var max, w;
       max = App.vmanager.currentDim;

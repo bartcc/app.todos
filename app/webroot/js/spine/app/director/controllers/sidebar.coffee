@@ -203,9 +203,6 @@ class Sidebar extends Spine.Controller
     App.contentManager.change(App.galleryEditView)
 
   toggleDraghandle: (options) ->
-    console.log 'tab'
-#    return if options?.close and App.vmanager.sleep
-      
     width = =>
       max = App.vmanager.currentDim
       w =  @el.width()
@@ -223,27 +220,4 @@ class Sidebar extends Spine.Controller
       width: w
       speed
       => @clb()
-  
-#  allGalleries: ->
-#    Spine.trigger('show:galleries')
-#  
-#  allAlbums: ->
-#    Spine.trigger('show:allAlbums')
-#    
-#  allPhotos: ->
-#    Spine.trigger('show:allPhotos')
-#    
-#  showAllPhotos: ->
-#    Spine.trigger('show:photos')
-#    Gallery.emptySelection()
-#    Album.emptySelection()
-#    Gallery.current()
-#    Album.current()
-##    Spine.trigger('album:activate')
-##    Spine.trigger('gallery:activate')
-#    
-#  showAllAlbums: ->
-#    Spine.trigger('show:albums')
-#    Gallery.current()
-##    Spine.trigger('gallery:activate')
     

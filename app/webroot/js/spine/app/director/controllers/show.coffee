@@ -124,10 +124,6 @@ class ShowView extends Spine.Controller
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @slideshowAutoStart = true
-#    @activeControll
-    if @activeControl
-      @initControl @activeControl
-    else throw 'need initial control'
     @edit = @editGallery
     
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
@@ -244,12 +240,12 @@ class ShowView extends Spine.Controller
     x
   
   toggleDraghandle: ->
-    App.hmanager.externalUI().click()
+    UI = App.hmanager.externalUI()
+    UI.removeClass('disabled').click().addClass('disabled')
     false
     
   closeDraghandle: ->
-    App.hmanager.externalUI().click()
-    false
+    @toggleDraghandle()
     
   toggleQuickUpload: ->
     @refreshElements()
@@ -284,7 +280,6 @@ class ShowView extends Spine.Controller
     @views.animate
       height: height()
       400
-      -> $(@).toggleClass('open')
   
   quickUpload: (active) ->
     App.uploader.fileupload 'option'
@@ -340,12 +335,6 @@ class ShowView extends Spine.Controller
   slideshowPlay: (e) ->
     @play(e)
         
-  initControl: (control) ->
-    if Object::toString.call(control) is '[object String]'
-      @activeControl = @[control]
-    else
-      @activeControl = control
-      
   deselect: (e) =>
     item = @el.data().current
     className = @el.data().className

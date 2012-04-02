@@ -144,11 +144,6 @@ ShowView = (function() {
     this.sOutValue = 74;
     this.thumbSize = 240;
     this.slideshowAutoStart = true;
-    if (this.activeControl) {
-      this.initControl(this.activeControl);
-    } else {
-      throw 'need initial control';
-    }
     this.edit = this.editGallery;
     this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView, this.slideshowView);
     this.canvasManager.change(this.current);
@@ -265,12 +260,13 @@ ShowView = (function() {
     return x;
   };
   ShowView.prototype.toggleDraghandle = function() {
-    App.hmanager.externalUI().click();
+    var UI;
+    UI = App.hmanager.externalUI();
+    UI.removeClass('disabled').click().addClass('disabled');
     return false;
   };
   ShowView.prototype.closeDraghandle = function() {
-    App.hmanager.externalUI().click();
-    return false;
+    return this.toggleDraghandle();
   };
   ShowView.prototype.toggleQuickUpload = function() {
     var active;
@@ -311,9 +307,7 @@ ShowView = (function() {
     };
     return this.views.animate({
       height: height()
-    }, 400, function() {
-      return $(this).toggleClass('open');
-    });
+    }, 400);
   };
   ShowView.prototype.quickUpload = function(active) {
     return App.uploader.fileupload('option', {
@@ -374,13 +368,6 @@ ShowView = (function() {
   };
   ShowView.prototype.slideshowPlay = function(e) {
     return this.play(e);
-  };
-  ShowView.prototype.initControl = function(control) {
-    if (Object.prototype.toString.call(control) === '[object String]') {
-      return this.activeControl = this[control];
-    } else {
-      return this.activeControl = control;
-    }
   };
   ShowView.prototype.deselect = function(e) {
     var className, item;

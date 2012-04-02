@@ -97,6 +97,11 @@ class Toolbar extends Spine.Model
           klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
           disabled: -> (!Gallery.selectionList().length) or !(Album.record and Album.record.contains())
+        ,
+          name: -> 'Slideshow Autostart'
+          icon: -> if App.showView.slideshowAutoStart then 'ok' else ''
+          klass: 'optSlideshowAutoStart'
+          disabled: -> false
         ]
     group3:
       name: 'Photo'

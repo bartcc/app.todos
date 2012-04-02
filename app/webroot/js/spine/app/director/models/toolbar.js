@@ -142,6 +142,21 @@ Toolbar = (function() {
           disabled: function() {
             return (!Gallery.selectionList().length) || !(Album.record && Album.record.contains());
           }
+        }, {
+          name: function() {
+            return 'Slideshow Autostart';
+          },
+          icon: function() {
+            if (App.showView.slideshowAutoStart) {
+              return 'ok';
+            } else {
+              return '';
+            }
+          },
+          klass: 'optSlideshowAutoStart',
+          disabled: function() {
+            return false;
+          }
         }
       ]
     },

@@ -27,7 +27,12 @@ class ToolbarView extends Spine.Controller
     
     
   refresh: ->
-    @render()
+    @change()
+  
+  click: (e) ->
+    @refresh()
+    console.log 'click'
+    e.preventDefault()
     
   lock: ->
     @locked = true

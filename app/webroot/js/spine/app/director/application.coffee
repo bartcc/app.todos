@@ -159,19 +159,19 @@ class App extends Spine.Controller
   keys: (e) =>
     key = e.keyCode
     switch key
-      when 9
+      when 9 #tabKey -> toggle sidebar
         @sidebar.toggleDraghandle()
         e.preventDefault()
         
   chars: (e) ->
     key = e.charCode
     switch key
-      when 97
+      when 97 #ctrl A -> select all / invert selection
         if e.metaKey or e.ctrlKey
           @showView.selectAll()
           e.preventDefault()
-      when 32
-        @showView.pause()
+      when 32 #spacebar -> play/stop slideshow
+        @showView.pause(e)
         e.preventDefault()
         
 $ ->

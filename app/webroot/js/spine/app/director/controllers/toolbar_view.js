@@ -48,7 +48,12 @@ ToolbarView = (function() {
   };
   ToolbarView.prototype.sort = function(a, b) {};
   ToolbarView.prototype.refresh = function() {
-    return this.render();
+    return this.change();
+  };
+  ToolbarView.prototype.click = function(e) {
+    this.refresh();
+    console.log('click');
+    return e.preventDefault();
   };
   ToolbarView.prototype.lock = function() {
     return this.locked = true;

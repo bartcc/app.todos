@@ -62,7 +62,7 @@ ShowView = (function() {
     'click .optSelectAll:not(.disabled)': 'selectAll',
     'click .optClose:not(.disabled)': 'toggleDraghandle',
     'click .optShowModal:not(.disabled)': 'showModal',
-    'click .optSlideshowStop:not(.disabled)': 'slideshowStop',
+    'click .optSlideshowAutoStart:not(.disabled)': 'toggleSlideshowAutoStart',
     'dblclick .draghandle': 'toggleDraghandle',
     'click .items': 'deselect',
     'slidestop .slider': 'sliderStop',
@@ -140,6 +140,7 @@ ShowView = (function() {
     this.slideshowMode = App.SILENTMODE;
     this.sOutValue = 74;
     this.thumbSize = 240;
+    this.slideshowAutoStart = true;
     if (this.activeControl) {
       this.initControl(this.activeControl);
     } else {
@@ -308,6 +309,12 @@ ShowView = (function() {
     active = this.btnSlideshow.toggleClass('active').hasClass('active');
     return this.slideshowView.slideshowMode(active);
   };
+  ShowView.prototype.toggleSlideshowAutoStart = function() {
+    var x;
+    x = this.slideshowAutoStart = !this.slideshowAutoStart;
+    this.refreshToolbars();
+    return x;
+  };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;
     isActive = controller.isActive();
@@ -340,13 +347,12 @@ ShowView = (function() {
   ShowView.prototype.isQuickUpload = function() {
     return this.btnQuickUpload.find('i').hasClass('icon-ok');
   };
-  ShowView.prototype.slideshowable = function(selector) {
-    return $('[rel="gallery"]', selector);
+  ShowView.prototype.slideshowable = function() {
+    return $('[rel="gallery"]', this.current.el).length;
   };
-  ShowView.prototype.play = function() {
-    var getElement, res;
-    res = this.slideshowable(this.current.el);
-    getElement = __bind(function() {
+  ShowView.prototype.play = function(e) {
+    var el, elFromCanvas, elFromSelection;
+    elFromSelection = __bind(function() {
       var el, id, item, list, root;
       list = Album.selectionList();
       if (list.length) {
@@ -356,39 +362,35 @@ ShowView = (function() {
         }
         root = this.current.el.children('.items');
         el = root.children().forItem(item);
-        return this.slideshowable(el);
-      } else {
-        return $(res[0]);
+        return $('[rel="gallery"]', el);
       }
     }, this);
-    if (res.length) {
-      getElement().click();
-      return this.slideshowMode = App.SILENTMODE;
+    elFromCanvas = __bind(function() {
+      var firstEl;
+      return firstEl = $('[rel="gallery"]', this.current.el).first();
+    }, this);
+    if (this.slideshowable()) {
+      el = elFromSelection() || elFromCanvas();
+      if (this.slideshowAutoStart || (e != null ? e.type : void 0)) {
+        return el.click();
+      }
     } else {
       Spine.trigger('show:photos');
       return Spine.trigger('change:selectedAlbum', Album.record, true);
     }
   };
-  ShowView.prototype.pause = function() {
+  ShowView.prototype.pause = function(e) {
     var isShown, modal;
     modal = $('#modal-gallery').data('modal');
     isShown = modal != null ? modal.isShown : void 0;
     if (!isShown) {
-      return this.play();
+      return this.play(e);
     } else {
       return $('#modal-gallery').data('modal').toggleSlideShow();
     }
   };
-  ShowView.prototype.slideshowPlay = function() {
-    this.slideshowMode = App.SLIDESHOWMODE;
-    return this.play();
-  };
-  ShowView.prototype.slideshowStop = function() {
-    var slideshow;
-    slideshow = $('#modal-gallery').data('modal');
-    if (slideshow) {
-      return slideshow.stopSlideShow();
-    }
+  ShowView.prototype.slideshowPlay = function(e) {
+    return this.play(e);
   };
   ShowView.prototype.initControl = function(control) {
     if (Object.prototype.toString.call(control) === '[object String]') {

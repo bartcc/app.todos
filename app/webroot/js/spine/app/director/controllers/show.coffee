@@ -53,8 +53,8 @@ class ShowView extends Spine.Controller
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
     'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
     'click .optShowModal:not(.disabled)'             : 'showModal'
+    'click .optSlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
 #    'click .optSlideshow:not(.disabled)'             : 'slideshowPlay'
-    'click .optSlideshowStop:not(.disabled)'         : 'slideshowStop'
     'dblclick .draghandle'            : 'toggleDraghandle'
     'click .items'                    : 'deselect'
     'slidestop .slider'               : 'sliderStop'
@@ -119,6 +119,7 @@ class ShowView extends Spine.Controller
     @slideshowMode = App.SILENTMODE
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
+    @slideshowAutoStart = true
     
     if @activeControl
       @initControl @activeControl
@@ -282,6 +283,11 @@ class ShowView extends Spine.Controller
     active = @btnSlideshow.toggleClass('active').hasClass('active')
     @slideshowView.slideshowMode(active)
 
+  toggleSlideshowAutoStart: ->
+    x = @slideshowAutoStart = !@slideshowAutoStart
+    @refreshToolbars()
+    x
+
   toggleView: (controller, control) ->
     isActive = controller.isActive()
     
@@ -312,46 +318,48 @@ class ShowView extends Spine.Controller
   isQuickUpload: ->
     @btnQuickUpload.find('i').hasClass('icon-ok')
     
-  slideshowable: (selector) ->
-    $('[rel="gallery"]', selector)
+  slideshowable: ->
+    $('[rel="gallery"]', @current.el).length
+    #(Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
     
-  play: ->
+  play: (e) ->
 #    return if @slideshowMode is App.SILENTMODE
-    res = @slideshowable @current.el
-    getElement = =>
+    
+    elFromSelection = =>
       list = Album.selectionList()
       if list.length
         id = list[0] 
         item = Photo.find(id) if Photo.exists(id)
         root = @current.el.children('.items')
         el = root.children().forItem(item)
-        @slideshowable el
-      else $(res[0])
-    if res.length
-#      $(res[0]).click()
-      getElement().click()
-      @slideshowMode = App.SILENTMODE
+        return $('[rel="gallery"]', el)
+    
+    elFromCanvas = =>
+      firstEl = $('[rel="gallery"]', @current.el).first()
+    
+    
+    
+    
+    if @slideshowable()
+      el = elFromSelection() or elFromCanvas()
+      el.click() if @slideshowAutoStart || e?.type
     else
       Spine.trigger('show:photos')
       Spine.trigger('change:selectedAlbum', Album.record, true)
         
-  pause: ->
+  pause: (e) ->
+    
     modal = $('#modal-gallery').data('modal')
     isShown = modal?.isShown
+    
     unless isShown
-      @play()
+      @play(e)
     else
       $('#modal-gallery').data('modal').toggleSlideShow()
-      
   
-  slideshowPlay: ->
-    @slideshowMode = App.SLIDESHOWMODE
-    @play()
+  slideshowPlay: (e) ->
+    @play(e)
         
-  slideshowStop: ->
-    slideshow = $('#modal-gallery').data('modal')
-    slideshow.stopSlideShow() if slideshow
-    
   initControl: (control) ->
     if Object::toString.call(control) is '[object String]'
       @activeControl = @[control]

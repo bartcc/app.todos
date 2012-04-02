@@ -214,7 +214,7 @@ App = (function() {
         }
         break;
       case 32:
-        this.showView.pause();
+        this.showView.pause(e);
         return e.preventDefault();
     }
   };

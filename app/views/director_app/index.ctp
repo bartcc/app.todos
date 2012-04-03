@@ -159,59 +159,22 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fu" class="view container flex autoflow" style="">
+            <div id="fu" class="view canvas-bg-light flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
-                <div class="alert alert-info"><h4 class="alert-heading">
-                    Upload your images to: </h4><h2><span class="label label-info uploadinfo"></span></h2>
-                    <span  style="font-size: 0.8em;">First select or open an album. Now drag your images into the main browser window.
-                      Alternatively you can use the <span class="label label-info"> Add Files </span> button below.</span></div>
-                  <div class="row fileupload-buttonbar">
-                    <div class="span7">
-                        <!-- The fileinput-button span is used to style the file input field as button -->
-                        <span class="btn btn-success fileinput-button">
-                            <span><i class="icon-plus icon-white"></i> Add files...</span>
-                            <input type="file" name="files[]" multiple>
-                        </span>
-                        <button type="submit" class="btn btn-primary start">
-                            <i class="icon-upload icon-white"></i> Start upload
-                        </button>
-                        <button type="reset" class="btn btn-warning cancel">
-                            <i class="icon-ban-circle icon-white"></i> Cancel upload
-                        </button>
-                        <button type="button" class="btn btn-danger delete">
-                            <i class="icon-trash icon-white"></i> Delete
-                        </button>
-                        <input type="checkbox" class="toggle">
-                    </div>
-                    <div class="span5">
-                      <!-- The global progress bar -->
-                      <div class="progress progress-info progress-striped active fade">
-                        <div class="bar" style="width:0%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- The loading indicator is shown during image processing -->
+                <div class="hero-unit" style="margin-bottom: 0;">
+                  <h1><span>Drop Files <span class="right alert alert-info uploadinfo" style="font-size: 0.7em;"></span></h1>
+                  <p>and enjoy the ride...</p>
+                  <span class="btn btn-primary btn-large fileinput-button">
+                    <span><i class="icon-plus icon-white"></i> Add more files...</span><input type="file" name="files[]" multiple>
+                  </span>
+                  <div class="row fileupload-buttonbar"></div>
                   <div class="fileupload-loading"></div>
-                  <br>
-                  <!-- The table listing the files available for upload/download -->
                   <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-                
+                </div>
               </form>
-              <div class="alert alert-info" style="font-size: 0.8em;"><h5 class="alert-heading">Heads Up!</h5>  If you check <span class="label label-info optQuickUpload"> Photo->Auto Upload </span> this dialogue will entirely get out of your way.</div>
-              <div class="alert alert-info" style="font-size: 0.8em;"><h5 class="alert-heading">Heads Up!</h5> If you haven't selected any album for upload, your images will still be uploaded and can be found under <span class="label label-info optAllPhotos"> View->All Photos </span></div>
             </div>
           </div>
-        </div>  
-        <ul class="options props hbox" style="display: none;">
-          <li class="opt optGallery">Gallery<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
-          <li class="splitter disabled"></li>
-          <li class="opt optAlbum">Album<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
-          <li class="splitter disabled"></li>
-          <li class="opt optPhoto">Image<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
-          <li class="splitter disabled"></li>
-          <li class="opt optUpload">Upload<span class="ui-dimmed ui-button-icon-primary ui-icon ui-icon-carat-1 right"></span></li>
-          <li class="splitter disabled"></li>
-        </ul>
+        </div>
       </div>
       <div class="edit view vbox flex">
         <ul class="navbar options hbox">
@@ -554,7 +517,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  {{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}(all photos){{/if}}
+  {  {{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}all photos{{/if}}  }
 </script>
 
 <script>

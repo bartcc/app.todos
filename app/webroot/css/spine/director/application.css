@@ -87,6 +87,7 @@ footer.footer {
   box-align: stretch;
   box-orient: vertical;
 }
+.fixed { position: fixed; }
 h1, h2 {
   font-weight: bold;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5)

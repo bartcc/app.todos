@@ -162,7 +162,7 @@
             <div id="fu" class="view canvas-bg-light flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
                 <div class="hero-unit" style="margin-bottom: 0;">
-                  <h1><span>Drop Files <span class="right alert alert-info uploadinfo" style="font-size: 0.7em;"></span></h1>
+                  <h1><span>Drop Files </span><span class="right alert alert-info uploadinfo" style="font-size: 0.7em;"></span></h1>
                   <p>and enjoy the ride...</p>
                   <span class="btn btn-primary btn-large fileinput-button">
                     <span><i class="icon-plus icon-white"></i> Add more files...</span><input type="file" name="files[]" multiple>
@@ -517,7 +517,7 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  {  {{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}all photos{{/if}}  }
+  <span style="font-size: 0.6em;" class=" alert alert-success"><span style="font-size: 2.9em; font-family: cursive; margin-right: 20px;" class="alert alert-error">"</span>{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}all photos{{/if}}<span style="font-size: 5em; font-family: cursive;  margin-left: 20px;" class="alert alert-block uploadinfo">"</span></span>
 </script>
 
 <script>

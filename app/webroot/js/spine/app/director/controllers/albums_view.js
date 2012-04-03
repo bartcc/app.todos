@@ -132,7 +132,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {
       return {
-        title: 'Brandnew Title',
+        title: 'Brandnew',
         invalid: false,
         user_id: User.first().id,
         order: Album.all().length

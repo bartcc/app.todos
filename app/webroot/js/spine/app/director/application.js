@@ -121,9 +121,7 @@ App = (function() {
       max: __bind(function() {
         return this.el.height() / 2;
       }, this),
-      goSleep: __bind(function() {
-        return this.showView.toggleDraghandle.click();
-      }, this),
+      goSleep: __bind(function() {}, this),
       awake: __bind(function() {}, this)
     });
     this.contentManager = new Spine.Manager(this.overviewView, this.showView, this.galleryEditView);
@@ -179,7 +177,7 @@ App = (function() {
     cb = function() {
       this.appManager.change(this.mainView);
       if (!Gallery.count()) {
-        this.openPanel('gallery', this.showView.btnGallery);
+        this.showView.openPanel('gallery');
       }
       return this.loginView.render(User.first());
     };

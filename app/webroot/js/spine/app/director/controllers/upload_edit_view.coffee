@@ -45,13 +45,10 @@ class UploadEditView extends Spine.Controller
       @c = App.hmanager.hasActive()
       App.hmanager.change @
       unless App.showView.isQuickUpload()
-        @openPanel('upload', App.showView.btnUpload)
+        App.showView.openPanel('upload')
         
-    e.preventDefault()
-    
   done: (e, data) ->
     photos = $.parseJSON(data.jqXHR.responseText)
-    console.log photos
     Photo.refresh(photos, clear: false)
     Spine.trigger('album:updateBuffer', @album)
     if App.showView.isQuickUpload()

@@ -145,6 +145,9 @@ AlbumsList = (function() {
     }
   };
   AlbumsList.prototype.processAlbum = function(album) {
+    if (album.constructor.className !== 'Album') {
+      return;
+    }
     return album.uri({
       width: 50,
       height: 50

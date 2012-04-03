@@ -122,9 +122,10 @@ Spine.Manager.include({
   lastActive: function() {
     return this.last || this.controllers[0];
   },
-  externalUI: function() {
+  externalUI: function(controller) {
     var activeController;
-    activeController = this.lastActive();
+    console.log(this.external.el);
+    activeController = controller || this.lastActive();
     return $(activeController.externalUI, this.external.el);
   }
 });

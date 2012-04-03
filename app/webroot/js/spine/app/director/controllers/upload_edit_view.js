@@ -55,15 +55,13 @@ UploadEditView = (function() {
       this.c = App.hmanager.hasActive();
       App.hmanager.change(this);
       if (!App.showView.isQuickUpload()) {
-        this.openPanel('upload', App.showView.btnUpload);
+        return App.showView.openPanel('upload');
       }
     }
-    return e.preventDefault();
   };
   UploadEditView.prototype.done = function(e, data) {
     var photos;
     photos = $.parseJSON(data.jqXHR.responseText);
-    console.log(photos);
     Photo.refresh(photos, {
       clear: false
     });

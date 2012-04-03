@@ -251,7 +251,7 @@ Sidebar = (function() {
   Sidebar.prototype.create = function() {
     var gallery;
     console.log('Sidebar::create');
-    this.openPanel('gallery', App.showView.btnGallery);
+    App.showView.openPanel('gallery');
     gallery = new Gallery(this.newAttributes());
     return gallery.save();
   };

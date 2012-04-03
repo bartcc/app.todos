@@ -257,12 +257,13 @@ class ShowView extends Spine.Controller
     active
     
   toggleView: (controller, control) ->
+    console.log 'toggleView'
     isActive = controller.isActive()
     
     if(isActive)
       App.hmanager.trigger('change', false)
     else
-      @activeControl = App.hmanager.externalUI()
+      @activeControl = control
       App.hmanager.trigger('change', controller)
     
     @propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s')
@@ -283,6 +284,19 @@ class ShowView extends Spine.Controller
     @views.animate
       height: height()
       400
+      ->
+        $(@).toggleClass('open')
+  
+  openPanel: (controller) ->
+    return if @views.hasClass('open')
+    App[controller].deactivate()
+    ui = App.hmanager.externalUI(App[controller])
+    console.log ui.click()
+#    target.click()
+    
+  closePanel: (controller, target) ->
+    App[controller].activate()
+    target.click()
   
   quickUpload: (active) ->
     App.uploader.fileupload 'option'

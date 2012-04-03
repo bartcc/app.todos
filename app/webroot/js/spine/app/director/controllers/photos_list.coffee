@@ -185,7 +185,6 @@ class PhotosList extends Spine.Controller
     App.showView.trigger('change:toolbarOne')
     @select item, e
     e.stopPropagation() if $(e.target).hasClass('thumbnail')
-#    false
   
   dblclick: (e) ->
     console.log 'PhotosList::dblclick'

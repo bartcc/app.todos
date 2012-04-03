@@ -107,11 +107,11 @@ class AlbumsList extends Spine.Controller
       for album in albums
         @processAlbum album
     else if @widows?.length
-      
       @processAlbum album for album in @widows
       @widows = []
   
   processAlbum: (album) ->
+    return unless album.constructor.className is 'Album'
     album.uri
       width: 50
       height: 50
@@ -148,7 +148,6 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
 
   dblclick: (e) ->
-    #@openPanel('album', App.showView.btnAlbum)
       
     Spine.trigger('show:photos')
     @activate()

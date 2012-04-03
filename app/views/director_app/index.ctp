@@ -587,7 +587,7 @@ var fileUploadErrors = {
   {% } %}
 </script>
 
-<script id="template-upload" type="text/x-tmpl">
+<script id="template-upload" type="text/x-jquery-tmpl">
 {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
     <tr class="template-upload fade">
         <td class="preview"><span class="fade"></span></td>

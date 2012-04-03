@@ -134,7 +134,7 @@ class AlbumsView extends Spine.Controller
     Gallery.updateSelection [album.id]
     Album.current(album)
     @change album
-    @openPanel('album', App.showView.btnAlbum)
+    App.showView.openPanel('album')
 
   createCallback: ->
     Album.trigger('create:join', Gallery.record, @) if Gallery.record

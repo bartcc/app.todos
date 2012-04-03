@@ -102,7 +102,7 @@ class App extends Spine.Controller
       axis: 'y'
       min: -> 90
       max: => @el.height()/2
-      goSleep: => @showView.toggleDraghandle.click()
+      goSleep: => #@showView.toggleDraghandle()
       awake: => #@showView.activeControl?.click()
 
     @contentManager = new Spine.Manager(@overviewView, @showView, @galleryEditView)
@@ -146,7 +146,7 @@ class App extends Spine.Controller
     @statusText.hide()
     cb = ->
       @appManager.change @mainView
-      @openPanel('gallery', @showView.btnGallery) unless Gallery.count()
+      @showView.openPanel('gallery') unless Gallery.count()
       @loginView.render User.first()
       
     @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 1000)

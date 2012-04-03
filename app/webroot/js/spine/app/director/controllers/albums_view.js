@@ -152,7 +152,7 @@ AlbumsView = (function() {
     Gallery.updateSelection([album.id]);
     Album.current(album);
     this.change(album);
-    return this.openPanel('album', App.showView.btnAlbum);
+    return App.showView.openPanel('album');
   };
   AlbumsView.prototype.createCallback = function() {
     if (Gallery.record) {

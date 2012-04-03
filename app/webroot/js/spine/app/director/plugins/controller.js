@@ -16,14 +16,6 @@ Spine.Controller.include({
   panelIsActive: function(controller) {
     return App[controller].isActive();
   },
-  openPanel: function(controller, target) {
-    App[controller].deactivate();
-    return target.click();
-  },
-  closePanel: function(controller, target) {
-    App[controller].activate();
-    return target.click();
-  },
   isCtrlClick: function(e) {
     return e.metaKey || e.ctrlKey || e.altKey;
   },

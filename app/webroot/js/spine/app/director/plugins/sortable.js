@@ -77,6 +77,9 @@ $.fn.Html5Sortable = function(opts) {
         return Spine.sortItem.splitter.remove();
       }).bind('dragenter', function(e) {
         var cond;
+        if (!Spine.sortItem) {
+          return;
+        }
         Spine.sortItem.cond = cond = (e.originalEvent.pageX - $(this).position().left) > ($(this).width());
         if (cond) {
           Spine.sortItem.splitter.insertAfter(this);
@@ -95,9 +98,9 @@ $.fn.Html5Sortable = function(opts) {
         return false;
       }).bind('drop', function(e) {
         var cond, it, model, sourceEl;
-        console.log('Sort::drop');
-        cond = Spine.sortItem.cond;
         try {
+          console.log('Sort::drop');
+          cond = Spine.sortItem.cond;
           if (!(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type === options.type)) {
             return true;
           }

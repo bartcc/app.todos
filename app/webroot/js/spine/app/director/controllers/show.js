@@ -281,11 +281,12 @@ ShowView = (function() {
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;
+    console.log('toggleView');
     isActive = controller.isActive();
     if (isActive) {
       App.hmanager.trigger('change', false);
     } else {
-      this.activeControl = App.hmanager.externalUI();
+      this.activeControl = control;
       App.hmanager.trigger('change', controller);
     }
     this.propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s');
@@ -311,7 +312,22 @@ ShowView = (function() {
     };
     return this.views.animate({
       height: height()
-    }, 400);
+    }, 400, function() {
+      return $(this).toggleClass('open');
+    });
+  };
+  ShowView.prototype.openPanel = function(controller) {
+    var ui;
+    if (this.views.hasClass('open')) {
+      return;
+    }
+    App[controller].deactivate();
+    ui = App.hmanager.externalUI(App[controller]);
+    return console.log(ui.click());
+  };
+  ShowView.prototype.closePanel = function(controller, target) {
+    App[controller].activate();
+    return target.click();
   };
   ShowView.prototype.quickUpload = function(active) {
     return App.uploader.fileupload('option', {

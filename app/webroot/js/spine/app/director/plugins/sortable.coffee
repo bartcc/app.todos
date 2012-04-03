@@ -69,6 +69,7 @@ $.fn.Html5Sortable = (opts) ->
         Spine.sortItem.splitter.remove()
 
       .bind 'dragenter', (e) ->
+        return unless Spine.sortItem
         Spine.sortItem.cond = cond = (e.originalEvent.pageX - $(@).position().left) > ($(@).width())
         if (cond)
           Spine.sortItem.splitter.insertAfter @
@@ -87,9 +88,10 @@ $.fn.Html5Sortable = (opts) ->
         return false
 
       .bind 'drop', (e) ->
-        console.log 'Sort::drop'
-        cond = Spine.sortItem.cond
         try
+          console.log 'Sort::drop'
+          cond = Spine.sortItem.cond
+        
           unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
             return true
         catch e

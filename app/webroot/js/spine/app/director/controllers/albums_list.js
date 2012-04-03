@@ -32,7 +32,7 @@ AlbumsList = (function() {
     GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
     AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
-    AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbums));
+    AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbumsPhoto));
     AlbumsPhoto.bind('destroy create', this.proxy(this.changeBackgrounds));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));

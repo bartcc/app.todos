@@ -141,6 +141,7 @@ class PhotosView extends Spine.Controller
         #
         aps = AlbumsPhoto.filter(photo.id, key: 'photo_id')
         for ap in aps
+          console.log ap
           album = Album.find(ap.album_id)
           Spine.Ajax.disable ->
             Photo.trigger('destroy:join', album, photo)

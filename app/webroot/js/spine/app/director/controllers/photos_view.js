@@ -164,6 +164,7 @@ PhotosView = (function() {
         });
         for (_j = 0, _len2 = aps.length; _j < _len2; _j++) {
           ap = aps[_j];
+          console.log(ap);
           album = Album.find(ap.album_id);
           Spine.Ajax.disable(function() {
             return Photo.trigger('destroy:join', album, photo);

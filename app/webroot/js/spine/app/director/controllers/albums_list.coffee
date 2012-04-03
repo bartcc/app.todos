@@ -21,7 +21,7 @@ class AlbumsList extends Spine.Controller
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
-    AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbums)
+    AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     AlbumsPhoto.bind('destroy create', @proxy @changeBackgrounds)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)

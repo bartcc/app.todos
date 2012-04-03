@@ -54,6 +54,10 @@
                 if ($this.urls[$this.urls.length - 1] !== url) {
                     $this.urls.push(url);
                     $this.titles.push(node.title);
+                    $this.descriptions.push(node.dataset['description']);
+                    $this.isos.push(node.dataset['iso']);
+                    $this.dates.push(node.dataset['captured']);
+                    $this.models.push(node.dataset['model']);
                     if (url === options.href) {
                         options.index = index;
                     }
@@ -119,6 +123,10 @@
                 oldImg.remove();
             }, 3000);
             modal.find('.modal-title').text(this.titles[index]);
+            modal.find('.modal-iso').text(this.isos[index]);
+            modal.find('.modal-description').text(this.descriptions[index]);
+            modal.find('.modal-captured').text(this.dates[index]);
+            modal.find('.modal-model').text(this.models[index]);
             modal.find('.modal-download').prop('href', this.urls[index]);
             this.loadingImage = window.loadImage(
                 this.urls[index],
@@ -256,6 +264,10 @@
                     windowHeight = $(window).height();
                 this.urls = [];
                 this.titles = [];
+                this.descriptions = [];
+                this.isos = [];
+                this.dates = [];
+                this.models = [];
                 if (modal.hasClass('modal-fullscreen')) {
                     this.loadImageOptions = {
                         minWidth: windowWidth,

@@ -144,9 +144,13 @@ class PhotosList extends Spine.Controller
       if jsn
         el = @children().forItem(item)
         a = $('<a></a>').attr
-          'data-href'  : jsn.src
-          'title' : item.title or item.src
-          'rel'   : 'gallery'
+          'data-href'             : jsn.src
+          'title'                 : item.title or item.src
+          'data-iso'              : item.iso or ''
+          'data-captured'         : item.captured or ''
+          'data-description'      : item.description or ''
+          'data-model'            : item.model or ''
+          'rel'                   : 'gallery'
         $('.play', el).append a
         
     @parent.play() #if @parent.slideshowMode

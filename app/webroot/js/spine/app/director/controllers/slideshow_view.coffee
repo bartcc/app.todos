@@ -25,7 +25,6 @@ class SlideshowView extends Spine.Controller
     @autoplay = false
     
     Spine.bind('show:slideshow', @proxy @show)
-    Spine.bind('play:slideshow', @proxy @play)
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('slider:start', @proxy @sliderStart)
     
@@ -71,6 +70,13 @@ class SlideshowView extends Spine.Controller
         img.src = src
     @loadModal items
   
+  imageLoad: ->
+    css = 'url(' + @src + ')'
+    $('.thumbnail', @element).css
+      'backgroundImage': css
+      'backgroundPosition': 'center, center'
+      'backgroundSize': '100%'
+    
   # this loads the image-source attributes pointing to the regular sized image files necessary for the slideshow
   loadModal: (items, mode='html') ->
     Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal items, xhr
@@ -90,13 +96,6 @@ class SlideshowView extends Spine.Controller
           'title' : item.title or item.src
           'rel'   : 'gallery'
         
-  imageLoad: ->
-    css = 'url(' + @src + ')'
-    $('.thumbnail', @element).css
-      'backgroundImage': css
-      'backgroundPosition': 'center, center'
-      'backgroundSize': '100%'
-    
   show: ->
     console.log 'Slideshow::show'
     
@@ -121,16 +120,6 @@ class SlideshowView extends Spine.Controller
       'width'           : val+'px'
       'backgroundSize'  : bg
     
-  play: ->
-    return if @parent.slideshowMode is App.SILENTMODE
-    res = @parent.slideshowable()
-    if res.length
-      res[0].click()
-    @parent.slideshowMode = App.SILENTMODE
-    
-#    modal = $('#modal-gallery').data('modal')
-#    modal.toggleSlideShow()
-      
   # Toggle fullscreen mode:
   toggleFullScreen: (activate) ->
     active = @fullScreenEnabled()

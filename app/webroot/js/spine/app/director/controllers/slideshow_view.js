@@ -31,7 +31,6 @@ SlideshowView = (function() {
     this.fullScreen = true;
     this.autoplay = false;
     Spine.bind('show:slideshow', this.proxy(this.show));
-    Spine.bind('play:slideshow', this.proxy(this.play));
     Spine.bind('slider:change', this.proxy(this.size));
     Spine.bind('slider:start', this.proxy(this.sliderStart));
   }
@@ -99,6 +98,15 @@ SlideshowView = (function() {
     }
     return this.loadModal(items);
   };
+  SlideshowView.prototype.imageLoad = function() {
+    var css;
+    css = 'url(' + this.src + ')';
+    return $('.thumbnail', this.element).css({
+      'backgroundImage': css,
+      'backgroundPosition': 'center, center',
+      'backgroundSize': '100%'
+    });
+  };
   SlideshowView.prototype.loadModal = function(items, mode) {
     if (mode == null) {
       mode = 'html';
@@ -131,15 +139,6 @@ SlideshowView = (function() {
     }
     return _results;
   };
-  SlideshowView.prototype.imageLoad = function() {
-    var css;
-    css = 'url(' + this.src + ')';
-    return $('.thumbnail', this.element).css({
-      'backgroundImage': css,
-      'backgroundPosition': 'center, center',
-      'backgroundSize': '100%'
-    });
-  };
   SlideshowView.prototype.show = function() {
     var filterOptions, items;
     console.log('Slideshow::show');
@@ -169,17 +168,6 @@ SlideshowView = (function() {
       'width': val + 'px',
       'backgroundSize': bg
     });
-  };
-  SlideshowView.prototype.play = function() {
-    var res;
-    if (this.parent.slideshowMode === App.SILENTMODE) {
-      return;
-    }
-    res = this.parent.slideshowable();
-    if (res.length) {
-      res[0].click();
-    }
-    return this.parent.slideshowMode = App.SILENTMODE;
   };
   SlideshowView.prototype.toggleFullScreen = function(activate) {
     var active, root;

@@ -138,7 +138,7 @@
             <div class="items flex">PHOTO</div>
           </div>
           <div class="view slideshow content flex data parent autoflow">
-            <div class="items sortable flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail" data-slideshow="1500"></div>
+            <div class="items sortable flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
@@ -186,10 +186,13 @@
   </div>
 </div>
 <!-- modal-image-gallery -->
-<div id="modal-gallery" class="modal modal-gallery hide fade">
+<div id="modal-gallery" class="modal modal-gallery hide fade" data-slideshow="2000">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
         <h3 class="modal-title"></h3>
+        <h5><span class="left modal-captured"></span></h5>
+        <h5><span class="modal-description"></span></h5>
+        <h5><span class="right modal-model"></span></h5>
     </div>
     <div class="modal-body"><div class="modal-image"></div></div>
     <div class="modal-footer">
@@ -239,22 +242,6 @@
 
 <script id="galleryDetailsTemplate" type="text/x-jquery-tmpl">
     <span>${aCount} </span><span style="font-size: 0.6em;"> (${iCount})</span>
-</script>
-
-<script id="albumDetailsTemplate" type="text/x-jquery-tmpl">
-  <span class="cta">${iCount}</span>
-</script>
-
-<script id="albumsSublistTemplate" type="text/x-jquery-tmpl">
-  {{if flash}}
-  <span class="author">${flash}</span>
-  {{else}}
-  <li class="sublist-item alb item data" draggable="true" title="Move (Hold Cmd-Key to Copy)">
-    <span class="ui-symbol ui-symbol-album"></span>
-    <span class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
-    <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
-  </li>
-  {{/if}}
 </script>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
@@ -313,59 +300,6 @@
   <option {{if ((constructor.record) && (constructor.record.id == id))}}selected{{/if}} value="${id}">${title}</option>
 </script>
 
-<script id="editPhotoTemplate" type="text/x-jquery-tmpl">
-  <label class="">
-    <span class="enlightened">Photo Title</span>
-  </label>
-  <input type="text" name="title" value="${title}" >
-  <label class="">
-    <span class="enlightened">Description</span>
-  </label>
-  <textarea name="description">${description}</textarea>
-</script>
-
-<script id="toolsTemplate" type="text/x-jquery-tmpl">
-  {{if dropdown}}
-    {{tmpl(itemGroup)  "#dropdownTemplate"}}
-  {{else}}
-  <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}{{if id}} id="${id}"{{/if}}>
-    <{{if type}}${type} class="tb-name"{{else}}button class="dark {{if innerklass}}${innerklass}{{/if}}" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
-    {{if innerstyle}} style="${innerstyle}"{{/if}}
-    {{if disabled}}disabled{{/if}}>
-    {{if icon}}<i class="icon-${icon}  {{if iconcolor}}icon-${iconcolor}{{/if}}"></i>{{/if}}{{html name}}
-    </{{if type}}${type}{{else}}button{{/if}}>
-  </li>
-  {{/if}}
-</script>
-
-<script id="dropdownTemplate" type="text/x-jquery-tmpl">
-  <li class="dropdown" {{if id}} id="${id}"{{/if}} >
-    <a class="dropdown-toggle" data-toggle="dropdown">
-      {{html name}}
-      <b class="caret"></b>
-    </a>
-    <ul class="dropdown-menu">
-      {{tmpl(content) "#dropListItemTemplate"}}
-    </ul>
-  </li>
-</script>
-
-<script id="dropListItemTemplate" type="text/x-jquery-tmpl">
-  {{if devider}}
-  <li class="divider"></li>
-  {{else}}
-  <li><a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}}"><i class="icon-{{if icon}}${icon} {{if iconcolor}}icon-${iconcolor}{{/if}}{{/if}}"></i>${name}</a></li>
-  {{/if}}
-</script>
-
-<script id="testTemplate" type="text/x-jquery-tmpl">
-  {{if eval}}{{tmpl($item.data.eval()) "#testTemplate"}}{{/if}}
-</script>
-
-<script id="noSelectionTemplate" type="text/x-jquery-tmpl">
-  {{html type}}
-</script>
-
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
   <section class="top hoverinfo">
     <h2>Gallery Overview<span class="active cta right"><h2>${count}</h2></span></h2>
@@ -394,6 +328,28 @@
       <li class="alb active">Albums</li>
     </ul>
   </section>
+</script>
+
+<script id="albumDetailsTemplate" type="text/x-jquery-tmpl">
+  <span class="cta">${iCount}</span>
+</script>
+
+<script id="albumsSublistTemplate" type="text/x-jquery-tmpl">
+  {{if flash}}
+  <span class="author">${flash}</span>
+  {{else}}
+  <li class="sublist-item alb item data" draggable="true" title="Move (Hold Cmd-Key to Copy)">
+    <span class="ui-symbol ui-symbol-album"></span>
+    <span class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
+    <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
+  </li>
+  {{/if}}
+</script>
+
+<script id="albumInfoTemplate" type="text/x-jquery-tmpl">
+  <ul>
+    <li class="name bold"><span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
+  </ul>
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
@@ -455,14 +411,16 @@
   <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}no title{{/if}}{{/if}}</h2>
 </script>
 
-<script id="loginTemplate" type="text/x-jquery-tmpl">
-  <button class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
-</script>
 
-<script id="overviewTemplate" type="text/x-jquery-tmpl">
-  <div class="item">
-    {{tmpl "#photoThumbnailTemplate"}}
-  </div>
+<script id="editPhotoTemplate" type="text/x-jquery-tmpl">
+  <label class="">
+    <span class="enlightened">Photo Title</span>
+  </label>
+  <input type="text" name="title" value="${src}" >
+  <label class="">
+    <span class="enlightened">Description</span>
+  </label>
+  <textarea name="description">${description}</textarea>
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
@@ -497,23 +455,67 @@
   </div>
 </script>
 
-<script id="albumInfoTemplate" type="text/x-jquery-tmpl">
-  <ul>
-    <li class="name"><span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
-  </ul>
-</script>
-
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    {{if title}}
-      <li class="empty">{{html title}}</li>
-    {{else}}
-      <li class="empty">${src}</li>
-    {{/if}}
+    
+    <em><li class="empty bold">{{if title}}{{html title}}{{else}}${src}{{/if}}</li></em>
+    <li class="">${src}</li>
     <li class="">iso: ${iso}</li>
     <li class="">model: ${model}</li>
     <li class="">date: ${captured}</li>
   </ul>
+</script>
+
+<script id="toolsTemplate" type="text/x-jquery-tmpl">
+  {{if dropdown}}
+    {{tmpl(itemGroup)  "#dropdownTemplate"}}
+  {{else}}
+  <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}{{if id}} id="${id}"{{/if}}>
+    <{{if type}}${type} class="tb-name"{{else}}button class="dark {{if innerklass}}${innerklass}{{/if}}" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
+    {{if innerstyle}} style="${innerstyle}"{{/if}}
+    {{if disabled}}disabled{{/if}}>
+    {{if icon}}<i class="icon-${icon}  {{if iconcolor}}icon-${iconcolor}{{/if}}"></i>{{/if}}{{html name}}
+    </{{if type}}${type}{{else}}button{{/if}}>
+  </li>
+  {{/if}}
+</script>
+
+<script id="dropdownTemplate" type="text/x-jquery-tmpl">
+  <li class="dropdown" {{if id}} id="${id}"{{/if}} >
+    <a class="dropdown-toggle" data-toggle="dropdown">
+      {{html name}}
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+      {{tmpl(content) "#dropListItemTemplate"}}
+    </ul>
+  </li>
+</script>
+
+<script id="dropListItemTemplate" type="text/x-jquery-tmpl">
+  {{if devider}}
+  <li class="divider"></li>
+  {{else}}
+  <li><a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}}"><i class="icon-{{if icon}}${icon} {{if iconcolor}}icon-${iconcolor}{{/if}}{{/if}}"></i>${name}</a></li>
+  {{/if}}
+</script>
+
+<script id="testTemplate" type="text/x-jquery-tmpl">
+  {{if eval}}{{tmpl($item.data.eval()) "#testTemplate"}}{{/if}}
+</script>
+
+<script id="noSelectionTemplate" type="text/x-jquery-tmpl">
+  {{html type}}
+</script>
+
+<script id="loginTemplate" type="text/x-jquery-tmpl">
+  <button class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
+</script>
+
+<script id="overviewTemplate" type="text/x-jquery-tmpl">
+  <div class="item">
+    {{tmpl "#photoThumbnailTemplate"}}
+  </div>
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">

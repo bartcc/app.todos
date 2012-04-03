@@ -62,6 +62,7 @@ UploadEditView = (function() {
   UploadEditView.prototype.done = function(e, data) {
     var photos;
     photos = $.parseJSON(data.jqXHR.responseText);
+    console.log(photos);
     Photo.refresh(photos, {
       clear: false
     });

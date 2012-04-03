@@ -77,12 +77,6 @@ class PhotosView extends Spine.Controller
     @refreshElements()
     delete @buffer
   
-  initializeSlideshow: ->
-    @el.modal
-      selector: 'li'
-      slideshow: 10000
-      show: false
-      
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
     @header.change()

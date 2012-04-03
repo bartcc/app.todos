@@ -200,6 +200,10 @@ PhotosList = (function() {
         a = $('<a></a>').attr({
           'data-href': jsn.src,
           'title': item.title || item.src,
+          'data-iso': item.iso || '',
+          'data-captured': item.captured || '',
+          'data-description': item.description || '',
+          'data-model': item.model || '',
           'rel': 'gallery'
         });
         $('.play', el).append(a);

@@ -68,3 +68,9 @@ button:disabled .icon-white {
 form {
   margin: 0;
 }
+
+/* modal */
+
+.modal-header {
+  padding: 9px 15px 25px;
+}

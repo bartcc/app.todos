@@ -9,18 +9,19 @@ jQuery(function() {
       loginText: 'Enter Username and Password',
       
       initialize: function() {
-        _.bindAll(this, 'login', 'close', 'newAttributes', 'validateLogin', 'updateAuth', 'renderFlash');
+        _.bindAll(this, 'login', 'close', 'cancel', 'newAttributes', 'validateLogin', 'updateAuth', 'renderFlash');
         
         this.bind('error:auth', this.show);
         this.bind('flash', this.renderFlash);
         Todos.bind('update:auth', this.updateAuth);
         
-        this.username = this.$('.username');
-        this.password = this.$('.password');
-        this.closeButton = this.$('._close');
-        this.localButton = this.$('._local');
-        this.loginButton = this.$('._login');
-        this.flash = this.$('._flash span');
+        this.username     = this.$('.username');
+        this.password     = this.$('.password');
+        this.closeButton  = this.$('._close');
+        this.cancelButton = this.$('._cancel');
+        this.localButton  = this.$('._local');
+        this.loginButton  = this.$('._login');
+        this.flash        = this.$('._flash span');
         
         this.model = Todos.Models.User;
         this.isValid = false;
@@ -31,6 +32,7 @@ jQuery(function() {
 
       events: {
         
+        'click footer ._cancel'   : 'cancel',
         'click footer ._login'    : 'login',
         'keypress #login input'   : 'login',
         'keyup #login input'      : 'validateLogin',
@@ -116,6 +118,17 @@ jQuery(function() {
         setTimeout(function(t) {
           $(that.el).hide();
         }, t)
+      },
+      
+      cancel: function(e) {
+        this.redirect();
+      },
+      
+      redirect: function(url, external) {
+        if (url == null) {
+          url = '';
+        }
+        return location.href = (external ? 'http://' : base_url) + url;
       }
 
     })

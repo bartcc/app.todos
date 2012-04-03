@@ -79,6 +79,7 @@
             <span>
               <fieldset>
                 <button class="_local light">Local Storage</button>
+                <button class="_cancel light">Cancel</button>
                 <button class="_login light disabled" disabled="">Login</button>
               </fieldset>
             </span>

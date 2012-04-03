@@ -1,3 +1,3 @@
 #Screenshot
 
-![Todos](http://wordpress.webpremiere.de/wp-content/uploads/2011/12/Bildschirmfoto-2011-12-20-um-01.50.24.png)
+![Todos](https://plus.google.com/photos/118385878359213612744/albums/5727326564061012753?authkey=COHbhvL8_OCrRg)

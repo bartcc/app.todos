@@ -143,7 +143,7 @@ ShowView = (function() {
     this.slideshowMode = App.SILENTMODE;
     this.sOutValue = 74;
     this.thumbSize = 240;
-    this.slideshowAutoStart = true;
+    this.slideshowAutoStart = false;
     this.edit = this.editGallery;
     this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView, this.slideshowView);
     this.canvasManager.change(this.current);

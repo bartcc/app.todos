@@ -123,7 +123,7 @@ class ShowView extends Spine.Controller
     @slideshowMode = App.SILENTMODE
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
-    @slideshowAutoStart = true
+    @slideshowAutoStart = false
     @edit = @editGallery
     
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)

@@ -140,7 +140,6 @@ ShowView = (function() {
     Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
     Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
     this.current = this.albumsView;
-    this.slideshowMode = App.SILENTMODE;
     this.sOutValue = 74;
     this.thumbSize = 240;
     this.slideshowAutoStart = false;

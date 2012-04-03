@@ -36,7 +36,7 @@ class MysqlController extends AppController {
       $postfix = 'mysql';
       $io = '<';
     } elseif (isempty($action)) {
-      $cmd = 'mysql connect 192.168.1.16 2>&1';
+      $cmd = 'mysql connect localhost 2>&1';
       $op = `$cmd`;
       return $op;
     }

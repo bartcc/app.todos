@@ -112,7 +112,7 @@ class AlbumsView extends Spine.Controller
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid
-#        Album.clearCache alb.id
+        Album.clearCache alb.id
         @list.refreshBackgrounds alb
         alb.invalid = false
         alb.save(ajax:false)

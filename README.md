@@ -1,3 +1,3 @@
 #Screenshot
 
-![Todos](https://plus.google.com/photos/118385878359213612744/albums/5727326564061012753?authkey=COHbhvL8_OCrRg)
+![Todos](https://lh6.googleusercontent.com/-BCcP-3R-LXQ/T3uNLsNxY0I/AAAAAAAAAQk/AEV2dAxL2i8/s944/Bildschirmfoto+2012-04-04+um+01.50.01.jpg)

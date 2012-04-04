@@ -1,6 +1,6 @@
 #Photo Director
 
-A RESTful javascript project.
+RESTful javascript application.
 Originally created, to get a feeling for javascript web aplications and started after the compulsory warm-up: [Todo apps](http://app.webpremiere.de)
 Lives inside a CakePHP installation
 

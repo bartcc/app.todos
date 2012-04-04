@@ -19,7 +19,7 @@ AlbumsPhoto = (function() {
   AlbumsPhoto.url = function() {
     return 'albums_photos';
   };
-  AlbumsPhoto.albumHasPhoto_ = function(aid, pid) {
+  AlbumsPhoto.albumHasPhoto = function(aid, pid) {
     var ap, aps, _i, _len;
     aps = this.filter(aid, {
       key: 'album_id'

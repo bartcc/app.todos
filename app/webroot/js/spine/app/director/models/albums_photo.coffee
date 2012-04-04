@@ -8,7 +8,7 @@ class AlbumsPhoto extends Spine.Model
   
   @url: -> 'albums_photos'
   
-  @albumHasPhoto_: (aid, pid) ->
+  @albumHasPhoto: (aid, pid) ->
     aps = @filter aid, key: 'album_id'
     for ap in aps
       return true if ap.photo_id == pid

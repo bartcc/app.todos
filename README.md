@@ -18,7 +18,7 @@ Checkout the live [demo](http://gap.webpremiere.de)
 * RESTful CRUD
 * HTML5 native drag and drop
 * HTML5upload / Slideshow (thanks to [BluImp](https://github.com/blueimp))
-* Twitter Bootstrap
+* [Twitter Bootstrap](http://twitter.github.com)
 
 #Screenshot
 

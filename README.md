@@ -11,7 +11,7 @@ For everyone who isn't familiar with Cake directory structure and want go direct
 
 #Live Demo
 
-Checkout the live [Backbone based demo](http://gap.webpremiere.de)
+Checkout the live [demo](http://gap.webpremiere.de)
 
 #Features
 

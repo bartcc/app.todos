@@ -13,12 +13,12 @@ For everyone who isn't familiar with Cake directory structure and want go direct
 
 Checkout the live [demo](http://gap.webpremiere.de)
 
-#Features
+#Features / Libraries
 
-HTML5 native drag and drop
-HTML5upload
-CRUD
-slideshow
+* RESTful CRUD
+* HTML5 native drag and drop
+* HTML5upload / Slideshow (thanks to [BluImp](https://github.com/blueimp))
+* Twitter Bootstrap
 
 #Screenshot
 

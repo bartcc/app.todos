@@ -13,14 +13,14 @@ Controller.KeyEnhancer = {
           return this.delegateEvents(this.constructor.events);
         }
       },
-      preventEvents: function(e) {
+      stopPropagation: function(e) {
         return e.stopPropagation();
       }
     };
     Extend = {
       events: {
-        'keypress input': 'preventEvents',
-        'keypress textarea': 'preventEvents'
+        'keypress input': 'stopPropagation',
+        'keypress textarea': 'stopPropagation'
       }
     };
     this.include(Include);

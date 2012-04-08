@@ -12,13 +12,13 @@ Controller.KeyEnhancer =
       init: ->
         @delegateEvents(@constructor.events) if @constructor.events
         
-      preventEvents: (e) ->
+      stopPropagation: (e) ->
         e.stopPropagation()
         
     Extend =
       events:
-        'keypress input'     : 'preventEvents'
-        'keypress textarea'  : 'preventEvents'
+        'keypress input'     : 'stopPropagation'
+        'keypress textarea'  : 'stopPropagation'
         
     @include Include
     @extend Extend

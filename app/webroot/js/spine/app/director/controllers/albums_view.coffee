@@ -119,7 +119,7 @@ class AlbumsView extends Spine.Controller
     
   newAttributes: ->
     if User.first()
-      title   : 'Brandnew'
+      title   : 'New Album'
       invalid : false
       user_id : User.first().id
       order   : Album.all().length

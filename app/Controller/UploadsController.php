@@ -86,7 +86,7 @@ class UploadsController extends AppController {
                   $this->request->data['Photo']['make'] = $make;
                   $this->request->data['Photo']['model'] = $model;
                   $this->request->data['Photo']['order'] = -1;
-                  $this->request->data['Photo']['title'] = "Brandnew";
+                  $this->request->data['Photo']['title'] = "New Photo";
 
                 }
               }

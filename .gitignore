@@ -14,3 +14,4 @@ nbproject
 /uploads/photos/
 /app/webroot/js/spine/app/director/controllers/test/
 app/config/database.php
+/app/Config/database.php

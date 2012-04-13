@@ -1,0 +1,36 @@
+div.dialogue {
+  display: table-cell;
+  vertical-align: middle;
+}
+div.dialogue-wrap {
+  position:fixed;
+  background: transparent;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  display:table;
+}
+div.dialogue-wrap-inner {
+  position: absolute;
+  z-index: 1005;
+  background: transparent;
+  text-align: center;
+}
+div.dialogue-content {
+  margin: 0 auto 0;
+}
+div.bg > div:nth-child(2) {
+}
+div.dialogue-content div.bg {
+  background: none repeat scroll 0 0 transparent;
+  text-align: center;
+  position: relative;
+}
+div.dialogue div.dialogue-scroll {
+  position: relative;
+  padding: 10px 0;
+  margin: 0 auto;
+}
+
+

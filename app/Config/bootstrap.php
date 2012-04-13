@@ -134,7 +134,7 @@ define('WEB_URL', '/' . APP_DIR . '/' . WEBROOT_DIR);
 define('UPLOADS', ROOT . DS . 'uploads');
 define('PHOTOS', UPLOADS . DS . 'photos');
 if (!defined('SIMPLE_JSON')) {
-	define('SIMPLE_JSON', '/elements/simple_json');
+	define('SIMPLE_JSON', '/Elements/SimpleJson');
 }
 if (!defined('SALT')) {
     define('SALT', 'urrasjksdjkbsdakbjvgikjbgfiabrg');

@@ -163,7 +163,7 @@ class App extends Spine.Controller
     charCode = e.charCode
     keyCode = e.keyCode
     
-    # KEYS
+    # CHARS
     switch charCode
       when 97
         #ctrl A -> select all / invert selection
@@ -176,7 +176,7 @@ class App extends Spine.Controller
         e.preventDefault()
         
         
-    # CHARS
+    # KEYS
     switch keyCode
       when 9
         #tabKey -> toggle sidebar

@@ -13,7 +13,7 @@ class Sidebar extends Spine.Controller
   events:
     "keyup input"           : "filter"
     "click button.create"   : "create"
-    "click .draghandle"     : 'toggleDraghandle'
+    "dblclick .draghandle"  : 'toggleDraghandle'
 
     'dragstart  .items .item'        : 'dragstart'
     'dragenter  .items .item'        : 'dragenter'
@@ -220,4 +220,3 @@ class Sidebar extends Spine.Controller
       width: w
       speed
       => @clb()
-    

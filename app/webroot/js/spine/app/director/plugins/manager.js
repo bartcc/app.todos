@@ -124,7 +124,6 @@ Spine.Manager.include({
   },
   externalUI: function(controller) {
     var activeController;
-    console.log(this.external.el);
     activeController = controller || this.lastActive();
     return $(activeController.externalUI, this.external.el);
   }

@@ -84,7 +84,7 @@ class Photo extends Spine.Model
     result[attr] = @[attr] for attr in @constructor.selectAttributes
     result
 
-  # loops over each record
+  # loops over each record and make sure to set the copy property
   select: (joinTableItems) ->
     for record in joinTableItems
       return true if record.photo_id is @id and (@['order'] = record.order)?

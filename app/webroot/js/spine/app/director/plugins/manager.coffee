@@ -77,7 +77,6 @@ Spine.Manager.include
     @last or @controllers[0]
   
   externalUI: (controller) ->
-    console.log @external.el
     activeController = controller or @lastActive()
     $(activeController.externalUI, @external.el)
 

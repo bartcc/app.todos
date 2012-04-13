@@ -26,7 +26,7 @@ Sidebar = (function() {
   Sidebar.prototype.events = {
     "keyup input": "filter",
     "click button.create": "create",
-    "click .draghandle": 'toggleDraghandle',
+    "dblclick .draghandle": 'toggleDraghandle',
     'dragstart  .items .item': 'dragstart',
     'dragenter  .items .item': 'dragenter',
     'dragleave  .items .item': 'dragleave',

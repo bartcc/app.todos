@@ -9,8 +9,6 @@ class Gallery extends Spine.Model
 
   @selectAttributes: ['name', 'author']
   
-#  @parentSelector: 'Empty'
-  
   @url: ->
     '' + base_url + 'galleries'
 

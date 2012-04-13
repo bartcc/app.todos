@@ -52,7 +52,7 @@ class ShowView extends Spine.Controller
     'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
     'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
-    'click .draghandle'                              : 'toggleDraghandle'
+    'dblclick .draghandle'                           : 'toggleDraghandle'
     'click .draghandle.optClose'                     : 'closeDraghandle'
     'click .items'                                   : 'deselect'
     'slidestop .slider'                              : 'sliderStop'

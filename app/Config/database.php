@@ -70,13 +70,13 @@ class DATABASE_CONFIG {
 		//'encoding' => 'utf8',
 	);
 
-	public $cakephp_spine = array(
+	public $test = array(
 		'datasource' => 'Database/Mysql',
 		'persistent' => false,
 		'host' => 'localhost',
-		'login' => 'axel',
-		'password' => 'kakadax',
-		'database' => 'spine_cakephp',
+		'login' => 'user',
+		'password' => 'password',
+		'database' => 'test_database_name',
 		'prefix' => '',
 		//'encoding' => 'utf8',
 	);

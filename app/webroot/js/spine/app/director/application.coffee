@@ -25,7 +25,7 @@ class App extends Spine.Controller
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '.show .content'      : 'content'
-    '.status-symbol img'  : 'icon'
+    '.status-symbol img'  : 'statusIcon'
     '.status-text'        : 'statusText'
     '.status-symbol'      : 'statusSymbol'
     
@@ -120,17 +120,17 @@ class App extends Spine.Controller
 
   validate: (user, json) ->
     console.log 'Pinger done'
-    valid = user.sessionid is json.User.sessionid
-    valid = user.id is json.User.id and valid
+    valid = user.sessionid is json.sessionid
+    valid = user.id is json.id and valid
     unless valid
       User.logout()
     else
-      @old_icon = @icon[0].src
-      @icon[0].src = '/img/validated.png'
+      @old_statusIcon = @statusIcon[0].src
+      @statusIcon[0].src = '/img/validated.png'
       @statusText.text 'Account verified'
       cb = ->
         @setupView()
-      @delay cb, 1000
+      @delay cb, 500
       
   drop: (e) ->
     console.log 'App::drop'
@@ -142,14 +142,14 @@ class App extends Spine.Controller
       
   setupView: ->
     Spine.unbind('uri:alldone')
-    @icon[0].src = '/img/validated.png'
+    @statusIcon[0].src = '/img/validated.png'
     @statusText.hide()
     cb = ->
       @appManager.change @mainView
       @showView.openPanel('gallery') unless Gallery.count()
       @loginView.render User.first()
       
-    @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 1000)
+    @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 500)
     
   initializeFileupload: ->
     @uploader.fileupload

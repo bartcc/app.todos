@@ -93,11 +93,11 @@ class PhotosList extends Spine.Controller
     @size(@parent.sOutValue)
     
     if Album.record
-      Album.record.uri @thumbSize(), mode, (xhr, record) => @callback items, xhr
+      Album.record.uri @thumbSize(), mode, (xhr, record) => @callback xhr, items
     else
-      Photo.uri @thumbSize(), mode, (xhr, record) => @callback items, xhr
+      Photo.uri @thumbSize(), mode, (xhr, record) => @callback xhr, items
   
-  callback: (items, json) =>
+  callback: (json = [], items) =>
     console.log 'PhotosList::callback'
     searchJSON = (id) ->
       for itm in json

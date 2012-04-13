@@ -51,7 +51,8 @@ Base = (function() {
     processData: false,
     headers: {
       'X-Requested-With': 'XMLHttpRequest'
-    }
+    },
+    dataType: 'json'
   };
   Base.prototype.ajax = function(params, defaults) {
     return $.ajax($.extend({}, this.defaults, defaults, params));

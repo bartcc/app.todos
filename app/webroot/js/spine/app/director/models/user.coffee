@@ -32,7 +32,7 @@ class User extends Spine.Model
   
   success: (json) =>
     console.log 'Ajax::success'
-    @constructor.trigger('pinger', @, json)
+    @constructor.trigger('pinger', @, $.parseJSON(json))
 
   error: (xhr) =>
     console.log 'Ajax::error'

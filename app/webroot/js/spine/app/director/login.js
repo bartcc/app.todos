@@ -65,6 +65,7 @@ Login = (function() {
   };
   Login.prototype.success = function(json) {
     var delayedFunc, user;
+    json = $.parseJSON(json);
     User.fetch();
     User.destroyAll();
     user = new User(this.newAttributes(json));
@@ -73,7 +74,7 @@ Login = (function() {
     delayedFunc = function() {
       return User.redirect('director_app');
     };
-    return this.delay(delayedFunc, 500);
+    return this.delay(delayedFunc, 1000);
   };
   Login.prototype.error = function(xhr) {
     var delayedFunc, json;
@@ -100,6 +101,7 @@ Login = (function() {
     return User.redirect();
   };
   Login.prototype.guestLogin = function() {
+    console.log('guest login');
     this.passwordEl.val('guest');
     this.usernameEl.val('guest');
     return this.submit();

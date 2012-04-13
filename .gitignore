@@ -1,6 +1,7 @@
 /nbproject/private/
 /nbproject
 *.psd
+.DS_Store
 =======
 nbproject
 /app/tmp/cache/views/*
@@ -10,10 +11,6 @@ nbproject
 /app/tmp/logs/debug.log
 /app/tmp/cache/models/*
 /app/tmp/cache/persistent/*
-
 /uploads/photos/
 /app/webroot/js/spine/app/director/controllers/test/
-!/app/Config/database.php
-!/app/Config/core.php
-!/app/Config/acl.php
-!/app/Config/acl.ini.php
+/app/Config/database.php

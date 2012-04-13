@@ -18,4 +18,6 @@ nbproject
 /app/Config/database.php
 /old/
 /app__/
-/app/Config/
+!/app/Config/core.php
+!/app/Config/acl.php
+!/app/Config/acl.ini.php

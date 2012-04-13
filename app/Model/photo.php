@@ -5,7 +5,6 @@ App::uses('AppModel', 'Model');
 class Photo extends AppModel {
 
   public $name = 'Photo';
-  public $useDbConfig = 'cakephp_spine';
   public $displayField = 'title';
   
   public $hasMany = array(

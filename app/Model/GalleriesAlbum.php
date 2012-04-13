@@ -3,7 +3,6 @@
 class GalleriesAlbum extends AppModel {
 
   public $name = 'GalleriesAlbum';
-  public $useDbConfig = 'cakephp_spine';
   
   public $belongsTo = array(
       'Gallery', 'Album'

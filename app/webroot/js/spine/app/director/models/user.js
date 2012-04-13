@@ -49,7 +49,7 @@ User = (function() {
   };
   User.prototype.success = function(json) {
     console.log('Ajax::success');
-    return this.constructor.trigger('pinger', this, json);
+    return this.constructor.trigger('pinger', this, $.parseJSON(json));
   };
   User.prototype.error = function(xhr) {
     console.log('Ajax::error');

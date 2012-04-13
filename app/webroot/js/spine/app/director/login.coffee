@@ -43,6 +43,7 @@ class Login extends Spine.Controller
     @usernameEl.val('').focus()
     
   success: (json) =>
+    json = $.parseJSON(json)
     User.fetch()
     User.destroyAll()
     user = new User @newAttributes(json)
@@ -50,7 +51,7 @@ class Login extends Spine.Controller
     @render @flashEl, @flashTemplate, json
     delayedFunc = ->
       User.redirect 'director_app'
-    @delay delayedFunc, 500
+    @delay delayedFunc, 1000
 
   error: (xhr) =>
     json = $.parseJSON(xhr.responseText)
@@ -70,13 +71,15 @@ class Login extends Spine.Controller
     User.redirect()
     
   guestLogin: ->
+    console.log 'guest login'
     @passwordEl.val('guest')
     @usernameEl.val('guest')
     @submit()
     
   submitOnEnter: (e) ->
-    return if(e.keyCode != 13)
+    return unless e.keyCode is 13
     @submit()
     e.preventDefault()
+    
 $ ->
   window.Login = new Login el: $('body')

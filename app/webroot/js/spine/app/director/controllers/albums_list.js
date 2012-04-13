@@ -157,6 +157,10 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.callback = function(json, item) {
     var arr, css, el, itm, searchJSON;
+    if (json == null) {
+      json = [];
+    }
+    console.log('AlbumsList::callback');
     el = this.children().forItem(item);
     searchJSON = function(itm) {
       var key, value, _results;

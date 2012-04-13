@@ -33,6 +33,7 @@ class Base
     contentType: 'application/json'
     processData: false
     headers: {'X-Requested-With': 'XMLHttpRequest'}
+    dataType: 'json'
   
   ajax: (params, defaults) ->
     $.ajax($.extend({}, @defaults, defaults, params))

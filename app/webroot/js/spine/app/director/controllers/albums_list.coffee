@@ -120,7 +120,8 @@ class AlbumsList extends Spine.Controller
         @callback(xhr, album)
       , 4
   
-  callback: (json, item) =>
+  callback: (json = [], item) =>
+    console.log 'AlbumsList::callback'
     el = @children().forItem(item)
     searchJSON = (itm) ->
       for key, value of itm

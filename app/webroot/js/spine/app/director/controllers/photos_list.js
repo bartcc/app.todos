@@ -118,16 +118,19 @@ PhotosList = (function() {
     this.size(this.parent.sOutValue);
     if (Album.record) {
       return Album.record.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
-        return this.callback(items, xhr);
+        return this.callback(xhr, items);
       }, this));
     } else {
       return Photo.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
-        return this.callback(items, xhr);
+        return this.callback(xhr, items);
       }, this));
     }
   };
-  PhotosList.prototype.callback = function(items, json) {
+  PhotosList.prototype.callback = function(json, items) {
     var ele, img, item, jsn, searchJSON, src, _i, _len;
+    if (json == null) {
+      json = [];
+    }
     console.log('PhotosList::callback');
     searchJSON = function(id) {
       var itm, _i, _len;

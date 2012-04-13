@@ -6,6 +6,7 @@ class Gallery extends AppModel {
 
   public $name = 'Gallery';
   public $displayField = 'name';
+  public $useDbConfig = 'director_spine';
   
   public $hasMany = array(
       'GalleriesAlbum'

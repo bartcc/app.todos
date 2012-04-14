@@ -8,19 +8,9 @@ class PhotosController extends AppController {
 
   public function beforeFilter() {
     $this->Auth->allowedActions = array('uri');
-//    $this->log('PhotosController::beforeFilter', LOG_DEBUG);
-//    $this->log($this->data, LOG_DEBUG);
-//    $this->log($this->mydata, LOG_DEBUG);
     parent::beforeFilter();
   }
 
-  public function afterFilter() {
-//    $this->log('PhotosController::afterFilter', LOG_DEBUG);
-//    $this->log($this->data, LOG_DEBUG);
-//    $this->log($this->mydata, LOG_DEBUG);
-//    $this->log($this->request->data(), LOG_DEBUG);
-  }
-  
   public function index() {
     $this->Photo->recursive = 0;
     $this->set('photos', $this->paginate());

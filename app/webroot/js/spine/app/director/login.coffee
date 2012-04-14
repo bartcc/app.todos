@@ -67,8 +67,9 @@ class Login extends Spine.Controller
     groupname: json.groupname
     sessionid: json.sessionid
     
-  cancel: ->
+  cancel: (e) ->
     User.redirect()
+    e.preventDefault()
     
   guestLogin: ->
     console.log 'guest login'

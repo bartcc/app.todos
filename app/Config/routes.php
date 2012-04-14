@@ -32,7 +32,6 @@ Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home
  */
 Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
-Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 Router::connectNamed(array('passed'));
 Router::connect('/q/*', array('controller' => 'kodaks', 'action' => 'develop'));
 Router::connect('/git/*', array('controller' => 'gits', 'action' => 'exec'));

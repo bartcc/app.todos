@@ -97,8 +97,9 @@ Login = (function() {
       sessionid: json.sessionid
     };
   };
-  Login.prototype.cancel = function() {
-    return User.redirect();
+  Login.prototype.cancel = function(e) {
+    User.redirect();
+    return e.preventDefault();
   };
   Login.prototype.guestLogin = function() {
     console.log('guest login');

@@ -1,5 +1,4 @@
 <?php
-
 App::uses('AppModel', 'Model');
 
 class Gallery extends AppModel {
@@ -9,7 +8,7 @@ class Gallery extends AppModel {
   public $useDbConfig = 'director_spine';
   
   public $hasMany = array(
-      'GalleriesAlbum'
+      'GalleriesAlbum' => array('dependent' => true)
   );
 }
 

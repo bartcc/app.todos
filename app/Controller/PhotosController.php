@@ -82,9 +82,10 @@ class PhotosController extends AppController {
       // remove image from filesystem
       $this->remove($id);
       $this->flash(__('Image deleted', true), array('action' => 'index'));
+    } else {
+      $this->flash(__('Image was not deleted', true), array('action' => 'index'));
+      $this->redirect(array('action' => 'index'));
     }
-    $this->flash(__('Image was not deleted', true), array('action' => 'index'));
-    $this->redirect(array('action' => 'index'));
   }
 
   public function remove($id) {

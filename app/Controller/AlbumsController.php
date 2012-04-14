@@ -26,7 +26,7 @@ class AlbumsController extends AppController {
     if (!empty($this->request->data)) {
       $this->Album->create();
       $this->request->data['Album']['id'] = null;
-      if ($this->Album->save($this->request->data)) {
+      if ($this->Album->save($this->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
         $this->set('_serialize', array('id' => $this->Album->id));
         $this->render(SIMPLE_JSON);
@@ -41,8 +41,8 @@ class AlbumsController extends AppController {
       $this->Session->setFlash(__('Invalid album', true));
       $this->redirect(array('action' => 'index'));
     }
-    if (!empty($this->request->data)) {
-      if ($this->Album->save($this->request->data)) {
+    if (!empty($this->data)) {
+      if ($this->Album->save($this->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
       } else {
         $this->Session->setFlash(__('The album could not be saved. Please, try again.', true));

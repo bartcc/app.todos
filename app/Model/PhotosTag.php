@@ -2,12 +2,12 @@
 
 App::uses('AppModel', 'Model');
 
-class GalleriesAlbum extends AppModel {
+class PhotosTag extends AppModel {
 
-  public $name = 'GalleriesAlbum';
+  public $name = 'PhotosTag';
   public $useDbConfig = 'director_spine';
   public $belongsTo = array(
-      'Gallery', 'Album'
+      'Photo', 'Tag'
   );
 
 }

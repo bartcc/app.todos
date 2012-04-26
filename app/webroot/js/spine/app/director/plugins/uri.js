@@ -144,10 +144,17 @@ Uri = (function() {
   Uri.prototype.test = function() {
     var cache;
     cache = this.record.cache(this.url);
-    if (cache.length) {
+    if (cache != null ? cache.length : void 0) {
       return this.callback(cache, this.record);
     } else {
-      return this.get();
+      if (this.record.constructor.className === 'Album') {
+        if (this.record.contains()) {
+          this.get();
+        }
+      }
+      if (this.record.constructor.className === 'Photo') {
+        return this.get();
+      }
     }
   };
   Uri.prototype.all = function() {
@@ -156,7 +163,7 @@ Uri = (function() {
         type: "POST",
         url: base_url + 'photos/uri/' + this.url,
         data: JSON.stringify(this.photos)
-      }).success(this.collectionResponse).error(this.errorResponse);
+      }).success(this.recordResponse).error(this.errorResponse);
     }, this));
   };
   Uri.prototype.recordResponse = function(uris) {

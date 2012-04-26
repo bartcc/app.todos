@@ -14,10 +14,10 @@ Album = (function() {
     Album.__super__.constructor.apply(this, arguments);
   }
   Album.configure("Album", 'title', 'description', 'count', 'user_id', 'order', 'invalid');
+  Album.extend(Spine.Model.Cache);
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
-  Album.extend(Spine.Model.Cache);
   Album.extend(Spine.Model.Uri);
   Album.extend(Spine.Model.Extender);
   Album.selectAttributes = ['title'];
@@ -60,16 +60,16 @@ Album = (function() {
     }).length;
   };
   Album.prototype.init = function(instance) {
-    var cache, newSelection;
-    if (!instance) {
+    var o, s;
+    if (!instance.id) {
       return;
     }
-    newSelection = {};
-    newSelection[instance.id] = [];
-    this.constructor.selection.push(newSelection);
-    cache = {};
-    cache[instance.id] = [];
-    return this.constructor.caches.push(cache);
+    s = new Object();
+    s[instance.id] = [];
+    this.constructor.selection.push(s);
+    o = new Object();
+    o[instance.id] = [];
+    return this.constructor.caches.push(o);
   };
   Album.prototype.selChange = function(list) {};
   Album.prototype.contains = function() {

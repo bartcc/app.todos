@@ -167,6 +167,7 @@ PhotosView = (function() {
       for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
         photo = photos[_k];
         Album.removeFromSelection(photo.id);
+        photo.removeFromCache();
         _results.push(photo.destroy());
       }
       return _results;

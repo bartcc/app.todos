@@ -142,6 +142,7 @@ class PhotosView extends Spine.Controller
       # now remove photo originals
       for photo in photos
         Album.removeFromSelection photo.id
+        photo.removeFromCache()
         photo.destroy()
     
   show: ->

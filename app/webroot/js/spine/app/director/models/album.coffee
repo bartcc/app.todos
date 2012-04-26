@@ -2,10 +2,10 @@
 class Album extends Spine.Model
   @configure "Album", 'title', 'description', 'count', 'user_id', 'order', 'invalid'
 
+  @extend Spine.Model.Cache
   @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
-  @extend Spine.Model.Cache
   @extend Spine.Model.Uri
   @extend Spine.Model.Extender
 
@@ -39,14 +39,14 @@ class Album extends Spine.Model
     AlbumsPhoto.filter(id, key: 'album_id').length
     
   init: (instance) ->
-    return unless instance
-    newSelection = {}
-    newSelection[instance.id] = []
-    @constructor.selection.push(newSelection)
+    return unless instance.id
+    s = new Object()
+    s[instance.id] = []
+    @constructor.selection.push s
     
-    cache = {}
-    cache[instance.id] = []
-    @constructor.caches.push(cache)
+    o = new Object()
+    o[instance.id] = []
+    @constructor.caches.push o
     
   selChange: (list) ->
   

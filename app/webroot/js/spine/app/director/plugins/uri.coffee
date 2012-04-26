@@ -104,10 +104,13 @@ class Uri extends Base
   
   test: ->
     cache = @record.cache @url
-    if cache.length
+    if cache?.length
       @callback cache, @record
     else
-      @get()
+      if @record.constructor.className is 'Album'
+        @get() if @record.contains()
+      if @record.constructor.className is 'Photo'
+        @get()
       
   all: ->
     @queue =>
@@ -115,7 +118,7 @@ class Uri extends Base
         type: "POST"
         url: base_url + 'photos/uri/' + @url
         data: JSON.stringify(@photos)
-      ).success(@collectionResponse)
+      ).success(@recordResponse)
        .error(@errorResponse)
 
   recordResponse: (uris) =>

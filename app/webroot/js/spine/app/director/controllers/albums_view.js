@@ -198,6 +198,7 @@ AlbumsView = (function() {
       for (_k = 0, _len3 = albums.length; _k < _len3; _k++) {
         album = albums[_k];
         Gallery.removeFromSelection(album.id);
+        album.removeFromCache();
         _results.push(album.destroy());
       }
       return _results;

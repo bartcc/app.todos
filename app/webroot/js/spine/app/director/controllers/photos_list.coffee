@@ -93,7 +93,7 @@ class PhotosList extends Spine.Controller
     @size(@parent.sOutValue)
     
     if Album.record
-      Album.record.uri @thumbSize(), mode, (xhr, record) => @callback xhr, items
+      Album.record.uri @thumbSize(), 'append', (xhr, record) => @callback xhr, items
     else
       Photo.uri @thumbSize(), mode, (xhr, record) => @callback xhr, items
   

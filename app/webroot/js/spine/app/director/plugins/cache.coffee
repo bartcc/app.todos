@@ -15,34 +15,43 @@ Model.Cache =
         return unless id
         for item in @caches
           return item[id] if item[id]
+#        console.log @caches
+        throw 'record is not configured '
 
       cache: (record, url) ->
+        cached = @cacheList record?.id
+#        console.log 'testing cache for ' + record?.constructor.className + ' ' + record?.id
+        return unless cached
+        for item in cached
+          if item[url]
+            return item[url]
+#        return false
+        @initCache cached, url
+        @cache record, url
+         
+      initCache: (cached, url) ->
+#        cached = @cacheList record?.id
+        o = new Object()
+        o[url]=[]
+        cached.push o
+         
+      addToCache: (record, url, uris, mode) ->
         cache = @cacheList record?.id
-        return unless cache
-        for item in cache
-          return item[url] if item[url]
-        dummy = {}
-        dummy[url]=[]
-        cache.push dummy
-        return @cache record, url
-          
-      addToCache: (record, url, uri, mode) ->
-        cache = @cacheList record?.id
-        return unless cache
         if mode is 'append'
           cache = @cache(record, url)
-          cache.push ur for ur in uri
-        else
-          dummy = {}
-          dummy[url] = uri
+          cache.push uri for uri in uris
+        else if uris.length
+          o = new Object()
+          o[url] = uris
           cache[0...cache.length] = []
-          cache.push dummy# unless @cache(record, url)
+          cache.push o
         cache
-
+        
       removeFromCache: (record) ->
-        for item in @caches
+        console.log 'removing from cache'
+        for item, index in @caches
           if item[record.id]
-            spliced = @caches.splice index,1
+            spliced = @caches.splice index, 1
             return spliced
 
       clearCache: (id) ->

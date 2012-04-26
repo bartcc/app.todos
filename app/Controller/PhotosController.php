@@ -122,12 +122,11 @@ class PhotosController extends AppController {
   }
 
   public function uri($width = 150, $height = 150, $square = 2) {
+    $json = array();
     if ($this->Auth->user('id')) {
-
       $user_id = $uid = $this->Auth->user('id');
 
       if (!empty($this->data)) {
-        $json = array();
         foreach ($this->data as $data) {
           $id = $data['id'];
           $path = PHOTOS . DS . $uid . DS . $id . DS . 'lg' . DS . '*.*';
@@ -144,15 +143,13 @@ class PhotosController extends AppController {
             $json[] = $return;
           }
         }
-        $this->set('_serialize', $json);
-        $this->render(SIMPLE_JSON);
       }
     } else {
       $json = array('flash' => '<strong style="color:red">No valid user</strong>');
-      $this->set('_serialize', $json);
       $this->response->header("WWW-Authenticate: Negotiate");
-      $this->render(SIMPLE_JSON);
     }
+    $this->set('_serialize', $json);
+    $this->render(SIMPLE_JSON);
   }
 
   private function _previewOptions($w = 300, $h = 300) {

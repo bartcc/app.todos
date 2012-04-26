@@ -117,7 +117,7 @@ PhotosList = (function() {
     console.log('PhotosList::uri');
     this.size(this.parent.sOutValue);
     if (Album.record) {
-      return Album.record.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
+      return Album.record.uri(this.thumbSize(), 'append', __bind(function(xhr, record) {
         return this.callback(xhr, items);
       }, this));
     } else {

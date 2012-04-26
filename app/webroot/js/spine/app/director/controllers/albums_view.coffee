@@ -163,6 +163,7 @@ class AlbumsView extends Spine.Controller
             
       for album in albums
         Gallery.removeFromSelection album.id
+        album.removeFromCache()
         album.destroy()
 
   createJoin: (target, albums) ->

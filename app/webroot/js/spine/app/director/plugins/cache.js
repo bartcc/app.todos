@@ -50,23 +50,6 @@ Model.Cache = {
         o[url] = [];
         return cached.push(o);
       },
-      addToCache_: function(record, url, uris, mode) {
-        var cache, o, uri, _i, _len, _ref;
-        cache = this.cacheList(record != null ? record.id : void 0);
-        if (mode === 'append') {
-          cache = this.cache(record, url);
-          for (_i = 0, _len = uris.length; _i < _len; _i++) {
-            uri = uris[_i];
-            cache.push(uri);
-          }
-        } else if (uris.length) {
-          o = new Object();
-          o[url] = uris;
-          [].splice.apply(cache, [0, cache.length - 0].concat(_ref = [])), _ref;
-          cache.push(o);
-        }
-        return cache;
-      },
       addToCache: function(record, url, uris, mode) {
         var arr, cache, item, uri, _i, _j, _k, _len, _len2, _len3, _ref;
         if (mode === 'html') {

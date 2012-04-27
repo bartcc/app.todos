@@ -20,33 +20,18 @@ Model.Cache =
 
       cache: (record, url) ->
         cached = @cacheList record?.id
-#        console.log 'testing cache for ' + record?.constructor.className + ' ' + record?.id
         return unless cached
         for item in cached
           if item[url]
             return item[url]
-#        return false
         @initCache cached, url
         @cache record, url
          
       initCache: (cached, url) ->
-#        cached = @cacheList record?.id
         o = new Object()
         o[url]=[]
         cached.push o
          
-      addToCache_: (record, url, uris, mode) ->
-        cache = @cacheList record?.id
-        if mode is 'append'
-          cache = @cache(record, url)
-          cache.push uri for uri in uris
-        else if uris.length
-          o = new Object()
-          o[url] = uris
-          cache[0...cache.length] = []
-          cache.push o
-        cache
-        
       addToCache: (record, url, uris, mode) ->
         if mode is 'html'
           cache = @cacheList record?.id

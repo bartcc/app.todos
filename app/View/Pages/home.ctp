@@ -1,7 +1,7 @@
 <div class="container">
   <header class="jumbotron masthead">
     <div class="inner">
-      <h1>Sweeet...</h1>
+      <h1>Sweeeeeet...</h1>
       <p>
         Choose your App ...
       </p>

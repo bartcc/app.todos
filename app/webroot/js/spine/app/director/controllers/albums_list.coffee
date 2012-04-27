@@ -85,7 +85,7 @@ class AlbumsList extends Spine.Controller
     
   clearAlbumCache: (record) ->
     id = record?.album_id or record?.id
-    Album.clearCache id if id
+    Album.clearCache id
     
   refreshBackgrounds: (alb) ->
     album = App.upload.album || alb

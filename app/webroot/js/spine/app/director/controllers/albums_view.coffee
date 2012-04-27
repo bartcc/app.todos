@@ -50,7 +50,7 @@ class AlbumsView extends Spine.Controller
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('update destroy', @proxy @change)
-    Album.bind('destroy', @proxy @clearCache)
+    Album.bind('destroy', @proxy @destroyCache)
     GalleriesAlbum.bind("change", @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
@@ -101,8 +101,8 @@ class AlbumsView extends Spine.Controller
     console.log 'AlbumsView::renderHeader'
     @header.change Gallery.record
     
-  clearCache: (album) ->
-    album.clearCache()
+  destroyCache: (album) ->
+    album.destroyCache()
   
   show: ->
     Spine.trigger('album:activate')
@@ -112,6 +112,7 @@ class AlbumsView extends Spine.Controller
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid
+#        alert alb.title + ' is invalid'
         Album.clearCache alb.id
         @list.refreshBackgrounds alb
         alb.invalid = false
@@ -163,7 +164,7 @@ class AlbumsView extends Spine.Controller
             
       for album in albums
         Gallery.removeFromSelection album.id
-        album.removeFromCache()
+        album.clearCache()
         album.destroy()
 
   createJoin: (target, albums) ->

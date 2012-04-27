@@ -108,7 +108,7 @@ class Uri extends Base
       @callback cache, @record
     else
       if @record.constructor.className is 'Album'
-        @get() if @record.contains()
+        @get() #if @record.contains()
       if @record.constructor.className is 'Photo'
         @get()
       

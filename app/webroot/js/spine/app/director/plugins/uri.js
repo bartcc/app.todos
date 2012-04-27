@@ -148,9 +148,7 @@ Uri = (function() {
       return this.callback(cache, this.record);
     } else {
       if (this.record.constructor.className === 'Album') {
-        if (this.record.contains()) {
-          this.get();
-        }
+        this.get();
       }
       if (this.record.constructor.className === 'Photo') {
         return this.get();

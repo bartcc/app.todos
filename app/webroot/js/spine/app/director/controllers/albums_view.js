@@ -60,7 +60,7 @@ AlbumsView = (function() {
     Album.bind('destroy:join', this.proxy(this.destroyJoin));
     Album.bind('create:join', this.proxy(this.createJoin));
     Album.bind('update destroy', this.proxy(this.change));
-    Album.bind('destroy', this.proxy(this.clearCache));
+    Album.bind('destroy', this.proxy(this.destroyCache));
     GalleriesAlbum.bind("change", this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
@@ -110,8 +110,8 @@ AlbumsView = (function() {
     console.log('AlbumsView::renderHeader');
     return this.header.change(Gallery.record);
   };
-  AlbumsView.prototype.clearCache = function(album) {
-    return album.clearCache();
+  AlbumsView.prototype.destroyCache = function(album) {
+    return album.destroyCache();
   };
   AlbumsView.prototype.show = function() {
     var alb, albums, _i, _len, _results;
@@ -198,7 +198,7 @@ AlbumsView = (function() {
       for (_k = 0, _len3 = albums.length; _k < _len3; _k++) {
         album = albums[_k];
         Gallery.removeFromSelection(album.id);
-        album.removeFromCache();
+        album.clearCache();
         _results.push(album.destroy());
       }
       return _results;

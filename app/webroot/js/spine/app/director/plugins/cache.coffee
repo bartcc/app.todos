@@ -16,7 +16,7 @@ Model.Cache =
         for item in @caches
           return item[id] if item[id]
 #        console.log @caches
-        throw 'record is not configured '
+        throw 'record ' + id + ' is not configured '
 
       cache: (record, url) ->
         cached = @cacheList record?.id
@@ -35,7 +35,7 @@ Model.Cache =
         o[url]=[]
         cached.push o
          
-      addToCache: (record, url, uris, mode) ->
+      addToCache_: (record, url, uris, mode) ->
         cache = @cacheList record?.id
         if mode is 'append'
           cache = @cache(record, url)
@@ -47,16 +47,28 @@ Model.Cache =
           cache.push o
         cache
         
-      removeFromCache: (record) ->
-        console.log 'removing from cache'
+      addToCache: (record, url, uris, mode) ->
+        if mode is 'html'
+          cache = @cacheList record?.id
+          for item in cache
+            if item[url]
+              arr = item[url]
+              arr[0...arr.length] = []
+              arr.push uri for uri in uris
+        else if uris.length
+          cache = @cache(record, url)
+          cache.push uri for uri in uris
+        cache
+        
+      destroyCache: (id) ->
         for item, index in @caches
-          if item[record.id]
+          if item[id]
             spliced = @caches.splice index, 1
             return spliced
 
       clearCache: (id) ->
         originalList = @cacheList(id)
-        originalList[0...originalList.length] = [] if originalList
+        originalList[0...originalList.length] = [] #if originalList
         originalList
           
     Include =
@@ -67,8 +79,8 @@ Model.Cache =
       addToCache: (url, uri, mode) ->
         @constructor.addToCache(@, url, uri, mode)
 
-      removeFromCache: ->
-        @constructor.removeFromCache @
+      destroyCache: ->
+        @constructor.destroyCache @id
 
       clearCache: ->
         list = @constructor.clearCache @id

@@ -27,7 +27,7 @@ Model.Cache = {
             return item[id];
           }
         }
-        throw 'record is not configured ';
+        throw 'record ' + id + ' is not configured ';
       }, this),
       cache: function(record, url) {
         var cached, item, _i, _len;
@@ -50,7 +50,7 @@ Model.Cache = {
         o[url] = [];
         return cached.push(o);
       },
-      addToCache: function(record, url, uris, mode) {
+      addToCache_: function(record, url, uris, mode) {
         var cache, o, uri, _i, _len, _ref;
         cache = this.cacheList(record != null ? record.id : void 0);
         if (mode === 'append') {
@@ -67,13 +67,36 @@ Model.Cache = {
         }
         return cache;
       },
-      removeFromCache: function(record) {
+      addToCache: function(record, url, uris, mode) {
+        var arr, cache, item, uri, _i, _j, _k, _len, _len2, _len3, _ref;
+        if (mode === 'html') {
+          cache = this.cacheList(record != null ? record.id : void 0);
+          for (_i = 0, _len = cache.length; _i < _len; _i++) {
+            item = cache[_i];
+            if (item[url]) {
+              arr = item[url];
+              [].splice.apply(arr, [0, arr.length - 0].concat(_ref = [])), _ref;
+              for (_j = 0, _len2 = uris.length; _j < _len2; _j++) {
+                uri = uris[_j];
+                arr.push(uri);
+              }
+            }
+          }
+        } else if (uris.length) {
+          cache = this.cache(record, url);
+          for (_k = 0, _len3 = uris.length; _k < _len3; _k++) {
+            uri = uris[_k];
+            cache.push(uri);
+          }
+        }
+        return cache;
+      },
+      destroyCache: function(id) {
         var index, item, spliced, _len, _ref;
-        console.log('removing from cache');
         _ref = this.caches;
         for (index = 0, _len = _ref.length; index < _len; index++) {
           item = _ref[index];
-          if (item[record.id]) {
+          if (item[id]) {
             spliced = this.caches.splice(index, 1);
             return spliced;
           }
@@ -82,9 +105,7 @@ Model.Cache = {
       clearCache: function(id) {
         var originalList, _ref;
         originalList = this.cacheList(id);
-        if (originalList) {
-          [].splice.apply(originalList, [0, originalList.length - 0].concat(_ref = [])), _ref;
-        }
+        [].splice.apply(originalList, [0, originalList.length - 0].concat(_ref = [])), _ref;
         return originalList;
       }
     };
@@ -95,8 +116,8 @@ Model.Cache = {
       addToCache: function(url, uri, mode) {
         return this.constructor.addToCache(this, url, uri, mode);
       },
-      removeFromCache: function() {
-        return this.constructor.removeFromCache(this);
+      destroyCache: function() {
+        return this.constructor.destroyCache(this.id);
       },
       clearCache: function() {
         var list;

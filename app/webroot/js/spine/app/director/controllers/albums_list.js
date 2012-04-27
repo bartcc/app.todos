@@ -105,9 +105,7 @@ AlbumsList = (function() {
   AlbumsList.prototype.clearAlbumCache = function(record) {
     var id;
     id = (record != null ? record.album_id : void 0) || (record != null ? record.id : void 0);
-    if (id) {
-      return Album.clearCache(id);
-    }
+    return Album.clearCache(id);
   };
   AlbumsList.prototype.refreshBackgrounds = function(alb) {
     var album;

@@ -107,9 +107,6 @@ PhotosView = (function() {
   PhotosView.prototype.clearPhotoCache = function() {
     return Photo.clearCache();
   };
-  PhotosView.prototype.clearAlbumCache = function(record, mode) {
-    return Album.clearCache(record.album_id);
-  };
   PhotosView.prototype.remove = function(record) {
     var photo, photoEl;
     console.log('PhotosView::remove');
@@ -167,7 +164,7 @@ PhotosView = (function() {
       for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
         photo = photos[_k];
         Album.removeFromSelection(photo.id);
-        photo.removeFromCache();
+        photo.clearCache();
         _results.push(photo.destroy());
       }
       return _results;

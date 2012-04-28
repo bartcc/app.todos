@@ -116,15 +116,9 @@ PhotosList = (function() {
   PhotosList.prototype.uri = function(items, mode) {
     console.log('PhotosList::uri');
     this.size(this.parent.sOutValue);
-    if (Album.record) {
-      return Album.record.uri(this.thumbSize(), 'append', __bind(function(xhr, record) {
-        return this.callback(xhr, items);
-      }, this));
-    } else {
-      return Photo.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
-        return this.callback(xhr, items);
-      }, this));
-    }
+    return Photo.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
+      return this.callback(xhr, items);
+    }, this));
   };
   PhotosList.prototype.callback = function(json, items) {
     var ele, img, item, jsn, searchJSON, src, _i, _len;
@@ -176,10 +170,7 @@ PhotosList = (function() {
     if (mode == null) {
       mode = 'html';
     }
-    if (!Album.record) {
-      return;
-    }
-    return Album.record.uri(this.modalParams(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.modalParams(), mode, __bind(function(xhr, record) {
       return this.callbackModal(items, xhr);
     }, this));
   };

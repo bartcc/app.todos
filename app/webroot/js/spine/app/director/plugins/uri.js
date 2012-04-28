@@ -74,9 +74,9 @@ Base = (function() {
   };
   return Base;
 })();
-UriCollection = (function() {
-  __extends(UriCollection, Base);
-  function UriCollection(model, params, mode, callback) {
+Uri = (function() {
+  __extends(Uri, Base);
+  function Uri(model, params, mode, callback) {
     var options;
     this.model = model;
     if (mode == null) {
@@ -85,16 +85,16 @@ UriCollection = (function() {
     this.callback = callback;
     this.errorResponse = __bind(this.errorResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
-    UriCollection.__super__.constructor.apply(this, arguments);
+    Uri.__super__.constructor.apply(this, arguments);
     this.photos = this.model.all();
     options = $.extend({}, this.settings, params);
     this.url = this.uri(options);
   }
-  UriCollection.prototype.settings = {
+  Uri.prototype.settings = {
     square: 1,
     quality: 70
   };
-  UriCollection.prototype.test = function() {
+  Uri.prototype.test = function() {
     var cache;
     cache = this.model.cache(null, this.url);
     if (cache.length) {
@@ -103,24 +103,25 @@ UriCollection = (function() {
       return this.get();
     }
   };
-  UriCollection.prototype.recordResponse = function(uris) {
+  Uri.prototype.recordResponse = function(uris) {
+    console.log(uris);
     this.model.addToCache(null, this.url, uris, this.mode);
     return this.callback(uris);
   };
-  UriCollection.prototype.errorResponse = function(xhr, statusText, error) {
+  Uri.prototype.errorResponse = function(xhr, statusText, error) {
     return this.model.trigger('ajaxError', xhr, statusText, error);
   };
-  return UriCollection;
+  return Uri;
 })();
-Uri = (function() {
-  __extends(Uri, Base);
-  function Uri(record, params, mode, callback, max) {
+UriCollection = (function() {
+  __extends(UriCollection, Base);
+  function UriCollection(record, params, mode, callback, max) {
     var options, photos, type;
     this.record = record;
     this.callback = callback;
     this.errorResponse = __bind(this.errorResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
-    Uri.__super__.constructor.apply(this, arguments);
+    UriCollection.__super__.constructor.apply(this, arguments);
     type = this.record.constructor.className;
     switch (type) {
       case 'Album':
@@ -135,13 +136,13 @@ Uri = (function() {
     options = $.extend({}, this.settings, params);
     this.url = this.uri(options);
   }
-  Uri.prototype.settings = {
+  UriCollection.prototype.settings = {
     width: 140,
     height: 140,
     square: 1,
     quality: 70
   };
-  Uri.prototype.test = function() {
+  UriCollection.prototype.test = function() {
     var cache;
     cache = this.record.cache(this.url);
     if (cache != null ? cache.length : void 0) {
@@ -155,7 +156,7 @@ Uri = (function() {
       }
     }
   };
-  Uri.prototype.all = function() {
+  UriCollection.prototype.all = function() {
     return this.queue(__bind(function() {
       return this.ajax({
         type: "POST",
@@ -164,26 +165,27 @@ Uri = (function() {
       }).success(this.recordResponse).error(this.errorResponse);
     }, this));
   };
-  Uri.prototype.recordResponse = function(uris) {
+  UriCollection.prototype.recordResponse = function(uris) {
+    console.log(uris);
     this.record.addToCache(this.url, uris, this.mode);
     return this.callback(uris, this.record);
   };
-  Uri.prototype.errorResponse = function(xhr, statusText, error) {
+  UriCollection.prototype.errorResponse = function(xhr, statusText, error) {
     return this.record.trigger('ajaxError', xhr, statusText, error);
   };
-  return Uri;
+  return UriCollection;
 })();
 Model.Uri = {
   extended: function() {
     var Extend, Include;
     Include = {
       uri: function(params, mode, callback, max) {
-        return new Uri(this, params, mode, callback, max).test();
+        return new UriCollection(this, params, mode, callback, max).test();
       }
     };
     Extend = {
       uri: function(params, mode, callback) {
-        return new UriCollection(this, params, mode, callback).test();
+        return new Uri(this, params, mode, callback).test();
       }
     };
     this.include(Include);

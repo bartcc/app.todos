@@ -92,10 +92,10 @@ class PhotosList extends Spine.Controller
     console.log 'PhotosList::uri'
     @size(@parent.sOutValue)
     
-    if Album.record
-      Album.record.uri @thumbSize(), 'append', (xhr, record) => @callback xhr, items
-    else
-      Photo.uri @thumbSize(), mode, (xhr, record) => @callback xhr, items
+#    if Album.record
+#      Album.record.uri @thumbSize(), 'append', (xhr, record) => @callback xhr, items
+#    else
+    Photo.uri @thumbSize(), mode, (xhr, record) => @callback xhr, items
   
   callback: (json = [], items) =>
     console.log 'PhotosList::callback'
@@ -130,8 +130,8 @@ class PhotosList extends Spine.Controller
     force: false
     
   loadModal: (items, mode='html') ->
-    return unless Album.record
-    Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal items, xhr
+#    return unless Album.record
+    Photo.uri @modalParams(), mode, (xhr, record) => @callbackModal items, xhr
   
   callbackModal: (items, json) ->
     console.log 'Slideshow::callbackModal'

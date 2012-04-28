@@ -53,7 +53,7 @@ class Base
   uri: (options) ->
     options.width + '/' + options.height + '/' + options.square + '/' + options.quality
     
-class UriCollection extends Base
+class Uri extends Base
   constructor: (@model,  params, mode = 'html', @callback) ->
     super
     @photos = @model.all()
@@ -73,13 +73,14 @@ class UriCollection extends Base
       @get()
       
   recordResponse: (uris) =>
+    console.log uris
     @model.addToCache null, @url, uris, @mode
     @callback uris
     
   errorResponse: (xhr, statusText, error) =>
     @model.trigger('ajaxError', xhr, statusText, error)
 
-class Uri extends Base
+class UriCollection extends Base
   constructor: (@record, params, mode, @callback, max) ->
     super
     type = @record.constructor.className
@@ -122,6 +123,7 @@ class Uri extends Base
        .error(@errorResponse)
 
   recordResponse: (uris) =>
+    console.log uris
     @record.addToCache @url, uris, @mode
     @callback uris, @record
     
@@ -133,10 +135,10 @@ Model.Uri =
   extended: ->
     
     Include =
-      uri: (params, mode, callback, max) -> new Uri(@, params, mode, callback, max).test()
+      uri: (params, mode, callback, max) -> new UriCollection(@, params, mode, callback, max).test()
       
     Extend =
-      uri: (params, mode, callback) -> new UriCollection(@, params, mode, callback).test()
+      uri: (params, mode, callback) -> new Uri(@, params, mode, callback).test()
       
     @include Include
     @extend Extend

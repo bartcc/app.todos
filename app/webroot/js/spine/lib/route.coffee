@@ -1,4 +1,4 @@
-Spine ?= require("spine")
+Spine ?= require('spine')
 $      = Spine.$
 
 hashStrip    = /^#*/
@@ -9,7 +9,7 @@ escapeRegExp = /[-[\]{}()+?.,\\^$|#\s]/g
 class Spine.Route extends Spine.Module
   @extend Spine.Events
   
-  @historySupport: "history" of window
+  @historySupport: window.history?.pushState?
   
   @routes: []
         
@@ -19,10 +19,10 @@ class Spine.Route extends Spine.Module
     shim: false
         
   @add: (path, callback) ->
-    if (typeof path is "object")
+    if (typeof path is 'object' and path not instanceof RegExp)
       @add(key, value) for key, value of path
     else
-      @routes.unshift(new @(path, callback))
+      @routes.push(new @(path, callback))
     
   @setup: (options = {}) ->
     @options = $.extend({}, @options, options)
@@ -33,31 +33,33 @@ class Spine.Route extends Spine.Module
     return if @options.shim
         
     if @history 
-      $(window).bind("popstate", @change)
+      $(window).bind('popstate', @change)
     else
-      $(window).bind("hashchange", @change)
+      $(window).bind('hashchange', @change)
     @change() 
     
   @unbind: ->
     if @history
-      $(window).unbind("popstate", @change)
+      $(window).unbind('popstate', @change)
     else
-      $(window).unbind("hashchange", @change)
+      $(window).unbind('hashchange', @change)
     
   @navigate: (args...) ->
     options = {}
     
     lastArg = args[args.length - 1]
-    if typeof lastArg is "object"
+    if typeof lastArg is 'object'
       options = args.pop()
-    else if typeof lastArg is "boolean"
+    else if typeof lastArg is 'boolean'
       options.trigger = args.pop()
     
     options = $.extend({}, @options, options)
     
-    path = args.join("/")
+    path = args.join('/')
     return if @path is path
     @path = path
+
+    @trigger('navigate', @path)
 
     @matchRoute(@path, options) if options.trigger
 
@@ -67,24 +69,28 @@ class Spine.Route extends Spine.Module
       history.pushState(
         {}, 
         document.title, 
-        @getHost() + @path
+        @path
       )
     else
       window.location.hash = @path
     
   # Private
   
-  @getPath: -> window.location.pathname
+  @getPath: -> 
+    path = window.location.pathname
+    if path.substr(0,1) isnt '/' 
+      path = '/' + path
+    path
   
   @getHash: -> window.location.hash
   
-  @getFragment: -> @getHash().replace(hashStrip, "")
+  @getFragment: -> @getHash().replace(hashStrip, '')
   
   @getHost: ->
-    (document.location + "").replace(@getPath() + @getHash(), "")
+    (document.location + '').replace(@getPath() + @getHash(), '')
     
   @change: ->
-    path = if @history then @getPath() else @getFragment()
+    path = if @getFragment() isnt '' then @getFragment() else @getPath()
     return if path is @path
     @path = path
     @matchRoute(@path)
@@ -92,19 +98,20 @@ class Spine.Route extends Spine.Module
   @matchRoute: (path, options) ->
     for route in @routes
       if route.match(path, options)
-        @trigger("change", route, path)
+        @trigger('change', route, path)
         return route
 
   constructor: (@path, @callback) ->
     @names = []
 
-    if typeof path is "string"
+    if typeof path is 'string'
+      namedParam.lastIndex = 0
       while (match = namedParam.exec(path)) != null
         @names.push(match[1])
         
-      path = path.replace(escapeRegExp, "\\$&")
-                 .replace(namedParam, "([^\/]*)")
-                 .replace(splatParam, "(.*?)")
+      path = path.replace(escapeRegExp, '\\$&')
+                 .replace(namedParam, '([^\/]*)')
+                 .replace(splatParam, '(.*?)')
                  
       @route = new RegExp('^' + path + '$')
     else

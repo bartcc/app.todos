@@ -33,12 +33,10 @@ class App extends Spine.Controller
     'keypress'            : 'keys'
     'drop'                : 'drop'
     'dragenter'           : 'dragenter'
-#    'dragend'             : 'dragend'
-#    'dragover'            : 'dragover'
-#    'dragstart'           : 'dragstart'
 
   constructor: ->
     super
+    
 #    @ready = false
 #    @ALBUM_SINGLE_MOVE = @constructor.createImage('/img/dragndrop/album_single_move.png')
 #    @ALBUM_SINGLE_COPY = @constructor.createImage('/img/dragndrop/album_single_copy.png')
@@ -117,7 +115,14 @@ class App extends Spine.Controller
       slideshow: 0
       
     @initializeFileupload()
-
+    
+    @routes
+      '/photo/:id': (params) ->
+        console.log('/photo/', params.id)
+      '/photos/:id': (params) ->
+        console.log('/photos/', params.id)
+        
+    
   validate: (user, json) ->
     console.log 'Pinger done'
     valid = user.sessionid is json.sessionid

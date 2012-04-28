@@ -75,6 +75,7 @@
     #echo $this->Html->script('spine/lib/spine_0.0.9');
     echo $this->Html->script('spine/lib/spine_1.0.6');
     echo $this->Html->script('spine/lib/ajax_1.0.6');
+    echo $this->Html->script('spine/lib/route');
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/manager');
     echo $this->Html->script('spine/lib/tmpl');

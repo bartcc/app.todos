@@ -29,7 +29,9 @@ PhotoView = (function() {
     'dragend    .items .thumbnail': 'dragend',
     'dragenter': 'dragenter',
     'drop': 'drop',
-    'dragend': 'dragend'
+    'dragend': 'dragend',
+    'click .item': 'click',
+    'dblclick .item': 'dblclick'
   };
   PhotoView.prototype.template = function(item) {
     return $('#photoTemplate').tmpl(item);
@@ -156,6 +158,18 @@ PhotoView = (function() {
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('canvas', this);
     return this.render(item);
+  };
+  PhotoView.prototype.click = function(e) {
+    var el, item;
+    el = $(e.target).parents('.item');
+    item = el.item();
+    return this.navigate("/photo", item.id);
+  };
+  PhotoView.prototype.dblclick = function(e) {
+    var el, item;
+    el = $(e.target).parents('.item');
+    item = el.item();
+    return this.navigate("/photos", item.id);
   };
   return PhotoView;
 })();

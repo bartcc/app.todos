@@ -104,7 +104,6 @@ Uri = (function() {
     }
   };
   Uri.prototype.recordResponse = function(uris) {
-    console.log(uris);
     this.model.addToCache(null, this.url, uris, this.mode);
     return this.callback(uris);
   };
@@ -166,7 +165,6 @@ UriCollection = (function() {
     }, this));
   };
   UriCollection.prototype.recordResponse = function(uris) {
-    console.log(uris);
     this.record.addToCache(this.url, uris, this.mode);
     return this.callback(uris, this.record);
   };

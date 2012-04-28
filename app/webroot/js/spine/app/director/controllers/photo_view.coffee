@@ -21,6 +21,8 @@ class PhotoView extends Spine.Controller
     'dragenter'                       : 'dragenter'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
+    'click .item'                     : 'click'
+    'dblclick .item'                  : 'dblclick'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -124,5 +126,16 @@ class PhotoView extends Spine.Controller
     App.showView.trigger('canvas', @)
     @render item
     
+  click: (e) ->
+#    console.log Photo.record
+    el = $(e.target).parents('.item')
+    item = el.item()
+    @navigate("/photo", item.id)
+    
+  dblclick: (e) ->
+#    console.log Photo.record
+    el = $(e.target).parents('.item')
+    item = el.item()
+    @navigate("/photos", item.id)
     
 module?.exports = PhotoView

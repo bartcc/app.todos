@@ -134,6 +134,14 @@ App = (function() {
       slideshow: 0
     };
     this.initializeFileupload();
+    this.routes({
+      '/photo/:id': function(params) {
+        return console.log('/photo/', params.id);
+      },
+      '/photos/:id': function(params) {
+        return console.log('/photos/', params.id);
+      }
+    });
   }
   App.prototype.validate = function(user, json) {
     var cb, valid;

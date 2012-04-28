@@ -73,7 +73,6 @@ class Uri extends Base
       @get()
       
   recordResponse: (uris) =>
-    console.log uris
     @model.addToCache null, @url, uris, @mode
     @callback uris
     
@@ -123,7 +122,6 @@ class UriCollection extends Base
        .error(@errorResponse)
 
   recordResponse: (uris) =>
-    console.log uris
     @record.addToCache @url, uris, @mode
     @callback uris, @record
     

@@ -121,6 +121,9 @@ UriCollection = (function() {
     this.errorResponse = __bind(this.errorResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
     UriCollection.__super__.constructor.apply(this, arguments);
+    console.log(this);
+    console.log(this.record);
+    console.log(this.callback);
     type = this.record.constructor.className;
     switch (type) {
       case 'Album':

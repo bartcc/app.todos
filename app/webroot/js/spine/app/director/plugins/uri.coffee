@@ -82,6 +82,9 @@ class Uri extends Base
 class UriCollection extends Base
   constructor: (@record, params, mode, @callback, max) ->
     super
+    console.log @
+    console.log @record
+    console.log @callback
     type = @record.constructor.className
     switch type
       when 'Album'

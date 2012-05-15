@@ -3,7 +3,7 @@
     <div class="inner">
       <h1>Sweet...</h1>
       <p>
-        Choose your App:
+        Choose your App
       </p>
       <p class="download-info">
         <a href="/todos_app" class="btn btn-primary btn-large" type="submit">Backbone's Todos</a>

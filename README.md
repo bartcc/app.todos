@@ -22,4 +22,4 @@ Checkout the live [demo](http://gap.webpremiere.de)
 
 #Screenshot
 
-![Director](https://plus.google.com/photos/118385878359213612744/albums/5727326564061012753?authkey=COHbhvL8_OCrRg)
+![Director](https://lh4.googleusercontent.com/-BCcP-3R-LXQ/T3uNLsNxY0I/AAAAAAAADP8/K1VUhC5ABSs/s1006/Bildschirmfoto+2012-04-04+um+01.50.01.jpg)

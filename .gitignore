@@ -1,5 +1,7 @@
 /nbproject/private/
 /nbproject
+/app/node_modules
+/.idea
 *.psd
 .DS_Store
 =======

@@ -54,13 +54,13 @@
   {{/if}}
   {{/if}}
   {{if error}}
-  <h3>Uuups... {{if xhr.status==401}}Your sessions seems to be over{{else}}Something went wrong{{/if}}</h3>
+  <h3>Uuups... {{if xhr.status==403}}Your sessions seems to be over{{else}}Something went wrong{{/if}}</h3>
   {{/if}}
 </script>
 
 <script type="text/x-jquery-tmpl" id="infoTemplate">
   {{if record}}
-  <span style="display: block;">Record ${record.name} was not saved !</span>
+  <span style="display: block;">Save failed !</span>
   {{/if}}
 </script>
 <!--{json: {flash: ...}} {error: {record: {}, xhr: {}, statusText: {}, error:{}}}-->

@@ -96,7 +96,7 @@
     echo $this->Html->script('spine/app/director/models/photo');
     echo $this->Html->script('spine/app/director/models/album');
     echo $this->Html->script('spine/app/director/models/user');
-//    echo $this->Html->script('spine/app/director/models/spine_error');
+    echo $this->Html->script('spine/app/director/models/spine_error');
     echo $this->Html->script('spine/app/director/models/recent');
     echo $this->Html->script('spine/app/director/models/toolbar');
     echo $this->Html->script('spine/app/director/controllers/modal_view');

@@ -59,9 +59,9 @@ class PhotosController extends AppController {
     if (empty($this->request->data)) {
       $this->request->data = $this->Photo->read(null, $id);
     }
-    $albums = $this->Photo->Album->find('list');
-    $tags = $this->Photo->Tag->find('list');
-    $this->set(compact('albums', 'tags'));
+//    $albums = $this->Photo->Album->find('list');
+//    $tags = $this->Photo->Tag->find('list');
+//    $this->set(compact('albums', 'tags'));
   }
 
   public function delete($id = null) {

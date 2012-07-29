@@ -33,9 +33,9 @@ Login = (function() {
     this.submit = __bind(this.submit, this);
     var lastError;
     Login.__super__.constructor.apply(this, arguments);
-    Error.fetch();
-    if (Error.count()) {
-      lastError = Error.last();
+    SpineError.fetch();
+    if (SpineError.count()) {
+      lastError = SpineError.last();
     }
     if (lastError) {
       this.render(this.flashEl, this.flashTemplate, lastError);
@@ -43,7 +43,7 @@ Login = (function() {
         this.render(this.infoEl, this.infoTemplate, lastError);
       }
     }
-    Error.destroyAll();
+    SpineError.destroyAll();
   }
   Login.prototype.render = function(el, tmpl, item) {
     return el.html(this.template(tmpl, item));

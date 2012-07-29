@@ -12,8 +12,6 @@ class GalleryEditorView extends Spine.Controller
     '.toolbar'            : 'toolbarEl'
     
   events:
-    "click .optEdit"      : "edit"
-    "click .optEmail"     : "email"
     "click .optDestroy"   : "destroy"
     "click .optSave"      : "save"
     "keydown"             : "saveOnEnter"

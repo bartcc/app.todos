@@ -108,7 +108,7 @@ Model.Extender =
       errorHandler: (record, xhr, statusText, error) ->
         status = xhr.status
         unless status is 200
-          error = new Error
+          error = new SpineError
             record      : record
             xhr         : xhr
             statusText  : statusText

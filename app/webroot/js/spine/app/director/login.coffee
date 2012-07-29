@@ -19,12 +19,12 @@ class Login extends Spine.Controller
     
   constructor: (form) ->
     super
-    Error.fetch()
-    lastError = Error.last() if Error.count()
+    SpineError.fetch()
+    lastError = SpineError.last() if SpineError.count()
     if lastError
       @render @flashEl, @flashTemplate, lastError 
       @render @infoEl, @infoTemplate, lastError if lastError.record
-    Error.destroyAll()
+    SpineError.destroyAll()
     
   render: (el, tmpl, item) ->  
     el.html @template tmpl, item

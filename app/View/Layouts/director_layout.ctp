@@ -72,8 +72,7 @@
     echo $this->Html->script('lib/blueimp/jquery.fileupload-ip');
     echo $this->Html->script('lib/blueimp/jquery.fileupload-ui');
 
-    #echo $this->Html->script('spine/lib/spine_0.0.9');
-    echo $this->Html->script('spine/lib/spine_1.0.6');
+    echo $this->Html->script('spine/lib/spine_1.0.8');
     echo $this->Html->script('spine/lib/ajax_1.0.7');
     echo $this->Html->script('spine/lib/route');
     echo $this->Html->script('spine/lib/local');
@@ -97,7 +96,7 @@
     echo $this->Html->script('spine/app/director/models/photo');
     echo $this->Html->script('spine/app/director/models/album');
     echo $this->Html->script('spine/app/director/models/user');
-    echo $this->Html->script('spine/app/director/models/error');
+//    echo $this->Html->script('spine/app/director/models/spine_error');
     echo $this->Html->script('spine/app/director/models/recent');
     echo $this->Html->script('spine/app/director/models/toolbar');
     echo $this->Html->script('spine/app/director/controllers/modal_view');

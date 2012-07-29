@@ -21,8 +21,6 @@ GalleryEditorView = (function() {
     '.toolbar': 'toolbarEl'
   };
   GalleryEditorView.prototype.events = {
-    "click .optEdit": "edit",
-    "click .optEmail": "email",
     "click .optDestroy": "destroy",
     "click .optSave": "save",
     "keydown": "saveOnEnter"

@@ -564,10 +564,7 @@ li.hover {
   -moz-border-radius-topright:0px ;
   -moz-border-radius-bottomright:8px ;
   -moz-border-radius-bottomleft:8px ;
-  border-top-left-radius:0px ;
-  border-top-right-radius:0px ;
-  border-bottom-right-radius:8px ;
-  border-bottom-left-radius:8px ;
+  border-radius:0 0 8px 8px;
 }
 div.dialogue {
   display: table-cell;
@@ -597,9 +594,12 @@ div.bg > div:nth-child(2) {
 }
 div.dialogue-content div.bg {
   -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
   -moz-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+  -webkit-border-radius: 8px;
   -webkit-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+  
   background: none repeat scroll 0 0 #E3E3E3;
   float: left;
   padding: 0;

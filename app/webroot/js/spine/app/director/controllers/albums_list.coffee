@@ -81,7 +81,8 @@ class AlbumsList extends Spine.Controller
     Gallery.updateSelection item.id
     Spine.trigger('destroy:album')
     @stopInfo()
-    false
+    e.stopPropagation()
+    e.preventDefault()
     
   clearAlbumCache: (record) ->
     id = record?.album_id or record?.id
@@ -137,7 +138,7 @@ class AlbumsList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.currentTarget).item()
-    
+    console.log item
     item.addRemoveSelection(@isCtrlClick(e))
     @activate()
     

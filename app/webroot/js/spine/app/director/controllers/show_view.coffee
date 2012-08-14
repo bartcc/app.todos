@@ -431,13 +431,10 @@ class ShowView extends Spine.Controller
     @modalView.show()
     
   showAllPhotos: ->
-#    Spine.trigger('show:photos')
     Gallery.emptySelection()
     Album.emptySelection()
     Album.current()
     @navigate '/gallery/' + false + '/' + false
     
   showAllAlbums: ->
-#    Spine.trigger('show:albums')
-#    Gallery.current()
-    @navigate '/gallery/' + false
+    @navigate '/albums/'

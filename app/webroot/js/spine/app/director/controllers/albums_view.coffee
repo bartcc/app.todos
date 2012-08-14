@@ -131,16 +131,19 @@ class AlbumsView extends Spine.Controller
   
   create: (e) ->
     console.log 'AlbumsView::create'
-    @show()
     album = new Album @newAttributes()
     album.save success: @createCallback
     Gallery.updateSelection [album.id]
+#    Spine.trigger('album:activate')
+#    @show()
     Album.current(album)
-    @change album
-    App.showView.openPanel('album')
+#    App.showView.openPanel('album')
+#    @change album
 
   createCallback: ->
     Album.trigger('create:join', Gallery.record, @) if Gallery.record
+    Gallery.updateSelection [@id]
+    Spine.trigger('album:activate')
 
   destroy: (e) ->
     console.log 'AlbumsView::destroy'

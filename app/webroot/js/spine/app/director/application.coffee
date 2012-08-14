@@ -119,6 +119,9 @@ class App extends Spine.Controller
     @routes
       '/photos/': ->
         Spine.trigger('show:allPhotos', true)
+      '/albums/': ->
+        Gallery.current()
+        Spine.trigger('show:allAlbums', true)
       '/overview/': ->
         Spine.trigger('show:overview')
         console.log('/overview/')

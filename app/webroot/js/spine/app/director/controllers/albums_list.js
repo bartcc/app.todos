@@ -101,7 +101,8 @@ AlbumsList = (function() {
     Gallery.updateSelection(item.id);
     Spine.trigger('destroy:album');
     this.stopInfo();
-    return false;
+    e.stopPropagation();
+    return e.preventDefault();
   };
   AlbumsList.prototype.clearAlbumCache = function(record) {
     var id;
@@ -189,6 +190,7 @@ AlbumsList = (function() {
     var item;
     console.log('AlbumsList::click');
     item = $(e.currentTarget).item();
+    console.log(item);
     item.addRemoveSelection(this.isCtrlClick(e));
     this.activate();
     e.stopPropagation();

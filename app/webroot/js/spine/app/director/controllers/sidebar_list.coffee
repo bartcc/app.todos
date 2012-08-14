@@ -69,7 +69,7 @@ class SidebarList extends Spine.Controller
       @current = false
       switch mode
         when 'show'
-          @navigate '/albums/'
+          @navigate '/gallery/' + Gallery.record?.id + '/' + Album.record?.id
 #          Spine.trigger('show:albums')
           
     @activate(@current)
@@ -230,11 +230,9 @@ class SidebarList extends Spine.Controller
     gallery = galleryEl.item()
     
     unless @isCtrlClick(e)
-    
-      
-      Gallery.current(gallery)
-      Album.current(album)
       @navigate '/gallery/' + gallery.id + '/' + album.id
+#      Gallery.current(gallery)
+#      Album.current(album)
 
 #      if App.hmanager.hasActive()
 #        @openPanel('album', App.showView.btnAlbum)

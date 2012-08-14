@@ -56,6 +56,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
     
   change: (album, changed) ->
+    console.log changed
     @updateBuffer album if changed
     @render @buffer if @buffer
   
@@ -67,8 +68,9 @@ class PhotosView extends Spine.Controller
     
     @buffer = Photo.filterRelated(album?.id, filterOptions)
   
-  render: (items = @buffer, mode = 'html') ->
+  render: (items, mode = 'html') ->
     console.log 'PhotosView::render'
+    console.log @isActive()
     # render only if necessary
     return unless @isActive()
     @items.empty() unless @list.children('li').length

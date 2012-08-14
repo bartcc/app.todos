@@ -161,7 +161,9 @@ App = (function() {
       },
       '/gallery/:gid/:aid': function(params) {
         this.contentManager.change(this.showView);
-        return Spine.trigger('show:photos');
+        Spine.trigger('show:photos');
+        Gallery.current(params.gid);
+        return Album.current(params.aid);
       },
       '/gallery/:gid/:aid/:pid': function(params) {
         var album, gallery, photo;

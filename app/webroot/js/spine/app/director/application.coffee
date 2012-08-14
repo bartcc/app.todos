@@ -136,6 +136,8 @@ class App extends Spine.Controller
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
         Spine.trigger 'show:photos'
+        Gallery.current(params.gid)
+        Album.current(params.aid)
       '/gallery/:gid/:aid/:pid': (params) ->
         @contentManager.change(@showView)
         gallery = Gallery.find(params.gid) if Gallery.exists(params.gid)

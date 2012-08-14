@@ -56,7 +56,7 @@ SidebarList = (function() {
     return arguments[0];
   };
   SidebarList.prototype.change = function(item, mode, e) {
-    var ctrlClick, _ref;
+    var ctrlClick, _ref, _ref2, _ref3;
     console.log('SidebarList::change');
     if (e) {
       ctrlClick = this.isCtrlClick(e);
@@ -83,7 +83,7 @@ SidebarList = (function() {
       this.current = false;
       switch (mode) {
         case 'show':
-          this.navigate('/albums/');
+          this.navigate('/gallery/' + ((_ref2 = Gallery.record) != null ? _ref2.id : void 0) + '/' + ((_ref3 = Album.record) != null ? _ref3.id : void 0));
       }
     }
     return this.activate(this.current);
@@ -286,8 +286,6 @@ SidebarList = (function() {
     album = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
-      Gallery.current(gallery);
-      Album.current(album);
       this.navigate('/gallery/' + gallery.id + '/' + album.id);
       Gallery.updateSelection([album.id]);
       this.exposeSublistSelection(Gallery.record);

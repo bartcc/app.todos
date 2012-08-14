@@ -69,6 +69,7 @@ PhotosView = (function() {
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
   }
   PhotosView.prototype.change = function(album, changed) {
+    console.log(changed);
     if (changed) {
       this.updateBuffer(album);
     }
@@ -87,13 +88,11 @@ PhotosView = (function() {
   };
   PhotosView.prototype.render = function(items, mode) {
     var list;
-    if (items == null) {
-      items = this.buffer;
-    }
     if (mode == null) {
       mode = 'html';
     }
     console.log('PhotosView::render');
+    console.log(this.isActive());
     if (!this.isActive()) {
       return;
     }

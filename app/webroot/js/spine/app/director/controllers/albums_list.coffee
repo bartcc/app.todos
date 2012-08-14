@@ -49,16 +49,16 @@ class AlbumsList extends Spine.Controller
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
   activate: ->
+    console.log 'AlbumsList::activate'
     selection = Gallery.selectionList()
     if selection.length is 1
       first = Album.find(selection[0]) if Album.exists(selection[0])
-
       unless first?.destroyed
-        @current = first
         Album.current(first)
     else
         Album.current()
         
+    App.showView.trigger('change:toolbarOne')
     @exposeSelection()
   
   render: (items, mode) ->
@@ -139,22 +139,18 @@ class AlbumsList extends Spine.Controller
     item = $(e.currentTarget).item()
     
     item.addRemoveSelection(@isCtrlClick(e))
-    
     @activate()
     
-    App.showView.trigger('change:toolbarOne')
+    
 #    Spine.trigger('change:toolbarOne', ['Album'])
     
     e.stopPropagation()
     e.preventDefault()
 
   dblclick: (e) ->
-      
-    Spine.trigger('show:photos')
-    @activate()
-    
     e.stopPropagation()
     e.preventDefault()
+    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
   
   edit: (e) ->
     console.log 'AlbumsList::edit'

@@ -39,7 +39,6 @@ class PhotosList extends Spine.Controller
     console.log 'PhotosList::select'
     @current = Photo.current(item)
     @exposeSelection()
-#    @activate()
   
   render: (items, mode='html') ->
     console.log 'PhotosList::render'
@@ -92,9 +91,6 @@ class PhotosList extends Spine.Controller
     console.log 'PhotosList::uri'
     @size(@parent.sOutValue)
     
-#    if Album.record
-#      Album.record.uri @thumbSize(), 'append', (xhr, record) => @callback xhr, items
-#    else
     Photo.uri @thumbSize(), mode, (xhr, record) => @callback xhr, items
   
   callback: (json = [], items) =>
@@ -130,10 +126,9 @@ class PhotosList extends Spine.Controller
     force: false
     
   loadModal: (items, mode='html') ->
-#    return unless Album.record
-    Photo.uri @modalParams(), mode, (xhr, record) => @callbackModal items, xhr
+    Photo.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
   
-  callbackModal: (items, json) ->
+  callbackModal: (json, items) ->
     console.log 'Slideshow::callbackModal'
     searchJSON = (id) ->
       for itm in json
@@ -153,7 +148,7 @@ class PhotosList extends Spine.Controller
           'rel'                   : 'gallery'
         $('.play', el).append a
         
-    @parent.play() #if @parent.slideshowMode
+    @parent.play()
     
   #  ****** END ***** 
   
@@ -180,7 +175,7 @@ class PhotosList extends Spine.Controller
     
   click: (e) ->
     console.log 'PhotosList::click'
-    item = $(e.currentTarget).item()
+    item = $(e.target).item()
     item.addRemoveSelection(@isCtrlClick(e))
     
 #    if App.hmanager.hasActive()
@@ -192,7 +187,8 @@ class PhotosList extends Spine.Controller
   
   dblclick: (e) ->
     console.log 'PhotosList::dblclick'
-    Spine.trigger('show:photo', @current)
+#    Spine.trigger('show:photo', @current)
+    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id + '/' + @current.id
     @exposeSelection()
     e.stopPropagation()
     e.preventDefault()
@@ -202,7 +198,8 @@ class PhotosList extends Spine.Controller
     Album.updateSelection item.id
     Spine.trigger('destroy:photo')
     @stopInfo()
-    false
+    e.stopPropagation()
+    e.preventDefault()
     
   sortupdate: ->
     @children().each (index) ->

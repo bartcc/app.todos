@@ -59,8 +59,7 @@ GalleriesList = (function() {
   };
   GalleriesList.prototype.dblclick = function(e) {
     console.log('GalleryList::dblclick');
-    Spine.trigger('show:albums');
-    Spine.trigger('gallery:activate');
+    this.navigate('/gallery/' + Gallery.record.id);
     e.stopPropagation();
     return e.preventDefault();
   };

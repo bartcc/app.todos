@@ -121,9 +121,6 @@ UriCollection = (function() {
     this.errorResponse = __bind(this.errorResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
     UriCollection.__super__.constructor.apply(this, arguments);
-    console.log(this);
-    console.log(this.record);
-    console.log(this.callback);
     type = this.record.constructor.className;
     switch (type) {
       case 'Album':
@@ -150,12 +147,7 @@ UriCollection = (function() {
     if (cache != null ? cache.length : void 0) {
       return this.callback(cache, this.record);
     } else {
-      if (this.record.constructor.className === 'Album') {
-        this.get();
-      }
-      if (this.record.constructor.className === 'Photo') {
-        return this.get();
-      }
+      return this.get();
     }
   };
   UriCollection.prototype.all = function() {

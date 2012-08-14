@@ -42,7 +42,7 @@ AlbumsHeader = (function() {
     }
   };
   AlbumsHeader.prototype.backToGalleries = function() {
-    return Spine.trigger('show:galleries');
+    return this.navigate('/galleries/');
   };
   return AlbumsHeader;
 })();

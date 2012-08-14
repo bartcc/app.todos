@@ -29,6 +29,7 @@ class AlbumsHeader extends Spine.Controller
       Album.all().length
       
   backToGalleries: ->
-    Spine.trigger('show:galleries')
+#    Spine.trigger('show:galleries')
+    @navigate '/galleries/'
     
 module?.exports = AlbumsHeader

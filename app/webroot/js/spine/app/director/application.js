@@ -135,11 +135,49 @@ App = (function() {
     };
     this.initializeFileupload();
     this.routes({
-      '/photo/:id': function(params) {
-        return console.log('/photo/', params.id);
+      '/photos/': function() {
+        return Spine.trigger('show:allPhotos', true);
       },
-      '/photos/:id': function(params) {
-        return console.log('/photos/', params.id);
+      '/overview/': function() {
+        Spine.trigger('show:overview');
+        return console.log('/overview/');
+      },
+      '/slideshow/': function() {
+        return Spine.trigger('show:slideshow');
+      },
+      '/galleries/': function() {
+        Spine.trigger('gallery:activate', false);
+        return Spine.trigger('show:galleries');
+      },
+      '/gallery/:id': function(params) {
+        var gallery;
+        this.contentManager.change(this.showView);
+        if (Gallery.exists(params.id)) {
+          gallery = Gallery.find(params.id);
+        }
+        Gallery.current(gallery);
+        Spine.trigger('change:toolbar', ['Gallery']);
+        return Spine.trigger('show:albums');
+      },
+      '/gallery/:gid/:aid': function(params) {
+        this.contentManager.change(this.showView);
+        return Spine.trigger('show:photos');
+      },
+      '/gallery/:gid/:aid/:pid': function(params) {
+        var album, gallery, photo;
+        this.contentManager.change(this.showView);
+        if (Gallery.exists(params.gid)) {
+          gallery = Gallery.find(params.gid);
+        }
+        if (Album.exists(params.aid)) {
+          album = Album.find(params.aid);
+        }
+        if (Photo.exists(params.pid)) {
+          photo = Photo.find(params.pid);
+        }
+        Gallery.current(gallery);
+        Album.current(album);
+        return Spine.trigger('show:photo', photo);
       }
     });
   }
@@ -227,7 +265,8 @@ App = (function() {
 })();
 $(function() {
   User.ping();
-  return window.App = new App({
+  window.App = new App({
     el: $('body')
   });
+  return Spine.Route.setup();
 });

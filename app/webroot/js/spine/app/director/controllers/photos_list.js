@@ -171,10 +171,10 @@ PhotosList = (function() {
       mode = 'html';
     }
     return Photo.uri(this.modalParams(), mode, __bind(function(xhr, record) {
-      return this.callbackModal(items, xhr);
+      return this.callbackModal(xhr, items);
     }, this));
   };
-  PhotosList.prototype.callbackModal = function(items, json) {
+  PhotosList.prototype.callbackModal = function(json, items) {
     var a, el, item, jsn, searchJSON, _i, _len;
     console.log('Slideshow::callbackModal');
     searchJSON = function(id) {
@@ -237,7 +237,7 @@ PhotosList = (function() {
   PhotosList.prototype.click = function(e) {
     var item;
     console.log('PhotosList::click');
-    item = $(e.currentTarget).item();
+    item = $(e.target).item();
     item.addRemoveSelection(this.isCtrlClick(e));
     App.showView.trigger('change:toolbarOne');
     this.select(item, e);
@@ -247,7 +247,7 @@ PhotosList = (function() {
   };
   PhotosList.prototype.dblclick = function(e) {
     console.log('PhotosList::dblclick');
-    Spine.trigger('show:photo', this.current);
+    this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id + '/' + this.current.id);
     this.exposeSelection();
     e.stopPropagation();
     return e.preventDefault();
@@ -258,7 +258,8 @@ PhotosList = (function() {
     Album.updateSelection(item.id);
     Spine.trigger('destroy:photo');
     this.stopInfo();
-    return false;
+    e.stopPropagation();
+    return e.preventDefault();
   };
   PhotosList.prototype.sortupdate = function() {
     this.children().each(function(index) {

@@ -24,12 +24,11 @@ PhotosHeader = (function() {
     PhotosHeader.__super__.constructor.apply(this, arguments);
   }
   PhotosHeader.prototype.backToGalleries = function() {
-    console.log('PhotosHeader::closeView');
-    return Spine.trigger('show:galleries');
+    return this.navigate('/galleries/');
   };
   PhotosHeader.prototype.backToAlbums = function() {
-    console.log('PhotosHeader::closeView');
-    return Spine.trigger('show:albums');
+    console.log('PhotosHeader::backToAlbums');
+    return this.navigate('/gallery/' + Gallery.record.id);
   };
   PhotosHeader.prototype.change = function() {
     return this.render();

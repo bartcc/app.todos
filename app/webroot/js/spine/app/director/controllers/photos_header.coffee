@@ -14,12 +14,14 @@ class PhotosHeader extends Spine.Controller
     super
     
   backToGalleries: ->
-    console.log 'PhotosHeader::closeView'
-    Spine.trigger('show:galleries')
+#    console.log 'PhotosHeader::backToGalleries'
+#    Spine.trigger('show:galleries')
+    @navigate '/galleries/'
     
   backToAlbums: ->
-    console.log 'PhotosHeader::closeView'
-    Spine.trigger('show:albums')
+    console.log 'PhotosHeader::backToAlbums'
+#    Spine.trigger('show:albums')
+    @navigate '/gallery/' + Gallery.record.id# + '/album/' + Album.record.id
 
   change:  ->
     @render()

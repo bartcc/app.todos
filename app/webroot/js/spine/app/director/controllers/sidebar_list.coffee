@@ -49,7 +49,6 @@ class SidebarList extends Spine.Controller
   change: (item, mode, e) =>
     console.log 'SidebarList::change'
     
-    
     ctrlClick = @isCtrlClick(e) if e
     unless ctrlClick
       switch mode
@@ -59,7 +58,8 @@ class SidebarList extends Spine.Controller
           Spine.trigger('edit:gallery')
         when 'show'
           @current = item
-          Spine.trigger('show:albums')
+#          Spine.trigger('show:albums')
+          @navigate '/gallery/' + Gallery.record?.id
         when 'photo'
           @current = item
         when 'create'
@@ -69,7 +69,8 @@ class SidebarList extends Spine.Controller
       @current = false
       switch mode
         when 'show'
-          Spine.trigger('show:albums')
+          @navigate '/albums/'
+#          Spine.trigger('show:albums')
           
     @activate(@current)
         
@@ -143,27 +144,27 @@ class SidebarList extends Spine.Controller
   
   activate: (gallery = Gallery.record) ->
     
-    Gallery.current gallery
+    Gallery.current(gallery)
     
-    selectedAlbums = Gallery.selectionList()
-    if selectedAlbums.length is 1
-      first = Album.find(selectedAlbums[0]) if Album.exists(selectedAlbums[0])
-      if first and !first.destroyed
-        Album.current(first)
-      else
-        Album.current()
-    else
-      Album.current()
-        
-    selectedPhotos = Album.selectionList()
-    if selectedPhotos.length is 1
-      active = Photo.find(selectedPhotos[0]) if Photo.exists(selectedPhotos[0])
-      if active and !active.destroyed
-        Photo.current(active)
-      else
-        Photo.current()
-    else
-      Photo.current()
+#    selectedAlbums = Gallery.selectionList()
+#    if selectedAlbums.length is 1
+#      first = Album.find(selectedAlbums[0]) if Album.exists(selectedAlbums[0])
+#      if first and !first.destroyed
+#        Album.current(first)
+#      else
+#        Album.current()
+#    else
+#      Album.current()
+#        
+#    selectedPhotos = Album.selectionList()
+#    if selectedPhotos.length is 1
+#      active = Photo.find(selectedPhotos[0]) if Photo.exists(selectedPhotos[0])
+#      if active and !active.destroyed
+#        Photo.current(active)
+#      else
+#        Photo.current()
+#    else
+#      Photo.current()
       
     @exposeSelection()
   
@@ -233,32 +234,34 @@ class SidebarList extends Spine.Controller
       
       Gallery.current(gallery)
       Album.current(album)
-      Gallery.updateSelection [album.id]
+      @navigate '/gallery/' + gallery.id + '/' + album.id
 
 #      if App.hmanager.hasActive()
 #        @openPanel('album', App.showView.btnAlbum)
       
+      Gallery.updateSelection [album.id]
       @exposeSublistSelection Gallery.record
-      Spine.trigger('show:photos')
-      @change Gallery.record, 'photo', e
+#      Spine.trigger('show:photos')
+#      @change Gallery.record, 'photo', e
     else
-      Spine.trigger('show:allPhotos', true)
+#      Spine.trigger('show:allPhotos', true)
+      @navigate '/photos/'
     
     e.stopPropagation()
     e.preventDefault()
     
   click: (e) ->
     console.log 'SidebarList::click'
-    el = $(e.target)
-    item = el.item()
+    item = $(e.target).item()
+#    alert item.id
+#    @change item, 'show', e
     
-    @change item, 'show', e
+#    Spine.trigger('change:toolbar', ['Gallery'])
+#    App.contentManager.change(App.showView)
+    @navigate '/gallery/' + item.id
     
-    Spine.trigger('change:toolbar', ['Gallery'])
-    App.contentManager.change(App.showView)
-    
-    e.stopPropagation()
-    e.preventDefault()
+#    e.stopPropagation()
+#    e.preventDefault()
 
   dblclick: (e) ->
     console.log 'SidebarList::dblclick'

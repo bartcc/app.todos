@@ -30,14 +30,15 @@ class AlbumEditView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'AlbumEditView::change'
-    if item?.constructor.className is 'Album'
-      @current = item
-    else
-      firstID = Gallery.selectionList()[0]
-      if Album.exists(firstID)
-        @current = Album.find(firstID)
-      else
-        @current = false
+    switch item?.constructor.className
+      when 'Album'
+        @current = item
+      when 'Gallery'
+        firstID = Gallery.selectionList()[0]
+        if Album.exists(firstID)
+          @current = Album.find(firstID)
+        else
+          @current = false
         
     @render @current, mode
 

@@ -4,7 +4,7 @@ class App extends Spine.Controller
   @extend Spine.Controller.Drag
   
   # Note:
-  # change toolbar like so
+  # this is how to change a toolbar:
   # App.showView.trigger('change:toolbar', 'Album')
   
   elements:
@@ -117,11 +117,33 @@ class App extends Spine.Controller
     @initializeFileupload()
     
     @routes
-      '/photo/:id': (params) ->
-        console.log('/photo/', params.id)
-      '/photos/:id': (params) ->
-        console.log('/photos/', params.id)
-        
+      '/photos/': ->
+        Spine.trigger('show:allPhotos', true)
+      '/overview/': ->
+        Spine.trigger('show:overview')
+        console.log('/overview/')
+      '/slideshow/': ->
+        Spine.trigger('show:slideshow')
+      '/galleries/': ->
+        Spine.trigger('gallery:activate', false)
+        Spine.trigger 'show:galleries'
+      '/gallery/:id': (params) ->
+        @contentManager.change(@showView)
+        gallery = Gallery.find(params.id) if Gallery.exists(params.id)
+        Gallery.current(gallery)
+        Spine.trigger('change:toolbar', ['Gallery'])
+        Spine.trigger 'show:albums'
+      '/gallery/:gid/:aid': (params) ->
+        @contentManager.change(@showView)
+        Spine.trigger 'show:photos'
+      '/gallery/:gid/:aid/:pid': (params) ->
+        @contentManager.change(@showView)
+        gallery = Gallery.find(params.gid) if Gallery.exists(params.gid)
+        album = Album.find(params.aid) if Album.exists(params.aid)
+        photo = Photo.find(params.pid) if Photo.exists(params.pid)
+        Gallery.current(gallery)
+        Album.current(album)
+        Spine.trigger 'show:photo', photo
     
   validate: (user, json) ->
     console.log 'Pinger done'
@@ -191,3 +213,4 @@ $ ->
   
   User.ping()
   window.App = new App(el: $('body'))
+  Spine.Route.setup()

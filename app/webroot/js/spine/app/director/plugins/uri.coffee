@@ -82,9 +82,6 @@ class Uri extends Base
 class UriCollection extends Base
   constructor: (@record, params, mode, @callback, max) ->
     super
-    console.log @
-    console.log @record
-    console.log @callback
     type = @record.constructor.className
     switch type
       when 'Album'
@@ -110,10 +107,7 @@ class UriCollection extends Base
     if cache?.length
       @callback cache, @record
     else
-      if @record.constructor.className is 'Album'
-        @get() #if @record.contains()
-      if @record.constructor.className is 'Photo'
-        @get()
+      @get()
       
   all: ->
     @queue =>

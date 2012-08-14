@@ -48,6 +48,7 @@ class PhotoView extends Spine.Controller
     
   render: (item, mode) ->
     console.log 'PhotoView::render'
+    console.log item
     if Album.record
       @el.removeClass 'all'
     else
@@ -130,12 +131,12 @@ class PhotoView extends Spine.Controller
 #    console.log Photo.record
     el = $(e.target).parents('.item')
     item = el.item()
-    @navigate("/photo", item.id)
+    @navigate("/photo/" + item.id)
     
   dblclick: (e) ->
 #    console.log Photo.record
     el = $(e.target).parents('.item')
     item = el.item()
-    @navigate("/photos", item.id)
+    @navigate("/photos/" + item.id)
     
 module?.exports = PhotoView

@@ -24,7 +24,6 @@ class GalleriesList extends Spine.Controller
     @el
 
   select: (item) =>
-#    Spine.trigger('change:toolbarOne', ['Gallery'])
     Spine.trigger('gallery:activate', item)
     App.showView.trigger('change:toolbarOne', ['Default'])
     
@@ -50,8 +49,9 @@ class GalleriesList extends Spine.Controller
 
   dblclick: (e) ->
     console.log 'GalleryList::dblclick'
-    Spine.trigger('show:albums')
-    Spine.trigger('gallery:activate')
+    @navigate '/gallery/' + Gallery.record.id
+#    Spine.trigger('show:albums')
+#    Spine.trigger('gallery:activate')
     
     e.stopPropagation()
     e.preventDefault()

@@ -31,15 +31,13 @@ PhotoHeader = (function() {
     Album.bind('change', this.proxy(this.change));
   }
   PhotoHeader.prototype.backToGalleries = function() {
-    Spine.trigger('album:activate');
-    return Spine.trigger('show:galleries');
+    return this.navigate('/galleries/');
   };
   PhotoHeader.prototype.backToAlbums = function() {
-    Spine.trigger('gallery:activate', Gallery.record);
-    return Spine.trigger('show:albums');
+    return this.navigate('/gallery/' + Gallery.record.id);
   };
   PhotoHeader.prototype.backToPhotos = function() {
-    return Spine.trigger('show:photos');
+    return this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id);
   };
   PhotoHeader.prototype.change = function() {
     console.log('PhotoHeader::change');

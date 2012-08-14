@@ -131,7 +131,6 @@ class ShowView extends Spine.Controller
     @headerManager.change @albumsHeader
 #    @el.dropdown( '.dropdown-toggle' )
     
-    
   canvas: (controller) ->
     console.log 'ShowView::changeCanvas'
     @previous = @current unless @current.subview
@@ -139,8 +138,7 @@ class ShowView extends Spine.Controller
     @el.data
       current: controller.el.data().current.record
       className: controller.el.data().current.className
-#    controller.trigger 'active'
-#    controller.header.trigger 'active' if controller.header
+    
     @canvasManager.change controller
     @headerManager.change controller.header
     
@@ -290,8 +288,7 @@ class ShowView extends Spine.Controller
     return if @views.hasClass('open')
     App[controller].deactivate()
     ui = App.hmanager.externalUI(App[controller])
-    console.log ui.click()
-#    target.click()
+    ui.click()
     
   closePanel: (controller, target) ->
     App[controller].activate()
@@ -305,39 +302,31 @@ class ShowView extends Spine.Controller
     @btnQuickUpload.find('i').hasClass('icon-ok')
     
   slideshowable: ->
-    $('[rel="gallery"]', @current.el).length
-    #(Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
+    $('[rel="gallery"]', @photosView.el).length
     
   play: (e) ->
-#    return if @slideshowMode is App.SILENTMODE
-    
+    console.log 'ShowView::play'
     elFromSelection = =>
       list = Album.selectionList()
       if list.length
         id = list[0] 
         item = Photo.find(id) if Photo.exists(id)
-        root = @current.el.children('.items')
+        root = @photosView.el.children('.items')
         el = root.children().forItem(item)
-        return $('[rel="gallery"]', el)
+        $('[rel="gallery"]', el)[0]
     
     elFromCanvas = =>
-      firstEl = $('[rel="gallery"]', @current.el).first()
+      firstEl = $('[rel="gallery"]', @photosView.el).first()
     
     if @slideshowable()
-      el = elFromSelection() or elFromCanvas()
       # prevent ghosted backdrops
       return if $('.modal-backdrop').length
       if @slideshowAutoStart || e?.type
-        el.click()
-    else
-      # do nothing unless there is a seleted album
-      return unless Gallery.selectionList().length
-      Spine.trigger('show:photos')
-      Spine.trigger('change:selectedAlbum', Album.record, true)
+        @navigate '/slideshow/' #+ Gallery.record.id + '/' + Album.record.id
+#        @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
+        (elFromSelection() or elFromCanvas()).click()
         
   pause: (e) ->
-    
-    
     modal = $('#modal-gallery').data('modal')
     isShown = modal?.isShown
     
@@ -422,21 +411,17 @@ class ShowView extends Spine.Controller
 #    @slider.toggle()
 
   showOverview: (e) ->
-    Spine.trigger('show:overview')
+    @navigate '/overview/'
 
   showSlideshow: (e) ->
     @slideshowMode = App.SILENTMODE
-#    @changeToolbarOne ['Chromeless']
-#    @changeToolbarTwo @slideshowView.toolbar #['Slider', 'Back', 'Play', App.showView.initSlider]
-    App.sidebar.toggleDraghandle(close:true)
-#    @toolbarOne.clear()
-#    @toolbarOne.lock()
-    
-    Spine.trigger('show:slideshow')
+#    App.sidebar.toggleDraghandle(close:true)
+    @navigate '/slideshow/'
     
   showPrevious: ->
-    App.sidebar.toggleDraghandle()
-    @previous.show()
+#    App.sidebar.toggleDraghandle()
+    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
+#    @previous.show()
   
   showModal: ->
     @modalView.render
@@ -446,11 +431,13 @@ class ShowView extends Spine.Controller
     @modalView.show()
     
   showAllPhotos: ->
-    Spine.trigger('show:photos')
+#    Spine.trigger('show:photos')
     Gallery.emptySelection()
     Album.emptySelection()
     Album.current()
+    @navigate '/gallery/' + false + '/' + false
     
   showAllAlbums: ->
-    Spine.trigger('show:albums')
-    Gallery.current()
+#    Spine.trigger('show:albums')
+#    Gallery.current()
+    @navigate '/gallery/' + false

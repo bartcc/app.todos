@@ -55,26 +55,23 @@ class PhotosView extends Spine.Controller
     Spine.bind('start:slideshow', @proxy @slideshow)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
     
-  change: (item, changed) ->
-    @updateBuffer item if changed
-    @render @buffer if @buffer
+  change: (album, changed) ->
+    @render @updateBuffer(album) if changed
   
-  updateBuffer: (item) ->
+  updateBuffer: (album) ->
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       sorted: true
     
-    @buffer = Photo.filterRelated(item?.id, filterOptions)
+    Photo.filterRelated(album?.id, filterOptions)
   
-  render: (items, mode) ->
-    # render only if necessary
-    return unless @isActive()
+  render: (items, mode = 'html') ->
+    console.log 'PhotosView::render'
     @items.empty() unless @list.children('li').length
-    list = @list.render items, mode or 'html'
+    list = @list.render items, mode
     list.sortable 'photo' if Album.record
     @refreshElements()
-    delete @buffer
   
   renderHeader: ->
     console.log 'PhotosView::renderHeader'

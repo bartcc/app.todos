@@ -62,6 +62,7 @@ PhotoView = (function() {
   };
   PhotoView.prototype.render = function(item, mode) {
     console.log('PhotoView::render');
+    console.log(item);
     if (Album.record) {
       this.el.removeClass('all');
     } else {
@@ -163,13 +164,13 @@ PhotoView = (function() {
     var el, item;
     el = $(e.target).parents('.item');
     item = el.item();
-    return this.navigate("/photo", item.id);
+    return this.navigate("/photo/" + item.id);
   };
   PhotoView.prototype.dblclick = function(e) {
     var el, item;
     el = $(e.target).parents('.item');
     item = el.item();
-    return this.navigate("/photos", item.id);
+    return this.navigate("/photos/" + item.id);
   };
   return PhotoView;
 })();

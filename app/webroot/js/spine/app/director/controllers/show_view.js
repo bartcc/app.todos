@@ -322,7 +322,7 @@ ShowView = (function() {
     }
     App[controller].deactivate();
     ui = App.hmanager.externalUI(App[controller]);
-    return console.log(ui.click());
+    return ui.click();
   };
   ShowView.prototype.closePanel = function(controller, target) {
     App[controller].activate();
@@ -337,10 +337,11 @@ ShowView = (function() {
     return this.btnQuickUpload.find('i').hasClass('icon-ok');
   };
   ShowView.prototype.slideshowable = function() {
-    return $('[rel="gallery"]', this.current.el).length;
+    return $('[rel="gallery"]', this.photosView.el).length;
   };
   ShowView.prototype.play = function(e) {
-    var el, elFromCanvas, elFromSelection;
+    var elFromCanvas, elFromSelection;
+    console.log('ShowView::play');
     elFromSelection = __bind(function() {
       var el, id, item, list, root;
       list = Album.selectionList();
@@ -349,29 +350,23 @@ ShowView = (function() {
         if (Photo.exists(id)) {
           item = Photo.find(id);
         }
-        root = this.current.el.children('.items');
+        root = this.photosView.el.children('.items');
         el = root.children().forItem(item);
-        return $('[rel="gallery"]', el);
+        return $('[rel="gallery"]', el)[0];
       }
     }, this);
     elFromCanvas = __bind(function() {
       var firstEl;
-      return firstEl = $('[rel="gallery"]', this.current.el).first();
+      return firstEl = $('[rel="gallery"]', this.photosView.el).first();
     }, this);
     if (this.slideshowable()) {
-      el = elFromSelection() || elFromCanvas();
       if ($('.modal-backdrop').length) {
         return;
       }
       if (this.slideshowAutoStart || (e != null ? e.type : void 0)) {
-        return el.click();
+        this.navigate('/slideshow/');
+        return (elFromSelection() || elFromCanvas()).click();
       }
-    } else {
-      if (!Gallery.selectionList().length) {
-        return;
-      }
-      Spine.trigger('show:photos');
-      return Spine.trigger('change:selectedAlbum', Album.record, true);
     }
   };
   ShowView.prototype.pause = function(e) {
@@ -465,18 +460,14 @@ ShowView = (function() {
   };
   ShowView.prototype.sliderStop = function() {};
   ShowView.prototype.showOverview = function(e) {
-    return Spine.trigger('show:overview');
+    return this.navigate('/overview/');
   };
   ShowView.prototype.showSlideshow = function(e) {
     this.slideshowMode = App.SILENTMODE;
-    App.sidebar.toggleDraghandle({
-      close: true
-    });
-    return Spine.trigger('show:slideshow');
+    return this.navigate('/slideshow/');
   };
   ShowView.prototype.showPrevious = function() {
-    App.sidebar.toggleDraghandle();
-    return this.previous.show();
+    return this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id);
   };
   ShowView.prototype.showModal = function() {
     this.modalView.render({
@@ -487,14 +478,13 @@ ShowView = (function() {
     return this.modalView.show();
   };
   ShowView.prototype.showAllPhotos = function() {
-    Spine.trigger('show:photos');
     Gallery.emptySelection();
     Album.emptySelection();
-    return Album.current();
+    Album.current();
+    return this.navigate('/gallery/' + false + '/' + false);
   };
   ShowView.prototype.showAllAlbums = function() {
-    Spine.trigger('show:albums');
-    return Gallery.current();
+    return this.navigate('/gallery/' + false);
   };
   return ShowView;
 })();

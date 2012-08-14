@@ -65,18 +65,19 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.activate = function() {
     var first, selection;
+    console.log('AlbumsList::activate');
     selection = Gallery.selectionList();
     if (selection.length === 1) {
       if (Album.exists(selection[0])) {
         first = Album.find(selection[0]);
       }
       if (!(first != null ? first.destroyed : void 0)) {
-        this.current = first;
         Album.current(first);
       }
     } else {
       Album.current();
     }
+    App.showView.trigger('change:toolbarOne');
     return this.exposeSelection();
   };
   AlbumsList.prototype.render = function(items, mode) {
@@ -190,15 +191,13 @@ AlbumsList = (function() {
     item = $(e.currentTarget).item();
     item.addRemoveSelection(this.isCtrlClick(e));
     this.activate();
-    App.showView.trigger('change:toolbarOne');
     e.stopPropagation();
     return e.preventDefault();
   };
   AlbumsList.prototype.dblclick = function(e) {
-    Spine.trigger('show:photos');
-    this.activate();
     e.stopPropagation();
-    return e.preventDefault();
+    e.preventDefault();
+    return this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id);
   };
   AlbumsList.prototype.edit = function(e) {
     var item;

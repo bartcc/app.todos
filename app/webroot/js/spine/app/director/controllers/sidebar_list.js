@@ -56,7 +56,7 @@ SidebarList = (function() {
     return arguments[0];
   };
   SidebarList.prototype.change = function(item, mode, e) {
-    var ctrlClick;
+    var ctrlClick, _ref;
     console.log('SidebarList::change');
     if (e) {
       ctrlClick = this.isCtrlClick(e);
@@ -71,7 +71,7 @@ SidebarList = (function() {
           break;
         case 'show':
           this.current = item;
-          Spine.trigger('show:albums');
+          this.navigate('/gallery/' + ((_ref = Gallery.record) != null ? _ref.id : void 0));
           break;
         case 'photo':
           this.current = item;
@@ -83,7 +83,7 @@ SidebarList = (function() {
       this.current = false;
       switch (mode) {
         case 'show':
-          Spine.trigger('show:albums');
+          this.navigate('/albums/');
       }
     }
     return this.activate(this.current);
@@ -183,37 +183,10 @@ SidebarList = (function() {
     return this.updateTemplate(gallery);
   };
   SidebarList.prototype.activate = function(gallery) {
-    var active, first, selectedAlbums, selectedPhotos;
     if (gallery == null) {
       gallery = Gallery.record;
     }
     Gallery.current(gallery);
-    selectedAlbums = Gallery.selectionList();
-    if (selectedAlbums.length === 1) {
-      if (Album.exists(selectedAlbums[0])) {
-        first = Album.find(selectedAlbums[0]);
-      }
-      if (first && !first.destroyed) {
-        Album.current(first);
-      } else {
-        Album.current();
-      }
-    } else {
-      Album.current();
-    }
-    selectedPhotos = Album.selectionList();
-    if (selectedPhotos.length === 1) {
-      if (Photo.exists(selectedPhotos[0])) {
-        active = Photo.find(selectedPhotos[0]);
-      }
-      if (active && !active.destroyed) {
-        Photo.current(active);
-      } else {
-        Photo.current();
-      }
-    } else {
-      Photo.current();
-    }
     return this.exposeSelection();
   };
   SidebarList.prototype.updateTemplate = function(gallery) {
@@ -315,26 +288,20 @@ SidebarList = (function() {
     if (!this.isCtrlClick(e)) {
       Gallery.current(gallery);
       Album.current(album);
+      this.navigate('/gallery/' + gallery.id + '/' + album.id);
       Gallery.updateSelection([album.id]);
       this.exposeSublistSelection(Gallery.record);
-      Spine.trigger('show:photos');
-      this.change(Gallery.record, 'photo', e);
     } else {
-      Spine.trigger('show:allPhotos', true);
+      this.navigate('/photos/');
     }
     e.stopPropagation();
     return e.preventDefault();
   };
   SidebarList.prototype.click = function(e) {
-    var el, item;
+    var item;
     console.log('SidebarList::click');
-    el = $(e.target);
-    item = el.item();
-    this.change(item, 'show', e);
-    Spine.trigger('change:toolbar', ['Gallery']);
-    App.contentManager.change(App.showView);
-    e.stopPropagation();
-    return e.preventDefault();
+    item = $(e.target).item();
+    return this.navigate('/gallery/' + item.id);
   };
   SidebarList.prototype.dblclick = function(e) {
     var item;

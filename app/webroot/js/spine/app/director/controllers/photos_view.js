@@ -68,37 +68,34 @@ PhotosView = (function() {
     Spine.bind('start:slideshow', this.proxy(this.slideshow));
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
   }
-  PhotosView.prototype.change = function(item, changed) {
+  PhotosView.prototype.change = function(album, changed) {
     if (changed) {
-      this.updateBuffer(item);
-    }
-    if (this.buffer) {
-      return this.render(this.buffer);
+      return this.render(this.updateBuffer(album));
     }
   };
-  PhotosView.prototype.updateBuffer = function(item) {
+  PhotosView.prototype.updateBuffer = function(album) {
     var filterOptions;
     filterOptions = {
       key: 'album_id',
       joinTable: 'AlbumsPhoto',
       sorted: true
     };
-    return this.buffer = Photo.filterRelated(item != null ? item.id : void 0, filterOptions);
+    return Photo.filterRelated(album != null ? album.id : void 0, filterOptions);
   };
   PhotosView.prototype.render = function(items, mode) {
     var list;
-    if (!this.isActive()) {
-      return;
+    if (mode == null) {
+      mode = 'html';
     }
+    console.log('PhotosView::render');
     if (!this.list.children('li').length) {
       this.items.empty();
     }
-    list = this.list.render(items, mode || 'html');
+    list = this.list.render(items, mode);
     if (Album.record) {
       list.sortable('photo');
     }
-    this.refreshElements();
-    return delete this.buffer;
+    return this.refreshElements();
   };
   PhotosView.prototype.renderHeader = function() {
     console.log('PhotosView::renderHeader');

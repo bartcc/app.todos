@@ -51,7 +51,7 @@ class AlbumsView extends Spine.Controller
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('update destroy', @proxy @change)
     Album.bind('destroy', @proxy @destroyCache)
-    GalleriesAlbum.bind("change", @proxy @change)
+    GalleriesAlbum.bind('change', @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
@@ -67,7 +67,9 @@ class AlbumsView extends Spine.Controller
     
     
     if item.constructor.className is 'GalleriesAlbum' and item.destroyed
-      Spine.trigger('show:albums')
+      @navigate '/gallery/' + @gallery?.id
+#      Spine.trigger('show:albums')
+#      Spine.trigger('gallery:activate')
         
     if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
@@ -77,7 +79,7 @@ class AlbumsView extends Spine.Controller
     @render @current
     
   changeSelection: (item, changed) ->
-    @change item if changed# or !!@pending
+    @change item if changed
      
   render: (items) ->
     console.log 'AlbumsView::render'

@@ -61,21 +61,21 @@ AlbumsView = (function() {
     Album.bind('create:join', this.proxy(this.createJoin));
     Album.bind('update destroy', this.proxy(this.change));
     Album.bind('destroy', this.proxy(this.destroyCache));
-    GalleriesAlbum.bind("change", this.proxy(this.change));
+    GalleriesAlbum.bind('change', this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
     $(this.views).queue('fx');
   }
   AlbumsView.prototype.change = function(item, mode) {
-    var gallery;
+    var gallery, _ref;
     console.log('AlbumsView::change');
     if (mode === 'update') {
       return;
     }
     this.gallery = gallery = Gallery.record;
     if (item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
-      Spine.trigger('show:albums');
+      this.navigate('/gallery/' + ((_ref = this.gallery) != null ? _ref.id : void 0));
     }
     if ((!gallery) || gallery.destroyed) {
       this.current = Album.filter();

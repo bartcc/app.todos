@@ -41,15 +41,17 @@ AlbumEditView = (function() {
   AlbumEditView.prototype.change = function(item, mode) {
     var firstID;
     console.log('AlbumEditView::change');
-    if ((item != null ? item.constructor.className : void 0) === 'Album') {
-      this.current = item;
-    } else {
-      firstID = Gallery.selectionList()[0];
-      if (Album.exists(firstID)) {
-        this.current = Album.find(firstID);
-      } else {
-        this.current = false;
-      }
+    switch (item != null ? item.constructor.className : void 0) {
+      case 'Album':
+        this.current = item;
+        break;
+      case 'Gallery':
+        firstID = Gallery.selectionList()[0];
+        if (Album.exists(firstID)) {
+          this.current = Album.find(firstID);
+        } else {
+          this.current = false;
+        }
     }
     return this.render(this.current, mode);
   };

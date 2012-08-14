@@ -70,7 +70,7 @@ PhotosView = (function() {
   }
   PhotosView.prototype.change = function(album, changed) {
     this.buffer = this.updateBuffer(album);
-    if (this.buffer) {
+    if (this.buffer.length) {
       return this.render(this.buffer);
     }
   };

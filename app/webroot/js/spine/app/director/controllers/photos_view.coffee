@@ -57,7 +57,7 @@ class PhotosView extends Spine.Controller
     
   change: (album, changed) ->
     @buffer = @updateBuffer(album)
-    @render @buffer if @buffer
+    @render @buffer if @buffer.length
   
   updateBuffer: (album) ->
     filterOptions =

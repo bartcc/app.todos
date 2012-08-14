@@ -138,10 +138,6 @@ App = (function() {
       '/photos/': function() {
         return Spine.trigger('show:allPhotos', true);
       },
-      '/albums/': function() {
-        Gallery.current();
-        return Spine.trigger('show:allAlbums', true);
-      },
       '/overview/': function() {
         Spine.trigger('show:overview');
         return console.log('/overview/');

@@ -437,4 +437,4 @@ class ShowView extends Spine.Controller
     @navigate '/gallery/' + false + '/' + false
     
   showAllAlbums: ->
-    @navigate '/albums/'
+    @navigate '/gallery/' + false

@@ -484,7 +484,7 @@ ShowView = (function() {
     return this.navigate('/gallery/' + false + '/' + false);
   };
   ShowView.prototype.showAllAlbums = function() {
-    return this.navigate('/albums/');
+    return this.navigate('/gallery/' + false);
   };
   return ShowView;
 })();

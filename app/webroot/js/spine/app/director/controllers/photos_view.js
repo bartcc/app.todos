@@ -92,7 +92,9 @@ PhotosView = (function() {
       mode = 'html';
     }
     console.log('PhotosView::render');
-    console.log(this.isActive());
+    if (mode !== 'html') {
+      alert(mode);
+    }
     if (!this.isActive()) {
       return;
     }
@@ -133,7 +135,7 @@ PhotosView = (function() {
     console.log('PhotosView::add');
     if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
       photo = Photo.find(ap.photo_id);
-      return this.render([photo], 'prepend');
+      return this.render([photo], 'append');
     }
   };
   PhotosView.prototype.next = function(album) {

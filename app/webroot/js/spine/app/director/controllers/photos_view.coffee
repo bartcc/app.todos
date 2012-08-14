@@ -70,7 +70,7 @@ class PhotosView extends Spine.Controller
   
   render: (items, mode = 'html') ->
     console.log 'PhotosView::render'
-    console.log @isActive()
+    alert mode unless mode is 'html'
     # render only if necessary
     return unless @isActive()
     @items.empty() unless @list.children('li').length
@@ -103,7 +103,7 @@ class PhotosView extends Spine.Controller
     # only add when photo is for it's album
     if ap.album_id is Album.record?.id
       photo = Photo.find(ap.photo_id)
-      @render [photo], 'prepend'
+      @render [photo], 'append'
 
   next: (album) ->
     album.last()

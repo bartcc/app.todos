@@ -70,7 +70,6 @@ class PhotosView extends Spine.Controller
   
   render: (items, mode = 'html') ->
     console.log 'PhotosView::render'
-    alert mode unless mode is 'html'
     # render only if necessary
     return unless @isActive()
     @items.empty() unless @list.children('li').length

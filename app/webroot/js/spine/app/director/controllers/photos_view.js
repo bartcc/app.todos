@@ -92,9 +92,6 @@ PhotosView = (function() {
       mode = 'html';
     }
     console.log('PhotosView::render');
-    if (mode !== 'html') {
-      alert(mode);
-    }
     if (!this.isActive()) {
       return;
     }

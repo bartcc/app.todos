@@ -88,6 +88,9 @@ PhotosView = (function() {
       mode = 'html';
     }
     console.log('PhotosView::render');
+    if (!this.isActive()) {
+      return;
+    }
     if (!this.list.children('li').length) {
       this.items.empty();
     }

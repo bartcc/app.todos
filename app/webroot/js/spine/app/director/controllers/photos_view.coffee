@@ -68,6 +68,7 @@ class PhotosView extends Spine.Controller
   
   render: (items, mode = 'html') ->
     console.log 'PhotosView::render'
+    return unless @isActive()
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode
     list.sortable 'photo' if Album.record

@@ -69,6 +69,7 @@ PhotosView = (function() {
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
   }
   PhotosView.prototype.change = function(album, changed) {
+    this.changed = changed;
     if (changed) {
       return this.render(this.updateBuffer(album));
     }
@@ -88,7 +89,7 @@ PhotosView = (function() {
       mode = 'html';
     }
     console.log('PhotosView::render');
-    if (!this.isActive()) {
+    if (!this.isActive() || !this.changed) {
       return;
     }
     if (!this.list.children('li').length) {

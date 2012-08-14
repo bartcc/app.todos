@@ -56,6 +56,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
     
   change: (album, changed) ->
+    @changed = changed
     @render @updateBuffer(album) if changed
   
   updateBuffer: (album) ->
@@ -68,7 +69,7 @@ class PhotosView extends Spine.Controller
   
   render: (items, mode = 'html') ->
     console.log 'PhotosView::render'
-    return unless @isActive()
+    return if (!@isActive() or !@changed)
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode
     list.sortable 'photo' if Album.record

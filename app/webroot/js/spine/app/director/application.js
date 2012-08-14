@@ -152,12 +152,12 @@ App = (function() {
       '/gallery/:id': function(params) {
         var gallery;
         this.contentManager.change(this.showView);
+        Spine.trigger('change:toolbar', ['Gallery']);
+        Spine.trigger('show:albums');
         if (Gallery.exists(params.id)) {
           gallery = Gallery.find(params.id);
         }
-        Gallery.current(gallery);
-        Spine.trigger('change:toolbar', ['Gallery']);
-        return Spine.trigger('show:albums');
+        return Gallery.current(gallery);
       },
       '/gallery/:gid/:aid': function(params) {
         this.contentManager.change(this.showView);
@@ -166,20 +166,14 @@ App = (function() {
         return Album.current(params.aid);
       },
       '/gallery/:gid/:aid/:pid': function(params) {
-        var album, gallery, photo;
+        var photo;
         this.contentManager.change(this.showView);
-        if (Gallery.exists(params.gid)) {
-          gallery = Gallery.find(params.gid);
-        }
-        if (Album.exists(params.aid)) {
-          album = Album.find(params.aid);
-        }
         if (Photo.exists(params.pid)) {
           photo = Photo.find(params.pid);
         }
-        Gallery.current(gallery);
-        Album.current(album);
-        return Spine.trigger('show:photo', photo);
+        Spine.trigger('show:photo', photo);
+        Gallery.current(params.gid);
+        return Album.current(params.aid);
       }
     });
   }

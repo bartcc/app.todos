@@ -129,10 +129,10 @@ class App extends Spine.Controller
         Spine.trigger 'show:galleries'
       '/gallery/:id': (params) ->
         @contentManager.change(@showView)
-        gallery = Gallery.find(params.id) if Gallery.exists(params.id)
-        Gallery.current(gallery)
         Spine.trigger('change:toolbar', ['Gallery'])
         Spine.trigger 'show:albums'
+        gallery = Gallery.find(params.id) if Gallery.exists(params.id)
+        Gallery.current(gallery)
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
         Spine.trigger 'show:photos'
@@ -140,12 +140,10 @@ class App extends Spine.Controller
         Album.current(params.aid)
       '/gallery/:gid/:aid/:pid': (params) ->
         @contentManager.change(@showView)
-        gallery = Gallery.find(params.gid) if Gallery.exists(params.gid)
-        album = Album.find(params.aid) if Album.exists(params.aid)
         photo = Photo.find(params.pid) if Photo.exists(params.pid)
-        Gallery.current(gallery)
-        Album.current(album)
         Spine.trigger 'show:photo', photo
+        Gallery.current(params.gid)
+        Album.current(params.aid)
     
   validate: (user, json) ->
     console.log 'Pinger done'

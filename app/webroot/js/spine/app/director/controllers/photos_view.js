@@ -69,8 +69,10 @@ PhotosView = (function() {
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
   }
   PhotosView.prototype.change = function(album, changed) {
-    this.buffer = this.updateBuffer(album);
-    if (this.buffer.length) {
+    if (changed) {
+      this.updateBuffer(album);
+    }
+    if (this.buffer) {
       return this.render(this.buffer);
     }
   };
@@ -81,7 +83,7 @@ PhotosView = (function() {
       joinTable: 'AlbumsPhoto',
       sorted: true
     };
-    return Photo.filterRelated(album != null ? album.id : void 0, filterOptions);
+    return this.buffer = Photo.filterRelated(album != null ? album.id : void 0, filterOptions);
   };
   PhotosView.prototype.render = function(items, mode) {
     var list;
@@ -92,7 +94,7 @@ PhotosView = (function() {
       mode = 'html';
     }
     console.log('PhotosView::render');
-    if (!this.buffer) {
+    if (!this.isActive()) {
       return;
     }
     if (!this.list.children('li').length) {

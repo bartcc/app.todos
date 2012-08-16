@@ -26,8 +26,8 @@
           </form>
         </div>
         <div class="originals hbox">
-          <ul class="options hbox flex">
-            <li class="splitter disabled"></li>
+          <ul class="options flex">
+            <li id="twitter" class="splitter disabled"></li>
           </ul>
         </div>
         <ul class="items canvas vbox flex autoflow"></ul>
@@ -190,7 +190,7 @@
 </script>
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item data parent" title="Deselect   Cmd-Click" draggable="true">
+  <li class="gal item data parent" title="" draggable="true">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#sidebarContentTemplate"}}
@@ -207,8 +207,29 @@
     {{else}}
     <span class="name empty">no name</span>
     {{/if}}
-    <span class="author">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
+    <span class="author info">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
     <span class="gal cta">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
+  </div>
+</script>
+
+<script id="sidebarTwitterTemplate" type="text/x-jquery-tmpl">
+  <li class="gal item data parent" title="" draggable="true">
+    <div class="item-header">
+      <div class="expander"></div>
+        <div class="item-content">
+          <span class="name">${name}</span>
+        </div>
+    </div>
+    <hr>
+    <ul class="sublist" style="display: none;">
+      {{tmpl($item.data.sub) "#sidebarTwitterSublistTemplate"}}
+    </ul>
+  </li>
+</script>
+
+<script id="sidebarTwitterSublistTemplate" type="text/x-jquery-tmpl">
+  <div class="item-content">
+    <span class="name">${name}</span>
   </div>
 </script>
 

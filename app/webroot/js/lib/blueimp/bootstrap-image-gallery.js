@@ -84,8 +84,6 @@
         },
         toggleSlideShow: function () {
             var node = this.$element.find('.modal-slideshow');
-            console.log(node)
-            console.log(node.data())
             if (this.options.slideshow) {
                 this.options.slideshow = 0;
                 this.stopSlideShow();

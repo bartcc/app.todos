@@ -17,6 +17,7 @@ Sidebar = (function() {
   Sidebar.extend(Spine.Controller.Drag);
   Sidebar.prototype.elements = {
     'input': 'input',
+    '.twitter': 'twitter',
     '.items': 'items',
     '.inner': 'inner',
     '.droppable': 'droppable',

@@ -11,6 +11,7 @@ App = (function() {
   __extends(App, Spine.Controller);
   App.extend(Spine.Controller.Drag);
   App.prototype.elements = {
+    '#twitter': 'twitterEl',
     '#main': 'mainEl',
     '#sidebar': 'sidebarEl',
     '#content .overview': 'overviewEl',
@@ -75,6 +76,9 @@ App = (function() {
     });
     this.sidebar = new Sidebar({
       el: this.sidebarEl
+    });
+    this.sidebarTwitter = new SidebarTwitter({
+      el: this.twitterEl
     });
     this.loginView = new LoginView({
       el: this.loginEl

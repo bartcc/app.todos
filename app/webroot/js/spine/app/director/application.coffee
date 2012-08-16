@@ -8,6 +8,7 @@ class App extends Spine.Controller
   # App.showView.trigger('change:toolbar', 'Album')
   
   elements:
+    '#twitter'            : 'twitterEl'
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
     '#content .overview'  : 'overviewEl'
@@ -75,6 +76,8 @@ class App extends Spine.Controller
       uploader: @upload
     @sidebar = new Sidebar
       el: @sidebarEl
+    @sidebarTwitter = new SidebarTwitter
+      el: @twitterEl
     @loginView = new LoginView
       el: @loginEl
     @mainView = new MainView

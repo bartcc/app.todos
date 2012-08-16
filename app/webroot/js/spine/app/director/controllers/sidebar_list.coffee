@@ -50,6 +50,7 @@ class SidebarList extends Spine.Controller
     console.log 'SidebarList::change'
     
     ctrlClick = @isCtrlClick(e) if e
+    
     unless ctrlClick
       switch mode
         when 'destroy'
@@ -58,7 +59,6 @@ class SidebarList extends Spine.Controller
           Spine.trigger('edit:gallery')
         when 'show'
           @current = item
-#          Spine.trigger('show:albums')
           @navigate '/gallery/' + Gallery.record?.id
         when 'photo'
           @current = item
@@ -70,7 +70,6 @@ class SidebarList extends Spine.Controller
       switch mode
         when 'show'
           @navigate '/gallery/' + Gallery.record?.id + '/' + Album.record?.id
-#          Spine.trigger('show:albums')
           
     @activate(@current)
         
@@ -145,27 +144,6 @@ class SidebarList extends Spine.Controller
   activate: (gallery = Gallery.record) ->
     
     Gallery.current(gallery)
-    
-#    selectedAlbums = Gallery.selectionList()
-#    if selectedAlbums.length is 1
-#      first = Album.find(selectedAlbums[0]) if Album.exists(selectedAlbums[0])
-#      if first and !first.destroyed
-#        Album.current(first)
-#      else
-#        Album.current()
-#    else
-#      Album.current()
-#        
-#    selectedPhotos = Album.selectionList()
-#    if selectedPhotos.length is 1
-#      active = Photo.find(selectedPhotos[0]) if Photo.exists(selectedPhotos[0])
-#      if active and !active.destroyed
-#        Photo.current(active)
-#      else
-#        Photo.current()
-#    else
-#      Photo.current()
-      
     @exposeSelection()
   
   updateTemplate: (gallery) ->

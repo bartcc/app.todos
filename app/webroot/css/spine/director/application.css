@@ -560,9 +560,14 @@ textarea {
   margin: 0;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
-#sidebar .item span.name {
-  font-size: 1.1em;
+#sidebar .item span:not(.info) {
   font-weight: bold;
+}
+#sidebar .item span {
+  font-size: 1.1em;
+}
+#sidebar .sublist span:not(ui-symbol) {
+  font-size: 0.8em;
 }
 #sidebar .item.active span.name {
 }

@@ -4,6 +4,7 @@ class Sidebar extends Spine.Controller
 
   elements:
     'input'                 : 'input'
+    '.twitter'              : 'twitter'
     '.items'                : 'items'
     '.inner'                : 'inner'
     '.droppable'            : 'droppable'
@@ -24,7 +25,7 @@ class Sidebar extends Spine.Controller
 
   template: (items) ->
     $("#sidebarTemplate").tmpl(items)
-
+    
   constructor: ->
     super
     @el.width(360)
@@ -44,7 +45,7 @@ class Sidebar extends Spine.Controller
     Spine.bind('drag:over', @proxy @dragOver)
     Spine.bind('drag:leave', @proxy @dragLeave)
     Spine.bind('drag:drop', @proxy @dropComplete)
-
+    
   filter: ->
     @query = @input.val();
     @render();

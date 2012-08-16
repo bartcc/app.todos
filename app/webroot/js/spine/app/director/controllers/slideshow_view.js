@@ -51,7 +51,7 @@ SlideshowView = (function() {
     _results = [];
     for (_i = 0, _len = list.length; _i < _len; _i++) {
       id = list[_i];
-      _results.push(Photo.exists(id) ? (item = Photo.find(id), console.log(item), console.log(this.items), console.log(this.items.children().forItem(item, true)), this.items.children().forItem(item, true).addClass("active")) : void 0);
+      _results.push(Photo.exists(id) ? (item = Photo.find(id), this.items.children().forItem(item, true).addClass("active")) : void 0);
     }
     return _results;
   };

@@ -55,7 +55,7 @@ class PhotoView extends Spine.Controller
       
     @items.html @template item
     @renderHeader item
-    @uri item
+    @uri [item]
     @change item
     
   renderHeader: (item) ->
@@ -74,19 +74,21 @@ class PhotoView extends Spine.Controller
     square: 2
     force: false
     
-  uri: (item, mode = 'html') ->
+  uri: (items, mode = 'html') ->
     console.log 'PhotoView::uri'
-    item.uri @params(), mode, (xhr, record) => @callback record, xhr
+    Photo.uri @params(), mode, (xhr, record) => @callback xhr, items
   
-  callback: (record, json) =>
+  callback: (json, items) =>
     console.log 'PhotoView::callback'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
-    jsn = searchJSON record.id
-    if jsn
-      @img.element = $('.item', @items).forItem(record)
-      @img.src = jsn.src
+        
+    for item in items
+      jsn = searchJSON item.id
+      if jsn
+        @img.element = $('.item', @items).forItem(item)
+        @img.src = jsn.src
   
   imageLoad: ->
     el = $('.thumbnail', @element)

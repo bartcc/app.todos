@@ -69,7 +69,7 @@ PhotoView = (function() {
     }
     this.items.html(this.template(item));
     this.renderHeader(item);
-    this.uri(item);
+    this.uri([item]);
     return this.change(item);
   };
   PhotoView.prototype.renderHeader = function(item) {
@@ -91,17 +91,17 @@ PhotoView = (function() {
       force: false
     };
   };
-  PhotoView.prototype.uri = function(item, mode) {
+  PhotoView.prototype.uri = function(items, mode) {
     if (mode == null) {
       mode = 'html';
     }
     console.log('PhotoView::uri');
-    return item.uri(this.params(), mode, __bind(function(xhr, record) {
-      return this.callback(record, xhr);
+    return Photo.uri(this.params(), mode, __bind(function(xhr, record) {
+      return this.callback(xhr, items);
     }, this));
   };
-  PhotoView.prototype.callback = function(record, json) {
-    var jsn, searchJSON;
+  PhotoView.prototype.callback = function(json, items) {
+    var item, jsn, searchJSON, _i, _len, _results;
     console.log('PhotoView::callback');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -112,11 +112,13 @@ PhotoView = (function() {
         }
       }
     };
-    jsn = searchJSON(record.id);
-    if (jsn) {
-      this.img.element = $('.item', this.items).forItem(record);
-      return this.img.src = jsn.src;
+    _results = [];
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      item = items[_i];
+      jsn = searchJSON(item.id);
+      _results.push(jsn ? (this.img.element = $('.item', this.items).forItem(item), this.img.src = jsn.src) : void 0);
     }
+    return _results;
   };
   PhotoView.prototype.imageLoad = function() {
     var el, h, img, w;

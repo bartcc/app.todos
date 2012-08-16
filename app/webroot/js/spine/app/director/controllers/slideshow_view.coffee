@@ -29,10 +29,6 @@ class SlideshowView extends Spine.Controller
     Spine.bind('slider:start', @proxy @sliderStart)
     
   render: (items) ->
-#    if @isActive()
-#      Spine.trigger('slideshow:ready')
-#      return
-      
     @items.html @template items
     @uri items, 'append'
     @refreshElements()
@@ -49,9 +45,6 @@ class SlideshowView extends Spine.Controller
     for id in list
       if Photo.exists(id)
         item = Photo.find(id)
-        console.log item
-        console.log @items
-        console.log @items.children().forItem(item, true)
         @items.children().forItem(item, true).addClass("active")
        
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->

@@ -48,7 +48,6 @@ class PhotoView extends Spine.Controller
     
   render: (item, mode) ->
     console.log 'PhotoView::render'
-    console.log item
     if Album.record
       @el.removeClass 'all'
     else

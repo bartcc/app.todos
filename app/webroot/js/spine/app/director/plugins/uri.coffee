@@ -54,9 +54,12 @@ class Base
     options.width + '/' + options.height + '/' + options.square + '/' + options.quality
     
 class Uri extends Base
-  constructor: (@model,  params, mode = 'html', @callback) ->
+  constructor: (@model,  params, mode = 'html', @callback, max) ->
     super
     @photos = @model.all()
+    max = max or @model.count()
+    @mode = mode
+    @photos = @photos[0...max]
     
     options = $.extend({}, @settings, params)
     @url = @uri options
@@ -66,14 +69,14 @@ class Uri extends Base
     quality: 70
     
   test: ->
-    cache = @model.cache null, @url
+    cache = @model.cache @url
     if cache.length
       @callback cache
     else if @photos.length
       @get()
       
   recordResponse: (uris) =>
-    @model.addToCache null, @url, uris, @mode
+    @model.addToCache @url, uris, @mode
     @callback uris
     
   errorResponse: (xhr, statusText, error) =>
@@ -133,7 +136,7 @@ Model.Uri =
       uri: (params, mode, callback, max) -> new UriCollection(@, params, mode, callback, max).test()
       
     Extend =
-      uri: (params, mode, callback) -> new Uri(@, params, mode, callback).test()
+      uri: (params, mode, callback, max) -> new Uri(@, params, mode, callback, max).test()
       
     @include Include
     @extend Extend

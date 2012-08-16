@@ -56,7 +56,6 @@ class PhotosView extends Spine.Controller
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
     
   change: (album, changed) ->
-    console.log changed
     @updateBuffer album if changed
     @render @buffer if @buffer
   
@@ -72,6 +71,8 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::render'
     # render only if necessary
     return unless @isActive()
+#      Spine.trigger('slideshow:ready')
+      
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode
     list.sortable 'photo' if Album.record
@@ -137,15 +138,17 @@ class PhotosView extends Spine.Controller
       # now remove photo originals
       for photo in photos
         Album.removeFromSelection photo.id
-        photo.clearCache()
+        photo.destroyCache()
+#        photo.clearCache()
         photo.destroy()
     
   show: ->
-    return if @isActive()
+#    return if @isActive()
     Spine.trigger('gallery:activate')
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
+    Spine.trigger('slideshow:ready') if @parent.autoStart()
   
   save: (item) ->
 

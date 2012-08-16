@@ -18,7 +18,7 @@ SlideshowView = (function() {
     '.thumbnail': 'thumb'
   };
   SlideshowView.prototype.template = function(items) {
-    return $("#photosSlideshowTemplate").tmpl(items);
+    return $("#photosTemplate").tmpl(items);
   };
   function SlideshowView() {
     this.sliderStart = __bind(this.sliderStart, this);    SlideshowView.__super__.constructor.apply(this, arguments);
@@ -27,7 +27,7 @@ SlideshowView = (function() {
         className: 'Slideshow'
       }
     });
-    this.thumbSize = 140;
+    this.thumbSize = 240;
     this.fullScreen = true;
     this.autoplay = false;
     Spine.bind('show:slideshow', this.proxy(this.show));
@@ -35,16 +35,25 @@ SlideshowView = (function() {
     Spine.bind('slider:start', this.proxy(this.sliderStart));
   }
   SlideshowView.prototype.render = function(items) {
-    if (!this.isActive()) {
-      return;
-    }
-    console.log('SlideshowView::render');
     this.items.html(this.template(items));
     this.uri(items, 'append');
     this.refreshElements();
     this.size(App.showView.sliderOutValue());
-    this.items.sortable('photo');
+    this.items.children().sortable('photo');
+    this.exposeSelection();
     return this.el;
+  };
+  SlideshowView.prototype.exposeSelection = function() {
+    var id, item, list, _i, _len, _results;
+    console.log('SlideshowView::exposeSelection');
+    this.deselect();
+    list = Album.selectionList();
+    _results = [];
+    for (_i = 0, _len = list.length; _i < _len; _i++) {
+      id = list[_i];
+      _results.push(Photo.exists(id) ? (item = Photo.find(id), console.log(item), console.log(this.items), console.log(this.items.children().forItem(item, true)), this.items.children().forItem(item, true).addClass("active")) : void 0);
+    }
+    return _results;
   };
   SlideshowView.prototype.params = function(width, height) {
     if (width == null) {
@@ -68,7 +77,7 @@ SlideshowView = (function() {
   };
   SlideshowView.prototype.uri = function(items, mode) {
     console.log('SlideshowView::uri');
-    return Album.record.uri(this.params(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.params(), mode, __bind(function(xhr, record) {
       return this.callback(items, xhr);
     }, this));
   };
@@ -111,12 +120,12 @@ SlideshowView = (function() {
     if (mode == null) {
       mode = 'html';
     }
-    return Album.record.uri(this.modalParams(), mode, __bind(function(xhr, record) {
-      return this.callbackModal(items, xhr);
+    return Photo.uri(this.modalParams(), mode, __bind(function(xhr, record) {
+      return this.callbackModal(xhr, items);
     }, this));
   };
-  SlideshowView.prototype.callbackModal = function(items, json) {
-    var el, item, jsn, searchJSON, _i, _len, _results;
+  SlideshowView.prototype.callbackModal = function(json, items) {
+    var el, item, jsn, searchJSON, _i, _len;
     console.log('Slideshow::callbackModal');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -127,23 +136,25 @@ SlideshowView = (function() {
         }
       }
     };
-    _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);
-      _results.push(jsn ? (el = this.items.children().forItem(item), $('div.thumbnail', el).attr({
-        'data-href': jsn.src,
-        'title': item.title || item.src,
-        'rel': 'gallery'
-      })) : void 0);
+      if (jsn) {
+        el = this.items.children().forItem(item);
+        $('div.thumbnail', el).attr({
+          'data-href': jsn.src,
+          'title': item.title || item.src,
+          'rel': 'gallery'
+        });
+      }
     }
-    return _results;
+    return Spine.trigger('slideshow:ready');
   };
   SlideshowView.prototype.show = function() {
     var filterOptions, items;
     console.log('Slideshow::show');
-    App.showView.trigger('change:toolbarOne', ['Chromeless']);
-    App.showView.trigger('change:toolbarTwo', ['Slider', 'Back', 'Slideshow', App.showView.initSlider]);
+    App.showView.trigger('change:toolbarOne', ['']);
+    App.showView.trigger('change:toolbarTwo', ['SlideshowPackage', App.showView.initSlider]);
     App.showView.trigger('canvas', this);
     filterOptions = {
       key: 'album_id',
@@ -152,6 +163,10 @@ SlideshowView = (function() {
     };
     items = Photo.filterRelated(Album.record.id, filterOptions);
     return this.render(items);
+  };
+  SlideshowView.prototype.close = function(e) {
+    this.parent.showPrevious();
+    return false;
   };
   SlideshowView.prototype.sliderStart = function() {
     return this.refreshElements();

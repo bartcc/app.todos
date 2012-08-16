@@ -299,7 +299,7 @@ SidebarList = (function() {
     var item;
     console.log('SidebarList::click');
     item = $(e.target).item();
-    return this.navigate('/gallery/' + item.id);
+    return this.navigate('/gallery/' + (item != null ? item.id : void 0));
   };
   SidebarList.prototype.dblclick = function(e) {
     var item;

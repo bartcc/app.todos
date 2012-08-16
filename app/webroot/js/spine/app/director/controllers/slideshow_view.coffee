@@ -14,13 +14,13 @@ class SlideshowView extends Spine.Controller
     '.thumbnail'       : 'thumb'
     
   template: (items) ->
-    $("#photosSlideshowTemplate").tmpl items
+    $("#photosTemplate").tmpl items
 
   constructor: ->
     super
     @el.data
       current: className: 'Slideshow'
-    @thumbSize = 140
+    @thumbSize = 240
     @fullScreen = true
     @autoplay = false
     
@@ -29,16 +29,31 @@ class SlideshowView extends Spine.Controller
     Spine.bind('slider:start', @proxy @sliderStart)
     
   render: (items) ->
-    return unless @isActive()
-    console.log 'SlideshowView::render'
+#    if @isActive()
+#      Spine.trigger('slideshow:ready')
+#      return
+      
     @items.html @template items
     @uri items, 'append'
     @refreshElements()
     @size(App.showView.sliderOutValue())
     
-    @items.sortable 'photo'
+    @items.children().sortable 'photo'
+    @exposeSelection()
     @el
-        
+       
+  exposeSelection: ->
+    console.log 'SlideshowView::exposeSelection'
+    @deselect()
+    list = Album.selectionList()
+    for id in list
+      if Photo.exists(id)
+        item = Photo.find(id)
+        console.log item
+        console.log @items
+        console.log @items.children().forItem(item, true)
+        @items.children().forItem(item, true).addClass("active")
+       
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->
     width: width
     height: height
@@ -51,7 +66,7 @@ class SlideshowView extends Spine.Controller
     
   uri: (items, mode) ->
     console.log 'SlideshowView::uri'
-    Album.record.uri @params(), mode, (xhr, record) => @callback items, xhr
+    Photo.uri @params(), mode, (xhr, record) => @callback items, xhr
     
   # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
@@ -79,14 +94,16 @@ class SlideshowView extends Spine.Controller
     
   # this loads the image-source attributes pointing to the regular sized image files necessary for the slideshow
   loadModal: (items, mode='html') ->
-    Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal items, xhr
+#    Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
+    Photo.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
   
-  callbackModal: (items, json) ->
+  callbackModal: (json, items) ->
     console.log 'Slideshow::callbackModal'
     
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
+        
     for item in items
       jsn = searchJSON item.id
       if jsn
@@ -95,20 +112,28 @@ class SlideshowView extends Spine.Controller
           'data-href'  : jsn.src
           'title' : item.title or item.src
           'rel'   : 'gallery'
+#    @parent.play() if @parent.autoStart()
+    Spine.trigger('slideshow:ready')
         
   show: ->
     console.log 'Slideshow::show'
     
-    App.showView.trigger('change:toolbarOne', ['Chromeless'])
-    App.showView.trigger('change:toolbarTwo', ['Slider', 'Back', 'Slideshow', App.showView.initSlider])
+    App.showView.trigger('change:toolbarOne', [''])
+    App.showView.trigger('change:toolbarTwo', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('canvas', @)
     
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       sorted: true
+      
     items = Photo.filterRelated(Album.record.id, filterOptions)
     @render items
+    
+  close: (e) ->
+    @parent.showPrevious()
+    
+    false
     
   sliderStart: =>
     @refreshElements()

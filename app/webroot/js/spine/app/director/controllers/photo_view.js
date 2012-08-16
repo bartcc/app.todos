@@ -62,7 +62,6 @@ PhotoView = (function() {
   };
   PhotoView.prototype.render = function(item, mode) {
     console.log('PhotoView::render');
-    console.log(item);
     if (Album.record) {
       this.el.removeClass('all');
     } else {

@@ -20,19 +20,19 @@ class AlbumsPhoto extends Spine.Model
       ret.push Photo.find(item['photo_id']) if item['album_id'] is aid
     ret
     
-  @photos: (aid) ->
+  @photos: (aid, max) ->
     Photo.filterRelated(aid,
       joinTable: 'AlbumsPhoto'
       key: 'album_id'
       sorted: true
-    )
+    ).slice(0, max)
     
-  @albums: (pid) ->
+  @albums: (pid, max) ->
     Album.filterRelated(pid,
       joinTable: 'AlbumsPhoto'
       key: 'photo_id'
       sorted: true
-    )
+    ).slice(0, max)
 
   @c: 0
 

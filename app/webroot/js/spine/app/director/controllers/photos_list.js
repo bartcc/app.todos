@@ -203,7 +203,9 @@ PhotosList = (function() {
         $('.play', el).append(a);
       }
     }
-    return this.parent.play();
+    if (this.parent.autoStart()) {
+      return this.parent.play();
+    }
   };
   PhotosList.prototype.exposeSelection = function() {
     var id, item, list, _i, _len;

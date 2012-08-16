@@ -148,7 +148,7 @@ class PhotosList extends Spine.Controller
           'rel'                   : 'gallery'
         $('.play', el).append a
         
-    @parent.play()
+    @parent.play() if @parent.autoStart()
     
   #  ****** END ***** 
   

@@ -72,6 +72,7 @@ class App extends Spine.Controller
       el: @showEl
       activeControl: 'btnGallery'
       modalView: @modalView
+      uploader: @upload
     @sidebar = new Sidebar
       el: @sidebarEl
     @loginView = new LoginView
@@ -109,11 +110,11 @@ class App extends Spine.Controller
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
     
-    @slideshowOptions =
-      canvas: false
-      backdrop: true
-      slideshow: 0
-      
+#    @slideshowOptions =
+#      canvas: false
+#      backdrop: true
+#      slideshow: 1000
+
     @initializeFileupload()
     
     @routes
@@ -123,6 +124,7 @@ class App extends Spine.Controller
         Spine.trigger('show:overview')
         console.log('/overview/')
       '/slideshow/': ->
+        Spine.trigger('album:activate')
         Spine.trigger('show:slideshow')
       '/galleries/': ->
         Spine.trigger('gallery:activate', false)
@@ -178,10 +180,19 @@ class App extends Spine.Controller
       
     @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 500)
     
+  initializeSlideshow: ->
+    $('#modal-gallery').on('load', () ->
+      modalData = $(@).data('modal')
+      console.log modalData.$links
+#        modalData.$links is the list of (filtered) element nodes as jQuery object
+#        modalData.img is the img (or canvas) element for the loaded image
+#        modalData.options.index is the index of the current link
+    )
+
   initializeFileupload: ->
     @uploader.fileupload
-      autoUpload        : false
-      singleFileUploads : false
+      autoUpload        : true
+      singleFileUploads : true
     
   loadToolbars: ->
     Toolbar.load()
@@ -208,6 +219,14 @@ class App extends Spine.Controller
       when 9
         #tabKey -> toggle sidebar
         @sidebar.toggleDraghandle()
+        e.preventDefault()
+      when 27
+        console.log @showView.btnPrevious
+        @showView.btnPrevious.click()
+#        @showView.slideshowView.showPrevious()
+        e.preventDefault()
+      else
+        console.log keyCode
         e.preventDefault()
 $ ->
   

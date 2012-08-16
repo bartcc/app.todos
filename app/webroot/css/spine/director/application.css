@@ -739,7 +739,7 @@ textarea {
 .options li button:not(:disabled) {
   cursor: pointer;
 }
-.options li button:active:not(:disabled) {
+.options li.active button:not(:disabled), .options li button:active:not(:disabled) {
   background: #00EEFF;
   box-shadow: 0 0 10px #1C1C1C inset;
   -moz-box-shadow: inset 0 0 10px #1C1C1C;

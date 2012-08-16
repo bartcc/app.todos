@@ -38,6 +38,9 @@ class Album extends Spine.Model
   @contains: (id) ->
     AlbumsPhoto.filter(id, key: 'album_id').length
     
+  @photos: (id, max) ->
+    AlbumsPhoto.filterRelated(id, key: 'album_id').slice(0, max)
+    
   init: (instance) ->
     return unless instance.id
     s = new Object()
@@ -51,6 +54,8 @@ class Album extends Spine.Model
   selChange: (list) ->
   
   contains: -> @constructor.contains @id
+  
+  photos: (max) -> @constructor.photos @id, max || @contains()
   
   details: =>
     iCount : @constructor.contains @id

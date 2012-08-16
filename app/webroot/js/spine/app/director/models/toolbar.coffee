@@ -240,7 +240,7 @@ class Toolbar extends Spine.Model
       name: 'Play'
       content:
         [
-          name: -> 'Play'
+          name: -> ''
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
@@ -262,10 +262,16 @@ class Toolbar extends Spine.Model
       locked: true
       content:
         [
-          name: 'Chromless'
+          name: 'Chromeless'
           klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
           dataToggle: 'button'
           outerstyle: ''
+        ,
+          name: -> ''
+          klass: 'optSlideshowPlay'
+          icon: 'play'
+          iconcolor: 'white'
+          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
         ]
     group12:
       name: 'Slider'
@@ -275,6 +281,32 @@ class Toolbar extends Spine.Model
           klass: 'optThumbsize '
           type: 'div'
           innerstyle: 'width: 190px; position: relative;'
+        ]
+    group13:
+      name: 'SlideshowPackage'
+      content:
+        [
+          name: 'Chromeless'
+          klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
+          dataToggle: 'button'
+          outerstyle: ''
+        ,
+          name: -> ''
+          klass: 'optSlideshowPlay'
+          icon: 'play'
+          iconcolor: 'white'
+          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
+        ,
+          name: '<span class="slider" style=""></span>'
+          klass: 'optThumbsize '
+          type: 'div'
+          innerstyle: 'width: 190px; position: relative;'
+        ,
+          name: 'x'
+          klass: 'optPrevious'
+          innerklass: 'chromeless'
+          outerstyle: 'float: right;'
+          innerstyle: 'left: -8px; top: 8px;'
         ]
         
   init: (ins) ->

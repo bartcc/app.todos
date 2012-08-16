@@ -60,7 +60,6 @@ AlbumsView = (function() {
     Album.bind('destroy:join', this.proxy(this.destroyJoin));
     Album.bind('create:join', this.proxy(this.createJoin));
     Album.bind('update destroy', this.proxy(this.change));
-    Album.bind('destroy', this.proxy(this.destroyCache));
     GalleriesAlbum.bind('change', this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
@@ -109,9 +108,6 @@ AlbumsView = (function() {
   AlbumsView.prototype.renderHeader = function() {
     console.log('AlbumsView::renderHeader');
     return this.header.change(Gallery.record);
-  };
-  AlbumsView.prototype.destroyCache = function(album) {
-    return album.destroyCache();
   };
   AlbumsView.prototype.show = function() {
     var alb, albums, _i, _len, _results;

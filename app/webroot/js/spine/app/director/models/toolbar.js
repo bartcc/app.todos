@@ -350,7 +350,7 @@ Toolbar = (function() {
       content: [
         {
           name: function() {
-            return 'Play';
+            return '';
           },
           klass: 'optSlideshowPlay',
           icon: 'play',
@@ -379,12 +379,22 @@ Toolbar = (function() {
       locked: true,
       content: [
         {
-          name: 'Chromless',
+          name: 'Chromeless',
           klass: function() {
             return 'optFullScreen' + (App.showView.slideshowView.fullScreenEnabled() ? ' active' : '');
           },
           dataToggle: 'button',
           outerstyle: ''
+        }, {
+          name: function() {
+            return '';
+          },
+          klass: 'optSlideshowPlay',
+          icon: 'play',
+          iconcolor: 'white',
+          disabled: function() {
+            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
+          }
         }
       ]
     },
@@ -396,6 +406,40 @@ Toolbar = (function() {
           klass: 'optThumbsize ',
           type: 'div',
           innerstyle: 'width: 190px; position: relative;'
+        }
+      ]
+    },
+    group13: {
+      name: 'SlideshowPackage',
+      content: [
+        {
+          name: 'Chromeless',
+          klass: function() {
+            return 'optFullScreen' + (App.showView.slideshowView.fullScreenEnabled() ? ' active' : '');
+          },
+          dataToggle: 'button',
+          outerstyle: ''
+        }, {
+          name: function() {
+            return '';
+          },
+          klass: 'optSlideshowPlay',
+          icon: 'play',
+          iconcolor: 'white',
+          disabled: function() {
+            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
+          }
+        }, {
+          name: '<span class="slider" style=""></span>',
+          klass: 'optThumbsize ',
+          type: 'div',
+          innerstyle: 'width: 190px; position: relative;'
+        }, {
+          name: 'x',
+          klass: 'optPrevious',
+          innerklass: 'chromeless',
+          outerstyle: 'float: right;',
+          innerstyle: 'left: -8px; top: 8px;'
         }
       ]
     }

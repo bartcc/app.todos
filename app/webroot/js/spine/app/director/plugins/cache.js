@@ -29,9 +29,9 @@ Model.Cache = {
         }
         throw 'record ' + id + ' is not configured ';
       }, this),
-      cache: function(record, url) {
+      cache: function(url) {
         var cached, item, _i, _len;
-        cached = this.cacheList(record != null ? record.id : void 0);
+        cached = this.cacheList();
         if (!cached) {
           return;
         }
@@ -42,7 +42,7 @@ Model.Cache = {
           }
         }
         this.initCache(cached, url);
-        return this.cache(record, url);
+        return this.cache(url);
       },
       initCache: function(cached, url) {
         var o;
@@ -50,40 +50,50 @@ Model.Cache = {
         o[url] = [];
         return cached.push(o);
       },
-      addToCache: function(record, url, uris, mode) {
-        var arr, cache, item, uri, _i, _j, _k, _len, _len2, _len3, _ref;
-        if (mode === 'html') {
-          cache = this.cacheList(record != null ? record.id : void 0);
-          for (_i = 0, _len = cache.length; _i < _len; _i++) {
-            item = cache[_i];
-            if (item[url]) {
-              arr = item[url];
-              [].splice.apply(arr, [0, arr.length - 0].concat(_ref = [])), _ref;
-              for (_j = 0, _len2 = uris.length; _j < _len2; _j++) {
-                uri = uris[_j];
-                arr.push(uri);
-              }
+      addToCache: function(url, uris, mode) {
+        var arr, cache, item, uri, _i, _j, _len, _len2, _ref;
+        cache = this.cacheList();
+        for (_i = 0, _len = cache.length; _i < _len; _i++) {
+          item = cache[_i];
+          if (item[url]) {
+            arr = item[url];
+            [].splice.apply(arr, [0, arr.length - 0].concat(_ref = [])), _ref;
+            for (_j = 0, _len2 = uris.length; _j < _len2; _j++) {
+              uri = uris[_j];
+              arr.push(uri);
             }
-          }
-        } else if (uris.length) {
-          cache = this.cache(record, url);
-          for (_k = 0, _len3 = uris.length; _k < _len3; _k++) {
-            uri = uris[_k];
-            cache.push(uri);
           }
         }
         return cache;
       },
       destroyCache: function(id) {
-        var index, item, spliced, _len, _ref;
-        _ref = this.caches;
-        for (index = 0, _len = _ref.length; index < _len; index++) {
-          item = _ref[index];
-          if (item[id]) {
-            spliced = this.caches.splice(index, 1);
-            return spliced;
+        var findIdFromObject, findItemsFromArray, list;
+        list = this.cacheList();
+        findIdFromObject = function(id, obj) {
+          var arr, idx, itm, key, value, _len, _results;
+          _results = [];
+          for (key in obj) {
+            value = obj[key];
+            arr = obj[key];
+            for (idx = 0, _len = arr.length; idx < _len; idx++) {
+              itm = arr[idx];
+              if (itm[id]) {
+                return arr.splice(idx, 1);
+              }
+            }
           }
-        }
+          return _results;
+        };
+        findItemsFromArray = function(items) {
+          var itm, ix, _len, _results;
+          _results = [];
+          for (ix = 0, _len = items.length; ix < _len; ix++) {
+            itm = items[ix];
+            _results.push(findIdFromObject(id, itm));
+          }
+          return _results;
+        };
+        return findItemsFromArray(list);
       },
       clearCache: function(id) {
         var originalList, _ref;

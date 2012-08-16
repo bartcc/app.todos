@@ -1,48 +1,3 @@
-<div id="messenger" style="display: none">
-  <div class="dialogue-wrap transparent" id="messenger">
-    <div class="dialogue">
-      <div style="width:525px; min-width:500px;" class="morph dialogue-content" id="morph_messenger-wrap">
-        <div class="bg verticaltop" id="draggable-messenger-wrap">
-          <header>
-            <fieldset class="right">
-              <button class="_close light window input chromeless">X</button>
-            </fieldset>
-          </header>
-          <div class="dialogue-inner-wrap">
-            <div class="drag-handle">
-              <div>
-                <h1>Login</h1>
-                <div class="_flash"><span></span></div>
-                <label><small>(guest/guest, manager/manager, admin/admin)</small></label>
-              </div>
-              <div class="clearfix"></div>
-            </div>
-            <div class="dialogue-scroll">
-              <fieldset>
-                <div class="left">
-                  <label>User</label>
-                  <input class="username" type="text">
-                </div>
-                <div class="left">
-                  <label>Password</label>
-                  <input class="password" type="password">
-                </div>
-              </fieldset>
-            </div>
-          </div>
-          <footer>
-            <span>
-              <fieldset>
-                <button class="light">Local Storage</button>
-                <button class="light disabled" disabled="">Login</button>
-              </fieldset>
-            </span>
-          </footer>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <div id="loader" class="view">
   <div class="dialogue-wrap">
     <div class="dialogue">
@@ -131,7 +86,7 @@
           </div>
           <div class="view photos content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
-            <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a" data-slideshow="1500"></div>
+            <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a"></div>
           </div>
           <div class="view photo content vbox flex data parent autoflow">
             <div class="hoverinfo"></div>
@@ -163,11 +118,28 @@
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
                 <div class="hero-unit" style="margin-bottom: 0;">
                   <h1><span>Drop Files </span><span class="right alert alert-info uploadinfo" style="font-size: 0.7em;"></span></h1>
-                  <p>and enjoy the ride...</p>
+                  <p>enjoy...</p>
                   <span class="btn btn-primary btn-large fileinput-button">
                     <span><i class="icon-plus icon-white"></i> Add more files...</span><input type="file" name="files[]" multiple>
                   </span>
-                  <div class="row fileupload-buttonbar"></div>
+                  <div class="row fileupload-buttonbar">
+                    <div class="span7">
+                      <!-- The fileinput-button span is used to style the file input field as button -->
+                      <button type="submit" class="btn btn-success start">
+                          <i class="icon-upload icon-white"></i>
+                          <span>Start upload</span>
+                      </button>
+                      <button type="reset" class="btn btn-warning cancel">
+                          <i class="icon-ban-circle icon-white"></i>
+                          <span>Cancel upload</span>
+                      </button>
+                      <button type="button" class="btn btn-danger delete">
+                          <i class="icon-trash icon-white"></i>
+                          <span>Delete</span>
+                      </button>
+                      <input type="checkbox" class="toggle">
+                    </div>
+                  </div>
                   <div class="fileupload-loading"></div>
                   <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
                 </div>
@@ -186,7 +158,7 @@
   </div>
 </div>
 <!-- modal-image-gallery -->
-<div id="modal-gallery" class="modal modal-gallery hide fade" data-slideshow="2000">
+<div id="modal-gallery" class="modal modal-gallery hide fade">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
         <h3 class="modal-title"></h3>
@@ -198,7 +170,7 @@
     <div class="modal-footer">
         <a class="btn btn-primary modal-next">Next <i class="icon-arrow-right icon-white"></i></a>
         <a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Previous</a>
-        <a class="btn btn-success modal-play modal-slideshow"><i class="icon-pause icon-white"></i> Slideshow</a>
+        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="1000"><i class="icon-pause icon-white"></i> Slideshow</a>
         <a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
     </div>
 </div>

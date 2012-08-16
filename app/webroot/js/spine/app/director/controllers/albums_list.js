@@ -148,36 +148,41 @@ AlbumsList = (function() {
     if (album.constructor.className !== 'Album') {
       return;
     }
-    return album.uri({
+    return Photo.uri({
       width: 50,
       height: 50
-    }, 'html', __bind(function(xhr, album) {
+    }, 'html', __bind(function(xhr, rec) {
       return this.callback(xhr, album);
-    }, this), 4);
+    }, this));
   };
-  AlbumsList.prototype.callback = function(json, item) {
-    var arr, css, el, itm, searchJSON;
-    if (json == null) {
-      json = [];
-    }
+  AlbumsList.prototype.callback = function(json, album) {
+    var css, el, itm, o, p, photos, res, searchJSON, _i, _len;
     console.log('AlbumsList::callback');
-    el = this.children().forItem(item);
-    searchJSON = function(itm) {
-      var key, value, _results;
-      _results = [];
-      for (key in itm) {
-        value = itm[key];
-        _results.push(value);
-      }
-      return _results;
-    };
-    css = (function() {
-      var _i, _len, _results;
-      _results = [];
+    el = this.children().forItem(album);
+    photos = AlbumsPhoto.photos(album.id);
+    searchJSON = function(id) {
+      var itm, _i, _len;
       for (_i = 0, _len = json.length; _i < _len; _i++) {
         itm = json[_i];
-        arr = searchJSON(itm);
-        _results.push(arr.length ? 'url(' + arr[0].src + ')' : void 0);
+        if (itm[id]) {
+          return itm[id];
+        }
+      }
+    };
+    res = [];
+    for (_i = 0, _len = photos.length; _i < _len; _i++) {
+      p = photos[_i];
+      o = searchJSON(p.id);
+      if (o) {
+        res.push(o);
+      }
+    }
+    css = (function() {
+      var _j, _len2, _results;
+      _results = [];
+      for (_j = 0, _len2 = res.length; _j < _len2; _j++) {
+        itm = res[_j];
+        _results.push('url(' + itm.src + ')');
       }
       return _results;
     })();
@@ -190,7 +195,6 @@ AlbumsList = (function() {
     var item;
     console.log('AlbumsList::click');
     item = $(e.currentTarget).item();
-    console.log(item);
     item.addRemoveSelection(this.isCtrlClick(e));
     this.activate();
     e.stopPropagation();

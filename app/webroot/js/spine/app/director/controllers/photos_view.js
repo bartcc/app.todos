@@ -69,7 +69,6 @@ PhotosView = (function() {
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
   }
   PhotosView.prototype.change = function(album, changed) {
-    console.log(changed);
     if (changed) {
       this.updateBuffer(album);
     }
@@ -169,20 +168,20 @@ PhotosView = (function() {
       for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
         photo = photos[_k];
         Album.removeFromSelection(photo.id);
-        photo.clearCache();
+        photo.destroyCache();
         _results.push(photo.destroy());
       }
       return _results;
     }
   };
   PhotosView.prototype.show = function() {
-    if (this.isActive()) {
-      return;
-    }
     Spine.trigger('gallery:activate');
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider]);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
-    return App.showView.trigger('canvas', this);
+    App.showView.trigger('canvas', this);
+    if (this.parent.autoStart()) {
+      return Spine.trigger('slideshow:ready');
+    }
   };
   PhotosView.prototype.save = function(item) {};
   PhotosView.prototype.refresh = function(photos) {

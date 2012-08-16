@@ -76,7 +76,7 @@ Base = (function() {
 })();
 Uri = (function() {
   __extends(Uri, Base);
-  function Uri(model, params, mode, callback) {
+  function Uri(model, params, mode, callback, max) {
     var options;
     this.model = model;
     if (mode == null) {
@@ -87,6 +87,9 @@ Uri = (function() {
     this.recordResponse = __bind(this.recordResponse, this);
     Uri.__super__.constructor.apply(this, arguments);
     this.photos = this.model.all();
+    max = max || this.model.count();
+    this.mode = mode;
+    this.photos = this.photos.slice(0, max);
     options = $.extend({}, this.settings, params);
     this.url = this.uri(options);
   }
@@ -96,7 +99,7 @@ Uri = (function() {
   };
   Uri.prototype.test = function() {
     var cache;
-    cache = this.model.cache(null, this.url);
+    cache = this.model.cache(this.url);
     if (cache.length) {
       return this.callback(cache);
     } else if (this.photos.length) {
@@ -104,7 +107,7 @@ Uri = (function() {
     }
   };
   Uri.prototype.recordResponse = function(uris) {
-    this.model.addToCache(null, this.url, uris, this.mode);
+    this.model.addToCache(this.url, uris, this.mode);
     return this.callback(uris);
   };
   Uri.prototype.errorResponse = function(xhr, statusText, error) {
@@ -177,8 +180,8 @@ Model.Uri = {
       }
     };
     Extend = {
-      uri: function(params, mode, callback) {
-        return new Uri(this, params, mode, callback).test();
+      uri: function(params, mode, callback, max) {
+        return new Uri(this, params, mode, callback, max).test();
       }
     };
     this.include(Include);

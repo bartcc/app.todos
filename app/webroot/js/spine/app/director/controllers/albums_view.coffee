@@ -50,7 +50,6 @@ class AlbumsView extends Spine.Controller
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('update destroy', @proxy @change)
-    Album.bind('destroy', @proxy @destroyCache)
     GalleriesAlbum.bind('change', @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
@@ -102,9 +101,6 @@ class AlbumsView extends Spine.Controller
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
     @header.change Gallery.record
-    
-  destroyCache: (album) ->
-    album.destroyCache()
   
   show: ->
     Spine.trigger('album:activate')
@@ -134,11 +130,7 @@ class AlbumsView extends Spine.Controller
     album = new Album @newAttributes()
     album.save success: @createCallback
     Gallery.updateSelection [album.id]
-#    Spine.trigger('album:activate')
-#    @show()
     Album.current(album)
-#    App.showView.openPanel('album')
-#    @change album
 
   createCallback: ->
     Album.trigger('create:join', Gallery.record, @) if Gallery.record

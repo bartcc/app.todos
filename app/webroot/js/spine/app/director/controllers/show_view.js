@@ -20,8 +20,9 @@ ShowView = (function() {
     '.optEditGallery': 'btnEditGallery',
     '.optGallery .ui-icon': 'btnGallery',
     '.optQuickUpload': 'btnQuickUpload',
+    '.optPrevious': 'btnPrevious',
     '.optFullScreen': 'btnFullScreen',
-    '.optSlideshow': 'btnSlideshow',
+    '.optSlideshowPlay': 'btnSlideshowPlay',
     '.toolbarOne': 'toolbarOneEl',
     '.toolbarTwo': 'toolbarTwoEl',
     '.props': 'propsEl',
@@ -72,7 +73,8 @@ ShowView = (function() {
     this.sliderSlide = __bind(this.sliderSlide, this);
     this.sliderStart = __bind(this.sliderStart, this);
     this.initSlider = __bind(this.initSlider, this);
-    this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
+    this.deselect = __bind(this.deselect, this);
+    this.slideshowPlay = __bind(this.slideshowPlay, this);    ShowView.__super__.constructor.apply(this, arguments);
     this.silent = true;
     this.toolbarOne = new ToolbarView({
       el: this.toolbarOneEl
@@ -139,6 +141,7 @@ ShowView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.refreshToolbars));
     Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
     Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
+    Spine.bind('slideshow:ready', this.proxy(this.play));
     this.current = this.albumsView;
     this.sOutValue = 74;
     this.thumbSize = 240;
@@ -245,7 +248,7 @@ ShowView = (function() {
   };
   ShowView.prototype.toggleFullScreen = function() {
     this.slideshowView.toggleFullScreen();
-    return this.toolbarTwo.change();
+    return this.refreshToolbars();
   };
   ShowView.prototype.toggleSlideshow = function() {
     var active;
@@ -253,10 +256,12 @@ ShowView = (function() {
     return this.slideshowView.slideshowMode(active);
   };
   ShowView.prototype.toggleSlideshowAutoStart = function() {
-    var x;
-    x = this.slideshowAutoStart = !this.slideshowAutoStart;
+    this.slideshowAutoStart = !this.slideshowAutoStart;
     this.refreshToolbars();
-    return x;
+    return this.slideshowAutoStart;
+  };
+  ShowView.prototype.autoStart = function() {
+    return this.slideshowAutoStart;
   };
   ShowView.prototype.toggleDraghandle = function() {
     var UI;
@@ -277,6 +282,14 @@ ShowView = (function() {
     active = this.btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok');
     this.quickUpload(active);
     return active;
+  };
+  ShowView.prototype.quickUpload = function(active) {
+    var options;
+    options = $('#fileupload').data().fileupload.options;
+    return options.autoUpload = active;
+  };
+  ShowView.prototype.isQuickUpload = function() {
+    return $('#fileupload').data().fileupload.options.autoUpload;
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;
@@ -328,60 +341,65 @@ ShowView = (function() {
     App[controller].activate();
     return target.click();
   };
-  ShowView.prototype.quickUpload = function(active) {
-    return App.uploader.fileupload('option', {
-      autoUpload: active
-    });
-  };
-  ShowView.prototype.isQuickUpload = function() {
-    return this.btnQuickUpload.find('i').hasClass('icon-ok');
-  };
   ShowView.prototype.slideshowable = function() {
-    return $('[rel="gallery"]', this.photosView.el).length;
+    return Album.record && Album.contains(Album.record.id);
   };
-  ShowView.prototype.play = function(e) {
-    var elFromCanvas, elFromSelection;
+  ShowView.prototype.play = function() {
+    var elFromCanvas, elFromSelection, _ref;
     console.log('ShowView::play');
     elFromSelection = __bind(function() {
-      var el, id, item, list, root;
+      var el, id, item, list, parent, root;
+      console.log('elFromSelection');
       list = Album.selectionList();
       if (list.length) {
         id = list[0];
         if (Photo.exists(id)) {
           item = Photo.find(id);
         }
-        root = this.photosView.el.children('.items');
-        el = root.children().forItem(item);
-        return $('[rel="gallery"]', el)[0];
+        root = this.current.el.children('.items');
+        parent = root.children().forItem(item);
+        el = $('[rel="gallery"]', parent)[0];
+        return el;
       }
     }, this);
     elFromCanvas = __bind(function() {
-      var firstEl;
-      return firstEl = $('[rel="gallery"]', this.photosView.el).first();
+      var el, item, parent, root;
+      console.log('elFromCanvas');
+      item = AlbumsPhoto.photos(Album.record.id)[0];
+      root = this.current.el.children('.items');
+      parent = root.children().forItem(item);
+      el = $('[rel="gallery"]', parent)[0];
+      console.log(el);
+      return el;
     }, this);
     if (this.slideshowable()) {
       if ($('.modal-backdrop').length) {
         return;
       }
-      if (this.slideshowAutoStart || (e != null ? e.type : void 0)) {
-        this.navigate('/slideshow/');
-        return (elFromSelection() || elFromCanvas()).click();
-      }
+      return (_ref = elFromSelection() || elFromCanvas()) != null ? typeof _ref.click === "function" ? _ref.click() : void 0 : void 0;
     }
   };
   ShowView.prototype.pause = function(e) {
     var isShown, modal;
+    if (!this.slideshowable()) {
+      return;
+    }
     modal = $('#modal-gallery').data('modal');
     isShown = modal != null ? modal.isShown : void 0;
+    console.log('modal');
+    console.log(modal);
+    console.log(isShown);
     if (!isShown) {
-      this.play(e);
+      this.slideshowPlay(e);
     } else {
       $('#modal-gallery').data('modal').toggleSlideShow();
     }
     return false;
   };
   ShowView.prototype.slideshowPlay = function(e) {
-    return this.play(e);
+    if (!this.navigate('/slideshow/')) {
+      return Spine.trigger('slideshow:ready');
+    }
   };
   ShowView.prototype.deselect = function(e) {
     var className, item;

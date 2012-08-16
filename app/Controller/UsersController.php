@@ -25,14 +25,34 @@ class UsersController extends AppController {
   }
   
   function login() {
+//    $this->log($this->Session->read('Auth.redirect'), LOG_DEBUG);
+//    $this->log( $this->request->params, LOG_DEBUG);
     if ($this->request->is('ajax')) {
+      
       if (!empty($this->data)) {
         $this->Auth->login();
         if($this->Auth->user('id')) {
-          $this->set('_serialize', array_merge($this->data, array('id' => $this->Auth->user('id'), 'username' => $this->Auth->user('username'), 'name' => $this->Auth->user('name'), 'password' => '', 'sessionid' => $this->Session->id(), 'groupname' => $this->_groupname(), 'flash' => '<strong style="color:green">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>', 'success' => 'true')));
+          $this->set('_serialize', array_merge($this->data, array(
+              'id' => $this->Auth->user('id'),
+              'username' => $this->Auth->user('username'),
+              'name' => $this->Auth->user('name'),
+              'password' => '',
+              'sessionid' => $this->Session->id(),
+              'groupname' => $this->_groupname(),
+              'flash' => '<strong style="color:green">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>',
+              'success' => 'true',
+              'redirect' => $this->Session->loginRedirect
+              )));
         } else {
           $this->response->header("WWW-Authenticate: Negotiate");
-          $this->set('_serialize', array_merge($this->data, array('id' => '', 'username' => '', 'name' => '', 'password' => '', 'sessionid' => '', 'flash' => '<strong style="color:red">Login failed</strong>')));
+          $this->set('_serialize', array_merge($this->data, array(
+              'id' => '',
+              'username' => '',
+              'name' => '',
+              'password' => '',
+              'sessionid' => '',
+              'flash' => '<strong style="color:red">Login failed</strong>'
+              )));
         }
         $this->render(SIMPLE_JSON);
       }

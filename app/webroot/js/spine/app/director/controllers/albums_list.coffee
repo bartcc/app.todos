@@ -113,23 +113,29 @@ class AlbumsList extends Spine.Controller
   
   processAlbum: (album) ->
     return unless album.constructor.className is 'Album'
-    album.uri
+    Photo.uri
       width: 50
       height: 50
       , 'html'
-      , (xhr, album) =>
+      , (xhr, rec) =>
         @callback(xhr, album)
-      , 4
   
-  callback: (json = [], item) =>
+  callback: (json, album) =>
     console.log 'AlbumsList::callback'
-    el = @children().forItem(item)
-    searchJSON = (itm) ->
-      for key, value of itm
-        value
-    css = for itm in json
-      arr = searchJSON itm
-      'url(' + arr[0].src + ')' if arr.length
+    el = @children().forItem(album)
+    photos = AlbumsPhoto.photos(album.id)
+    
+    searchJSON = (id) ->
+      for itm in json
+        return itm[id] if itm[id]
+    
+    res = []
+    for p in photos
+      o = searchJSON(p.id)
+      res.push o if o
+      
+    css = for itm in res
+      'url(' + itm.src + ')'
     el.css('backgroundImage', css)
   
   create: ->
@@ -138,7 +144,6 @@ class AlbumsList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.currentTarget).item()
-    console.log item
     item.addRemoveSelection(@isCtrlClick(e))
     @activate()
     

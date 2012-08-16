@@ -59,6 +59,11 @@ Album = (function() {
       key: 'album_id'
     }).length;
   };
+  Album.photos = function(id, max) {
+    return AlbumsPhoto.filterRelated(id, {
+      key: 'album_id'
+    }).slice(0, max);
+  };
   Album.prototype.init = function(instance) {
     var o, s;
     if (!instance.id) {
@@ -74,6 +79,9 @@ Album = (function() {
   Album.prototype.selChange = function(list) {};
   Album.prototype.contains = function() {
     return this.constructor.contains(this.id);
+  };
+  Album.prototype.photos = function(max) {
+    return this.constructor.photos(this.id, max || this.contains());
   };
   Album.prototype.details = function() {
     return {

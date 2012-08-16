@@ -11,8 +11,9 @@ class ShowView extends Spine.Controller
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery .ui-icon'    : 'btnGallery'
     '.optQuickUpload'         : 'btnQuickUpload'
+    '.optPrevious'            : 'btnPrevious'
     '.optFullScreen'          : 'btnFullScreen'
-    '.optSlideshow'           : 'btnSlideshow'
+    '.optSlideshowPlay'       : 'btnSlideshowPlay'
     '.toolbarOne'             : 'toolbarOneEl'
     '.toolbarTwo'             : 'toolbarTwoEl'
     '.props'                  : 'propsEl'
@@ -118,6 +119,7 @@ class ShowView extends Spine.Controller
     
     Spine.bind('show:allPhotos', @proxy @showAllPhotos)
     Spine.bind('show:allAlbums', @proxy @showAllAlbums)
+    Spine.bind('slideshow:ready', @proxy @play)
     
     @current = @albumsView
     @sOutValue = 74 # size thumbs initially are shown (slider setting)
@@ -225,16 +227,20 @@ class ShowView extends Spine.Controller
 
   toggleFullScreen: () ->
     @slideshowView.toggleFullScreen()
-    @toolbarTwo.change()
+    @refreshToolbars()
+#    @toolbarTwo.change()
     
   toggleSlideshow: ->
     active = @btnSlideshow.toggleClass('active').hasClass('active')
     @slideshowView.slideshowMode(active)
 
   toggleSlideshowAutoStart: ->
-    x = @slideshowAutoStart = !@slideshowAutoStart
+    @slideshowAutoStart = !@slideshowAutoStart
     @refreshToolbars()
-    x
+    @slideshowAutoStart
+    
+  autoStart: ->
+    @slideshowAutoStart
   
   toggleDraghandle: ->
     UI = App.hmanager.externalUI()
@@ -252,6 +258,14 @@ class ShowView extends Spine.Controller
     active = @btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok')
     @quickUpload active
     active
+  
+  quickUpload: (active) ->
+    options = $('#fileupload').data().fileupload.options
+#    options = App.uploader.data().fileupload.options
+    options.autoUpload = active
+    
+  isQuickUpload: ->
+    $('#fileupload').data().fileupload.options.autoUpload
     
   toggleView: (controller, control) ->
     console.log 'toggleView'
@@ -293,52 +307,57 @@ class ShowView extends Spine.Controller
   closePanel: (controller, target) ->
     App[controller].activate()
     target.click()
-  
-  quickUpload: (active) ->
-    App.uploader.fileupload 'option'
-      autoUpload: active
-    
-  isQuickUpload: ->
-    @btnQuickUpload.find('i').hasClass('icon-ok')
     
   slideshowable: ->
-    $('[rel="gallery"]', @photosView.el).length
+    Album.record and Album.contains(Album.record.id)
     
-  play: (e) ->
+  play: ->
     console.log 'ShowView::play'
+    
     elFromSelection = =>
+      console.log 'elFromSelection'
       list = Album.selectionList()
       if list.length
         id = list[0] 
         item = Photo.find(id) if Photo.exists(id)
-        root = @photosView.el.children('.items')
-        el = root.children().forItem(item)
-        $('[rel="gallery"]', el)[0]
+        root = @current.el.children('.items')
+        parent = root.children().forItem(item)
+        el = $('[rel="gallery"]', parent)[0]
+        return el
+      return
     
     elFromCanvas = =>
-      firstEl = $('[rel="gallery"]', @photosView.el).first()
+      console.log 'elFromCanvas'
+      item = AlbumsPhoto.photos(Album.record.id)[0]
+      root = @current.el.children('.items')
+      parent = root.children().forItem(item)
+      el = $('[rel="gallery"]', parent)[0]
+      console.log el
+      el
     
     if @slideshowable()
       # prevent ghosted backdrops
       return if $('.modal-backdrop').length
-      if @slideshowAutoStart || e?.type
-        @navigate '/slideshow/' #+ Gallery.record.id + '/' + Album.record.id
-#        @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
-        (elFromSelection() or elFromCanvas()).click()
+      (elFromSelection() or elFromCanvas())?.click?()
         
   pause: (e) ->
+    return unless @slideshowable()
     modal = $('#modal-gallery').data('modal')
     isShown = modal?.isShown
     
+    console.log 'modal'
+    console.log modal
+    console.log isShown
+    
     unless isShown
-      @play(e)
+      @slideshowPlay(e)
     else
       $('#modal-gallery').data('modal').toggleSlideShow()
       
     false
   
-  slideshowPlay: (e) ->
-    @play(e)
+  slideshowPlay: (e) =>
+    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
         
   deselect: (e) =>
     item = @el.data().current

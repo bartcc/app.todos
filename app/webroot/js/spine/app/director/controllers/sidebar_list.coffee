@@ -256,7 +256,7 @@ class SidebarList extends Spine.Controller
     
 #    Spine.trigger('change:toolbar', ['Gallery'])
 #    App.contentManager.change(App.showView)
-    @navigate '/gallery/' + item.id
+    @navigate '/gallery/' + item?.id
     
 #    e.stopPropagation()
 #    e.preventDefault()

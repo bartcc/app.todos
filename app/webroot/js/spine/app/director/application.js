@@ -70,7 +70,8 @@ App = (function() {
     this.showView = new ShowView({
       el: this.showEl,
       activeControl: 'btnGallery',
-      modalView: this.modalView
+      modalView: this.modalView,
+      uploader: this.upload
     });
     this.sidebar = new Sidebar({
       el: this.sidebarEl
@@ -128,11 +129,6 @@ App = (function() {
     this.contentManager.change(this.showView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
-    this.slideshowOptions = {
-      canvas: false,
-      backdrop: true,
-      slideshow: 0
-    };
     this.initializeFileupload();
     this.routes({
       '/photos/': function() {
@@ -143,6 +139,7 @@ App = (function() {
         return console.log('/overview/');
       },
       '/slideshow/': function() {
+        Spine.trigger('album:activate');
         return Spine.trigger('show:slideshow');
       },
       '/galleries/': function() {
@@ -227,10 +224,17 @@ App = (function() {
       return this.delay(cb, 500);
     }, this));
   };
+  App.prototype.initializeSlideshow = function() {
+    return $('#modal-gallery').on('load', function() {
+      var modalData;
+      modalData = $(this).data('modal');
+      return console.log(modalData.$links);
+    });
+  };
   App.prototype.initializeFileupload = function() {
     return this.uploader.fileupload({
-      autoUpload: false,
-      singleFileUploads: false
+      autoUpload: true,
+      singleFileUploads: true
     });
   };
   App.prototype.loadToolbars = function() {
@@ -254,6 +258,13 @@ App = (function() {
     switch (keyCode) {
       case 9:
         this.sidebar.toggleDraghandle();
+        return e.preventDefault();
+      case 27:
+        console.log(this.showView.btnPrevious);
+        this.showView.btnPrevious.click();
+        return e.preventDefault();
+      default:
+        console.log(keyCode);
         return e.preventDefault();
     }
   };

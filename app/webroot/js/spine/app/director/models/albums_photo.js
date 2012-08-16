@@ -42,19 +42,19 @@ AlbumsPhoto = (function() {
     });
     return ret;
   };
-  AlbumsPhoto.photos = function(aid) {
+  AlbumsPhoto.photos = function(aid, max) {
     return Photo.filterRelated(aid, {
       joinTable: 'AlbumsPhoto',
       key: 'album_id',
       sorted: true
-    });
+    }).slice(0, max);
   };
-  AlbumsPhoto.albums = function(pid) {
+  AlbumsPhoto.albums = function(pid, max) {
     return Album.filterRelated(pid, {
       joinTable: 'AlbumsPhoto',
       key: 'photo_id',
       sorted: true
-    });
+    }).slice(0, max);
   };
   AlbumsPhoto.c = 0;
   AlbumsPhoto.next = function() {

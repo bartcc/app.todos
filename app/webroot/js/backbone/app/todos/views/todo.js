@@ -25,7 +25,6 @@ jQuery(function() {
       initialize: function() {
         _.bindAll(this, 'render', 'close');
         
-        this.input = this.$('.todo-input');
         this.model.bind('change', this.render);
         this.model.view = this;
       },
@@ -42,9 +41,31 @@ jQuery(function() {
       // To avoid XSS (not that it would be harmful in this particular app),
       // we use `jQuery.text` to set the contents of the todo item.
       setContent: function() {
-        var content = this.model.get('content');
-        this.$('.todo-content').text(content);
-        this.$('.todo-input').val(content);
+        var patt = /((?:http|https):\/\/[a-z0-9\/\?=_#&%~-]+(\.[a-z0-9\/\?=_#&%~-]+)+)|(www(\.[a-z0-9\/\?=_#&%~-]+){2,})/,
+        test, anchorEl, content, res, editor, anchorContent;
+        
+        content = this.model.get('content');
+        test = patt.test(content);
+        res = content.match(patt);
+        
+        if (test) {
+          anchorEl = $('<a></a>').attr({
+            'href'   : res[0],
+            'target' : '_blank'
+          }).addClass('editor');
+          
+          content = anchorEl.html(content);
+          anchorContent = anchorEl.text();
+          
+          this.$('.todo-content').append(content);
+          
+        } else {
+          
+          this.$('.todo-content').text(content);
+          
+        }
+        
+        this.$('.todo-input').val(anchorContent || content);
       },
 
       // Toggle the `"done"` state of the model.

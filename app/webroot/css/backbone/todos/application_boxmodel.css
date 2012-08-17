@@ -31,6 +31,9 @@ h1, h2 {
   font-weight: bold;
   text-shadow: 0 1px 1px #ffffff;
 }
+a {
+  text-decoration: underline;
+}
 h1 {
   font-size: 21pt;
   color: #404040;

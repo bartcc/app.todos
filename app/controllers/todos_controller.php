@@ -36,8 +36,7 @@ class TodosController extends AppController {
     $this->Todo->create();
     $this->Todo->save($this->data);
     $id = $this->Todo->id;
-    $this->data = $this->data + array('id' => (string) $id);
-    $this->set('json', $this->data['Todo']);
+    $this->set('json', $this->data['Todo'] + array('id' => (string) $id));
     $this->render(SIMPLE_JSON, 'ajax');
   }
 

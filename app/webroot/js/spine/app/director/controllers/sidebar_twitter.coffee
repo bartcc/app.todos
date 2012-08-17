@@ -17,11 +17,11 @@ class SidebarTwitter extends Spine.Controller
 
   render: ->
     items = 
-      name: 'Twitter'
+      name: 'Flickr'
       sub: [
-        name: 'first'
+        name: 'Recent'
       ,
-        name: 'second'
+        name: 'User'
       ]
       
     @html @template(items)

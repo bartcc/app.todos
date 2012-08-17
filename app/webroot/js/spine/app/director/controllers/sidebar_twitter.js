@@ -27,12 +27,12 @@ SidebarTwitter = (function() {
   SidebarTwitter.prototype.render = function() {
     var items;
     items = {
-      name: 'Twitter',
+      name: 'Flickr',
       sub: [
         {
-          name: 'first'
+          name: 'Recent'
         }, {
-          name: 'second'
+          name: 'User'
         }
       ]
     };

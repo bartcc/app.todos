@@ -160,9 +160,7 @@ class App extends Spine.Controller
       @old_statusIcon = @statusIcon[0].src
       @statusIcon[0].src = '/img/validated.png'
       @statusText.text 'Account verified'
-      cb = ->
-        @setupView()
-      @delay cb, 500
+      @delay @setupView, 400
       
   drop: (e) ->
     console.log 'App::drop'
@@ -176,12 +174,12 @@ class App extends Spine.Controller
     Spine.unbind('uri:alldone')
     @statusIcon[0].src = '/img/validated.png'
     @statusText.hide()
-    cb = ->
-      @appManager.change @mainView
-      @showView.openPanel('gallery') unless Gallery.count()
-      @loginView.render User.first()
+    @statusText.text('Thanks for joining in').fadeIn('slow', => @delay @finalizeView, 300)
       
-    @statusText.text('Thanks for joining in').fadeIn('slow', => @delay cb, 500)
+  finalizeView: ->
+    @appManager.change @mainView
+    @loginView.render User.first()
+      
     
   initializeSlideshow: ->
     $('#modal-gallery').on('load', () ->

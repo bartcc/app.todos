@@ -179,7 +179,7 @@ App = (function() {
     });
   }
   App.prototype.validate = function(user, json) {
-    var cb, valid;
+    var valid;
     console.log('Pinger done');
     valid = user.sessionid === json.sessionid;
     valid = user.id === json.id && valid;
@@ -189,10 +189,7 @@ App = (function() {
       this.old_statusIcon = this.statusIcon[0].src;
       this.statusIcon[0].src = '/img/validated.png';
       this.statusText.text('Account verified');
-      cb = function() {
-        return this.setupView();
-      };
-      return this.delay(cb, 500);
+      return this.delay(this.setupView, 400);
     }
   };
   App.prototype.drop = function(e) {
@@ -213,20 +210,16 @@ App = (function() {
     return e.preventDefault();
   };
   App.prototype.setupView = function() {
-    var cb;
     Spine.unbind('uri:alldone');
     this.statusIcon[0].src = '/img/validated.png';
     this.statusText.hide();
-    cb = function() {
-      this.appManager.change(this.mainView);
-      if (!Gallery.count()) {
-        this.showView.openPanel('gallery');
-      }
-      return this.loginView.render(User.first());
-    };
     return this.statusText.text('Thanks for joining in').fadeIn('slow', __bind(function() {
-      return this.delay(cb, 500);
+      return this.delay(this.finalizeView, 300);
     }, this));
+  };
+  App.prototype.finalizeView = function() {
+    this.appManager.change(this.mainView);
+    return this.loginView.render(User.first());
   };
   App.prototype.initializeSlideshow = function() {
     return $('#modal-gallery').on('load', function() {

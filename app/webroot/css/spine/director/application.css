@@ -481,17 +481,16 @@ textarea {
   -webkit-border-radius: 20px;
   border-radius: 20px;
 }
-#sidebar .item .gal.cta, .cta {
+#sidebar .item .gal.cta {
   background-color: #898989;
-  background-image: radial-gradient(15px 20px, #BDBDBD, #898989);
   border: 1px solid #575757;
-  -moz-border-radius: 30px;
-  -webkit-border-radius: 30px;
-  border-radius: 30px;
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+  border-radius: 30px 30px 30px 30px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   font-size: 1.1em;
+  line-height: 16px;
+  padding-top: 7px;
+  position: absolute;
+  top: 14px;
 }
 .cta {
   padding: 0 5px;
@@ -1064,7 +1063,6 @@ textarea {
   border: 1px solid #575757;
   border-radius: 30px 30px 30px 30px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
-  top: 10px;
   margin-left: 10px;
   font-size: 1.1em;
 }

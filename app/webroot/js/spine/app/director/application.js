@@ -194,7 +194,7 @@ App = (function() {
       this.old_statusIcon = this.statusIcon[0].src;
       this.statusIcon[0].src = '/img/validated.png';
       this.statusText.text('Account verified');
-      return this.delay(this.setupView, 400);
+      return this.delay(this.setupView, 300);
     }
   };
   App.prototype.drop = function(e) {

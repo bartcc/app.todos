@@ -117,7 +117,8 @@ OverviewView = (function() {
     return this.loadRecent();
   };
   OverviewView.prototype.close = function() {
-    return this.navigate('/gallery', Gallery.record.id);
+    App.contentManager.change(this.previous);
+    return this.navigate('/galleries/');
   };
   OverviewView.prototype.error = function(xhr, statusText, error) {
     console.log(xhr);

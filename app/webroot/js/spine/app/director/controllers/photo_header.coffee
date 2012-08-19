@@ -29,11 +29,11 @@ class PhotoHeader extends Spine.Controller
   backToAlbums: ->
 #    Spine.trigger('gallery:activate', Gallery.record)
 #    Spine.trigger('show:albums')
-    @navigate '/gallery/' + Gallery.record.id
+    @navigate '/gallery', Gallery.record.id
     
   backToPhotos: ->
 #    Spine.trigger('show:photos')
-    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
+    @navigate '/gallery', Gallery.record.id + '/' + Album.record.id
 
   change: ->
     console.log 'PhotoHeader::change'

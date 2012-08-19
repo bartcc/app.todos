@@ -16,12 +16,10 @@ class Toolbar extends Spine.Model
       name: 'View'
       content:
         [
-          name: ->
-            'All Albums (' + Album.count() + ')'
+          name: -> 'All Albums (' + Album.count() + ')'
           klass: 'optShowAllAlbums'
         ,
-          name: ->
-            'All Photos (' + Photo.count() + ')'
+          name: -> 'All Photos (' + Photo.count() + ')'
           klass: 'optShowAllPhotos '
         ,
           devider: true

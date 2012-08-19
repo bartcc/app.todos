@@ -34,10 +34,10 @@ PhotoHeader = (function() {
     return this.navigate('/galleries/');
   };
   PhotoHeader.prototype.backToAlbums = function() {
-    return this.navigate('/gallery/' + Gallery.record.id);
+    return this.navigate('/gallery', Gallery.record.id);
   };
   PhotoHeader.prototype.backToPhotos = function() {
-    return this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id);
+    return this.navigate('/gallery', Gallery.record.id + '/' + Album.record.id);
   };
   PhotoHeader.prototype.change = function() {
     console.log('PhotoHeader::change');

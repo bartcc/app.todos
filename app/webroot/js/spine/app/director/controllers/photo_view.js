@@ -30,8 +30,7 @@ PhotoView = (function() {
     'dragenter': 'dragenter',
     'drop': 'drop',
     'dragend': 'dragend',
-    'click .item': 'click',
-    'dblclick .item': 'dblclick'
+    'click .icon-set .delete': 'deletePhoto'
   };
   PhotoView.prototype.template = function(item) {
     return $('#photoTemplate').tmpl(item);
@@ -96,9 +95,9 @@ PhotoView = (function() {
       mode = 'html';
     }
     console.log('PhotoView::uri');
-    return Photo.uri(this.params(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.params(), __bind(function(xhr, record) {
       return this.callback(xhr, items);
-    }, this));
+    }, this), [Photo.record]);
   };
   PhotoView.prototype.callback = function(json, items) {
     var item, jsn, searchJSON, _i, _len, _results;
@@ -145,12 +144,32 @@ PhotoView = (function() {
       'backgroundImage': 'none'
     });
   };
+  PhotoView.prototype.deletePhoto = function(e) {
+    var el, item, _ref;
+    item = $(e.currentTarget).item();
+    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Photo') {
+      return;
+    }
+    el = $(e.currentTarget).parents('.item');
+    el.removeClass('in');
+    Album.updateSelection(item.id);
+    window.setTimeout(function() {
+      return Spine.trigger('destroy:photo');
+    }, 300);
+    this.stopInfo();
+    e.stopPropagation();
+    return e.preventDefault();
+  };
   PhotoView.prototype.infoUp = function(e) {
+    var el;
     this.info.up(e);
+    el = $('.icon-set', $(e.currentTarget)).addClass('in').removeClass('out');
     return e.preventDefault();
   };
   PhotoView.prototype.infoBye = function(e) {
+    var el;
     this.info.bye();
+    el = $('.icon-set', $(e.currentTarget)).addClass('out').removeClass('in');
     return e.preventDefault();
   };
   PhotoView.prototype.stopInfo = function(e) {
@@ -160,18 +179,6 @@ PhotoView = (function() {
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('canvas', this);
     return this.render(item);
-  };
-  PhotoView.prototype.click = function(e) {
-    var el, item;
-    el = $(e.target).parents('.item');
-    item = el.item();
-    return this.navigate("/photo/" + item.id);
-  };
-  PhotoView.prototype.dblclick = function(e) {
-    var el, item;
-    el = $(e.target).parents('.item');
-    item = el.item();
-    return this.navigate("/photos/" + item.id);
   };
   return PhotoView;
 })();

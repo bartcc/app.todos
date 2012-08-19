@@ -25,10 +25,10 @@ label, input, button, select, textarea {
     border: 0 none;
 }
 .breadcrumb {
-  background-image: none;
-  background-color: #ABABAB;
+  background: -moz-linear-gradient(center top , rgba(150, 150, 150, 0.9), rgba(200, 200, 200, 0.7)) repeat scroll 0 0 #000000;
   border: 0 none;
-  box-shadow: none;
+  box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.7);
+  border: 0 none;
   margin: 2px 0;
   padding: 0;
 }

@@ -60,12 +60,12 @@ Base = (function() {
   Base.prototype.queue = function(callback) {
     return Ajax.queue(callback);
   };
-  Base.prototype.get = function(item) {
+  Base.prototype.get = function() {
     return this.queue(__bind(function() {
       return this.ajax({
         type: "POST",
         url: base_url + 'photos/uri/' + this.url,
-        data: JSON.stringify(this.photos)
+        data: JSON.stringify(this.data)
       }).success(this.recordResponse).error(this.errorResponse);
     }, this));
   };
@@ -76,20 +76,14 @@ Base = (function() {
 })();
 Uri = (function() {
   __extends(Uri, Base);
-  function Uri(model, params, mode, callback, max) {
+  function Uri(model, params, callback, data) {
     var options;
     this.model = model;
-    if (mode == null) {
-      mode = 'html';
-    }
     this.callback = callback;
+    this.data = data != null ? data : [];
     this.errorResponse = __bind(this.errorResponse, this);
     this.recordResponse = __bind(this.recordResponse, this);
     Uri.__super__.constructor.apply(this, arguments);
-    this.photos = this.model.all();
-    max = max || this.model.count();
-    this.mode = mode;
-    this.photos = this.photos.slice(0, max);
     options = $.extend({}, this.settings, params);
     this.url = this.uri(options);
   }
@@ -97,17 +91,35 @@ Uri = (function() {
     square: 1,
     quality: 70
   };
-  Uri.prototype.test = function() {
-    var cache;
-    cache = this.model.cache(this.url);
-    if (cache.length) {
-      return this.callback(cache);
-    } else if (this.photos.length) {
-      return this.get();
+  Uri.prototype.init = function() {
+    return this.cache() || this.get();
+  };
+  Uri.prototype.cache = function() {
+    var cache, data, idx, raw, res, _len, _ref;
+    res = [];
+    _ref = this.data;
+    for (idx = 0, _len = _ref.length; idx < _len; idx++) {
+      data = _ref[idx];
+      raw = this.model.cache(this.url, data.id);
+      cache = raw[0];
+      switch (raw.length) {
+        case 3:
+          alert('3 Copies');
+          console.log(raw[2]);
+          break;
+        case 2:
+          alert('2 Copies');
+          console.log(raw[1]);
+      }
+      if (!cache) {
+        return;
+      }
+      res.push(cache);
     }
+    return this.callback(res);
   };
   Uri.prototype.recordResponse = function(uris) {
-    this.model.addToCache(this.url, uris, this.mode);
+    this.model.addToCache(this.url, uris);
     return this.callback(uris);
   };
   Uri.prototype.errorResponse = function(xhr, statusText, error) {
@@ -144,7 +156,7 @@ UriCollection = (function() {
     square: 1,
     quality: 70
   };
-  UriCollection.prototype.test = function() {
+  UriCollection.prototype.init = function() {
     var cache;
     cache = this.record.cache(this.url);
     if (cache != null ? cache.length : void 0) {
@@ -176,12 +188,12 @@ Model.Uri = {
     var Extend, Include;
     Include = {
       uri: function(params, mode, callback, max) {
-        return new UriCollection(this, params, mode, callback, max).test();
+        return new UriCollection(this, params, mode, callback, max).init();
       }
     };
     Extend = {
-      uri: function(params, mode, callback, max) {
-        return new Uri(this, params, mode, callback, max).test();
+      uri: function(params, callback, data) {
+        return new Uri(this, params, callback, data).init();
       }
     };
     this.include(Include);

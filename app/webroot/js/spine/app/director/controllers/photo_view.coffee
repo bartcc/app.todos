@@ -21,8 +21,7 @@ class PhotoView extends Spine.Controller
     'dragenter'                       : 'dragenter'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
-    'click .item'                     : 'click'
-    'dblclick .item'                  : 'dblclick'
+    'click .icon-set .delete'         : 'deletePhoto'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -76,7 +75,9 @@ class PhotoView extends Spine.Controller
     
   uri: (items, mode = 'html') ->
     console.log 'PhotoView::uri'
-    Photo.uri @params(), mode, (xhr, record) => @callback xhr, items
+    Photo.uri @params(),
+      (xhr, record) => @callback(xhr, items),
+      [Photo.record]
   
   callback: (json, items) =>
     console.log 'PhotoView::callback'
@@ -112,12 +113,30 @@ class PhotoView extends Spine.Controller
         'backgroundColor'   : 'rgba(255, 255, 255, 0.5)'
         'backgroundImage'   : 'none'
   
+  deletePhoto: (e) ->
+    item = $(e.currentTarget).item()
+    return unless item?.constructor?.className is 'Photo' 
+    
+    el = $(e.currentTarget).parents('.item')
+    el.removeClass('in')
+    Album.updateSelection item.id
+    
+    window.setTimeout( ->
+      Spine.trigger('destroy:photo')
+    , 300)
+    
+    @stopInfo()
+    e.stopPropagation()
+    e.preventDefault()
+  
   infoUp: (e) =>
     @info.up(e)
+    el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     e.preventDefault()
     
   infoBye: (e) =>
     @info.bye()
+    el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
     
   stopInfo: (e) =>
@@ -127,17 +146,5 @@ class PhotoView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)
     @render item
-    
-  click: (e) ->
-#    console.log Photo.record
-    el = $(e.target).parents('.item')
-    item = el.item()
-    @navigate("/photo/" + item.id)
-    
-  dblclick: (e) ->
-#    console.log Photo.record
-    el = $(e.target).parents('.item')
-    item = el.item()
-    @navigate("/photos/" + item.id)
     
 module?.exports = PhotoView

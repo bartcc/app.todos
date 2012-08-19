@@ -49,9 +49,10 @@ class Photo extends Spine.Model
     @__super__.constructor.refresh.call @, values, options
     
   init: (instance) ->
-    o = new Object()
-    o[instance.id] = []
-    @constructor.caches.push(o)
+    @constructor.initCache instance.id
+#    o = new Object()
+#    o[instance.id] = []
+#    @constructor.cacheList().push(o)
   
   selectAttributes: ->
     result = {}

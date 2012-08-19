@@ -14,8 +14,8 @@ App = (function() {
     '#twitter': 'twitterEl',
     '#main': 'mainEl',
     '#sidebar': 'sidebarEl',
-    '#content .overview': 'overviewEl',
-    '#content .show': 'showEl',
+    '.show': 'showEl',
+    '.overview': 'overviewEl',
     '#content .edit': 'galleryEditEl',
     '#ga': 'galleryEl',
     '#al': 'albumEl',
@@ -65,14 +65,14 @@ App = (function() {
       el: this.uploadEl,
       externalUI: '.optUpload'
     });
-    this.overviewView = new OverviewView({
-      el: this.overviewEl
-    });
     this.showView = new ShowView({
       el: this.showEl,
       activeControl: 'btnGallery',
       modalView: this.modalView,
       uploader: this.upload
+    });
+    this.overviewView = new OverviewView({
+      el: this.overviewEl
     });
     this.sidebar = new Sidebar({
       el: this.sidebarEl
@@ -129,26 +129,32 @@ App = (function() {
       goSleep: __bind(function() {}, this),
       awake: __bind(function() {}, this)
     });
-    this.contentManager = new Spine.Manager(this.overviewView, this.showView, this.galleryEditView);
-    this.contentManager.change(this.showView);
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
+    this.contentManager = new Spine.Manager(this.showView, this.galleryEditView, this.overviewView);
+    this.contentManager.change(this.showView);
+    this.slideshowOptions = {
+      canvas: false,
+      backdrop: true,
+      slideshow: 1000
+    };
     this.initializeFileupload();
     this.routes({
-      '/photos/': function() {
-        return Spine.trigger('show:allPhotos', true);
+      '/gallery/:gid/:aid/:pid': function(params) {
+        var photo;
+        this.contentManager.change(this.showView);
+        if (Photo.exists(params.pid)) {
+          photo = Photo.find(params.pid);
+        }
+        Spine.trigger('show:photo', photo);
+        Gallery.current(params.gid);
+        return Album.current(params.aid);
       },
-      '/overview/': function() {
-        Spine.trigger('show:overview');
-        return console.log('/overview/');
-      },
-      '/slideshow/': function() {
-        Spine.trigger('album:activate');
-        return Spine.trigger('show:slideshow');
-      },
-      '/galleries/': function() {
-        Spine.trigger('gallery:activate', false);
-        return Spine.trigger('show:galleries');
+      '/gallery/:gid/:aid': function(params) {
+        this.contentManager.change(this.showView);
+        Spine.trigger('show:photos');
+        Gallery.current(params.gid);
+        return Album.current(params.aid);
       },
       '/gallery/:id': function(params) {
         var gallery;
@@ -160,21 +166,20 @@ App = (function() {
         }
         return Gallery.current(gallery);
       },
-      '/gallery/:gid/:aid': function(params) {
-        this.contentManager.change(this.showView);
-        Spine.trigger('show:photos');
-        Gallery.current(params.gid);
-        return Album.current(params.aid);
+      '/galleries/': function() {
+        Spine.trigger('gallery:activate', false);
+        return Spine.trigger('show:galleries');
       },
-      '/gallery/:gid/:aid/:pid': function(params) {
-        var photo;
-        this.contentManager.change(this.showView);
-        if (Photo.exists(params.pid)) {
-          photo = Photo.find(params.pid);
-        }
-        Spine.trigger('show:photo', photo);
-        Gallery.current(params.gid);
-        return Album.current(params.aid);
+      '/photos/': function() {
+        Spine.trigger('show:photos');
+        return Album.current();
+      },
+      '/overview/': function() {
+        return Spine.trigger('show:overview', true);
+      },
+      '/slideshow/': function() {
+        Spine.trigger('album:activate');
+        return Spine.trigger('show:slideshow');
       }
     });
   }
@@ -272,5 +277,6 @@ $(function() {
   window.App = new App({
     el: $('body')
   });
-  return Spine.Route.setup();
+  Spine.Route.setup();
+  return App.navigate('/overview/');
 });

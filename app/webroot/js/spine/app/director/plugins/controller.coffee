@@ -11,7 +11,8 @@ Spine.Controller.include
     App[controller].isActive()
 
   isCtrlClick: (e) ->
-    e.metaKey or e.ctrlKey or e.altKey
+    return unless e
+    e?.metaKey or e?.ctrlKey or e?.altKey
 
   children: (sel) ->
     @el.children(sel)

@@ -55,13 +55,13 @@ AlbumsView = (function() {
     Spine.bind('show:albums', this.proxy(this.show));
     Spine.bind('create:album', this.proxy(this.create));
     Spine.bind('destroy:album', this.proxy(this.destroy));
-    Spine.bind('change:selectedGallery', this.proxy(this.changeSelection));
     Album.bind('ajaxError', Album.errorHandler);
     Album.bind('destroy:join', this.proxy(this.destroyJoin));
     Album.bind('create:join', this.proxy(this.createJoin));
     Album.bind('update destroy', this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
+    Spine.bind('change:selectedGallery', this.proxy(this.changeSelection));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
     $(this.views).queue('fx');

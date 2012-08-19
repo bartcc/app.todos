@@ -14,7 +14,7 @@ class SidebarList extends Spine.Controller
     'click'                           : 'show'
     "click      .gal.item"            : "click",
     "dblclick   .gal.item"            : "dblclick"
-    "click      .alb.item"            : "clickAlb",
+    "click      .alb.item"            : "clickAlbum",
     "click      .expander"            : "expand"
     'dragstart  .sublist-item'        : 'dragstart'
     'dragenter  .sublist-item'        : 'dragenter'
@@ -49,7 +49,7 @@ class SidebarList extends Spine.Controller
   change: (item, mode, e) =>
     console.log 'SidebarList::change'
     
-    ctrlClick = @isCtrlClick(e) if e
+    ctrlClick = @isCtrlClick(e?)
     
     unless ctrlClick
       switch mode
@@ -88,7 +88,7 @@ class SidebarList extends Spine.Controller
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
         App.ready = true
-        @children(":first").click()
+#        @children(":first").click()
   
   reorder: (item) ->
     id = item.id
@@ -199,7 +199,7 @@ class SidebarList extends Spine.Controller
     else
       removeAlbumSelection()
 
-  clickAlb: (e) ->
+  clickAlbum: (e) ->
     console.log 'SidebarList::albclick'
     albumEl = $(e.currentTarget)
     galleryEl = $(e.currentTarget).closest('li.gal')
@@ -208,19 +208,10 @@ class SidebarList extends Spine.Controller
     gallery = galleryEl.item()
     
     unless @isCtrlClick(e)
-      @navigate '/gallery/' + gallery.id + '/' + album.id
-#      Gallery.current(gallery)
-#      Album.current(album)
-
-#      if App.hmanager.hasActive()
-#        @openPanel('album', App.showView.btnAlbum)
-      
       Gallery.updateSelection [album.id]
       @exposeSublistSelection Gallery.record
-#      Spine.trigger('show:photos')
-#      @change Gallery.record, 'photo', e
+      @navigate '/gallery/' + gallery.id + '/' + album.id
     else
-#      Spine.trigger('show:allPhotos', true)
       @navigate '/photos/'
     
     e.stopPropagation()
@@ -228,16 +219,12 @@ class SidebarList extends Spine.Controller
     
   click: (e) ->
     console.log 'SidebarList::click'
-    item = $(e.target).item()
-#    alert item.id
-#    @change item, 'show', e
+    item = $(e.currentTarget).item()
     
-#    Spine.trigger('change:toolbar', ['Gallery'])
-#    App.contentManager.change(App.showView)
+#    dont act on no-gallery items like the 'no album' - info
+    return unless item
+    
     @navigate '/gallery/' + item?.id
-    
-#    e.stopPropagation()
-#    e.preventDefault()
 
   dblclick: (e) ->
     console.log 'SidebarList::dblclick'

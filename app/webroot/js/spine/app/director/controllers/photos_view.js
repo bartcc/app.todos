@@ -61,16 +61,16 @@ PhotosView = (function() {
     Photo.bind('create:join', this.proxy(this.createJoin));
     Photo.bind('destroy:join', this.proxy(this.destroyJoin));
     Photo.bind('ajaxError', Photo.errorHandler);
-    Spine.bind('change:selectedAlbum', this.proxy(this.renderHeader));
     Spine.bind('destroy:photo', this.proxy(this.destroy));
     Spine.bind('show:photos', this.proxy(this.show));
+    Spine.bind('change:selectedAlbum', this.proxy(this.renderHeader));
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Spine.bind('start:slideshow', this.proxy(this.slideshow));
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
   }
-  PhotosView.prototype.change = function(album, changed) {
+  PhotosView.prototype.change = function(item, changed) {
     if (changed) {
-      this.updateBuffer(album);
+      this.updateBuffer(item);
     }
     if (this.buffer) {
       return this.render(this.buffer);
@@ -185,7 +185,6 @@ PhotosView = (function() {
   };
   PhotosView.prototype.save = function(item) {};
   PhotosView.prototype.refresh = function(photos) {
-    this.clearPhotoCache();
     if (Album.record) {
       this.createJoin(Album.record, photos);
     } else {

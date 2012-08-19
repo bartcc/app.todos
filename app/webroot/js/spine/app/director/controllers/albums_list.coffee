@@ -5,8 +5,10 @@ class AlbumsList extends Spine.Controller
   
   events:
     'click .item'             : 'click'
-    'click .more-icon.delete' : 'deleteAlbum'
-    'dblclick .item'          : 'dblclick'
+    'click .icon-set .delete' : 'deleteAlbum'
+    'click .icon-set .zoom'   : 'zoom'
+#    'dblclick .item'          : 'dblclick'
+#    'over'                    : 'hideInfo'
     'mouseenter .item'        : 'infoEnter'
     'mousemove'               : 'infoMove'
     'mousemove .item'         : 'infoUp'
@@ -25,6 +27,7 @@ class AlbumsList extends Spine.Controller
     AlbumsPhoto.bind('destroy create', @proxy @changeBackgrounds)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
+    Spine.bind('zoom:album', @proxy @zoom)
     
   template: -> arguments[0]
   
@@ -34,7 +37,8 @@ class AlbumsList extends Spine.Controller
   change: (items) ->
     @renderBackgrounds items
   
-  select: (item, e) ->
+  select: (item, lonely) ->
+    item?.addRemoveSelection(lonely)
     @activate()
     
   exposeSelection: ->
@@ -76,14 +80,6 @@ class AlbumsList extends Spine.Controller
     @change items, mode
     @el
     
-  deleteAlbum: (e) ->
-    item = $(e.target).closest('.item').item()
-    Gallery.updateSelection item.id
-    Spine.trigger('destroy:album')
-    @stopInfo()
-    e.stopPropagation()
-    e.preventDefault()
-    
   clearAlbumCache: (record) ->
     id = record?.album_id or record?.id
     Album.clearCache id
@@ -113,29 +109,28 @@ class AlbumsList extends Spine.Controller
   
   processAlbum: (album) ->
     return unless album.constructor.className is 'Album'
+    data = album.photos(4)
+      
     Photo.uri
       width: 50
-      height: 50
-      , 'html'
-      , (xhr, rec) =>
-        @callback(xhr, album)
-  
+      height: 50,
+      (xhr, rec) => @callback(xhr, album),
+      data
+      
   callback: (json, album) =>
     console.log 'AlbumsList::callback'
     el = @children().forItem(album)
-    photos = AlbumsPhoto.photos(album.id)
     
-    searchJSON = (id) ->
-      for itm in json
-        return itm[id] if itm[id]
+    search = (o) ->
+      for key, val of o
+        return o[key].src
     
     res = []
-    for p in photos
-      o = searchJSON(p.id)
-      res.push o if o
+    for jsn in json
+      res.push search(jsn)
       
     css = for itm in res
-      'url(' + itm.src + ')'
+      'url(' + itm + ')'
     el.css('backgroundImage', css)
   
   create: ->
@@ -144,25 +139,39 @@ class AlbumsList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.currentTarget).item()
-    item.addRemoveSelection(@isCtrlClick(e))
-    @activate()
     
-    
-#    Spine.trigger('change:toolbarOne', ['Album'])
+    @select(item, @isCtrlClick(e))
     
     e.stopPropagation()
     e.preventDefault()
 
-  dblclick: (e) ->
+  zoom: (e) ->
+    item = $(e?.currentTarget).item() || Album.record
+    return unless item?.constructor?.className is 'Album'
+    @select(item, true)
+    
+    @navigate '/gallery/' + Gallery.record.id + '/' + item.id
+    
+    e?.stopPropagation()
+    e?.preventDefault()
+  
+  deleteAlbum: (e) ->
+    item = $(e.currentTarget).item()
+    return unless item?.constructor?.className is 'Album'
+    Gallery.updateSelection item.id
+    
+    el = $(e.currentTarget).parents('.item')
+    el.removeClass('in')
+    
+    window.setTimeout( ->
+      Spine.trigger('destroy:album')
+    , 300)
+    
+    @stopInfo()
+    
     e.stopPropagation()
     e.preventDefault()
-    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
-  
-  edit: (e) ->
-    console.log 'AlbumsList::edit'
-    item = $(e.target).item()
-    @change item
-  
+    
   sortupdate: (e, item) ->
     @children().each (index) ->
       item = $(@).item()
@@ -181,22 +190,24 @@ class AlbumsList extends Spine.Controller
     
   infoUp: (e) =>
     @info.up(e)
+    el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     e.preventDefault()
     
   infoBye: (e) =>
     @info.bye()
+    el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
     
   stopInfo: (e) =>
     @info.bye()
     
   infoEnter: (e) ->
-    el = $(e.target).find('.more-icon')
-    el.addClass('in')
+#    el = $(e.target).find('.more-icon')
+#    el.addClass('infast')
     
   infoMove: (e) ->
-    return unless $(e.target).hasClass('items')
-    el = $(e.target).find('.more-icon')
-    el.removeClass('in')
+#    return unless $(e.target).hasClass('items')
+#    el = $(e.target).find('.more-icon')
+#    el.removeClass('in')
 
 module?.exports = AlbumsList

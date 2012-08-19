@@ -15,8 +15,8 @@ AlbumsList = (function() {
   __extends(AlbumsList, Spine.Controller);
   AlbumsList.prototype.events = {
     'click .item': 'click',
-    'click .more-icon.delete': 'deleteAlbum',
-    'dblclick .item': 'dblclick',
+    'click .icon-set .delete': 'deleteAlbum',
+    'click .icon-set .zoom': 'zoom',
     'mouseenter .item': 'infoEnter',
     'mousemove': 'infoMove',
     'mousemove .item': 'infoUp',
@@ -36,6 +36,7 @@ AlbumsList = (function() {
     AlbumsPhoto.bind('destroy create', this.proxy(this.changeBackgrounds));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
+    Spine.bind('zoom:album', this.proxy(this.zoom));
   }
   AlbumsList.prototype.template = function() {
     return arguments[0];
@@ -46,7 +47,10 @@ AlbumsList = (function() {
   AlbumsList.prototype.change = function(items) {
     return this.renderBackgrounds(items);
   };
-  AlbumsList.prototype.select = function(item, e) {
+  AlbumsList.prototype.select = function(item, lonely) {
+    if (item != null) {
+      item.addRemoveSelection(lonely);
+    }
     return this.activate();
   };
   AlbumsList.prototype.exposeSelection = function() {
@@ -95,15 +99,6 @@ AlbumsList = (function() {
     this.change(items, mode);
     return this.el;
   };
-  AlbumsList.prototype.deleteAlbum = function(e) {
-    var item;
-    item = $(e.target).closest('.item').item();
-    Gallery.updateSelection(item.id);
-    Spine.trigger('destroy:album');
-    this.stopInfo();
-    e.stopPropagation();
-    return e.preventDefault();
-  };
   AlbumsList.prototype.clearAlbumCache = function(record) {
     var id;
     id = (record != null ? record.album_id : void 0) || (record != null ? record.id : void 0);
@@ -145,44 +140,40 @@ AlbumsList = (function() {
     }
   };
   AlbumsList.prototype.processAlbum = function(album) {
+    var data;
     if (album.constructor.className !== 'Album') {
       return;
     }
+    data = album.photos(4);
     return Photo.uri({
       width: 50,
       height: 50
-    }, 'html', __bind(function(xhr, rec) {
+    }, __bind(function(xhr, rec) {
       return this.callback(xhr, album);
-    }, this));
+    }, this), data);
   };
   AlbumsList.prototype.callback = function(json, album) {
-    var css, el, itm, o, p, photos, res, searchJSON, _i, _len;
+    var css, el, itm, jsn, res, search, _i, _len;
     console.log('AlbumsList::callback');
     el = this.children().forItem(album);
-    photos = AlbumsPhoto.photos(album.id);
-    searchJSON = function(id) {
-      var itm, _i, _len;
-      for (_i = 0, _len = json.length; _i < _len; _i++) {
-        itm = json[_i];
-        if (itm[id]) {
-          return itm[id];
-        }
+    search = function(o) {
+      var key, val;
+      for (key in o) {
+        val = o[key];
+        return o[key].src;
       }
     };
     res = [];
-    for (_i = 0, _len = photos.length; _i < _len; _i++) {
-      p = photos[_i];
-      o = searchJSON(p.id);
-      if (o) {
-        res.push(o);
-      }
+    for (_i = 0, _len = json.length; _i < _len; _i++) {
+      jsn = json[_i];
+      res.push(search(jsn));
     }
     css = (function() {
       var _j, _len2, _results;
       _results = [];
       for (_j = 0, _len2 = res.length; _j < _len2; _j++) {
         itm = res[_j];
-        _results.push('url(' + itm.src + ')');
+        _results.push('url(' + itm + ')');
       }
       return _results;
     })();
@@ -195,21 +186,38 @@ AlbumsList = (function() {
     var item;
     console.log('AlbumsList::click');
     item = $(e.currentTarget).item();
-    item.addRemoveSelection(this.isCtrlClick(e));
-    this.activate();
+    this.select(item, this.isCtrlClick(e));
     e.stopPropagation();
     return e.preventDefault();
   };
-  AlbumsList.prototype.dblclick = function(e) {
-    e.stopPropagation();
-    e.preventDefault();
-    return this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id);
+  AlbumsList.prototype.zoom = function(e) {
+    var item, _ref;
+    item = $(e != null ? e.currentTarget : void 0).item() || Album.record;
+    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Album') {
+      return;
+    }
+    this.select(item, true);
+    this.navigate('/gallery/' + Gallery.record.id + '/' + item.id);
+    if (e != null) {
+      e.stopPropagation();
+    }
+    return e != null ? e.preventDefault() : void 0;
   };
-  AlbumsList.prototype.edit = function(e) {
-    var item;
-    console.log('AlbumsList::edit');
-    item = $(e.target).item();
-    return this.change(item);
+  AlbumsList.prototype.deleteAlbum = function(e) {
+    var el, item, _ref;
+    item = $(e.currentTarget).item();
+    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Album') {
+      return;
+    }
+    Gallery.updateSelection(item.id);
+    el = $(e.currentTarget).parents('.item');
+    el.removeClass('in');
+    window.setTimeout(function() {
+      return Spine.trigger('destroy:album');
+    }, 300);
+    this.stopInfo();
+    e.stopPropagation();
+    return e.preventDefault();
   };
   AlbumsList.prototype.sortupdate = function(e, item) {
     this.children().each(function(index) {
@@ -234,29 +242,22 @@ AlbumsList = (function() {
     return this.exposeSelection();
   };
   AlbumsList.prototype.infoUp = function(e) {
+    var el;
     this.info.up(e);
+    el = $('.icon-set', $(e.currentTarget)).addClass('in').removeClass('out');
     return e.preventDefault();
   };
   AlbumsList.prototype.infoBye = function(e) {
+    var el;
     this.info.bye();
+    el = $('.icon-set', $(e.currentTarget)).addClass('out').removeClass('in');
     return e.preventDefault();
   };
   AlbumsList.prototype.stopInfo = function(e) {
     return this.info.bye();
   };
-  AlbumsList.prototype.infoEnter = function(e) {
-    var el;
-    el = $(e.target).find('.more-icon');
-    return el.addClass('in');
-  };
-  AlbumsList.prototype.infoMove = function(e) {
-    var el;
-    if (!$(e.target).hasClass('items')) {
-      return;
-    }
-    el = $(e.target).find('.more-icon');
-    return el.removeClass('in');
-  };
+  AlbumsList.prototype.infoEnter = function(e) {};
+  AlbumsList.prototype.infoMove = function(e) {};
   return AlbumsList;
 })();
 if (typeof module !== "undefined" && module !== null) {

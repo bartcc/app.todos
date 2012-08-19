@@ -14,7 +14,7 @@ class SlideshowView extends Spine.Controller
     '.thumbnail'       : 'thumb'
     
   template: (items) ->
-    $("#photosTemplate").tmpl items
+    $("#photosSlideshowTemplate").tmpl items
 
   constructor: ->
     super
@@ -30,7 +30,7 @@ class SlideshowView extends Spine.Controller
     
   render: (items) ->
     @items.html @template items
-    @uri items, 'append'
+    @uri items
     @refreshElements()
     @size(App.showView.sliderOutValue())
     
@@ -57,9 +57,11 @@ class SlideshowView extends Spine.Controller
     square: 2
     force: false
     
-  uri: (items, mode) ->
+  uri: (items) ->
     console.log 'SlideshowView::uri'
-    Photo.uri @params(), mode, (xhr, record) => @callback items, xhr
+    Photo.uri @params(),
+      (xhr, record) => @callback(items, xhr),
+      Album.record.photos()
     
   # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
@@ -88,7 +90,9 @@ class SlideshowView extends Spine.Controller
   # this loads the image-source attributes pointing to the regular sized image files necessary for the slideshow
   loadModal: (items, mode='html') ->
 #    Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
-    Photo.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
+    Photo.uri @modalParams(),
+      (xhr, record) => @callbackModal(xhr, items),
+      Album.record.photos()
   
   callbackModal: (json, items) ->
     console.log 'Slideshow::callbackModal'

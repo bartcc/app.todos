@@ -17,7 +17,10 @@ Spine.Controller.include({
     return App[controller].isActive();
   },
   isCtrlClick: function(e) {
-    return e.metaKey || e.ctrlKey || e.altKey;
+    if (!e) {
+      return;
+    }
+    return (e != null ? e.metaKey : void 0) || (e != null ? e.ctrlKey : void 0) || (e != null ? e.altKey : void 0);
   },
   children: function(sel) {
     return this.el.children(sel);

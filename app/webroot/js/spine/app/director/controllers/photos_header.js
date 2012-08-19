@@ -28,7 +28,7 @@ PhotosHeader = (function() {
   };
   PhotosHeader.prototype.backToAlbums = function() {
     console.log('PhotosHeader::backToAlbums');
-    return this.navigate('/gallery/' + Gallery.record.id);
+    return this.navigate('/gallery', Gallery.record.id);
   };
   PhotosHeader.prototype.change = function() {
     return this.render();

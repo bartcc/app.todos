@@ -189,15 +189,17 @@ class Sidebar extends Spine.Controller
     gallery = new Gallery @newAttributes()
     gallery.save()
 
-  destroy: ->
+  destroy: (itm) ->
+    item = itm?.reload?()
     console.log 'Sidebar::destroy'
-    if Gallery.record
-      gas = GalleriesAlbum.filter(Gallery.record.id, key: 'gallery_id')
-      for ga in gas
-        Spine.Ajax.disable ->
-          ga.destroy()
-      Gallery.record.destroy()
-      Gallery.current() if !Gallery.count()
+    return unless item?.constructor?.className is 'Gallery'
+    
+    gas = GalleriesAlbum.filter(item.id, key: 'gallery_id')
+    for ga in gas
+      Spine.Ajax.disable ->
+        ga.destroy()
+    item.destroy()
+    Gallery.current() if !Gallery.count()
 
   edit: ->
     App.galleryEditView.render()

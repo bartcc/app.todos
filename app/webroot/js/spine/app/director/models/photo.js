@@ -73,10 +73,7 @@ Photo = (function() {
     return this.__super__.constructor.refresh.call(this, values, options);
   };
   Photo.prototype.init = function(instance) {
-    var o;
-    o = new Object();
-    o[instance.id] = [];
-    return this.constructor.caches.push(o);
+    return this.constructor.initCache(instance.id);
   };
   Photo.prototype.selectAttributes = function() {
     var attr, result, _i, _len, _ref;

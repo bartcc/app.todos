@@ -18,7 +18,7 @@ SlideshowView = (function() {
     '.thumbnail': 'thumb'
   };
   SlideshowView.prototype.template = function(items) {
-    return $("#photosTemplate").tmpl(items);
+    return $("#photosSlideshowTemplate").tmpl(items);
   };
   function SlideshowView() {
     this.sliderStart = __bind(this.sliderStart, this);    SlideshowView.__super__.constructor.apply(this, arguments);
@@ -36,7 +36,7 @@ SlideshowView = (function() {
   }
   SlideshowView.prototype.render = function(items) {
     this.items.html(this.template(items));
-    this.uri(items, 'append');
+    this.uri(items);
     this.refreshElements();
     this.size(App.showView.sliderOutValue());
     this.items.children().sortable('photo');
@@ -75,11 +75,11 @@ SlideshowView = (function() {
       force: false
     };
   };
-  SlideshowView.prototype.uri = function(items, mode) {
+  SlideshowView.prototype.uri = function(items) {
     console.log('SlideshowView::uri');
-    return Photo.uri(this.params(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.params(), __bind(function(xhr, record) {
       return this.callback(items, xhr);
-    }, this));
+    }, this), Album.record.photos());
   };
   SlideshowView.prototype.callback = function(items, json) {
     var ele, img, item, jsn, searchJSON, src, _i, _len;
@@ -120,9 +120,9 @@ SlideshowView = (function() {
     if (mode == null) {
       mode = 'html';
     }
-    return Photo.uri(this.modalParams(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.modalParams(), __bind(function(xhr, record) {
       return this.callbackModal(xhr, items);
-    }, this));
+    }, this), Album.record.photos());
   };
   SlideshowView.prototype.callbackModal = function(json, items) {
     var el, item, jsn, searchJSON, _i, _len;

@@ -37,16 +37,17 @@ class Base
   
   ajax: (params, defaults) ->
     $.ajax($.extend({}, @defaults, defaults, params))
-    
+#    
   queue: (callback) ->
     Ajax.queue(callback)
     
-  get: (item) ->
+  get: ->
+#    alert 'CALLING'
     @queue =>
       @ajax(
         type: "POST"
         url: base_url + 'photos/uri/' + @url
-        data: JSON.stringify(@photos)
+        data: JSON.stringify(@data)
       ).success(@recordResponse)
        .error(@errorResponse)
        
@@ -54,13 +55,8 @@ class Base
     options.width + '/' + options.height + '/' + options.square + '/' + options.quality
     
 class Uri extends Base
-  constructor: (@model,  params, mode = 'html', @callback, max) ->
+  constructor: (@model,  params, @callback, @data = []) ->
     super
-    @photos = @model.all()
-    max = max or @model.count()
-    @mode = mode
-    @photos = @photos[0...max]
-    
     options = $.extend({}, @settings, params)
     @url = @uri options
   
@@ -68,15 +64,28 @@ class Uri extends Base
     square: 1
     quality: 70
     
-  test: ->
-    cache = @model.cache @url
-    if cache.length
-      @callback cache
-    else if @photos.length
-      @get()
+  init: ->
+    @cache() or @get()
+    
+  cache: ->
+    res = []
+    for data, idx in @data
+      raw = (@model.cache @url, data.id)
+      cache = raw[0]
+      switch raw.length
+        when 3
+          alert '3 Copies'
+          console.log raw[2]
+        when 2
+          alert '2 Copies'
+          console.log raw[1]
+      return unless cache
+      res.push cache
+    
+    @callback res
       
   recordResponse: (uris) =>
-    @model.addToCache @url, uris, @mode
+    @model.addToCache @url, uris
     @callback uris
     
   errorResponse: (xhr, statusText, error) =>
@@ -105,7 +114,7 @@ class UriCollection extends Base
     square: 1
     quality: 70
   
-  test: ->
+  init: ->
     cache = @record.cache @url
     if cache?.length
       @callback cache, @record
@@ -133,10 +142,10 @@ Model.Uri =
   extended: ->
     
     Include =
-      uri: (params, mode, callback, max) -> new UriCollection(@, params, mode, callback, max).test()
+      uri: (params, mode, callback, max) -> new UriCollection(@, params, mode, callback, max).init()
       
     Extend =
-      uri: (params, mode, callback, max) -> new Uri(@, params, mode, callback, max).test()
+      uri: (params, callback, data) -> new Uri(@, params, callback, data).init()
       
     @include Include
     @extend Extend

@@ -11,8 +11,8 @@ class App extends Spine.Controller
     '#twitter'            : 'twitterEl'
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
-    '#content .overview'  : 'overviewEl'
-    '#content .show'      : 'showEl'
+    '.show'               : 'showEl'
+    '.overview'           : 'overviewEl'
     '#content .edit'      : 'galleryEditEl'
     '#ga'                 : 'galleryEl'
     '#al'                 : 'albumEl'
@@ -67,13 +67,13 @@ class App extends Spine.Controller
     @upload = new UploadEditView
       el: @uploadEl
       externalUI: '.optUpload'
-    @overviewView = new OverviewView
-      el: @overviewEl
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
       modalView: @modalView
       uploader: @upload
+    @overviewView = new OverviewView
+      el: @overviewEl
     @sidebar = new Sidebar
       el: @sidebarEl
     @sidebarTwitter = new SidebarTwitter
@@ -107,48 +107,49 @@ class App extends Spine.Controller
       goSleep: => #@showView.toggleDraghandle()
       awake: => #@showView.activeControl?.click()
 
-    @contentManager = new Spine.Manager(@overviewView, @showView, @galleryEditView)
-    @contentManager.change @showView
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
     
-#    @slideshowOptions =
-#      canvas: false
-#      backdrop: true
-#      slideshow: 1000
+    @contentManager = new Spine.Manager(@showView, @galleryEditView, @overviewView)
+    @contentManager.change @showView
+    
+    @slideshowOptions =
+      canvas: false
+      backdrop: true
+      slideshow: 1000
 
     @initializeFileupload()
     
     @routes
-      '/photos/': ->
-        Spine.trigger('show:allPhotos', true)
-      '/overview/': ->
-        Spine.trigger('show:overview')
-        console.log('/overview/')
-      '/slideshow/': ->
-        Spine.trigger('album:activate')
-        Spine.trigger('show:slideshow')
-      '/galleries/': ->
-        Spine.trigger('gallery:activate', false)
-        Spine.trigger 'show:galleries'
-      '/gallery/:id': (params) ->
-        @contentManager.change(@showView)
-        Spine.trigger('change:toolbar', ['Gallery'])
-        Spine.trigger 'show:albums'
-        gallery = Gallery.find(params.id) if Gallery.exists(params.id)
-        Gallery.current(gallery)
-      '/gallery/:gid/:aid': (params) ->
-        @contentManager.change(@showView)
-        Spine.trigger 'show:photos'
-        Gallery.current(params.gid)
-        Album.current(params.aid)
       '/gallery/:gid/:aid/:pid': (params) ->
         @contentManager.change(@showView)
         photo = Photo.find(params.pid) if Photo.exists(params.pid)
         Spine.trigger 'show:photo', photo
         Gallery.current(params.gid)
         Album.current(params.aid)
+      '/gallery/:gid/:aid': (params) ->
+        @contentManager.change(@showView)
+        Spine.trigger 'show:photos'
+        Gallery.current(params.gid)
+        Album.current(params.aid)
+      '/gallery/:id': (params) ->
+        @contentManager.change(@showView)
+        Spine.trigger('change:toolbar', ['Gallery'])
+        Spine.trigger 'show:albums'
+        gallery = Gallery.find(params.id) if Gallery.exists(params.id)
+        Gallery.current(gallery)
+      '/galleries/': ->
+        Spine.trigger('gallery:activate', false)
+        Spine.trigger 'show:galleries'
+      '/photos/': ->
+        Spine.trigger('show:photos')
+        Album.current()
+      '/overview/': ->
+        Spine.trigger('show:overview', true)
+      '/slideshow/': ->
+        Spine.trigger('album:activate')
+        Spine.trigger('show:slideshow')
     
   validate: (user, json) ->
     console.log 'Pinger done'
@@ -224,7 +225,6 @@ class App extends Spine.Controller
       when 27
         console.log @showView.btnPrevious
         @showView.btnPrevious.click()
-#        @showView.slideshowView.showPrevious()
         e.preventDefault()
       else
         console.log keyCode
@@ -234,3 +234,4 @@ $ ->
   User.ping()
   window.App = new App(el: $('body'))
   Spine.Route.setup()
+  App.navigate '/overview/'

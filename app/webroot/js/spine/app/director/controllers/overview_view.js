@@ -14,8 +14,7 @@ $ = Spine.$;
 OverviewView = (function() {
   __extends(OverviewView, Spine.Controller);
   OverviewView.prototype.elements = {
-    ".items": "items",
-    '.optClose': 'btnClose'
+    ".items": "items"
   };
   OverviewView.prototype.events = {
     "click .optClose": "close"
@@ -28,6 +27,9 @@ OverviewView = (function() {
   };
   function OverviewView() {
     this.callback = __bind(this.callback, this);    OverviewView.__super__.constructor.apply(this, arguments);
+    this.el.data({
+      current: Recent
+    });
     this.maxRecent = 16;
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
     Spine.bind('show:overview', this.proxy(this.show));
@@ -56,16 +58,13 @@ OverviewView = (function() {
       height: height
     };
   };
-  OverviewView.prototype.uri = function(items, mode) {
-    if (mode == null) {
-      mode = 'html';
-    }
-    console.log('PhotoList::uri');
-    return Photo.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
-      return this.callback(items, xhr);
-    }, this));
+  OverviewView.prototype.uri = function(items) {
+    console.log('OverviewView::uri');
+    return Photo.uri(this.thumbSize(), __bind(function(xhr, record) {
+      return this.callback(xhr, items);
+    }, this), items);
   };
-  OverviewView.prototype.callback = function(items, json) {
+  OverviewView.prototype.callback = function(json, items) {
     var ele, img, item, jsn, photo, searchJSON, _i, _len, _results;
     console.log('PhotoList::callback');
     searchJSON = function(id) {
@@ -106,23 +105,22 @@ OverviewView = (function() {
     return Recent.check(this.maxRecent);
   };
   OverviewView.prototype.show = function() {
-    var cont, _i, _len, _ref;
+    var controller, _i, _len, _ref;
     _ref = App.contentManager.controllers;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      cont = _ref[_i];
-      if (cont.isActive()) {
-        this.savedView = cont;
+      controller = _ref[_i];
+      if (controller.isActive()) {
+        this.previous = controller;
       }
     }
     App.contentManager.change(this);
     return this.loadRecent();
   };
   OverviewView.prototype.close = function() {
-    return App.contentManager.change(this.savedView);
+    return App.contentManager.change(App.showView);
   };
   OverviewView.prototype.error = function(xhr, statusText, error) {
     console.log(xhr);
-    alert('error calling recent');
     return this.record.trigger('ajaxError', xhr, statusText, error);
   };
   return OverviewView;

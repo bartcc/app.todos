@@ -32,7 +32,6 @@ ShowView = (function() {
     '.photo': 'photoEl',
     '.slideshow': 'slideshowEl',
     '.slider': 'slider',
-    '.close': 'btnClose',
     '.optAlbum': 'btnAlbum',
     '.optGallery': 'btnGallery',
     '.optPhoto': 'btnPhoto',
@@ -51,6 +50,7 @@ ShowView = (function() {
     'click .optDestroyAlbum:not(.disabled)': 'destroyAlbum',
     'click .optDestroyPhoto:not(.disabled)': 'destroyPhoto',
     'click .optEditGallery:not(.disabled)': 'editGallery',
+    'click .optZoom:not(.disabled)': 'zoomAlbum',
     'click .optGallery:not(.disabled)': 'toggleGalleryShow',
     'click .optAlbum:not(.disabled)': 'toggleAlbumShow',
     'click .optPhoto:not(.disabled)': 'togglePhotoShow',
@@ -134,23 +134,23 @@ ShowView = (function() {
     this.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
     this.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
     this.bind('toggle:view', this.proxy(this.toggleView));
+    this.bind('show:previous', this.proxy(this.showPrevious));
     this.toolbarOne.bind('refresh', this.proxy(this.refreshToolbar));
     Gallery.bind('change', this.proxy(this.changeToolbarOne));
     Album.bind('change', this.proxy(this.changeToolbarOne));
     Photo.bind('change', this.proxy(this.changeToolbarOne));
+    Photo.bind('refresh', this.proxy(this.refreshToolbars));
     Spine.bind('change:selectedAlbum', this.proxy(this.refreshToolbars));
     Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
     Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
     Spine.bind('slideshow:ready', this.proxy(this.play));
-    this.current = this.albumsView;
-    this.sOutValue = 74;
+    this.sOutValue = 174;
     this.thumbSize = 240;
+    this.current = this.galleriesView;
     this.slideshowAutoStart = false;
-    this.edit = this.editGallery;
     this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView, this.slideshowView);
-    this.canvasManager.change(this.current);
     this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader, this.photoHeader);
-    this.headerManager.change(this.albumsHeader);
+    this.canvasManager.change(this.galleriesView);
   }
   ShowView.prototype.canvas = function(controller) {
     console.log('ShowView::changeCanvas');
@@ -205,6 +205,9 @@ ShowView = (function() {
   };
   ShowView.prototype.editAlbum = function(e) {
     return Spine.trigger('edit:album');
+  };
+  ShowView.prototype.zoomAlbum = function() {
+    return Spine.trigger('zoom:album');
   };
   ShowView.prototype.destroyGallery = function(e) {
     Spine.trigger('destroy:gallery');
@@ -369,7 +372,6 @@ ShowView = (function() {
       root = this.current.el.children('.items');
       parent = root.children().forItem(item);
       el = $('[rel="gallery"]', parent)[0];
-      console.log(el);
       return el;
     }, this);
     if (this.slideshowable()) {
@@ -386,9 +388,6 @@ ShowView = (function() {
     }
     modal = $('#modal-gallery').data('modal');
     isShown = modal != null ? modal.isShown : void 0;
-    console.log('modal');
-    console.log(modal);
-    console.log(isShown);
     if (!isShown) {
       this.slideshowPlay(e);
     } else {
@@ -432,7 +431,7 @@ ShowView = (function() {
     root.children().each(function(index, el) {
       var item;
       item = $(this).item();
-      return item.addRemoveSelection(true);
+      return item.addRemoveSelection();
     });
     if ((_ref = this.current.list) != null) {
       _ref.select();
@@ -485,7 +484,7 @@ ShowView = (function() {
     return this.navigate('/slideshow/');
   };
   ShowView.prototype.showPrevious = function() {
-    return this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id);
+    return this.previous.show();
   };
   ShowView.prototype.showModal = function() {
     this.modalView.render({
@@ -496,10 +495,7 @@ ShowView = (function() {
     return this.modalView.show();
   };
   ShowView.prototype.showAllPhotos = function() {
-    Gallery.emptySelection();
-    Album.emptySelection();
-    Album.current();
-    return this.navigate('/gallery/' + false + '/' + false);
+    return this.navigate('/photos/');
   };
   ShowView.prototype.showAllAlbums = function() {
     return this.navigate('/gallery/' + false);

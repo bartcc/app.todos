@@ -5,7 +5,6 @@ class OverviewView extends Spine.Controller
 
   elements:
     ".items"              : "items"
-    '.optClose'           : 'btnClose'
     
   events:
     "click .optClose"     : "close"
@@ -18,6 +17,7 @@ class OverviewView extends Spine.Controller
     
   constructor: ->
     super
+    @el.data current: Recent
     @maxRecent = 16
     @bind('render:toolbar', @proxy @renderToolbar)
     Spine.bind('show:overview', @proxy @show)
@@ -36,11 +36,14 @@ class OverviewView extends Spine.Controller
     height: height
     
   # mode tells Spine::uri wheter to append (=> append) or replace (=> html) the cache
-  uri: (items, mode = 'html') ->
-    console.log 'PhotoList::uri'
-    Photo.uri @thumbSize(), mode, (xhr, record) => @callback items, xhr
+  uri: (items) ->
+    console.log 'OverviewView::uri'
+    
+    Photo.uri @thumbSize(),
+      (xhr, record) => @callback(xhr, items),
+      items
   
-  callback: (items, json) =>
+  callback: (json, items) =>
     console.log 'PhotoList::callback'
     searchJSON = (id) ->
       for itm in json
@@ -67,19 +70,17 @@ class OverviewView extends Spine.Controller
     Recent.check(@maxRecent)
     
   show: ->
-#    Spine.trigger('change:canvas', @)
-    for cont in App.contentManager.controllers
-      @savedView = cont if cont.isActive()
+    for controller in App.contentManager.controllers
+      @previous = controller if controller.isActive()
       
     App.contentManager.change @
     @loadRecent()
     
   close: ->
-    App.contentManager.change @savedView
+    App.contentManager.change App.showView
     
   error: (xhr, statusText, error) ->
     console.log xhr
-    alert 'error calling recent'
     @record.trigger('ajaxError', xhr, statusText, error)
 
 module?.exports = OverviewView

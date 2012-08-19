@@ -38,6 +38,31 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="content" class="views canvas-bg-dark vbox flex">
+      <div class="overview view content canvas vbox flex">
+        <ul class="navbar options">
+          <li class="splitter disabled flex"></li>
+          <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="icon-remove icon-white"></span></li>
+        </ul>
+        <div class="flex vbox autoflow">
+          <div class="container">
+            <fieldset>
+              <label><span class="enlightened">Recently Uploaded:</span></label>
+              <div class="items"></div>
+            </fieldset>
+            <fieldset>
+              <label><span class="enlightened">Summary:</span></label>
+              <div class="info">
+                Blank 
+              </div>
+            </fieldset>
+          </div>
+          <div class="container">
+            <fieldset>
+              <label><span class="enlightened">Informations:</span></label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
       <div class="show view canvas vbox flex">
         <ul class="options hbox navbar">
           <ul class="toolbarOne hbox nav"></ul>
@@ -74,7 +99,7 @@
         <div id="views" class="settings canvas-bg-light hbox autoflow">
           <div class="views content canvas vbox flex hdraggable">
             <div class="hdivide draghandle">
-              <span class="optClose icon-remove icon-white right"></span>
+              <span class=" icon-remove icon-white right"></span>
             </div>
             <div id="ga" class="view container flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
@@ -120,31 +145,6 @@
                 </div>
               </form>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="overview view content canvas vbox flex data parent autoflow">
-        <ul class="navbar options">
-          <li class="splitter disabled flex"></li>
-          <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="icon-remove icon-white"></span></li>
-        </ul>
-        <div class="flex vbox autoflow">
-          <div class="container">
-            <fieldset>
-              <label><span class="enlightened">Recently Uploaded:</span></label>
-              <div class="items"></div>
-            </fieldset>
-            <fieldset>
-              <label><span class="enlightened">Summary:</span></label>
-              <div class="info">
-                Blank 
-              </div>
-            </fieldset>
-          </div>
-          <div class="container">
-            <fieldset>
-              <label><span class="enlightened">Informations:</span></label>
-            </fieldset>
           </div>
         </div>
       </div>
@@ -238,7 +238,7 @@
 </script>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in">
+  <li class="item container">
     <div class="ui-symbol ui-symbol-gallery center"></div>
     <div class="thumbnail" draggable="true">
       <div class="inner">
@@ -274,7 +274,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in">
+  <li class="item container">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail left" draggable="true"></div>
     <div class="icon-set fade out" style="">
@@ -353,70 +353,6 @@
   </ul>
 </script>
 
-<script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{else}}no title{{/if}}
-  <h2>Album: {{if album.title}}${album.title}{{else}}no title{{/if}}
-    <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
-  </h2>
-</script>
-
-<script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}<div class="left"><h3>Gallery: </h3>${gallery.name}</div>{{/if}}{{if album}}<div class=""><h3>Album: </h3>${album.title}</div>{{/if}}
-  {{if !album}}
-    <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying the master, will cause all derived photos (aliases) to be removed!</div>
-  {{/if}}
-  <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}no title{{/if}}{{/if}}</h2>
-</script>
-
-
-<script id="editPhotoTemplate" type="text/x-jquery-tmpl">
-  <label class="">
-    <span class="enlightened">Photo Title</span>
-  </label>
-  <input type="text" name="title" value="${src}" >
-  <label class="">
-    <span class="enlightened">Description</span>
-  </label>
-  <textarea name="description">${description}</textarea>
-</script>
-
-<script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  class="item data container fade in">
-    {{tmpl "#photosThumbnailTemplate"}}
-  </li>
-</script>
-
-<script id="photosSlideshowTemplate" type="text/x-jquery-tmpl">
-  <li  class="item data container fade in">
-    <div class="thumbnail image left" draggable="true"></div>
-  </li>
-</script>
-
-<script id="photoTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in">
-    {{tmpl "#photoThumbnailTemplate"}}
-  </li>
-</script>
-
-<script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left fade in" draggable="true"></div>
-  <div class="icon-set fade out" style="">
-    <span class="zoom icon-zoom-in icon-white left"></span>
-    <span class="delete icon-remove icon-white right"></span>
-  </div>
-</script>
-
-<script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left fade in" draggable="true"></div>
-  <div class="icon-set fade out" style="">
-    <span class="delete icon-remove icon-white right"></span>
-  </div>
-</script>
-
-<script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left" draggable="true"></div>
-</script>
-
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
   <section class="top hoverinfo">
     {{if album}}
@@ -461,6 +397,70 @@
   </section>
 </script>
 
+<script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
+  {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{else}}no title{{/if}}
+  <h2>Album: {{if album.title}}${album.title}{{else}}no title{{/if}}
+    <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
+  </h2>
+</script>
+
+<script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
+  {{if gallery}}<div class="left"><h3>Gallery: </h3>${gallery.name}</div>{{/if}}{{if album}}<div class=""><h3>Album: </h3>${album.title}</div>{{/if}}
+  {{if !album}}
+    <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying the master, will cause all derived photos (aliases) to be removed!</div>
+  {{/if}}
+  <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}no title{{/if}}{{/if}}</h2>
+</script>
+
+
+<script id="editPhotoTemplate" type="text/x-jquery-tmpl">
+  <label class="">
+    <span class="enlightened">Photo Title</span>
+  </label>
+  <input type="text" name="title" value="${src}" >
+  <label class="">
+    <span class="enlightened">Description</span>
+  </label>
+  <textarea name="description">${description}</textarea>
+</script>
+
+<script id="photosTemplate" type="text/x-jquery-tmpl">
+  <li  class="item data container">
+    {{tmpl "#photosThumbnailTemplate"}}
+  </li>
+</script>
+
+<script id="photosSlideshowTemplate" type="text/x-jquery-tmpl">
+  <li  class="item data container">
+    <div class="thumbnail image left" draggable="true"></div>
+  </li>
+</script>
+
+<script id="photoTemplate" type="text/x-jquery-tmpl">
+  <li class="item container">
+    {{tmpl "#photoThumbnailTemplate"}}
+  </li>
+</script>
+
+<script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
+  <div class="thumbnail image left" draggable="true"></div>
+  <div class="icon-set fade out" style="">
+    <span class="zoom icon-zoom-in icon-white left"></span>
+    <span class="delete icon-remove icon-white right"></span>
+  </div>
+</script>
+
+<script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
+  <div class="thumbnail image left" draggable="true"></div>
+  <div class="icon-set fade out" style="">
+    <span class="delete icon-remove icon-white right"></span>
+  </div>
+</script>
+
+<script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">
+  <div class="thumbnail image left" draggable="true"></div>
+</script>
+
 <script id="preloaderTemplate" type="text/x-jquery-tmpl">
   <div class="preloader">
     <div class="content">
@@ -485,7 +485,7 @@
     {{tmpl(itemGroup)  "#dropdownTemplate"}}
   {{else}}
   <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}{{if id}} id="${id}"{{/if}}>
-    <{{if type}}${type} class="tb-name {{if innerklass}}${innerklass}{{/if}}"{{else}}button class="dark {{if innerklass}}${innerklass}{{/if}}" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
+    <{{if type}}${type} class="tb-name"{{else}}button class="dark {{if innerklass}}${innerklass}{{/if}}" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
     {{if innerstyle}} style="${innerstyle}"{{/if}}
     {{if disabled}}disabled{{/if}}>
     {{if icon}}<i class="icon-${icon}  {{if iconcolor}}icon-${iconcolor}{{/if}}"></i>{{/if}}{{html name}}

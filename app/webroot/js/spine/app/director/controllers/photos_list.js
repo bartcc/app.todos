@@ -18,8 +18,8 @@ PhotosList = (function() {
   };
   PhotosList.prototype.events = {
     'click .item': 'click',
-    'click .more-icon.delete': 'deletePhoto',
-    'dblclick .item': 'dblclick',
+    'click .icon-set .zoom': 'zoom',
+    'click .icon-set .delete': 'deletePhoto',
     'mouseenter .item': 'infoEnter',
     'mousemove': 'infoMove',
     'mousemove .item': 'infoUp',
@@ -44,9 +44,12 @@ PhotosList = (function() {
   PhotosList.prototype.change = function() {
     return console.log('PhotosList::change');
   };
-  PhotosList.prototype.select = function(item, e) {
+  PhotosList.prototype.select = function(item, lonely) {
     console.log('PhotosList::select');
-    this.current = Photo.current(item);
+    if (item != null) {
+      item.addRemoveSelection(lonely);
+    }
+    this.current = Photo.current(item != null);
     return this.exposeSelection();
   };
   PhotosList.prototype.render = function(items, mode) {
@@ -116,9 +119,9 @@ PhotosList = (function() {
   PhotosList.prototype.uri = function(items, mode) {
     console.log('PhotosList::uri');
     this.size(this.parent.sOutValue);
-    return Photo.uri(this.thumbSize(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.thumbSize(), __bind(function(xhr, record) {
       return this.callback(xhr, items);
-    }, this));
+    }, this), this.photos());
   };
   PhotosList.prototype.callback = function(json, items) {
     var ele, img, item, jsn, searchJSON, src, _i, _len;
@@ -149,6 +152,13 @@ PhotosList = (function() {
     }
     return this.loadModal(items);
   };
+  PhotosList.prototype.photos = function() {
+    if (Album.record) {
+      return Album.record.photos();
+    } else {
+      return Photo.all();
+    }
+  };
   PhotosList.prototype.imageLoad = function() {
     var css;
     css = 'url(' + this.src + ')';
@@ -170,9 +180,9 @@ PhotosList = (function() {
     if (mode == null) {
       mode = 'html';
     }
-    return Photo.uri(this.modalParams(), mode, __bind(function(xhr, record) {
+    return Photo.uri(this.modalParams(), __bind(function(xhr, record) {
       return this.callbackModal(xhr, items);
-    }, this));
+    }, this), this.photos());
   };
   PhotosList.prototype.callbackModal = function(json, items) {
     var a, el, item, jsn, searchJSON, _i, _len;
@@ -239,26 +249,39 @@ PhotosList = (function() {
   PhotosList.prototype.click = function(e) {
     var item;
     console.log('PhotosList::click');
-    item = $(e.target).item();
-    item.addRemoveSelection(this.isCtrlClick(e));
+    item = $(e.currentTarget).item();
+    this.select(item, this.isCtrlClick(e));
     App.showView.trigger('change:toolbarOne');
-    this.select(item, e);
     if ($(e.target).hasClass('thumbnail')) {
       return e.stopPropagation();
     }
   };
-  PhotosList.prototype.dblclick = function(e) {
-    console.log('PhotosList::dblclick');
+  PhotosList.prototype.zoom = function(e) {
+    var item, _ref;
+    console.log('PhotosList::zoom');
+    item = $(e != null ? e.currentTarget : void 0).item() || this.current;
+    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Photo') {
+      return;
+    }
+    this.select(item, true);
     this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id + '/' + this.current.id);
-    this.exposeSelection();
-    e.stopPropagation();
-    return e.preventDefault();
+    if (e != null) {
+      e.stopPropagation();
+    }
+    return e != null ? e.preventDefault() : void 0;
   };
   PhotosList.prototype.deletePhoto = function(e) {
-    var item;
-    item = $(e.target).closest('.item').item();
+    var el, item, _ref;
+    item = $(e.currentTarget).item();
+    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Photo') {
+      return;
+    }
+    el = $(e.currentTarget).parents('.item');
+    el.removeClass('in');
     Album.updateSelection(item.id);
-    Spine.trigger('destroy:photo');
+    window.setTimeout(function() {
+      return Spine.trigger('destroy:photo');
+    }, 300);
     this.stopInfo();
     e.stopPropagation();
     return e.preventDefault();
@@ -297,29 +320,22 @@ PhotosList = (function() {
     return this.el.selectable();
   };
   PhotosList.prototype.infoUp = function(e) {
+    var el;
     this.info.up(e);
+    el = $('.icon-set', $(e.currentTarget)).addClass('in').removeClass('out');
     return e.preventDefault();
   };
   PhotosList.prototype.infoBye = function(e) {
+    var el;
     this.info.bye();
+    el = $('.icon-set', $(e.currentTarget)).addClass('out').removeClass('in');
     return e.preventDefault();
   };
   PhotosList.prototype.stopInfo = function(e) {
     return this.info.bye();
   };
-  PhotosList.prototype.infoEnter = function(e) {
-    var el;
-    el = $(e.target).find('.more-icon');
-    return el.addClass('in');
-  };
-  PhotosList.prototype.infoMove = function(e) {
-    var el;
-    if (!$(e.target).hasClass('items')) {
-      return;
-    }
-    el = $(e.target).find('.more-icon');
-    return el.removeClass('in');
-  };
+  PhotosList.prototype.infoEnter = function(e) {};
+  PhotosList.prototype.infoMove = function(e) {};
   PhotosList.prototype.sliderStart = function() {
     return this.refreshElements();
   };

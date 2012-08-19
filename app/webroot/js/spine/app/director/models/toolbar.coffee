@@ -79,6 +79,11 @@ class Toolbar extends Spine.Model
           icon: 'asterisk'
           klass: 'optCreateAlbum'
         ,
+          name: 'Zoom'
+          icon: 'zoom-in'
+          klass: 'optZoom'
+          disabled: -> Gallery.selectionList().length isnt 1
+        ,
           name: 'Edit'
           icon: 'pencil'
           klass: 'optAlbum'
@@ -251,10 +256,10 @@ class Toolbar extends Spine.Model
       locked: true
       content:
         [
-          name: 'x'
+          name: ''
           klass: 'optPrevious'
           innerklass: 'chromeless'
-          outerstyle: 'float: right;'
+          outerstyle: 'float: left;'
           innerstyle: 'left: -8px; top: 8px;'
         ]
     group11:
@@ -302,11 +307,12 @@ class Toolbar extends Spine.Model
           type: 'div'
           innerstyle: 'width: 190px; position: relative;'
         ,
-          name: 'x'
+          name: ''
           klass: 'optPrevious'
-          innerklass: 'chromeless'
+          type: 'span'
+          innerklass: 'icon-white icon-remove'
           outerstyle: 'float: right;'
-          innerstyle: 'left: -8px; top: 8px;'
+          innerstyle: 'left: -8px; top: 8px; position:relative;'
         ]
         
   init: (ins) ->

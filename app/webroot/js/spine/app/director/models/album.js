@@ -60,9 +60,15 @@ Album = (function() {
     }).length;
   };
   Album.photos = function(id, max) {
-    return AlbumsPhoto.filterRelated(id, {
-      key: 'album_id'
-    }).slice(0, max);
+    var filterOptions;
+    if (max == null) {
+      max = Album.count();
+    }
+    filterOptions = {
+      key: 'album_id',
+      joinTable: 'AlbumsPhoto'
+    };
+    return Photo.filterRelated(id, filterOptions).slice(0, max);
   };
   Album.prototype.init = function(instance) {
     var o, s;

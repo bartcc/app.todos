@@ -23,7 +23,7 @@ SidebarList = (function() {
     'click': 'show',
     "click      .gal.item": "click",
     "dblclick   .gal.item": "dblclick",
-    "click      .alb.item": "clickAlb",
+    "click      .alb.item": "clickAlbum",
     "click      .expander": "expand",
     'dragstart  .sublist-item': 'dragstart',
     'dragenter  .sublist-item': 'dragenter',
@@ -58,9 +58,7 @@ SidebarList = (function() {
   SidebarList.prototype.change = function(item, mode, e) {
     var ctrlClick, _ref, _ref2, _ref3;
     console.log('SidebarList::change');
-    if (e) {
-      ctrlClick = this.isCtrlClick(e);
-    }
+    ctrlClick = this.isCtrlClick(e != null);
     if (!ctrlClick) {
       switch (mode) {
         case 'destroy':
@@ -99,8 +97,7 @@ SidebarList = (function() {
     this.change(gallery, mode);
     if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
       if (!this.children(".active").length) {
-        App.ready = true;
-        return this.children(":first").click();
+        return App.ready = true;
       }
     }
   };
@@ -278,7 +275,7 @@ SidebarList = (function() {
       return removeAlbumSelection();
     }
   };
-  SidebarList.prototype.clickAlb = function(e) {
+  SidebarList.prototype.clickAlbum = function(e) {
     var album, albumEl, gallery, galleryEl;
     console.log('SidebarList::albclick');
     albumEl = $(e.currentTarget);
@@ -286,9 +283,9 @@ SidebarList = (function() {
     album = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
-      this.navigate('/gallery/' + gallery.id + '/' + album.id);
       Gallery.updateSelection([album.id]);
       this.exposeSublistSelection(Gallery.record);
+      this.navigate('/gallery/' + gallery.id + '/' + album.id);
     } else {
       this.navigate('/photos/');
     }
@@ -298,7 +295,10 @@ SidebarList = (function() {
   SidebarList.prototype.click = function(e) {
     var item;
     console.log('SidebarList::click');
-    item = $(e.target).item();
+    item = $(e.currentTarget).item();
+    if (!item) {
+      return;
+    }
     return this.navigate('/gallery/' + (item != null ? item.id : void 0));
   };
   SidebarList.prototype.dblclick = function(e) {

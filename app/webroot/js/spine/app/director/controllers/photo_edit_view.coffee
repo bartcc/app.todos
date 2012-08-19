@@ -23,6 +23,7 @@ class PhotoEditView extends Spine.Controller
 #    Spine.bind('change:selectedGallery', @proxy @change)
   
   change: (item) ->
+    return unless item
     if item?.constructor.className is 'Photo'
       @current = item
         

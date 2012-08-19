@@ -20,8 +20,7 @@ class PhotosHeader extends Spine.Controller
     
   backToAlbums: ->
     console.log 'PhotosHeader::backToAlbums'
-#    Spine.trigger('show:albums')
-    @navigate '/gallery/' + Gallery.record.id# + '/album/' + Album.record.id
+    @navigate '/gallery', Gallery.record.id
 
   change:  ->
     @render()

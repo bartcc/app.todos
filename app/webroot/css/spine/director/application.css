@@ -136,6 +136,9 @@ li hr {
   border-width: 1px;
   border-color: rgba(0, 0, 0, 0.5);
 }
+.items {
+  padding-top: 10px;
+}
 .content label div {
   color: rgba(0, 0, 0, 0.6);
 }
@@ -475,17 +478,20 @@ textarea {
 }
 #sidebar .active .alb.item .cta {
   background-color: #898989;
+  border: 1px solid #575757;
 }
 #sidebar .alb.item .cta {
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
+  border: 1px solid #979797;
 }
 #sidebar .item .gal.cta {
   background-color: #898989;
   border: 1px solid #575757;
   border-radius: 30px 30px 30px 30px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
   font-size: 1.1em;
   line-height: 16px;
   padding-top: 7px;
@@ -496,7 +502,6 @@ textarea {
   padding: 0 5px;
 }
 #content .header section.breadcrumb {
-  height: 36px;
   padding: 0;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
   position: absolute;
@@ -526,7 +531,7 @@ textarea {
   margin: 3px 0 0 0;
 }
 #content .header section + section {
-  border-radius: 0 4px 4px 0;
+
 }
 .header section.top {
   position: relative;
@@ -785,9 +790,9 @@ textarea {
 }
 #content .content .items .item:not(.thumbnail) {
   background-repeat: no-repeat;
-  -moz-background-position: 30px 32px, 100px 32px, 30px 100px, 100px 100px;
-	 -webkit-background-position: 30px 32px, 100px 32px, 30px 100px, 100px 100px;
-	 background-position: 30px 32px, 100px 32px, 30px 100px, 100px 100px;
+  -moz-background-position: 30px 43px, 100px 43px, 30px 109px, 100px 109px;
+	 -webkit-background-position: 30px 43px, 100px 43px, 30px 109px, 100px 109px;
+	 background-position: 30px 43px, 100px 43px, 30px 109px, 100px 109px;
 }
 #content .content .container.active {
 /*  background-repeat: no-repeat;
@@ -831,7 +836,7 @@ textarea {
 }
 #main #content .content .container {
   margin: 5px;
-  padding: 10px;
+  padding: 21px 10px 10px;
 }
 #main #content .content .container .hoverinfo {
   padding: 10px 0;
@@ -944,7 +949,7 @@ textarea {
   right: -14px;
 }
 #content .content .item.active {
-  background-color: rgba(155, 155, 150, 0.4);
+  background-color: rgba(155, 155, 150, 0.2);
   box-shadow: 1px -1px 0 #FFFFFF inset, 1px -1px 10px #666666 inset, 1px 0 2px #FFFFFF, 0 0 3px #000000 inset;
 }
 #content .content .item ul {
@@ -968,6 +973,14 @@ textarea {
   -ms-transition: opacity 0.5s linear;
   -o-transition: opacity 0.5s linear;
   transition: opacity 0.5s linear;
+}
+.infast {
+  opacity: 1;
+  -webkit-transition: opacity 0.1s linear;
+  -moz-transition: opacity 0.1s linear;
+  -ms-transition: opacity 0.1s linear;
+  -o-transition: opacity 0.1s linear;
+  transition: opacity 0.1s linear;
 }
 #content .content .item.active ul {
   display: inherit;
@@ -1038,6 +1051,23 @@ textarea {
 #content ul {
   margin: 0;
 /*  padding: 0;*/
+}
+
+.breadcrumb li a {
+  color: rgba(0, 0, 0, 0.7);
+}
+.breadcrumb li {
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  font-size: 1em;
+  font-style: inherit;
+  font-weight: bold;
+}
+.breadcrumb.hoverinfo {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(100, 100, 100, 0.9)), to(rgba(140, 140, 140, 0.7)));
+  background: -moz-linear-gradient(center top , rgba(100, 100, 100, 0.9), rgba(140, 140, 140, 0.7));
+  background: linear-gradient(center top , rgba(100, 100, 100, 0.9), rgba(140, 140, 140, 0.7));
 }
 .hoverinfo {
   min-width: 120px;
@@ -1140,18 +1170,24 @@ button.chromeless, button.chromeless:hover {
   padding: 1px 5px;
   position: relative;
 }
-.more-icon {
-  width: 30px;
-  height: 30px;
+.icon-set {
   position: absolute;
+  right: 10px;
+  top: 5px;
+  width: 28px;
 }
-.more-icon.icon-play {
-  background: url(img/deleteButton.png);
-  top: -2px;
-  left: -2px;
+[class^="icon-"], [class*=" icon-"] {
+  cursor: pointer;
 }
-.more-icon.icon-delete {
-  background: url(img/deleteButton.png);
-  top: -2px;
-  right: 2px;
+.icon-set .icon-zoom-in {
+/*  top: -2px;
+  left: -2px;*/
+}
+.icon-set .icon-play {
+/*  top: -2px;
+  left: -2px;*/
+}
+.icon-set .icon-remove {
+/*  top: -2px;
+  right: 2px;*/
 }

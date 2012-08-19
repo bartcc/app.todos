@@ -121,7 +121,7 @@ class PhotosController extends AppController {
     $this->render(SIMPLE_JSON);
   }
 
-  public function uri($width = 150, $height = 150, $square = 2) {
+  public function uri($width = 550, $height = 550, $square = 2) {
     $json = array();
     if ($this->Auth->user('id')) {
       $user_id = $uid = $this->Auth->user('id');

@@ -29,6 +29,7 @@ class AlbumEditView extends Spine.Controller
     Spine.trigger('album:activate')
 
   change: (item, mode) ->
+    return unless item
     console.log 'AlbumEditView::change'
     switch item?.constructor.className
       when 'Album'

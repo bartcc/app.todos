@@ -48,15 +48,16 @@ class PhotosView extends Spine.Controller
     Photo.bind('create:join', @proxy @createJoin)
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
-    Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
+    Spine.bind('change:selectedAlbum', @proxy @renderHeader)
+#    Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('start:slideshow', @proxy @slideshow)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
     
-  change: (album, changed) ->
-    @updateBuffer album if changed
+  change: (item, changed) ->
+    @updateBuffer item if changed
     @render @buffer if @buffer
   
   updateBuffer: (album) ->
@@ -71,7 +72,6 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::render'
     # render only if necessary
     return unless @isActive()
-#      Spine.trigger('slideshow:ready')
       
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode
@@ -153,7 +153,6 @@ class PhotosView extends Spine.Controller
   save: (item) ->
 
   refresh: (photos) ->
-    @clearPhotoCache()
     if Album.record
       @createJoin Album.record, photos
     else

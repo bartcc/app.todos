@@ -256,23 +256,25 @@ Sidebar = (function() {
     gallery = new Gallery(this.newAttributes());
     return gallery.save();
   };
-  Sidebar.prototype.destroy = function() {
-    var ga, gas, _i, _len;
+  Sidebar.prototype.destroy = function(itm) {
+    var ga, gas, item, _i, _len, _ref;
+    item = itm != null ? typeof itm.reload === "function" ? itm.reload() : void 0 : void 0;
     console.log('Sidebar::destroy');
-    if (Gallery.record) {
-      gas = GalleriesAlbum.filter(Gallery.record.id, {
-        key: 'gallery_id'
+    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Gallery') {
+      return;
+    }
+    gas = GalleriesAlbum.filter(item.id, {
+      key: 'gallery_id'
+    });
+    for (_i = 0, _len = gas.length; _i < _len; _i++) {
+      ga = gas[_i];
+      Spine.Ajax.disable(function() {
+        return ga.destroy();
       });
-      for (_i = 0, _len = gas.length; _i < _len; _i++) {
-        ga = gas[_i];
-        Spine.Ajax.disable(function() {
-          return ga.destroy();
-        });
-      }
-      Gallery.record.destroy();
-      if (!Gallery.count()) {
-        return Gallery.current();
-      }
+    }
+    item.destroy();
+    if (!Gallery.count()) {
+      return Gallery.current();
     }
   };
   Sidebar.prototype.edit = function() {

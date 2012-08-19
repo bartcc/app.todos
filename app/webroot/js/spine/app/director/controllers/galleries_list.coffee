@@ -6,16 +6,21 @@ class GalleriesList extends Spine.Controller
   @extend Spine.Controller.Drag
   
   events:
-    'click'   : 'clickDeselect'
-    'click .item'   : 'click'
-    'dblclick .item': 'dblclick'
+    'click'                   : 'clickDeselect'
+    'click .item'             : 'click'
+    'dblclick .item'          : 'zoom'
+    'click .icon-set .delete' : 'deleteGallery'
+    'click .icon-set .zoom'   : 'zoom'
+    'mousemove .item'         : 'infoUp'
+    'mouseleave .item'        : 'infoBye'
   
   constructor: ->
     super
-    Spine.bind('change:selectedGallery', @proxy @exposeSelection)
+    Spine.bind('change:selectedGallery', @proxy @change)
 
-  change: ->
+  change: (item) ->
     console.log 'GalleryList::change'
+    @exposeSelection(item)
     
         
   render: (items) ->
@@ -47,13 +52,34 @@ class GalleriesList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
 
-  dblclick: (e) ->
-    console.log 'GalleryList::dblclick'
-    @navigate '/gallery/' + Gallery.record.id
-#    Spine.trigger('show:albums')
-#    Spine.trigger('gallery:activate')
+  zoom: (e) ->
+    console.log 'GalleryList::zoom'
+    item = $(e.currentTarget).item()
+    return unless item?.constructor?.className is 'Gallery'
+    Gallery.current item
+    @navigate '/gallery', Gallery.record.id
     
     e.stopPropagation()
+    e.preventDefault()
+    
+  deleteGallery: (e) ->
+    item = $(e.currentTarget).item()
+    el = $(e.currentTarget).parents('.item')
+    el.removeClass('in')
+    
+    window.setTimeout( ->
+      Spine.trigger('destroy:gallery', item)
+    , 300)
+    
+    e.preventDefault()
+    e.stopPropagation()
+    
+  infoUp: (e) =>
+    el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    e.preventDefault()
+    
+  infoBye: (e) =>
+    el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
 
 module?.exports = GalleriesList

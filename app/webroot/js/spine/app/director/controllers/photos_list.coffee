@@ -8,8 +8,8 @@ class PhotosList extends Spine.Controller
     
   events:
     'click .item'             : 'click'
-    'click .more-icon.delete' : 'deletePhoto'
-    'dblclick .item'          : 'dblclick'
+    'click .icon-set .zoom'   : 'zoom'
+    'click .icon-set .delete' : 'deletePhoto'
     
     'mouseenter .item'        : 'infoEnter'
     'mousemove'               : 'infoMove'
@@ -35,9 +35,10 @@ class PhotosList extends Spine.Controller
   change: ->
     console.log 'PhotosList::change'
     
-  select: (item, e) ->
+  select: (item, lonely) ->
     console.log 'PhotosList::select'
-    @current = Photo.current(item)
+    item?.addRemoveSelection(lonely)
+    @current = Photo.current(item?)
     @exposeSelection()
   
   render: (items, mode='html') ->
@@ -91,7 +92,9 @@ class PhotosList extends Spine.Controller
     console.log 'PhotosList::uri'
     @size(@parent.sOutValue)
     
-    Photo.uri @thumbSize(), mode, (xhr, record) => @callback xhr, items
+    Photo.uri @thumbSize(),
+      (xhr, record) => @callback(xhr, items),
+      @photos()
   
   callback: (json = [], items) =>
     console.log 'PhotosList::callback'
@@ -108,6 +111,12 @@ class PhotosList extends Spine.Controller
         img.onload = @imageLoad
         img.src = src
     @loadModal items
+    
+  photos: ->
+    if Album.record
+      Album.record.photos()
+    else
+      Photo.all()
     
   imageLoad: ->
     css = 'url(' + @src + ')'
@@ -126,7 +135,9 @@ class PhotosList extends Spine.Controller
     force: false
     
   loadModal: (items, mode='html') ->
-    Photo.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
+    Photo.uri @modalParams(),
+      (xhr, record) => @callbackModal(xhr, items),
+      @photos()
   
   callbackModal: (json, items) ->
     console.log 'Slideshow::callbackModal'
@@ -175,28 +186,36 @@ class PhotosList extends Spine.Controller
     
   click: (e) ->
     console.log 'PhotosList::click'
-    item = $(e.target).item()
-    item.addRemoveSelection(@isCtrlClick(e))
+    item = $(e.currentTarget).item()
     
-#    if App.hmanager.hasActive()
-#      @openPanel('photo', App.showView.btnPhoto)
-    
+    @select item, @isCtrlClick(e)
     App.showView.trigger('change:toolbarOne')
-    @select item, e
+    
     e.stopPropagation() if $(e.target).hasClass('thumbnail')
   
-  dblclick: (e) ->
-    console.log 'PhotosList::dblclick'
-#    Spine.trigger('show:photo', @current)
+  zoom: (e) ->
+    console.log 'PhotosList::zoom'
+    item = $(e?.currentTarget).item() || @current
+    return unless item?.constructor?.className is 'Photo'
+    @select(item, true)
+    
     @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id + '/' + @current.id
-    @exposeSelection()
-    e.stopPropagation()
-    e.preventDefault()
+    
+    e?.stopPropagation()
+    e?.preventDefault()
   
   deletePhoto: (e) ->
-    item = $(e.target).closest('.item').item()
+    item = $(e.currentTarget).item()
+    return unless item?.constructor?.className is 'Photo' 
+    
+    el = $(e.currentTarget).parents('.item')
+    el.removeClass('in')
     Album.updateSelection item.id
-    Spine.trigger('destroy:photo')
+    
+    window.setTimeout( ->
+      Spine.trigger('destroy:photo')
+    , 300)
+    
     @stopInfo()
     e.stopPropagation()
     e.preventDefault()
@@ -227,23 +246,25 @@ class PhotosList extends Spine.Controller
     
   infoUp: (e) =>
     @info.up(e)
+    el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     e.preventDefault()
     
   infoBye: (e) =>
     @info.bye()
+    el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
     
   stopInfo: (e) =>
     @info.bye()
     
   infoEnter: (e) ->
-    el = $(e.target).find('.more-icon')
-    el.addClass('in')
+#    el = $(e.target).find('.more-icon')
+#    el.addClass('in')
     
   infoMove: (e) ->
-    return unless $(e.target).hasClass('items')
-    el = $(e.target).find('.more-icon')
-    el.removeClass('in')
+#    return unless $(e.target).hasClass('items')
+#    el = $(e.target).find('.more-icon')
+#    el.removeClass('in')
     
   sliderStart: =>
     @refreshElements()

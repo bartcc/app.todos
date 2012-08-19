@@ -155,7 +155,7 @@ Model.Extender =
         model = @constructor['parentSelector']
         list = Spine.Model[model]?.selectionList()
         return unless list
-        unless isMetaKey
+        if isMetaKey
           @addUnique(list)
         else
           @addRemove(list)

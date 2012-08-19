@@ -114,6 +114,13 @@ Toolbar = (function() {
           icon: 'asterisk',
           klass: 'optCreateAlbum'
         }, {
+          name: 'Zoom',
+          icon: 'zoom-in',
+          klass: 'optZoom',
+          disabled: function() {
+            return Gallery.selectionList().length !== 1;
+          }
+        }, {
           name: 'Edit',
           icon: 'pencil',
           klass: 'optAlbum',
@@ -366,10 +373,10 @@ Toolbar = (function() {
       locked: true,
       content: [
         {
-          name: 'x',
+          name: '',
           klass: 'optPrevious',
           innerklass: 'chromeless',
-          outerstyle: 'float: right;',
+          outerstyle: 'float: left;',
           innerstyle: 'left: -8px; top: 8px;'
         }
       ]
@@ -435,11 +442,12 @@ Toolbar = (function() {
           type: 'div',
           innerstyle: 'width: 190px; position: relative;'
         }, {
-          name: 'x',
+          name: '',
           klass: 'optPrevious',
-          innerklass: 'chromeless',
+          type: 'span',
+          innerklass: 'icon-white icon-remove',
           outerstyle: 'float: right;',
-          innerstyle: 'left: -8px; top: 8px;'
+          innerstyle: 'left: -8px; top: 8px; position:relative;'
         }
       ]
     }

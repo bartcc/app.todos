@@ -22,8 +22,8 @@ class ShowView extends Spine.Controller
     '.photos'                 : 'photosEl'
     '.photo'                  : 'photoEl'
     '.slideshow'              : 'slideshowEl'
+    
     '.slider'                 : 'slider'
-    '.close'                  : 'btnClose'
     '.optAlbum'               : 'btnAlbum'
     '.optGallery'             : 'btnGallery'
     '.optPhoto'               : 'btnPhoto'
@@ -42,6 +42,7 @@ class ShowView extends Spine.Controller
     'click .optDestroyAlbum:not(.disabled)'          : 'destroyAlbum'
     'click .optDestroyPhoto:not(.disabled)'          : 'destroyPhoto'
     'click .optEditGallery:not(.disabled)'           : 'editGallery' # for the large edit view
+    'click .optZoom:not(.disabled)'                  : 'zoomAlbum'
     'click .optGallery:not(.disabled)'               : 'toggleGalleryShow'
     'click .optAlbum:not(.disabled)'                 : 'toggleAlbumShow'
     'click .optPhoto:not(.disabled)'                 : 'togglePhotoShow'
@@ -110,28 +111,30 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
+    @bind('show:previous', @proxy @showPrevious)
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
     Album.bind('change', @proxy @changeToolbarOne)
     Photo.bind('change', @proxy @changeToolbarOne)
+    Photo.bind('refresh', @proxy @refreshToolbars)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
     
     Spine.bind('show:allPhotos', @proxy @showAllPhotos)
     Spine.bind('show:allAlbums', @proxy @showAllAlbums)
     Spine.bind('slideshow:ready', @proxy @play)
     
-    @current = @albumsView
-    @sOutValue = 74 # size thumbs initially are shown (slider setting)
+    @sOutValue = 174 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
+    @current = @galleriesView
     @slideshowAutoStart = false
-    @edit = @editGallery
+#    @edit = @editGallery
     
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
-    @canvasManager.change @current
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
-    @headerManager.change @albumsHeader
-#    @el.dropdown( '.dropdown-toggle' )
+    
+    # switch to assigned start view
+    @canvasManager.change @galleriesView
     
   canvas: (controller) ->
     console.log 'ShowView::changeCanvas'
@@ -184,6 +187,9 @@ class ShowView extends Spine.Controller
   editAlbum: (e) ->
     Spine.trigger('edit:album')
 
+  zoomAlbum: ->
+    Spine.trigger('zoom:album')
+    
   destroyGallery: (e) ->
     Spine.trigger('destroy:gallery')
     @deselect()
@@ -332,7 +338,6 @@ class ShowView extends Spine.Controller
       root = @current.el.children('.items')
       parent = root.children().forItem(item)
       el = $('[rel="gallery"]', parent)[0]
-      console.log el
       el
     
     if @slideshowable()
@@ -344,10 +349,6 @@ class ShowView extends Spine.Controller
     return unless @slideshowable()
     modal = $('#modal-gallery').data('modal')
     isShown = modal?.isShown
-    
-    console.log 'modal'
-    console.log modal
-    console.log isShown
     
     unless isShown
       @slideshowPlay(e)
@@ -384,7 +385,7 @@ class ShowView extends Spine.Controller
     root = @current.el.children('.items')
     root.children().each (index, el) ->
       item = $(@).item()
-      item.addRemoveSelection(true)
+      item.addRemoveSelection()
     @current.list?.select()
     @changeToolbarOne()
     
@@ -439,8 +440,8 @@ class ShowView extends Spine.Controller
     
   showPrevious: ->
 #    App.sidebar.toggleDraghandle()
-    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
-#    @previous.show()
+#    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
+    @previous.show()
   
   showModal: ->
     @modalView.render
@@ -450,10 +451,7 @@ class ShowView extends Spine.Controller
     @modalView.show()
     
   showAllPhotos: ->
-    Gallery.emptySelection()
-    Album.emptySelection()
-    Album.current()
-    @navigate '/gallery/' + false + '/' + false
+    @navigate '/photos/'
     
   showAllAlbums: ->
     @navigate '/gallery/' + false

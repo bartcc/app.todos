@@ -240,7 +240,7 @@ Model.Extender = {
         if (!list) {
           return;
         }
-        if (!isMetaKey) {
+        if (isMetaKey) {
           this.addUnique(list);
         } else {
           this.addRemove(list);

@@ -17,14 +17,21 @@ GalleriesList = (function() {
   GalleriesList.prototype.events = {
     'click': 'clickDeselect',
     'click .item': 'click',
-    'dblclick .item': 'dblclick'
+    'dblclick .item': 'zoom',
+    'click .icon-set .delete': 'deleteGallery',
+    'click .icon-set .zoom': 'zoom',
+    'mousemove .item': 'infoUp',
+    'mouseleave .item': 'infoBye'
   };
   function GalleriesList() {
+    this.infoBye = __bind(this.infoBye, this);
+    this.infoUp = __bind(this.infoUp, this);
     this.select = __bind(this.select, this);    GalleriesList.__super__.constructor.apply(this, arguments);
-    Spine.bind('change:selectedGallery', this.proxy(this.exposeSelection));
+    Spine.bind('change:selectedGallery', this.proxy(this.change));
   }
-  GalleriesList.prototype.change = function() {
-    return console.log('GalleryList::change');
+  GalleriesList.prototype.change = function(item) {
+    console.log('GalleryList::change');
+    return this.exposeSelection(item);
   };
   GalleriesList.prototype.render = function(items) {
     console.log('GalleryList::render');
@@ -57,10 +64,37 @@ GalleriesList = (function() {
     e.stopPropagation();
     return e.preventDefault();
   };
-  GalleriesList.prototype.dblclick = function(e) {
-    console.log('GalleryList::dblclick');
-    this.navigate('/gallery/' + Gallery.record.id);
+  GalleriesList.prototype.zoom = function(e) {
+    var item, _ref;
+    console.log('GalleryList::zoom');
+    item = $(e.currentTarget).item();
+    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Gallery') {
+      return;
+    }
+    Gallery.current(item);
+    this.navigate('/gallery', Gallery.record.id);
     e.stopPropagation();
+    return e.preventDefault();
+  };
+  GalleriesList.prototype.deleteGallery = function(e) {
+    var el, item;
+    item = $(e.currentTarget).item();
+    el = $(e.currentTarget).parents('.item');
+    el.removeClass('in');
+    window.setTimeout(function() {
+      return Spine.trigger('destroy:gallery', item);
+    }, 300);
+    e.preventDefault();
+    return e.stopPropagation();
+  };
+  GalleriesList.prototype.infoUp = function(e) {
+    var el;
+    el = $('.icon-set', $(e.currentTarget)).addClass('in').removeClass('out');
+    return e.preventDefault();
+  };
+  GalleriesList.prototype.infoBye = function(e) {
+    var el;
+    el = $('.icon-set', $(e.currentTarget)).addClass('out').removeClass('in');
     return e.preventDefault();
   };
   return GalleriesList;

@@ -27,6 +27,7 @@ Model.Cache = {
             return item[id];
           }
         }
+        console.log(item);
         throw 'record ' + id + ' is not configured ';
       }, this),
       cache: function(url, id) {

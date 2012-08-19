@@ -15,6 +15,7 @@ Model.Cache =
         return unless id
         for item in @caches
           return item[id] if item[id]
+        console.log item
         throw 'record ' + id + ' is not configured '
         
       # returns array container

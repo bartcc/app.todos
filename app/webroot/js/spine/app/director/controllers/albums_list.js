@@ -166,7 +166,7 @@ AlbumsList = (function() {
     res = [];
     for (_i = 0, _len = json.length; _i < _len; _i++) {
       jsn = json[_i];
-      res.unshift(search(jsn));
+      res.push(search(jsn));
     }
     css = (function() {
       var _j, _len2, _results;

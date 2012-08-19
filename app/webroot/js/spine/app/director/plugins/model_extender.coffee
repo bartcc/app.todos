@@ -136,7 +136,7 @@ Model.Extender =
       filterRelated: (id, options) ->
         joinTableItems = Spine.Model[options.joinTable].filter(id, options)
         if options.sorted
-          return @sortByReverseOrder @filter joinTableItems
+          return @sortByOrder @filter joinTableItems
         else
           return @filter joinTableItems
           

@@ -103,8 +103,8 @@ Login = (function() {
   };
   Login.prototype.guestLogin = function() {
     console.log('guest login');
-    this.usernameEl.val('admin');
-    this.passwordEl.val('admin');
+    this.usernameEl.val('guest');
+    this.passwordEl.val('guest');
     return this.submit();
   };
   Login.prototype.submitOnEnter = function(e) {

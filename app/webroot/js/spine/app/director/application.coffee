@@ -140,14 +140,17 @@ class App extends Spine.Controller
         gallery = Gallery.find(params.id) if Gallery.exists(params.id)
         Gallery.current(gallery)
       '/galleries/': ->
+        @contentManager.change(@showView)
         Spine.trigger('gallery:activate', false)
         Spine.trigger 'show:galleries'
       '/photos/': ->
+        @contentManager.change(@showView)
         Spine.trigger('show:photos')
         Album.current()
       '/overview/': ->
         Spine.trigger('show:overview', true)
       '/slideshow/:id': ->
+        @contentManager.change(@showView)
         Spine.trigger('album:activate')
         Spine.trigger('show:slideshow')
     
@@ -234,4 +237,9 @@ $ ->
   User.ping()
   window.App = new App(el: $('body'))
   Spine.Route.setup()
-  App.navigate '/overview/'
+  App.navigate '/galleries/'
+  window.setTimeout( ->
+    App.contentManager.change App.overviewView
+    App.navigate '/overview/'
+  , 1500)
+    

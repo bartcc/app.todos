@@ -167,10 +167,12 @@ App = (function() {
         return Gallery.current(gallery);
       },
       '/galleries/': function() {
+        this.contentManager.change(this.showView);
         Spine.trigger('gallery:activate', false);
         return Spine.trigger('show:galleries');
       },
       '/photos/': function() {
+        this.contentManager.change(this.showView);
         Spine.trigger('show:photos');
         return Album.current();
       },
@@ -178,6 +180,7 @@ App = (function() {
         return Spine.trigger('show:overview', true);
       },
       '/slideshow/:id': function() {
+        this.contentManager.change(this.showView);
         Spine.trigger('album:activate');
         return Spine.trigger('show:slideshow');
       }
@@ -278,5 +281,9 @@ $(function() {
     el: $('body')
   });
   Spine.Route.setup();
-  return App.navigate('/overview/');
+  App.navigate('/galleries/');
+  return window.setTimeout(function() {
+    App.contentManager.change(App.overviewView);
+    return App.navigate('/overview/');
+  }, 1500);
 });

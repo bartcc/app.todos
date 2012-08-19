@@ -76,9 +76,7 @@ class OverviewView extends Spine.Controller
     App.contentManager.change @
     @loadRecent()
     
-  close: ->
-    App.contentManager.change @previous
-    @navigate '/galleries/'
+  close: -> window.history.back()
     
   error: (xhr, statusText, error) ->
     console.log xhr

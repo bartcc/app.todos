@@ -153,6 +153,7 @@ ShowView = (function() {
     this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView, this.slideshowView);
     this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader, this.photoHeader);
     this.canvasManager.change(this.galleriesView);
+    this.headerManager.change(this.galleriesHeader);
   }
   ShowView.prototype.canvas = function(controller) {
     console.log('ShowView::changeCanvas');
@@ -402,9 +403,7 @@ ShowView = (function() {
     return false;
   };
   ShowView.prototype.slideshowPlay = function(e) {
-    if (!this.navigate('/slideshow/')) {
-      return Spine.trigger('slideshow:ready');
-    }
+    return this.navigate('/slideshow', Math.random() * 16 | 0);
   };
   ShowView.prototype.deselect = function(e) {
     var className, item;

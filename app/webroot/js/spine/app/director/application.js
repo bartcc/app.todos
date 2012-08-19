@@ -177,7 +177,7 @@ App = (function() {
       '/overview/': function() {
         return Spine.trigger('show:overview', true);
       },
-      '/slideshow/': function() {
+      '/slideshow/:id': function() {
         Spine.trigger('album:activate');
         return Spine.trigger('show:slideshow');
       }

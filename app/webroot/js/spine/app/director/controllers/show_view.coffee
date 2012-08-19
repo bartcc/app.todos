@@ -137,6 +137,7 @@ class ShowView extends Spine.Controller
     
     # switch to assigned start view
     @canvasManager.change @galleriesView
+    @headerManager.change @galleriesHeader
     
   canvas: (controller) ->
     console.log 'ShowView::changeCanvas'
@@ -365,7 +366,8 @@ class ShowView extends Spine.Controller
     false
   
   slideshowPlay: (e) =>
-    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
+#    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
+    @navigate '/slideshow', (Math.random() * 16 | 0)
         
   deselect: (e) =>
     item = @el.data().current

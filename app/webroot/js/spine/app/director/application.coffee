@@ -147,7 +147,7 @@ class App extends Spine.Controller
         Album.current()
       '/overview/': ->
         Spine.trigger('show:overview', true)
-      '/slideshow/': ->
+      '/slideshow/:id': ->
         Spine.trigger('album:activate')
         Spine.trigger('show:slideshow')
     

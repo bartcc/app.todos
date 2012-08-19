@@ -117,7 +117,7 @@ OverviewView = (function() {
     return this.loadRecent();
   };
   OverviewView.prototype.close = function() {
-    return App.contentManager.change(App.showView);
+    return this.navigate('/gallery', Gallery.record.id);
   };
   OverviewView.prototype.error = function(xhr, statusText, error) {
     console.log(xhr);

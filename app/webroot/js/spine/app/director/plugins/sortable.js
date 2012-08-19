@@ -72,7 +72,7 @@ $.fn.Html5Sortable = function(opts) {
         console.log('Sort::dragend');
         $('._dragging').removeClass('_dragging');
         if ((_ref = Spine.sortItem.el) != null) {
-          _ref.addClass('in').removeClass('out in');
+          _ref.addClass('in').removeClass('out');
         }
         return Spine.sortItem.splitter.remove();
       }).bind('dragenter', function(e) {
@@ -109,7 +109,7 @@ $.fn.Html5Sortable = function(opts) {
         }
         sourceEl = $('._dragging');
         Spine.sortItem.splitter.remove();
-        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out');
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html);
         it.data(Spine.sortItem.data);
         model = $(it).item().constructor.className;
         if (!options.drop(sourceEl.get(0), it.get(0))) {
@@ -124,7 +124,7 @@ $.fn.Html5Sortable = function(opts) {
           that.init(it);
           it.addClass('in');
           $('._dragging').removeClass('_dragging');
-          it.removeClass('out in');
+          it.removeClass('out');
           return Spine.Model[model].trigger('sortupdate', e, it);
         }
       });

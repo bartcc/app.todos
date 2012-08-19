@@ -64,7 +64,7 @@ $.fn.Html5Sortable = (opts) ->
 #        catch e
 #          return true
           
-        Spine.sortItem.el?.addClass('in').removeClass('out in')
+        Spine.sortItem.el?.addClass('in').removeClass('out')
         
         Spine.sortItem.splitter.remove()
 
@@ -100,7 +100,7 @@ $.fn.Html5Sortable = (opts) ->
         sourceEl = $('._dragging')
         Spine.sortItem.splitter.remove()
         
-        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out')
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html)#.addClass('out')
         it.data Spine.sortItem.data
         model = $(it).item().constructor.className
 
@@ -118,7 +118,7 @@ $.fn.Html5Sortable = (opts) ->
           that.init it
           it.addClass('in')
           $('._dragging').removeClass('_dragging')
-          it.removeClass('out in')
+          it.removeClass('out')
           Spine.Model[model].trigger('sortupdate', e, it)
         
     that.children('li').each ->

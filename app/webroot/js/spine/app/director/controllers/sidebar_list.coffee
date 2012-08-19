@@ -210,7 +210,7 @@ class SidebarList extends Spine.Controller
     unless @isCtrlClick(e)
       Gallery.updateSelection [album.id]
       @exposeSublistSelection Gallery.record
-      @navigate '/gallery/' + gallery.id + '/' + album.id
+      @navigate '/gallery', gallery.id + '/' + album.id
     else
       @navigate '/photos/'
     
@@ -219,10 +219,10 @@ class SidebarList extends Spine.Controller
     
   click: (e) ->
     console.log 'SidebarList::click'
-    item = $(e.currentTarget).item()
-    
+    item = $(e.target).item()
+    console.log item.reload()
 #    dont act on no-gallery items like the 'no album' - info
-    return unless item
+#    return unless item
     
     @navigate '/gallery/' + item?.id
 

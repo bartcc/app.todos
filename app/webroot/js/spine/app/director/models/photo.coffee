@@ -49,6 +49,7 @@ class Photo extends Spine.Model
     @__super__.constructor.refresh.call @, values, options
     
   init: (instance) ->
+    console.log instance.id
     @constructor.initCache instance.id
 #    o = new Object()
 #    o[instance.id] = []

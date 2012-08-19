@@ -66,9 +66,7 @@ class AlbumsView extends Spine.Controller
     
     
     if item.constructor.className is 'GalleriesAlbum' and item.destroyed
-      @navigate '/gallery/' + @gallery?.id
-#      Spine.trigger('show:albums')
-#      Spine.trigger('gallery:activate')
+      @navigate '/gallery', @gallery?.id
         
     if (!gallery) or (gallery.destroyed)
       @current = Album.filter()
@@ -118,9 +116,9 @@ class AlbumsView extends Spine.Controller
   newAttributes: ->
     if User.first()
       title   : 'New Album'
-      invalid : false
+#      invalid : false
       user_id : User.first().id
-      order   : Album.nextOrder()
+#      order   : Album.count()
     else
       User.ping()
   
@@ -128,13 +126,14 @@ class AlbumsView extends Spine.Controller
     console.log 'AlbumsView::create'
     album = new Album @newAttributes()
     album.save success: @createCallback
-    Gallery.updateSelection [album.id]
-    Album.current(album)
 
   createCallback: ->
+    Gallery.updateSelection [@id]
+    Album.current(@)
+    
     Album.trigger('create:join', Gallery.record, @) if Gallery.record
     Gallery.updateSelection [@id]
-    Spine.trigger('album:activate')
+    Spine.trigger('album:activate', @)
 
   destroy: (e) ->
     console.log 'AlbumsView::destroy'

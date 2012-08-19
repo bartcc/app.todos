@@ -74,7 +74,7 @@ AlbumsView = (function() {
     }
     this.gallery = gallery = Gallery.record;
     if (item.constructor.className === 'GalleriesAlbum' && item.destroyed) {
-      this.navigate('/gallery/' + ((_ref = this.gallery) != null ? _ref.id : void 0));
+      this.navigate('/gallery', (_ref = this.gallery) != null ? _ref.id : void 0);
     }
     if ((!gallery) || gallery.destroyed) {
       this.current = Album.filter();
@@ -119,7 +119,7 @@ AlbumsView = (function() {
     _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       alb = albums[_i];
-      _results.push(alb.invalid ? (Album.clearCache(alb.id), this.list.refreshBackgrounds(alb), alb.invalid = false, alb.save({
+      _results.push(alb.invalid ? (this.list.refreshBackgrounds(alb), alb.invalid = false, alb.save({
         ajax: false
       })) : void 0);
     }
@@ -129,9 +129,7 @@ AlbumsView = (function() {
     if (User.first()) {
       return {
         title: 'New Album',
-        invalid: false,
-        user_id: User.first().id,
-        order: Album.all().length
+        user_id: User.first().id
       };
     } else {
       return User.ping();
@@ -141,18 +139,18 @@ AlbumsView = (function() {
     var album;
     console.log('AlbumsView::create');
     album = new Album(this.newAttributes());
-    album.save({
+    return album.save({
       success: this.createCallback
     });
-    Gallery.updateSelection([album.id]);
-    return Album.current(album);
   };
   AlbumsView.prototype.createCallback = function() {
+    Gallery.updateSelection([this.id]);
+    Album.current(this);
     if (Gallery.record) {
       Album.trigger('create:join', Gallery.record, this);
     }
     Gallery.updateSelection([this.id]);
-    return Spine.trigger('album:activate');
+    return Spine.trigger('album:activate', this);
   };
   AlbumsView.prototype.destroy = function(e) {
     var album, albums, ga, gallery, gas, list, photos, _i, _j, _k, _len, _len2, _len3, _results;

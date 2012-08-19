@@ -12,9 +12,10 @@ class Sidebar extends Spine.Controller
     '.optAllPhotos'         : 'photos'
 
   events:
-    "keyup input"           : "filter"
-    "click button.create"   : "create"
-    "dblclick .draghandle"  : 'toggleDraghandle'
+    'keyup input'           : 'filter'
+    'click .createAlbum'    : 'createAlbum'
+    'click .createGallery'  : 'createGallery'
+    'dblclick .draghandle'  : 'toggleDraghandle'
 
     'dragstart  .items .item'        : 'dragstart'
     'dragenter  .items .item'        : 'dragenter'
@@ -37,7 +38,7 @@ class Sidebar extends Spine.Controller
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Gallery.bind("ajaxSuccess", Gallery.successHandler)
     
-    Spine.bind('create:gallery', @proxy @create)
+    Spine.bind('create:gallery', @proxy @createGallery)
     Spine.bind('edit:gallery', @proxy @edit)
     Spine.bind('destroy:gallery', @proxy @destroy)
     Spine.bind('drag:start', @proxy @dragStart)
@@ -79,6 +80,7 @@ class Sidebar extends Spine.Controller
       
 
     # make an unselected item part of selection only if there is nothing selected yet
+    return unless Album.isArray(selection)
     if !(source.id in selection)# and !(selection.length)
       source.emptySelection().push source.id
       switch source.constructor.className
@@ -183,11 +185,15 @@ class Sidebar extends Spine.Controller
         return proposal = @galleryName(proposal + '_1')
     return proposal
 
-  create: ->
+  createGallery: ->
     console.log 'Sidebar::create'
-    App.showView.openPanel('gallery')
+#    App.showView.openPanel('gallery')
     gallery = new Gallery @newAttributes()
+    console.log gallery
     gallery.save()
+    
+  createAlbum: ->
+    Spine.trigger('create:album')
 
   destroy: (itm) ->
     item = itm?.reload?()

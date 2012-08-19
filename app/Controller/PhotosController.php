@@ -110,12 +110,23 @@ class PhotosController extends AppController {
   public function recent($max = 10) {
     $this->autoRender = false;
     $this->Photo->recursive = -1;
-    $recent = $this->Photo->find('all', array(
-        'Photo.created >' => date('Y-m-d', strtotime('-20 weeks')),
-        'order' => array('Photo.created DESC'),
-        'limit' => $max
-      )
-    );
+    
+    $json = array();
+    if ($this->Auth->user('id')) {
+      $user_id = $uid = $this->Auth->user('id');
+      
+      $recent = $this->Photo->find('all', array(
+          'Photo.created >' => date('Y-m-d', strtotime('-20 weeks')),
+          'order' => array('Photo.created DESC'),
+          'user_id' => $user_id,
+          'limit' => $max
+        )
+      );
+      
+    } else {
+      $json = array('flash' => '<strong style="color:red">No valid user</strong>');
+      $this->response->header("WWW-Authenticate: Negotiate");
+    }
 //    $this->log($recent, LOG_DEBUG);
     $json = $this->set('_serialize', $recent);
     $this->render(SIMPLE_JSON);
@@ -200,5 +211,3 @@ class PhotosController extends AppController {
   }
 
 }
-
-?>

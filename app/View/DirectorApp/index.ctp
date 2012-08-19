@@ -32,7 +32,8 @@
         </div>
         <ul class="items canvas vbox flex autoflow"></ul>
         <footer class="footer">
-          <button class="create dark">+ Gallery</button>
+          <button class="createGallery dark">+ Gallery</button>
+          <button class="createAlbum dark">+ Album</button>
         </footer>
       </div>
       <div class="vdivide draghandle"></div>

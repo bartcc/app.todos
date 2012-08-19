@@ -25,9 +25,10 @@ Sidebar = (function() {
     '.optAllPhotos': 'photos'
   };
   Sidebar.prototype.events = {
-    "keyup input": "filter",
-    "click button.create": "create",
-    "dblclick .draghandle": 'toggleDraghandle',
+    'keyup input': 'filter',
+    'click .createAlbum': 'createAlbum',
+    'click .createGallery': 'createGallery',
+    'dblclick .draghandle': 'toggleDraghandle',
     'dragstart  .items .item': 'dragstart',
     'dragenter  .items .item': 'dragenter',
     'dragleave  .items .item': 'dragleave',
@@ -52,7 +53,7 @@ Sidebar = (function() {
     Gallery.bind("refresh change", this.proxy(this.render));
     Gallery.bind("ajaxError", Gallery.errorHandler);
     Gallery.bind("ajaxSuccess", Gallery.successHandler);
-    Spine.bind('create:gallery', this.proxy(this.create));
+    Spine.bind('create:gallery', this.proxy(this.createGallery));
     Spine.bind('edit:gallery', this.proxy(this.edit));
     Spine.bind('destroy:gallery', this.proxy(this.destroy));
     Spine.bind('drag:start', this.proxy(this.dragStart));
@@ -99,6 +100,9 @@ Sidebar = (function() {
         case 'Photo':
           selection = Album.selectionList();
       }
+    }
+    if (!Album.isArray(selection)) {
+      return;
     }
     if (!(_ref = source.id, __indexOf.call(selection, _ref) >= 0)) {
       source.emptySelection().push(source.id);
@@ -249,12 +253,15 @@ Sidebar = (function() {
     }, this));
     return proposal;
   };
-  Sidebar.prototype.create = function() {
+  Sidebar.prototype.createGallery = function() {
     var gallery;
     console.log('Sidebar::create');
-    App.showView.openPanel('gallery');
     gallery = new Gallery(this.newAttributes());
+    console.log(gallery);
     return gallery.save();
+  };
+  Sidebar.prototype.createAlbum = function() {
+    return Spine.trigger('create:album');
   };
   Sidebar.prototype.destroy = function(itm) {
     var ga, gas, item, _i, _len, _ref;

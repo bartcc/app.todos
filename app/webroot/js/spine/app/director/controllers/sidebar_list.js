@@ -285,7 +285,7 @@ SidebarList = (function() {
     if (!this.isCtrlClick(e)) {
       Gallery.updateSelection([album.id]);
       this.exposeSublistSelection(Gallery.record);
-      this.navigate('/gallery/' + gallery.id + '/' + album.id);
+      this.navigate('/gallery', gallery.id + '/' + album.id);
     } else {
       this.navigate('/photos/');
     }
@@ -295,10 +295,8 @@ SidebarList = (function() {
   SidebarList.prototype.click = function(e) {
     var item;
     console.log('SidebarList::click');
-    item = $(e.currentTarget).item();
-    if (!item) {
-      return;
-    }
+    item = $(e.target).item();
+    console.log(item.reload());
     return this.navigate('/gallery/' + (item != null ? item.id : void 0));
   };
   SidebarList.prototype.dblclick = function(e) {

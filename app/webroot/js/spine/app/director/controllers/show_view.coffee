@@ -108,6 +108,7 @@ class ShowView extends Spine.Controller
       parent: @
       parentModel: 'Photo'
       subview: true
+      photos: @activePhotos
     
     @bind('canvas', @proxy @canvas)
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
@@ -322,8 +323,20 @@ class ShowView extends Spine.Controller
     App[controller].activate()
     target.click()
     
+  activePhotos: ->
+    phos = []
+    albs =[]
+    albs.push itm for itm in Gallery.selectionList()
+    return unless albs.length
+    for alb in albs
+      album = Album.find(alb)
+      photos = album.photos()
+      phos.push pho for pho in photos
+    phos
+    
   slideshowable: ->
-    Album.record and Album.contains(Album.record.id)
+    @activePhotos().length
+    
     
   play: ->
     console.log 'ShowView::play'

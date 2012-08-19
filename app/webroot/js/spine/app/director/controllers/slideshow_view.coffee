@@ -61,7 +61,7 @@ class SlideshowView extends Spine.Controller
     console.log 'SlideshowView::uri'
     Photo.uri @params(),
       (xhr, record) => @callback(items, xhr),
-      Album.record.photos()
+      @photos()
     
   # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
@@ -92,7 +92,7 @@ class SlideshowView extends Spine.Controller
 #    Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
     Photo.uri @modalParams(),
       (xhr, record) => @callbackModal(xhr, items),
-      Album.record.photos()
+      @photos()
   
   callbackModal: (json, items) ->
     console.log 'Slideshow::callbackModal'
@@ -124,8 +124,7 @@ class SlideshowView extends Spine.Controller
       joinTable: 'AlbumsPhoto'
       sorted: true
       
-    items = Photo.filterRelated(Album.record.id, filterOptions)
-    @render items
+    @render @photos()
     
   close: (e) ->
     @parent.showPrevious()

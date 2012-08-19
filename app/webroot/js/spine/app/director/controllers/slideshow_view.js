@@ -79,7 +79,7 @@ SlideshowView = (function() {
     console.log('SlideshowView::uri');
     return Photo.uri(this.params(), __bind(function(xhr, record) {
       return this.callback(items, xhr);
-    }, this), Album.record.photos());
+    }, this), this.photos());
   };
   SlideshowView.prototype.callback = function(items, json) {
     var ele, img, item, jsn, searchJSON, src, _i, _len;
@@ -122,7 +122,7 @@ SlideshowView = (function() {
     }
     return Photo.uri(this.modalParams(), __bind(function(xhr, record) {
       return this.callbackModal(xhr, items);
-    }, this), Album.record.photos());
+    }, this), this.photos());
   };
   SlideshowView.prototype.callbackModal = function(json, items) {
     var el, item, jsn, searchJSON, _i, _len;
@@ -151,7 +151,7 @@ SlideshowView = (function() {
     return Spine.trigger('slideshow:ready');
   };
   SlideshowView.prototype.show = function() {
-    var filterOptions, items;
+    var filterOptions;
     console.log('Slideshow::show');
     App.showView.trigger('change:toolbarOne', ['']);
     App.showView.trigger('change:toolbarTwo', ['SlideshowPackage', App.showView.initSlider]);
@@ -161,8 +161,7 @@ SlideshowView = (function() {
       joinTable: 'AlbumsPhoto',
       sorted: true
     };
-    items = Photo.filterRelated(Album.record.id, filterOptions);
-    return this.render(items);
+    return this.render(this.photos());
   };
   SlideshowView.prototype.close = function(e) {
     this.parent.showPrevious();

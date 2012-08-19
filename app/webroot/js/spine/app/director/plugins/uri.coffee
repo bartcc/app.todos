@@ -42,7 +42,6 @@ class Base
     Ajax.queue(callback)
     
   get: ->
-#    alert 'CALLING'
     @queue =>
       @ajax(
         type: "POST"
@@ -59,7 +58,7 @@ class Uri extends Base
     super
     options = $.extend({}, @settings, params)
     @url = @uri options
-  
+    return unless @data.length
   settings:
     square: 1
     quality: 70

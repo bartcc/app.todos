@@ -53,6 +53,7 @@ PhotosList = (function() {
     return this.exposeSelection();
   };
   PhotosList.prototype.render = function(items, mode) {
+    var html;
     if (mode == null) {
       mode = 'html';
     }
@@ -66,7 +67,12 @@ PhotosList = (function() {
         }
         this.uri(items, mode);
       } else {
-        this.html('<label class="invite"><span class="enlightened">This album has no images.</span></label>');
+        html = '<label class="invite"><span class="enlightened">This Album has no Photos. &nbsp;';
+        if (Photo.count()) {
+          html += '<button class="optShowAllPhotos dark large">Show existing Photos</button></span>';
+        }
+        html += '</label>';
+        this.html(html);
       }
     } else {
       this.el.addClass('all');

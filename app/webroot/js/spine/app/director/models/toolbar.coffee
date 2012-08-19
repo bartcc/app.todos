@@ -29,11 +29,11 @@ class Toolbar extends Spine.Model
         ,
           name: 'Slides View'
           klass: 'optShowSlideshow '
-          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
+          disabled: -> !App.showView.activePhotos.call @
         ,
           devider: true
         ,
-          name: 'Invert Selection (Cmd + A)'
+          name: 'Invert Selection | Cmd + A'
           klass: 'optSelectAll'
         ,
           name: 'Toggle Fullscreen'
@@ -41,7 +41,7 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: 'Toggle Sidebar (Tab)'
+          name: 'Toggle Sidebar | Tab'
           klass: 'optSidebar'
         ,
           devider: true
@@ -104,11 +104,11 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: -> 'Start Slideshow'
+          name: -> 'Start Slideshow | Space'
           icon: 'play-circle'
           klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
-          disabled: -> (!Gallery.selectionList().length) or !(Album.record and Album.record.contains())
+          disabled: -> !App.showView.activePhotos.call @
         ,
           name: -> 'Slideshow Autostart'
           icon: -> if App.showView.slideshowAutoStart then 'ok' else ''
@@ -244,17 +244,8 @@ class Toolbar extends Spine.Model
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
-        ]
-    group09:
-      name: 'Play'
-      content:
-        [
-          name: -> ''
-          klass: 'optSlideshowPlay'
-          icon: 'play'
-          iconcolor: 'white'
-          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
+          disabled_: -> false #!App.showView.slideshowable()
+          disabled: -> !App.showView.activePhotos.call @
         ]
     group10:
       name: 'Back'

@@ -53,12 +53,12 @@ Toolbar = (function() {
           name: 'Slides View',
           klass: 'optShowSlideshow ',
           disabled: function() {
-            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
+            return !App.showView.activePhotos.call(this);
           }
         }, {
           devider: true
         }, {
-          name: 'Invert Selection (Cmd + A)',
+          name: 'Invert Selection | Cmd + A',
           klass: 'optSelectAll'
         }, {
           name: 'Toggle Fullscreen',
@@ -66,7 +66,7 @@ Toolbar = (function() {
         }, {
           devider: true
         }, {
-          name: 'Toggle Sidebar (Tab)',
+          name: 'Toggle Sidebar | Tab',
           klass: 'optSidebar'
         }, {
           devider: true
@@ -148,13 +148,13 @@ Toolbar = (function() {
           devider: true
         }, {
           name: function() {
-            return 'Start Slideshow';
+            return 'Start Slideshow | Space';
           },
           icon: 'play-circle',
           klass: 'optSlideshowPlay',
           dataToggle: 'modal-gallery',
           disabled: function() {
-            return (!Gallery.selectionList().length) || !(Album.record && Album.record.contains());
+            return !App.showView.activePhotos.call(this);
           }
         }, {
           name: function() {
@@ -351,24 +351,11 @@ Toolbar = (function() {
           klass: 'optSlideshowPlay',
           icon: 'play',
           iconcolor: 'white',
-          disabled: function() {
-            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
-          }
-        }
-      ]
-    },
-    group09: {
-      name: 'Play',
-      content: [
-        {
-          name: function() {
-            return '';
+          disabled_: function() {
+            return false;
           },
-          klass: 'optSlideshowPlay',
-          icon: 'play',
-          iconcolor: 'white',
           disabled: function() {
-            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
+            return !App.showView.activePhotos.call(this);
           }
         }
       ]

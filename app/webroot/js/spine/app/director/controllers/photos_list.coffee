@@ -50,7 +50,11 @@ class PhotosList extends Spine.Controller
         @exposeSelection() if mode is 'html'
         @uri items, mode
       else
-        @html '<label class="invite"><span class="enlightened">This album has no images.</span></label>'
+        html = '<label class="invite"><span class="enlightened">This Album has no Photos. &nbsp;'
+        if Photo.count()
+          html += '<button class="optShowAllPhotos dark large">Show existing Photos</button></span>'
+        html += '</label>'
+        @html html
     else
       @el.addClass 'all'
       @renderAll()

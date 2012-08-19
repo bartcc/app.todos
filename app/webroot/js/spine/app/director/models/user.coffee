@@ -1,6 +1,6 @@
 class User extends Spine.Model
 
-  @configure 'User', 'id', 'username', 'name', 'groupname', 'sessionid'
+  @configure 'User', 'id', 'username', 'name', 'groupname', 'sessionid', 'hash'
   
   @extend Spine.Model.Local
   
@@ -15,9 +15,9 @@ class User extends Spine.Model
     @destroyAll()
     @redirect 'logout'
   
-  @redirect: (url='') ->
+  @redirect: (url='', hash='') ->
 #    window.location.replace base_url + url
-    location.href = base_url + url
+    location.href = base_url + url + hash
 
   init: (instance) ->
     return unless instance

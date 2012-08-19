@@ -14,7 +14,7 @@ User = (function() {
     this.success = __bind(this.success, this);
     User.__super__.constructor.apply(this, arguments);
   }
-  User.configure('User', 'id', 'username', 'name', 'groupname', 'sessionid');
+  User.configure('User', 'id', 'username', 'name', 'groupname', 'sessionid', 'hash');
   User.extend(Spine.Model.Local);
   User.ping = function() {
     var user;
@@ -29,11 +29,14 @@ User = (function() {
     this.destroyAll();
     return this.redirect('logout');
   };
-  User.redirect = function(url) {
+  User.redirect = function(url, hash) {
     if (url == null) {
       url = '';
     }
-    return location.href = base_url + url;
+    if (hash == null) {
+      hash = '';
+    }
+    return location.href = base_url + url + hash;
   };
   User.prototype.init = function(instance) {
     if (!instance) {}

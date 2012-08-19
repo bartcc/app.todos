@@ -161,7 +161,7 @@ class App extends Spine.Controller
       @old_statusIcon = @statusIcon[0].src
       @statusIcon[0].src = '/img/validated.png'
       @statusText.text 'Account verified'
-      @delay @setupView, 400
+      @delay @setupView, 300
       
   drop: (e) ->
     console.log 'App::drop'

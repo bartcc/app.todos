@@ -128,8 +128,7 @@ class SlideshowView extends Spine.Controller
     
   close: (e) ->
     @parent.showPrevious()
-    
-    false
+    @navigate '/gallery', Gallery.record.id if Gallery.record
     
   sliderStart: =>
     @refreshElements()

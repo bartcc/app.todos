@@ -812,7 +812,7 @@ textarea {
 #content .content .item:hover {
 }
 .container:not(.item) {
-  background-color: #555;
+  background-color: rgba(0,0,9, 0.5);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   padding: 10px;
   margin: 10px;
@@ -823,6 +823,9 @@ textarea {
   -webkit-border-radius: 10px;
   padding: 10px;
   width: auto;
+}
+.overview .container {
+  background-color: rgba(0,0,9, 0.2);
 }
 #main #content .photos.content .container {
   background: none;
@@ -835,7 +838,7 @@ textarea {
   width: 320px;
 }
 #main #content .content .container {
-  margin: 5px;
+  margin: 1px;
   padding: 21px 10px 10px;
 }
 #main #content .content .container .hoverinfo {

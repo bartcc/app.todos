@@ -39,10 +39,14 @@ Toolbar = (function() {
       name: 'View',
       content: [
         {
-          name: 'All Albums',
+          name: function() {
+            return 'All Albums (' + Album.count() + ')';
+          },
           klass: 'optShowAllAlbums'
         }, {
-          name: 'All Photos',
+          name: function() {
+            return 'All Photos (' + Photo.count() + ')';
+          },
           klass: 'optShowAllPhotos '
         }, {
           devider: true
@@ -53,7 +57,7 @@ Toolbar = (function() {
           name: 'Slides View',
           klass: 'optShowSlideshow ',
           disabled: function() {
-            return !App.showView.activePhotos.call(this);
+            return !App.showView.activePhotos.call();
           }
         }, {
           devider: true

@@ -165,7 +165,9 @@ SlideshowView = (function() {
   };
   SlideshowView.prototype.close = function(e) {
     this.parent.showPrevious();
-    return false;
+    if (Gallery.record) {
+      return this.navigate('/gallery', Gallery.record.id);
+    }
   };
   SlideshowView.prototype.sliderStart = function() {
     return this.refreshElements();

@@ -136,9 +136,7 @@
             </fieldset>
             <fieldset>
               <label><span class="enlightened">Summary:</span></label>
-              <div class="info">
-                Blank 
-              </div>
+              <div class="info"></div>
             </fieldset>
           </div>
           <div class="container">

@@ -66,6 +66,11 @@ Toolbar = (function() {
         }, {
           devider: true
         }, {
+          name: 'Toggle Sidebar (Tab)',
+          klass: 'optSidebar'
+        }, {
+          devider: true
+        }, {
           name: 'Modal Test',
           icon: 'th',
           iconcolor: 'black',

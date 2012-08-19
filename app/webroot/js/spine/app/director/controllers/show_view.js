@@ -21,6 +21,7 @@ ShowView = (function() {
     '.optGallery .ui-icon': 'btnGallery',
     '.optQuickUpload': 'btnQuickUpload',
     '.optPrevious': 'btnPrevious',
+    '.optSidebar': 'btnSidebar',
     '.optFullScreen': 'btnFullScreen',
     '.optSlideshowPlay': 'btnSlideshowPlay',
     '.toolbarOne': 'toolbarOneEl',
@@ -42,6 +43,7 @@ ShowView = (function() {
     'click .optOverview:not(.disabled)': 'showOverview',
     'click .optPrevious:not(.disabled)': 'showPrevious',
     'click .optShowModal:not(.disabled)': 'showModal',
+    'click .optSidebar:not(.disabled)': 'toggleSidebar',
     'click .optFullScreen:not(.disabled)': 'toggleFullScreen',
     'click .optCreateGallery:not(.disabled)': 'createGallery',
     'click .optCreateAlbum:not(.disabled)': 'createAlbum',
@@ -248,6 +250,10 @@ ShowView = (function() {
   };
   ShowView.prototype.toggleUpload = function(e) {
     return this.changeToolbarOne(['Upload']);
+  };
+  ShowView.prototype.toggleSidebar = function() {
+    App.sidebar.toggleDraghandle();
+    return this.refreshToolbars();
   };
   ShowView.prototype.toggleFullScreen = function() {
     this.slideshowView.toggleFullScreen();

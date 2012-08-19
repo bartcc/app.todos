@@ -12,6 +12,7 @@ class ShowView extends Spine.Controller
     '.optGallery .ui-icon'    : 'btnGallery'
     '.optQuickUpload'         : 'btnQuickUpload'
     '.optPrevious'            : 'btnPrevious'
+    '.optSidebar'             : 'btnSidebar'
     '.optFullScreen'          : 'btnFullScreen'
     '.optSlideshowPlay'       : 'btnSlideshowPlay'
     '.toolbarOne'             : 'toolbarOneEl'
@@ -34,6 +35,7 @@ class ShowView extends Spine.Controller
     'click .optOverview:not(.disabled)'              : 'showOverview'
     'click .optPrevious:not(.disabled)'              : 'showPrevious'
     'click .optShowModal:not(.disabled)'             : 'showModal'
+    'click .optSidebar:not(.disabled)'               : 'toggleSidebar'
     'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
     'click .optCreateGallery:not(.disabled)'         : 'createGallery'
     'click .optCreateAlbum:not(.disabled)'           : 'createAlbum'
@@ -231,6 +233,11 @@ class ShowView extends Spine.Controller
   toggleUpload: (e) ->
     @changeToolbarOne ['Upload']
 
+  toggleSidebar: () ->
+    App.sidebar.toggleDraghandle()
+    @refreshToolbars()
+#    @toolbarTwo.change()
+    
   toggleFullScreen: () ->
     @slideshowView.toggleFullScreen()
     @refreshToolbars()

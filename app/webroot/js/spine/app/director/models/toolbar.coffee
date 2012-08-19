@@ -272,7 +272,7 @@ class Toolbar extends Spine.Model
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
+          disabled: -> !App.showView.activePhotos.call @
         ]
     group12:
       name: 'Slider'
@@ -296,7 +296,7 @@ class Toolbar extends Spine.Model
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> (Gallery.selectionList().length isnt 1) or !(Album.record and Album.record.contains())
+          disabled: -> !App.showView.activePhotos.call @
         ,
           name: '<span class="slider" style=""></span>'
           klass: 'optThumbsize '

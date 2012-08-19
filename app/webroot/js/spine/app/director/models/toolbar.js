@@ -392,7 +392,7 @@ Toolbar = (function() {
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
+            return !App.showView.activePhotos.call(this);
           }
         }
       ]
@@ -426,7 +426,7 @@ Toolbar = (function() {
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            return (Gallery.selectionList().length !== 1) || !(Album.record && Album.record.contains());
+            return !App.showView.activePhotos.call(this);
           }
         }, {
           name: '<span class="slider" style=""></span>',

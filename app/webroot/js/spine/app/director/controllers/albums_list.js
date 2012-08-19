@@ -91,7 +91,7 @@ AlbumsList = (function() {
       this.html(this.template(items));
     } else {
       if (Album.count()) {
-        this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show available Albums</button></span></label>');
+        this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>');
       } else {
         this.html('<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;<button class="optCreateAlbum dark large">New Album</button></span></label>');
       }
@@ -166,7 +166,7 @@ AlbumsList = (function() {
     res = [];
     for (_i = 0, _len = json.length; _i < _len; _i++) {
       jsn = json[_i];
-      res.push(search(jsn));
+      res.unshift(search(jsn));
     }
     css = (function() {
       var _j, _len2, _results;

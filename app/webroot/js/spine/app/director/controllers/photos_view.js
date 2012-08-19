@@ -131,7 +131,7 @@ PhotosView = (function() {
     console.log('PhotosView::add');
     if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
       photo = Photo.find(ap.photo_id);
-      return this.render([photo], 'append');
+      return this.render([photo], 'prepend');
     }
   };
   PhotosView.prototype.next = function(album) {

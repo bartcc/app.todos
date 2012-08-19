@@ -103,7 +103,7 @@ class PhotosView extends Spine.Controller
     # only add when photo is for it's album
     if ap.album_id is Album.record?.id
       photo = Photo.find(ap.photo_id)
-      @render [photo], 'append'
+      @render [photo], 'prepend'
 
   next: (album) ->
     album.last()

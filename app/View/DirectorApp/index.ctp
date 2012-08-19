@@ -280,7 +280,7 @@
       <span class="delete icon-remove icon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title}}{{else}}No album selected{{/if}}</div>
-    <div class="title" style="font-size: 0.5em">{{if id}}{{html id}}{{else}}no id{{/if}}</div>
+    <div class="title" style="font-size: 0.5em">{{if id}}{{html order}}{{/if}}</div>
   </li>
 </script>
 

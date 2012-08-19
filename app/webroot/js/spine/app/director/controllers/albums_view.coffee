@@ -111,7 +111,6 @@ class AlbumsView extends Spine.Controller
     for alb in albums
       if alb.invalid
 #        alert alb.title + ' is invalid'
-        Album.clearCache alb.id
         @list.refreshBackgrounds alb
         alb.invalid = false
         alb.save(ajax:false)
@@ -121,7 +120,7 @@ class AlbumsView extends Spine.Controller
       title   : 'New Album'
       invalid : false
       user_id : User.first().id
-      order   : Album.all().length
+      order   : Album.nextOrder()
     else
       User.ping()
   

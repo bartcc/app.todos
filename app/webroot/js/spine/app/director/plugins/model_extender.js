@@ -213,7 +213,7 @@ Model.Extender = {
         var joinTableItems;
         joinTableItems = Spine.Model[options.joinTable].filter(id, options);
         if (options.sorted) {
-          return this.sortByOrder(this.filter(joinTableItems));
+          return this.sortByReverseOrder(this.filter(joinTableItems));
         } else {
           return this.filter(joinTableItems);
         }

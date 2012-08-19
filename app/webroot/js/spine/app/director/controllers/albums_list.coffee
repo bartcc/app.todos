@@ -127,7 +127,7 @@ class AlbumsList extends Spine.Controller
     
     res = []
     for jsn in json
-      res.push search(jsn)
+      res.unshift search(jsn)
       
     css = for itm in res
       'url(' + itm + ')'

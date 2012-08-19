@@ -2,7 +2,6 @@
 class Album extends Spine.Model
   @configure "Album", 'title', 'description', 'count', 'user_id', 'order', 'invalid'
 
-  @extend Spine.Model.Cache
   @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
   @extend Spine.Model.AjaxRelations
@@ -49,10 +48,6 @@ class Album extends Spine.Model
     s = new Object()
     s[instance.id] = []
     @constructor.selection.push s
-    
-    o = new Object()
-    o[instance.id] = []
-    @constructor.caches.push o
     
   selChange: (list) ->
   

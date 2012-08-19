@@ -295,8 +295,13 @@ SidebarList = (function() {
   SidebarList.prototype.click = function(e) {
     var item;
     console.log('SidebarList::click');
-    item = $(e.target).item();
-    console.log(item.reload());
+    item = $(e.target).closest('.data').item();
+    if (!item) {
+      return;
+    }
+    if (!item) {
+      return;
+    }
     return this.navigate('/gallery/' + (item != null ? item.id : void 0));
   };
   SidebarList.prototype.dblclick = function(e) {

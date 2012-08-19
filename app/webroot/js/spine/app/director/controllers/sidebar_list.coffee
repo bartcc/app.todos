@@ -219,10 +219,11 @@ class SidebarList extends Spine.Controller
     
   click: (e) ->
     console.log 'SidebarList::click'
-    item = $(e.target).item()
-    console.log item.reload()
+    item = $(e.target).closest('.data').item()
+    
+    return unless item
 #    dont act on no-gallery items like the 'no album' - info
-#    return unless item
+    return unless item
     
     @navigate '/gallery/' + item?.id
 

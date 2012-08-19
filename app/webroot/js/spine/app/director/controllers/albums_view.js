@@ -129,7 +129,9 @@ AlbumsView = (function() {
     if (User.first()) {
       return {
         title: 'New Album',
-        user_id: User.first().id
+        invalid: false,
+        user_id: User.first().id,
+        order: Album.count()
       };
     } else {
       return User.ping();
@@ -150,7 +152,7 @@ AlbumsView = (function() {
       Album.trigger('create:join', Gallery.record, this);
     }
     Gallery.updateSelection([this.id]);
-    return Spine.trigger('album:activate', this);
+    return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.destroy = function(e) {
     var album, albums, ga, gallery, gas, list, photos, _i, _j, _k, _len, _len2, _len3, _results;

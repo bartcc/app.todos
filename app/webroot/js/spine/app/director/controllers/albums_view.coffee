@@ -108,7 +108,6 @@ class AlbumsView extends Spine.Controller
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid
-#        alert alb.title + ' is invalid'
         @list.refreshBackgrounds alb
         alb.invalid = false
         alb.save(ajax:false)
@@ -116,9 +115,9 @@ class AlbumsView extends Spine.Controller
   newAttributes: ->
     if User.first()
       title   : 'New Album'
-#      invalid : false
+      invalid : false
       user_id : User.first().id
-#      order   : Album.count()
+      order   : Album.count()
     else
       User.ping()
   
@@ -133,7 +132,7 @@ class AlbumsView extends Spine.Controller
     
     Album.trigger('create:join', Gallery.record, @) if Gallery.record
     Gallery.updateSelection [@id]
-    Spine.trigger('album:activate', @)
+    Spine.trigger('album:activate')
 
   destroy: (e) ->
     console.log 'AlbumsView::destroy'

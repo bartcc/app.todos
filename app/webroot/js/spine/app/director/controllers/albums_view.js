@@ -186,78 +186,37 @@ AlbumsView = (function() {
     }
   };
   AlbumsView.prototype.createJoin = function(albums, target) {
-    var album, ga, _i, _j, _len, _len2, _results;
+    var album, _i, _len, _results;
     if (albums == null) {
       albums = [];
     }
     if (target == null) {
       target = Gallery.record;
     }
-    console.log('create join');
-    if (!target) {
+    if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }
+    _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
       console.log(album);
       console.log(target);
-      album.createJoin(target);
-    }
-    return;
-    if (!Album.isArray(albums)) {
-      albums = [].push(albums);
-    }
-    console.log(albums);
-    if (!albums.length) {
-      return;
-    }
-    _results = [];
-    for (_j = 0, _len2 = albums.length; _j < _len2; _j++) {
-      album = albums[_j];
-      console.log(album);
-      ga = new GalleriesAlbum({
-        gallery_id: target.id,
-        album_id: album.id,
-        order: GalleriesAlbum.next()
-      });
-      _results.push(ga.save());
+      _results.push(album.createJoin(target));
     }
     return _results;
   };
   AlbumsView.prototype.destroyJoin = function(albums, target) {
-    var album, ga, gas, records, _i, _j, _len, _len2, _results;
-    console.log(albums);
-    console.log(target);
+    var album, _i, _len, _results;
     if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }
-    if (!target) {
-      return;
-    }
+    _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
-      alert('destroy join');
-      album.destroyJoin(target);
-    }
-    return;
-    if (!Album.isArray(albums)) {
-      records = [];
-      records.push(albums);
-    } else {
-      records = albums;
-    }
-    albums = Album.toID(records);
-    gas = GalleriesAlbum.filter(target.id, this.filterOptions);
-    _results = [];
-    for (_j = 0, _len2 = gas.length; _j < _len2; _j++) {
-      ga = gas[_j];
-      _results.push(albums.indexOf(ga.album_id) !== -1 ? (Gallery.removeFromSelection(ga.album_id), ga.destroy({
-        success: this.proxy(this.cb)
-      })) : void 0);
+      _results.push(album.destroyJoin(target));
     }
     return _results;
   };
-  AlbumsView.prototype.cb = function() {};
   return AlbumsView;
 })();
 if (typeof module !== "undefined" && module !== null) {

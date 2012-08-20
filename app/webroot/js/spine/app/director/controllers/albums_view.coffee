@@ -165,60 +165,17 @@ class AlbumsView extends Spine.Controller
         album.destroy()
 
   createJoin: (albums=[], target=Gallery.record) ->
-    
-    console.log 'create join'
-    return unless target
+    return unless target and target.constructor.className is 'Gallery'
 
     for album in albums
       console.log album
       console.log target
       album.createJoin target
     
-    return
-    
-    unless Album.isArray albums
-      albums = [].push(albums)
-
-    console.log albums
-    
-    return unless albums.length
-    
-    for album in albums
-      console.log album
-      ga = new GalleriesAlbum
-        gallery_id  : target.id
-        album_id    : album.id
-        order       : GalleriesAlbum.next()
-      ga.save()
-  
   destroyJoin: (albums, target) ->
-    console.log albums
-    console.log target
     return unless target and target.constructor.className is 'Gallery'
 
-    return unless target
-
     for album in albums
-      alert 'destroy join'
       album.destroyJoin target
     
-    return
-    
-
-    unless Album.isArray albums
-      records = []
-      records.push(albums)
-    else records = albums
-
-    albums = Album.toID(records)
-
-    gas = GalleriesAlbum.filter(target.id, @filterOptions)
-    for ga in gas
-      unless albums.indexOf(ga.album_id) is -1
-        Gallery.removeFromSelection ga.album_id
-        ga.destroy success: @proxy @cb
-    
-  cb: ->
-#    target.save()
-
 module?.exports = AlbumsView

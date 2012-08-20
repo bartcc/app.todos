@@ -195,7 +195,6 @@ class AlbumsList extends Spine.Controller
   sortupdate: (e, item) ->
     @children().each (index) ->
       item = $(@).item()
-#      console.log item
       if item and Gallery.record
         ga = GalleriesAlbum.filter(item.id, func: 'selectAlbum')[0]
         if ga and ga.order isnt index

@@ -59,14 +59,10 @@ class AlbumsView extends Spine.Controller
     
   # this method is triggered when changing Gallery.record
   change: (item, changed) ->
-  
-#    alert mode if mode
     console.log 'AlbumsView::change'
     # !important
     return if @isActive() and !changed
   
-#    return unless Album.contains()
-    
     # item can be gallery         from Spine.bind 'change:selectedGallery'
     # item can be album           from Album.bind 'change'
     # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
@@ -140,7 +136,6 @@ class AlbumsView extends Spine.Controller
   destroy: ->
     console.log 'AlbumsView::destroy'
     list = Gallery.selectionList().slice(0)
-    console.log list
     albums = []
     Album.each (record) =>
       albums.push record unless list.indexOf(record.id) is -1
@@ -168,8 +163,6 @@ class AlbumsView extends Spine.Controller
     return unless target and target.constructor.className is 'Gallery'
 
     for album in albums
-      console.log album
-      console.log target
       album.createJoin target
     
   destroyJoin: (albums, target) ->

@@ -144,7 +144,6 @@ AlbumsView = (function() {
     var album, albums, ga, gallery, gas, list, photos, _i, _j, _k, _len, _len2, _len3, _results;
     console.log('AlbumsView::destroy');
     list = Gallery.selectionList().slice(0);
-    console.log(list);
     albums = [];
     Album.each(__bind(function(record) {
       if (list.indexOf(record.id) !== -1) {
@@ -199,8 +198,6 @@ AlbumsView = (function() {
     _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
-      console.log(album);
-      console.log(target);
       _results.push(album.createJoin(target));
     }
     return _results;

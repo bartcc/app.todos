@@ -43,6 +43,40 @@ class Album extends Spine.Model
       joinTable: 'AlbumsPhoto'
     Photo.filterRelated(id, filterOptions)[0...max]
     
+  @createJoin: (items=[], target) ->
+    unless @isArray items
+      items = [].push(items)
+
+    return unless items.length
+#    
+    for item in items
+      ga = new GalleriesAlbum
+        gallery_id  : target.id
+        album_id    : item.id
+        order       : GalleriesAlbum.next()
+      ga.save()
+#    
+#  @destroyJoin: (albums, target) ->
+#    return unless target
+#
+#    filterOptions =
+#      key:'gallery_id'
+#      joinTable: 'GalleriesAlbum'
+#      sorted: true
+#
+#    unless @isArray albums
+#      records = []
+#      records.push(albums)
+#    else records = albums
+#
+#    albums = @toID(records)
+#
+#    gas = GalleriesAlbum.filter(target.id, filterOptions)
+#    for ga in gas
+#      unless albums.indexOf(ga.album_id) is -1
+#        Gallery.removeFromSelection ga.album_id
+#        ga.destroy()
+#    
   init: (instance) ->
     return unless instance.id
     s = new Object()
@@ -50,6 +84,27 @@ class Album extends Spine.Model
     @constructor.selection.push s
     
   selChange: (list) ->
+  
+  createJoin: (target) ->
+    ga = new GalleriesAlbum
+      gallery_id  : target.id
+      album_id    : @id
+      order       : GalleriesAlbum.next()
+    ga.save()
+  
+  destroyJoin: (target) ->
+    filterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
+      sorted: true
+      
+    albums = @constructor.toID([@]) #Album.toID(records)
+    gas = GalleriesAlbum.filter(target.id, filterOptions)
+
+    for ga in gas
+      unless albums.indexOf(ga.album_id) is -1
+        Gallery.removeFromSelection ga.album_id
+        ga.destroy()
   
   contains: -> @constructor.contains @id
   

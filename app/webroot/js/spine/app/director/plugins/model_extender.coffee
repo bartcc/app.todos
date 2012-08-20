@@ -33,7 +33,7 @@ Model.Extender =
         joinTables = @joinTables()
  
         for key in joinTables
-          Spine.Model[key].refresh(@createJoin arr, key)
+          Spine.Model[key].refresh(@createJoins arr, key)
         
       joinTables: ->
         fModels = @foreignModels()
@@ -52,7 +52,7 @@ Model.Extender =
         extract(obj) for obj in arr
         res
         
-      createJoin: (json, tableName) ->
+      createJoins: (json, tableName) ->
         res = []
         introspect = (obj) =>
           if @isObject(obj)

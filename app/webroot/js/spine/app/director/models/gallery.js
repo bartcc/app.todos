@@ -44,6 +44,27 @@ Gallery = (function() {
       }
     };
   };
+  Gallery.contains = function(id) {
+    var filterOptions;
+    filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum'
+    };
+    return Album.filterRelated(id, filterOptions);
+  };
+  Gallery.contains = function(id) {
+    return GalleriesAlbum.filter(id, {
+      key: 'gallery_id'
+    }).length;
+  };
+  Gallery.albums = function(id) {
+    var filterOptions;
+    filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum'
+    };
+    return Album.filterRelated(id, filterOptions);
+  };
   Gallery.prototype.init = function(instance) {
     var newSelection;
     if (!instance.id) {
@@ -71,6 +92,14 @@ Gallery = (function() {
       iCount: imagesCount,
       aCount: albums.length
     };
+  };
+  Gallery.prototype.contains = function() {
+    var albums, filterOptions;
+    filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum'
+    };
+    return albums = Album.filterRelated(this.id, filterOptions).length;
   };
   Gallery.prototype.updateAttributes = function(atts, options) {
     if (options == null) {

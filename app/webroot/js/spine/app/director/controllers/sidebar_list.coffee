@@ -37,6 +37,7 @@ class SidebarList extends Spine.Controller
     super
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
+    Gallery.bind('change', @proxy @change)
     Album.bind('change', @proxy @renderItemFromAlbum)
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
@@ -48,21 +49,25 @@ class SidebarList extends Spine.Controller
 
   change: (item, mode, e) =>
     console.log 'SidebarList::change'
-    
     ctrlClick = @isCtrlClick(e?)
     
     unless ctrlClick
       switch mode
+        when 'create'
+          @current = item
+          @create item
+        when 'update'
+          @current = item
+          @update item
         when 'destroy'
           @current = false
+          @destroy item
         when 'edit'
           Spine.trigger('edit:gallery')
         when 'show'
           @current = item
           @navigate '/gallery/' + Gallery.record?.id
         when 'photo'
-          @current = item
-        when 'create'
           @current = item
           
     else
@@ -71,19 +76,28 @@ class SidebarList extends Spine.Controller
         when 'show'
           @navigate '/gallery/' + Gallery.record?.id + '/' + Album.record?.id
           
-    @activate(@current)
-        
-  render: (galleries, gallery, mode) ->
-    console.log 'SidebarList::render'
-    # render a specific (activated) item
-    if gallery and mode
-      @updateOne gallery, mode
-      @reorder gallery
-    else if galleries
-      @updateAll galleries
-      
     
-    @change gallery, mode
+    @activate(@current) if @current
+        
+  create: (item) ->
+    @append @template item
+    @reorder item
+  
+  update: (item) ->
+    @updateTemplate item
+    @reorder item
+  
+  destroy: (item) ->
+    @children().forItem(item, true).remove()
+  
+  checkChange: (item, mode) ->
+    console.log item
+    console.log mode
+  
+  render: (items, mode) ->
+    console.log 'SidebarList::render'
+    
+    @html @template items.sort(Gallery.nameSort)
     
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
@@ -107,16 +121,10 @@ class SidebarList extends Spine.Controller
     else if idxBeforeSort > idxAfterSort
       newEl.before oldEl
     
-  updateOne: (item, mode) ->
-    switch mode
-      when 'update'
-        @updateTemplate item
-      when 'create'
-        @append @template item
-      when 'destroy'
-        @children().forItem(item, true).remove()
+  renderOne: (item, mode) ->
+    console.log 'SidebarList::renderOne'
   
-  updateAll: (items) ->
+  renderAll: (items) ->
     @html @template items.sort(Gallery.nameSort)
 
   renderAllSublist: ->
@@ -141,19 +149,19 @@ class SidebarList extends Spine.Controller
     
     @updateTemplate gallery
   
-  activate: (gallery = Gallery.record) ->
-    
-    Gallery.current(gallery)
+  activate: (item) ->
+    Gallery.current(item)
     @exposeSelection()
   
-  updateTemplate: (gallery) ->
-    galleryEl = @children().forItem(gallery)
+  updateTemplate: (item) ->
+    galleryEl = @children().forItem(item)
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryContentEl.tmplItem()
-    tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
-    tmplItem.update()
-    # restore active
-    @exposeSublistSelection gallery
+    if tmplItem
+      tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
+      tmplItem.update()
+      # restore active
+      @exposeSublistSelection item
     
   renderItemFromGalleriesAlbum: (ga, mode) ->
     gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
@@ -219,12 +227,11 @@ class SidebarList extends Spine.Controller
     
   click: (e) ->
     console.log 'SidebarList::click'
+    console.log $(e.target).closest('.data')
     item = $(e.target).closest('.data').item()
     
-    return unless item
 #    dont act on no-gallery items like the 'no album' - info
     return unless item
-    
     @navigate '/gallery/' + item?.id
 
   dblclick: (e) ->

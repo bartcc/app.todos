@@ -20,22 +20,64 @@ class AlbumsList extends Spine.Controller
     # initialize twitters slideshow
 #    @el.toggleSlideshow()
     Album.bind('sortupdate', @proxy @sortupdate)
-    GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', @proxy @clearAlbumCache)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
-    AlbumsPhoto.bind('destroy create', @proxy @changeBackgrounds)
+    AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
     Spine.bind('zoom:album', @proxy @zoom)
     
+    GalleriesAlbum.bind('destroy', @proxy @sortupdate)
+    GalleriesAlbum.bind('change', @proxy @renderRelatedAlbum)
+    
   template: -> arguments[0]
   
-  albumPhotosTemplate: (items) ->
-    $('#albumPhotosTemplate').tmpl items
-  
-  change: (items) ->
+  change: (items, mode) ->
     @renderBackgrounds items
+    
+  renderRelatedAlbum: (item, mode) ->
+    return unless album = Album.exists(item['album_id'])
+    albumEl = @children().forItem(album, true)
+    
+    switch mode
+      when 'create'
+        # caution! watch out for the correct gallery
+        return unless item.gallery_id is Gallery.record.id
+        # clear screen for first element
+        if gallery = Gallery.record
+          @el.empty() if gallery.contains() is 1
+
+        @append @template album
+        
+      when 'update'
+        @updateTemplate album
+        
+      when 'destroy'
+        albumEl.remove()
+        if gallery = Gallery.record
+          unless @el.children().length
+            @parent.render() unless gallery.contains()
+          
+    @exposeSelection()
+    @el
+  
+  render: (items=[], mode) ->
+    console.log 'AlbumsList::render'
+    @el.toggleClass('all', !Gallery.record)
+      
+    if items.length
+      @html @template items
+    else
+      if Album.count()
+        @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>'
+      else
+        @html '<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;<button class="optCreateAlbum dark large">New Album</button></span></label>'
+    
+    
+    @change items, mode
+    @el
+  
+  updateTemplate: ->
   
   select: (item, lonely) ->
     item?.addRemoveSelection(lonely)
@@ -65,33 +107,14 @@ class AlbumsList extends Spine.Controller
     App.showView.trigger('change:toolbarOne')
     @exposeSelection()
   
-  render: (items, mode) ->
-    console.log 'AlbumsList::render'
-    @el.toggleClass('all', !Gallery.record)
-      
-    if items.length
-      @html @template items
-    else
-      if Album.count()
-        @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>'
-      else
-        @html '<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;<button class="optCreateAlbum dark large">New Album</button></span></label>'
-        
-    @change items, mode
-    @el
-    
-  clearAlbumCache: (record) ->
-    id = record?.album_id or record?.id
-    Album.clearCache id
+  updateBackgrounds: (ap, mode) ->
+    console.log 'AlbumsList::changeBackgrounds'
+    albums = ap.albums()
+    @renderBackgrounds albums
     
   refreshBackgrounds: (alb) ->
     album = App.upload.album || alb
     @renderBackgrounds [album] #if album
-  
-  changeBackgrounds: (ap, mode) ->
-    console.log 'AlbumsList::changeBackgrounds'
-    albums = ap.albums()
-    @renderBackgrounds albums
   
   # remember the AlbumPhoto before it gets deleted (needed to remove widowed photo thumbnails)
   widowedAlbumsPhoto: (ap) ->
@@ -99,7 +122,7 @@ class AlbumsList extends Spine.Controller
   
   renderBackgrounds: (albums) ->
     return unless App.ready
-
+    
     if albums.length
       for album in albums
         @processAlbum album
@@ -108,7 +131,7 @@ class AlbumsList extends Spine.Controller
       @widows = []
   
   processAlbum: (album) ->
-    return unless album.constructor.className is 'Album'
+    return unless album.contains()
     data = album.photos(4)
       
     Photo.uri
@@ -133,9 +156,6 @@ class AlbumsList extends Spine.Controller
       'url(' + itm + ')'
     el.css('backgroundImage', css)
   
-  create: ->
-    Spine.trigger('create:album')
-
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.currentTarget).item()
@@ -157,14 +177,17 @@ class AlbumsList extends Spine.Controller
   
   deleteAlbum: (e) ->
     item = $(e.currentTarget).item()
+    console.log item
     return unless item?.constructor?.className is 'Album'
     Gallery.updateSelection item.id
     
     el = $(e.currentTarget).parents('.item')
     el.removeClass('in')
     
-    window.setTimeout( ->
+    window.setTimeout( =>
       Spine.trigger('destroy:album')
+      
+      
     , 300)
     
     @stopInfo()

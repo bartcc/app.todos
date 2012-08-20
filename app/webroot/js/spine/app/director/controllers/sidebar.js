@@ -50,7 +50,7 @@ Sidebar = (function() {
       el: this.items,
       template: this.template
     });
-    Gallery.bind("refresh change", this.proxy(this.render));
+    Gallery.bind('refresh', this.proxy(this.refresh));
     Gallery.bind("ajaxError", Gallery.errorHandler);
     Gallery.bind("ajaxSuccess", Gallery.successHandler);
     Spine.bind('create:gallery', this.proxy(this.createGallery));
@@ -66,14 +66,26 @@ Sidebar = (function() {
     this.query = this.input.val();
     return this.render();
   };
-  Sidebar.prototype.render = function(item, mode) {
-    var items;
+  Sidebar.prototype.change = function(item, mode) {
+    if (mode !== ('' || 'delete')) {
+      return;
+    }
+    return this.renderOne(item, mode);
+  };
+  Sidebar.prototype.refresh = function(items) {
+    return this.render(items);
+  };
+  Sidebar.prototype.render = function(items) {
     console.log('Sidebar::render');
     items = Gallery.filter(this.query, {
       func: 'searchSelect'
     });
     items = items.sort(Gallery.nameSort);
-    return this.list.render(items, item, mode);
+    return this.list.render(items);
+  };
+  Sidebar.prototype.renderOne = function(item, mode) {
+    console.log('Sidebar::renderOne');
+    return this.list.render(item, mode);
   };
   Sidebar.prototype.dragStart = function(e, controller) {
     var el, event, fromSidebar, id, selection, source, _ref;
@@ -146,7 +158,7 @@ Sidebar = (function() {
   Sidebar.prototype.dragOver = function(e) {};
   Sidebar.prototype.dragLeave = function(e) {};
   Sidebar.prototype.dropComplete = function(e, record) {
-    var albums, origin, photos, source, target, _ref, _ref2, _ref3, _ref4, _ref5;
+    var album, albums, origin, photos, source, target, _i, _len, _ref, _ref2, _ref3, _ref4, _ref5, _results;
     console.log('Sidebar::dropComplete');
     if (!Spine.dragItem) {
       return;
@@ -169,10 +181,13 @@ Sidebar = (function() {
             return albums.push(record);
           }
         }, this));
-        Album.trigger('create:join', target, albums);
-        if (!this.isCtrlClick(e)) {
-          return Album.trigger('destroy:join', origin, albums);
+        _results = [];
+        for (_i = 0, _len = albums.length; _i < _len; _i++) {
+          album = albums[_i];
+          album.createJoin(target);
+          _results.push(album.destroyJoin(origin));
         }
+        return _results;
         break;
       case 'Photo':
         photos = [];
@@ -181,9 +196,9 @@ Sidebar = (function() {
             return photos.push(record);
           }
         }, this));
-        Photo.trigger('create:join', target, photos);
+        Photo.trigger('create:join', photos, target);
         if (!this.isCtrlClick(e)) {
-          return Photo.trigger('destroy:join', origin, photos);
+          return Photo.trigger('destroy:join', photos, origin);
         }
     }
   };
@@ -258,18 +273,17 @@ Sidebar = (function() {
     console.log('Sidebar::create');
     gallery = new Gallery(this.newAttributes());
     console.log(gallery);
-    return gallery.save();
+    return gallery.save({
+      success: this.createCallback
+    });
   };
+  Sidebar.prototype.createCallback = function() {};
   Sidebar.prototype.createAlbum = function() {
     return Spine.trigger('create:album');
   };
-  Sidebar.prototype.destroy = function(itm) {
-    var ga, gas, item, _i, _len, _ref;
-    item = itm != null ? typeof itm.reload === "function" ? itm.reload() : void 0 : void 0;
+  Sidebar.prototype.destroy = function(item) {
+    var ga, gas, _i, _len, _ref;
     console.log('Sidebar::destroy');
-    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Gallery') {
-      return;
-    }
     gas = GalleriesAlbum.filter(item.id, {
       key: 'gallery_id'
     });
@@ -279,10 +293,13 @@ Sidebar = (function() {
         return ga.destroy();
       });
     }
-    item.destroy();
-    if (!Gallery.count()) {
-      return Gallery.current();
+    if (((_ref = Gallery.record) != null ? _ref.id : void 0) === item.id) {
+      if (!Gallery.count()) {
+        Gallery.current();
+      }
     }
+    console.log(item);
+    return item.destroy();
   };
   Sidebar.prototype.edit = function() {
     App.galleryEditView.render();

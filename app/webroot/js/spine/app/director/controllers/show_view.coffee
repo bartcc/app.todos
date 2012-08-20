@@ -136,6 +136,9 @@ class ShowView extends Spine.Controller
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
     
+    @active()
+    @galleriesView.active()
+    
     # switch to assigned start view
     @canvasManager.change @galleriesView
     @headerManager.change @galleriesHeader

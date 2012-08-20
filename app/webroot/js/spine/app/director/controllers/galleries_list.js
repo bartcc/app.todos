@@ -27,16 +27,83 @@ GalleriesList = (function() {
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
     this.select = __bind(this.select, this);    GalleriesList.__super__.constructor.apply(this, arguments);
-    Spine.bind('change:selectedGallery', this.proxy(this.change));
+    Gallery.bind('change', this.proxy(this.renderOne));
+    Spine.bind('change:selectedGallery', this.proxy(this.exposeSelection));
+    GalleriesAlbum.bind('change', this.proxy(this.renderRelated));
   }
-  GalleriesList.prototype.change = function(item) {
-    console.log('GalleryList::change');
-    return this.exposeSelection(item);
+  GalleriesList.prototype.renderRelated = function(item, mode) {
+    var album, gallery;
+    gallery = Gallery.find(item['gallery_id']);
+    album = Album.find(item['album_id']);
+    switch (mode) {
+      case 'create':
+        this.updateTemplate(gallery);
+        break;
+      case 'update':
+        this.updateTemplate(gallery);
+        break;
+      case 'destroy':
+        this.updateTemplate(gallery);
+    }
+    return this.el;
   };
-  GalleriesList.prototype.render = function(items) {
-    console.log('GalleryList::render');
+  GalleriesList.prototype.renderOne = function(item, mode) {
+    switch (mode) {
+      case 'create':
+        this.append(this.template(item));
+        this.exposeSelection(item);
+        break;
+      case 'update':
+        console.log(item);
+        this.updateTemplate(item);
+        this.reorder(item);
+        break;
+      case 'destroy':
+        this.children().forItem(item, true).remove();
+    }
+    return this.el;
+  };
+  GalleriesList.prototype.render = function(items, mode) {
     this.html(this.template(items));
     return this.el;
+  };
+  GalleriesList.prototype.updateTemplate = function(item) {
+    var galleryContentEl, galleryEl, tmplItem;
+    galleryEl = this.children().forItem(item);
+    galleryContentEl = $('.item-content', galleryEl);
+    tmplItem = galleryEl.tmplItem();
+    if (!tmplItem) {
+      alert('no tmpl item');
+    }
+    console.log(tmplItem);
+    if (tmplItem) {
+      tmplItem.tmpl = $("#galleriesTemplate").template();
+      return tmplItem.update();
+    }
+  };
+  GalleriesList.prototype.reorder = function(item) {
+    var children, id, idxAfterSort, idxBeforeSort, index, newEl, oldEl;
+    id = item.id;
+    index = function(id, list) {
+      var i, itm, _len;
+      for (i = 0, _len = list.length; i < _len; i++) {
+        itm = list[i];
+        if (itm.id === id) {
+          return i;
+        }
+      }
+      return i;
+    };
+    children = this.children();
+    oldEl = this.children().forItem(item);
+    idxBeforeSort = this.children().index(oldEl);
+    idxAfterSort = index(id, Gallery.all().sort(Gallery.nameSort));
+    newEl = $(children[idxAfterSort]);
+    if (idxBeforeSort < idxAfterSort) {
+      return newEl.after(oldEl);
+    } else if (idxBeforeSort > idxAfterSort) {
+      return newEl.before(oldEl);
+    }
   };
   GalleriesList.prototype.select = function(item) {
     Spine.trigger('gallery:activate', item);

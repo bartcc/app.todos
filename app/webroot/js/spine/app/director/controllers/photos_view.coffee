@@ -118,7 +118,7 @@ class PhotosView extends Spine.Controller
       
     if Album.record
       Album.emptySelection()
-      Photo.trigger('destroy:join', Album.record, photos)
+      Photo.trigger('destroy:join', photos, Album.record)
     else
       # clean up joins first
       for photo in photos
@@ -133,7 +133,7 @@ class PhotosView extends Spine.Controller
         for ap in aps
           album = Album.find(ap.album_id)
           Spine.Ajax.disable ->
-            Photo.trigger('destroy:join', album, photo)
+            Photo.trigger('destroy:join', photo, album)
             
       # now remove photo originals
       for photo in photos
@@ -154,12 +154,12 @@ class PhotosView extends Spine.Controller
 
   refresh: (photos) ->
     if Album.record
-      @createJoin Album.record, photos
+      @createJoin photos, Album.record
     else
       @render photos
     @renderHeader()
   
-  createJoin: (target, photos) ->
+  createJoin: (photos, target) ->
     console.log 'PhotosView::createJoin'
     return unless target and target.constructor.className is 'Album'
     
@@ -177,7 +177,7 @@ class PhotosView extends Spine.Controller
       
 #    target.save()
   
-  destroyJoin: (target, photos) ->
+  destroyJoin: (photos, target) ->
     console.log 'PhotosView::destroyJoin'
     return unless target and target.constructor.className is 'Album'
 

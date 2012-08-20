@@ -29,24 +29,74 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Album.bind('sortupdate', this.proxy(this.sortupdate));
-    GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
-    AlbumsPhoto.bind('beforeDestroy beforeCreate', this.proxy(this.clearAlbumCache));
     AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbumsPhoto));
-    AlbumsPhoto.bind('destroy create', this.proxy(this.changeBackgrounds));
+    AlbumsPhoto.bind('destroy create', this.proxy(this.updateBackgrounds));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
     Spine.bind('zoom:album', this.proxy(this.zoom));
+    GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
+    GalleriesAlbum.bind('change', this.proxy(this.renderRelatedAlbum));
   }
   AlbumsList.prototype.template = function() {
     return arguments[0];
   };
-  AlbumsList.prototype.albumPhotosTemplate = function(items) {
-    return $('#albumPhotosTemplate').tmpl(items);
-  };
-  AlbumsList.prototype.change = function(items) {
+  AlbumsList.prototype.change = function(items, mode) {
     return this.renderBackgrounds(items);
   };
+  AlbumsList.prototype.renderRelatedAlbum = function(item, mode) {
+    var album, albumEl, gallery;
+    if (!(album = Album.exists(item['album_id']))) {
+      return;
+    }
+    albumEl = this.children().forItem(album, true);
+    switch (mode) {
+      case 'create':
+        if (item.gallery_id !== Gallery.record.id) {
+          return;
+        }
+        if (gallery = Gallery.record) {
+          if (gallery.contains() === 1) {
+            this.el.empty();
+          }
+        }
+        this.append(this.template(album));
+        break;
+      case 'update':
+        this.updateTemplate(album);
+        break;
+      case 'destroy':
+        albumEl.remove();
+        if (gallery = Gallery.record) {
+          if (!this.el.children().length) {
+            if (!gallery.contains()) {
+              this.parent.render();
+            }
+          }
+        }
+    }
+    this.exposeSelection();
+    return this.el;
+  };
+  AlbumsList.prototype.render = function(items, mode) {
+    if (items == null) {
+      items = [];
+    }
+    console.log('AlbumsList::render');
+    this.el.toggleClass('all', !Gallery.record);
+    if (items.length) {
+      this.html(this.template(items));
+    } else {
+      if (Album.count()) {
+        this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>');
+      } else {
+        this.html('<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;<button class="optCreateAlbum dark large">New Album</button></span></label>');
+      }
+    }
+    this.change(items, mode);
+    return this.el;
+  };
+  AlbumsList.prototype.updateTemplate = function() {};
   AlbumsList.prototype.select = function(item, lonely) {
     if (item != null) {
       item.addRemoveSelection(lonely);
@@ -84,36 +134,16 @@ AlbumsList = (function() {
     App.showView.trigger('change:toolbarOne');
     return this.exposeSelection();
   };
-  AlbumsList.prototype.render = function(items, mode) {
-    console.log('AlbumsList::render');
-    this.el.toggleClass('all', !Gallery.record);
-    if (items.length) {
-      this.html(this.template(items));
-    } else {
-      if (Album.count()) {
-        this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>');
-      } else {
-        this.html('<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;<button class="optCreateAlbum dark large">New Album</button></span></label>');
-      }
-    }
-    this.change(items, mode);
-    return this.el;
-  };
-  AlbumsList.prototype.clearAlbumCache = function(record) {
-    var id;
-    id = (record != null ? record.album_id : void 0) || (record != null ? record.id : void 0);
-    return Album.clearCache(id);
+  AlbumsList.prototype.updateBackgrounds = function(ap, mode) {
+    var albums;
+    console.log('AlbumsList::changeBackgrounds');
+    albums = ap.albums();
+    return this.renderBackgrounds(albums);
   };
   AlbumsList.prototype.refreshBackgrounds = function(alb) {
     var album;
     album = App.upload.album ||  alb;
     return this.renderBackgrounds([album]);
-  };
-  AlbumsList.prototype.changeBackgrounds = function(ap, mode) {
-    var albums;
-    console.log('AlbumsList::changeBackgrounds');
-    albums = ap.albums();
-    return this.renderBackgrounds(albums);
   };
   AlbumsList.prototype.widowedAlbumsPhoto = function(ap) {
     return this.widows = ap.albums();
@@ -141,7 +171,7 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.processAlbum = function(album) {
     var data;
-    if (album.constructor.className !== 'Album') {
+    if (!album.contains()) {
       return;
     }
     data = album.photos(4);
@@ -179,9 +209,6 @@ AlbumsList = (function() {
     })();
     return el.css('backgroundImage', css);
   };
-  AlbumsList.prototype.create = function() {
-    return Spine.trigger('create:album');
-  };
   AlbumsList.prototype.click = function(e) {
     var item;
     console.log('AlbumsList::click');
@@ -206,15 +233,16 @@ AlbumsList = (function() {
   AlbumsList.prototype.deleteAlbum = function(e) {
     var el, item, _ref;
     item = $(e.currentTarget).item();
+    console.log(item);
     if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Album') {
       return;
     }
     Gallery.updateSelection(item.id);
     el = $(e.currentTarget).parents('.item');
     el.removeClass('in');
-    window.setTimeout(function() {
+    window.setTimeout(__bind(function() {
       return Spine.trigger('destroy:album');
-    }, 300);
+    }, this), 300);
     this.stopInfo();
     e.stopPropagation();
     return e.preventDefault();

@@ -149,7 +149,7 @@ PhotosView = (function() {
     }, this));
     if (Album.record) {
       Album.emptySelection();
-      return Photo.trigger('destroy:join', Album.record, photos);
+      return Photo.trigger('destroy:join', photos, Album.record);
     } else {
       for (_i = 0, _len = photos.length; _i < _len; _i++) {
         photo = photos[_i];
@@ -160,7 +160,7 @@ PhotosView = (function() {
           ap = aps[_j];
           album = Album.find(ap.album_id);
           Spine.Ajax.disable(function() {
-            return Photo.trigger('destroy:join', album, photo);
+            return Photo.trigger('destroy:join', photo, album);
           });
         }
       }
@@ -186,13 +186,13 @@ PhotosView = (function() {
   PhotosView.prototype.save = function(item) {};
   PhotosView.prototype.refresh = function(photos) {
     if (Album.record) {
-      this.createJoin(Album.record, photos);
+      this.createJoin(photos, Album.record);
     } else {
       this.render(photos);
     }
     return this.renderHeader();
   };
-  PhotosView.prototype.createJoin = function(target, photos) {
+  PhotosView.prototype.createJoin = function(photos, target) {
     var ap, record, records, _i, _len, _results;
     console.log('PhotosView::createJoin');
     if (!(target && target.constructor.className === 'Album')) {
@@ -216,7 +216,7 @@ PhotosView = (function() {
     }
     return _results;
   };
-  PhotosView.prototype.destroyJoin = function(target, photos) {
+  PhotosView.prototype.destroyJoin = function(photos, target) {
     var ap, aps, records, _i, _len, _results;
     console.log('PhotosView::destroyJoin');
     if (!(target && target.constructor.className === 'Album')) {

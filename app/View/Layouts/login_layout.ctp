@@ -28,6 +28,7 @@
     <?php
     echo $this->Html->meta('icon');
     echo $this->Html->css('spine/director/application_boxmodel');
+    echo $this->Html->css('twitter/bootstrap/bootstrap');
 
 //    $this->log($this->request, LOG_DEBUG);
     echo $this->Html->script('lib/jquery/jquery-1.7.1');

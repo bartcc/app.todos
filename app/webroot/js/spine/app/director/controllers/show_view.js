@@ -153,6 +153,8 @@ ShowView = (function() {
     this.slideshowAutoStart = false;
     this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView, this.slideshowView);
     this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader, this.photoHeader);
+    this.active();
+    this.galleriesView.active();
     this.canvasManager.change(this.galleriesView);
     this.headerManager.change(this.galleriesHeader);
   }

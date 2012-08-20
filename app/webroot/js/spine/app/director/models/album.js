@@ -14,7 +14,6 @@ Album = (function() {
     Album.__super__.constructor.apply(this, arguments);
   }
   Album.configure("Album", 'title', 'description', 'count', 'user_id', 'order', 'invalid');
-  Album.extend(Spine.Model.Cache);
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
@@ -70,19 +69,64 @@ Album = (function() {
     };
     return Photo.filterRelated(id, filterOptions).slice(0, max);
   };
+  Album.createJoin = function(items, target) {
+    var ga, item, _i, _len, _results;
+    if (items == null) {
+      items = [];
+    }
+    if (!this.isArray(items)) {
+      items = [].push(items);
+    }
+    if (!items.length) {
+      return;
+    }
+    _results = [];
+    for (_i = 0, _len = items.length; _i < _len; _i++) {
+      item = items[_i];
+      ga = new GalleriesAlbum({
+        gallery_id: target.id,
+        album_id: item.id,
+        order: GalleriesAlbum.next()
+      });
+      _results.push(ga.save());
+    }
+    return _results;
+  };
   Album.prototype.init = function(instance) {
-    var o, s;
+    var s;
     if (!instance.id) {
       return;
     }
     s = new Object();
     s[instance.id] = [];
-    this.constructor.selection.push(s);
-    o = new Object();
-    o[instance.id] = [];
-    return this.constructor.caches.push(o);
+    return this.constructor.selection.push(s);
   };
   Album.prototype.selChange = function(list) {};
+  Album.prototype.createJoin = function(target) {
+    var ga;
+    ga = new GalleriesAlbum({
+      gallery_id: target.id,
+      album_id: this.id,
+      order: GalleriesAlbum.next()
+    });
+    return ga.save();
+  };
+  Album.prototype.destroyJoin = function(target) {
+    var albums, filterOptions, ga, gas, _i, _len, _results;
+    filterOptions = {
+      key: 'gallery_id',
+      joinTable: 'GalleriesAlbum',
+      sorted: true
+    };
+    albums = this.constructor.toID([this]);
+    gas = GalleriesAlbum.filter(target.id, filterOptions);
+    _results = [];
+    for (_i = 0, _len = gas.length; _i < _len; _i++) {
+      ga = gas[_i];
+      _results.push(albums.indexOf(ga.album_id) !== -1 ? (Gallery.removeFromSelection(ga.album_id), ga.destroy()) : void 0);
+    }
+    return _results;
+  };
   Album.prototype.contains = function() {
     return this.constructor.contains(this.id);
   };

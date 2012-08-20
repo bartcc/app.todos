@@ -16,17 +16,65 @@ class GalleriesList extends Spine.Controller
   
   constructor: ->
     super
-    Spine.bind('change:selectedGallery', @proxy @change)
+    Gallery.bind('change', @proxy @renderOne)
+    Spine.bind('change:selectedGallery', @proxy @exposeSelection)
+    GalleriesAlbum.bind('change', @proxy @renderRelated)
 
-  change: (item) ->
-    console.log 'GalleryList::change'
-    @exposeSelection(item)
+  renderRelated: (item, mode) ->
+    gallery = Gallery.find(item['gallery_id'])
+    album = Album.find(item['album_id'])
+    switch mode
+      when 'create'
+        @updateTemplate gallery
+      when 'update'
+        @updateTemplate gallery
+      when 'destroy'
+        @updateTemplate gallery
+    @el
     
-        
-  render: (items) ->
-    console.log 'GalleryList::render'
+  renderOne: (item, mode) ->
+    switch mode
+      when 'create'
+        @append @template item
+        @exposeSelection(item)
+      when 'update'
+        console.log item
+        @updateTemplate item
+        @reorder item
+      when 'destroy'
+        @children().forItem(item, true).remove()
+    @el
+
+  render: (items, mode) ->
     @html @template items
     @el
+
+  updateTemplate: (item) ->
+    galleryEl = @children().forItem(item)
+    galleryContentEl = $('.item-content', galleryEl)
+    tmplItem = galleryEl.tmplItem()
+    alert 'no tmpl item' unless tmplItem
+    console.log tmplItem
+    if tmplItem
+      tmplItem.tmpl = $( "#galleriesTemplate" ).template()
+      tmplItem.update()
+
+  reorder: (item) ->
+    id = item.id
+    index = (id, list) ->
+      for itm, i in list
+        return i if itm.id is id
+      i
+    
+    children = @children()
+    oldEl = @children().forItem(item)
+    idxBeforeSort =  @children().index(oldEl)
+    idxAfterSort = index(id, Gallery.all().sort(Gallery.nameSort))
+    newEl = $(children[idxAfterSort])
+    if idxBeforeSort < idxAfterSort
+      newEl.after oldEl
+    else if idxBeforeSort > idxAfterSort
+      newEl.before oldEl
 
   select: (item) =>
     Spine.trigger('gallery:activate', item)
@@ -47,7 +95,6 @@ class GalleriesList extends Spine.Controller
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()
-    
     @select item
     e.stopPropagation()
     e.preventDefault()

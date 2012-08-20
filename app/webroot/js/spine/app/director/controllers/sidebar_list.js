@@ -45,6 +45,7 @@ SidebarList = (function() {
     this.change = __bind(this.change, this);    SidebarList.__super__.constructor.apply(this, arguments);
     AlbumsPhoto.bind('change', this.proxy(this.renderItemFromAlbumsPhoto));
     GalleriesAlbum.bind('change', this.proxy(this.renderItemFromGalleriesAlbum));
+    Gallery.bind('change', this.proxy(this.change));
     Album.bind('change', this.proxy(this.renderItemFromAlbum));
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandAfterTimeout));
@@ -61,8 +62,17 @@ SidebarList = (function() {
     ctrlClick = this.isCtrlClick(e != null);
     if (!ctrlClick) {
       switch (mode) {
+        case 'create':
+          this.current = item;
+          this.create(item);
+          break;
+        case 'update':
+          this.current = item;
+          this.update(item);
+          break;
         case 'destroy':
           this.current = false;
+          this.destroy(item);
           break;
         case 'edit':
           Spine.trigger('edit:gallery');
@@ -73,9 +83,6 @@ SidebarList = (function() {
           break;
         case 'photo':
           this.current = item;
-          break;
-        case 'create':
-          this.current = item;
       }
     } else {
       this.current = false;
@@ -84,17 +91,28 @@ SidebarList = (function() {
           this.navigate('/gallery/' + ((_ref2 = Gallery.record) != null ? _ref2.id : void 0) + '/' + ((_ref3 = Album.record) != null ? _ref3.id : void 0));
       }
     }
-    return this.activate(this.current);
-  };
-  SidebarList.prototype.render = function(galleries, gallery, mode) {
-    console.log('SidebarList::render');
-    if (gallery && mode) {
-      this.updateOne(gallery, mode);
-      this.reorder(gallery);
-    } else if (galleries) {
-      this.updateAll(galleries);
+    if (this.current) {
+      return this.activate(this.current);
     }
-    this.change(gallery, mode);
+  };
+  SidebarList.prototype.create = function(item) {
+    this.append(this.template(item));
+    return this.reorder(item);
+  };
+  SidebarList.prototype.update = function(item) {
+    this.updateTemplate(item);
+    return this.reorder(item);
+  };
+  SidebarList.prototype.destroy = function(item) {
+    return this.children().forItem(item, true).remove();
+  };
+  SidebarList.prototype.checkChange = function(item, mode) {
+    console.log(item);
+    return console.log(mode);
+  };
+  SidebarList.prototype.render = function(items, mode) {
+    console.log('SidebarList::render');
+    this.html(this.template(items.sort(Gallery.nameSort)));
     if ((!this.current || this.current.destroyed) && !(mode === 'update')) {
       if (!this.children(".active").length) {
         return App.ready = true;
@@ -125,17 +143,10 @@ SidebarList = (function() {
       return newEl.before(oldEl);
     }
   };
-  SidebarList.prototype.updateOne = function(item, mode) {
-    switch (mode) {
-      case 'update':
-        return this.updateTemplate(item);
-      case 'create':
-        return this.append(this.template(item));
-      case 'destroy':
-        return this.children().forItem(item, true).remove();
-    }
+  SidebarList.prototype.renderOne = function(item, mode) {
+    return console.log('SidebarList::renderOne');
   };
-  SidebarList.prototype.updateAll = function(items) {
+  SidebarList.prototype.renderAll = function(items) {
     return this.html(this.template(items.sort(Gallery.nameSort)));
   };
   SidebarList.prototype.renderAllSublist = function() {
@@ -179,21 +190,20 @@ SidebarList = (function() {
     gallerySublist.html(this.sublistTemplate(albums));
     return this.updateTemplate(gallery);
   };
-  SidebarList.prototype.activate = function(gallery) {
-    if (gallery == null) {
-      gallery = Gallery.record;
-    }
-    Gallery.current(gallery);
+  SidebarList.prototype.activate = function(item) {
+    Gallery.current(item);
     return this.exposeSelection();
   };
-  SidebarList.prototype.updateTemplate = function(gallery) {
+  SidebarList.prototype.updateTemplate = function(item) {
     var galleryContentEl, galleryEl, tmplItem;
-    galleryEl = this.children().forItem(gallery);
+    galleryEl = this.children().forItem(item);
     galleryContentEl = $('.item-content', galleryEl);
     tmplItem = galleryContentEl.tmplItem();
-    tmplItem.tmpl = $("#sidebarContentTemplate").template();
-    tmplItem.update();
-    return this.exposeSublistSelection(gallery);
+    if (tmplItem) {
+      tmplItem.tmpl = $("#sidebarContentTemplate").template();
+      tmplItem.update();
+      return this.exposeSublistSelection(item);
+    }
   };
   SidebarList.prototype.renderItemFromGalleriesAlbum = function(ga, mode) {
     var gallery;
@@ -295,10 +305,8 @@ SidebarList = (function() {
   SidebarList.prototype.click = function(e) {
     var item;
     console.log('SidebarList::click');
+    console.log($(e.target).closest('.data'));
     item = $(e.target).closest('.data').item();
-    if (!item) {
-      return;
-    }
     if (!item) {
       return;
     }

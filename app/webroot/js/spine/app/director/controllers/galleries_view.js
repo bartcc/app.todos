@@ -36,14 +36,21 @@ GalleriesView = (function() {
       template: this.template
     });
     this.header.template = this.headerTemplate;
-    Gallery.bind('refresh change', this.proxy(this.change));
-    GalleriesAlbum.bind('refresh change', this.proxy(this.change));
+    Gallery.bind('refresh', this.proxy(this.refresh));
     AlbumsPhoto.bind('refresh change', this.proxy(this.change));
     Spine.bind('show:galleries', this.proxy(this.show));
   }
-  GalleriesView.prototype.change = function() {
-    var items;
+  GalleriesView.prototype.change = function(item, mode) {
     console.log('GalleriesView::change');
+    if (item.constructor.className !== 'Gallery') {
+      return;
+    }
+    switch (mode) {
+      case 'create':
+        return this.create(item);
+    }
+  };
+  GalleriesView.prototype.refresh = function(items) {
     items = Gallery.all().sort(Gallery.nameSort);
     return this.render(items);
   };
@@ -53,7 +60,6 @@ GalleriesView = (function() {
     return this.header.render();
   };
   GalleriesView.prototype.show = function() {
-    Spine.trigger('gallery:activate');
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('change:toolbarTwo', ['']);
     return App.showView.trigger('canvas', this);

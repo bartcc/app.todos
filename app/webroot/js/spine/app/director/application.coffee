@@ -111,7 +111,7 @@ class App extends Spine.Controller
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
     
-    @contentManager = new Spine.Manager(@showView, @galleryEditView, @overviewView)
+    @contentManager = new Spine.Manager(@galleryEditView, @overviewView, @showView)
     @contentManager.change @showView
     
     @slideshowOptions =
@@ -137,12 +137,13 @@ class App extends Spine.Controller
         @contentManager.change(@showView)
         Spine.trigger('change:toolbar', ['Gallery'])
         Spine.trigger 'show:albums'
+#        Spine.trigger('gallery:activate')
         gallery = Gallery.find(params.id) if Gallery.exists(params.id)
         Gallery.current(gallery)
       '/galleries/': ->
         @contentManager.change(@showView)
-        Spine.trigger('gallery:activate', false)
         Spine.trigger 'show:galleries'
+#        Gallery.current()
       '/photos/': ->
         @contentManager.change(@showView)
         Spine.trigger('show:photos')
@@ -238,8 +239,8 @@ $ ->
   window.App = new App(el: $('body'))
   Spine.Route.setup()
   App.navigate '/galleries/'
-  window.setTimeout( ->
-    App.contentManager.change App.overviewView
-    App.navigate '/overview/'
-  , 1500)
+#  window.setTimeout( ->
+##    App.contentManager.change App.overviewView
+##    App.navigate '/overview/'
+#  , 1500)
     

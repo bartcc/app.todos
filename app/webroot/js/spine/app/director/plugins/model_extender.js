@@ -51,7 +51,7 @@ Model.Extender = {
         _results = [];
         for (_i = 0, _len = joinTables.length; _i < _len; _i++) {
           key = joinTables[_i];
-          _results.push(Spine.Model[key].refresh(this.createJoin(arr, key)));
+          _results.push(Spine.Model[key].refresh(this.createJoins(arr, key)));
         }
         return _results;
       },
@@ -87,7 +87,7 @@ Model.Extender = {
         }
         return res;
       },
-      createJoin: function(json, tableName) {
+      createJoins: function(json, tableName) {
         var introspect, obj, res, _i, _len;
         res = [];
         introspect = __bind(function(obj) {

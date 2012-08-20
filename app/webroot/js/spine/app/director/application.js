@@ -131,7 +131,7 @@ App = (function() {
     });
     this.appManager = new Spine.Manager(this.mainView, this.loaderView);
     this.appManager.change(this.loaderView);
-    this.contentManager = new Spine.Manager(this.showView, this.galleryEditView, this.overviewView);
+    this.contentManager = new Spine.Manager(this.galleryEditView, this.overviewView, this.showView);
     this.contentManager.change(this.showView);
     this.slideshowOptions = {
       canvas: false,
@@ -168,7 +168,6 @@ App = (function() {
       },
       '/galleries/': function() {
         this.contentManager.change(this.showView);
-        Spine.trigger('gallery:activate', false);
         return Spine.trigger('show:galleries');
       },
       '/photos/': function() {
@@ -281,9 +280,5 @@ $(function() {
     el: $('body')
   });
   Spine.Route.setup();
-  App.navigate('/galleries/');
-  return window.setTimeout(function() {
-    App.contentManager.change(App.overviewView);
-    return App.navigate('/overview/');
-  }, 1500);
+  return App.navigate('/galleries/');
 });

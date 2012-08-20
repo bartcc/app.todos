@@ -34,7 +34,9 @@ class Sidebar extends Spine.Controller
       el: @items,
       template: @template
       
-    Gallery.bind("refresh change", @proxy @render)
+    Gallery.bind('refresh', @proxy @refresh)
+#    Gallery.bind('update', @proxy @change)
+#    Gallery.bind('change', @proxy @change)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Gallery.bind("ajaxSuccess", Gallery.successHandler)
     
@@ -50,14 +52,25 @@ class Sidebar extends Spine.Controller
   filter: ->
     @query = @input.val();
     @render();
-
-  render: (item, mode) ->
+  
+  change: (item, mode) ->
+    return unless mode is ('' or 'delete')
+    @renderOne item, mode
+  
+  refresh: (items) ->
+    @render items
+    
+  render: (items) ->
     console.log 'Sidebar::render'
     items = Gallery.filter(@query, func: 'searchSelect')
     items = items.sort Gallery.nameSort
 #    sorted = Gallery.sortByName items
-    @list.render items, item, mode
-
+    @list.render items
+      
+  renderOne: (item, mode) ->
+    console.log 'Sidebar::renderOne'
+    @list.render item, mode
+  
   dragStart: (e, controller) ->
     console.log 'Sidebar::dragStart'
     return unless Spine.dragItem
@@ -131,17 +144,23 @@ class Sidebar extends Spine.Controller
         albums = []
         Album.each (record) =>
           albums.push record unless @clonedSelection.indexOf(record.id) is -1
-
-        Album.trigger('create:join', target, albums)
-        Album.trigger('destroy:join', origin, albums) unless @isCtrlClick(e)
+          
+        for album in albums
+          album.createJoin(target)
+          album.destroyJoin(origin)
+          
+#        Album.createJoin(albums, target)
+#        Album.destroyJoin(albums, origin) unless @isCtrlClick(e)
+#        Album.trigger('create:join', albums, target)
+#        Album.trigger('destroy:join', albums, origin) unless @isCtrlClick(e)
         
       when 'Photo'
         photos = []
         Photo.each (record) =>
           photos.push record unless @clonedSelection.indexOf(record.id) is -1
         
-        Photo.trigger('create:join', target, photos)
-        Photo.trigger('destroy:join', origin, photos) unless @isCtrlClick(e)
+        Photo.trigger('create:join', photos, target)
+        Photo.trigger('destroy:join', photos, origin) unless @isCtrlClick(e)
         
   validateDrop: (target, source, origin) =>
     return unless target
@@ -190,22 +209,26 @@ class Sidebar extends Spine.Controller
 #    App.showView.openPanel('gallery')
     gallery = new Gallery @newAttributes()
     console.log gallery
-    gallery.save()
+    gallery.save success: @createCallback
+    
+  createCallback: ->
     
   createAlbum: ->
     Spine.trigger('create:album')
 
-  destroy: (itm) ->
-    item = itm?.reload?()
+  destroy: (item) ->
     console.log 'Sidebar::destroy'
-    return unless item?.constructor?.className is 'Gallery'
     
     gas = GalleriesAlbum.filter(item.id, key: 'gallery_id')
     for ga in gas
       Spine.Ajax.disable ->
         ga.destroy()
+        
+    if Gallery.record?.id is item.id
+      Gallery.current() unless Gallery.count()
+      
+    console.log item
     item.destroy()
-    Gallery.current() if !Gallery.count()
 
   edit: ->
     App.galleryEditView.render()

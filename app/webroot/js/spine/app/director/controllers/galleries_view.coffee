@@ -23,23 +23,35 @@ class GalleriesView extends Spine.Controller
       el: @items
       template: @template
     @header.template = @headerTemplate
-    Gallery.bind('refresh change', @proxy @change)
-    GalleriesAlbum.bind('refresh change', @proxy @change)
+#    Gallery.bind('change', @proxy @change)
+    Gallery.bind('refresh', @proxy @refresh)
+    
     AlbumsPhoto.bind('refresh change', @proxy @change)
     Spine.bind('show:galleries', @proxy @show)
 
-  change: ->
+  change: (item, mode) ->
     console.log 'GalleriesView::change'
+    return unless item.constructor.className is 'Gallery'
+    switch mode
+      when 'create'
+        @create item
+#      when 'update'
+#        @update item
+#      when 'destroy'
+#        @destroy item
+#    @render item
+    
+  refresh: (items) ->
     items = Gallery.all().sort Gallery.nameSort
     @render items
-    
+  
   render: (items) ->
     console.log 'GalleriesView::render'
     @list.render items
     @header.render()
     
   show: ->
-    Spine.trigger('gallery:activate')
+#    Spine.trigger('gallery:activate')
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', [''])
     App.showView.trigger('canvas', @)

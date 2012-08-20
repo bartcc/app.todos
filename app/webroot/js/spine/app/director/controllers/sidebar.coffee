@@ -146,8 +146,8 @@ class Sidebar extends Spine.Controller
           albums.push record unless @clonedSelection.indexOf(record.id) is -1
           
         for album in albums
-          album.createJoin(target)
-          album.destroyJoin(origin)
+          album.createJoin(target) if target
+          album.destroyJoin(origin) if origin
           
 #        Album.createJoin(albums, target)
 #        Album.destroyJoin(albums, origin) unless @isCtrlClick(e)

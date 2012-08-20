@@ -184,8 +184,10 @@ Sidebar = (function() {
         _results = [];
         for (_i = 0, _len = albums.length; _i < _len; _i++) {
           album = albums[_i];
-          album.createJoin(target);
-          _results.push(album.destroyJoin(origin));
+          if (target) {
+            album.createJoin(target);
+          }
+          _results.push(origin ? album.destroyJoin(origin) : void 0);
         }
         return _results;
         break;

@@ -233,7 +233,6 @@ AlbumsList = (function() {
   AlbumsList.prototype.deleteAlbum = function(e) {
     var el, item, _ref;
     item = $(e.currentTarget).item();
-    console.log(item);
     if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Album') {
       return;
     }

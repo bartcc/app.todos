@@ -177,7 +177,6 @@ class AlbumsList extends Spine.Controller
   
   deleteAlbum: (e) ->
     item = $(e.currentTarget).item()
-    console.log item
     return unless item?.constructor?.className is 'Album'
     Gallery.updateSelection item.id
     
@@ -186,8 +185,6 @@ class AlbumsList extends Spine.Controller
     
     window.setTimeout( =>
       Spine.trigger('destroy:album')
-      
-      
     , 300)
     
     @stopInfo()

@@ -212,6 +212,7 @@ class Sidebar extends Spine.Controller
     gallery.save success: @createCallback
     
   createCallback: ->
+    App.navigate '/gallery', @id
     
   createAlbum: ->
     Spine.trigger('create:album')

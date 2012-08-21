@@ -87,9 +87,6 @@ PhotosView = (function() {
   };
   PhotosView.prototype.render = function(items, mode) {
     var list;
-    if (mode == null) {
-      mode = 'html';
-    }
     console.log('PhotosView::render');
     if (!this.isActive()) {
       return;
@@ -98,10 +95,7 @@ PhotosView = (function() {
       this.items.empty();
     }
     list = this.list.render(items, mode);
-    if (Album.record) {
-      list.sortable('photo');
-    }
-    this.refreshElements();
+    list.sortable('photo');
     return delete this.buffer;
   };
   PhotosView.prototype.renderHeader = function() {
@@ -124,14 +118,6 @@ PhotosView = (function() {
     }
     if (!this.items.children().length) {
       return this.render([]);
-    }
-  };
-  PhotosView.prototype.add = function(ap) {
-    var photo, _ref;
-    console.log('PhotosView::add');
-    if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
-      photo = Photo.find(ap.photo_id);
-      return this.render([photo], 'prepend');
     }
   };
   PhotosView.prototype.next = function(album) {
@@ -194,10 +180,17 @@ PhotosView = (function() {
     }
     return this.renderHeader();
   };
+  PhotosView.prototype.add = function(ap) {
+    var photo, _ref;
+    console.log('PhotosView::add');
+    if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
+      photo = Photo.find(ap.photo_id);
+      return this.render([photo], 'append');
+    }
+  };
   PhotosView.prototype.createJoin = function(photos, target) {
     var ap, record, records, _i, _len, _results;
     console.log('PhotosView::createJoin');
-    console.log(target.constructor.className);
     if (!(target && target.constructor.className === 'Album')) {
       return;
     }

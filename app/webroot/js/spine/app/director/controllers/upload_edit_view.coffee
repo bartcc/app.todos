@@ -21,7 +21,7 @@ class UploadEditView extends Spine.Controller
     super
     @bind("change", @change)
     Album.bind('change', @proxy @change)
-    Spine.bind('change:selectedAlbum', @proxy @change)
+#    Spine.bind('change:selectedAlbum', @proxy @change)
     
   change: (item) ->
     @render()
@@ -47,7 +47,10 @@ class UploadEditView extends Spine.Controller
   done: (e, data) ->
     photos = $.parseJSON(data.jqXHR.responseText)
     Photo.refresh(photos, clear: false)
-    Spine.trigger('album:updateBuffer', @album)
+#    if @album
+#      Photo.trigger('create:join', photos, @album)
+#      Spine.trigger('album:updateBuffer', @album)
+      
     if App.showView.isQuickUpload()
       App.hmanager.change @c
         

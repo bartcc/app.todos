@@ -270,7 +270,7 @@ Model.Extender = {
       addRemove: function(list) {
         var index, _ref;
         if (_ref = this.id, __indexOf.call(list, _ref) < 0) {
-          list.push(this.id);
+          list.unshift(this.id);
         } else {
           index = list.indexOf(this.id);
           if (index !== -1) {

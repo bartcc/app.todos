@@ -279,7 +279,9 @@ Sidebar = (function() {
       success: this.createCallback
     });
   };
-  Sidebar.prototype.createCallback = function() {};
+  Sidebar.prototype.createCallback = function() {
+    return App.navigate('/gallery', this.id);
+  };
   Sidebar.prototype.createAlbum = function() {
     return Spine.trigger('create:album');
   };

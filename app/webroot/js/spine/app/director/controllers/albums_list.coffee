@@ -81,7 +81,7 @@ class AlbumsList extends Spine.Controller
   
   select: (item, lonely) ->
     item?.addRemoveSelection(lonely)
-    @activate()
+    Spine.trigger('album:activate')
     
   exposeSelection: ->
     list = Gallery.selectionList()
@@ -107,17 +107,25 @@ class AlbumsList extends Spine.Controller
 #        Album.current(first)
 #    else
 #        Album.current()
+    selection = Gallery.selectionList()
+    return unless Spine.isArray selection
     
+    if selection.length is 1
+      first = Album.exists(selection[0])
+      unless first?.destroyed
+        Album.current(first)
+    else
+        Album.current()
     @exposeSelection()
   
   updateBackgrounds: (ap, mode) ->
-    console.log 'AlbumsList::changeBackgrounds'
+    console.log 'AlbumsList::updateBackgrounds'
     albums = ap.albums()
     @renderBackgrounds albums
     
-  refreshBackgrounds: (alb) ->
-    album = App.upload.album || alb
-    @renderBackgrounds [album] #if album
+  refreshBackgrounds: (photos) ->
+    album = App.upload.album
+    @renderBackgrounds [album] if album
   
   # remember the AlbumPhoto before it gets deleted (needed to remove widowed photo thumbnails)
   widowedAlbumsPhoto: (ap) ->
@@ -125,7 +133,7 @@ class AlbumsList extends Spine.Controller
   
   renderBackgrounds: (albums) ->
     return unless App.ready
-    
+    alert 
     if albums.length
       for album in albums
         @processAlbum album
@@ -134,7 +142,7 @@ class AlbumsList extends Spine.Controller
       @widows = []
   
   processAlbum: (album) ->
-#    return unless album?.contains?()
+    return unless album?.contains?()
     data = album.photos(4)
       
     Photo.uri

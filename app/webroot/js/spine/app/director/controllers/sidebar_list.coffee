@@ -216,9 +216,10 @@ class SidebarList extends Spine.Controller
     gallery = galleryEl.item()
     
     unless @isCtrlClick(e)
-      Gallery.updateSelection [album.id]
-      @exposeSublistSelection Gallery.record
-      @navigate '/gallery', gallery.id + '/' + album.id
+      unless Album.current.id is album.id
+        album.updateSelection [album.id]
+        @exposeSublistSelection()
+        @navigate '/gallery', gallery.id + '/' + album.id
     else
       @navigate '/photos/'
     
@@ -233,6 +234,9 @@ class SidebarList extends Spine.Controller
 #    dont act on no-gallery items like the 'no album' - info
     return unless item
     @navigate '/gallery/' + item?.id
+    
+    e.stopPropagation()
+    e.preventDefault()
 
   dblclick: (e) ->
     console.log 'SidebarList::dblclick'

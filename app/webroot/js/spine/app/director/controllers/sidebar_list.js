@@ -293,9 +293,11 @@ SidebarList = (function() {
     album = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
-      Gallery.updateSelection([album.id]);
-      this.exposeSublistSelection(Gallery.record);
-      this.navigate('/gallery', gallery.id + '/' + album.id);
+      if (Album.current.id !== album.id) {
+        album.updateSelection([album.id]);
+        this.exposeSublistSelection();
+        this.navigate('/gallery', gallery.id + '/' + album.id);
+      }
     } else {
       this.navigate('/photos/');
     }
@@ -310,7 +312,9 @@ SidebarList = (function() {
     if (!item) {
       return;
     }
-    return this.navigate('/gallery/' + (item != null ? item.id : void 0));
+    this.navigate('/gallery/' + (item != null ? item.id : void 0));
+    e.stopPropagation();
+    return e.preventDefault();
   };
   SidebarList.prototype.dblclick = function(e) {
     var item;

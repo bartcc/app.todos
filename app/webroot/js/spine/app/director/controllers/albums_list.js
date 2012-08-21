@@ -101,7 +101,7 @@ AlbumsList = (function() {
     if (item != null) {
       item.addRemoveSelection(lonely);
     }
-    return this.activate();
+    return Spine.trigger('album:activate');
   };
   AlbumsList.prototype.exposeSelection = function() {
     var el, id, item, list, _i, _len;
@@ -117,18 +117,33 @@ AlbumsList = (function() {
     return Spine.trigger('expose:sublistSelection', Gallery.record);
   };
   AlbumsList.prototype.activate = function(item) {
+    var first, selection;
+    selection = Gallery.selectionList();
+    if (!Spine.isArray(selection)) {
+      return;
+    }
+    if (selection.length === 1) {
+      first = Album.exists(selection[0]);
+      if (!(first != null ? first.destroyed : void 0)) {
+        Album.current(first);
+      }
+    } else {
+      Album.current();
+    }
     return this.exposeSelection();
   };
   AlbumsList.prototype.updateBackgrounds = function(ap, mode) {
     var albums;
-    console.log('AlbumsList::changeBackgrounds');
+    console.log('AlbumsList::updateBackgrounds');
     albums = ap.albums();
     return this.renderBackgrounds(albums);
   };
-  AlbumsList.prototype.refreshBackgrounds = function(alb) {
+  AlbumsList.prototype.refreshBackgrounds = function(photos) {
     var album;
-    album = App.upload.album ||  alb;
-    return this.renderBackgrounds([album]);
+    album = App.upload.album;
+    if (album) {
+      return this.renderBackgrounds([album]);
+    }
   };
   AlbumsList.prototype.widowedAlbumsPhoto = function(ap) {
     return this.widows = ap.albums();
@@ -138,6 +153,7 @@ AlbumsList = (function() {
     if (!App.ready) {
       return;
     }
+    alert;
     if (albums.length) {
       _results = [];
       for (_i = 0, _len = albums.length; _i < _len; _i++) {
@@ -156,6 +172,9 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.processAlbum = function(album) {
     var data;
+    if (!(album != null ? typeof album.contains === "function" ? album.contains() : void 0 : void 0)) {
+      return;
+    }
     data = album.photos(4);
     return Photo.uri({
       width: 50,

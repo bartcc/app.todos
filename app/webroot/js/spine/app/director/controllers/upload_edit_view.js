@@ -31,7 +31,6 @@ UploadEditView = (function() {
     UploadEditView.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
     Album.bind('change', this.proxy(this.change));
-    Spine.bind('change:selectedAlbum', this.proxy(this.change));
   }
   UploadEditView.prototype.change = function(item) {
     return this.render();
@@ -64,7 +63,6 @@ UploadEditView = (function() {
     Photo.refresh(photos, {
       clear: false
     });
-    Spine.trigger('album:updateBuffer', this.album);
     if (App.showView.isQuickUpload()) {
       App.hmanager.change(this.c);
     }

@@ -68,16 +68,16 @@ class PhotosView extends Spine.Controller
     
     @buffer = Photo.filterRelated(album?.id, filterOptions)
   
-  render: (items, mode = 'html') ->
+  render: (items, mode) ->
     console.log 'PhotosView::render'
     # render only if necessary
     return unless @isActive()
       
     @items.empty() unless @list.children('li').length
     list = @list.render items, mode
-    list.sortable 'photo' if Album.record
-    @refreshElements()
+    list.sortable 'photo' #if Album.record
     delete @buffer
+    
   
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
@@ -97,13 +97,6 @@ class PhotosView extends Spine.Controller
       photoEl.remove()
 
     @render [] unless @items.children().length
-    
-  add: (ap) ->
-    console.log 'PhotosView::add'
-    # only add when photo is for it's album
-    if ap.album_id is Album.record?.id
-      photo = Photo.find(ap.photo_id)
-      @render [photo], 'prepend'
 
   next: (album) ->
     album.last()
@@ -143,7 +136,6 @@ class PhotosView extends Spine.Controller
         photo.destroy()
     
   show: ->
-#    return if @isActive()
     Spine.trigger('gallery:activate')
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
@@ -152,16 +144,25 @@ class PhotosView extends Spine.Controller
   
   save: (item) ->
 
+  # methods after uplopad
+  
   refresh: (photos) ->
     if Album.record
+      # this will trigger the add method for handeling uploaded files
       @createJoin photos, Album.record
     else
       @render photos
     @renderHeader()
-  
+      
+  add: (ap) ->
+    console.log 'PhotosView::add'
+    # only add when photo is for it's album
+    if ap.album_id is Album.record?.id
+      photo = Photo.find(ap.photo_id)
+      @render [photo], 'append'
+      
   createJoin: (photos, target) ->
     console.log 'PhotosView::createJoin'
-    console.log target.constructor.className
     return unless target and target.constructor.className is 'Album'
     console.log target.id
     unless Photo.isArray photos

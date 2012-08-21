@@ -100,7 +100,7 @@ $.fn.Html5Sortable = (opts) ->
         sourceEl = $('._dragging')
         Spine.sortItem.splitter.remove()
         
-        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html)#.addClass('out')
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out')
         it.data Spine.sortItem.data
         model = $(it).item().constructor.className
 

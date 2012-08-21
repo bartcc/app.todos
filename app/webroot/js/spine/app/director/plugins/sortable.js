@@ -109,7 +109,7 @@ $.fn.Html5Sortable = function(opts) {
         }
         sourceEl = $('._dragging');
         Spine.sortItem.splitter.remove();
-        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html);
+        it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out');
         it.data(Spine.sortItem.data);
         model = $(it).item().constructor.className;
         if (!options.drop(sourceEl.get(0), it.get(0))) {

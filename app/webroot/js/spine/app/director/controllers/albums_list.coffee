@@ -130,7 +130,7 @@ class AlbumsList extends Spine.Controller
       @widows = []
   
   processAlbum: (album) ->
-    return unless album.contains()
+    return unless album?.contains?()
     data = album.photos(4)
       
     Photo.uri

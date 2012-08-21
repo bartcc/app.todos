@@ -11,6 +11,7 @@ App = (function() {
   __extends(App, Spine.Controller);
   App.extend(Spine.Controller.Drag);
   App.prototype.elements = {
+    '#fileupload': 'uploader',
     '#twitter': 'twitterEl',
     '#main': 'mainEl',
     '#sidebar': 'sidebarEl',
@@ -21,7 +22,6 @@ App = (function() {
     '#al': 'albumEl',
     '#ph': 'photoEl',
     '#fu': 'uploadEl',
-    '#fileupload': 'uploader',
     '#loader': 'loaderEl',
     '#login': 'loginEl',
     '#modal-gallery': 'slideshow',

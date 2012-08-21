@@ -170,7 +170,7 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.processAlbum = function(album) {
     var data;
-    if (!album.contains()) {
+    if (!(album != null ? typeof album.contains === "function" ? album.contains() : void 0 : void 0)) {
       return;
     }
     data = album.photos(4);

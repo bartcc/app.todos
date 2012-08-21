@@ -91,6 +91,8 @@ class AlbumsView extends Spine.Controller
     if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
       
+    Spine.trigger('album:activate')
+      
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
     @header.change Gallery.record
@@ -135,10 +137,10 @@ class AlbumsView extends Spine.Controller
     else
       cb = ->
         @createJoin(Gallery.record) if Gallery.record
+        # select first album
+        Spine.trigger('album:activate')
         
     album.save success: cb
-    # select first album
-    Spine.trigger('album:activate')
 
   destroy: ->
     console.log 'AlbumsView::destroy'
@@ -171,6 +173,8 @@ class AlbumsView extends Spine.Controller
 
     for album in albums
       album.createJoin target
+      
+    Spine.trigger('album:activate')
     
   destroyJoin: (albums, target) ->
     return unless target and target.constructor.className is 'Gallery'

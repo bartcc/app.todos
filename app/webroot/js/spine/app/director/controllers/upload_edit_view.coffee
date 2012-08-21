@@ -3,10 +3,7 @@ $      = Spine.$
 
 class UploadEditView extends Spine.Controller
 
-#  @extend Spine.Controller.Drag
-  
   elements:
-    '#fileupload'                 : 'uploader'
     '.files'                      : 'filesEl'
     '.uploadinfo'                 : 'uploadinfoEl'
 

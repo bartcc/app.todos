@@ -8,6 +8,7 @@ class App extends Spine.Controller
   # App.showView.trigger('change:toolbar', 'Album')
   
   elements:
+    '#fileupload'         : 'uploader'
     '#twitter'            : 'twitterEl'
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
@@ -18,7 +19,6 @@ class App extends Spine.Controller
     '#al'                 : 'albumEl'
     '#ph'                 : 'photoEl'
     '#fu'                 : 'uploadEl'
-    '#fileupload'         : 'uploader'
     '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
     '#modal-gallery'      : 'slideshow'

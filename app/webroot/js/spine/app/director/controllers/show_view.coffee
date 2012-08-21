@@ -137,6 +137,7 @@ class ShowView extends Spine.Controller
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
     
+    # setup visibility of view stack
     @active()
     @galleriesView.active()
     
@@ -286,12 +287,12 @@ class ShowView extends Spine.Controller
     active
   
   quickUpload: (active) ->
-    options = $('#fileupload').data().fileupload.options
+    options = $('#fileupload').data('fileupload').options
 #    options = App.uploader.data().fileupload.options
     options.autoUpload = active
     
   isQuickUpload: ->
-    $('#fileupload').data().fileupload.options.autoUpload
+    $('#fileupload').data('fileupload').options.autoUpload
     
   toggleView: (controller, control) ->
     console.log 'toggleView'

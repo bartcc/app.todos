@@ -310,11 +310,11 @@ ShowView = (function() {
   };
   ShowView.prototype.quickUpload = function(active) {
     var options;
-    options = $('#fileupload').data().fileupload.options;
+    options = $('#fileupload').data('fileupload').options;
     return options.autoUpload = active;
   };
   ShowView.prototype.isQuickUpload = function() {
-    return $('#fileupload').data().fileupload.options.autoUpload;
+    return $('#fileupload').data('fileupload').options.autoUpload;
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;

@@ -90,8 +90,9 @@ AlbumsView = (function() {
     list.sortable('album');
     this.header.render();
     if (items && items.constructor.className === 'GalleriesAlbum' && item.destroyed) {
-      return this.show();
+      this.show();
     }
+    return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.renderHeader = function() {
     console.log('AlbumsView::renderHeader');
@@ -143,14 +144,14 @@ AlbumsView = (function() {
     } else {
       cb = function() {
         if (Gallery.record) {
-          return this.createJoin(Gallery.record);
+          this.createJoin(Gallery.record);
         }
+        return Spine.trigger('album:activate');
       };
     }
-    album.save({
+    return album.save({
       success: cb
     });
-    return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.destroy = function() {
     var album, albums, ga, gallery, gas, list, photos, _i, _j, _k, _len, _len2, _len3, _results;
@@ -197,7 +198,7 @@ AlbumsView = (function() {
     }
   };
   AlbumsView.prototype.createJoin = function(albums, target) {
-    var album, _i, _len, _results;
+    var album, _i, _len;
     if (albums == null) {
       albums = [];
     }
@@ -207,12 +208,11 @@ AlbumsView = (function() {
     if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }
-    _results = [];
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];
-      _results.push(album.createJoin(target));
+      album.createJoin(target);
     }
-    return _results;
+    return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.destroyJoin = function(albums, target) {
     var album, _i, _len, _results;

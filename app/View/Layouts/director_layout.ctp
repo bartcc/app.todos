@@ -149,7 +149,7 @@
     echo $scripts_for_layout;
     ?>
   </head>
-  <body class="views">
+  <body id="fileupload_" class="views">
     <?php echo $content_for_layout; ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>

@@ -14,7 +14,6 @@ $ = Spine.$;
 UploadEditView = (function() {
   __extends(UploadEditView, Spine.Controller);
   UploadEditView.prototype.elements = {
-    '#fileupload': 'uploader',
     '.files': 'filesEl',
     '.uploadinfo': 'uploadinfoEl'
   };

@@ -132,14 +132,18 @@ AlbumsView = (function() {
     album = new Album(this.newAttributes());
     if (list) {
       cb = __bind(function() {
-        var _ref;
         album = Album.last();
         Photo.trigger('create:join', list, album);
         if (Gallery.record) {
           album.createJoin(Gallery.record);
         }
         album.updateSelection([album.id]);
-        return this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) + '/' + album.id);
+        if (Gallery.record) {
+          this.navigate('/gallery', Gallery.record.id);
+        } else {
+          this.navigate('/gallery', null + '/' + album.id);
+        }
+        return Spine.trigger('album:activate');
       }, this);
     } else {
       cb = function() {

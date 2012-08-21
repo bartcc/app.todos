@@ -131,9 +131,9 @@ class PhotosView extends Spine.Controller
         #
         aps = AlbumsPhoto.filter(photo.id, key: 'photo_id')
         for ap in aps
-          album = Album.find(ap.album_id)
+          album = Album.exists(ap.album_id) 
           Spine.Ajax.disable ->
-            Photo.trigger('destroy:join', photo, album)
+            Photo.trigger('destroy:join', photo, album) if album
             
       # now remove photo originals
       for photo in photos

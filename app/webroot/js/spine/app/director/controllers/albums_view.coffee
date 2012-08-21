@@ -132,7 +132,12 @@ class AlbumsView extends Spine.Controller
         album.createJoin(Gallery.record) if Gallery.record
         album.updateSelection [album.id]
         
-        @navigate '/gallery', Gallery.record?.id + '/' + album.id
+        
+        if Gallery.record
+          @navigate '/gallery', Gallery.record.id
+        else
+          @navigate '/gallery', null + '/' + album.id
+        Spine.trigger('album:activate')
         
     else
       cb = ->

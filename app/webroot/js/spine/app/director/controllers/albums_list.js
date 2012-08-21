@@ -131,7 +131,6 @@ AlbumsList = (function() {
     } else {
       Album.current();
     }
-    App.showView.trigger('change:toolbarOne');
     return this.exposeSelection();
   };
   AlbumsList.prototype.updateBackgrounds = function(ap, mode) {

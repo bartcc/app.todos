@@ -216,8 +216,9 @@ class PhotosList extends Spine.Controller
     el.removeClass('in')
     Album.updateSelection item.id
     
-    window.setTimeout( ->
+    window.setTimeout( =>
       Spine.trigger('destroy:photo')
+      @stopInfo()
     , 300)
     
     @stopInfo()

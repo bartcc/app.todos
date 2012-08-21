@@ -16,7 +16,8 @@ Login = (function() {
     '#UserPassword': 'passwordEl',
     '#UserUsername': 'usernameEl',
     '#flashTemplate': 'flashTemplate',
-    '#infoTemplate': 'infoTemplate'
+    '#infoTemplate': 'infoTemplate',
+    '.dialogue-content': 'contentEl'
   };
   Login.prototype.events = {
     'keypress': 'submitOnEnter',
@@ -46,7 +47,8 @@ Login = (function() {
     SpineError.destroyAll();
   }
   Login.prototype.render = function(el, tmpl, item) {
-    return el.html(this.template(tmpl, item));
+    el.html(this.template(tmpl, item));
+    return this.el;
   };
   Login.prototype.submit = function() {
     return $.ajax({
@@ -74,6 +76,7 @@ Login = (function() {
     delayedFunc = function() {
       return User.redirect('director_app' + window.location.hash);
     };
+    this.contentEl.addClass('fade500');
     return this.delay(delayedFunc, 1000);
   };
   Login.prototype.error = function(xhr) {

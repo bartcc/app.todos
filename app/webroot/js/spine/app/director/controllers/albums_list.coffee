@@ -103,8 +103,7 @@ class AlbumsList extends Spine.Controller
         Album.current(first)
     else
         Album.current()
-        
-    App.showView.trigger('change:toolbarOne')
+    
     @exposeSelection()
   
   updateBackgrounds: (ap, mode) ->

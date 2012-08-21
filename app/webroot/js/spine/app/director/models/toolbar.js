@@ -62,7 +62,7 @@ Toolbar = (function() {
         }, {
           devider: true
         }, {
-          name: 'Invert Selection | Cmd + A',
+          name: 'Invert Selection     Cmd + A',
           klass: 'optSelectAll'
         }, {
           name: 'Toggle Fullscreen',
@@ -70,7 +70,7 @@ Toolbar = (function() {
         }, {
           devider: true
         }, {
-          name: 'Toggle Sidebar | Tab',
+          name: 'Toggle Sidebar       Tab',
           klass: 'optSidebar'
         }, {
           devider: true
@@ -122,6 +122,15 @@ Toolbar = (function() {
           name: 'New',
           icon: 'asterisk',
           klass: 'optCreateAlbum'
+        }, {
+          name: function() {
+            return 'New Album from Selection (' + Album.selectionList().length + ')';
+          },
+          icon: 'asterisk',
+          klass: 'optCreateAlbumFromSel',
+          disabled: function() {
+            return !Album.selectionList().length;
+          }
         }, {
           name: 'Zoom',
           icon: 'zoom-in',

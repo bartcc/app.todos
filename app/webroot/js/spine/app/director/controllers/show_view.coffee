@@ -39,6 +39,7 @@ class ShowView extends Spine.Controller
     'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
     'click .optCreateGallery:not(.disabled)'         : 'createGallery'
     'click .optCreateAlbum:not(.disabled)'           : 'createAlbum'
+    'click .optCreateAlbumFromSel:not(.disabled)'    : 'createAlbumFromSel'
     'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
     'click .optDestroyGallery:not(.disabled)'        : 'destroyGallery'
     'click .optDestroyAlbum:not(.disabled)'          : 'destroyAlbum'
@@ -185,8 +186,15 @@ class ShowView extends Spine.Controller
   createPhoto: (e) ->
     Spine.trigger('create:photo')
   
-  createAlbum: (e) ->
+  createAlbum: ->
     Spine.trigger('create:album')
+  
+  createAlbumFromSel: ->
+    list = Album.selectionList()
+    photos = []
+    Photo.each (record) =>
+      photos.push record unless list.indexOf(record.id) is -1
+    Spine.trigger('create:album', photos)
   
   editGallery: (e) ->
     Spine.trigger('edit:gallery')

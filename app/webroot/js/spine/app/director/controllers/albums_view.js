@@ -125,20 +125,32 @@ AlbumsView = (function() {
       return User.ping();
     }
   };
-  AlbumsView.prototype.create = function(e) {
-    var album;
+  AlbumsView.prototype.create = function(list) {
+    var album, cb;
     console.log('AlbumsView::create');
     album = new Album(this.newAttributes());
-    return album.save({
-      success: this.createCallback
-    });
-  };
-  AlbumsView.prototype.createCallback = function() {
-    console.log('AlbumsView::createCallback');
-    if (!Gallery.record) {
-      return;
+    if (list) {
+      cb = __bind(function() {
+        var _ref;
+        album = Album.last();
+        Photo.trigger('create:join', list, album);
+        if (Gallery.record) {
+          album.createJoin(Gallery.record);
+        }
+        album.updateSelection([album.id]);
+        return this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) + '/' + album.id);
+      }, this);
+    } else {
+      cb = function() {
+        if (Gallery.record) {
+          return this.createJoin(Gallery.record);
+        }
+      };
     }
-    return this.createJoin(Gallery.record);
+    album.save({
+      success: cb
+    });
+    return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.destroy = function() {
     var album, albums, ga, gallery, gas, list, photos, _i, _j, _k, _len, _len2, _len3, _results;

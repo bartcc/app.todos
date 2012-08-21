@@ -116,22 +116,29 @@ class AlbumsView extends Spine.Controller
     else
       User.ping()
   
-  create: (e) ->
+  # creates new album
+  # argument can be an array of photos
+  create: (list) ->
     console.log 'AlbumsView::create'
     album = new Album @newAttributes()
-    album.save success: @createCallback
-
-  createCallback: ->
-    # in album context!
-    console.log 'AlbumsView::createCallback'
-    return unless Gallery.record
-    @createJoin(Gallery.record)
-#    alert 'Plese check createCallback' unless Album.record.id
-#    Gallery.updateSelection [Album.record.id]
-#    
-#    Album.trigger('create:join', Gallery.record, @) if Gallery.record
-#    Gallery.updateSelection [@id]
-#    Spine.trigger('album:activate')
+    
+    if list
+      cb = =>
+        album = Album.last()
+        
+        Photo.trigger('create:join', list, album)
+        album.createJoin(Gallery.record) if Gallery.record
+        album.updateSelection [album.id]
+        
+        @navigate '/gallery', Gallery.record?.id + '/' + album.id
+        
+    else
+      cb = ->
+        @createJoin(Gallery.record) if Gallery.record
+        
+    album.save success: cb
+    # select first album
+    Spine.trigger('album:activate')
 
   destroy: ->
     console.log 'AlbumsView::destroy'

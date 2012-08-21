@@ -285,9 +285,10 @@ PhotosList = (function() {
     el = $(e.currentTarget).parents('.item');
     el.removeClass('in');
     Album.updateSelection(item.id);
-    window.setTimeout(function() {
-      return Spine.trigger('destroy:photo');
-    }, 300);
+    window.setTimeout(__bind(function() {
+      Spine.trigger('destroy:photo');
+      return this.stopInfo();
+    }, this), 300);
     this.stopInfo();
     e.stopPropagation();
     return e.preventDefault();

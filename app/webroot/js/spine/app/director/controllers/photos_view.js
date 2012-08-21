@@ -195,9 +195,11 @@ PhotosView = (function() {
   PhotosView.prototype.createJoin = function(photos, target) {
     var ap, record, records, _i, _len, _results;
     console.log('PhotosView::createJoin');
+    console.log(target.constructor.className);
     if (!(target && target.constructor.className === 'Album')) {
       return;
     }
+    console.log(target.id);
     if (!Photo.isArray(photos)) {
       records = [];
       records.push(photos);

@@ -39,7 +39,7 @@ class UsersController extends AppController {
               'password' => '',
               'sessionid' => $this->Session->id(),
               'groupname' => $this->_groupname(),
-              'flash' => '<strong style="color:green">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>',
+              'flash' => '<strong style="color:#49AFCD">You\'re successfully logged in as ' . $this->Auth->user('name') . '</strong>',
               'success' => 'true',
               'redirect' => $this->Session->loginRedirect
               )));

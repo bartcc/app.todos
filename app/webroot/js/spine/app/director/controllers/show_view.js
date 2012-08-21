@@ -47,6 +47,7 @@ ShowView = (function() {
     'click .optFullScreen:not(.disabled)': 'toggleFullScreen',
     'click .optCreateGallery:not(.disabled)': 'createGallery',
     'click .optCreateAlbum:not(.disabled)': 'createAlbum',
+    'click .optCreateAlbumFromSel:not(.disabled)': 'createAlbumFromSel',
     'click .optCreatePhoto:not(.disabled)': 'createPhoto',
     'click .optDestroyGallery:not(.disabled)': 'destroyGallery',
     'click .optDestroyAlbum:not(.disabled)': 'destroyAlbum',
@@ -203,8 +204,19 @@ ShowView = (function() {
   ShowView.prototype.createPhoto = function(e) {
     return Spine.trigger('create:photo');
   };
-  ShowView.prototype.createAlbum = function(e) {
+  ShowView.prototype.createAlbum = function() {
     return Spine.trigger('create:album');
+  };
+  ShowView.prototype.createAlbumFromSel = function() {
+    var list, photos;
+    list = Album.selectionList();
+    photos = [];
+    Photo.each(__bind(function(record) {
+      if (list.indexOf(record.id) !== -1) {
+        return photos.push(record);
+      }
+    }, this));
+    return Spine.trigger('create:album', photos);
   };
   ShowView.prototype.editGallery = function(e) {
     return Spine.trigger('edit:gallery');

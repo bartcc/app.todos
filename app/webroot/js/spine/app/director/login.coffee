@@ -8,6 +8,7 @@ class Login extends Spine.Controller
     '#UserUsername'     : 'usernameEl'
     '#flashTemplate'    : 'flashTemplate'
     '#infoTemplate'     : 'infoTemplate'
+    '.dialogue-content'  : 'contentEl'
     
   events:
     'keypress'          : 'submitOnEnter'
@@ -28,6 +29,7 @@ class Login extends Spine.Controller
     
   render: (el, tmpl, item) ->  
     el.html @template tmpl, item
+    @el
     
   submit: =>
     $.ajax
@@ -48,9 +50,10 @@ class Login extends Spine.Controller
     User.destroyAll()
     user = new User @newAttributes(json)
     user.save()
-    @render @flashEl, @flashTemplate, json
+    @render(@flashEl, @flashTemplate, json)
     delayedFunc = ->
       User.redirect 'director_app'+window.location.hash
+    @contentEl.addClass('fade500')
     @delay delayedFunc, 1000
 
   error: (xhr) =>

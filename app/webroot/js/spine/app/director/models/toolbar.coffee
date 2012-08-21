@@ -33,7 +33,7 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: 'Invert Selection | Cmd + A'
+          name: 'Invert Selection     Cmd + A'
           klass: 'optSelectAll'
         ,
           name: 'Toggle Fullscreen'
@@ -41,7 +41,7 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: 'Toggle Sidebar | Tab'
+          name: 'Toggle Sidebar       Tab'
           klass: 'optSidebar'
         ,
           devider: true
@@ -83,6 +83,11 @@ class Toolbar extends Spine.Model
           name: 'New'
           icon: 'asterisk'
           klass: 'optCreateAlbum'
+        ,
+          name: -> 'New Album from Selection ('+Album.selectionList().length+')'
+          icon: 'asterisk'
+          klass: 'optCreateAlbumFromSel'
+          disabled: -> !Album.selectionList().length
         ,
           name: 'Zoom'
           icon: 'zoom-in'

@@ -137,7 +137,6 @@ AlbumsView = (function() {
         if (Gallery.record) {
           album.createJoin(Gallery.record);
         }
-        album.updateSelection([album.id]);
         if (Gallery.record) {
           this.navigate('/gallery', Gallery.record.id);
         } else {
@@ -147,10 +146,13 @@ AlbumsView = (function() {
       }, this);
     } else {
       cb = function() {
+        var _ref;
         if (Gallery.record) {
           this.createJoin(Gallery.record);
         }
-        return Spine.trigger('album:activate');
+        album.updateSelection([this.id]);
+        Spine.trigger('album:activate');
+        return App.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) + '/' + this.id);
       };
     }
     return album.save({

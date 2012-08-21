@@ -87,22 +87,26 @@ class AlbumsList extends Spine.Controller
     list = Gallery.selectionList()
     @deselect()
     for id in list
-      if Album.exists(id)
-        item = Album.find(id)
-        el = @children().forItem(item)
+      if item = Album.exists(id)
+        el = @children().forItem(item, true)
         el.addClass("active")
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: ->
-    console.log 'AlbumsList::activate'
-    selection = Gallery.selectionList()
-    if selection.length is 1
-      first = Album.find(selection[0]) if Album.exists(selection[0])
-      unless first?.destroyed
-        Album.current(first)
-    else
-        Album.current()
+  activate: (item) ->
+#    if item?.constructor?.className
+#      selection = item.updateSelection [item.id] 
+#    else
+#      selection = Gallery.selectionList()
+#    console.log 'AlbumsList::activate'
+#    return unless Spine.isArray selection
+#    
+#    if selection.length is 1
+#      first = Album.exists(selection[0])
+#      unless first?.destroyed
+#        Album.current(first)
+#    else
+#        Album.current()
     
     @exposeSelection()
   

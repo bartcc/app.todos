@@ -109,28 +109,14 @@ AlbumsList = (function() {
     this.deselect();
     for (_i = 0, _len = list.length; _i < _len; _i++) {
       id = list[_i];
-      if (Album.exists(id)) {
-        item = Album.find(id);
-        el = this.children().forItem(item);
+      if (item = Album.exists(id)) {
+        el = this.children().forItem(item, true);
         el.addClass("active");
       }
     }
     return Spine.trigger('expose:sublistSelection', Gallery.record);
   };
-  AlbumsList.prototype.activate = function() {
-    var first, selection;
-    console.log('AlbumsList::activate');
-    selection = Gallery.selectionList();
-    if (selection.length === 1) {
-      if (Album.exists(selection[0])) {
-        first = Album.find(selection[0]);
-      }
-      if (!(first != null ? first.destroyed : void 0)) {
-        Album.current(first);
-      }
-    } else {
-      Album.current();
-    }
+  AlbumsList.prototype.activate = function(item) {
     return this.exposeSelection();
   };
   AlbumsList.prototype.updateBackgrounds = function(ap, mode) {

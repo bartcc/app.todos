@@ -130,7 +130,6 @@ class AlbumsView extends Spine.Controller
         
         Photo.trigger('create:join', list, album)
         album.createJoin(Gallery.record) if Gallery.record
-        album.updateSelection [album.id]
         
         
         if Gallery.record
@@ -143,7 +142,9 @@ class AlbumsView extends Spine.Controller
       cb = ->
         @createJoin(Gallery.record) if Gallery.record
         # select first album
+        album.updateSelection [@id]
         Spine.trigger('album:activate')
+        App.navigate '/gallery', Gallery.record?.id + '/' + @id
         
     album.save success: cb
 

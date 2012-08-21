@@ -142,7 +142,7 @@ AlbumsView = (function() {
         } else {
           this.navigate('/gallery', null + '/' + album.id);
         }
-        album.updateSelection([this.id]);
+        album.updateSelection([album.id]);
         return Spine.trigger('album:activate');
       }, this);
     } else {

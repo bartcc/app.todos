@@ -142,6 +142,7 @@ AlbumsView = (function() {
         } else {
           this.navigate('/gallery', null + '/' + album.id);
         }
+        album.updateSelection([this.id]);
         return Spine.trigger('album:activate');
       }, this);
     } else {

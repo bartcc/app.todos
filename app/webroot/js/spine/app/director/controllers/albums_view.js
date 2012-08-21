@@ -132,11 +132,13 @@ AlbumsView = (function() {
     album = new Album(this.newAttributes());
     if (list) {
       cb = __bind(function() {
+        var gallery;
         album = Album.last();
-        Photo.trigger('create:join', list, album);
-        if (Gallery.record) {
-          album.createJoin(Gallery.record);
+        gallery = Gallery.record;
+        if (gallery) {
+          album.createJoin(gallery);
         }
+        Photo.trigger('create:join', list, album);
         if (Gallery.record) {
           this.navigate('/gallery', Gallery.record.id);
         } else {

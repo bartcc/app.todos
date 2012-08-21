@@ -128,9 +128,10 @@ class AlbumsView extends Spine.Controller
       cb = =>
         album = Album.last()
         
+        gallery = Gallery.record
+        album.createJoin(gallery) if gallery
         Photo.trigger('create:join', list, album)
-        album.createJoin(Gallery.record) if Gallery.record
-        
+#        Album.trigger('create:join', album, Gallery.record) if Gallery.record
         
         if Gallery.record
           @navigate '/gallery', Gallery.record.id

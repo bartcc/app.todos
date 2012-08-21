@@ -133,7 +133,6 @@ class AlbumsList extends Spine.Controller
   
   renderBackgrounds: (albums) ->
     return unless App.ready
-    alert 
     if albums.length
       for album in albums
         @processAlbum album

@@ -153,7 +153,6 @@ AlbumsList = (function() {
     if (!App.ready) {
       return;
     }
-    alert;
     if (albums.length) {
       _results = [];
       for (_i = 0, _len = albums.length; _i < _len; _i++) {

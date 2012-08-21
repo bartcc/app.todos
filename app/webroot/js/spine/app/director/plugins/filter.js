@@ -21,9 +21,9 @@ Filter = function() {
         aInt = parseInt(a.order);
         bInt = parseInt(b.order);
         if (aInt < bInt) {
-          return 1;
-        } else if (aInt > bInt) {
           return -1;
+        } else if (aInt > bInt) {
+          return 1;
         } else {
           return 0;
         }
@@ -35,9 +35,9 @@ Filter = function() {
         aInt = parseInt(a.order);
         bInt = parseInt(b.order);
         if (aInt < bInt) {
-          return -1;
-        } else if (aInt > bInt) {
           return 1;
+        } else if (aInt > bInt) {
+          return -1;
         } else {
           return 0;
         }

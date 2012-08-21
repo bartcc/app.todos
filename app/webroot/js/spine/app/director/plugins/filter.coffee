@@ -14,13 +14,13 @@ Filter =
         arr.sort (a, b) ->
           aInt = parseInt(a.order)
           bInt = parseInt(b.order)
-          if aInt < bInt then 1 else if aInt > bInt then -1 else 0
+          if aInt < bInt then -1 else if aInt > bInt then 1 else 0
       
       sortByReverseOrder: (arr) ->
         arr.sort (a, b) ->
           aInt = parseInt(a.order)
           bInt = parseInt(b.order)
-          if aInt < bInt then -1 else if aInt > bInt then 1 else 0
+          if aInt < bInt then 1 else if aInt > bInt then -1 else 0
           
       sortByName: (arr) ->
         arr.sort (a, b) ->

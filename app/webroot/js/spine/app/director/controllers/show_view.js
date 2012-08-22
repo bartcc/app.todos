@@ -77,8 +77,7 @@ ShowView = (function() {
     this.sliderSlide = __bind(this.sliderSlide, this);
     this.sliderStart = __bind(this.sliderStart, this);
     this.initSlider = __bind(this.initSlider, this);
-    this.deselect = __bind(this.deselect, this);
-    this.slideshowPlay = __bind(this.slideshowPlay, this);    ShowView.__super__.constructor.apply(this, arguments);
+    this.deselect = __bind(this.deselect, this);    ShowView.__super__.constructor.apply(this, arguments);
     this.silent = true;
     this.toolbarOne = new ToolbarView({
       el: this.toolbarOneEl
@@ -148,7 +147,6 @@ ShowView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.refreshToolbars));
     Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
     Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
-    Spine.bind('slideshow:ready', this.proxy(this.play));
     this.sOutValue = 174;
     this.thumbSize = 240;
     this.current = this.galleriesView;
@@ -379,83 +377,6 @@ ShowView = (function() {
   ShowView.prototype.closePanel = function(controller, target) {
     App[controller].activate();
     return target.click();
-  };
-  ShowView.prototype.activePhotos = function() {
-    var alb, albs, album, itm, pho, phos, photos, _i, _j, _k, _len, _len2, _len3, _ref;
-    phos = [];
-    albs = [];
-    _ref = Gallery.selectionList();
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      itm = _ref[_i];
-      albs.push(itm);
-    }
-    if (!albs.length) {
-      return;
-    }
-    for (_j = 0, _len2 = albs.length; _j < _len2; _j++) {
-      alb = albs[_j];
-      album = Album.find(alb);
-      photos = album.photos();
-      for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
-        pho = photos[_k];
-        phos.push(pho);
-      }
-    }
-    return phos;
-  };
-  ShowView.prototype.slideshowable = function() {
-    return this.activePhotos().length;
-  };
-  ShowView.prototype.play = function() {
-    var elFromCanvas, elFromSelection, _ref;
-    console.log('ShowView::play');
-    elFromSelection = __bind(function() {
-      var el, id, item, list, parent, root;
-      console.log('elFromSelection');
-      list = Album.selectionList();
-      if (list.length) {
-        id = list[0];
-        if (Photo.exists(id)) {
-          item = Photo.find(id);
-        }
-        root = this.current.el.children('.items');
-        parent = root.children().forItem(item);
-        el = $('[rel="gallery"]', parent)[0];
-        return el;
-      }
-    }, this);
-    elFromCanvas = __bind(function() {
-      var el, item, parent, root;
-      console.log('elFromCanvas');
-      item = AlbumsPhoto.photos(Album.record.id)[0];
-      root = this.current.el.children('.items');
-      parent = root.children().forItem(item);
-      el = $('[rel="gallery"]', parent)[0];
-      return el;
-    }, this);
-    if (this.slideshowable()) {
-      if ($('.modal-backdrop').length) {
-        return;
-      }
-      return (_ref = elFromSelection() || elFromCanvas()) != null ? typeof _ref.click === "function" ? _ref.click() : void 0 : void 0;
-    }
-  };
-  ShowView.prototype.pause = function(e) {
-    var isShown, modal;
-    if (!this.slideshowable()) {
-      return;
-    }
-    modal = $('#modal-gallery').data('modal');
-    isShown = modal != null ? modal.isShown : void 0;
-    if (!isShown) {
-      this.slideshowPlay(e);
-    } else {
-      $('#modal-gallery').data('modal').toggleSlideShow();
-    }
-    return false;
-  };
-  ShowView.prototype.slideshowPlay = function(e) {
-    return this.navigate('/slideshow', Math.random() * 16 | 0);
   };
   ShowView.prototype.deselect = function(e) {
     var className, item;

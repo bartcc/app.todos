@@ -127,7 +127,7 @@ class ShowView extends Spine.Controller
     
     Spine.bind('show:allPhotos', @proxy @showAllPhotos)
     Spine.bind('show:allAlbums', @proxy @showAllAlbums)
-    Spine.bind('slideshow:ready', @proxy @play)
+    
     
     @sOutValue = 174 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
@@ -343,65 +343,6 @@ class ShowView extends Spine.Controller
     App[controller].activate()
     target.click()
     
-  activePhotos: ->
-    phos = []
-    albs =[]
-    albs.push itm for itm in Gallery.selectionList()
-    return unless albs.length
-    for alb in albs
-      album = Album.find(alb)
-      photos = album.photos()
-      phos.push pho for pho in photos
-    phos
-    
-  slideshowable: ->
-    @activePhotos().length
-    
-    
-  play: ->
-    console.log 'ShowView::play'
-    
-    elFromSelection = =>
-      console.log 'elFromSelection'
-      list = Album.selectionList()
-      if list.length
-        id = list[0] 
-        item = Photo.find(id) if Photo.exists(id)
-        root = @current.el.children('.items')
-        parent = root.children().forItem(item)
-        el = $('[rel="gallery"]', parent)[0]
-        return el
-      return
-    
-    elFromCanvas = =>
-      console.log 'elFromCanvas'
-      item = AlbumsPhoto.photos(Album.record.id)[0]
-      root = @current.el.children('.items')
-      parent = root.children().forItem(item)
-      el = $('[rel="gallery"]', parent)[0]
-      el
-    
-    if @slideshowable()
-      # prevent ghosted backdrops
-      return if $('.modal-backdrop').length
-      (elFromSelection() or elFromCanvas())?.click?()
-        
-  pause: (e) ->
-    return unless @slideshowable()
-    modal = $('#modal-gallery').data('modal')
-    isShown = modal?.isShown
-    
-    unless isShown
-      @slideshowPlay(e)
-    else
-      $('#modal-gallery').data('modal').toggleSlideShow()
-      
-    false
-  
-  slideshowPlay: (e) =>
-#    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
-    @navigate '/slideshow', (Math.random() * 16 | 0)
-        
   deselect: (e) =>
     item = @el.data().current
     className = @el.data().className

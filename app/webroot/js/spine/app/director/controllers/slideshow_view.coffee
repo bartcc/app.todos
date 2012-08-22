@@ -27,6 +27,7 @@ class SlideshowView extends Spine.Controller
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('slider:start', @proxy @sliderStart)
+    Spine.bind('slideshow:ready', @proxy @play)
     
   render: (items) ->
     @items.html @template items
@@ -61,7 +62,7 @@ class SlideshowView extends Spine.Controller
     console.log 'SlideshowView::uri'
     Photo.uri @params(),
       (xhr, record) => @callback(items, xhr),
-      @photos()
+      @phos
     
   # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
@@ -92,7 +93,7 @@ class SlideshowView extends Spine.Controller
 #    Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
     Photo.uri @modalParams(),
       (xhr, record) => @callbackModal(xhr, items),
-      @photos()
+      @phos
   
   callbackModal: (json, items) ->
     console.log 'Slideshow::callbackModal'
@@ -124,7 +125,8 @@ class SlideshowView extends Spine.Controller
       joinTable: 'AlbumsPhoto'
       sorted: true
       
-    @render @photos()
+    
+    @render @phos = @photos()
     
   close: (e) ->
     @parent.showPrevious()
@@ -156,5 +158,69 @@ class SlideshowView extends Spine.Controller
       
   fullScreenEnabled: ->
     !!(window.fullScreen) or $('#modal-gallery').hasClass('modal-fullscreen')
+      
+  activePhotos: ->
+    phos = []
+    albs =[]
+    albs.push itm for itm in Gallery.selectionList()
+    return unless albs.length
+    for alb in albs
+      album = Album.exists(alb)
+      photos = album.photos()
+      phos.push pho for pho in photos
+    phos
+    
+  slideshowable: ->
+    @activePhotos().length
+    
+    
+  play: ->
+    console.log 'SlideshowView::play'
+    
+    elFromSelection = =>
+      console.log 'elFromSelection'
+      list = Album.selectionList()
+      if list.length
+        id = list[0] 
+        item = Photo.find(id) if Photo.exists(id)
+        root = @current.el.children('.items')
+        parent = root.children().forItem(item)
+        el = $('[rel="gallery"]', parent)[0]
+        return el
+      return
+    
+    elFromCanvas = =>
+      console.log 'elFromCanvas'
+      item = AlbumsPhoto.photos(Album.record.id)[0]
+      root = @current.el.children('.items')
+      parent = root.children().forItem(item)
+      el = $('[rel="gallery"]', parent)[0]
+      el
+    
+    if @slideshowable()
+      # prevent ghosted backdrops
+#      return if $('.modal-backdrop').length
+      console.log it = elFromSelection() or elFromCanvas()
+      it.click()
+    else
+      alert 'UUpps'
+        
+  pause: (e) ->
+    return unless @slideshowable()
+    modal = $('#modal-gallery').data('modal')
+    isShown = modal?.isShown
+    
+    unless isShown
+      @slideshowPlay(e)
+    else
+      $('#modal-gallery').data('modal').toggleSlideShow()
+      
+    false
+  
+  slideshowPlay: (e) =>
+#    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
+    @navigate '/slideshow', (Math.random() * 16 | 0)
+        
+      
       
 module?.exports = SlideshowView

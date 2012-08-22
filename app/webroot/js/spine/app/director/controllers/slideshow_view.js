@@ -21,6 +21,7 @@ SlideshowView = (function() {
     return $("#photosSlideshowTemplate").tmpl(items);
   };
   function SlideshowView() {
+    this.slideshowPlay = __bind(this.slideshowPlay, this);
     this.sliderStart = __bind(this.sliderStart, this);    SlideshowView.__super__.constructor.apply(this, arguments);
     this.el.data({
       current: {
@@ -33,6 +34,7 @@ SlideshowView = (function() {
     Spine.bind('show:slideshow', this.proxy(this.show));
     Spine.bind('slider:change', this.proxy(this.size));
     Spine.bind('slider:start', this.proxy(this.sliderStart));
+    Spine.bind('slideshow:ready', this.proxy(this.play));
   }
   SlideshowView.prototype.render = function(items) {
     this.items.html(this.template(items));
@@ -79,7 +81,7 @@ SlideshowView = (function() {
     console.log('SlideshowView::uri');
     return Photo.uri(this.params(), __bind(function(xhr, record) {
       return this.callback(items, xhr);
-    }, this), this.photos());
+    }, this), this.phos);
   };
   SlideshowView.prototype.callback = function(items, json) {
     var ele, img, item, jsn, searchJSON, src, _i, _len;
@@ -122,7 +124,7 @@ SlideshowView = (function() {
     }
     return Photo.uri(this.modalParams(), __bind(function(xhr, record) {
       return this.callbackModal(xhr, items);
-    }, this), this.photos());
+    }, this), this.phos);
   };
   SlideshowView.prototype.callbackModal = function(json, items) {
     var el, item, jsn, searchJSON, _i, _len;
@@ -161,7 +163,7 @@ SlideshowView = (function() {
       joinTable: 'AlbumsPhoto',
       sorted: true
     };
-    return this.render(this.photos());
+    return this.render(this.phos = this.photos());
   };
   SlideshowView.prototype.close = function(e) {
     this.parent.showPrevious();
@@ -203,6 +205,83 @@ SlideshowView = (function() {
   };
   SlideshowView.prototype.fullScreenEnabled = function() {
     return !!window.fullScreen || $('#modal-gallery').hasClass('modal-fullscreen');
+  };
+  SlideshowView.prototype.activePhotos = function() {
+    var alb, albs, album, itm, pho, phos, photos, _i, _j, _k, _len, _len2, _len3, _ref;
+    phos = [];
+    albs = [];
+    _ref = Gallery.selectionList();
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      itm = _ref[_i];
+      albs.push(itm);
+    }
+    if (!albs.length) {
+      return;
+    }
+    for (_j = 0, _len2 = albs.length; _j < _len2; _j++) {
+      alb = albs[_j];
+      album = Album.exists(alb);
+      photos = album.photos();
+      for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
+        pho = photos[_k];
+        phos.push(pho);
+      }
+    }
+    return phos;
+  };
+  SlideshowView.prototype.slideshowable = function() {
+    return this.activePhotos().length;
+  };
+  SlideshowView.prototype.play = function() {
+    var elFromCanvas, elFromSelection, it;
+    console.log('SlideshowView::play');
+    elFromSelection = __bind(function() {
+      var el, id, item, list, parent, root;
+      console.log('elFromSelection');
+      list = Album.selectionList();
+      if (list.length) {
+        id = list[0];
+        if (Photo.exists(id)) {
+          item = Photo.find(id);
+        }
+        root = this.current.el.children('.items');
+        parent = root.children().forItem(item);
+        el = $('[rel="gallery"]', parent)[0];
+        return el;
+      }
+    }, this);
+    elFromCanvas = __bind(function() {
+      var el, item, parent, root;
+      console.log('elFromCanvas');
+      item = AlbumsPhoto.photos(Album.record.id)[0];
+      root = this.current.el.children('.items');
+      parent = root.children().forItem(item);
+      el = $('[rel="gallery"]', parent)[0];
+      return el;
+    }, this);
+    if (this.slideshowable()) {
+      console.log(it = elFromSelection() || elFromCanvas());
+      return it.click();
+    } else {
+      return alert('UUpps');
+    }
+  };
+  SlideshowView.prototype.pause = function(e) {
+    var isShown, modal;
+    if (!this.slideshowable()) {
+      return;
+    }
+    modal = $('#modal-gallery').data('modal');
+    isShown = modal != null ? modal.isShown : void 0;
+    if (!isShown) {
+      this.slideshowPlay(e);
+    } else {
+      $('#modal-gallery').data('modal').toggleSlideShow();
+    }
+    return false;
+  };
+  SlideshowView.prototype.slideshowPlay = function(e) {
+    return this.navigate('/slideshow', Math.random() * 16 | 0);
   };
   return SlideshowView;
 })();

@@ -126,7 +126,7 @@ Toolbar = (function() {
           klass: 'optCreateAlbum'
         }, {
           name: function() {
-            return 'Copy Photos to New Album(' + Album.selectionList().length + ')';
+            return 'Copy Photos to New Album (' + Album.selectionList().length + ')';
           },
           icon: '',
           klass: 'optCreateAlbumFromSel',

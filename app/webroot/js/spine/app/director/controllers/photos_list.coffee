@@ -234,14 +234,14 @@ class PhotosList extends Spine.Controller
         if ap and ap.order isnt index
           ap.order = index
           ap.save()
+        # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated
+        Album.record.invalid = true
+        Album.record.save(ajax:false)
       else if item
         photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
         photo.order = index
         photo.save()
         
-    # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated
-    Album.record.invalid = true
-    Album.record.save(ajax:false)
     @exposeSelection()
     
   initSelectable: ->

@@ -303,8 +303,12 @@ PhotosList = (function() {
         })[0];
         if (ap && ap.order !== index) {
           ap.order = index;
-          return ap.save();
+          ap.save();
         }
+        Album.record.invalid = true;
+        return Album.record.save({
+          ajax: false
+        });
       } else if (item) {
         photo = (Photo.filter(item.id, {
           func: 'selectPhoto'
@@ -312,10 +316,6 @@ PhotosList = (function() {
         photo.order = index;
         return photo.save();
       }
-    });
-    Album.record.invalid = true;
-    Album.record.save({
-      ajax: false
     });
     return this.exposeSelection();
   };

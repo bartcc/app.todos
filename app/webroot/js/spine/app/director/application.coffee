@@ -152,7 +152,6 @@ class App extends Spine.Controller
         Spine.trigger('show:overview', true)
       '/slideshow/:id': ->
         @contentManager.change(@showView)
-        Spine.trigger('album:activate')
         Spine.trigger('show:slideshow')
     
   validate: (user, json) ->

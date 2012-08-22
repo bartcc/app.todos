@@ -180,7 +180,6 @@ App = (function() {
       },
       '/slideshow/:id': function() {
         this.contentManager.change(this.showView);
-        Spine.trigger('album:activate');
         return Spine.trigger('show:slideshow');
       }
     });

@@ -38,6 +38,8 @@ class Toolbar extends Spine.Model
         ,
           name: 'Toggle Fullscreen'
           klass: 'optFullScreen'
+          icon: 'fullscreen'
+          iconcolor: 'black'
         ,
           devider: true
         ,
@@ -81,13 +83,20 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'New'
-          icon: 'asterisk'
+          icon: ''
           klass: 'optCreateAlbum'
         ,
-          name: -> 'New Album from Selection ('+Album.selectionList().length+')'
-          icon: 'asterisk'
+          name: -> 'Copy Photos to New Album('+Album.selectionList().length+')'
+          icon: ''
           klass: 'optCreateAlbumFromSel'
           disabled: -> !Album.selectionList().length
+        ,
+          name: -> 'Move Photos to New Album ('+Album.selectionList().length+')'
+          icon: ''
+          klass: 'optCreateAlbumFromSelCut'
+          disabled: -> !Album.selectionList().length
+        ,
+          devider: true
         ,
           name: 'Zoom'
           icon: 'zoom-in'
@@ -109,14 +118,14 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: -> 'Start Slideshow | Space'
-          icon: 'play-circle'
+          name: -> 'Start Slideshow        Space'
+          icon: 'play'
           klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
           disabled: -> !App.showView.activePhotos.call @
         ,
           name: -> 'Slideshow Autostart'
-          icon: -> if App.showView.slideshowAutoStart then 'ok' else ''
+          icon: -> if App.showView.slideshowAutoStart then 'ok' else 'fire'
           klass: 'optSlideshowAutoStart'
           disabled: -> false
         ]
@@ -270,6 +279,7 @@ class Toolbar extends Spine.Model
         [
           name: 'Chromeless'
           klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
+          icon: ''
           dataToggle: 'button'
           outerstyle: ''
         ,
@@ -294,6 +304,7 @@ class Toolbar extends Spine.Model
         [
           name: 'Chromeless'
           klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
+          icon: ''
           dataToggle: 'button'
           outerstyle: ''
         ,

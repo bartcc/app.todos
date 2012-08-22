@@ -120,7 +120,7 @@ class AlbumsView extends Spine.Controller
   
   # creates new album
   # argument can be an array of photos
-  create: (list) ->
+  create: (list, options) ->
     console.log 'AlbumsView::create'
     album = new Album @newAttributes()
     
@@ -131,6 +131,7 @@ class AlbumsView extends Spine.Controller
         gallery = Gallery.record
         album.createJoin(gallery) if gallery
         Photo.trigger('create:join', list, album)
+        Photo.trigger('destroy:join', list, options['origin']) if options?.origin?
 #        Album.trigger('create:join', album, Gallery.record) if Gallery.record
         
         if Gallery.record

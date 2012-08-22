@@ -66,7 +66,9 @@ Toolbar = (function() {
           klass: 'optSelectAll'
         }, {
           name: 'Toggle Fullscreen',
-          klass: 'optFullScreen'
+          klass: 'optFullScreen',
+          icon: 'fullscreen',
+          iconcolor: 'black'
         }, {
           devider: true
         }, {
@@ -120,17 +122,28 @@ Toolbar = (function() {
       content: [
         {
           name: 'New',
-          icon: 'asterisk',
+          icon: '',
           klass: 'optCreateAlbum'
         }, {
           name: function() {
-            return 'New Album from Selection (' + Album.selectionList().length + ')';
+            return 'Copy Photos to New Album(' + Album.selectionList().length + ')';
           },
-          icon: 'asterisk',
+          icon: '',
           klass: 'optCreateAlbumFromSel',
           disabled: function() {
             return !Album.selectionList().length;
           }
+        }, {
+          name: function() {
+            return 'Move Photos to New Album (' + Album.selectionList().length + ')';
+          },
+          icon: '',
+          klass: 'optCreateAlbumFromSelCut',
+          disabled: function() {
+            return !Album.selectionList().length;
+          }
+        }, {
+          devider: true
         }, {
           name: 'Zoom',
           icon: 'zoom-in',
@@ -161,9 +174,9 @@ Toolbar = (function() {
           devider: true
         }, {
           name: function() {
-            return 'Start Slideshow | Space';
+            return 'Start Slideshow        Space';
           },
-          icon: 'play-circle',
+          icon: 'play',
           klass: 'optSlideshowPlay',
           dataToggle: 'modal-gallery',
           disabled: function() {
@@ -177,7 +190,7 @@ Toolbar = (function() {
             if (App.showView.slideshowAutoStart) {
               return 'ok';
             } else {
-              return '';
+              return 'fire';
             }
           },
           klass: 'optSlideshowAutoStart',
@@ -395,6 +408,7 @@ Toolbar = (function() {
           klass: function() {
             return 'optFullScreen' + (App.showView.slideshowView.fullScreenEnabled() ? ' active' : '');
           },
+          icon: '',
           dataToggle: 'button',
           outerstyle: ''
         }, {
@@ -429,6 +443,7 @@ Toolbar = (function() {
           klass: function() {
             return 'optFullScreen' + (App.showView.slideshowView.fullScreenEnabled() ? ' active' : '');
           },
+          icon: '',
           dataToggle: 'button',
           outerstyle: ''
         }, {

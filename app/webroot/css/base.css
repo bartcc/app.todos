@@ -79,3 +79,11 @@ form {
 .modal-header {
   padding: 9px 15px 25px;
 }
+.navbar .nav li.dropdown.open > .dropdown-toggle,
+.navbar .nav li.dropdown.active > .dropdown-toggle,
+.navbar .nav li.dropdown.open.active > .dropdown-toggle {
+  color: #BCBCBC;
+}
+.navbar .nav > li > a:focus, .navbar .nav > li > a:hover {
+  color: #BCBCBC;
+}

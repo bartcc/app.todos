@@ -20,8 +20,8 @@ Controller.Drag =
         parentDataElement = $(e.target).parents('.parent.data')
         Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data()?.current.record
         event = e.originalEvent
-        event.dataTransfer.effectAllowed = 'move'
-        event.dataTransfer.setData('text/html', Spine.dragItem);
+        event.dataTransfer?.effectAllowed = 'move'
+        event.dataTransfer?.setData('text/html', Spine.dragItem);
         Spine.trigger('drag:start', e, @)
 
       dragenter: (e, data) ->
@@ -35,7 +35,7 @@ Controller.Drag =
         event = e.originalEvent
         event.stopPropagation()
         event.preventDefault()
-        event.dataTransfer.dropEffect = 'move'
+        event.dataTransfer?.dropEffect = 'move'
         Spine.trigger('drag:over', e, @)
 
       dragleave: (e, data) ->

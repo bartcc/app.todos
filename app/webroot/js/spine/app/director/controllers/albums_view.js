@@ -126,7 +126,7 @@ AlbumsView = (function() {
       return User.ping();
     }
   };
-  AlbumsView.prototype.create = function(list) {
+  AlbumsView.prototype.create = function(list, options) {
     var album, cb;
     console.log('AlbumsView::create');
     album = new Album(this.newAttributes());
@@ -139,6 +139,9 @@ AlbumsView = (function() {
           album.createJoin(gallery);
         }
         Photo.trigger('create:join', list, album);
+        if ((options != null ? options.origin : void 0) != null) {
+          Photo.trigger('destroy:join', list, options['origin']);
+        }
         if (Gallery.record) {
           this.navigate('/gallery', Gallery.record.id);
         } else {

@@ -48,6 +48,7 @@ ShowView = (function() {
     'click .optCreateGallery:not(.disabled)': 'createGallery',
     'click .optCreateAlbum:not(.disabled)': 'createAlbum',
     'click .optCreateAlbumFromSel:not(.disabled)': 'createAlbumFromSel',
+    'click .optCreateAlbumFromSelCut:not(.disabled)': 'createAlbumFromSelCut',
     'click .optCreatePhoto:not(.disabled)': 'createPhoto',
     'click .optDestroyGallery:not(.disabled)': 'destroyGallery',
     'click .optDestroyAlbum:not(.disabled)': 'destroyAlbum',
@@ -217,6 +218,19 @@ ShowView = (function() {
       }
     }, this));
     return Spine.trigger('create:album', photos);
+  };
+  ShowView.prototype.createAlbumFromSelCut = function() {
+    var list, photos;
+    list = Album.selectionList();
+    photos = [];
+    Photo.each(__bind(function(record) {
+      if (list.indexOf(record.id) !== -1) {
+        return photos.push(record);
+      }
+    }, this));
+    return Spine.trigger('create:album', photos, {
+      origin: Album.record
+    });
   };
   ShowView.prototype.editGallery = function(e) {
     return Spine.trigger('edit:gallery');

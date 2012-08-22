@@ -13,7 +13,7 @@ Controller.Drag = {
         return Spine.dragItem = null;
       },
       dragstart: __bind(function(e, data) {
-        var el, event, parentDataElement, _ref, _ref2, _ref3;
+        var el, event, parentDataElement, _ref, _ref2, _ref3, _ref4, _ref5;
         el = $(e.target);
         el.addClass('dragged');
         Spine.dragItem = {};
@@ -22,8 +22,12 @@ Controller.Drag = {
         parentDataElement = $(e.target).parents('.parent.data');
         Spine.dragItem.origin = ((_ref = parentDataElement.data()) != null ? (_ref2 = _ref.tmplItem) != null ? _ref2.data : void 0 : void 0) || ((_ref3 = parentDataElement.data()) != null ? _ref3.current.record : void 0);
         event = e.originalEvent;
-        event.dataTransfer.effectAllowed = 'move';
-        event.dataTransfer.setData('text/html', Spine.dragItem);
+        if ((_ref4 = event.dataTransfer) != null) {
+          _ref4.effectAllowed = 'move';
+        }
+        if ((_ref5 = event.dataTransfer) != null) {
+          _ref5.setData('text/html', Spine.dragItem);
+        }
         return Spine.trigger('drag:start', e, this);
       }, this),
       dragenter: function(e, data) {
@@ -36,11 +40,13 @@ Controller.Drag = {
         return Spine.trigger('drag:enter', e, this);
       },
       dragover: function(e, data) {
-        var event;
+        var event, _ref;
         event = e.originalEvent;
         event.stopPropagation();
         event.preventDefault();
-        event.dataTransfer.dropEffect = 'move';
+        if ((_ref = event.dataTransfer) != null) {
+          _ref.dropEffect = 'move';
+        }
         return Spine.trigger('drag:over', e, this);
       },
       dragleave: function(e, data) {

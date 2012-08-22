@@ -11,9 +11,7 @@
           <div class="dialogue-inner-wrap">
             <div class="drag-handle">
                 <h1>Login</h1>
-                <div class="flash">
-                  <h3>Enter Username and Password</h3>
-                </div>
+                <h4 class="flash">Enter Username and Password</h4>
               <div class="clearfix"></div>
             </div>
             <div class="dialogue-scroll">
@@ -48,7 +46,7 @@
 
 <script type="text/x-jquery-tmpl" id="flashTemplate">
   {{if flash}}
-  <h3>{{html flash}}</h3>
+  {{html flash}}
   {{if success}}
   <img src="/img/ajax-loader-light.gif">
   {{/if}}

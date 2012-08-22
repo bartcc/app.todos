@@ -64,23 +64,17 @@ class Uri extends Base
     quality: 70
     
   init: ->
-    @cache() or @get()
+    @get() unless @cache()
     
   cache: ->
     res = []
     for data, idx in @data
       raw = (@model.cache @url, data.id)
       cache = raw[0]
-      switch raw.length
-        when 3
-          alert '3 Copies'
-          console.log raw[2]
-        when 2
-          alert '2 Copies'
-          console.log raw[1]
       return unless cache
       res.push cache
     
+    console.log res
     @callback res
       
   recordResponse: (uris) =>

@@ -21,8 +21,8 @@ class GalleriesList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
-    gallery = Gallery.find(item['gallery_id'])
-    album = Album.find(item['album_id'])
+    gallery = Gallery.exists(item['gallery_id'])
+    album = Album.exists(item['album_id'])
     switch mode
       when 'create'
         @updateTemplate gallery

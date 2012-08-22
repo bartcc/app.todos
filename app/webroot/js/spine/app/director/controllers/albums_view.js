@@ -69,7 +69,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.change = function(item, changed) {
     var gallery, items;
     console.log('AlbumsView::change');
-    if (this.isActive() && !changed) {
+    if (!this.isActive()) {
       return;
     }
     gallery = Gallery.record;
@@ -98,7 +98,7 @@ AlbumsView = (function() {
     console.log('AlbumsView::renderHeader');
     return this.header.change(Gallery.record);
   };
-  AlbumsView.prototype.show = function(force) {
+  AlbumsView.prototype.show = function() {
     var alb, albums, _i, _len, _results;
     Spine.trigger('album:activate');
     App.showView.trigger('change:toolbarOne', ['Default']);
@@ -186,9 +186,7 @@ AlbumsView = (function() {
         });
         for (_j = 0, _len2 = gas.length; _j < _len2; _j++) {
           ga = gas[_j];
-          if (Gallery.exists(ga.gallery_id)) {
-            gallery = Gallery.find(ga.gallery_id);
-          }
+          gallery = Gallery.exists(ga.gallery_id);
           photos = AlbumsPhoto.photos(album.id);
           Spine.Ajax.disable(function() {
             return Photo.trigger('destroy:join', photos, album);

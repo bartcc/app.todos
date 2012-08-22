@@ -111,7 +111,7 @@ PhotosView = (function() {
     if (!record.destroyed) {
       return;
     }
-    photo = (Photo.exists(record.photo_id) ? Photo.find(record.photo_id) : void 0) || record;
+    photo = ((Photo.exists(record.photo_id)) || record ? Photo.find(record.photo_id) : void 0);
     if (photo) {
       photoEl = this.items.children().forItem(photo, true);
       photoEl.remove();
@@ -184,8 +184,10 @@ PhotosView = (function() {
     var photo, _ref;
     console.log('PhotosView::add');
     if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
-      photo = Photo.find(ap.photo_id);
-      return this.render([photo], 'append');
+      photo = Photo.exists(ap.photo_id);
+      if (photo) {
+        return this.render([photo], 'append');
+      }
     }
   };
   PhotosView.prototype.createJoin = function(photos, target) {

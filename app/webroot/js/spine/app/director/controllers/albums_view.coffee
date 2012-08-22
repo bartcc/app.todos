@@ -61,7 +61,11 @@ class AlbumsView extends Spine.Controller
   change: (item, changed) ->
     console.log 'AlbumsView::change'
     # !important
-    return if @isActive() and !changed
+    return unless @isActive()
+#      console.log item
+#      item.updateSelection?([item.id])
+#      Spine.trigger('album:activate')
+      
   
     # item can be gallery         from Spine.bind 'change:selectedGallery'
     # item can be album           from Album.bind 'change'
@@ -97,7 +101,7 @@ class AlbumsView extends Spine.Controller
     console.log 'AlbumsView::renderHeader'
     @header.change Gallery.record
   
-  show: (force) ->
+  show: ->
     Spine.trigger('album:activate')
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
@@ -167,7 +171,7 @@ class AlbumsView extends Spine.Controller
       for album in albums
         gas = GalleriesAlbum.filter(album.id, key: 'album_id')
         for ga in gas
-          gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
+          gallery = Gallery.exists(ga.gallery_id)
           # find all photos in album
           photos = AlbumsPhoto.photos(album.id)
           Spine.Ajax.disable ->

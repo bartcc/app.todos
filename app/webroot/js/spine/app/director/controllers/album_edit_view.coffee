@@ -24,7 +24,7 @@ class AlbumEditView extends Spine.Controller
   changeSelected: (e) ->
     el = $(e.currentTarget)
     id = el.val()
-    album = Album.find(id)
+    album = Album.exists(id)
     album.updateSelection [album.id]
     Spine.trigger('album:activate')
 
@@ -37,7 +37,7 @@ class AlbumEditView extends Spine.Controller
       when 'Gallery'
         firstID = Gallery.selectionList()[0]
         if Album.exists(firstID)
-          @current = Album.find(firstID)
+          @current = Album.exists(firstID)
         else
           @current = false
         

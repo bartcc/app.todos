@@ -37,7 +37,7 @@ AlbumsPhoto = (function() {
     ret = [];
     this.each(function(item) {
       if (item['album_id'] === aid) {
-        return ret.push(Photo.find(item['photo_id']));
+        return ret.push(Photo.exists(item['photo_id']));
       }
     });
     return ret;

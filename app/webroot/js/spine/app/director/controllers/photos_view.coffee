@@ -90,7 +90,7 @@ class PhotosView extends Spine.Controller
   remove: (record) ->
     console.log 'PhotosView::remove'
     return unless record.destroyed
-    photo = (Photo.find(record.photo_id) if Photo.exists(record.photo_id)) or record
+    photo = (Photo.find(record.photo_id) if (Photo.exists(record.photo_id)) or record)
     
     if photo
       photoEl = @items.children().forItem(photo, true)
@@ -158,8 +158,8 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::add'
     # only add when photo is for it's album
     if ap.album_id is Album.record?.id
-      photo = Photo.find(ap.photo_id)
-      @render [photo], 'append'
+      photo = Photo.exists(ap.photo_id)
+      @render([photo], 'append') if photo
       
   createJoin: (photos, target) ->
     console.log 'PhotosView::createJoin'

@@ -124,7 +124,7 @@ class App extends Spine.Controller
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
         @contentManager.change(@showView)
-        photo = Photo.find(params.pid) if Photo.exists(params.pid)
+        photo = Photo.exists(params.pid)
         Spine.trigger 'show:photo', photo
         Gallery.current(params.gid)
         Album.current(params.aid)
@@ -138,7 +138,7 @@ class App extends Spine.Controller
         Spine.trigger('change:toolbar', ['Gallery'])
         Spine.trigger 'show:albums'
 #        Spine.trigger('gallery:activate')
-        gallery = Gallery.find(params.id) if Gallery.exists(params.id)
+        gallery = Gallery.exists(params.id)
         Gallery.current(gallery)
       '/galleries/': ->
         @contentManager.change(@showView)
@@ -215,7 +215,7 @@ class App extends Spine.Controller
           e.preventDefault()
       when 32
         #spacebar -> play/stop slideshow
-        @showView.pause(e)
+        @showView.slideshowView.pause(e)
         e.preventDefault()
         
         
@@ -226,11 +226,10 @@ class App extends Spine.Controller
         @sidebar.toggleDraghandle()
         e.preventDefault()
       when 27
-        console.log @showView.btnPrevious
         @showView.btnPrevious.click()
         e.preventDefault()
       else
-        console.log keyCode
+#        console.log keyCode
         e.preventDefault()
 $ ->
   

@@ -102,9 +102,11 @@ class PhotosList extends Spine.Controller
   
   callback: (json = [], items) =>
     console.log 'PhotosList::callback'
+    
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
+        
     for item in items
       jsn = searchJSON item.id
       if jsn

@@ -77,9 +77,11 @@ UploadEditView = (function() {
     var album, el, id;
     el = $(e.currentTarget);
     id = el.val();
-    album = Album.find(id);
-    album.updateSelection([album.id]);
-    return Spine.trigger('album:activate');
+    album = Album.exists(id);
+    if (album) {
+      album.updateSelection([album.id]);
+      return Spine.trigger('album:activate');
+    }
   };
   return UploadEditView;
 })();

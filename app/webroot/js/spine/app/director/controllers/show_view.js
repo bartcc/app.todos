@@ -73,6 +73,7 @@ ShowView = (function() {
     'slidestart .slider': 'sliderStart'
   };
   function ShowView() {
+    this.slideshowPlay = __bind(this.slideshowPlay, this);
     this.sliderStop = __bind(this.sliderStop, this);
     this.sliderSlide = __bind(this.sliderSlide, this);
     this.sliderStart = __bind(this.sliderStart, this);
@@ -477,6 +478,32 @@ ShowView = (function() {
   };
   ShowView.prototype.showAllAlbums = function() {
     return this.navigate('/gallery/' + false);
+  };
+  ShowView.prototype.slideshowPlay = function(e) {
+    return this.navigate('/slideshow', Math.random() * 16 | 0);
+  };
+  ShowView.prototype.activePhotos = function() {
+    var alb, albs, album, itm, pho, phos, photos, _i, _j, _k, _len, _len2, _len3, _ref;
+    phos = [];
+    albs = [];
+    _ref = Gallery.selectionList();
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      itm = _ref[_i];
+      albs.push(itm);
+    }
+    if (!albs.length) {
+      return;
+    }
+    for (_j = 0, _len2 = albs.length; _j < _len2; _j++) {
+      alb = albs[_j];
+      album = Album.exists(alb);
+      photos = album.photos();
+      for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
+        pho = photos[_k];
+        phos.push(pho);
+      }
+    }
+    return phos;
   };
   return ShowView;
 })();

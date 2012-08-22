@@ -34,7 +34,7 @@ AlbumEditView = (function() {
     var album, el, id;
     el = $(e.currentTarget);
     id = el.val();
-    album = Album.find(id);
+    album = Album.exists(id);
     album.updateSelection([album.id]);
     return Spine.trigger('album:activate');
   };
@@ -51,7 +51,7 @@ AlbumEditView = (function() {
       case 'Gallery':
         firstID = Gallery.selectionList()[0];
         if (Album.exists(firstID)) {
-          this.current = Album.find(firstID);
+          this.current = Album.exists(firstID);
         } else {
           this.current = false;
         }

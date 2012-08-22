@@ -86,13 +86,18 @@ Uri = (function() {
     Uri.__super__.constructor.apply(this, arguments);
     options = $.extend({}, this.settings, params);
     this.url = this.uri(options);
+    if (!this.data.length) {
+      return;
+    }
   }
   Uri.prototype.settings = {
     square: 1,
     quality: 70
   };
   Uri.prototype.init = function() {
-    return this.cache() || this.get();
+    if (!this.cache()) {
+      return this.get();
+    }
   };
   Uri.prototype.cache = function() {
     var cache, data, idx, raw, res, _len, _ref;
@@ -102,20 +107,12 @@ Uri = (function() {
       data = _ref[idx];
       raw = this.model.cache(this.url, data.id);
       cache = raw[0];
-      switch (raw.length) {
-        case 3:
-          alert('3 Copies');
-          console.log(raw[2]);
-          break;
-        case 2:
-          alert('2 Copies');
-          console.log(raw[1]);
-      }
       if (!cache) {
         return;
       }
       res.push(cache);
     }
+    console.log(res);
     return this.callback(res);
   };
   Uri.prototype.recordResponse = function(uris) {

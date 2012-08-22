@@ -278,7 +278,7 @@ SidebarList = (function() {
         if (Album.exists(id)) {
           album = Album.find(id);
         }
-        _results.push(album ? (albums.forItem(album).addClass('selected'), id === ((_ref2 = Album.record) != null ? _ref2.id : void 0) ? (album = Album.find(Album.record.id), albums.forItem(album).addClass('active')) : void 0) : void 0);
+        _results.push(album ? (albums.forItem(album).addClass('selected'), id === ((_ref2 = Album.record) != null ? _ref2.id : void 0) ? (album = Album.exists(Album.record.id), albums.forItem(album).addClass('active')) : void 0) : void 0);
       }
       return _results;
     } else {
@@ -293,28 +293,25 @@ SidebarList = (function() {
     album = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
-      if (Album.current.id !== album.id) {
-        album.updateSelection([album.id]);
-        this.exposeSublistSelection();
-        this.navigate('/gallery', gallery.id + '/' + album.id);
-      }
+      album.updateSelection([album.id]);
+      this.navigate('/gallery', gallery.id + '/' + album.id);
     } else {
       this.navigate('/photos/');
     }
+    this.exposeSublistSelection();
     e.stopPropagation();
     return e.preventDefault();
   };
   SidebarList.prototype.click = function(e) {
     var item;
     console.log('SidebarList::click');
-    console.log($(e.target).closest('.data'));
-    item = $(e.target).closest('.data').item();
-    if (!item) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (!(item = $(e.target).closest('.data').item())) {
       return;
     }
     this.navigate('/gallery/' + (item != null ? item.id : void 0));
-    e.stopPropagation();
-    return e.preventDefault();
+    return this.exposeSelection();
   };
   SidebarList.prototype.dblclick = function(e) {
     var item;

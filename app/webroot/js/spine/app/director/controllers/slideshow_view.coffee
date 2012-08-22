@@ -45,7 +45,7 @@ class SlideshowView extends Spine.Controller
     list = Album.selectionList()
     for id in list
       if Photo.exists(id)
-        item = Photo.find(id)
+        item = Photo.find(id) if Photo.exists(id)
         @items.children().forItem(item, true).addClass("active")
        
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->
@@ -124,7 +124,6 @@ class SlideshowView extends Spine.Controller
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       sorted: true
-      
     
     @render @phos = @photos()
     
@@ -158,21 +157,9 @@ class SlideshowView extends Spine.Controller
       
   fullScreenEnabled: ->
     !!(window.fullScreen) or $('#modal-gallery').hasClass('modal-fullscreen')
-      
-  activePhotos: ->
-    phos = []
-    albs =[]
-    albs.push itm for itm in Gallery.selectionList()
-    return unless albs.length
-    for alb in albs
-      album = Album.exists(alb)
-      photos = album.photos()
-      phos.push pho for pho in photos
-    phos
     
   slideshowable: ->
-    @activePhotos().length
-    
+    @photos().length
     
   play: ->
     console.log 'SlideshowView::play'
@@ -183,8 +170,7 @@ class SlideshowView extends Spine.Controller
       if list.length
         id = list[0] 
         item = Photo.find(id) if Photo.exists(id)
-        root = @current.el.children('.items')
-        parent = root.children().forItem(item)
+        parent = @el.children().forItem(item, true)
         el = $('[rel="gallery"]', parent)[0]
         return el
       return
@@ -192,16 +178,13 @@ class SlideshowView extends Spine.Controller
     elFromCanvas = =>
       console.log 'elFromCanvas'
       item = AlbumsPhoto.photos(Album.record.id)[0]
-      root = @current.el.children('.items')
-      parent = root.children().forItem(item)
-      el = $('[rel="gallery"]', parent)[0]
+      el = $('[rel=gallery]', @el)[0]
       el
     
     if @slideshowable()
       # prevent ghosted backdrops
 #      return if $('.modal-backdrop').length
-      console.log it = elFromSelection() or elFromCanvas()
-      it.click()
+      (elFromSelection() or elFromCanvas())?.click()
     else
       alert 'UUpps'
         
@@ -211,16 +194,11 @@ class SlideshowView extends Spine.Controller
     isShown = modal?.isShown
     
     unless isShown
-      @slideshowPlay(e)
+      @navigate '/slideshow', (Math.random() * 16 | 0)
     else
       $('#modal-gallery').data('modal').toggleSlideShow()
       
     false
   
-  slideshowPlay: (e) =>
-#    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
-    @navigate '/slideshow', (Math.random() * 16 | 0)
-        
-      
       
 module?.exports = SlideshowView

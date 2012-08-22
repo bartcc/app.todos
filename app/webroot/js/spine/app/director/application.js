@@ -143,9 +143,7 @@ App = (function() {
       '/gallery/:gid/:aid/:pid': function(params) {
         var photo;
         this.contentManager.change(this.showView);
-        if (Photo.exists(params.pid)) {
-          photo = Photo.find(params.pid);
-        }
+        photo = Photo.exists(params.pid);
         Spine.trigger('show:photo', photo);
         Gallery.current(params.gid);
         return Album.current(params.aid);
@@ -161,9 +159,7 @@ App = (function() {
         this.contentManager.change(this.showView);
         Spine.trigger('change:toolbar', ['Gallery']);
         Spine.trigger('show:albums');
-        if (Gallery.exists(params.id)) {
-          gallery = Gallery.find(params.id);
-        }
+        gallery = Gallery.exists(params.id);
         return Gallery.current(gallery);
       },
       '/galleries/': function() {
@@ -255,7 +251,7 @@ App = (function() {
         }
         break;
       case 32:
-        this.showView.pause(e);
+        this.showView.slideshowView.pause(e);
         e.preventDefault();
     }
     switch (keyCode) {
@@ -263,11 +259,9 @@ App = (function() {
         this.sidebar.toggleDraghandle();
         return e.preventDefault();
       case 27:
-        console.log(this.showView.btnPrevious);
         this.showView.btnPrevious.click();
         return e.preventDefault();
       default:
-        console.log(keyCode);
         return e.preventDefault();
     }
   };

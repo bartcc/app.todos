@@ -438,3 +438,18 @@ class ShowView extends Spine.Controller
     
   showAllAlbums: ->
     @navigate '/gallery/' + false
+    
+  slideshowPlay: (e) =>
+#    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
+    @navigate '/slideshow', (Math.random() * 16 | 0)
+    
+  activePhotos: ->
+    phos = []
+    albs =[]
+    albs.push itm for itm in Gallery.selectionList()
+    return unless albs.length
+    for alb in albs
+      album = Album.exists(alb)
+      photos = album.photos()
+      phos.push pho for pho in photos
+    phos

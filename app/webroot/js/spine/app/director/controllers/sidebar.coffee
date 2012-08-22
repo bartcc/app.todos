@@ -83,7 +83,7 @@ class Sidebar extends Spine.Controller
       fromSidebar = true
       selection = [source.id]
       id = el.parents('li.item')[0].id
-      Spine.dragItem.origin = Gallery.find(id) if id and Gallery.exists(id)
+      Spine.dragItem.origin = Gallery.find(id) if (id and Gallery.exists(id))
     else
       switch source.constructor.className
         when 'Album'

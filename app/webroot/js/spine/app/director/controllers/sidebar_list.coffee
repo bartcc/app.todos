@@ -202,7 +202,7 @@ class SidebarList extends Spine.Controller
         if album
           albums.forItem(album).addClass('selected')
           if id is Album.record?.id
-            album = Album.find(Album.record.id)
+            album = Album.exists(Album.record.id)
             albums.forItem(album).addClass('active')
     else
       removeAlbumSelection()
@@ -216,27 +216,29 @@ class SidebarList extends Spine.Controller
     gallery = galleryEl.item()
     
     unless @isCtrlClick(e)
-      unless Album.current.id is album.id
-        album.updateSelection [album.id]
-        @exposeSublistSelection()
-        @navigate '/gallery', gallery.id + '/' + album.id
+#      unless Album.current.id is album.id
+      album.updateSelection [album.id]
+      @navigate '/gallery', gallery.id + '/' + album.id
     else
       @navigate '/photos/'
     
+    
+    @exposeSublistSelection()
     e.stopPropagation()
     e.preventDefault()
     
   click: (e) ->
     console.log 'SidebarList::click'
-    console.log $(e.target).closest('.data')
-    item = $(e.target).closest('.data').item()
-    
-#    dont act on no-gallery items like the 'no album' - info
-    return unless item
-    @navigate '/gallery/' + item?.id
-    
     e.stopPropagation()
     e.preventDefault()
+    
+#    dont act on no-gallery items like the 'no album' - info
+    return unless item = $(e.target).closest('.data').item()
+    
+    @navigate '/gallery/' + item?.id
+    
+    @exposeSelection()
+    
 
   dblclick: (e) ->
     console.log 'SidebarList::dblclick'

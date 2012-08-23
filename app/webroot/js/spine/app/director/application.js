@@ -282,5 +282,5 @@ $(function() {
     el: $('body')
   });
   Spine.Route.setup();
-  return App.navigate('/galleries/');
+  return App.navigate('', location.hash);
 });

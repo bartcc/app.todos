@@ -1,5 +1,5 @@
 class Photo extends Spine.Model
-  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order'
+  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'cache'
 
   @extend Spine.Model.Cache
   @extend Spine.Model.Ajax
@@ -46,6 +46,7 @@ class Photo extends Spine.Model
   
   @refresh: (values, options = {}) ->
     console.log 'my refresh'
+    
     @__super__.constructor.refresh.call @, values, options
     
   init: (instance) ->

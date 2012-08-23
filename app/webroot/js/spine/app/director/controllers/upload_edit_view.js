@@ -49,7 +49,12 @@ UploadEditView = (function() {
     return this.el;
   };
   UploadEditView.prototype.add = function(e, data) {
+    var album;
+    album = Album.record;
     if (data.files.length) {
+      $.extend(data, {
+        link: album
+      });
       this.c = App.hmanager.hasActive();
       App.hmanager.change(this);
       if (!App.showView.isQuickUpload()) {

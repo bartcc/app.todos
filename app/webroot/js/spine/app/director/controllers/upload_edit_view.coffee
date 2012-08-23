@@ -38,7 +38,9 @@ class UploadEditView extends Spine.Controller
     @el
     
   add: (e, data) ->
+    album = Album.record
     if data.files.length
+      $.extend data, link: album
       @c = App.hmanager.hasActive()
       App.hmanager.change @
       unless App.showView.isQuickUpload()

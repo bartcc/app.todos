@@ -14,7 +14,7 @@ Photo = (function() {
     this.Photo = __bind(this.Photo, this);
     Photo.__super__.constructor.apply(this, arguments);
   }
-  Photo.configure("Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order');
+  Photo.configure("Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'cache');
   Photo.extend(Spine.Model.Cache);
   Photo.extend(Spine.Model.Ajax);
   Photo.extend(Spine.Model.AjaxRelations);

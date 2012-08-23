@@ -66,15 +66,18 @@ Login = (function() {
     return this.usernameEl.val('').focus();
   };
   Login.prototype.success = function(json) {
-    var delayedFunc, user;
+    var delayedFunc, hash, user;
     json = $.parseJSON(json);
     User.fetch();
     User.destroyAll();
     user = new User(this.newAttributes(json));
     user.save();
     this.render(this.flashEl, this.flashTemplate, json);
+    if (hash = location.hash) {
+      localStorage['hash'] = hash;
+    }
     delayedFunc = function() {
-      return User.redirect('director_app' + window.location.hash);
+      return User.redirect('director_app' + hash);
     };
     this.contentEl.addClass('fade500');
     return this.delay(delayedFunc, 1000);

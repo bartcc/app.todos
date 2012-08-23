@@ -34,7 +34,6 @@ AlbumsList = (function() {
     AlbumsPhoto.bind('destroy create', this.proxy(this.updateBackgrounds));
     Album.bind("ajaxError", Album.errorHandler);
     Spine.bind('album:activate', this.proxy(this.activate));
-    Spine.bind('zoom:album', this.proxy(this.zoom));
     GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     GalleriesAlbum.bind('change', this.proxy(this.renderRelatedAlbum));
   }
@@ -218,17 +217,13 @@ AlbumsList = (function() {
     return e.preventDefault();
   };
   AlbumsList.prototype.zoom = function(e) {
-    var item, _ref;
-    item = $(e != null ? e.currentTarget : void 0).item() || Album.record;
-    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Album') {
-      return;
-    }
+    var item;
+    item = $(e.currentTarget).item();
     this.select(item, true);
-    this.navigate('/gallery/' + Gallery.record.id + '/' + item.id);
-    if (e != null) {
-      e.stopPropagation();
-    }
-    return e != null ? e.preventDefault() : void 0;
+    this.stopInfo();
+    this.navigate('/gallery', Gallery.record.id + '/' + item.id);
+    e.stopPropagation();
+    return e.preventDefault();
   };
   AlbumsList.prototype.deleteAlbum = function(e) {
     var el, item, _ref;
@@ -241,7 +236,7 @@ AlbumsList = (function() {
     el.removeClass('in');
     window.setTimeout(__bind(function() {
       return Spine.trigger('destroy:album');
-    }, this), 300);
+    }, this), 200);
     this.stopInfo();
     e.stopPropagation();
     return e.preventDefault();

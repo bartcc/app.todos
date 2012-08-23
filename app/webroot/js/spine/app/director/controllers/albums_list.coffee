@@ -25,7 +25,7 @@ class AlbumsList extends Spine.Controller
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
-    Spine.bind('zoom:album', @proxy @zoom)
+#    Spine.bind('zoom:album', @proxy @zoom)
     
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     GalleriesAlbum.bind('change', @proxy @renderRelatedAlbum)
@@ -176,14 +176,16 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
 
   zoom: (e) ->
-    item = $(e?.currentTarget).item() || Album.record
-    return unless item?.constructor?.className is 'Album'
+    item = $(e.currentTarget).item()
+    
     @select(item, true)
     
-    @navigate '/gallery/' + Gallery.record.id + '/' + item.id
+    @stopInfo()
     
-    e?.stopPropagation()
-    e?.preventDefault()
+    @navigate '/gallery', Gallery.record.id + '/' + item.id
+    
+    e.stopPropagation()
+    e.preventDefault()
   
   deleteAlbum: (e) ->
     item = $(e.currentTarget).item()
@@ -195,7 +197,7 @@ class AlbumsList extends Spine.Controller
     
     window.setTimeout( =>
       Spine.trigger('destroy:album')
-    , 300)
+    , 200)
     
     @stopInfo()
     

@@ -42,7 +42,14 @@ Toolbar = (function() {
           name: function() {
             return 'All Albums (' + Album.count() + ')';
           },
-          klass: 'optShowAllAlbums'
+          klass: 'optShowAllAlbums',
+          icon: function() {
+            if (App.showView.allAlbums) {
+              return 'ok';
+            } else {
+              return '';
+            }
+          }
         }, {
           name: function() {
             return 'All Photos (' + Photo.count() + ')';
@@ -145,13 +152,6 @@ Toolbar = (function() {
         }, {
           devider: true
         }, {
-          name: 'Zoom',
-          icon: 'zoom-in',
-          klass: 'optZoom',
-          disabled: function() {
-            return Gallery.selectionList().length !== 1;
-          }
-        }, {
           name: 'Edit',
           icon: 'pencil',
           klass: 'optAlbum',
@@ -187,7 +187,7 @@ Toolbar = (function() {
             return 'Slideshow Autostart';
           },
           icon: function() {
-            if (App.showView.slideshowAutoStart) {
+            if (App.slideshow.options.autostart) {
               return 'ok';
             } else {
               return 'fire';

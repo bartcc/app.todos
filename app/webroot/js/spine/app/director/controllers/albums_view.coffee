@@ -44,6 +44,7 @@ class AlbumsView extends Spine.Controller
       sorted: true
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
     Spine.bind('show:albums', @proxy @show)
+    @bind('show:allAlbums', @proxy @renderAll)
     Spine.bind('create:album', @proxy @create)
 #    Album.bind('create', @proxy @createJoin)
     Spine.bind('destroy:album', @proxy @destroy)
@@ -62,26 +63,21 @@ class AlbumsView extends Spine.Controller
     console.log 'AlbumsView::change'
     # !important
     return unless @isActive()
-#      console.log item
-#      item.updateSelection?([item.id])
-#      Spine.trigger('album:activate')
-      
-  
-    # item can be gallery         from Spine.bind 'change:selectedGallery'
-    # item can be album           from Album.bind 'change'
-    # item can be GalleriesAlbum  from GalleriesAlbum.bind 'change'
     gallery = Gallery.record
     
-    
-    if item.constructor.className is 'GalleriesAlbum' and item.destroyed
-      @navigate '/gallery', gallery?.id
-        
-    if (!gallery) or (gallery.destroyed)
-      items = Album.filter()
+#    if (!gallery) or (gallery.destroyed)
+#      @navigate '/galleries/'
+#    else
+    items = if @parent.allAlbums
+      Album.filter()
     else
-      items = Album.filterRelated(gallery.id, @filterOptions)
+      Album.filterRelated(gallery.id, @filterOptions)
       
     @render items
+    
+  renderAll: ->
+    App.showView.canvasManager.change @
+    @render Album.filter()
     
   render: (items, mode) ->
     console.log 'AlbumsView::render'
@@ -126,7 +122,6 @@ class AlbumsView extends Spine.Controller
   # argument can be an array of photos
   create: (list, options) ->
     console.log 'AlbumsView::create'
-    album = new Album @newAttributes()
     
     if list
       cb = =>
@@ -153,8 +148,9 @@ class AlbumsView extends Spine.Controller
         # select first album
         album.updateSelection [@id]
         Spine.trigger('album:activate')
-        App.navigate '/gallery', Gallery.record?.id + '/' + @id
+        App.navigate '/gallery', Gallery.record?.id # + '/' + @id
         
+    album = new Album @newAttributes()
     album.save success: cb
 
   destroy: ->

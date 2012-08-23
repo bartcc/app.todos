@@ -106,8 +106,8 @@ Login = (function() {
   };
   Login.prototype.guestLogin = function() {
     console.log('guest login');
-    this.usernameEl.val('guest');
-    this.passwordEl.val('guest');
+    this.usernameEl.val('axel');
+    this.passwordEl.val('kakadax');
     return this.submit();
   };
   Login.prototype.submitOnEnter = function(e) {

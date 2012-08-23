@@ -28,7 +28,9 @@ class AlbumsHeader extends Spine.Controller
     else
       Album.all().length
       
-  backToGalleries: ->
+  backToGalleries: (e) ->
     @navigate '/galleries/'
+    e.stopPropagation()
+    e.preventDefault()
     
 module?.exports = AlbumsHeader

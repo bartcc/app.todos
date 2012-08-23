@@ -30,6 +30,7 @@ class PhotosList extends Spine.Controller
     Photo.bind('update', @proxy @update)
     Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
+    
 #    Photo.bind('uri', @proxy @uri)
     
   change: ->
@@ -116,7 +117,8 @@ class PhotosList extends Spine.Controller
         img.element = ele
         img.onload = @imageLoad
         img.src = src
-    @loadModal items
+#    @loadModal items
+    Spine.trigger('show:slideshow') if App.slideshow.options.autostart
     
   photos: ->
     if Album.record
@@ -165,7 +167,7 @@ class PhotosList extends Spine.Controller
           'rel'                   : 'gallery'
         $('.play', el).append a
         
-    @parent.play() if @parent.autoStart()
+#    App.showView.slideshowView.play() if App.showView.slideshowView.autoplay
     
   #  ****** END ***** 
   

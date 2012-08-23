@@ -28,13 +28,12 @@ GalleriesList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.select = __bind(this.select, this);    GalleriesList.__super__.constructor.apply(this, arguments);
     Gallery.bind('change', this.proxy(this.renderOne));
-    Spine.bind('change:selectedGallery', this.proxy(this.exposeSelection));
     GalleriesAlbum.bind('change', this.proxy(this.renderRelated));
   }
   GalleriesList.prototype.renderRelated = function(item, mode) {
     var album, gallery;
-    gallery = Gallery.find(item['gallery_id']);
-    album = Album.find(item['album_id']);
+    gallery = Gallery.exists(item['gallery_id']);
+    album = Album.exists(item['album_id']);
     switch (mode) {
       case 'create':
         this.updateTemplate(gallery);
@@ -64,6 +63,8 @@ GalleriesList = (function() {
     return this.el;
   };
   GalleriesList.prototype.render = function(items, mode) {
+    console.log(items);
+    this.activate();
     this.html(this.template(items));
     return this.el;
   };
@@ -132,14 +133,14 @@ GalleriesList = (function() {
     return e.preventDefault();
   };
   GalleriesList.prototype.zoom = function(e) {
-    var item, _ref;
+    var item, _ref, _ref2;
     console.log('GalleryList::zoom');
     item = $(e.currentTarget).item();
     if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Gallery') {
       return;
     }
     Gallery.current(item);
-    this.navigate('/gallery', Gallery.record.id);
+    this.navigate('/gallery', ((_ref2 = Gallery.record) != null ? _ref2.id : void 0) || '');
     e.stopPropagation();
     return e.preventDefault();
   };

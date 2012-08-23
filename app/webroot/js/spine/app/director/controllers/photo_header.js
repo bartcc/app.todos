@@ -30,14 +30,22 @@ PhotoHeader = (function() {
     Gallery.bind('change', this.proxy(this.change));
     Album.bind('change', this.proxy(this.change));
   }
-  PhotoHeader.prototype.backToGalleries = function() {
-    return this.navigate('/galleries/');
+  PhotoHeader.prototype.backToGalleries = function(e) {
+    this.navigate('/galleries/');
+    e.stopPropagation();
+    return e.preventDefault();
   };
-  PhotoHeader.prototype.backToAlbums = function() {
-    return this.navigate('/gallery', Gallery.record.id);
+  PhotoHeader.prototype.backToAlbums = function(e) {
+    var _ref;
+    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '');
+    e.stopPropagation();
+    return e.preventDefault();
   };
-  PhotoHeader.prototype.backToPhotos = function() {
-    return this.navigate('/gallery', Gallery.record.id + '/' + Album.record.id);
+  PhotoHeader.prototype.backToPhotos = function(e) {
+    var _ref;
+    this.navigate('/gallery', (Gallery.record.id || '') + '/' + (((_ref = Album.record) != null ? _ref.id : void 0) || ''));
+    e.stopPropagation();
+    return e.preventDefault();
   };
   PhotoHeader.prototype.change = function() {
     console.log('PhotoHeader::change');

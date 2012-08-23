@@ -50,7 +50,6 @@ SidebarList = (function() {
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandAfterTimeout));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
-    Spine.bind('gallery:exposeSelection', this.proxy(this.exposeSelection));
     Spine.bind('gallery:activate', this.proxy(this.activate));
   }
   SidebarList.prototype.template = function() {
@@ -190,9 +189,58 @@ SidebarList = (function() {
     gallerySublist.html(this.sublistTemplate(albums));
     return this.updateTemplate(gallery);
   };
+  SidebarList.prototype.exposeSelection = function(item) {
+    if (item == null) {
+      item = Gallery.record;
+    }
+    console.log('SidebarList::exposeSelection');
+    this.deselect();
+    if (item) {
+      this.children().forItem(item).addClass("active");
+    }
+    return this.exposeSublistSelection();
+  };
+  SidebarList.prototype.exposeSublistSelection = function() {
+    var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _ref2, _results;
+    console.log('SidebarList::exposeSublistSelection');
+    removeAlbumSelection = __bind(function() {
+      var albums, galleries, galleryEl, item, val, _i, _len, _ref, _results;
+      galleries = [];
+      _ref = Gallery.records;
+      for (item in _ref) {
+        val = _ref[item];
+        galleries.push(val);
+      }
+      _results = [];
+      for (_i = 0, _len = galleries.length; _i < _len; _i++) {
+        item = galleries[_i];
+        galleryEl = this.children().forItem(item);
+        albums = galleryEl.find('li');
+        _results.push(albums.removeClass('selected').removeClass('active'));
+      }
+      return _results;
+    }, this);
+    if (Gallery.record) {
+      removeAlbumSelection();
+      galleryEl = this.children().forItem(Gallery.record);
+      albums = galleryEl.find('li');
+      _ref = Gallery.selectionList();
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        id = _ref[_i];
+        if (Album.exists(id)) {
+          album = Album.find(id);
+        }
+        _results.push(album ? (albums.forItem(album).addClass('selected'), id === ((_ref2 = Album.record) != null ? _ref2.id : void 0) ? (album = Album.exists(Album.record.id), albums.forItem(album).addClass('active')) : void 0) : void 0);
+      }
+      return _results;
+    } else {
+      return removeAlbumSelection();
+    }
+  };
   SidebarList.prototype.activate = function(item) {
     Gallery.current(item);
-    return this.exposeSelection();
+    return this.exposeSelection(item);
   };
   SidebarList.prototype.updateTemplate = function(item) {
     var galleryContentEl, galleryEl, tmplItem;
@@ -201,8 +249,7 @@ SidebarList = (function() {
     tmplItem = galleryContentEl.tmplItem();
     if (tmplItem) {
       tmplItem.tmpl = $("#sidebarContentTemplate").template();
-      tmplItem.update();
-      return this.exposeSublistSelection(item);
+      return tmplItem.update();
     }
   };
   SidebarList.prototype.renderItemFromGalleriesAlbum = function(ga, mode) {
@@ -235,6 +282,13 @@ SidebarList = (function() {
       _results.push(this.renderItemFromGalleriesAlbum(ga));
     }
     return _results;
+  };
+  SidebarList.prototype.exposeSelection_ = function(e) {
+    var albumEl, galleryEl;
+    this.children().removeClass('active');
+    $('.alb', this.el).removeClass('active');
+    galleryEl = $(e.target).parents('.gal').addClass('active');
+    return albumEl = $(e.target).parents('.alb').addClass('active');
   };
   SidebarList.prototype.exposeSelection = function(item) {
     if (item == null) {
@@ -288,8 +342,9 @@ SidebarList = (function() {
   SidebarList.prototype.clickAlbum = function(e) {
     var album, albumEl, gallery, galleryEl;
     console.log('SidebarList::albclick');
+    galleryEl = $(e.target).parents('.gal').addClass('active');
     albumEl = $(e.currentTarget);
-    galleryEl = $(e.currentTarget).closest('li.gal');
+    galleryEl = $(e.currentTarget).closest('.gal');
     album = albumEl.item();
     gallery = galleryEl.item();
     if (!this.isCtrlClick(e)) {
@@ -298,20 +353,22 @@ SidebarList = (function() {
     } else {
       this.navigate('/photos/');
     }
-    this.exposeSublistSelection();
+    this.exposeSelection_(e);
     e.stopPropagation();
     return e.preventDefault();
   };
   SidebarList.prototype.click = function(e) {
     var item;
     console.log('SidebarList::click');
-    e.stopPropagation();
-    e.preventDefault();
+    this.children().removeClass('active');
+    $(e.currentTarget).closest('.gal').addClass('active');
     if (!(item = $(e.target).closest('.data').item())) {
       return;
     }
     this.navigate('/gallery/' + (item != null ? item.id : void 0));
-    return this.exposeSelection();
+    this.exposeSelection();
+    e.stopPropagation();
+    return e.preventDefault();
   };
   SidebarList.prototype.dblclick = function(e) {
     var item;
@@ -350,7 +407,6 @@ SidebarList = (function() {
     }
     if ($('.expand', parent).length) {
       this.renderOneSublist(gallery);
-      this.exposeSublistSelection();
       content.show();
     } else {
       content.hide();

@@ -41,8 +41,10 @@ AlbumsHeader = (function() {
       return Album.all().length;
     }
   };
-  AlbumsHeader.prototype.backToGalleries = function() {
-    return this.navigate('/galleries/');
+  AlbumsHeader.prototype.backToGalleries = function(e) {
+    this.navigate('/galleries/');
+    e.stopPropagation();
+    return e.preventDefault();
   };
   return AlbumsHeader;
 })();

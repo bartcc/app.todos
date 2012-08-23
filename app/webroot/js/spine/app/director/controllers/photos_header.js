@@ -23,12 +23,18 @@ PhotosHeader = (function() {
   function PhotosHeader() {
     PhotosHeader.__super__.constructor.apply(this, arguments);
   }
-  PhotosHeader.prototype.backToGalleries = function() {
-    return this.navigate('/galleries/');
+  PhotosHeader.prototype.backToGalleries = function(e) {
+    console.log('PhotosHeader::backToGalleries');
+    this.navigate('/galleries/');
+    e.stopPropagation();
+    return e.preventDefault();
   };
-  PhotosHeader.prototype.backToAlbums = function() {
+  PhotosHeader.prototype.backToAlbums = function(e) {
+    var _ref;
     console.log('PhotosHeader::backToAlbums');
-    return this.navigate('/gallery', Gallery.record.id);
+    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '');
+    e.stopPropagation();
+    return e.preventDefault();
   };
   PhotosHeader.prototype.change = function() {
     return this.render();

@@ -101,7 +101,11 @@ Model.Cache =
           for itm, ix in items
             findIdFromObject(id, itm)
         
-        findItemsFromArray list
+#        findItemsFromArray list
+        
+        for itm, idx in list
+          if itm[id]
+            list.splice(idx,1)
             
       clearCache: (id) ->
         originalList = @cacheList(id)

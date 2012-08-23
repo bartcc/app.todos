@@ -156,7 +156,9 @@ PhotosList = (function() {
         img.src = src;
       }
     }
-    return this.loadModal(items);
+    if (App.slideshow.options.autostart) {
+      return Spine.trigger('show:slideshow');
+    }
   };
   PhotosList.prototype.photos = function() {
     if (Album.record) {
@@ -191,7 +193,7 @@ PhotosList = (function() {
     }, this), this.photos());
   };
   PhotosList.prototype.callbackModal = function(json, items) {
-    var a, el, item, jsn, searchJSON, _i, _len;
+    var a, el, item, jsn, searchJSON, _i, _len, _results;
     console.log('Slideshow::callbackModal');
     searchJSON = function(id) {
       var itm, _i, _len;
@@ -202,26 +204,21 @@ PhotosList = (function() {
         }
       }
     };
+    _results = [];
     for (_i = 0, _len = items.length; _i < _len; _i++) {
       item = items[_i];
       jsn = searchJSON(item.id);
-      if (jsn) {
-        el = this.children().forItem(item);
-        a = $('<a></a>').attr({
-          'data-href': jsn.src,
-          'title': item.title || item.src,
-          'data-iso': item.iso || '',
-          'data-captured': item.captured || '',
-          'data-description': item.description || '',
-          'data-model': item.model || '',
-          'rel': 'gallery'
-        });
-        $('.play', el).append(a);
-      }
+      _results.push(jsn ? (el = this.children().forItem(item), a = $('<a></a>').attr({
+        'data-href': jsn.src,
+        'title': item.title || item.src,
+        'data-iso': item.iso || '',
+        'data-captured': item.captured || '',
+        'data-description': item.description || '',
+        'data-model': item.model || '',
+        'rel': 'gallery'
+      }), $('.play', el).append(a)) : void 0);
     }
-    if (this.parent.autoStart()) {
-      return this.parent.play();
-    }
+    return _results;
   };
   PhotosList.prototype.exposeSelection = function() {
     var id, item, list, _i, _len;

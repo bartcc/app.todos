@@ -13,15 +13,19 @@ class PhotosHeader extends Spine.Controller
   constructor: ->
     super
     
-  backToGalleries: ->
-#    console.log 'PhotosHeader::backToGalleries'
+  backToGalleries: (e) ->
+    console.log 'PhotosHeader::backToGalleries'
 #    Spine.trigger('show:galleries')
     @navigate '/galleries/'
+    e.stopPropagation()
+    e.preventDefault()
     
-  backToAlbums: ->
+  backToAlbums: (e) ->
     console.log 'PhotosHeader::backToAlbums'
-    @navigate '/gallery', Gallery.record.id
-
+    @navigate '/gallery', Gallery.record?.id or ''
+    e.stopPropagation()
+    e.preventDefault()
+    
   change:  ->
     @render()
     

@@ -12,6 +12,7 @@ App = (function() {
   App.extend(Spine.Controller.Drag);
   App.prototype.elements = {
     '#fileupload': 'uploader',
+    '#modal-gallery': 'modalGallery',
     '#twitter': 'twitterEl',
     '#main': 'mainEl',
     '#sidebar': 'sidebarEl',
@@ -24,7 +25,7 @@ App = (function() {
     '#fu': 'uploadEl',
     '#loader': 'loaderEl',
     '#login': 'loginEl',
-    '#modal-gallery': 'slideshow',
+    '#modal-gallery': 'slideshowEl',
     '#modal-view': 'modalEl',
     '.vdraggable': 'vDrag',
     '.hdraggable': 'hDrag',
@@ -133,12 +134,8 @@ App = (function() {
     this.appManager.change(this.loaderView);
     this.contentManager = new Spine.Manager(this.galleryEditView, this.overviewView, this.showView);
     this.contentManager.change(this.showView);
-    this.slideshowOptions = {
-      canvas: false,
-      backdrop: true,
-      slideshow: 1000
-    };
     this.initializeFileupload();
+    this.slideshow = this.initializeSlideshow();
     this.routes({
       '/gallery/:gid/:aid/:pid': function(params) {
         var photo;
@@ -158,13 +155,18 @@ App = (function() {
         var gallery;
         this.contentManager.change(this.showView);
         Spine.trigger('change:toolbar', ['Gallery']);
-        Spine.trigger('show:albums');
+        this.showView.allAlbums = false;
         gallery = Gallery.exists(params.id);
+        Spine.trigger('show:albums');
         return Gallery.current(gallery);
       },
       '/galleries/': function() {
         this.contentManager.change(this.showView);
         return Spine.trigger('show:galleries');
+      },
+      '/albums/': function() {
+        this.contentManager.change(this.showView);
+        return this.showView.albumsView.trigger('show:allAlbums');
       },
       '/photos/': function() {
         this.contentManager.change(this.showView);
@@ -224,11 +226,18 @@ App = (function() {
     return this.loginView.render(User.first());
   };
   App.prototype.initializeSlideshow = function() {
-    return $('#modal-gallery').on('load', function() {
-      var modalData;
-      modalData = $(this).data('modal');
-      return console.log(modalData.$links);
-    });
+    var options;
+    options = {
+      show: false,
+      canvas: true,
+      backdrop: true,
+      slideshow: 1000,
+      autostart: false,
+      toggleAutostart: function() {
+        return console.log(this.autostart = !this.autostart);
+      }
+    };
+    return $('#modal-gallery').modal(options).data('modal');
   };
   App.prototype.initializeFileupload = function() {
     return this.uploader.fileupload({
@@ -251,7 +260,7 @@ App = (function() {
         }
         break;
       case 32:
-        this.showView.slideshowView.pause(e);
+        this.showView.slideshowView.toggle();
         e.preventDefault();
     }
     switch (keyCode) {

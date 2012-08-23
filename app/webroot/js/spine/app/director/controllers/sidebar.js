@@ -287,7 +287,13 @@ Sidebar = (function() {
   };
   Sidebar.prototype.destroy = function(item) {
     var ga, gas, _i, _len, _ref;
+    if (item == null) {
+      item = Gallery.record;
+    }
     console.log('Sidebar::destroy');
+    if (!item) {
+      return;
+    }
     gas = GalleriesAlbum.filter(item.id, {
       key: 'gallery_id'
     });
@@ -298,9 +304,7 @@ Sidebar = (function() {
       });
     }
     if (((_ref = Gallery.record) != null ? _ref.id : void 0) === item.id) {
-      if (!Gallery.count()) {
-        Gallery.current();
-      }
+      Gallery.current();
     }
     console.log(item);
     return item.destroy();

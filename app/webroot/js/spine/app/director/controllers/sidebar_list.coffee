@@ -42,7 +42,7 @@ class SidebarList extends Spine.Controller
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
-    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
+#    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
     Spine.bind('gallery:activate', @proxy @activate)
     
   template: -> arguments[0]
@@ -149,34 +149,6 @@ class SidebarList extends Spine.Controller
     
     @updateTemplate gallery
   
-  activate: (item) ->
-    Gallery.current(item)
-    @exposeSelection()
-  
-  updateTemplate: (item) ->
-    galleryEl = @children().forItem(item)
-    galleryContentEl = $('.item-content', galleryEl)
-    tmplItem = galleryContentEl.tmplItem()
-    if tmplItem
-      tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
-      tmplItem.update()
-      # restore active
-      @exposeSublistSelection item
-    
-  renderItemFromGalleriesAlbum: (ga, mode) ->
-    gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
-    @renderOneSublist gallery
-    
-  renderItemFromAlbum: (album) ->
-    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
-    for ga in gas
-      @renderItemFromGalleriesAlbum ga
-      
-  renderItemFromAlbumsPhoto: (ap) ->
-    gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
-    for ga in gas
-      @renderItemFromGalleriesAlbum ga
-  
   exposeSelection: (item = Gallery.record) ->
     console.log 'SidebarList::exposeSelection'
     @deselect()
@@ -207,10 +179,80 @@ class SidebarList extends Spine.Controller
     else
       removeAlbumSelection()
 
+  
+  activate: (item) ->
+    Gallery.current(item)
+    @exposeSelection(item)
+  
+  updateTemplate: (item) ->
+    galleryEl = @children().forItem(item)
+    galleryContentEl = $('.item-content', galleryEl)
+    tmplItem = galleryContentEl.tmplItem()
+    if tmplItem
+      tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
+      tmplItem.update()
+      # restore active
+#      @exposeSublistSelection item
+    
+  renderItemFromGalleriesAlbum: (ga, mode) ->
+    gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
+    @renderOneSublist gallery
+    
+  renderItemFromAlbum: (album) ->
+    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
+    for ga in gas
+      @renderItemFromGalleriesAlbum ga
+      
+  renderItemFromAlbumsPhoto: (ap) ->
+    gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
+    for ga in gas
+      @renderItemFromGalleriesAlbum ga
+  
+  exposeSelection_: (e) ->
+    @children().removeClass('active')
+    $('.alb', @el).removeClass('active')
+    
+    galleryEl = $(e.target).parents('.gal').addClass('active')
+    albumEl = $(e.target).parents('.alb').addClass('active')
+#    console.log galleryEl
+#    console.log albumEl
+
+  exposeSelection: (item = Gallery.record) ->
+    console.log 'SidebarList::exposeSelection'
+    @deselect()
+    @children().forItem(item).addClass("active") if item
+    @exposeSublistSelection()
+
+  exposeSublistSelection: ->
+    console.log 'SidebarList::exposeSublistSelection'
+    removeAlbumSelection = =>
+      galleries = []
+      galleries.push val for item, val of Gallery.records
+      for item in galleries
+        galleryEl = @children().forItem(item)
+        albums = galleryEl.find('li')
+        albums.removeClass('selected').removeClass('active')
+        
+    if Gallery.record
+      removeAlbumSelection()
+      galleryEl = @children().forItem(Gallery.record)
+      albums = galleryEl.find('li')
+      for id in Gallery.selectionList()
+        album = Album.find(id) if Album.exists(id)
+        if album
+          albums.forItem(album).addClass('selected')
+          if id is Album.record?.id
+            album = Album.exists(Album.record.id)
+            albums.forItem(album).addClass('active')
+    else
+      removeAlbumSelection()
+
   clickAlbum: (e) ->
     console.log 'SidebarList::albclick'
+    galleryEl = $(e.target).parents('.gal').addClass('active')
+#    albumEl = $(e.target).parents('.alb').addClass('active')
     albumEl = $(e.currentTarget)
-    galleryEl = $(e.currentTarget).closest('li.gal')
+    galleryEl = $(e.currentTarget).closest('.gal')
     
     album = albumEl.item()
     gallery = galleryEl.item()
@@ -223,21 +265,22 @@ class SidebarList extends Spine.Controller
       @navigate '/photos/'
     
     
-    @exposeSublistSelection()
+    @exposeSelection_(e)
     e.stopPropagation()
     e.preventDefault()
     
   click: (e) ->
     console.log 'SidebarList::click'
-    e.stopPropagation()
-    e.preventDefault()
-    
+    @children().removeClass('active')
+    $(e.currentTarget).closest('.gal').addClass('active')
 #    dont act on no-gallery items like the 'no album' - info
     return unless item = $(e.target).closest('.data').item()
     
     @navigate '/gallery/' + item?.id
     
     @exposeSelection()
+    e.stopPropagation()
+    e.preventDefault()
     
 
   dblclick: (e) ->
@@ -273,7 +316,7 @@ class SidebarList extends Spine.Controller
       
     if $('.expand', parent).length
       @renderOneSublist gallery
-      @exposeSublistSelection()
+#      @exposeSublistSelection()
       content.show()
     else
       content.hide()

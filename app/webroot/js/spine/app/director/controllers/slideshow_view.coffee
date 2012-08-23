@@ -22,12 +22,14 @@ class SlideshowView extends Spine.Controller
       current: className: 'Slideshow'
     @thumbSize = 240
     @fullScreen = true
-    @autoplay = false
+    @autoplay = false #the slideshow itselfs autoplay
+    @autostart = false #play slideshow upon opening a album
     
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('slider:start', @proxy @sliderStart)
-    Spine.bind('slideshow:ready', @proxy @play)
+    
+    @bind('slideshow:ready', @proxy @play)
     
   render: (items) ->
     @items.html @template items
@@ -62,7 +64,7 @@ class SlideshowView extends Spine.Controller
     console.log 'SlideshowView::uri'
     Photo.uri @params(),
       (xhr, record) => @callback(items, xhr),
-      @phos
+      @photos()
     
   # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
@@ -93,7 +95,7 @@ class SlideshowView extends Spine.Controller
 #    Album.record.uri @modalParams(), mode, (xhr, record) => @callbackModal xhr, items
     Photo.uri @modalParams(),
       (xhr, record) => @callbackModal(xhr, items),
-      @phos
+      @photos()
   
   callbackModal: (json, items) ->
     console.log 'Slideshow::callbackModal'
@@ -110,8 +112,8 @@ class SlideshowView extends Spine.Controller
           'data-href'  : jsn.src
           'title' : item.title or item.src
           'rel'   : 'gallery'
-#    @parent.play() if @parent.autoStart()
-    Spine.trigger('slideshow:ready')
+          
+    @play()
         
   show: ->
     console.log 'Slideshow::show'
@@ -161,8 +163,27 @@ class SlideshowView extends Spine.Controller
   slideshowable: ->
     @photos().length
     
+  isAutoplay: ->
+    @autoplay
+  
+  isAutostart: ->
+    App.slideshow.options.autostart
+  
+#  startSlideShow: ->
+#    App.slideshow.startSlideShow()
+#    
+#  stopSlideShow: ->
+#    App.slideshow.stopSlideShow()
+#    
+#  cancelSlideShow: ->
+#    App.slideshow.stopSlideShow()
+#    
+#  toggleSlideShow: ->
+#    App.slideshow.toggleSlideShow()
+    
   play: ->
-    console.log 'SlideshowView::play'
+    unless @isActive()
+      @navigate '/slideshow', (Math.random() * 16 | 0)
     
     elFromSelection = =>
       console.log 'elFromSelection'
@@ -183,21 +204,21 @@ class SlideshowView extends Spine.Controller
     
     if @slideshowable()
       # prevent ghosted backdrops
-#      return if $('.modal-backdrop').length
-      (elFromSelection() or elFromCanvas())?.click()
-    else
-      alert 'UUpps'
-        
-  pause: (e) ->
+      return if $('.modal-backdrop').length
+      
+      el = (elFromSelection() or elFromCanvas())
+      el?.click()
+      
+  stop: ->
+    App.slideshow.stopSlideShow()
+   
+  toggle: (e) ->
     return unless @slideshowable()
-    modal = $('#modal-gallery').data('modal')
-    isShown = modal?.isShown
     
-    unless isShown
+    unless App.slideshow.isShown
       @navigate '/slideshow', (Math.random() * 16 | 0)
     else
-      $('#modal-gallery').data('modal').toggleSlideShow()
-      
+      App.slideshow.toggleSlideShow()
     false
   
       

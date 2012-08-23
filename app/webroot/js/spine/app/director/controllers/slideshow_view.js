@@ -30,10 +30,11 @@ SlideshowView = (function() {
     this.thumbSize = 240;
     this.fullScreen = true;
     this.autoplay = false;
+    this.autostart = false;
     Spine.bind('show:slideshow', this.proxy(this.show));
     Spine.bind('slider:change', this.proxy(this.size));
     Spine.bind('slider:start', this.proxy(this.sliderStart));
-    Spine.bind('slideshow:ready', this.proxy(this.play));
+    this.bind('slideshow:ready', this.proxy(this.play));
   }
   SlideshowView.prototype.render = function(items) {
     this.items.html(this.template(items));
@@ -80,7 +81,7 @@ SlideshowView = (function() {
     console.log('SlideshowView::uri');
     return Photo.uri(this.params(), __bind(function(xhr, record) {
       return this.callback(items, xhr);
-    }, this), this.phos);
+    }, this), this.photos());
   };
   SlideshowView.prototype.callback = function(items, json) {
     var ele, img, item, jsn, searchJSON, src, _i, _len;
@@ -123,7 +124,7 @@ SlideshowView = (function() {
     }
     return Photo.uri(this.modalParams(), __bind(function(xhr, record) {
       return this.callbackModal(xhr, items);
-    }, this), this.phos);
+    }, this), this.photos());
   };
   SlideshowView.prototype.callbackModal = function(json, items) {
     var el, item, jsn, searchJSON, _i, _len;
@@ -149,7 +150,7 @@ SlideshowView = (function() {
         });
       }
     }
-    return Spine.trigger('slideshow:ready');
+    return this.play();
   };
   SlideshowView.prototype.show = function() {
     var filterOptions;
@@ -208,9 +209,17 @@ SlideshowView = (function() {
   SlideshowView.prototype.slideshowable = function() {
     return this.photos().length;
   };
+  SlideshowView.prototype.isAutoplay = function() {
+    return this.autoplay;
+  };
+  SlideshowView.prototype.isAutostart = function() {
+    return App.slideshow.options.autostart;
+  };
   SlideshowView.prototype.play = function() {
-    var elFromCanvas, elFromSelection, _ref;
-    console.log('SlideshowView::play');
+    var el, elFromCanvas, elFromSelection;
+    if (!this.isActive()) {
+      this.navigate('/slideshow', Math.random() * 16 | 0);
+    }
     elFromSelection = __bind(function() {
       var el, id, item, list, parent;
       console.log('elFromSelection');
@@ -233,22 +242,24 @@ SlideshowView = (function() {
       return el;
     }, this);
     if (this.slideshowable()) {
-      return (_ref = elFromSelection() || elFromCanvas()) != null ? _ref.click() : void 0;
-    } else {
-      return alert('UUpps');
+      if ($('.modal-backdrop').length) {
+        return;
+      }
+      el = elFromSelection() || elFromCanvas();
+      return el != null ? el.click() : void 0;
     }
   };
-  SlideshowView.prototype.pause = function(e) {
-    var isShown, modal;
+  SlideshowView.prototype.stop = function() {
+    return App.slideshow.stopSlideShow();
+  };
+  SlideshowView.prototype.toggle = function(e) {
     if (!this.slideshowable()) {
       return;
     }
-    modal = $('#modal-gallery').data('modal');
-    isShown = modal != null ? modal.isShown : void 0;
-    if (!isShown) {
+    if (!App.slideshow.isShown) {
       this.navigate('/slideshow', Math.random() * 16 | 0);
     } else {
-      $('#modal-gallery').data('modal').toggleSlideShow();
+      App.slideshow.toggleSlideShow();
     }
     return false;
   };

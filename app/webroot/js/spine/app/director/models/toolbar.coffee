@@ -18,6 +18,7 @@ class Toolbar extends Spine.Model
         [
           name: -> 'All Albums (' + Album.count() + ')'
           klass: 'optShowAllAlbums'
+          icon: -> if App.showView.allAlbums then 'ok' else ''
         ,
           name: -> 'All Photos (' + Photo.count() + ')'
           klass: 'optShowAllPhotos '
@@ -98,11 +99,6 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: 'Zoom'
-          icon: 'zoom-in'
-          klass: 'optZoom'
-          disabled: -> Gallery.selectionList().length isnt 1
-        ,
           name: 'Edit'
           icon: 'pencil'
           klass: 'optAlbum'
@@ -125,7 +121,7 @@ class Toolbar extends Spine.Model
           disabled: -> !App.showView.activePhotos.call @
         ,
           name: -> 'Slideshow Autostart'
-          icon: -> if App.showView.slideshowAutoStart then 'ok' else 'fire'
+          icon: -> if App.slideshow.options.autostart then 'ok' else 'fire'
           klass: 'optSlideshowAutoStart'
           disabled: -> false
         ]

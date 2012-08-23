@@ -46,13 +46,12 @@ class ShowView extends Spine.Controller
     'click .optDestroyAlbum:not(.disabled)'          : 'destroyAlbum'
     'click .optDestroyPhoto:not(.disabled)'          : 'destroyPhoto'
     'click .optEditGallery:not(.disabled)'           : 'editGallery' # for the large edit view
-    'click .optZoom:not(.disabled)'                  : 'zoomAlbum'
     'click .optGallery:not(.disabled)'               : 'toggleGalleryShow'
     'click .optAlbum:not(.disabled)'                 : 'toggleAlbumShow'
     'click .optPhoto:not(.disabled)'                 : 'togglePhotoShow'
     'click .optUpload:not(.disabled)'                : 'toggleUploadShow'
-    'click .optShowAllAlbums:not(.disabled)'         : 'showAllAlbums'
-    'click .optShowAllPhotos:not(.disabled)'         : 'showAllPhotos'
+    'click .optShowAllAlbums:not(.disabled)'         : 'toggleShowAllAlbums'
+    'click .optShowAllPhotos:not(.disabled)'         : 'toggleShowAllPhotos'
     'click .optSlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
     'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
     'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
@@ -125,14 +124,14 @@ class ShowView extends Spine.Controller
     Photo.bind('refresh', @proxy @refreshToolbars)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
     
-    Spine.bind('show:allPhotos', @proxy @showAllPhotos)
-    Spine.bind('show:allAlbums', @proxy @showAllAlbums)
+#    Spine.bind('show:allPhotos', @proxy @showAllPhotos)
+#    Spine.bind('show:allAlbums', @proxy @showAllAlbums)
     
     
     @sOutValue = 174 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @current = @galleriesView
-    @slideshowAutoStart = false
+    
 #    @edit = @editGallery
     
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
@@ -211,9 +210,6 @@ class ShowView extends Spine.Controller
   editAlbum: (e) ->
     Spine.trigger('edit:album')
 
-  zoomAlbum: ->
-    Spine.trigger('zoom:album')
-    
   destroyGallery: (e) ->
     Spine.trigger('destroy:gallery')
     @deselect()
@@ -270,12 +266,12 @@ class ShowView extends Spine.Controller
     @slideshowView.slideshowMode(active)
 
   toggleSlideshowAutoStart: ->
-    @slideshowAutoStart = !@slideshowAutoStart
+    res = App.slideshow.options.toggleAutostart()
     @refreshToolbars()
-    @slideshowAutoStart
+    res
     
-  autoStart: ->
-    @slideshowAutoStart
+  isAutoplay: ->
+    @slideshowView.autoplay
   
   toggleDraghandle: ->
     UI = App.hmanager.externalUI()
@@ -418,7 +414,6 @@ class ShowView extends Spine.Controller
 
   showSlideshow: (e) ->
     @slideshowMode = App.SILENTMODE
-#    App.sidebar.toggleDraghandle(close:true)
     @navigate '/slideshow/'
     
   showPrevious: ->
@@ -433,11 +428,26 @@ class ShowView extends Spine.Controller
       footer: 'Neuer Footer'
     @modalView.show()
     
-  showAllPhotos: ->
-    @navigate '/photos/'
+  toggleShowAllPhotos: (e) ->
+    @allPhotos = !@allPhotos
+#    Album.current() if @allAlbums
+    if @allPhotos
+      @navigate '/photos/'
+    else
+      @navigate '/gallery', (Gallery.record?.id or '') + (Album.record?.id or '')
+#    @photosView.items.toggleClass('all', @allPhotos)
+    @refreshToolbars()
+    @allPhotos
     
-  showAllAlbums: ->
-    @navigate '/gallery/' + false
+  toggleShowAllAlbums: (e) ->
+    @allAlbums = !@allAlbums
+    if @allAlbums
+      @navigate '/albums/'
+    else
+      @navigate '/gallery', Gallery.record?.id or ''
+    @albumsView.items.toggleClass('all', @allAlbums)
+    @refreshToolbars()
+    @allAlbums
     
   slideshowPlay: (e) =>
 #    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
@@ -447,7 +457,6 @@ class ShowView extends Spine.Controller
     phos = []
     albs =[]
     albs.push itm for itm in Gallery.selectionList()
-    return unless albs.length
     for alb in albs
       album = Album.exists(alb)
       photos = album.photos()

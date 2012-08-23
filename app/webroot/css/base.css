@@ -87,3 +87,7 @@ form {
 .navbar .nav > li > a:focus, .navbar .nav > li > a:hover {
   color: #BCBCBC;
 }
+/* small slideshow bug */
+.modal-body {
+  max-height: 1000px;
+}

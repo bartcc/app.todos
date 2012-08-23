@@ -217,16 +217,16 @@ class Sidebar extends Spine.Controller
   createAlbum: ->
     Spine.trigger('create:album')
 
-  destroy: (item) ->
+  destroy: (item=Gallery.record) ->
     console.log 'Sidebar::destroy'
-    
+    return unless item
     gas = GalleriesAlbum.filter(item.id, key: 'gallery_id')
     for ga in gas
       Spine.Ajax.disable ->
         ga.destroy()
         
     if Gallery.record?.id is item.id
-      Gallery.current() unless Gallery.count()
+      Gallery.current() #unless Gallery.count()
       
     console.log item
     item.destroy()

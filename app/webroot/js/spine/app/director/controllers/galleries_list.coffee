@@ -17,7 +17,7 @@ class GalleriesList extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change', @proxy @renderOne)
-    Spine.bind('change:selectedGallery', @proxy @exposeSelection)
+#    Spine.bind('change:selectedGallery', @proxy @exposeSelection)
     GalleriesAlbum.bind('change', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
@@ -46,6 +46,8 @@ class GalleriesList extends Spine.Controller
     @el
 
   render: (items, mode) ->
+    console.log items
+    @activate()
     @html @template items
     @el
 
@@ -104,7 +106,7 @@ class GalleriesList extends Spine.Controller
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Gallery'
     Gallery.current item
-    @navigate '/gallery', Gallery.record.id
+    @navigate '/gallery', Gallery.record?.id or ''
     
     e.stopPropagation()
     e.preventDefault()

@@ -427,8 +427,8 @@ textarea {
   background-color: #606067;
 }
 #content .content.over {
-  background: url(img/gradient-over.png) repeat 0 0;
-  background-size: 100% 100%;
+/*  background: url(img/gradient-over.png) repeat 0 0;
+  background-size: 100% 100%;*/
 }
 #content .header section.top {
 /*  background: linear-gradient(center top, #B9B9B9, #979797);

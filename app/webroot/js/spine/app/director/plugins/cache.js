@@ -142,7 +142,7 @@ Model.Cache = {
         return uri_(url_());
       },
       destroyCache: function(id) {
-        var findIdFromObject, findItemsFromArray, list;
+        var findIdFromObject, findItemsFromArray, idx, itm, list, _len, _results;
         list = this.cacheList();
         findIdFromObject = function(id, obj) {
           var arr, idx, itm, key, value, _len, _results;
@@ -168,7 +168,12 @@ Model.Cache = {
           }
           return _results;
         };
-        return findItemsFromArray(list);
+        _results = [];
+        for (idx = 0, _len = list.length; idx < _len; idx++) {
+          itm = list[idx];
+          _results.push(itm[id] ? list.splice(idx, 1) : void 0);
+        }
+        return _results;
       },
       clearCache: function(id) {
         var originalList, _ref;

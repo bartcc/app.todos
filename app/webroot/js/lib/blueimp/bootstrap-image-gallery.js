@@ -284,8 +284,8 @@
                     };
                 }
                 modal.css({
-                    'margin-top': -(modal.outerHeight() / 2),
-                    'margin-left': -(modal.outerWidth() / 2)
+//                    'margin-top': -(modal.outerHeight() / 2),
+//                    'margin-left': -(modal.outerWidth() / 2)
                 });
                 this.initGalleryEvents();
                 this.initLinks();

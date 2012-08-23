@@ -54,13 +54,12 @@ ShowView = (function() {
     'click .optDestroyAlbum:not(.disabled)': 'destroyAlbum',
     'click .optDestroyPhoto:not(.disabled)': 'destroyPhoto',
     'click .optEditGallery:not(.disabled)': 'editGallery',
-    'click .optZoom:not(.disabled)': 'zoomAlbum',
     'click .optGallery:not(.disabled)': 'toggleGalleryShow',
     'click .optAlbum:not(.disabled)': 'toggleAlbumShow',
     'click .optPhoto:not(.disabled)': 'togglePhotoShow',
     'click .optUpload:not(.disabled)': 'toggleUploadShow',
-    'click .optShowAllAlbums:not(.disabled)': 'showAllAlbums',
-    'click .optShowAllPhotos:not(.disabled)': 'showAllPhotos',
+    'click .optShowAllAlbums:not(.disabled)': 'toggleShowAllAlbums',
+    'click .optShowAllPhotos:not(.disabled)': 'toggleShowAllPhotos',
     'click .optSlideshowAutoStart:not(.disabled)': 'toggleSlideshowAutoStart',
     'click .optShowSlideshow:not(.disabled)': 'showSlideshow',
     'click .optSlideshowPlay:not(.disabled)': 'slideshowPlay',
@@ -146,12 +145,9 @@ ShowView = (function() {
     Photo.bind('change', this.proxy(this.changeToolbarOne));
     Photo.bind('refresh', this.proxy(this.refreshToolbars));
     Spine.bind('change:selectedAlbum', this.proxy(this.refreshToolbars));
-    Spine.bind('show:allPhotos', this.proxy(this.showAllPhotos));
-    Spine.bind('show:allAlbums', this.proxy(this.showAllAlbums));
     this.sOutValue = 174;
     this.thumbSize = 240;
     this.current = this.galleriesView;
-    this.slideshowAutoStart = false;
     this.canvasManager = new Spine.Manager(this.galleriesView, this.albumsView, this.photosView, this.photoView, this.slideshowView);
     this.headerManager = new Spine.Manager(this.galleriesHeader, this.albumsHeader, this.photosHeader, this.photoHeader);
     this.active();
@@ -237,9 +233,6 @@ ShowView = (function() {
   ShowView.prototype.editAlbum = function(e) {
     return Spine.trigger('edit:album');
   };
-  ShowView.prototype.zoomAlbum = function() {
-    return Spine.trigger('zoom:album');
-  };
   ShowView.prototype.destroyGallery = function(e) {
     Spine.trigger('destroy:gallery');
     return this.deselect();
@@ -294,12 +287,13 @@ ShowView = (function() {
     return this.slideshowView.slideshowMode(active);
   };
   ShowView.prototype.toggleSlideshowAutoStart = function() {
-    this.slideshowAutoStart = !this.slideshowAutoStart;
+    var res;
+    res = App.slideshow.options.toggleAutostart();
     this.refreshToolbars();
-    return this.slideshowAutoStart;
+    return res;
   };
-  ShowView.prototype.autoStart = function() {
-    return this.slideshowAutoStart;
+  ShowView.prototype.isAutoplay = function() {
+    return this.slideshowView.autoplay;
   };
   ShowView.prototype.toggleDraghandle = function() {
     var UI;
@@ -473,11 +467,28 @@ ShowView = (function() {
     });
     return this.modalView.show();
   };
-  ShowView.prototype.showAllPhotos = function() {
-    return this.navigate('/photos/');
+  ShowView.prototype.toggleShowAllPhotos = function(e) {
+    var _ref, _ref2;
+    this.allPhotos = !this.allPhotos;
+    if (this.allPhotos) {
+      this.navigate('/photos/');
+    } else {
+      this.navigate('/gallery', (((_ref = Gallery.record) != null ? _ref.id : void 0) || '') + (((_ref2 = Album.record) != null ? _ref2.id : void 0) || ''));
+    }
+    this.refreshToolbars();
+    return this.allPhotos;
   };
-  ShowView.prototype.showAllAlbums = function() {
-    return this.navigate('/gallery/' + false);
+  ShowView.prototype.toggleShowAllAlbums = function(e) {
+    var _ref;
+    this.allAlbums = !this.allAlbums;
+    if (this.allAlbums) {
+      this.navigate('/albums/');
+    } else {
+      this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '');
+    }
+    this.albumsView.items.toggleClass('all', this.allAlbums);
+    this.refreshToolbars();
+    return this.allAlbums;
   };
   ShowView.prototype.slideshowPlay = function(e) {
     return this.navigate('/slideshow', Math.random() * 16 | 0);
@@ -490,9 +501,6 @@ ShowView = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       itm = _ref[_i];
       albs.push(itm);
-    }
-    if (!albs.length) {
-      return;
     }
     for (_j = 0, _len2 = albs.length; _j < _len2; _j++) {
       alb = albs[_j];

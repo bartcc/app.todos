@@ -53,11 +53,12 @@ PhotosView = (function() {
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
     AlbumsPhoto.bind('destroy', this.proxy(this.remove));
     AlbumsPhoto.bind('create', this.proxy(this.add));
+    GalleriesAlbum.bind('destroy', this.proxy(this.redirect));
     Gallery.bind('change', this.proxy(this.renderHeader));
     Album.bind('change', this.proxy(this.renderHeader));
     Photo.bind('refresh destroy', this.proxy(this.renderHeader));
     Photo.bind('refresh', this.proxy(this.refresh));
-    Photo.bind('destroy', this.proxy(this.remove));
+    Photo.bind('beforeDestroy', this.proxy(this.remove));
     Photo.bind('create:join', this.proxy(this.createJoin));
     Photo.bind('destroy:join', this.proxy(this.destroyJoin));
     Photo.bind('ajaxError', Photo.errorHandler);
@@ -67,6 +68,7 @@ PhotosView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
     Spine.bind('start:slideshow', this.proxy(this.slideshow));
     Spine.bind('album:updateBuffer', this.proxy(this.updateBuffer));
+    Spine.bind('slideshow:ready', this.proxy(this.play));
   }
   PhotosView.prototype.change = function(item, changed) {
     if (changed) {
@@ -106,18 +108,17 @@ PhotosView = (function() {
     return Photo.clearCache();
   };
   PhotosView.prototype.remove = function(record) {
-    var photo, photoEl;
+    var photoEl;
     console.log('PhotosView::remove');
-    if (!record.destroyed) {
-      return;
+    if (record.constructor.className !== 'Photo') {
+      record = Photo.exists(record.photo_id);
     }
-    photo = ((Photo.exists(record.photo_id)) || record ? Photo.find(record.photo_id) : void 0);
-    if (photo) {
-      photoEl = this.items.children().forItem(photo, true);
-      photoEl.remove();
-    }
-    if (!this.items.children().length) {
-      return this.render([]);
+    photoEl = this.items.children().forItem(record, true);
+    return photoEl.remove();
+  };
+  PhotosView.prototype.redirect = function(ga) {
+    if (ga.destroyed) {
+      return this.navigate('/gallery', Gallery.record.id);
     }
   };
   PhotosView.prototype.next = function(album) {
@@ -157,19 +158,16 @@ PhotosView = (function() {
         photo = photos[_k];
         Album.removeFromSelection(photo.id);
         photo.destroyCache();
+        console.log(photo);
         _results.push(photo.destroy());
       }
       return _results;
     }
   };
   PhotosView.prototype.show = function() {
-    Spine.trigger('gallery:activate');
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider]);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
-    App.showView.trigger('canvas', this);
-    if (this.parent.autoStart()) {
-      return Spine.trigger('slideshow:ready');
-    }
+    return App.showView.trigger('canvas', this);
   };
   PhotosView.prototype.save = function(item) {};
   PhotosView.prototype.refresh = function(photos) {

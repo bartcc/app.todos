@@ -106,6 +106,7 @@ Uri = (function() {
     for (idx = 0, _len = _ref.length; idx < _len; idx++) {
       data = _ref[idx];
       raw = this.model.cache(this.url, data.id);
+      console.log(raw);
       cache = raw[0];
       if (!cache) {
         return;

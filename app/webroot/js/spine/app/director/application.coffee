@@ -9,6 +9,7 @@ class App extends Spine.Controller
   
   elements:
     '#fileupload'         : 'uploader'
+    '#modal-gallery'      : 'modalGallery'
     '#twitter'            : 'twitterEl'
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
@@ -21,7 +22,7 @@ class App extends Spine.Controller
     '#fu'                 : 'uploadEl'
     '#loader'             : 'loaderEl'
     '#login'              : 'loginEl'
-    '#modal-gallery'      : 'slideshow'
+    '#modal-gallery'      : 'slideshowEl'
     '#modal-view'         : 'modalEl'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
@@ -113,13 +114,9 @@ class App extends Spine.Controller
     
     @contentManager = new Spine.Manager(@galleryEditView, @overviewView, @showView)
     @contentManager.change @showView
-    
-    @slideshowOptions =
-      canvas: false
-      backdrop: true
-      slideshow: 1000
 
     @initializeFileupload()
+    @slideshow = @initializeSlideshow()
     
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
@@ -136,14 +133,17 @@ class App extends Spine.Controller
       '/gallery/:id': (params) ->
         @contentManager.change(@showView)
         Spine.trigger('change:toolbar', ['Gallery'])
-        Spine.trigger 'show:albums'
-#        Spine.trigger('gallery:activate')
+        @showView.allAlbums = false
         gallery = Gallery.exists(params.id)
+        Spine.trigger 'show:albums' #if gallery
+#        Spine.trigger('gallery:activate')
         Gallery.current(gallery)
       '/galleries/': ->
         @contentManager.change(@showView)
-        Spine.trigger 'show:galleries'
-#        Gallery.current()
+        Spine.trigger('show:galleries')
+      '/albums/': ->
+        @contentManager.change(@showView)
+        @showView.albumsView.trigger('show:allAlbums')
       '/photos/': ->
         @contentManager.change(@showView)
         Spine.trigger('show:photos')
@@ -153,6 +153,7 @@ class App extends Spine.Controller
       '/slideshow/:id': ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
+    
     
   validate: (user, json) ->
     console.log 'Pinger done'
@@ -186,13 +187,16 @@ class App extends Spine.Controller
       
     
   initializeSlideshow: ->
-    $('#modal-gallery').on('load', () ->
-      modalData = $(@).data('modal')
-      console.log modalData.$links
-#        modalData.$links is the list of (filtered) element nodes as jQuery object
-#        modalData.img is the img (or canvas) element for the loaded image
-#        modalData.options.index is the index of the current link
-    )
+    options =
+      show: false
+      canvas: true
+      backdrop: true
+      slideshow: 1000
+      autostart: false
+      toggleAutostart: ->
+        console.log @autostart = !@autostart
+      
+    $('#modal-gallery').modal(options).data('modal')
 
   initializeFileupload: ->
     @uploader.fileupload
@@ -215,21 +219,20 @@ class App extends Spine.Controller
           e.preventDefault()
       when 32
         #spacebar -> play/stop slideshow
-        @showView.slideshowView.pause(e)
+        @showView.slideshowView.toggle()
         e.preventDefault()
         
         
     # KEYS
     switch keyCode
+      #tabKey toggles sidebar
       when 9
-        #tabKey -> toggle sidebar
         @sidebar.toggleDraghandle()
         e.preventDefault()
       when 27
         @showView.btnPrevious.click()
         e.preventDefault()
       else
-#        console.log keyCode
         e.preventDefault()
 $ ->
   

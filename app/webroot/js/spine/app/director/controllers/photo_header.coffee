@@ -21,19 +21,28 @@ class PhotoHeader extends Spine.Controller
     Gallery.bind('change', @proxy @change)
     Album.bind('change', @proxy @change)
 
-  backToGalleries: ->
+  backToGalleries: (e) ->
 #    Spine.trigger('album:activate')
 #    Spine.trigger('show:galleries')
     @navigate '/galleries/'
     
-  backToAlbums: ->
+    e.stopPropagation()
+    e.preventDefault()
+    
+  backToAlbums: (e) ->
 #    Spine.trigger('gallery:activate', Gallery.record)
 #    Spine.trigger('show:albums')
-    @navigate '/gallery', Gallery.record.id
+    @navigate '/gallery', Gallery.record?.id or ''
     
-  backToPhotos: ->
+    e.stopPropagation()
+    e.preventDefault()
+    
+  backToPhotos: (e) ->
 #    Spine.trigger('show:photos')
-    @navigate '/gallery', Gallery.record.id + '/' + Album.record.id
+    @navigate '/gallery', (Gallery.record.id or '') + '/' + (Album.record?.id or '')
+    
+    e.stopPropagation()
+    e.preventDefault()
 
   change: ->
     console.log 'PhotoHeader::change'

@@ -40,11 +40,13 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
+    
+    GalleriesAlbum.bind('destroy', @proxy @redirect)
     Gallery.bind('change', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
     Photo.bind('refresh destroy', @proxy @renderHeader)
     Photo.bind('refresh', @proxy @refresh)
-    Photo.bind('destroy', @proxy @remove)
+    Photo.bind('beforeDestroy', @proxy @remove)
     Photo.bind('create:join', @proxy @createJoin)
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
@@ -55,6 +57,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('start:slideshow', @proxy @slideshow)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
+    Spine.bind('slideshow:ready', @proxy @play)
     
   change: (item, changed) ->
     @updateBuffer item if changed
@@ -74,6 +77,12 @@ class PhotosView extends Spine.Controller
     return unless @isActive()
       
     @items.empty() unless @list.children('li').length
+    
+#    items = if @parent.allAlbums
+#      Album.filter()
+#    else
+#      Album.filterRelated(gallery.id, @filterOptions)
+      
     list = @list.render items, mode
     list.sortable 'photo' #if Album.record
     delete @buffer
@@ -89,15 +98,16 @@ class PhotosView extends Spine.Controller
   # for AlbumsPhoto & Photo
   remove: (record) ->
     console.log 'PhotosView::remove'
-    return unless record.destroyed
-    photo = (Photo.find(record.photo_id) if (Photo.exists(record.photo_id)) or record)
-    
-    if photo
-      photoEl = @items.children().forItem(photo, true)
-      photoEl.remove()
+    unless record.constructor.className is 'Photo'
+      record = Photo.exists(record.photo_id)
 
-    @render [] unless @items.children().length
+    photoEl = @items.children().forItem(record, true)
+    photoEl.remove()
+#    @render [] unless @items.children().length
 
+  redirect: (ga) ->
+    @navigate '/gallery', Gallery.record.id if ga.destroyed
+  
   next: (album) ->
     album.last()
   
@@ -132,15 +142,15 @@ class PhotosView extends Spine.Controller
       for photo in photos
         Album.removeFromSelection photo.id
         photo.destroyCache()
-#        photo.clearCache()
+        console.log photo
         photo.destroy()
+#        console.log photo
     
   show: ->
-    Spine.trigger('gallery:activate')
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
-    Spine.trigger('slideshow:ready') if @parent.autoStart()
+
   
   save: (item) ->
 

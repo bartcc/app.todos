@@ -232,8 +232,9 @@ class App extends Spine.Controller
       when 27
         @showView.btnPrevious.click()
         e.preventDefault()
-      else
-        e.preventDefault()
+      when 13
+        @modalView.close()
+#        e.preventDefault()
 $ ->
   
   User.ping()

@@ -421,12 +421,13 @@ class ShowView extends Spine.Controller
 #    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
     @previous.show()
   
-  showModal: ->
-    @modalView.render
+  showModal: (options) ->
+    opts =
       header: 'Neuer Header'
       body  : 'Neuer Body'
       footer: 'Neuer Footer'
-    @modalView.show()
+    opts = $.extend({}, opts, options)
+    @modalView.show(opts)
     
   toggleShowAllPhotos: (e) ->
     @allPhotos = !@allPhotos
@@ -460,6 +461,6 @@ class ShowView extends Spine.Controller
     albs.push itm for itm in Gallery.selectionList()
     for alb in albs
       album = Album.exists(alb)
-      photos = album.photos()
+      photos = album.photos() or []
       phos.push pho for pho in photos
     phos

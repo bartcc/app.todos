@@ -18,6 +18,9 @@ ModalView = (function() {
     '.modal-body': 'body',
     '.modal-footer': 'footer'
   };
+  ModalView.prototype.events = {
+    'click .btnClose': 'close'
+  };
   ModalView.prototype.template = function(item) {
     return $('#modalTemplate').tmpl(item);
   };
@@ -39,10 +42,10 @@ ModalView = (function() {
     this.html(this.template(options));
     return this.el;
   };
-  ModalView.prototype.show = function() {
-    return this.el.modal('show');
+  ModalView.prototype.show = function(options) {
+    return this.render(options).modal('show');
   };
-  ModalView.prototype.hide = function() {
+  ModalView.prototype.close = function() {
     return this.el.modal('hide');
   };
   return ModalView;

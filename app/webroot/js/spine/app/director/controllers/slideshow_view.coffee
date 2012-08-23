@@ -208,12 +208,22 @@ class SlideshowView extends Spine.Controller
       
       el = (elFromSelection() or elFromCanvas())
       el?.click()
+    else
+      @notify()
       
   stop: ->
     App.slideshow.stopSlideShow()
    
+  notify: ->
+    App.modalView.show
+      header: 'Information'
+      body: 'To start a slideshow at least one album must be selected'
+      info: 'Tip: Use your spacebar to start a show'
+   
   toggle: (e) ->
-    return unless @slideshowable()
+    unless @slideshowable()
+      @notify()
+      return
     
     unless App.slideshow.isShown
       @navigate '/slideshow', (Math.random() * 16 | 0)

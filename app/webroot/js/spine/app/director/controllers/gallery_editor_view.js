@@ -99,10 +99,9 @@ GalleryEditorView = (function() {
   };
   GalleryEditorView.prototype.saveOnEnter = function(e) {
     console.log('GalleryEditorView::saveOnEnter');
-    if (e.keyCode !== 13) {
-      return;
+    if (e.keyCode === 13) {
+      return Spine.trigger('save:gallery', this);
     }
-    return Spine.trigger('save:gallery', this);
   };
   return GalleryEditorView;
 })();

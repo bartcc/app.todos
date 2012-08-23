@@ -54,10 +54,9 @@ GalleryEditView = (function() {
   };
   GalleryEditView.prototype.saveOnEnter = function(e) {
     console.log('GalleryEditView::saveOnEnter');
-    if (e.keyCode !== 13) {
-      return;
+    if (e.keyCode === 13) {
+      return Spine.trigger('save:gallery', this.editEl);
     }
-    return Spine.trigger('save:gallery', this.editEl);
   };
   GalleryEditView.prototype.createGallery = function() {
     return Spine.trigger('create:gallery');

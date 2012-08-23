@@ -75,8 +75,8 @@ class AlbumEditView extends Spine.Controller
 
   saveOnEnter: (e) =>
     @save @editEl if(e.keyCode == 13)
-    if (e.keyCode == 9)
-      e.stopPropagation()
+    e.stopPropagation() if (e.keyCode == 9)
+      
 
   click: (e) ->
     e.stopPropagation()

@@ -459,13 +459,15 @@ ShowView = (function() {
   ShowView.prototype.showPrevious = function() {
     return this.previous.show();
   };
-  ShowView.prototype.showModal = function() {
-    this.modalView.render({
+  ShowView.prototype.showModal = function(options) {
+    var opts;
+    opts = {
       header: 'Neuer Header',
       body: 'Neuer Body',
       footer: 'Neuer Footer'
-    });
-    return this.modalView.show();
+    };
+    opts = $.extend({}, opts, options);
+    return this.modalView.show(opts);
   };
   ShowView.prototype.toggleShowAllPhotos = function(e) {
     var _ref, _ref2;
@@ -508,7 +510,7 @@ ShowView = (function() {
     for (_j = 0, _len2 = albs.length; _j < _len2; _j++) {
       alb = albs[_j];
       album = Album.exists(alb);
-      photos = album.photos();
+      photos = album.photos() || [];
       for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
         pho = photos[_k];
         phos.push(pho);

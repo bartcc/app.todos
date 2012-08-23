@@ -31,6 +31,9 @@ PhotoEditView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
   }
   PhotoEditView.prototype.change = function(item) {
+    if (!item) {
+      return;
+    }
     if ((item != null ? item.constructor.className : void 0) === 'Photo') {
       this.current = item;
     }
@@ -72,10 +75,9 @@ PhotoEditView = (function() {
     }
   };
   PhotoEditView.prototype.saveOnEnter = function(e) {
-    if (e.keyCode !== 13) {
-      return;
+    if (e.keyCode === 13) {
+      return this.save(this.editEl);
     }
-    return this.save(this.editEl);
   };
   PhotoEditView.prototype.click = function(e) {
     e.stopPropagation();

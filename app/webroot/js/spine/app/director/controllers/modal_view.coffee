@@ -8,6 +8,9 @@ class ModalView extends Spine.Controller
     '.modal-body'         : 'body'
     '.modal-footer'       : 'footer'
   
+  events:
+    'click .btnClose'     : 'close'
+  
   template: (item) ->
     $('#modalTemplate').tmpl(item)
     
@@ -16,6 +19,7 @@ class ModalView extends Spine.Controller
     # initialize Twitters Modal
     @el.modal
       show: false
+      
     @defaults =
       header  : 'Default Header Text'
       body    : 'Default Body Text'
@@ -27,10 +31,10 @@ class ModalView extends Spine.Controller
     @html @template options
     @el
       
-  show: ->
-    @el.modal 'show'
+  show: (options) ->
+    @render(options).modal 'show'
 
-  hide: ->
+  close: ->
     @el.modal 'hide'
     
 module?.exports = ModalView

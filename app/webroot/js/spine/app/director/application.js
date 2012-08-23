@@ -270,8 +270,8 @@ App = (function() {
       case 27:
         this.showView.btnPrevious.click();
         return e.preventDefault();
-      default:
-        return e.preventDefault();
+      case 13:
+        return this.modalView.close();
     }
   };
   return App;

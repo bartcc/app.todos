@@ -247,13 +247,23 @@ SlideshowView = (function() {
       }
       el = elFromSelection() || elFromCanvas();
       return el != null ? el.click() : void 0;
+    } else {
+      return this.notify();
     }
   };
   SlideshowView.prototype.stop = function() {
     return App.slideshow.stopSlideShow();
   };
+  SlideshowView.prototype.notify = function() {
+    return App.modalView.show({
+      header: 'Information',
+      body: 'To start a slideshow at least one album must be selected',
+      info: 'Tip: Use your spacebar to start a show'
+    });
+  };
   SlideshowView.prototype.toggle = function(e) {
     if (!this.slideshowable()) {
+      this.notify();
       return;
     }
     if (!App.slideshow.isShown) {

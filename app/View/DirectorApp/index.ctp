@@ -181,11 +181,20 @@
 
 <script id="modalTemplate" type="text/x-jquery-tmpl">
   <div class="modal-header">
-    <a class="close" data-dismiss="modal">&times;</a>
-    <h3 class="modal-title">${header}</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>${header}</h3>
   </div>
-  <div class="modal-body">${body}</div>
-    <div class="modal-footer">${footer}</div>
+  <div class="modal-body">
+    <p>{{html body}}</p>
+  </div>
+  {{if info}}
+  <div class="modal-header label-info">
+    <div class="label label-info">${info}</div>
+  </div>
+  {{/if}}
+  <div class="modal-footer">
+    <button class="btn btnClose">Close</button>
+  </div>
 </script>
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">

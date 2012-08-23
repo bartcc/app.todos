@@ -54,8 +54,7 @@ class PhotoEditView extends Spine.Controller
       Album.updateSelection [@current.id]
 
   saveOnEnter: (e) =>
-    return if(e.keyCode != 13)
-    @save @editEl
+    @save @editEl if(e.keyCode == 13)
     
   click: (e) ->
     e.stopPropagation()

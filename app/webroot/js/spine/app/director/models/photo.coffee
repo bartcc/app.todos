@@ -1,5 +1,5 @@
 class Photo extends Spine.Model
-  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'cache'
+  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'cache_'
 
   @extend Spine.Model.Cache
   @extend Spine.Model.Ajax

@@ -1182,18 +1182,9 @@ button.chromeless, button.chromeless:hover {
   top: 5px;
   width: 38px;
 }
+.item .container {
+  position: relativ;
+}
 [class^="icon-"], [class*=" icon-"] {
   cursor: pointer;
-}
-.icon-set .icon-zoom-in {
-/*  top: -2px;
-  left: -2px;*/
-}
-.icon-set .icon-play {
-/*  top: -2px;
-  left: -2px;*/
-}
-.icon-set .icon-remove {
-/*  top: -2px;
-  right: 2px;*/
 }

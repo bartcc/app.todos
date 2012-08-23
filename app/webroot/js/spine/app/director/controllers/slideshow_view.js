@@ -257,7 +257,7 @@ SlideshowView = (function() {
   SlideshowView.prototype.notify = function() {
     return App.modalView.show({
       header: 'Information',
-      body: 'To start a slideshow at least one album must be selected',
+      body: 'To start a slideshow at least one album (with images) must be selected',
       info: 'Tip: Use your spacebar to start a show'
     });
   };

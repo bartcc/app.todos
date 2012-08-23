@@ -175,10 +175,7 @@
 </div>
 <!-- modal-dialogue -->
 <div id="modal-view" class="hide fade"></div>
-
-
 <!-- Templates -->
-
 <script id="modalTemplate" type="text/x-jquery-tmpl">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -193,7 +190,7 @@
   </div>
   {{/if}}
   <div class="modal-footer">
-    <button class="btn btnClose">Close</button>
+    <button class="btn btnClose">Ok</button>
   </div>
 </script>
 

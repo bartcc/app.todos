@@ -65,9 +65,6 @@ class AlbumsView extends Spine.Controller
     return unless @isActive()
     gallery = Gallery.record
     
-#    if (!gallery) or (gallery.destroyed)
-#      @navigate '/galleries/'
-#    else
     items = if @parent.allAlbums
       Album.filter()
     else

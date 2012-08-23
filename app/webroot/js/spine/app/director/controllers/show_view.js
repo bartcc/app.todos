@@ -482,6 +482,9 @@ ShowView = (function() {
     var _ref;
     this.allAlbums = !this.allAlbums;
     if (this.allAlbums) {
+      if (this.allAlbums) {
+        Gallery.current();
+      }
       this.navigate('/albums/');
     } else {
       this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '');

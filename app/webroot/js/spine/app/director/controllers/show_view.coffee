@@ -442,6 +442,7 @@ class ShowView extends Spine.Controller
   toggleShowAllAlbums: (e) ->
     @allAlbums = !@allAlbums
     if @allAlbums
+      Gallery.current() if @allAlbums
       @navigate '/albums/'
     else
       @navigate '/gallery', Gallery.record?.id or ''

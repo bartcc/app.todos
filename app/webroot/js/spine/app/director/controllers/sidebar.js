@@ -306,7 +306,6 @@ Sidebar = (function() {
     if (((_ref = Gallery.record) != null ? _ref.id : void 0) === item.id) {
       Gallery.current();
     }
-    console.log(item);
     return item.destroy();
   };
   Sidebar.prototype.edit = function() {

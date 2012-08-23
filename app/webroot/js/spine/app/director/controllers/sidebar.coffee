@@ -228,7 +228,6 @@ class Sidebar extends Spine.Controller
     if Gallery.record?.id is item.id
       Gallery.current() #unless Gallery.count()
       
-    console.log item
     item.destroy()
 
   edit: ->

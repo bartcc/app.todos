@@ -218,7 +218,7 @@ class SlideshowView extends Spine.Controller
     App.modalView.show
       header: 'Information'
       body: 'To start a slideshow at least one album (with images) must be selected'
-      info: 'Tip: Use your spacebar to start a show'
+      info: 'Tip of the day: You can also use your spacebar to start a slideshow'
    
   toggle: (e) ->
     unless @slideshowable()

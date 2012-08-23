@@ -28,12 +28,13 @@ class ModalView extends Spine.Controller
   render: (opts) ->
     console.log 'ModalView::render'
     options = $.extend @defaults, opts
+    
     @html @template options
     @el
       
   show: (options) ->
-    @render(options).modal 'show'
-
+    el = @render(options).modal 'show'
+    
   close: ->
     @el.modal 'hide'
     

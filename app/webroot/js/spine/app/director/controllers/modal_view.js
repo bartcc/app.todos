@@ -43,7 +43,8 @@ ModalView = (function() {
     return this.el;
   };
   ModalView.prototype.show = function(options) {
-    return this.render(options).modal('show');
+    var el;
+    return el = this.render(options).modal('show');
   };
   ModalView.prototype.close = function() {
     return this.el.modal('hide');

@@ -30,9 +30,9 @@ SidebarFlickr = (function() {
       name: 'Flickr',
       sub: [
         {
-          name: 'Recent'
+          name: 'Recent (disabled)'
         }, {
-          name: 'User'
+          name: 'User (disabled)'
         }
       ]
     };

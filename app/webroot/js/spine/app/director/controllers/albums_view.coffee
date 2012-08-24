@@ -146,11 +146,15 @@ class AlbumsView extends Spine.Controller
         
     else
       cb = ->
-        @createJoin(Gallery.record) if Gallery.record
-        # select first album
-        album.updateSelection [@id]
-        Spine.trigger('album:activate')
-        App.navigate '/gallery', Gallery.record?.id # + '/' + @id
+        if Gallery.record
+          @createJoin(Gallery.record) 
+          # select first album
+          album.updateSelection [@id]
+          Spine.trigger('album:activate')
+          App.navigate '/gallery', Gallery.record.id
+        else
+          App.navigate '/galleries/'
+          
         
     album = new Album @newAttributes()
     album.save success: cb

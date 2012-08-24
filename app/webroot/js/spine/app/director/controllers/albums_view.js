@@ -148,13 +148,14 @@ AlbumsView = (function() {
       }, this);
     } else {
       cb = function() {
-        var _ref;
         if (Gallery.record) {
           this.createJoin(Gallery.record);
+          album.updateSelection([this.id]);
+          Spine.trigger('album:activate');
+          return App.navigate('/gallery', Gallery.record.id);
+        } else {
+          return App.navigate('/galleries/');
         }
-        album.updateSelection([this.id]);
-        Spine.trigger('album:activate');
-        return App.navigate('/gallery', (_ref = Gallery.record) != null ? _ref.id : void 0);
       };
     }
     album = new Album(this.newAttributes());

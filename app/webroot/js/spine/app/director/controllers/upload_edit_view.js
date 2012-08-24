@@ -72,22 +72,24 @@ UploadEditView = (function() {
     }
   };
   UploadEditView.prototype.done = function(e, data) {
-    var album, photo, raw, raws, _i, _len;
+    var album, idx, photo, raw, raws, _len;
     album = Album.exists(data.link);
     raws = $.parseJSON(data.jqXHR.responseText);
     Photo.refresh(raws, {
       clear: false
     });
     if (album) {
-      for (_i = 0, _len = raws.length; _i < _len; _i++) {
-        raw = raws[_i];
+      for (idx = 0, _len = raws.length; idx < _len; idx++) {
+        raw = raws[idx];
         photo = Photo.exists(raw['Photo'].id);
         if (photo) {
           Photo.trigger('create:join', photo, album);
         }
+        if (idx === raws.length) {
+          Spine.trigger('loading:done', album);
+        }
       }
       Spine.trigger('album:updateBuffer', album);
-      Spine.trigger('loading:done', album);
     }
     if (App.showView.isQuickUpload()) {
       App.hmanager.change(this.c);

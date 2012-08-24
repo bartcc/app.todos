@@ -59,11 +59,11 @@ class UploadEditView extends Spine.Controller
     
     # create joins if we dropped it all in an album
     if album
-      for raw in raws
+      for raw, idx in raws
         photo = Photo.exists(raw['Photo'].id)
         Photo.trigger('create:join', photo, album) if photo
+        Spine.trigger('loading:done', album) if idx is raws.length
       Spine.trigger('album:updateBuffer', album)
-      Spine.trigger('loading:done', album)
     
     if App.showView.isQuickUpload()
       App.hmanager.change @c

@@ -157,7 +157,7 @@ class AlbumsView extends Spine.Controller
           # select first album
           album.updateSelection [@id]
           Spine.trigger('album:activate')
-          App.navigate '/gallery', Gallery.record.id
+          App.navigate '/gallery', Gallery.record.id + '/' + @id
         else
           App.navigate '/galleries/'
           

@@ -158,7 +158,7 @@ AlbumsView = (function() {
           this.createJoin(Gallery.record);
           album.updateSelection([this.id]);
           Spine.trigger('album:activate');
-          return App.navigate('/gallery', Gallery.record.id);
+          return App.navigate('/gallery', Gallery.record.id + '/' + this.id);
         } else {
           return App.navigate('/galleries/');
         }

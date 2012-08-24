@@ -14,6 +14,7 @@ class LoginView extends Spine.Controller
     
   logout: ->
     console.log 'click'
+    localStorage.hash = location.hash
     User.redirect 'logout'
     
   render: (item) ->

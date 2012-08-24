@@ -61,11 +61,6 @@ PhotoView = (function() {
   };
   PhotoView.prototype.render = function(item, mode) {
     console.log('PhotoView::render');
-    if (Album.record) {
-      this.el.removeClass('all');
-    } else {
-      this.el.addClass('all');
-    }
     this.items.html(this.template(item));
     this.renderHeader(item);
     this.uri([item]);
@@ -175,9 +170,12 @@ PhotoView = (function() {
   PhotoView.prototype.stopInfo = function(e) {
     return this.info.bye();
   };
-  PhotoView.prototype.show = function(item) {
+  PhotoView.prototype.show = function(idOrRecord) {
+    var item;
+    item = Photo.current(idOrRecord);
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('canvas', this);
+    console.log;
     return this.render(item);
   };
   return PhotoView;

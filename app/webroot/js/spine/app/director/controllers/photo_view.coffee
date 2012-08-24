@@ -47,10 +47,10 @@ class PhotoView extends Spine.Controller
     
   render: (item, mode) ->
     console.log 'PhotoView::render'
-    if Album.record
-      @el.removeClass 'all'
-    else
-      @el.addClass 'all'
+#    if Album.record
+#      @el.removeClass 'all'
+#    else
+#      @el.addClass 'all'
       
     @items.html @template item
     @renderHeader item
@@ -142,9 +142,11 @@ class PhotoView extends Spine.Controller
   stopInfo: (e) =>
     @info.bye()
   
-  show: (item) ->
+  show: (idOrRecord) ->
+    item = Photo.current(idOrRecord)
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)
+    console.log
     @render item
     
 module?.exports = PhotoView

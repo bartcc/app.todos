@@ -138,12 +138,12 @@ App = (function() {
     this.slideshow = this.initializeSlideshow();
     this.routes({
       '/gallery/:gid/:aid/:pid': function(params) {
-        var photo;
+        var album, photo;
         this.contentManager.change(this.showView);
+        album = Album.exists(params.aid);
         photo = Photo.exists(params.pid);
-        Spine.trigger('show:photo', photo);
-        Gallery.current(params.gid);
-        return Album.current(params.aid);
+        Spine.trigger('show:album', album);
+        return Spine.trigger('show:photo', photo);
       },
       '/gallery/:gid/:aid': function(params) {
         this.contentManager.change(this.showView);
@@ -153,7 +153,6 @@ App = (function() {
       },
       '/gallery/:id': function(params) {
         this.contentManager.change(this.showView);
-        Spine.trigger('change:toolbar', ['Gallery']);
         return Spine.trigger('gallery:activate', params.id);
       },
       '/galleries/': function() {

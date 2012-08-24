@@ -23,6 +23,7 @@ LoginView = (function() {
   };
   LoginView.prototype.logout = function() {
     console.log('click');
+    localStorage.hash = location.hash;
     return User.redirect('logout');
   };
   LoginView.prototype.render = function(item) {

@@ -121,10 +121,10 @@ class App extends Spine.Controller
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
         @contentManager.change(@showView)
+        album = Album.exists(params.aid)
         photo = Photo.exists(params.pid)
-        Spine.trigger 'show:photo', photo
-        Gallery.current(params.gid)
-        Album.current(params.aid)
+        Spine.trigger('show:album', album)
+        Spine.trigger('show:photo', photo)
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
         Spine.trigger 'show:photos'
@@ -132,7 +132,6 @@ class App extends Spine.Controller
         Album.current(params.aid)
       '/gallery/:id': (params) ->
         @contentManager.change(@showView)
-        Spine.trigger('change:toolbar', ['Gallery'])
         Spine.trigger('gallery:activate', params.id)
       '/galleries/': ->
         @contentManager.change(@showView)

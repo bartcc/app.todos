@@ -216,11 +216,11 @@ AlbumsList = (function() {
     return e.preventDefault();
   };
   AlbumsList.prototype.zoom = function(e) {
-    var item;
+    var item, _ref;
     item = $(e.currentTarget).item();
     this.select(item, true);
     this.stopInfo();
-    this.navigate('/gallery', Gallery.record.id + '/' + item.id);
+    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '' + '/' + (item != null ? item.id : void 0));
     e.stopPropagation();
     return e.preventDefault();
   };

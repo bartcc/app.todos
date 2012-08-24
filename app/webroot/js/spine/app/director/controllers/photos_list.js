@@ -260,14 +260,10 @@ PhotosList = (function() {
     }
   };
   PhotosList.prototype.zoom = function(e) {
-    var item, _ref;
+    var item, _ref, _ref2;
     console.log('PhotosList::zoom');
     item = $(e != null ? e.currentTarget : void 0).item() || this.current;
-    if ((item != null ? (_ref = item.constructor) != null ? _ref.className : void 0 : void 0) !== 'Photo') {
-      return;
-    }
-    this.select(item, true);
-    this.navigate('/gallery/' + Gallery.record.id + '/' + Album.record.id + '/' + this.current.id);
+    this.navigate('/gallery/' + ((_ref = Gallery.record) != null ? _ref.id : void 0) + '/' + ((_ref2 = Album.record) != null ? _ref2.id : void 0) + '/' + (item != null ? item.id : void 0));
     if (e != null) {
       e.stopPropagation();
     }

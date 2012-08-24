@@ -101,8 +101,9 @@ AlbumsView = (function() {
     console.log('AlbumsView::renderHeader');
     return this.header.change(Gallery.record);
   };
-  AlbumsView.prototype.show = function() {
-    var alb, albums, _i, _len, _results;
+  AlbumsView.prototype.show = function(idOrRecord) {
+    var alb, albums, item, _i, _len, _results;
+    item = Album.current(idOrRecord);
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
     App.showView.trigger('canvas', this);
@@ -146,7 +147,7 @@ AlbumsView = (function() {
         if (Gallery.record) {
           this.navigate('/gallery', Gallery.record.id);
         } else {
-          this.navigate('/gallery', null + '/' + album.id);
+          this.navigate('/gallery', '/' + album.id);
         }
         album.updateSelection([album.id]);
         return Spine.trigger('album:activate');

@@ -179,7 +179,7 @@ class AlbumsList extends Spine.Controller
     
     @stopInfo()
     
-    @navigate '/gallery', Gallery.record.id + '/' + item.id
+    @navigate '/gallery', Gallery.record?.id or '' + '/' + item?.id
     
     e.stopPropagation()
     e.preventDefault()

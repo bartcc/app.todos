@@ -105,8 +105,8 @@ class AlbumsView extends Spine.Controller
     console.log 'AlbumsView::renderHeader'
     @header.change Gallery.record
   
-  show: ->
-#    Spine.trigger('album:activate')
+  show: (idOrRecord) ->
+    item = Album.current(idOrRecord)
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
@@ -144,7 +144,7 @@ class AlbumsView extends Spine.Controller
         if Gallery.record
           @navigate '/gallery', Gallery.record.id
         else
-          @navigate '/gallery', null + '/' + album.id
+          @navigate '/gallery', '/' + album.id
           
         # make the new album active
         album.updateSelection [album.id]

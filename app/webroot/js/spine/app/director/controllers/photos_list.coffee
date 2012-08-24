@@ -204,10 +204,14 @@ class PhotosList extends Spine.Controller
   zoom: (e) ->
     console.log 'PhotosList::zoom'
     item = $(e?.currentTarget).item() || @current
-    return unless item?.constructor?.className is 'Photo'
-    @select(item, true)
     
-    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id + '/' + @current.id
+#    @select(item, true)
+    
+#    if Gallery?.record?.id and Album?.record?.id and item?.id
+#    alert 'navigating : ' + '/gallery/' + Gallery.record.id + '/' + Album.record.id + '/' + item.id
+    @navigate '/gallery/' + Gallery.record?.id + '/' + Album.record?.id + '/' + item?.id
+#    else
+#      @navigate '/galleries/'
     
     e?.stopPropagation()
     e?.preventDefault()

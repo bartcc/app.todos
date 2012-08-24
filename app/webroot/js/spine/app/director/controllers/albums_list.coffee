@@ -179,7 +179,7 @@ class AlbumsList extends Spine.Controller
     
     @stopInfo()
     
-    @navigate '/gallery', Gallery.record?.id or '' + '/' + item?.id
+    @navigate '/gallery', (Gallery.record?.id or '') + ('/' + item.id)
     
     e.stopPropagation()
     e.preventDefault()
@@ -192,11 +192,12 @@ class AlbumsList extends Spine.Controller
     el = $(e.currentTarget).parents('.item')
     el.removeClass('in')
     
+    @stopInfo()
+    
     window.setTimeout( =>
       Spine.trigger('destroy:album')
     , 200)
     
-    @stopInfo()
     
     e.stopPropagation()
     e.preventDefault()

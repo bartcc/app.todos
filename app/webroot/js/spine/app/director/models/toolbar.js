@@ -72,12 +72,12 @@ Toolbar = (function() {
           name: 'Invert Selection     Cmd + A',
           klass: 'optSelectAll'
         }, {
+          devider: true
+        }, {
           name: 'Toggle Fullscreen',
           klass: 'optFullScreen',
           icon: 'fullscreen',
           iconcolor: 'black'
-        }, {
-          devider: true
         }, {
           name: 'Toggle Sidebar       Tab',
           klass: 'optSidebar'

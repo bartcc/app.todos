@@ -106,7 +106,6 @@ class AlbumsView extends Spine.Controller
     @header.change Gallery.record
   
   show: (idOrRecord) ->
-#    item = Photo.current(idOrRecord)
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)

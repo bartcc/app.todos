@@ -220,7 +220,7 @@ AlbumsList = (function() {
     item = $(e.currentTarget).item();
     this.select(item, true);
     this.stopInfo();
-    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '' + '/' + (item != null ? item.id : void 0));
+    this.navigate('/gallery', (((_ref = Gallery.record) != null ? _ref.id : void 0) || '') + ('/' + item.id));
     e.stopPropagation();
     return e.preventDefault();
   };
@@ -233,10 +233,10 @@ AlbumsList = (function() {
     Gallery.updateSelection(item.id);
     el = $(e.currentTarget).parents('.item');
     el.removeClass('in');
+    this.stopInfo();
     window.setTimeout(__bind(function() {
       return Spine.trigger('destroy:album');
     }, this), 200);
-    this.stopInfo();
     e.stopPropagation();
     return e.preventDefault();
   };

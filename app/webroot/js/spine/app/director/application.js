@@ -138,8 +138,9 @@ App = (function() {
     this.slideshow = this.initializeSlideshow();
     this.routes({
       '/gallery/:gid/:aid/:pid': function(params) {
-        var album, photo;
+        var album, gallery, photo;
         this.contentManager.change(this.showView);
+        gallery = Album.exists(params.gid);
         album = Album.exists(params.aid);
         photo = Photo.exists(params.pid);
         Spine.trigger('show:album', album);
@@ -270,7 +271,10 @@ App = (function() {
         this.showView.btnPrevious.click();
         return e.preventDefault();
       case 13:
-        return this.modalView.close();
+        this.modalView.close();
+        return e.preventDefault();
+      default:
+        return console.log(keyCode);
     }
   };
   return App;

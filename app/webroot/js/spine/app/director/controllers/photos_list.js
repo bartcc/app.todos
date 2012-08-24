@@ -67,7 +67,7 @@ PhotosList = (function() {
         }
         this.uri(items, mode);
       } else {
-        html = '<label class="invite"><span class="enlightened">This Album has no Photos. &nbsp;';
+        html = '<label class="invite"><span class="enlightened">This Album has no Photos. &nbsp;<p>You can simply add some Photos by dropping them in to the browsers window.</p>';
         if (Photo.count()) {
           html += '<button class="optShowAllPhotos dark large">Show existing Photos</button></span>';
         }
@@ -263,7 +263,8 @@ PhotosList = (function() {
     var item, _ref, _ref2;
     console.log('PhotosList::zoom');
     item = $(e != null ? e.currentTarget : void 0).item() || this.current;
-    this.navigate('/gallery/' + ((_ref = Gallery.record) != null ? _ref.id : void 0) + '/' + ((_ref2 = Album.record) != null ? _ref2.id : void 0) + '/' + (item != null ? item.id : void 0));
+    this.navigate('/gallery/' + (((_ref = Gallery.record) != null ? _ref.id : void 0) || '') + '/' + (((_ref2 = Album.record) != null ? _ref2.id : void 0) || '') + '/' + (item != null ? item.id : void 0));
+    this.stopInfo();
     if (e != null) {
       e.stopPropagation();
     }

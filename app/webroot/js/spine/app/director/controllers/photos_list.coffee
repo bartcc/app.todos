@@ -51,7 +51,7 @@ class PhotosList extends Spine.Controller
         @exposeSelection() if mode is 'html'
         @uri items, mode
       else
-        html = '<label class="invite"><span class="enlightened">This Album has no Photos. &nbsp;'
+        html = '<label class="invite"><span class="enlightened">This Album has no Photos. &nbsp;<p>You can simply add some Photos by dropping them in to the browsers window.</p>'
         if Photo.count()
           html += '<button class="optShowAllPhotos dark large">Show existing Photos</button></span>'
         html += '</label>'
@@ -205,13 +205,9 @@ class PhotosList extends Spine.Controller
     console.log 'PhotosList::zoom'
     item = $(e?.currentTarget).item() || @current
     
-#    @select(item, true)
+    @navigate '/gallery/' + (Gallery.record?.id or '') + '/' + (Album.record?.id or '') + '/' + item?.id
     
-#    if Gallery?.record?.id and Album?.record?.id and item?.id
-#    alert 'navigating : ' + '/gallery/' + Gallery.record.id + '/' + Album.record.id + '/' + item.id
-    @navigate '/gallery/' + Gallery.record?.id + '/' + Album.record?.id + '/' + item?.id
-#    else
-#      @navigate '/galleries/'
+    @stopInfo()
     
     e?.stopPropagation()
     e?.preventDefault()

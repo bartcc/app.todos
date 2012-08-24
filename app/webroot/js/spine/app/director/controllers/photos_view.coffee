@@ -144,10 +144,10 @@ class PhotosView extends Spine.Controller
         photo.destroy()
     
   show: ->
+    Album.current(idOrRecord)
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
-
   
   save: (item) ->
 

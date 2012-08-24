@@ -121,6 +121,7 @@ class App extends Spine.Controller
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
         @contentManager.change(@showView)
+        gallery = Album.exists(params.gid)
         album = Album.exists(params.aid)
         photo = Photo.exists(params.pid)
         Spine.trigger('show:album', album)
@@ -232,7 +233,9 @@ class App extends Spine.Controller
         e.preventDefault()
       when 13
         @modalView.close()
-#        e.preventDefault()
+        e.preventDefault()
+      else
+        console.log keyCode
 $ ->
   
   User.ping()

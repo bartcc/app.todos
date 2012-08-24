@@ -56,7 +56,11 @@ GalleriesView = (function() {
   };
   GalleriesView.prototype.render = function(items) {
     console.log('GalleriesView::render');
-    this.list.render(items);
+    if (Gallery.count()) {
+      this.list.render(items);
+    } else {
+      this.html('<label class="invite"><span class="enlightened">This Application has no galleries. &nbsp;<button class="optCreateGallery dark large">New Gallery</button>');
+    }
     return this.header.render();
   };
   GalleriesView.prototype.show = function() {

@@ -47,7 +47,11 @@ class GalleriesView extends Spine.Controller
   
   render: (items) ->
     console.log 'GalleriesView::render'
-    @list.render items
+    if Gallery.count()
+      @list.render items
+    else  
+      @html '<label class="invite"><span class="enlightened">This Application has no galleries. &nbsp;<button class="optCreateGallery dark large">New Gallery</button>'
+      
     @header.render()
     
   show: ->

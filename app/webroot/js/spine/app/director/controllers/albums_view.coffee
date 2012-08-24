@@ -74,7 +74,6 @@ class AlbumsView extends Spine.Controller
     items = if @parent.allAlbums
       Album.filter()
     else
-      
       Album.filterRelated(Gallery.record.id, @filterOptions)
       
     @render items

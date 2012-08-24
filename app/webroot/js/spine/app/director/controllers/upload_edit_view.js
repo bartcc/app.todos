@@ -23,7 +23,8 @@ UploadEditView = (function() {
     'fileuploadsubmit': 'submit',
     'fileuploadadd': 'add',
     'fileuploadpaste': 'paste',
-    'fileuploadsend': 'send'
+    'fileuploadsend': 'send',
+    'fileuploadprogressall': 'alldone'
   };
   UploadEditView.prototype.template = function(item) {
     return $('#fileuploadTemplate').tmpl(item);
@@ -32,6 +33,7 @@ UploadEditView = (function() {
     UploadEditView.__super__.constructor.apply(this, arguments);
     this.bind("change", this.change);
     Album.bind('change', this.proxy(this.change));
+    this.queue = [];
   }
   UploadEditView.prototype.change = function(item) {
     return this.render();
@@ -71,6 +73,7 @@ UploadEditView = (function() {
       return Spine.trigger('loading:start', album);
     }
   };
+  UploadEditView.prototype.alldone = function(e, data) {};
   UploadEditView.prototype.done = function(e, data) {
     var album, idx, photo, raw, raws, _len;
     album = Album.exists(data.link);
@@ -85,9 +88,7 @@ UploadEditView = (function() {
         if (photo) {
           Photo.trigger('create:join', photo, album);
         }
-        if (idx === raws.length - 1) {
-          Spine.trigger('loading:done', album);
-        }
+        Spine.trigger('loading:done', album);
       }
       Spine.trigger('album:updateBuffer', album);
     }

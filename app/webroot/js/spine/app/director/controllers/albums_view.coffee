@@ -201,10 +201,20 @@ class AlbumsView extends Spine.Controller
       album.destroyJoin target
       
   loadingStart: (album) ->
-    @items.children().forItem(album).addClass('loading')
+    el = @items.children().forItem(album)
+    el.addClass('loading')
+    unless el.data()['queue']
+      queue = el.data()['queue'] = []
+      queue.push {}
+    else
+      queue = el.data()['queue']
+      queue.push {}
+    console.log queue
     
   loadingDone: (album) ->
-    @items.children().forItem(album).removeClass('loading')
+    el = @items.children().forItem(album)
+    el.data().queue.splice(0, 1)
+    el.removeClass('loading') unless el.data().queue.length
     
     
 module?.exports = AlbumsView

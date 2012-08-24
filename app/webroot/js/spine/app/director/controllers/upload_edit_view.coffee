@@ -14,6 +14,7 @@ class UploadEditView extends Spine.Controller
     'fileuploadadd'               : 'add'
     'fileuploadpaste'             : 'paste'
     'fileuploadsend'              : 'send'
+    'fileuploadprogressall'       : 'alldone'
     
   template: (item) ->
     $('#fileuploadTemplate').tmpl item
@@ -22,6 +23,7 @@ class UploadEditView extends Spine.Controller
     super
     @bind("change", @change)
     Album.bind('change', @proxy @change)
+    @queue = []
     
   change: (item) ->
     @render()
@@ -52,6 +54,8 @@ class UploadEditView extends Spine.Controller
     album = Album.exists(data.link)
     Spine.trigger('loading:start', album) if album
     
+  alldone: (e, data) ->
+    
   done: (e, data) ->
     album = Album.exists(data.link)
     raws = $.parseJSON(data.jqXHR.responseText)
@@ -62,7 +66,7 @@ class UploadEditView extends Spine.Controller
       for raw, idx in raws
         photo = Photo.exists(raw['Photo'].id)
         Photo.trigger('create:join', photo, album) if photo
-        Spine.trigger('loading:done', album) if idx is raws.length-1
+        Spine.trigger('loading:done', album)
       Spine.trigger('album:updateBuffer', album)
     
     if App.showView.isQuickUpload()

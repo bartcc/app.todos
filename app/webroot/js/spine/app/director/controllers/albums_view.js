@@ -237,10 +237,25 @@ AlbumsView = (function() {
     return _results;
   };
   AlbumsView.prototype.loadingStart = function(album) {
-    return this.items.children().forItem(album).addClass('loading');
+    var el, queue;
+    el = this.items.children().forItem(album);
+    el.addClass('loading');
+    if (!el.data()['queue']) {
+      queue = el.data()['queue'] = [];
+      queue.push({});
+    } else {
+      queue = el.data()['queue'];
+      queue.push({});
+    }
+    return console.log(queue);
   };
   AlbumsView.prototype.loadingDone = function(album) {
-    return this.items.children().forItem(album).removeClass('loading');
+    var el;
+    el = this.items.children().forItem(album);
+    el.data().queue.splice(0, 1);
+    if (!el.data().queue.length) {
+      return el.removeClass('loading');
+    }
   };
   return AlbumsView;
 })();

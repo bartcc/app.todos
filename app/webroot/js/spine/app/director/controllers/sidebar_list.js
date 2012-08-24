@@ -105,10 +105,7 @@ SidebarList = (function() {
   SidebarList.prototype.destroy = function(item) {
     return this.children().forItem(item, true).remove();
   };
-  SidebarList.prototype.checkChange = function(item, mode) {
-    console.log(item);
-    return console.log(mode);
-  };
+  SidebarList.prototype.checkChange = function(item, mode) {};
   SidebarList.prototype.render = function(items, mode) {
     console.log('SidebarList::render');
     this.html(this.template(items.sort(Gallery.nameSort)));
@@ -299,7 +296,7 @@ SidebarList = (function() {
     }
     this.children().removeClass('active');
     if (item) {
-      console.log(this.children().forItem(item).addClass("active"));
+      this.children().forItem(item).addClass("active");
     }
     return this.exposeSublistSelection();
   };

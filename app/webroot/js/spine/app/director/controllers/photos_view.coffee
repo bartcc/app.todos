@@ -141,9 +141,7 @@ class PhotosView extends Spine.Controller
       for photo in photos
         Album.removeFromSelection photo.id
         photo.destroyCache()
-        console.log photo
         photo.destroy()
-#        console.log photo
     
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
@@ -176,7 +174,6 @@ class PhotosView extends Spine.Controller
       
   add: (ap) ->
     console.log 'PhotosView::add'
-    console.log ap
     # only add when photo is for it's album
     if ap.album_id is Album.record?.id
       photo = Photo.exists(ap.photo_id)

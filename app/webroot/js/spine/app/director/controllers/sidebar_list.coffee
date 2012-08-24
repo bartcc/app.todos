@@ -42,7 +42,6 @@ class SidebarList extends Spine.Controller
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
-#    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
     Spine.bind('gallery:activate', @proxy @activate)
     
   template: -> arguments[0]
@@ -91,8 +90,6 @@ class SidebarList extends Spine.Controller
     @children().forItem(item, true).remove()
   
   checkChange: (item, mode) ->
-    console.log item
-    console.log mode
   
   render: (items, mode) ->
     console.log 'SidebarList::render'
@@ -178,9 +175,6 @@ class SidebarList extends Spine.Controller
             albums.forItem(album).addClass('active')
     else
       removeAlbumSelection()
-
-  
-  
   
   updateTemplate: (item) ->
     galleryEl = @children().forItem(item)
@@ -212,8 +206,6 @@ class SidebarList extends Spine.Controller
     
     galleryEl = $(e.target).parents('.gal').addClass('active')
     albumEl = $(e.target).parents('.alb').addClass('active')
-#    console.log galleryEl
-#    console.log albumEl
   
   activate: (idOrRecord) ->
     Spine.trigger('show:albums')
@@ -223,7 +215,7 @@ class SidebarList extends Spine.Controller
 
   exposeSelection: (item = Gallery.record) ->
     @children().removeClass('active')
-    console.log @children().forItem(item).addClass("active") if item
+    @children().forItem(item).addClass("active") if item
     @exposeSublistSelection()
 
   exposeSublistSelection: ->

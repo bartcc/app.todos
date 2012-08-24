@@ -55,7 +55,6 @@ class GalleriesList extends Spine.Controller
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryEl.tmplItem()
     alert 'no tmpl item' unless tmplItem
-    console.log tmplItem
     if tmplItem
       tmplItem.tmpl = $( "#galleriesTemplate" ).template()
       tmplItem.update()

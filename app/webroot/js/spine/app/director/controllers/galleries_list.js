@@ -75,7 +75,6 @@ GalleriesList = (function() {
     if (!tmplItem) {
       alert('no tmpl item');
     }
-    console.log(tmplItem);
     if (tmplItem) {
       tmplItem.tmpl = $("#galleriesTemplate").template();
       return tmplItem.update();

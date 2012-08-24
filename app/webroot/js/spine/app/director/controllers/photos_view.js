@@ -158,7 +158,6 @@ PhotosView = (function() {
         photo = photos[_k];
         Album.removeFromSelection(photo.id);
         photo.destroyCache();
-        console.log(photo);
         _results.push(photo.destroy());
       }
       return _results;
@@ -185,7 +184,6 @@ PhotosView = (function() {
   PhotosView.prototype.add = function(ap) {
     var photo, _ref;
     console.log('PhotosView::add');
-    console.log(ap);
     if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
       photo = Photo.exists(ap.photo_id);
       if (photo) {

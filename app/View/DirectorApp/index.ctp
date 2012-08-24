@@ -284,10 +284,11 @@
     <div class="thumbnail left" draggable="true"></div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-zoom-in icon-white left"></span>
-      <span class="delete icon-remove icon-white right"></span>
+      <span class="icon-loading delete icon-remove icon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title}}{{else}}No album selected{{/if}}</div>
     <div class="title" style="font-size: 0.5em">{{if id}}{{html order}}{{/if}}</div>
+    <div class="loader"></div>
   </li>
 </script>
 
@@ -528,7 +529,7 @@
 </script>
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">
-  <button class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
+  <button data-active="active..." data-loading="loading..." data-complete="completed..." class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
 </script>
 
 <script id="overviewTemplate" type="text/x-jquery-tmpl">

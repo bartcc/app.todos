@@ -49,20 +49,24 @@ class UploadEditView extends Spine.Controller
       unless App.showView.isQuickUpload()
         App.showView.openPanel('upload')
         
-  send: (data) ->
+  send: (e, data) ->
+    console.log 'UploadView::send'
+    album = Album.exists(data.link)
+    Spine.trigger('loading:start', album) if album
     
   done: (e, data) ->
-    linkedAlbum = data.link
+    album = Album.exists(data.link)
     raws = $.parseJSON(data.jqXHR.responseText)
     Photo.refresh(raws, clear: false)
     
     # create joins if we dropped it all in an album
-    if album = Album.exists(data.link)
+    if album
       for raw in raws
         photo = Photo.exists(raw['Photo'].id)
         Photo.trigger('create:join', photo, album) if photo
       Spine.trigger('album:updateBuffer', album)
-      
+      Spine.trigger('loading:done', album)
+    
     if App.showView.isQuickUpload()
       App.hmanager.change @c
         
@@ -72,7 +76,7 @@ class UploadEditView extends Spine.Controller
     
   submit: (e, data) ->
     console.log 'UploadView::submit'
-    e.stopPropagation()
+    console.log data
     
   changeSelected: (e) ->
     el = $(e.currentTarget)

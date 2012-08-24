@@ -11,6 +11,20 @@ $ = typeof jQuery !== "undefined" && jQuery !== null ? jQuery : require("jqueryi
 $.fn.deselect = function(sel) {
   return $(this).children(sel).removeClass('active');
 };
+$.fn.state = function(state) {
+  var d;
+  d = 'disabled';
+  return this.each(function() {
+    var $this;
+    $this = $(this);
+    $this.html($this.data()[state]);
+    if (state === 'loading') {
+      return $this.addClass(d).attr(d, d);
+    } else {
+      return $this.removeClass(d).removeAttr(d);
+    }
+  });
+};
 $.Timer_ = function(interval, calls, onend) {
   var callback, count, end, payload, startTime, timer;
   count = 0;

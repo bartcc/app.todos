@@ -63,15 +63,22 @@ UploadEditView = (function() {
       }
     }
   };
-  UploadEditView.prototype.send = function(data) {};
+  UploadEditView.prototype.send = function(e, data) {
+    var album;
+    console.log('UploadView::send');
+    album = Album.exists(data.link);
+    if (album) {
+      return Spine.trigger('loading:start', album);
+    }
+  };
   UploadEditView.prototype.done = function(e, data) {
-    var album, linkedAlbum, photo, raw, raws, _i, _len;
-    linkedAlbum = data.link;
+    var album, photo, raw, raws, _i, _len;
+    album = Album.exists(data.link);
     raws = $.parseJSON(data.jqXHR.responseText);
     Photo.refresh(raws, {
       clear: false
     });
-    if (album = Album.exists(data.link)) {
+    if (album) {
       for (_i = 0, _len = raws.length; _i < _len; _i++) {
         raw = raws[_i];
         photo = Photo.exists(raw['Photo'].id);
@@ -80,6 +87,7 @@ UploadEditView = (function() {
         }
       }
       Spine.trigger('album:updateBuffer', album);
+      Spine.trigger('loading:done', album);
     }
     if (App.showView.isQuickUpload()) {
       App.hmanager.change(this.c);
@@ -89,7 +97,7 @@ UploadEditView = (function() {
   UploadEditView.prototype.paste = function(e, data) {};
   UploadEditView.prototype.submit = function(e, data) {
     console.log('UploadView::submit');
-    return e.stopPropagation();
+    return console.log(data);
   };
   UploadEditView.prototype.changeSelected = function(e) {
     var album, el, id;

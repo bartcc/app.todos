@@ -1188,3 +1188,9 @@ button.chromeless, button.chromeless:hover {
 [class^="icon-"], [class*=" icon-"] {
   cursor: pointer;
 }
+.loading .icon-loading {
+  background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;
+}
+.loading .out {
+  opacity: 1;
+}

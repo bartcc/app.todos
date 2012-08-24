@@ -66,6 +66,8 @@ AlbumsView = (function() {
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
+    Spine.bind('loading:start', this.proxy(this.loadingStart));
+    Spine.bind('loading:done', this.proxy(this.loadingDone));
     $(this.views).queue('fx');
   }
   AlbumsView.prototype.change = function(item, changed) {
@@ -233,6 +235,12 @@ AlbumsView = (function() {
       _results.push(album.destroyJoin(target));
     }
     return _results;
+  };
+  AlbumsView.prototype.loadingStart = function(album) {
+    return this.items.children().forItem(album).addClass('loading');
+  };
+  AlbumsView.prototype.loadingDone = function(album) {
+    return this.items.children().forItem(album).removeClass('loading');
   };
   return AlbumsView;
 })();

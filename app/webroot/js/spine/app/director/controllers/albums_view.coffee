@@ -57,6 +57,8 @@ class AlbumsView extends Spine.Controller
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
+    Spine.bind('loading:start', @proxy @loadingStart)
+    Spine.bind('loading:done', @proxy @loadingDone)
     $(@views).queue('fx')
     
   # this method is triggered when changing Gallery.record
@@ -198,5 +200,12 @@ class AlbumsView extends Spine.Controller
 
     for album in albums
       album.destroyJoin target
+      
+  loadingStart: (album) ->
+    @items.children().forItem(album).addClass('loading')
+    
+  loadingDone: (album) ->
+    @items.children().forItem(album).removeClass('loading')
+    
     
 module?.exports = AlbumsView

@@ -137,6 +137,9 @@ class App extends Spine.Controller
       '/galleries/': ->
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
+      '/gallery/': (params) ->
+        @contentManager.change(@showView)
+        Spine.trigger('show:galleries')
       '/albums/': ->
         @contentManager.change(@showView)
         @showView.albumsView.trigger('show:allAlbums')

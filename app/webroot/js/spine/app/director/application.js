@@ -160,6 +160,10 @@ App = (function() {
         this.contentManager.change(this.showView);
         return Spine.trigger('show:galleries');
       },
+      '/gallery/': function(params) {
+        this.contentManager.change(this.showView);
+        return Spine.trigger('show:galleries');
+      },
       '/albums/': function() {
         this.contentManager.change(this.showView);
         return this.showView.albumsView.trigger('show:allAlbums');

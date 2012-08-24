@@ -145,11 +145,18 @@ class ShowView extends Spine.Controller
     @canvasManager.change @galleriesView
     @headerManager.change @galleriesHeader
     
+  previousLocation: -> 
+    if @prevLocation is location.hash
+      return '/galleries/'
+    else
+      @prevLocation
+      
+    
   canvas: (controller) ->
     console.log 'ShowView::changeCanvas'
     @previous = @current unless @current.subview
-    @previousLocation = location.hash
     @current = controller
+    @prevLocation = location.hash
     @el.data
       current: controller.el.data().current.record
       className: controller.el.data().current.className
@@ -421,7 +428,7 @@ class ShowView extends Spine.Controller
     @navigate '/slideshow/'
     
   showPrevious: ->
-    @navigate @previousLocation
+    @navigate @previousLocation()
   
   showModal: (options) ->
     opts =

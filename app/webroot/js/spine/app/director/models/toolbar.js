@@ -99,6 +99,8 @@ Toolbar = (function() {
           icon: 'asterisk',
           klass: 'optCreateGallery'
         }, {
+          devider: true
+        }, {
           name: 'Edit',
           icon: 'pencil',
           klass: 'optGallery',
@@ -172,7 +174,7 @@ Toolbar = (function() {
             if (App.slideshow.options.autostart) {
               return 'ok';
             } else {
-              return 'fire';
+              return '';
             }
           },
           klass: 'optSlideshowAutoStart',
@@ -189,6 +191,8 @@ Toolbar = (function() {
           name: 'Upload',
           icon: 'upload',
           klass: 'optUpload'
+        }, {
+          devider: true
         }, {
           name: function() {
             return 'Copy Photos to New Album (' + Album.selectionList().length + ')';
@@ -207,6 +211,8 @@ Toolbar = (function() {
           disabled: function() {
             return !Album.selectionList().length;
           }
+        }, {
+          devider: true
         }, {
           name: 'Edit',
           icon: 'pencil',

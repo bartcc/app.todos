@@ -278,5 +278,5 @@ $(function() {
     el: $('body')
   });
   Spine.Route.setup();
-  return App.navigate(location.hash || '/galleries/');
+  return App.navigate(localStorage.hash || location.hash || '/galleries/');
 });

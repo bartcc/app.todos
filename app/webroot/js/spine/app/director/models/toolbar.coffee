@@ -62,6 +62,8 @@ class Toolbar extends Spine.Model
           icon: 'asterisk'
           klass: 'optCreateGallery'
         ,
+          devider: true
+        ,
           name: 'Edit'
           icon: 'pencil'
           klass: 'optGallery'
@@ -111,7 +113,7 @@ class Toolbar extends Spine.Model
           disabled: -> !App.showView.activePhotos.call @
         ,
           name: -> 'Slideshow Autostart'
-          icon: -> if App.slideshow.options.autostart then 'ok' else 'fire'
+          icon: -> if App.slideshow.options.autostart then 'ok' else ''
           klass: 'optSlideshowAutoStart'
           disabled: -> false
         ]
@@ -123,6 +125,8 @@ class Toolbar extends Spine.Model
           icon: 'upload'
           klass: 'optUpload'
         ,
+          devider: true
+        ,
           name: -> 'Copy Photos to New Album ('+Album.selectionList().length+')'
           icon: ''
           klass: 'optCreateAlbumFromSel'
@@ -132,6 +136,8 @@ class Toolbar extends Spine.Model
           icon: ''
           klass: 'optCreateAlbumFromSelCut'
           disabled: -> !Album.selectionList().length
+        ,
+          devider: true
         ,
           name: 'Edit'
           icon: 'pencil'

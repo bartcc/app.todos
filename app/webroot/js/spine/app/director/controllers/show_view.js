@@ -155,13 +155,20 @@ ShowView = (function() {
     this.canvasManager.change(this.galleriesView);
     this.headerManager.change(this.galleriesHeader);
   }
+  ShowView.prototype.previousLocation = function() {
+    if (this.prevLocation === location.hash) {
+      return '/galleries/';
+    } else {
+      return this.prevLocation;
+    }
+  };
   ShowView.prototype.canvas = function(controller) {
     console.log('ShowView::changeCanvas');
     if (!this.current.subview) {
       this.previous = this.current;
     }
-    this.previousLocation = location.hash;
     this.current = controller;
+    this.prevLocation = location.hash;
     this.el.data({
       current: controller.el.data().current.record,
       className: controller.el.data().current.className
@@ -464,7 +471,7 @@ ShowView = (function() {
     return this.navigate('/slideshow/');
   };
   ShowView.prototype.showPrevious = function() {
-    return this.navigate(this.previousLocation);
+    return this.navigate(this.previousLocation());
   };
   ShowView.prototype.showModal = function(options) {
     var opts;

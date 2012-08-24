@@ -35,8 +35,6 @@ class Sidebar extends Spine.Controller
       template: @template
       
     Gallery.bind('refresh', @proxy @refresh)
-#    Gallery.bind('update', @proxy @change)
-#    Gallery.bind('change', @proxy @change)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Gallery.bind("ajaxSuccess", Gallery.successHandler)
     
@@ -208,7 +206,6 @@ class Sidebar extends Spine.Controller
     console.log 'Sidebar::create'
 #    App.showView.openPanel('gallery')
     gallery = new Gallery @newAttributes()
-    console.log gallery
     gallery.save success: @createCallback
     
   createCallback: ->

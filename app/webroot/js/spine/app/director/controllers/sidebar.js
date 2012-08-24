@@ -274,7 +274,6 @@ Sidebar = (function() {
     var gallery;
     console.log('Sidebar::create');
     gallery = new Gallery(this.newAttributes());
-    console.log(gallery);
     return gallery.save({
       success: this.createCallback
     });

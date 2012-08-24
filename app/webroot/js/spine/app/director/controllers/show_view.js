@@ -404,8 +404,6 @@ ShowView = (function() {
     root = this.current.el.children('.items');
     root.children().each(function(index, el) {
       var item;
-      console.log($(this));
-      console.log(this);
       item = $(this).item();
       return item != null ? item.addRemoveSelection() : void 0;
     });

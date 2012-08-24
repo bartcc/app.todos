@@ -73,7 +73,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.change = function(item, changed) {
     var items;
     console.log('AlbumsView::change');
-    if (item.constructor.className === 'GalleriesAlbum' && changed === 'update') {
+    if (item.constructor.className === ('GalleriesAlbum' && changed === 'update')) {
       return;
     }
     if (changed && this.parent.allAlbums) {

@@ -85,7 +85,7 @@ UploadEditView = (function() {
         if (photo) {
           Photo.trigger('create:join', photo, album);
         }
-        if (idx === raws.length) {
+        if (idx === raws.length - 1) {
           Spine.trigger('loading:done', album);
         }
       }

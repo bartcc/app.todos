@@ -62,7 +62,7 @@ class UploadEditView extends Spine.Controller
       for raw, idx in raws
         photo = Photo.exists(raw['Photo'].id)
         Photo.trigger('create:join', photo, album) if photo
-        Spine.trigger('loading:done', album) if idx is raws.length
+        Spine.trigger('loading:done', album) if idx is raws.length-1
       Spine.trigger('album:updateBuffer', album)
     
     if App.showView.isQuickUpload()

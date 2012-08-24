@@ -251,28 +251,33 @@ ShowView = (function() {
     return e.preventDefault();
   };
   ShowView.prototype.toggleGallery = function(e) {
-    return this.changeToolbarOne(['Gallery']);
+    this.changeToolbarOne(['Gallery']);
+    return this.refreshToolbars();
   };
   ShowView.prototype.toggleAlbumShow = function(e) {
     this.trigger('toggle:view', App.album, e.target);
-    return e.preventDefault();
+    return this.refreshToolbars();
   };
   ShowView.prototype.toggleAlbum = function(e) {
-    return this.changeToolbarOne(['Album']);
+    this.changeToolbarOne(['Album']);
+    return this.refreshToolbars();
   };
   ShowView.prototype.togglePhotoShow = function(e) {
     this.trigger('toggle:view', App.photo, e.target);
-    return e.preventDefault();
+    return this.refreshToolbars();
   };
   ShowView.prototype.togglePhoto = function(e) {
-    return this.changeToolbarOne(['Photos', 'Slider']);
+    this.changeToolbarOne(['Photos', 'Slider']);
+    return this.refreshToolbars();
   };
   ShowView.prototype.toggleUploadShow = function(e) {
     this.trigger('toggle:view', App.upload, e.target);
-    return e.preventDefault();
+    e.preventDefault();
+    return this.refreshToolbars();
   };
   ShowView.prototype.toggleUpload = function(e) {
-    return this.changeToolbarOne(['Upload']);
+    this.changeToolbarOne(['Upload']);
+    return this.refreshToolbars();
   };
   ShowView.prototype.toggleSidebar = function() {
     App.sidebar.toggleDraghandle();
@@ -285,7 +290,8 @@ ShowView = (function() {
   ShowView.prototype.toggleSlideshow = function() {
     var active;
     active = this.btnSlideshow.toggleClass('active').hasClass('active');
-    return this.slideshowView.slideshowMode(active);
+    this.slideshowView.slideshowMode(active);
+    return this.refreshToolbars();
   };
   ShowView.prototype.toggleSlideshowAutoStart = function() {
     var res;

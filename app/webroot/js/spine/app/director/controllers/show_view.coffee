@@ -230,41 +230,45 @@ class ShowView extends Spine.Controller
     
   toggleGallery: (e) ->
     @changeToolbarOne ['Gallery']
+    @refreshToolbars()
 
   toggleAlbumShow: (e) ->
     @trigger('toggle:view', App.album, e.target)
-    e.preventDefault()
+    @refreshToolbars()
 
   toggleAlbum: (e) ->
     @changeToolbarOne ['Album']
+    @refreshToolbars()
     
   togglePhotoShow: (e) ->
     @trigger('toggle:view', App.photo, e.target)
-    e.preventDefault()
+    @refreshToolbars()
     
   togglePhoto: (e) ->
     @changeToolbarOne ['Photos', 'Slider']#, App.showView.initSlider
+    @refreshToolbars()
 
   toggleUploadShow: (e) ->
     @trigger('toggle:view', App.upload, e.target)
     e.preventDefault()
+    @refreshToolbars()
     
   toggleUpload: (e) ->
     @changeToolbarOne ['Upload']
+    @refreshToolbars()
 
   toggleSidebar: () ->
     App.sidebar.toggleDraghandle()
     @refreshToolbars()
-#    @toolbarTwo.change()
     
   toggleFullScreen: () ->
     @slideshowView.toggleFullScreen()
     @refreshToolbars()
-#    @toolbarTwo.change()
     
   toggleSlideshow: ->
     active = @btnSlideshow.toggleClass('active').hasClass('active')
     @slideshowView.slideshowMode(active)
+    @refreshToolbars()
 
   toggleSlideshowAutoStart: ->
     res = App.slideshow.options.toggleAutostart()

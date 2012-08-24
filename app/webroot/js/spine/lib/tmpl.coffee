@@ -9,12 +9,9 @@ $.fn.item = (keep) ->
   else return item
 
 $.fn.forItem = (item, keep) ->
-  if item
-    @filter ->
-      compare = $(@).item(keep)
-      item.eql?(compare) or item is compare
-  else
-    throw new Error("#{item.toString()} in forItem()doesn't exist")
+  @filter ->
+    compare = $(@).item(keep)
+    item.eql?(compare) or item is compare
 
 $.fn.serializeForm = ->
   result = {}

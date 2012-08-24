@@ -678,6 +678,7 @@ class FileComponent extends Object {
   }
 
   function _divide($str) {
+    $this->log($str, LOG_DEBUG);
     $bits = explode('/', $str);
     $dec = $bits[0] / $bits[1];
     return $dec;

@@ -87,16 +87,6 @@ class Toolbar extends Spine.Model
           icon: ''
           klass: 'optCreateAlbum'
         ,
-          name: -> 'Copy Photos to New Album ('+Album.selectionList().length+')'
-          icon: ''
-          klass: 'optCreateAlbumFromSel'
-          disabled: -> !Album.selectionList().length
-        ,
-          name: -> 'Move Photos to New Album ('+Album.selectionList().length+')'
-          icon: ''
-          klass: 'optCreateAlbumFromSelCut'
-          disabled: -> !Album.selectionList().length
-        ,
           devider: true
         ,
           name: 'Edit'
@@ -132,6 +122,16 @@ class Toolbar extends Spine.Model
           name: 'Upload'
           icon: 'upload'
           klass: 'optUpload'
+        ,
+          name: -> 'Copy Photos to New Album ('+Album.selectionList().length+')'
+          icon: ''
+          klass: 'optCreateAlbumFromSel'
+          disabled: -> !Album.selectionList().length
+        ,
+          name: -> 'Move Photos to New Album ('+Album.selectionList().length+')'
+          icon: ''
+          klass: 'optCreateAlbumFromSelCut'
+          disabled: -> !Album.selectionList().length
         ,
           name: 'Edit'
           icon: 'pencil'

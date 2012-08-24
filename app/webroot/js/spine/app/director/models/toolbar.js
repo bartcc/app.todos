@@ -132,24 +132,6 @@ Toolbar = (function() {
           icon: '',
           klass: 'optCreateAlbum'
         }, {
-          name: function() {
-            return 'Copy Photos to New Album (' + Album.selectionList().length + ')';
-          },
-          icon: '',
-          klass: 'optCreateAlbumFromSel',
-          disabled: function() {
-            return !Album.selectionList().length;
-          }
-        }, {
-          name: function() {
-            return 'Move Photos to New Album (' + Album.selectionList().length + ')';
-          },
-          icon: '',
-          klass: 'optCreateAlbumFromSelCut',
-          disabled: function() {
-            return !Album.selectionList().length;
-          }
-        }, {
           devider: true
         }, {
           name: 'Edit',
@@ -207,6 +189,24 @@ Toolbar = (function() {
           name: 'Upload',
           icon: 'upload',
           klass: 'optUpload'
+        }, {
+          name: function() {
+            return 'Copy Photos to New Album (' + Album.selectionList().length + ')';
+          },
+          icon: '',
+          klass: 'optCreateAlbumFromSel',
+          disabled: function() {
+            return !Album.selectionList().length;
+          }
+        }, {
+          name: function() {
+            return 'Move Photos to New Album (' + Album.selectionList().length + ')';
+          },
+          icon: '',
+          klass: 'optCreateAlbumFromSelCut',
+          disabled: function() {
+            return !Album.selectionList().length;
+          }
         }, {
           name: 'Edit',
           icon: 'pencil',

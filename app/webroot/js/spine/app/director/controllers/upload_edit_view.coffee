@@ -22,7 +22,6 @@ class UploadEditView extends Spine.Controller
     super
     @bind("change", @change)
     Album.bind('change', @proxy @change)
-#    Spine.bind('change:selectedAlbum', @proxy @change)
     
   change: (item) ->
     @render()
@@ -39,7 +38,6 @@ class UploadEditView extends Spine.Controller
     @el
     
   add: (e, data) ->
-#    console.log 'gid_add_'+data.handleObj.gid
     album_id = Album.record?.id
     
     if data.files.length
@@ -75,8 +73,6 @@ class UploadEditView extends Spine.Controller
   paste: (e, data) ->
     
   submit: (e, data) ->
-    console.log 'UploadView::submit'
-    console.log data
     
   changeSelected: (e) ->
     el = $(e.currentTarget)

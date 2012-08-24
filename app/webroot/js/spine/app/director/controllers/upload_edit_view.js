@@ -95,10 +95,7 @@ UploadEditView = (function() {
     return e.preventDefault();
   };
   UploadEditView.prototype.paste = function(e, data) {};
-  UploadEditView.prototype.submit = function(e, data) {
-    console.log('UploadView::submit');
-    return console.log(data);
-  };
+  UploadEditView.prototype.submit = function(e, data) {};
   UploadEditView.prototype.changeSelected = function(e) {
     var album, el, id;
     el = $(e.currentTarget);

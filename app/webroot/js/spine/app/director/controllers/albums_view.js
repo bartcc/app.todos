@@ -102,8 +102,7 @@ AlbumsView = (function() {
     return this.header.change(Gallery.record);
   };
   AlbumsView.prototype.show = function(idOrRecord) {
-    var alb, albums, item, _i, _len, _results;
-    item = Album.current(idOrRecord);
+    var alb, albums, _i, _len, _results;
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
     App.showView.trigger('canvas', this);
@@ -147,7 +146,7 @@ AlbumsView = (function() {
         if (Gallery.record) {
           this.navigate('/gallery', Gallery.record.id);
         } else {
-          this.navigate('/gallery', '/' + album.id);
+          this.navigate('/gallery', null + '/' + album.id);
         }
         album.updateSelection([album.id]);
         return Spine.trigger('album:activate');
@@ -158,7 +157,7 @@ AlbumsView = (function() {
           this.createJoin(Gallery.record);
           album.updateSelection([this.id]);
           Spine.trigger('album:activate');
-          return App.navigate('/gallery', Gallery.record.id + '/' + this.id);
+          return App.navigate('/gallery', Gallery.record.id);
         } else {
           return App.navigate('/galleries/');
         }

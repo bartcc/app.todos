@@ -106,7 +106,7 @@ class AlbumsView extends Spine.Controller
     @header.change Gallery.record
   
   show: (idOrRecord) ->
-    item = Album.current(idOrRecord)
+#    item = Photo.current(idOrRecord)
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
@@ -144,7 +144,7 @@ class AlbumsView extends Spine.Controller
         if Gallery.record
           @navigate '/gallery', Gallery.record.id
         else
-          @navigate '/gallery', '/' + album.id
+          @navigate '/gallery', null + '/' + album.id
           
         # make the new album active
         album.updateSelection [album.id]
@@ -157,7 +157,7 @@ class AlbumsView extends Spine.Controller
           # select first album
           album.updateSelection [@id]
           Spine.trigger('album:activate')
-          App.navigate '/gallery', Gallery.record.id + '/' + @id
+          App.navigate '/gallery', Gallery.record.id
         else
           App.navigate '/galleries/'
           

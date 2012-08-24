@@ -64,7 +64,8 @@ class AlbumsView extends Spine.Controller
   # this method is triggered when changing Gallery.record
   change: (item, changed) ->
     console.log 'AlbumsView::change'
-    return if item.constructor.className is 'GalleriesAlbum'
+    # on resorting
+    return if item.constructor.className is 'GalleriesAlbum' and changed is 'update'
     # !important
 #    return unless @isActive()
 

@@ -73,6 +73,9 @@ AlbumsView = (function() {
   AlbumsView.prototype.change = function(item, changed) {
     var items;
     console.log('AlbumsView::change');
+    if (item.constructor.className === 'GalleriesAlbum') {
+      return;
+    }
     if (changed && this.parent.allAlbums) {
       this.parent.toggleShowAllAlbums();
     }

@@ -22,7 +22,8 @@ UploadEditView = (function() {
     'fileuploaddone': 'done',
     'fileuploadsubmit': 'submit',
     'fileuploadadd': 'add',
-    'fileuploadpaste': 'paste'
+    'fileuploadpaste': 'paste',
+    'fileuploadsend': 'send'
   };
   UploadEditView.prototype.template = function(item) {
     return $('#fileuploadTemplate').tmpl(item);
@@ -49,11 +50,11 @@ UploadEditView = (function() {
     return this.el;
   };
   UploadEditView.prototype.add = function(e, data) {
-    var album;
-    album = Album.record;
+    var album_id, _ref;
+    album_id = (_ref = Album.record) != null ? _ref.id : void 0;
     if (data.files.length) {
       $.extend(data, {
-        link: album
+        link: album_id ? album_id : void 0
       });
       this.c = App.hmanager.hasActive();
       App.hmanager.change(this);
@@ -62,12 +63,24 @@ UploadEditView = (function() {
       }
     }
   };
+  UploadEditView.prototype.send = function(data) {};
   UploadEditView.prototype.done = function(e, data) {
-    var photos;
-    photos = $.parseJSON(data.jqXHR.responseText);
-    Photo.refresh(photos, {
+    var album, linkedAlbum, photo, raw, raws, _i, _len;
+    linkedAlbum = data.link;
+    raws = $.parseJSON(data.jqXHR.responseText);
+    Photo.refresh(raws, {
       clear: false
     });
+    if (album = Album.exists(data.link)) {
+      for (_i = 0, _len = raws.length; _i < _len; _i++) {
+        raw = raws[_i];
+        photo = Photo.exists(raw['Photo'].id);
+        if (photo) {
+          Photo.trigger('create:join', photo, album);
+        }
+      }
+      Spine.trigger('album:updateBuffer', album);
+    }
     if (App.showView.isQuickUpload()) {
       App.hmanager.change(this.c);
     }

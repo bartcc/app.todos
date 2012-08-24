@@ -50,6 +50,7 @@ class Photo extends Spine.Model
     @__super__.constructor.refresh.call @, values, options
     
   init: (instance) ->
+    return unless instance
     @constructor.initCache instance.id
   
   selectAttributes: ->

@@ -238,10 +238,6 @@ SidebarList = (function() {
       return removeAlbumSelection();
     }
   };
-  SidebarList.prototype.activate = function(item) {
-    Gallery.current(item);
-    return this.exposeSelection(item);
-  };
   SidebarList.prototype.updateTemplate = function(item) {
     var galleryContentEl, galleryEl, tmplItem;
     galleryEl = this.children().forItem(item);
@@ -290,20 +286,25 @@ SidebarList = (function() {
     galleryEl = $(e.target).parents('.gal').addClass('active');
     return albumEl = $(e.target).parents('.alb').addClass('active');
   };
+  SidebarList.prototype.activate = function(idOrRecord) {
+    var item;
+    Spine.trigger('show:albums');
+    item = Gallery.current(idOrRecord);
+    this.navigate('/gallery', item.id);
+    return this.exposeSelection();
+  };
   SidebarList.prototype.exposeSelection = function(item) {
     if (item == null) {
       item = Gallery.record;
     }
-    console.log('SidebarList::exposeSelection');
-    this.deselect();
+    this.children().removeClass('active');
     if (item) {
-      this.children().forItem(item).addClass("active");
+      console.log(this.children().forItem(item).addClass("active"));
     }
     return this.exposeSublistSelection();
   };
   SidebarList.prototype.exposeSublistSelection = function() {
     var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _ref2, _results;
-    console.log('SidebarList::exposeSublistSelection');
     removeAlbumSelection = __bind(function() {
       var albums, galleries, galleryEl, item, val, _i, _len, _ref, _results;
       galleries = [];
@@ -341,7 +342,6 @@ SidebarList = (function() {
   };
   SidebarList.prototype.clickAlbum = function(e) {
     var album, albumEl, gallery, galleryEl;
-    console.log('SidebarList::albclick');
     galleryEl = $(e.target).parents('.gal').addClass('active');
     albumEl = $(e.currentTarget);
     galleryEl = $(e.currentTarget).closest('.gal');
@@ -360,13 +360,9 @@ SidebarList = (function() {
   SidebarList.prototype.click = function(e) {
     var item;
     console.log('SidebarList::click');
-    this.children().removeClass('active');
     $(e.currentTarget).closest('.gal').addClass('active');
-    if (!(item = $(e.target).closest('.data').item())) {
-      return;
-    }
-    this.navigate('/gallery/' + (item != null ? item.id : void 0));
-    this.exposeSelection();
+    item = $(e.target).closest('.data').item();
+    this.navigate('/gallery', (item != null ? item.id : void 0) || '');
     e.stopPropagation();
     return e.preventDefault();
   };

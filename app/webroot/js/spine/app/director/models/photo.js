@@ -73,6 +73,9 @@ Photo = (function() {
     return this.__super__.constructor.refresh.call(this, values, options);
   };
   Photo.prototype.init = function(instance) {
+    if (!instance) {
+      return;
+    }
     return this.constructor.initCache(instance.id);
   };
   Photo.prototype.selectAttributes = function() {

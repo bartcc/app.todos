@@ -26,7 +26,7 @@ GalleriesList = (function() {
   function GalleriesList() {
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
-    this.select = __bind(this.select, this);    GalleriesList.__super__.constructor.apply(this, arguments);
+    this.select_ = __bind(this.select_, this);    GalleriesList.__super__.constructor.apply(this, arguments);
     Gallery.bind('change', this.proxy(this.renderOne));
     GalleriesAlbum.bind('change', this.proxy(this.renderRelated));
   }
@@ -63,7 +63,6 @@ GalleriesList = (function() {
     return this.el;
   };
   GalleriesList.prototype.render = function(items, mode) {
-    console.log(items);
     this.activate();
     this.html(this.template(items));
     return this.el;
@@ -106,7 +105,7 @@ GalleriesList = (function() {
       return newEl.before(oldEl);
     }
   };
-  GalleriesList.prototype.select = function(item) {
+  GalleriesList.prototype.select_ = function(item) {
     Spine.trigger('gallery:activate', item);
     return App.showView.trigger('change:toolbarOne', ['Default']);
   };
@@ -128,7 +127,8 @@ GalleriesList = (function() {
     var item;
     console.log('GalleryList::click');
     item = $(e.currentTarget).item();
-    this.select(item);
+    App.showView.trigger('change:toolbarOne', ['Default']);
+    Spine.trigger('gallery:activate', item);
     e.stopPropagation();
     return e.preventDefault();
   };

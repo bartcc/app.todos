@@ -97,9 +97,8 @@ class UploadsController extends AppController {
         }// foreach
         
         if($this->Photo->saveAll($photos)) {
-          $this->set('_serialize', $photos);
+          $p = $this->set('_serialize', $photos);
           $this->render(SIMPLE_JSON);
-          
         }
       }
     }

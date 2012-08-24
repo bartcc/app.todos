@@ -363,8 +363,10 @@ class ShowView extends Spine.Controller
   selectAll: (e) ->
     root = @current.el.children('.items')
     root.children().each (index, el) ->
+      console.log $(@)
+      console.log @
       item = $(@).item()
-      item.addRemoveSelection()
+      item?.addRemoveSelection()
     @current.list?.select()
     @changeToolbarOne()
     
@@ -447,7 +449,6 @@ class ShowView extends Spine.Controller
       @navigate '/albums/'
     else
       @navigate '/gallery', Gallery.record?.id or ''
-    @albumsView.items.toggleClass('all', @allAlbums)
     @refreshToolbars()
     @allAlbums
     

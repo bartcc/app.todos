@@ -82,7 +82,6 @@ AlbumsList = (function() {
       items = [];
     }
     console.log('AlbumsList::render');
-    this.el.toggleClass('all', !Gallery.record);
     if (items.length) {
       this.html(this.template(items));
     } else {

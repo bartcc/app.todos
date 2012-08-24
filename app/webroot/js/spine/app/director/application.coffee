@@ -133,11 +133,7 @@ class App extends Spine.Controller
       '/gallery/:id': (params) ->
         @contentManager.change(@showView)
         Spine.trigger('change:toolbar', ['Gallery'])
-        @showView.allAlbums = false
-        gallery = Gallery.exists(params.id)
-        Spine.trigger 'show:albums' #if gallery
-#        Spine.trigger('gallery:activate')
-        Gallery.current(gallery)
+        Spine.trigger('gallery:activate', params.id)
       '/galleries/': ->
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
@@ -164,7 +160,7 @@ class App extends Spine.Controller
     else
       @old_statusIcon = @statusIcon[0].src
       @statusIcon[0].src = '/img/validated.png'
-      @statusText.text 'Account verified'
+      @statusText.text 'Verifying Account'
       @delay @setupView, 300
       
   drop: (e) ->
@@ -179,7 +175,7 @@ class App extends Spine.Controller
     Spine.unbind('uri:alldone')
     @statusIcon[0].src = '/img/validated.png'
     @statusText.hide()
-    @statusText.text('Thanks for joining in').fadeIn('slow', => @delay @finalizeView, 300)
+    @statusText.text('Welcome').fadeIn('slow', => @delay @finalizeView, 300)
       
   finalizeView: ->
     @appManager.change @mainView

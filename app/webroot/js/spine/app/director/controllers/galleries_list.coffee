@@ -46,7 +46,6 @@ class GalleriesList extends Spine.Controller
     @el
 
   render: (items, mode) ->
-    console.log items
     @activate()
     @html @template items
     @el
@@ -78,7 +77,7 @@ class GalleriesList extends Spine.Controller
     else if idxBeforeSort > idxAfterSort
       newEl.before oldEl
 
-  select: (item) =>
+  select_: (item) =>
     Spine.trigger('gallery:activate', item)
     App.showView.trigger('change:toolbarOne', ['Default'])
     
@@ -97,7 +96,8 @@ class GalleriesList extends Spine.Controller
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()
-    @select item
+    App.showView.trigger('change:toolbarOne', ['Default'])
+    Spine.trigger('gallery:activate', item)
     e.stopPropagation()
     e.preventDefault()
 

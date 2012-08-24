@@ -62,19 +62,19 @@ AlbumsView = (function() {
     Album.bind('create:join', this.proxy(this.createJoin));
     Album.bind('update destroy', this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
+    GalleriesAlbum.bind('change', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
     $(this.views).queue('fx');
   }
   AlbumsView.prototype.change = function(item, changed) {
-    var gallery, items;
+    var items;
     console.log('AlbumsView::change');
-    if (!this.isActive()) {
-      return;
+    if (changed && this.parent.allAlbums) {
+      this.parent.toggleShowAllAlbums();
     }
-    gallery = Gallery.record;
-    items = this.parent.allAlbums ? Album.filter() : Album.filterRelated(gallery.id, this.filterOptions);
+    items = this.parent.allAlbums ? Album.filter() : Album.filterRelated(Gallery.record.id, this.filterOptions);
     return this.render(items);
   };
   AlbumsView.prototype.renderAll = function() {
@@ -98,7 +98,6 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.show = function() {
     var alb, albums, _i, _len, _results;
-    Spine.trigger('album:activate');
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
     App.showView.trigger('canvas', this);

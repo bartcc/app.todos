@@ -403,8 +403,10 @@ ShowView = (function() {
     root = this.current.el.children('.items');
     root.children().each(function(index, el) {
       var item;
+      console.log($(this));
+      console.log(this);
       item = $(this).item();
-      return item.addRemoveSelection();
+      return item != null ? item.addRemoveSelection() : void 0;
     });
     if ((_ref = this.current.list) != null) {
       _ref.select();
@@ -491,7 +493,6 @@ ShowView = (function() {
     } else {
       this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '');
     }
-    this.albumsView.items.toggleClass('all', this.allAlbums);
     this.refreshToolbars();
     return this.allAlbums;
   };

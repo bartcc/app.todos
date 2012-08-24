@@ -171,6 +171,7 @@ PhotosView = (function() {
   };
   PhotosView.prototype.save = function(item) {};
   PhotosView.prototype.refresh = function(photos) {
+    return;
     if (Album.record) {
       this.createJoin(photos, Album.record);
     } else {
@@ -178,9 +179,13 @@ PhotosView = (function() {
     }
     return this.renderHeader();
   };
+  PhotosView.prototype.refresh = function(photos) {
+    return this.renderHeader();
+  };
   PhotosView.prototype.add = function(ap) {
     var photo, _ref;
     console.log('PhotosView::add');
+    console.log(ap);
     if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
       photo = Photo.exists(ap.photo_id);
       if (photo) {

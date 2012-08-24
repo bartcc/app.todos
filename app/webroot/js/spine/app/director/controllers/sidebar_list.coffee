@@ -180,9 +180,7 @@ class SidebarList extends Spine.Controller
       removeAlbumSelection()
 
   
-  activate: (item) ->
-    Gallery.current(item)
-    @exposeSelection(item)
+  
   
   updateTemplate: (item) ->
     galleryEl = @children().forItem(item)
@@ -216,15 +214,19 @@ class SidebarList extends Spine.Controller
     albumEl = $(e.target).parents('.alb').addClass('active')
 #    console.log galleryEl
 #    console.log albumEl
+  
+  activate: (idOrRecord) ->
+    Spine.trigger('show:albums')
+    item = Gallery.current(idOrRecord)
+    @navigate '/gallery', item.id
+    @exposeSelection()
 
   exposeSelection: (item = Gallery.record) ->
-    console.log 'SidebarList::exposeSelection'
-    @deselect()
-    @children().forItem(item).addClass("active") if item
+    @children().removeClass('active')
+    console.log @children().forItem(item).addClass("active") if item
     @exposeSublistSelection()
 
   exposeSublistSelection: ->
-    console.log 'SidebarList::exposeSublistSelection'
     removeAlbumSelection = =>
       galleries = []
       galleries.push val for item, val of Gallery.records
@@ -248,7 +250,6 @@ class SidebarList extends Spine.Controller
       removeAlbumSelection()
 
   clickAlbum: (e) ->
-    console.log 'SidebarList::albclick'
     galleryEl = $(e.target).parents('.gal').addClass('active')
 #    albumEl = $(e.target).parents('.alb').addClass('active')
     albumEl = $(e.currentTarget)
@@ -271,14 +272,12 @@ class SidebarList extends Spine.Controller
     
   click: (e) ->
     console.log 'SidebarList::click'
-    @children().removeClass('active')
     $(e.currentTarget).closest('.gal').addClass('active')
 #    dont act on no-gallery items like the 'no album' - info
-    return unless item = $(e.target).closest('.data').item()
+    item = $(e.target).closest('.data').item()
     
-    @navigate '/gallery/' + item?.id
+    @navigate '/gallery', item?.id or ''
     
-    @exposeSelection()
     e.stopPropagation()
     e.preventDefault()
     

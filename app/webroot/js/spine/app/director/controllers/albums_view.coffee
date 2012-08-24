@@ -53,6 +53,7 @@ class AlbumsView extends Spine.Controller
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('update destroy', @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
+    GalleriesAlbum.bind('change', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
@@ -62,13 +63,17 @@ class AlbumsView extends Spine.Controller
   change: (item, changed) ->
     console.log 'AlbumsView::change'
     # !important
-    return unless @isActive()
-    gallery = Gallery.record
-    
+#    return unless @isActive()
+
+    if changed and @parent.allAlbums
+      # deactivate allAlbums
+      @parent.toggleShowAllAlbums()
+      
     items = if @parent.allAlbums
       Album.filter()
     else
-      Album.filterRelated(gallery.id, @filterOptions)
+      
+      Album.filterRelated(Gallery.record.id, @filterOptions)
       
     @render items
     
@@ -95,7 +100,7 @@ class AlbumsView extends Spine.Controller
     @header.change Gallery.record
   
   show: ->
-    Spine.trigger('album:activate')
+#    Spine.trigger('album:activate')
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)

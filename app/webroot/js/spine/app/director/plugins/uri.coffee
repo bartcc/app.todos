@@ -70,13 +70,10 @@ class Uri extends Base
     res = []
     for data, idx in @data
       raw = (@model.cache @url, data.id)
-      
-      console.log raw
       cache = raw[0]
       return unless cache
       res.push cache
     
-    console.log res
     @callback res
       
   recordResponse: (uris) =>

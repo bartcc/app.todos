@@ -152,13 +152,9 @@ App = (function() {
         return Album.current(params.aid);
       },
       '/gallery/:id': function(params) {
-        var gallery;
         this.contentManager.change(this.showView);
         Spine.trigger('change:toolbar', ['Gallery']);
-        this.showView.allAlbums = false;
-        gallery = Gallery.exists(params.id);
-        Spine.trigger('show:albums');
-        return Gallery.current(gallery);
+        return Spine.trigger('gallery:activate', params.id);
       },
       '/galleries/': function() {
         this.contentManager.change(this.showView);
@@ -192,7 +188,7 @@ App = (function() {
     } else {
       this.old_statusIcon = this.statusIcon[0].src;
       this.statusIcon[0].src = '/img/validated.png';
-      this.statusText.text('Account verified');
+      this.statusText.text('Verifying Account');
       return this.delay(this.setupView, 300);
     }
   };
@@ -217,7 +213,7 @@ App = (function() {
     Spine.unbind('uri:alldone');
     this.statusIcon[0].src = '/img/validated.png';
     this.statusText.hide();
-    return this.statusText.text('Thanks for joining in').fadeIn('slow', __bind(function() {
+    return this.statusText.text('Welcome').fadeIn('slow', __bind(function() {
       return this.delay(this.finalizeView, 300);
     }, this));
   };

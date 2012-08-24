@@ -53,7 +53,6 @@ class PhotosView extends Spine.Controller
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
-#    Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('start:slideshow', @proxy @slideshow)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
@@ -157,15 +156,27 @@ class PhotosView extends Spine.Controller
   # methods after uplopad
   
   refresh: (photos) ->
+    # do not use this any moreto create album-foto joins anymore
+    # use the real jointable callback instead
+    return
     if Album.record
       # this will trigger the add method for handeling uploaded files
       @createJoin photos, Album.record
     else
       @render photos
     @renderHeader()
+    
+  refresh: (photos) ->
+#    if Album.record
+#      # this will trigger the add method for handeling uploaded files
+#      @createJoin photos, Album.record
+#    else
+#      @render photos
+    @renderHeader()
       
   add: (ap) ->
     console.log 'PhotosView::add'
+    console.log ap
     # only add when photo is for it's album
     if ap.album_id is Album.record?.id
       photo = Photo.exists(ap.photo_id)

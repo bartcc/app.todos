@@ -117,7 +117,7 @@
     echo $this->Html->script('spine/app/director/controllers/main');
     echo $this->Html->script('spine/app/director/controllers/login');
     echo $this->Html->script('spine/app/director/controllers/sidebar');
-    echo $this->Html->script('spine/app/director/controllers/sidebar_twitter');
+    echo $this->Html->script('spine/app/director/controllers/sidebar_flickr');
     echo $this->Html->script('spine/app/director/controllers/show_view');
     echo $this->Html->script('spine/app/director/controllers/sidebar_list');
     echo $this->Html->script('spine/app/director/controllers/galleries_list');

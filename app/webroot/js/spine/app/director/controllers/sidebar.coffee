@@ -4,7 +4,7 @@ class Sidebar extends Spine.Controller
 
   elements:
     'input'                 : 'input'
-    '.twitter'              : 'twitter'
+    '.flickr'               : 'flickr'
     '.items'                : 'items'
     '.inner'                : 'inner'
     '.droppable'            : 'droppable'

@@ -1,4 +1,4 @@
-var SidebarTwitter;
+var SidebarFlickr;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -7,24 +7,24 @@ var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, par
   child.__super__ = parent.prototype;
   return child;
 };
-SidebarTwitter = (function() {
-  __extends(SidebarTwitter, Spine.Controller);
-  SidebarTwitter.prototype.elements = {
+SidebarFlickr = (function() {
+  __extends(SidebarFlickr, Spine.Controller);
+  SidebarFlickr.prototype.elements = {
     '.items': 'items',
     '.inner': 'inner'
   };
-  SidebarTwitter.prototype.events = {
+  SidebarFlickr.prototype.events = {
     'click      .expander': 'expand',
     'click': 'expand'
   };
-  SidebarTwitter.prototype.template = function(items) {
-    return $("#sidebarTwitterTemplate").tmpl(items);
+  SidebarFlickr.prototype.template = function(items) {
+    return $("#sidebarFlickrTemplate").tmpl(items);
   };
-  function SidebarTwitter() {
-    SidebarTwitter.__super__.constructor.apply(this, arguments);
+  function SidebarFlickr() {
+    SidebarFlickr.__super__.constructor.apply(this, arguments);
     this.render();
   }
-  SidebarTwitter.prototype.render = function() {
+  SidebarFlickr.prototype.render = function() {
     var items;
     items = {
       name: 'Flickr',
@@ -38,7 +38,7 @@ SidebarTwitter = (function() {
     };
     return this.html(this.template(items));
   };
-  SidebarTwitter.prototype.expand = function(e) {
+  SidebarFlickr.prototype.expand = function(e) {
     var content, icon, parent;
     parent = $(e.target).parents('li');
     icon = $('.expander', parent);
@@ -52,7 +52,7 @@ SidebarTwitter = (function() {
     e.stopPropagation();
     return e.preventDefault();
   };
-  SidebarTwitter.prototype.renderSublist = function(gallery) {
+  SidebarFlickr.prototype.renderSublist = function(gallery) {
     var album, albums, filterOptions, galleryEl, gallerySublist, _i, _len;
     if (gallery == null) {
       gallery = Gallery.record;
@@ -83,5 +83,5 @@ SidebarTwitter = (function() {
     gallerySublist.html(this.sublistTemplate(albums));
     return this.updateTemplate(gallery);
   };
-  return SidebarTwitter;
+  return SidebarFlickr;
 })();

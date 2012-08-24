@@ -16,7 +16,7 @@ class ModalView extends Spine.Controller
     
   constructor: ->
     super
-    # initialize Twitters Modal
+    # initialize Flickr's Modal
     @el.modal
       show: false
       

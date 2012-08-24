@@ -13,7 +13,7 @@ App = (function() {
   App.prototype.elements = {
     '#fileupload': 'uploader',
     '#modal-gallery': 'modalGallery',
-    '#twitter': 'twitterEl',
+    '#flickr': 'flickrEl',
     '#main': 'mainEl',
     '#sidebar': 'sidebarEl',
     '.show': 'showEl',
@@ -78,8 +78,8 @@ App = (function() {
     this.sidebar = new Sidebar({
       el: this.sidebarEl
     });
-    this.sidebarTwitter = new SidebarTwitter({
-      el: this.twitterEl
+    this.flickr = new SidebarFlickr({
+      el: this.flickrEl
     });
     this.loginView = new LoginView({
       el: this.loginEl

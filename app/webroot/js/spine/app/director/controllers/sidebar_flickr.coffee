@@ -1,4 +1,4 @@
-class SidebarTwitter extends Spine.Controller
+class SidebarFlickr extends Spine.Controller
 
   elements:
     '.items'                : 'items'
@@ -9,7 +9,7 @@ class SidebarTwitter extends Spine.Controller
     'click'                 : 'expand'
 
   template: (items) ->
-    $("#sidebarTwitterTemplate").tmpl(items)
+    $("#sidebarFlickrTemplate").tmpl(items)
 
   constructor: ->
     super

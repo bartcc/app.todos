@@ -10,7 +10,7 @@ class App extends Spine.Controller
   elements:
     '#fileupload'         : 'uploader'
     '#modal-gallery'      : 'modalGallery'
-    '#twitter'            : 'twitterEl'
+    '#flickr'             : 'flickrEl'
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
     '.show'               : 'showEl'
@@ -77,8 +77,8 @@ class App extends Spine.Controller
       el: @overviewEl
     @sidebar = new Sidebar
       el: @sidebarEl
-    @sidebarTwitter = new SidebarTwitter
-      el: @twitterEl
+    @flickr = new SidebarFlickr
+      el: @flickrEl
     @loginView = new LoginView
       el: @loginEl
     @mainView = new MainView

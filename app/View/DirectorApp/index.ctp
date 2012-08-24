@@ -27,7 +27,7 @@
         </div>
         <div class="originals hbox">
           <ul class="options flex">
-            <li id="twitter" class="splitter disabled"></li>
+            <li id="flickr" class="splitter disabled"></li>
           </ul>
         </div>
         <ul class="items canvas vbox flex autoflow"></ul>
@@ -217,7 +217,7 @@
   </div>
 </script>
 
-<script id="sidebarTwitterTemplate" type="text/x-jquery-tmpl">
+<script id="sidebarFlickrTemplate" type="text/x-jquery-tmpl">
   <li class="gal item data parent" title="" draggable="true">
     <div class="item-header">
       <div class="expander"></div>
@@ -227,12 +227,12 @@
     </div>
     <hr>
     <ul class="sublist" style="display: none;">
-      {{tmpl($item.data.sub) "#sidebarTwitterSublistTemplate"}}
+      {{tmpl($item.data.sub) "#sidebarFlickrSublistTemplate"}}
     </ul>
   </li>
 </script>
 
-<script id="sidebarTwitterSublistTemplate" type="text/x-jquery-tmpl">
+<script id="sidebarFlickrSublistTemplate" type="text/x-jquery-tmpl">
   <div class="item-content">
     <span class="name">${name}</span>
   </div>

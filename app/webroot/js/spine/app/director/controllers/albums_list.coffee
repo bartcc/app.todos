@@ -7,8 +7,6 @@ class AlbumsList extends Spine.Controller
     'click .item'             : 'click'
     'click .icon-set .delete' : 'deleteAlbum'
     'click .icon-set .zoom'   : 'zoom'
-#    'dblclick .item'          : 'dblclick'
-#    'over'                    : 'hideInfo'
     'mouseenter .item'        : 'infoEnter'
     'mousemove'               : 'infoMove'
     'mousemove .item'         : 'infoUp'
@@ -17,7 +15,7 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
-    # initialize twitters slideshow
+    # initialize flickr's slideshow
 #    @el.toggleSlideshow()
     Album.bind('sortupdate', @proxy @sortupdate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)

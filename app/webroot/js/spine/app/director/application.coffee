@@ -236,7 +236,7 @@ $ ->
   User.ping()
   window.App = new App(el: $('body'))
   Spine.Route.setup()
-  App.navigate location.hash
+  App.navigate location.hash or '/galleries/'
 #  window.setTimeout( ->
 ##    App.contentManager.change App.overviewView
 ##    App.navigate '/overview/'

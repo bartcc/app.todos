@@ -169,6 +169,8 @@ SlideshowView = (function() {
     this.parent.showPrevious();
     if (Gallery.record) {
       return this.navigate('/gallery', Gallery.record.id);
+    } else {
+      return this.navigate('/galleryies/');
     }
   };
   SlideshowView.prototype.sliderStart = function() {

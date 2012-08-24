@@ -148,6 +148,7 @@ class ShowView extends Spine.Controller
   canvas: (controller) ->
     console.log 'ShowView::changeCanvas'
     @previous = @current unless @current.subview
+    @previousLocation = location.hash
     @current = controller
     @el.data
       current: controller.el.data().current.record
@@ -419,9 +420,7 @@ class ShowView extends Spine.Controller
     @navigate '/slideshow/'
     
   showPrevious: ->
-#    App.sidebar.toggleDraghandle()
-#    @navigate '/gallery/' + Gallery.record.id + '/' + Album.record.id
-    @previous.show()
+    @navigate @previousLocation
   
   showModal: (options) ->
     opts =

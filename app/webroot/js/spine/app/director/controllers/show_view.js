@@ -160,6 +160,7 @@ ShowView = (function() {
     if (!this.current.subview) {
       this.previous = this.current;
     }
+    this.previousLocation = location.hash;
     this.current = controller;
     this.el.data({
       current: controller.el.data().current.record,
@@ -459,7 +460,7 @@ ShowView = (function() {
     return this.navigate('/slideshow/');
   };
   ShowView.prototype.showPrevious = function() {
-    return this.previous.show();
+    return this.navigate(this.previousLocation);
   };
   ShowView.prototype.showModal = function(options) {
     var opts;

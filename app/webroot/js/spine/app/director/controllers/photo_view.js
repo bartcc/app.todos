@@ -61,7 +61,6 @@ PhotoView = (function() {
   };
   PhotoView.prototype.render = function(item, mode) {
     console.log('PhotoView::render');
-    console.log(item);
     if (!item) {
       return;
     }
@@ -177,7 +176,6 @@ PhotoView = (function() {
     Photo.current(item = Photo.exists(photo.id));
     App.showView.trigger('change:toolbarOne', ['Default']);
     App.showView.trigger('canvas', this);
-    console.log(item);
     return this.render(item);
   };
   return PhotoView;

@@ -14,10 +14,11 @@ $ = Spine.$;
 OverviewView = (function() {
   __extends(OverviewView, Spine.Controller);
   OverviewView.prototype.elements = {
-    ".items": "items"
+    '.items': 'items'
   };
   OverviewView.prototype.events = {
-    "click .optClose": "close"
+    'click .optClose': 'close',
+    'click .item': 'navi'
   };
   OverviewView.prototype.template = function(items) {
     return $("#overviewTemplate").tmpl(items);
@@ -30,21 +31,25 @@ OverviewView = (function() {
     this.el.data({
       current: Recent
     });
-    this.maxRecent = 16;
+    this.max = 16;
     this.bind('render:toolbar', this.proxy(this.renderToolbar));
     Spine.bind('show:overview', this.proxy(this.show));
-    Recent.bind('success:recent', this.proxy(this.render));
-    Recent.bind('error:recent', this.proxy(this.error));
   }
-  OverviewView.prototype.render = function(items) {
+  OverviewView.prototype.parse = function(json) {
     var item, recents, _i, _len;
     recents = [];
-    for (_i = 0, _len = items.length; _i < _len; _i++) {
-      item = items[_i];
+    for (_i = 0, _len = json.length; _i < _len; _i++) {
+      item = json[_i];
       recents.push(item['Photo']);
     }
-    this.items.html(this.template(recents));
-    return this.uri(recents);
+    Recent.refresh(recents, {
+      clear: true
+    });
+    return this.render(Recent.all());
+  };
+  OverviewView.prototype.render = function(items) {
+    this.items.html(this.template(items));
+    return this.uri(items);
   };
   OverviewView.prototype.thumbSize = function(width, height) {
     if (width == null) {
@@ -59,7 +64,6 @@ OverviewView = (function() {
     };
   };
   OverviewView.prototype.uri = function(items) {
-    console.log('OverviewView::uri');
     return Photo.uri(this.thumbSize(), __bind(function(xhr, record) {
       return this.callback(xhr, items);
     }, this), items);
@@ -81,7 +85,7 @@ OverviewView = (function() {
       item = items[_i];
       photo = item;
       jsn = searchJSON(photo.id);
-      ele = this.items.children().forItem(photo, true);
+      ele = this.items.children().forItem(photo);
       img = new Image;
       img.element = ele;
       if (jsn) {
@@ -102,7 +106,7 @@ OverviewView = (function() {
     });
   };
   OverviewView.prototype.loadRecent = function() {
-    return Recent.check(this.maxRecent);
+    return Recent.loadRecent(this.max, this.proxy(this.parse));
   };
   OverviewView.prototype.show = function() {
     var controller, _i, _len, _ref;
@@ -115,6 +119,12 @@ OverviewView = (function() {
     }
     App.contentManager.change(this);
     return this.loadRecent();
+  };
+  OverviewView.prototype.navi = function(e) {
+    var item;
+    item = $(e.currentTarget).item();
+    this.navigate('/gallery', '/', item.id);
+    return false;
   };
   OverviewView.prototype.close = function() {
     return window.history.back();

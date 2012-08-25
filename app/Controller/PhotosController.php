@@ -109,7 +109,7 @@ class PhotosController extends AppController {
   
   public function recent($max = 10) {
     $this->autoRender = false;
-    $this->Photo->recursive = -1;
+    $this->Photo->recursive = 0;
     
     $json = array();
     if ($this->Auth->user('id')) {

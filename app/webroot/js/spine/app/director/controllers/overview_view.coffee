@@ -4,10 +4,11 @@ $      = Spine.$
 class OverviewView extends Spine.Controller
 
   elements:
-    ".items"              : "items"
+    '.items'              : 'items'
     
   events:
-    "click .optClose"     : "close"
+    'click .optClose'     : 'close'
+    'click .item'    : 'navi'
 
   template: (items) ->
     $("#overviewTemplate").tmpl items
@@ -18,18 +19,20 @@ class OverviewView extends Spine.Controller
   constructor: ->
     super
     @el.data current: Recent
-    @maxRecent = 16
+    @max = 16
     @bind('render:toolbar', @proxy @renderToolbar)
     Spine.bind('show:overview', @proxy @show)
-    Recent.bind('success:recent', @proxy @render)
-    Recent.bind('error:recent', @proxy @error)
+    
+  parse: (json) ->
+    recents = []
+    for item in json
+      recents.push item['Photo']
+    Recent.refresh(recents, {clear:true})
+    @render Recent.all()
     
   render: (items) ->
-    recents = []
-    for item in items
-      recents.push item['Photo']
-    @items.html @template recents
-    @uri recents
+    @items.html @template items
+    @uri items
     
   thumbSize: (width = 70, height = 70) ->
     width: width
@@ -37,8 +40,6 @@ class OverviewView extends Spine.Controller
     
   # mode tells Spine::uri wheter to append (=> append) or replace (=> html) the cache
   uri: (items) ->
-    console.log 'OverviewView::uri'
-    
     Photo.uri @thumbSize(),
       (xhr, record) => @callback(xhr, items),
       items
@@ -51,7 +52,7 @@ class OverviewView extends Spine.Controller
     for item in items
       photo = item
       jsn = searchJSON photo.id
-      ele = @items.children().forItem(photo, true)
+      ele = @items.children().forItem(photo)
       img = new Image
       img.element = ele
       if jsn
@@ -67,7 +68,7 @@ class OverviewView extends Spine.Controller
       'backgroundPosition': 'center, center'
     
   loadRecent: ->
-    Recent.check(@maxRecent)
+    Recent.loadRecent(@max, @proxy @parse)
     
   show: ->
     for controller in App.contentManager.controllers
@@ -75,6 +76,11 @@ class OverviewView extends Spine.Controller
       
     App.contentManager.change @
     @loadRecent()
+    
+  navi: (e) ->
+    item = $(e.currentTarget).item()
+    @navigate '/gallery', '/', item.id
+    false
     
   close: -> window.history.back()
     

@@ -14,10 +14,6 @@ Recent = (function() {
   }
   Recent.configure('Recent', 'id');
   Recent.extend(Spine.Model.Local);
-  Recent.check = function(max) {
-    this.fetch();
-    return this.loadRecent(max);
-  };
   Recent.logout = function() {
     this.destroyAll();
     return this.redirect('logout');
@@ -28,7 +24,7 @@ Recent = (function() {
   Recent.prototype.init = function(instance) {
     if (!instance) {}
   };
-  Recent.loadRecent = function(max) {
+  Recent.loadRecent = function(max, callback) {
     if (max == null) {
       max = 100;
     }
@@ -41,14 +37,13 @@ Recent = (function() {
       },
       url: base_url + 'photos/recent/' + max,
       type: 'GET',
-      success: this.proxy(this.success),
+      success: function(json) {
+        return callback.call(this, json);
+      },
       error: this.proxy(this.error)
     });
   };
-  Recent.success = function(json) {
-    console.log('Ajax::success');
-    return this.trigger('success:recent', json);
-  };
+  Recent.success = function(json) {};
   Recent.error = function(xhr) {
     console.log('Ajax::error');
     this.logout();

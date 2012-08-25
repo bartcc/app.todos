@@ -4,10 +4,6 @@ class Recent extends Spine.Model
   
   @extend Spine.Model.Local
   
-  @check: (max) ->
-    @fetch()
-    @loadRecent(max)
-    
   @logout: ->
     @destroyAll()
     @redirect 'logout'
@@ -18,7 +14,7 @@ class Recent extends Spine.Model
   init: (instance) ->
     return unless instance
     
-  @loadRecent: (max = 100) ->
+  @loadRecent: (max = 100, callback) ->
     $.ajax
       contentType: 'application/json'
       dataType: 'json'
@@ -26,12 +22,10 @@ class Recent extends Spine.Model
       headers: {'X-Requested-With': 'XMLHttpRequest'}
       url: base_url + 'photos/recent/' + max
       type: 'GET'
-      success: @proxy @success
+      success: (json) -> callback.call @, json
       error: @proxy @error
   
   @success: (json) ->
-    console.log 'Ajax::success'
-    @trigger('success:recent', json)
 
   @error: (xhr) ->
     console.log 'Ajax::error'

@@ -52,7 +52,6 @@ class PhotoView extends Spine.Controller
 #    else
 #      @el.addClass 'all'
     
-    console.log item
     return unless item
     @items.html @template item
     @renderHeader item
@@ -149,7 +148,6 @@ class PhotoView extends Spine.Controller
     Photo.current(item = Photo.exists(photo.id))
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)
-    console.log item
     @render item
     
 module?.exports = PhotoView

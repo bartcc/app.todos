@@ -121,19 +121,20 @@ class App extends Spine.Controller
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
         @contentManager.change(@showView)
-        gallery = Album.exists(params.gid)
+        gallery = Gallery.exists(params.gid)
         album = Album.exists(params.aid)
         photo = Photo.exists(params.pid)
-        Spine.trigger('show:album', album)
         Spine.trigger('show:photo', photo)
+        Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
-        Spine.trigger 'show:photos'
+        Spine.trigger('show:photos')
         Gallery.current(params.gid)
         Album.current(params.aid)
-      '/gallery/:id': (params) ->
+        Spine.trigger('chromeless', true) if params.fs is 'yes'
+      '/gallery/:gid': (params) ->
         @contentManager.change(@showView)
-        Spine.trigger('gallery:activate', params.id)
+        Spine.trigger('gallery:activate', params.gid)
       '/galleries/': ->
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
@@ -149,10 +150,13 @@ class App extends Spine.Controller
         Album.current()
       '/overview/': ->
         Spine.trigger('show:overview', true)
-      '/slideshow/:id': ->
+      '/slideshow/:id': (params) ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
+        Spine.trigger('chromeless', true) if params.fs is 'yes'
     
+  fullscreen: ->
+    Spine.trigger('chromeless', true)
     
   validate: (user, json) ->
     console.log 'Pinger done'

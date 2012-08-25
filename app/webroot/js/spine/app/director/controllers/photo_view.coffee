@@ -51,10 +51,12 @@ class PhotoView extends Spine.Controller
 #      @el.removeClass 'all'
 #    else
 #      @el.addClass 'all'
-      
+    
+    console.log item
+    return unless item
     @items.html @template item
     @renderHeader item
-    @uri [item]
+    @uri item
     @change item
     
   renderHeader: (item) ->
@@ -73,23 +75,24 @@ class PhotoView extends Spine.Controller
     square: 2
     force: false
     
-  uri: (items, mode = 'html') ->
+  uri: (item, mode = 'html') ->
     console.log 'PhotoView::uri'
     Photo.uri @params(),
-      (xhr, record) => @callback(xhr, items),
+      (xhr, record) => @callback(xhr, item),
       [Photo.record]
   
-  callback: (json, items) =>
+  callback: (json, item) =>
     console.log 'PhotoView::callback'
+    
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
         
-    for item in items
-      jsn = searchJSON item.id
-      if jsn
-        @img.element = $('.item', @items).forItem(item)
-        @img.src = jsn.src
+#    for item in items
+    jsn = searchJSON item.id
+    if jsn
+      @img.element = $('.item', @items).forItem(item)
+      @img.src = jsn.src
   
   imageLoad: ->
     el = $('.thumbnail', @element)
@@ -142,11 +145,11 @@ class PhotoView extends Spine.Controller
   stopInfo: (e) =>
     @info.bye()
   
-  show: (idOrRecord) ->
-    item = Photo.current(idOrRecord)
+  show: (photo) ->
+    Photo.current(item = Photo.exists(photo.id))
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)
-    console.log
+    console.log item
     @render item
     
 module?.exports = PhotoView

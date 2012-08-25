@@ -266,6 +266,10 @@ class ShowView extends Spine.Controller
 
   toggleSidebar: () ->
     App.sidebar.toggleDraghandle()
+    
+    
+  toggleFullScreen: () ->
+    App.trigger('chromeless')
     @refreshToolbars()
     
   toggleFullScreen: () ->

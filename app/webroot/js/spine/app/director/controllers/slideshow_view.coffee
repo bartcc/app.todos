@@ -28,6 +28,7 @@ class SlideshowView extends Spine.Controller
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('slider:start', @proxy @sliderStart)
+    Spine.bind('chromeless', @proxy @chromeless)
     
     @bind('slideshow:ready', @proxy @play)
     
@@ -148,9 +149,10 @@ class SlideshowView extends Spine.Controller
     
   # Toggle fullscreen mode:
   toggleFullScreen: (activate) ->
-    active = @fullScreenEnabled()
+  
     root = document.documentElement
-    unless active
+    
+    if activate or !(isActive = @fullScreenEnabled())
       $('#modal-gallery').addClass('modal-fullscreen')
       if(root.webkitRequestFullScreen)
         root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT)
@@ -159,6 +161,7 @@ class SlideshowView extends Spine.Controller
     else
       $('#modal-gallery').removeClass('modal-fullscreen')
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
+    @fullScreenEnabled()
       
   fullScreenEnabled: ->
     !!(window.fullScreen) or $('#modal-gallery').hasClass('modal-fullscreen')

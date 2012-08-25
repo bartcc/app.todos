@@ -175,11 +175,11 @@ class AlbumsList extends Spine.Controller
   zoom: (e) ->
     item = $(e.currentTarget).item()
     
-    @select(item, true)
+#    @select(item, true)
     
     @stopInfo()
     
-    @navigate '/gallery', (Gallery.record?.id or '') + ('/' + item.id)
+    @navigate '/gallery', (Gallery.record?.id or ''), item.id
     
     e.stopPropagation()
     e.preventDefault()

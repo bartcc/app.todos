@@ -218,9 +218,8 @@ AlbumsList = (function() {
   AlbumsList.prototype.zoom = function(e) {
     var item, _ref;
     item = $(e.currentTarget).item();
-    this.select(item, true);
     this.stopInfo();
-    this.navigate('/gallery', (((_ref = Gallery.record) != null ? _ref.id : void 0) || '') + ('/' + item.id));
+    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '', item.id);
     e.stopPropagation();
     return e.preventDefault();
   };

@@ -287,7 +287,10 @@ ShowView = (function() {
     return this.refreshToolbars();
   };
   ShowView.prototype.toggleSidebar = function() {
-    App.sidebar.toggleDraghandle();
+    return App.sidebar.toggleDraghandle();
+  };
+  ShowView.prototype.toggleFullScreen = function() {
+    App.trigger('chromeless');
     return this.refreshToolbars();
   };
   ShowView.prototype.toggleFullScreen = function() {

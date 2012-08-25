@@ -140,21 +140,26 @@ App = (function() {
       '/gallery/:gid/:aid/:pid': function(params) {
         var album, gallery, photo;
         this.contentManager.change(this.showView);
-        gallery = Album.exists(params.gid);
+        gallery = Gallery.exists(params.gid);
         album = Album.exists(params.aid);
         photo = Photo.exists(params.pid);
-        Spine.trigger('show:album', album);
-        return Spine.trigger('show:photo', photo);
+        Spine.trigger('show:photo', photo);
+        if (params.fs === 'yes') {
+          return Spine.trigger('chromeless', true);
+        }
       },
       '/gallery/:gid/:aid': function(params) {
         this.contentManager.change(this.showView);
         Spine.trigger('show:photos');
         Gallery.current(params.gid);
-        return Album.current(params.aid);
+        Album.current(params.aid);
+        if (params.fs === 'yes') {
+          return Spine.trigger('chromeless', true);
+        }
       },
-      '/gallery/:id': function(params) {
+      '/gallery/:gid': function(params) {
         this.contentManager.change(this.showView);
-        return Spine.trigger('gallery:activate', params.id);
+        return Spine.trigger('gallery:activate', params.gid);
       },
       '/galleries/': function() {
         this.contentManager.change(this.showView);
@@ -176,12 +181,18 @@ App = (function() {
       '/overview/': function() {
         return Spine.trigger('show:overview', true);
       },
-      '/slideshow/:id': function() {
+      '/slideshow/:id': function(params) {
         this.contentManager.change(this.showView);
-        return Spine.trigger('show:slideshow');
+        Spine.trigger('show:slideshow');
+        if (params.fs === 'yes') {
+          return Spine.trigger('chromeless', true);
+        }
       }
     });
   }
+  App.prototype.fullscreen = function() {
+    return Spine.trigger('chromeless', true);
+  };
   App.prototype.validate = function(user, json) {
     var valid;
     console.log('Pinger done');

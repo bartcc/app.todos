@@ -34,6 +34,7 @@ SlideshowView = (function() {
     Spine.bind('show:slideshow', this.proxy(this.show));
     Spine.bind('slider:change', this.proxy(this.size));
     Spine.bind('slider:start', this.proxy(this.sliderStart));
+    Spine.bind('chromeless', this.proxy(this.chromeless));
     this.bind('slideshow:ready', this.proxy(this.play));
   }
   SlideshowView.prototype.render = function(items) {
@@ -190,20 +191,20 @@ SlideshowView = (function() {
     });
   };
   SlideshowView.prototype.toggleFullScreen = function(activate) {
-    var active, root;
-    active = this.fullScreenEnabled();
+    var isActive, root;
     root = document.documentElement;
-    if (!active) {
+    if (activate || !(isActive = this.fullScreenEnabled())) {
       $('#modal-gallery').addClass('modal-fullscreen');
       if (root.webkitRequestFullScreen) {
-        return root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT);
+        root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT);
       } else if (root.mozRequestFullScreen) {
-        return root.mozRequestFullScreen();
+        root.mozRequestFullScreen();
       }
     } else {
       $('#modal-gallery').removeClass('modal-fullscreen');
-      return (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document);
+      (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document);
     }
+    return this.fullScreenEnabled();
   };
   SlideshowView.prototype.fullScreenEnabled = function() {
     return !!window.fullScreen || $('#modal-gallery').hasClass('modal-fullscreen');

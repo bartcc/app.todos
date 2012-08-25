@@ -253,7 +253,9 @@ App = (function() {
   App.prototype.initializeFileupload = function() {
     return this.uploader.fileupload({
       autoUpload: true,
-      singleFileUploads: true
+      singleFileUploads: true,
+      maxFileSize: 4000000,
+      maxNumberOfFiles: 20
     });
   };
   App.prototype.loadToolbars = function() {

@@ -86,7 +86,7 @@ Album = (function() {
       ga = new GalleriesAlbum({
         gallery_id: target.id,
         album_id: item.id,
-        order: GalleriesAlbum.next()
+        order: GalleriesAlbum.albums(target.id).length
       });
       _results.push(ga.save());
     }
@@ -107,7 +107,7 @@ Album = (function() {
     ga = new GalleriesAlbum({
       gallery_id: target.id,
       album_id: this.id,
-      order: GalleriesAlbum.next()
+      order: GalleriesAlbum.albums(target.id).length
     });
     return ga.save();
   };

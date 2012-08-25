@@ -205,6 +205,8 @@ class App extends Spine.Controller
     @uploader.fileupload
       autoUpload        : true
       singleFileUploads : true
+      maxFileSize: 4000000 #5MB
+      maxNumberOfFiles: 20
     
   loadToolbars: ->
     Toolbar.load()

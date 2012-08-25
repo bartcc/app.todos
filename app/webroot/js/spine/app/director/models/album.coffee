@@ -53,7 +53,7 @@ class Album extends Spine.Model
       ga = new GalleriesAlbum
         gallery_id  : target.id
         album_id    : item.id
-        order       : GalleriesAlbum.next()
+        order       : GalleriesAlbum.albums(target.id).length
       ga.save()
 #    
 #  @destroyJoin: (albums, target) ->
@@ -89,7 +89,7 @@ class Album extends Spine.Model
     ga = new GalleriesAlbum
       gallery_id  : target.id
       album_id    : @id
-      order       : GalleriesAlbum.next()
+      order       : GalleriesAlbum.albums(target.id).length
     ga.save()
   
   destroyJoin: (target) ->

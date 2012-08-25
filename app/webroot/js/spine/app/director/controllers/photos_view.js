@@ -163,7 +163,8 @@ PhotosView = (function() {
       return _results;
     }
   };
-  PhotosView.prototype.show = function() {
+  PhotosView.prototype.show = function(idOrRecord) {
+    Album.current(idOrRecord);
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider]);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
     return App.showView.trigger('canvas', this);
@@ -210,7 +211,7 @@ PhotosView = (function() {
       ap = new AlbumsPhoto({
         album_id: target.id,
         photo_id: record.id,
-        order: AlbumsPhoto.next()
+        order: AlbumsPhoto.photos(target.id).length
       });
       _results.push(ap.save());
     }

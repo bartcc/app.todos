@@ -79,6 +79,10 @@ AlbumsView = (function() {
     if (changed && this.parent.allAlbums) {
       this.parent.toggleShowAllAlbums();
     }
+    if (!this.list.loadtest()) {
+      alert('stop');
+      return;
+    }
     items = this.parent.allAlbums ? Album.filter() : Album.filterRelated(Gallery.record.id, this.filterOptions);
     return this.render(items);
   };

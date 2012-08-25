@@ -56,9 +56,6 @@ GalleriesAlbum = (function() {
       sorted: true
     });
   };
-  GalleriesAlbum.next = function() {
-    return this.uid();
-  };
   GalleriesAlbum.prototype.select = function(id, options) {
     if (this[options.key] === id && this.constructor.records[this.id]) {
       return true;

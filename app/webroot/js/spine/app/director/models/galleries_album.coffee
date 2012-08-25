@@ -34,9 +34,6 @@ class GalleriesAlbum extends Spine.Model
       sorted: true
     )
       
-  @next: ->
-    @uid()
-    
   select: (id, options) ->
     return true if @[options.key] is id and @constructor.records[@id]
     return false

@@ -143,7 +143,7 @@ class PhotosView extends Spine.Controller
         photo.destroyCache()
         photo.destroy()
     
-  show: ->
+  show: (idOrRecord) ->
     Album.current(idOrRecord)
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
@@ -192,7 +192,7 @@ class PhotosView extends Spine.Controller
       ap = new AlbumsPhoto
         album_id: target.id
         photo_id: record.id
-        order: AlbumsPhoto.next()
+        order: AlbumsPhoto.photos(target.id).length
       ap.save()
   
   destroyJoin: (photos, target) ->

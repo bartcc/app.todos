@@ -215,6 +215,18 @@ AlbumsList = (function() {
     e.stopPropagation();
     return e.preventDefault();
   };
+  AlbumsList.prototype.loadtest = function(t) {
+    var test;
+    return test = $('.item', this.el).each(function() {
+      var len;
+      len = $(this).data('queue');
+      if (len && len.length) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  };
   AlbumsList.prototype.zoom = function(e) {
     var item, _ref;
     item = $(e.currentTarget).item();

@@ -172,6 +172,14 @@ class AlbumsList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
 
+  loadtest: (t) ->
+    test = $('.item', @el).each ->
+      len = $(@).data('queue')
+      if len and len.length
+        return true
+      else
+        return false 
+
   zoom: (e) ->
     item = $(e.currentTarget).item()
     

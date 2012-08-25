@@ -75,6 +75,10 @@ class AlbumsView extends Spine.Controller
       # deactivate allAlbums
       @parent.toggleShowAllAlbums()
       
+    unless @list.loadtest()
+      alert ('stop')
+      return
+    
     items = if @parent.allAlbums
       Album.filter()
     else

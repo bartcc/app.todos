@@ -36,9 +36,6 @@ class AlbumsPhoto extends Spine.Model
 
   @c: 0
 
-  @next: ->
-    -1
-
   albums: ->
     Album.filterRelated(@album_id,
       joinTable: 'AlbumsPhoto'

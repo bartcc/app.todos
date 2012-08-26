@@ -35,18 +35,17 @@ ModalView = (function() {
       footer: 'Default Footer Text'
     };
   }
-  ModalView.prototype.render = function(opts) {
-    var options;
+  ModalView.prototype.render = function() {
     console.log('ModalView::render');
-    options = $.extend(this.defaults, opts);
-    this.html(this.template(options));
+    this.html(this.template(this.options));
     return this.el;
   };
   ModalView.prototype.show = function(options) {
     var el;
-    return el = this.render(options).modal('show');
+    this.options = $.extend(this.defaults, options);
+    return el = this.render().modal('show');
   };
-  ModalView.prototype.close = function() {
+  ModalView.prototype.close = function(e) {
     return this.el.modal('hide');
   };
   return ModalView;

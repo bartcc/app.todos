@@ -25,17 +25,19 @@ class ModalView extends Spine.Controller
       body    : 'Default Body Text'
       footer  : 'Default Footer Text'
     
-  render: (opts) ->
+  render: ->
     console.log 'ModalView::render'
-    options = $.extend @defaults, opts
     
-    @html @template options
+    @html @template @options
     @el
       
   show: (options) ->
-    el = @render(options).modal 'show'
+    @options = $.extend @defaults, options
+    el = @render().modal 'show'
     
-  close: ->
+  close: (e) ->
     @el.modal 'hide'
+    
+  
     
 module?.exports = ModalView

@@ -229,6 +229,7 @@ class SlideshowView extends Spine.Controller
   toggle: (e) ->
     unless @slideshowable()
       @notify()
+      
       return
     
     unless App.slideshow.isShown

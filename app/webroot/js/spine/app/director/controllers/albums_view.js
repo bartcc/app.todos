@@ -83,7 +83,7 @@ AlbumsView = (function() {
       alert('stop');
       return;
     }
-    items = this.parent.allAlbums ? Album.filter() : Album.filterRelated(Gallery.record.id, this.filterOptions);
+    items = Album.filterRelated(Gallery.record.id, this.filterOptions);
     return this.render(items);
   };
   AlbumsView.prototype.renderAll = function() {

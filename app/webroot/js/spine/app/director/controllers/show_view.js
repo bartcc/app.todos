@@ -59,7 +59,9 @@ ShowView = (function() {
     'click .optPhoto:not(.disabled)': 'togglePhotoShow',
     'click .optUpload:not(.disabled)': 'toggleUploadShow',
     'click .optShowAllAlbums:not(.disabled)': 'toggleShowAllAlbums',
+    'click .optShowAllAlbums:not(.disabled)': 'showAlbumsTrash',
     'click .optShowAllPhotos:not(.disabled)': 'toggleShowAllPhotos',
+    'click .optShowAllPhotos:not(.disabled)': 'showPhotosTrash',
     'click .optSlideshowAutoStart:not(.disabled)': 'toggleSlideshowAutoStart',
     'click .optShowSlideshow:not(.disabled)': 'showSlideshow',
     'click .optSlideshowPlay:not(.disabled)': 'slideshowPlay',
@@ -533,6 +535,12 @@ ShowView = (function() {
       }
     }
     return phos;
+  };
+  ShowView.prototype.showPhotosTrash = function() {
+    return Photo.inactive();
+  };
+  ShowView.prototype.showAlbumsTrash = function() {
+    return Album.inactive();
   };
   return ShowView;
 })();

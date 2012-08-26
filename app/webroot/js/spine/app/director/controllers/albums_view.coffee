@@ -78,11 +78,11 @@ class AlbumsView extends Spine.Controller
     unless @list.loadtest()
       alert ('stop')
       return
-    
-    items = if @parent.allAlbums
-      Album.filter()
-    else
-      Album.filterRelated(Gallery.record.id, @filterOptions)
+#    
+#    items = if @parent.allAlbums
+#      Album.filter()
+#    else
+    items = Album.filterRelated(Gallery.record.id, @filterOptions)
       
       
     @render items

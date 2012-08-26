@@ -39,25 +39,6 @@ Toolbar = (function() {
       name: 'View',
       content: [
         {
-          name: function() {
-            return 'All Albums (' + Album.count() + ')';
-          },
-          klass: 'optShowAllAlbums',
-          icon: function() {
-            if (App.showView.allAlbums) {
-              return 'ok';
-            } else {
-              return '';
-            }
-          }
-        }, {
-          name: function() {
-            return 'All Photos (' + Photo.count() + ')';
-          },
-          klass: 'optShowAllPhotos '
-        }, {
-          devider: true
-        }, {
           name: 'Overview',
           klass: 'optOverview '
         }, {

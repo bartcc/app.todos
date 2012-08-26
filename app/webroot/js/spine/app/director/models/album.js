@@ -13,7 +13,7 @@ Album = (function() {
     this.details = __bind(this.details, this);
     Album.__super__.constructor.apply(this, arguments);
   }
-  Album.configure("Album", 'title', 'description', 'count', 'user_id', 'order', 'invalid');
+  Album.configure("Album", 'title', 'description', 'count', 'user_id', 'order', 'invalid', 'active');
   Album.extend(Spine.Model.Filter);
   Album.extend(Spine.Model.Ajax);
   Album.extend(Spine.Model.AjaxRelations);
@@ -68,6 +68,9 @@ Album = (function() {
       joinTable: 'AlbumsPhoto'
     };
     return Photo.filterRelated(id, filterOptions).slice(0, max);
+  };
+  Album.inactive = function() {
+    return this.findAllByAttribute('active', false);
   };
   Album.createJoin = function(items, target) {
     var ga, item, _i, _len, _results;

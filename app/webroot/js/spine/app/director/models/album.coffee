@@ -1,6 +1,6 @@
 
 class Album extends Spine.Model
-  @configure "Album", 'title', 'description', 'count', 'user_id', 'order', 'invalid'
+  @configure "Album", 'title', 'description', 'count', 'user_id', 'order', 'invalid', 'active'
 
   @extend Spine.Model.Filter
   @extend Spine.Model.Ajax
@@ -42,6 +42,9 @@ class Album extends Spine.Model
       key:'album_id'
       joinTable: 'AlbumsPhoto'
     Photo.filterRelated(id, filterOptions)[0...max]
+    
+  @inactive: ->
+    @findAllByAttribute('active', false)
     
   @createJoin: (items=[], target) ->
     unless @isArray items

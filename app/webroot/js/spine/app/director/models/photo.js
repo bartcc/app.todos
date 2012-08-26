@@ -14,7 +14,7 @@ Photo = (function() {
     this.Photo = __bind(this.Photo, this);
     Photo.__super__.constructor.apply(this, arguments);
   }
-  Photo.configure("Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'cache_');
+  Photo.configure("Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'active');
   Photo.extend(Spine.Model.Cache);
   Photo.extend(Spine.Model.Ajax);
   Photo.extend(Spine.Model.AjaxRelations);
@@ -71,6 +71,19 @@ Photo = (function() {
     }
     console.log('my refresh');
     return this.__super__.constructor.refresh.call(this, values, options);
+  };
+  Photo.trashed = function() {
+    var item, res;
+    res = [];
+    for (item in this.records) {
+      if (!AlbumsPhoto.exists(item.id)) {
+        res.push(item);
+      }
+    }
+    return res;
+  };
+  Photo.inactive = function() {
+    return this.findAllByAttribute('active', false);
   };
   Photo.prototype.init = function(instance) {
     if (!instance) {

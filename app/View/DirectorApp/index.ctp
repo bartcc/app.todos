@@ -287,7 +287,7 @@
       <span class="icon-loading delete icon-remove icon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title}}{{else}}No album selected{{/if}}</div>
-    <div class="title" style="font-size: 0.5em">{{if order}}{{html order}}{{/if}}</div>
+    <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
 
@@ -388,7 +388,7 @@
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li  class="item data container fade in">
     {{tmpl "#photosThumbnailTemplate"}}
-    <div class="title" style="font-size: 0.5em">{{html order}}</div>
+    <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
 

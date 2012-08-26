@@ -1,5 +1,5 @@
 class Photo extends Spine.Model
-  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'cache_'
+  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'active'
 
   @extend Spine.Model.Cache
   @extend Spine.Model.Ajax
@@ -48,6 +48,15 @@ class Photo extends Spine.Model
     console.log 'my refresh'
     
     @__super__.constructor.refresh.call @, values, options
+    
+  @trashed: ->
+    res = []
+    for item of @records
+      res.push item unless AlbumsPhoto.exists(item.id)
+    res
+    
+  @inactive: ->
+    @findAllByAttribute('active', false)
     
   init: (instance) ->
     return unless instance

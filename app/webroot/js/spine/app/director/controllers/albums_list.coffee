@@ -99,7 +99,6 @@ class AlbumsList extends Spine.Controller
   
   select: (item, lonely) ->
     it = item?.addRemoveSelection(lonely)
-    console.log it
     Spine.trigger('album:activate')
     
   zoom: (e) ->

@@ -127,7 +127,6 @@ AlbumsList = (function() {
   AlbumsList.prototype.select = function(item, lonely) {
     var it;
     it = item != null ? item.addRemoveSelection(lonely) : void 0;
-    console.log(it);
     return Spine.trigger('album:activate');
   };
   AlbumsList.prototype.zoom = function(e) {

@@ -539,7 +539,11 @@
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
-  <span style="font-size: 0.6em;" class=" alert alert-success"><span style="font-size: 2.9em; font-family: cursive; margin-right: 20px;" class="alert alert-error">"</span>{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}all photos{{/if}}<span style="font-size: 5em; font-family: cursive;  margin-left: 20px;" class="alert alert-block uploadinfo">"</span></span>
+  <span style="font-size: 0.6em;" class=" alert alert-success">
+    <span style="font-size: 2.9em; font-family: cursive; margin-right: 20px;" class="alert alert-error">"</span>
+    {{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}all photos{{/if}}
+    <span style="font-size: 5em; font-family: cursive;  margin-left: 20px;" class="alert alert-block uploadinfo"></span>
+  </span>
 </script>
 
 <script>

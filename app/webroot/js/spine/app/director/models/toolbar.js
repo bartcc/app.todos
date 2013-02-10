@@ -368,7 +368,10 @@ Toolbar = (function() {
             return false;
           },
           disabled: function() {
-            return !App.showView.activePhotos.call(this);
+            var sum;
+            sum = App.showView.activePhotos.call(this);
+            console.log(sum);
+            return !sum.length;
           }
         }
       ]

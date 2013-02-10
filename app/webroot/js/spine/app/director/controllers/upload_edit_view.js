@@ -31,8 +31,7 @@ UploadEditView = (function() {
   };
   function UploadEditView() {
     UploadEditView.__super__.constructor.apply(this, arguments);
-    this.bind("change", this.change);
-    Album.bind('change', this.proxy(this.change));
+    Spine.bind('change:selectedAlbum', this.proxy(this.change));
     this.queue = [];
   }
   UploadEditView.prototype.change = function(item) {

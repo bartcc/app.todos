@@ -261,14 +261,13 @@ PhotosList = (function() {
   };
   PhotosList.prototype.zoom = function(e) {
     var item, _ref, _ref2;
-    console.log('PhotosList::zoom');
     item = $(e != null ? e.currentTarget : void 0).item() || this.current;
-    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || 'nope', ((_ref2 = Album.record) != null ? _ref2.id : void 0) || 'nope', item.id);
+    this.select(item, true);
     this.stopInfo();
-    if (e != null) {
-      e.stopPropagation();
-    }
-    return e != null ? e.preventDefault() : void 0;
+    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || 'nope', ((_ref2 = Album.record) != null ? _ref2.id : void 0) || 'nope', item.id);
+    Spine.trigger('photo:activate', item);
+    e.stopPropagation();
+    return e.preventDefault();
   };
   PhotosList.prototype.deletePhoto = function(e) {
     var el, item, _ref;

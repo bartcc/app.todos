@@ -40,9 +40,6 @@ AlbumEditView = (function() {
   };
   AlbumEditView.prototype.change = function(item, mode) {
     var firstID;
-    if (!item) {
-      return;
-    }
     console.log('AlbumEditView::change');
     switch (item != null ? item.constructor.className : void 0) {
       case 'Album':

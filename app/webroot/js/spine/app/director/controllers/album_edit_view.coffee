@@ -29,7 +29,6 @@ class AlbumEditView extends Spine.Controller
     Spine.trigger('album:activate')
 
   change: (item, mode) ->
-    return unless item
     console.log 'AlbumEditView::change'
     switch item?.constructor.className
       when 'Album'
@@ -54,8 +53,6 @@ class AlbumEditView extends Spine.Controller
         @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select or create an album</span></label>'})
       else if selection?.length > 1
         @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Multiple selection</span></label>'})
-    
-    
     
 #    else unless item
 #      unless Gallery.count()

@@ -31,9 +31,6 @@ PhotoEditView = (function() {
     Spine.bind('change:selectedAlbum', this.proxy(this.change));
   }
   PhotoEditView.prototype.change = function(item) {
-    if (!item) {
-      return;
-    }
     if ((item != null ? item.constructor.className : void 0) === 'Photo') {
       this.current = item;
     }

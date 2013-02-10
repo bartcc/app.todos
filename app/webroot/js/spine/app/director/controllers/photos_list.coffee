@@ -190,7 +190,7 @@ class PhotosList extends Spine.Controller
         @current = first
         Photo.current(first)
     else
-        Photo.current()
+      Photo.current()
     
   click: (e) ->
     console.log 'PhotosList::click'
@@ -202,14 +202,14 @@ class PhotosList extends Spine.Controller
     e.stopPropagation() if $(e.target).hasClass('thumbnail')
   
   zoom: (e) ->
-    console.log 'PhotosList::zoom'
     item = $(e?.currentTarget).item() || @current
-    @navigate '/gallery', (Gallery.record?.id or 'nope'), (Album.record?.id or 'nope'), item.id
-    
+    @select item, true
     @stopInfo()
+    @navigate '/gallery', (Gallery.record?.id or 'nope'), (Album.record?.id or 'nope'), item.id
+    Spine.trigger('photo:activate', item)
     
-    e?.stopPropagation()
-    e?.preventDefault()
+    e.stopPropagation()
+    e.preventDefault()
   
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()

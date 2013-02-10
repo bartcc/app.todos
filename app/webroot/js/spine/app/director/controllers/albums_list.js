@@ -95,12 +95,6 @@ AlbumsList = (function() {
     return this.el;
   };
   AlbumsList.prototype.updateTemplate = function() {};
-  AlbumsList.prototype.select = function(item, lonely) {
-    if (item != null) {
-      item.addRemoveSelection(lonely);
-    }
-    return Spine.trigger('album:activate');
-  };
   AlbumsList.prototype.exposeSelection = function() {
     var el, id, item, list, _i, _len;
     list = Gallery.selectionList();
@@ -115,20 +109,36 @@ AlbumsList = (function() {
     return Spine.trigger('expose:sublistSelection', Gallery.record);
   };
   AlbumsList.prototype.activate = function(item) {
-    var first, selection;
+    var last, selection;
     selection = Gallery.selectionList();
     if (!Spine.isArray(selection)) {
       return;
     }
-    if (selection.length === 1) {
-      first = Album.exists(selection[0]);
-      if (!(first != null ? first.destroyed : void 0)) {
-        Album.current(first);
+    if (selection.length) {
+      last = Album.exists(selection[selection.length - 1]);
+      if (!(last != null ? last.destroyed : void 0)) {
+        Album.current(item || last);
       }
     } else {
       Album.current();
     }
     return this.exposeSelection();
+  };
+  AlbumsList.prototype.select = function(item, lonely) {
+    var it;
+    it = item != null ? item.addRemoveSelection(lonely) : void 0;
+    console.log(it);
+    return Spine.trigger('album:activate');
+  };
+  AlbumsList.prototype.zoom = function(e) {
+    var item, _ref;
+    item = $(e.currentTarget).item();
+    this.select(item, true);
+    this.stopInfo();
+    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '', item.id);
+    Spine.trigger('album:activate', item);
+    e.stopPropagation();
+    return e.preventDefault();
   };
   AlbumsList.prototype.updateBackgrounds = function(ap, mode) {
     var albums;
@@ -226,14 +236,6 @@ AlbumsList = (function() {
         return false;
       }
     });
-  };
-  AlbumsList.prototype.zoom = function(e) {
-    var item, _ref;
-    item = $(e.currentTarget).item();
-    this.stopInfo();
-    this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '', item.id);
-    e.stopPropagation();
-    return e.preventDefault();
   };
   AlbumsList.prototype.deleteAlbum = function(e) {
     var el, item, _ref;

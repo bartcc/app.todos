@@ -23,8 +23,6 @@ class AlbumsList extends Spine.Controller
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     Album.bind("ajaxError", Album.errorHandler)
     Spine.bind('album:activate', @proxy @activate)
-#    Spine.bind('zoom:album', @proxy @zoom)
-    
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     GalleriesAlbum.bind('change', @proxy @renderRelatedAlbum)
     
@@ -76,10 +74,6 @@ class AlbumsList extends Spine.Controller
   
   updateTemplate: ->
   
-  select: (item, lonely) ->
-    item?.addRemoveSelection(lonely)
-    Spine.trigger('album:activate')
-    
   exposeSelection: ->
     list = Gallery.selectionList()
     @deselect()
@@ -91,29 +85,33 @@ class AlbumsList extends Spine.Controller
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
   activate: (item) ->
-#    if item?.constructor?.className
-#      selection = item.updateSelection [item.id] 
-#    else
-#      selection = Gallery.selectionList()
-#    console.log 'AlbumsList::activate'
-#    return unless Spine.isArray selection
-#    
-#    if selection.length is 1
-#      first = Album.exists(selection[0])
-#      unless first?.destroyed
-#        Album.current(first)
-#    else
-#        Album.current()
     selection = Gallery.selectionList()
     return unless Spine.isArray selection
     
-    if selection.length is 1
-      first = Album.exists(selection[0])
-      unless first?.destroyed
-        Album.current(first)
+    if selection.length
+      last = Album.exists(selection[selection.length-1])
+      unless last?.destroyed
+        Album.current(item or last)
     else
-        Album.current()
+      Album.current()
+      
     @exposeSelection()
+  
+  select: (item, lonely) ->
+    it = item?.addRemoveSelection(lonely)
+    console.log it
+    Spine.trigger('album:activate')
+    
+  zoom: (e) ->
+    item = $(e.currentTarget).item()
+    
+    @select(item, true)
+    @stopInfo()
+    @navigate '/gallery', (Gallery.record?.id or ''), item.id
+    Spine.trigger('album:activate', item)
+    
+    e.stopPropagation()
+    e.preventDefault()
   
   updateBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::updateBackgrounds'
@@ -180,18 +178,6 @@ class AlbumsList extends Spine.Controller
       else
         return false 
 
-  zoom: (e) ->
-    item = $(e.currentTarget).item()
-    
-#    @select(item, true)
-    
-    @stopInfo()
-    
-    @navigate '/gallery', (Gallery.record?.id or ''), item.id
-    
-    e.stopPropagation()
-    e.preventDefault()
-  
   deleteAlbum: (e) ->
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'

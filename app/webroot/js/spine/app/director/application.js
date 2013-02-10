@@ -41,6 +41,7 @@ App = (function() {
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
+    $(window).bind('hashchange', this.proxy(this.storeHash));
     User.bind('pinger', this.proxy(this.validate));
     this.loadToolbars();
     this.modalView = new ModalView({
@@ -150,22 +151,15 @@ App = (function() {
       },
       '/gallery/:gid/:aid': function(params) {
         this.contentManager.change(this.showView);
-        Spine.trigger('show:photos');
-        Gallery.current(params.gid);
-        Album.current(params.aid);
-        if (params.fs === 'yes') {
-          return Spine.trigger('chromeless', true);
-        }
+        Spine.trigger('gallery:activate', params.gid);
+        Spine.trigger('album:activate', params.aid);
+        return Spine.trigger('show:photos');
       },
       '/gallery/:gid': function(params) {
         this.contentManager.change(this.showView);
         return Spine.trigger('gallery:activate', params.gid);
       },
       '/galleries/': function() {
-        this.contentManager.change(this.showView);
-        return Spine.trigger('show:galleries');
-      },
-      '/gallery/': function(params) {
         this.contentManager.change(this.showView);
         return Spine.trigger('show:galleries');
       },
@@ -190,6 +184,9 @@ App = (function() {
       }
     });
   }
+  App.prototype.storeHash = function() {
+    return localStorage.hash = location.hash;
+  };
   App.prototype.fullscreen = function() {
     return Spine.trigger('chromeless', true);
   };
@@ -293,10 +290,12 @@ App = (function() {
   return App;
 })();
 $(function() {
+  var route;
   User.ping();
   window.App = new App({
     el: $('body')
   });
   Spine.Route.setup();
-  return App.navigate(localStorage.hash || location.hash || '/galleries/');
+  route = localStorage.hash || location.hash || '/galleries/';
+  return App.navigate(route);
 });

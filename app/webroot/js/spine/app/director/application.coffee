@@ -47,6 +47,7 @@ class App extends Spine.Controller
 #
 #    @PHOTO_SINGLE_MOVE = @constructor.createImage
     
+    $(window).bind('hashchange', @proxy @storeHash)
     User.bind('pinger', @proxy @validate)
     
     @loadToolbars()
@@ -119,7 +120,16 @@ class App extends Spine.Controller
     @slideshow = @initializeSlideshow()
     
     @routes
+#      '/gallery//': (params) ->
+#        alert '/gallery//'
+#        @contentManager.change(@showView)
+#        gallery = Gallery.exists(params.gid)
+#        album = Album.exists(params.aid)
+#        photo = Photo.exists(params.pid)
+#        Spine.trigger('show:photo', photo)
+#        Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid/:aid/:pid': (params) ->
+#        alert '/gallery/:gid/:aid/:pid'
         @contentManager.change(@showView)
         gallery = Gallery.exists(params.gid)
         album = Album.exists(params.aid)
@@ -128,19 +138,24 @@ class App extends Spine.Controller
         Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
+#        alert '/gallery/:gid/:aid'
+        Spine.trigger('gallery:activate', params.gid)
+        Spine.trigger('album:activate', params.aid)
         Spine.trigger('show:photos')
-        Gallery.current(params.gid)
-        Album.current(params.aid)
-        Spine.trigger('chromeless', true) if params.fs is 'yes'
+#        Spine.trigger('album:activate', params.aid)
+#        Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid': (params) ->
+#        alert '/gallery/:gid'
         @contentManager.change(@showView)
         Spine.trigger('gallery:activate', params.gid)
       '/galleries/': ->
+#        alert '/galleries/'
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
-      '/gallery/': (params) ->
-        @contentManager.change(@showView)
-        Spine.trigger('show:galleries')
+#      '/gallery/': (params) ->
+##        alert '/gallery/'
+#        @contentManager.change(@showView)
+#        Spine.trigger('show:albums')
       '/albums/': ->
         @contentManager.change(@showView)
         @showView.albumsView.trigger('show:allAlbums')
@@ -154,6 +169,9 @@ class App extends Spine.Controller
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
         Spine.trigger('chromeless', true) if params.fs is 'yes'
+    
+  storeHash: ->
+    localStorage.hash = location.hash
     
   fullscreen: ->
     Spine.trigger('chromeless', true)
@@ -247,4 +265,5 @@ $ ->
   User.ping()
   window.App = new App(el: $('body'))
   Spine.Route.setup()
-  App.navigate localStorage.hash or location.hash or '/galleries/'
+  route = localStorage.hash or location.hash or '/galleries/'
+  App.navigate route

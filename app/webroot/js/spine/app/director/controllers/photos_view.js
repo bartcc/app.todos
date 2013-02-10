@@ -90,9 +90,6 @@ PhotosView = (function() {
   PhotosView.prototype.render = function(items, mode) {
     var list;
     console.log('PhotosView::render');
-    if (!this.isActive()) {
-      return;
-    }
     if (!this.list.children('li').length) {
       this.items.empty();
     }
@@ -163,8 +160,7 @@ PhotosView = (function() {
       return _results;
     }
   };
-  PhotosView.prototype.show = function(idOrRecord) {
-    Album.current(idOrRecord);
+  PhotosView.prototype.show = function() {
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider]);
     App.showView.trigger('change:toolbarTwo', ['Slideshow']);
     return App.showView.trigger('canvas', this);

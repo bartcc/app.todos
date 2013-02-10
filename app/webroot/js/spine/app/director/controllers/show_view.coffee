@@ -57,6 +57,8 @@ class ShowView extends Spine.Controller
     'click .optSlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
     'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
     'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
+    'click .optShowAlbumMasters:not(.disabled)'      : 'showAlbumMasters'
+    'click .optShowPhotoMasters:not(.disabled)'      : 'showPhotoMasters'
     'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
     'dblclick .draghandle'                           : 'toggleDraghandle'
@@ -485,4 +487,8 @@ class ShowView extends Spine.Controller
   showAlbumsTrash: ->
     Album.inactive()
 
-
+  showAlbumMasters: ->
+    @navigate '/gallery/'
+    
+  showPhotoMasters: ->
+    @navigate '/gallery//'

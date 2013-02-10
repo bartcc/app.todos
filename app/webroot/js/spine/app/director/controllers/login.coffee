@@ -13,8 +13,6 @@ class LoginView extends Spine.Controller
     $('#loginTemplate').tmpl item
     
   logout: ->
-    console.log 'click'
-    localStorage.hash = location.hash
     User.redirect 'logout'
     
   render: (item) ->

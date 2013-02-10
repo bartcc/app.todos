@@ -139,13 +139,13 @@ Toolbar = (function() {
           devider: true
         }, {
           name: function() {
-            return 'Start Slideshow        Space';
+            return 'Start Slideshow';
           },
           icon: 'play',
           klass: 'optSlideshowPlay',
           dataToggle: 'modal-gallery',
           disabled: function() {
-            return !App.showView.activePhotos.call(this);
+            return !(App.showView.activePhotos.call(this)).length;
           }
         }, {
           name: function() {
@@ -159,6 +159,14 @@ Toolbar = (function() {
             }
           },
           klass: 'optSlideshowAutoStart',
+          disabled: function() {
+            return false;
+          }
+        }, {
+          name: function() {
+            return 'Show Masters';
+          },
+          klass: 'optShowAlbumMasters',
           disabled: function() {
             return false;
           }
@@ -225,6 +233,14 @@ Toolbar = (function() {
             }
           },
           klass: 'optQuickUpload'
+        }, {
+          name: function() {
+            return 'Show Masters';
+          },
+          klass: 'optShowPhotoMasters',
+          disabled: function() {
+            return false;
+          }
         }
       ]
     }
@@ -370,7 +386,6 @@ Toolbar = (function() {
           disabled: function() {
             var sum;
             sum = App.showView.activePhotos.call(this);
-            console.log(sum);
             return !sum.length;
           }
         }

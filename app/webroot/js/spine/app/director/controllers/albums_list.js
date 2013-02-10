@@ -98,6 +98,9 @@ AlbumsList = (function() {
   AlbumsList.prototype.exposeSelection = function() {
     var el, id, item, list, _i, _len;
     list = Gallery.selectionList();
+    if (!list.length && Album.record) {
+      list.push(Album.record.id);
+    }
     this.deselect();
     for (_i = 0, _len = list.length; _i < _len; _i++) {
       id = list[_i];
@@ -108,7 +111,7 @@ AlbumsList = (function() {
     }
     return Spine.trigger('expose:sublistSelection', Gallery.record);
   };
-  AlbumsList.prototype.activate = function(item) {
+  AlbumsList.prototype.activate = function(id) {
     var last, selection;
     selection = Gallery.selectionList();
     if (!Spine.isArray(selection)) {
@@ -117,8 +120,10 @@ AlbumsList = (function() {
     if (selection.length) {
       last = Album.exists(selection[selection.length - 1]);
       if (!(last != null ? last.destroyed : void 0)) {
-        Album.current(item || last);
+        Album.current(last);
       }
+    } else if (id) {
+      Album.current(id);
     } else {
       Album.current();
     }

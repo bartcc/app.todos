@@ -76,6 +76,7 @@ class AlbumsList extends Spine.Controller
   
   exposeSelection: ->
     list = Gallery.selectionList()
+    list.push Album.record.id if !list.length and Album.record
     @deselect()
     for id in list
       if item = Album.exists(id)
@@ -84,14 +85,16 @@ class AlbumsList extends Spine.Controller
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (item) ->
+  activate: (id) ->
     selection = Gallery.selectionList()
     return unless Spine.isArray selection
     
     if selection.length
       last = Album.exists(selection[selection.length-1])
       unless last?.destroyed
-        Album.current(item or last)
+        Album.current(last)
+    else if id
+      Album.current(id)
     else
       Album.current()
       

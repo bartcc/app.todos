@@ -106,15 +106,19 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: -> 'Start Slideshow        Space'
+          name: -> 'Start Slideshow'
           icon: 'play'
           klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
-          disabled: -> !App.showView.activePhotos.call @
+          disabled: -> !(App.showView.activePhotos.call @).length
         ,
           name: -> 'Slideshow Autostart'
           icon: -> if App.slideshow.options.autostart then 'ok' else ''
           klass: 'optSlideshowAutoStart'
+          disabled: -> false
+        ,
+          name: -> 'Show Masters'
+          klass: 'optShowAlbumMasters'
           disabled: -> false
         ]
     group3:
@@ -157,6 +161,10 @@ class Toolbar extends Spine.Model
           name: 'Auto Upload'
           icon: -> if App.showView.isQuickUpload() then 'ok' else ''
           klass: 'optQuickUpload'
+        ,
+          name: -> 'Show Masters'
+          klass: 'optShowPhotoMasters'
+          disabled: -> false
         ]
       
   @data:
@@ -263,7 +271,6 @@ class Toolbar extends Spine.Model
           disabled_: -> false #!App.showView.slideshowable()
           disabled: ->
             sum = App.showView.activePhotos.call @
-            console.log sum
             !sum.length
         ]
     group10:

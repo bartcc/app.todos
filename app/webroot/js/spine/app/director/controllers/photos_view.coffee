@@ -73,7 +73,7 @@ class PhotosView extends Spine.Controller
   render: (items, mode) ->
     console.log 'PhotosView::render'
     # render only if necessary
-    return unless @isActive()
+#    return unless @isActive()
       
     @items.empty() unless @list.children('li').length
     
@@ -143,8 +143,8 @@ class PhotosView extends Spine.Controller
         photo.destroyCache()
         photo.destroy()
     
-  show: (idOrRecord) ->
-    Album.current(idOrRecord)
+  show: ->
+#    Album.current(idOrRecord)
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
@@ -154,7 +154,7 @@ class PhotosView extends Spine.Controller
   # methods after uplopad
   
   refresh: (photos) ->
-    # do not use this any moreto create album-foto joins anymore
+    # do not use this to create album-photo joins anymore
     # use the real jointable callback instead
     return
     if Album.record

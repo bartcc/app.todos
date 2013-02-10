@@ -65,6 +65,8 @@ ShowView = (function() {
     'click .optSlideshowAutoStart:not(.disabled)': 'toggleSlideshowAutoStart',
     'click .optShowSlideshow:not(.disabled)': 'showSlideshow',
     'click .optSlideshowPlay:not(.disabled)': 'slideshowPlay',
+    'click .optShowAlbumMasters:not(.disabled)': 'showAlbumMasters',
+    'click .optShowPhotoMasters:not(.disabled)': 'showPhotoMasters',
     'click .optClose:not(.disabled)': 'toggleDraghandle',
     'click .optSelectAll:not(.disabled)': 'selectAll',
     'dblclick .draghandle': 'toggleDraghandle',
@@ -541,6 +543,12 @@ ShowView = (function() {
   };
   ShowView.prototype.showAlbumsTrash = function() {
     return Album.inactive();
+  };
+  ShowView.prototype.showAlbumMasters = function() {
+    return this.navigate('/gallery/');
+  };
+  ShowView.prototype.showPhotoMasters = function() {
+    return this.navigate('/gallery//');
   };
   return ShowView;
 })();

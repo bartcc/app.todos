@@ -261,7 +261,10 @@ class Toolbar extends Spine.Model
           icon: 'play'
           iconcolor: 'white'
           disabled_: -> false #!App.showView.slideshowable()
-          disabled: -> !App.showView.activePhotos.call @
+          disabled: ->
+            sum = App.showView.activePhotos.call @
+            console.log sum
+            !sum.length
         ]
     group10:
       name: 'Back'

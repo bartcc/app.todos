@@ -90,6 +90,9 @@ PhotosView = (function() {
   PhotosView.prototype.render = function(items, mode) {
     var list;
     console.log('PhotosView::render');
+    if (!this.isActive()) {
+      return;
+    }
     list = this.list.render(items, mode);
     list.sortable('photo');
     return delete this.buffer;

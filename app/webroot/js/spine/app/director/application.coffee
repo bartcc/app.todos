@@ -139,9 +139,11 @@ class App extends Spine.Controller
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
 #        alert '/gallery/:gid/:aid'
+#        Spine.trigger('show:photos')
+        
         Spine.trigger('gallery:activate', params.gid)
-        Spine.trigger('album:activate', params.aid)
         Spine.trigger('show:photos')
+        Spine.trigger('album:activate', params.aid)
       '/gallery/:gid': (params) ->
 #        alert '/gallery/:gid'
         @contentManager.change(@showView)

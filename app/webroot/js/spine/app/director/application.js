@@ -152,8 +152,8 @@ App = (function() {
       '/gallery/:gid/:aid': function(params) {
         this.contentManager.change(this.showView);
         Spine.trigger('gallery:activate', params.gid);
-        Spine.trigger('album:activate', params.aid);
-        return Spine.trigger('show:photos');
+        Spine.trigger('show:photos');
+        return Spine.trigger('album:activate', params.aid);
       },
       '/gallery/:gid': function(params) {
         this.contentManager.change(this.showView);

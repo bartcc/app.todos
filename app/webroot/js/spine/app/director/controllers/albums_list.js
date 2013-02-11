@@ -130,9 +130,7 @@ AlbumsList = (function() {
     return this.exposeSelection();
   };
   AlbumsList.prototype.select = function(item, lonely) {
-    var it;
-    it = item != null ? item.addRemoveSelection(lonely) : void 0;
-    return Spine.trigger('album:activate');
+    return item != null ? item.addRemoveSelection(lonely) : void 0;
   };
   AlbumsList.prototype.zoom = function(e) {
     var item, _ref;
@@ -140,7 +138,6 @@ AlbumsList = (function() {
     this.select(item, true);
     this.stopInfo();
     this.navigate('/gallery', ((_ref = Gallery.record) != null ? _ref.id : void 0) || '', item.id);
-    Spine.trigger('album:activate', item);
     e.stopPropagation();
     return e.preventDefault();
   };

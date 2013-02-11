@@ -142,8 +142,6 @@ class App extends Spine.Controller
         Spine.trigger('gallery:activate', params.gid)
         Spine.trigger('album:activate', params.aid)
         Spine.trigger('show:photos')
-#        Spine.trigger('album:activate', params.aid)
-#        Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid': (params) ->
 #        alert '/gallery/:gid'
         @contentManager.change(@showView)

@@ -178,6 +178,7 @@ ShowView = (function() {
       className: controller.el.data().current.className
     });
     this.canvasManager.change(controller);
+    console.log(controller);
     return this.headerManager.change(controller.header);
   };
   ShowView.prototype.changeToolbarOne = function(list) {

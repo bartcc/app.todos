@@ -74,6 +74,7 @@ PhotosView = (function() {
     if (changed) {
       this.updateBuffer(item);
     }
+    console.log(this.buffer);
     if (this.buffer) {
       return this.render(this.buffer);
     }
@@ -90,9 +91,6 @@ PhotosView = (function() {
   PhotosView.prototype.render = function(items, mode) {
     var list;
     console.log('PhotosView::render');
-    if (!this.list.children('li').length) {
-      this.items.empty();
-    }
     list = this.list.render(items, mode);
     list.sortable('photo');
     return delete this.buffer;

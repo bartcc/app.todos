@@ -60,6 +60,7 @@ class PhotosView extends Spine.Controller
     
   change: (item, changed) ->
     @updateBuffer item if changed
+    console.log @buffer
     @render @buffer if @buffer
   
   updateBuffer: (album) ->
@@ -73,15 +74,11 @@ class PhotosView extends Spine.Controller
   render: (items, mode) ->
     console.log 'PhotosView::render'
     # render only if necessary
+    # if view is dirty but inactive we'll use the buffer next time 
 #    return unless @isActive()
       
-    @items.empty() unless @list.children('li').length
+#    @items.empty() unless @list.children('li').length
     
-#    items = if @parent.allAlbums
-#      Album.filter()
-#    else
-#      Album.filterRelated(gallery.id, @filterOptions)
-      
     list = @list.render items, mode
     list.sortable 'photo' #if Album.record
     delete @buffer

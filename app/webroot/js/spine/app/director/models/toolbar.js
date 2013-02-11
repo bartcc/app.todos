@@ -164,7 +164,7 @@ Toolbar = (function() {
           }
         }, {
           name: function() {
-            return 'Show Masters';
+            return 'Albummasters';
           },
           klass: 'optShowAlbumMasters',
           disabled: function() {
@@ -235,7 +235,7 @@ Toolbar = (function() {
           klass: 'optQuickUpload'
         }, {
           name: function() {
-            return 'Show Masters';
+            return 'Photomasters';
           },
           klass: 'optShowPhotoMasters',
           disabled: function() {

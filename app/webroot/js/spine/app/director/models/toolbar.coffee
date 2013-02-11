@@ -117,7 +117,7 @@ class Toolbar extends Spine.Model
           klass: 'optSlideshowAutoStart'
           disabled: -> false
         ,
-          name: -> 'Show Masters'
+          name: -> 'Albummasters'
           klass: 'optShowAlbumMasters'
           disabled: -> false
         ]
@@ -162,7 +162,7 @@ class Toolbar extends Spine.Model
           icon: -> if App.showView.isQuickUpload() then 'ok' else ''
           klass: 'optQuickUpload'
         ,
-          name: -> 'Show Masters'
+          name: -> 'Photomasters'
           klass: 'optShowPhotoMasters'
           disabled: -> false
         ]

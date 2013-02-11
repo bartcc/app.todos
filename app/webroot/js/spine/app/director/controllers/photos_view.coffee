@@ -60,7 +60,6 @@ class PhotosView extends Spine.Controller
     
   change: (item, changed) ->
     @updateBuffer item if changed
-    console.log @buffer
     @render @buffer if @buffer
   
   updateBuffer: (album) ->

@@ -74,7 +74,6 @@ PhotosView = (function() {
     if (changed) {
       this.updateBuffer(item);
     }
-    console.log(this.buffer);
     if (this.buffer) {
       return this.render(this.buffer);
     }

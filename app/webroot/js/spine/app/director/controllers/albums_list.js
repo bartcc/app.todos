@@ -130,7 +130,9 @@ AlbumsList = (function() {
     return this.exposeSelection();
   };
   AlbumsList.prototype.select = function(item, lonely) {
-    return item != null ? item.addRemoveSelection(lonely) : void 0;
+    var it;
+    it = item != null ? item.addRemoveSelection(lonely) : void 0;
+    return Spine.trigger('album:activate');
   };
   AlbumsList.prototype.zoom = function(e) {
     var item, _ref;

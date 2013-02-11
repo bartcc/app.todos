@@ -166,7 +166,6 @@ class ShowView extends Spine.Controller
       className: controller.el.data().current.className
     
     @canvasManager.change controller
-    console.log controller
     @headerManager.change controller.header
     
   changeToolbarOne: (list) ->

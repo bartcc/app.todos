@@ -101,7 +101,8 @@ class AlbumsList extends Spine.Controller
     @exposeSelection()
   
   select: (item, lonely) ->
-    item?.addRemoveSelection(lonely)
+    it = item?.addRemoveSelection(lonely)
+    Spine.trigger('album:activate')
     
   zoom: (e) ->
     item = $(e.currentTarget).item()

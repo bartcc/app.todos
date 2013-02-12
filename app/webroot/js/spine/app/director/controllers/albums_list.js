@@ -112,10 +112,16 @@ AlbumsList = (function() {
     return Spine.trigger('expose:sublistSelection', Gallery.record);
   };
   AlbumsList.prototype.activate = function(id) {
-    var selection;
+    var last, selection;
     selection = Gallery.selectionList();
     if (!Spine.isArray(selection)) {
       return;
+    }
+    if (selection.length) {
+      last = Album.exists(selection[selection.length - 1]);
+      if (!(last != null ? last.destroyed : void 0)) {
+        Album.current(last);
+      }
     }
     if (id && Album.exists(id)) {
       Album.current(id);

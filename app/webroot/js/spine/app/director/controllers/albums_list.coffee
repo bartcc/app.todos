@@ -89,10 +89,10 @@ class AlbumsList extends Spine.Controller
     selection = Gallery.selectionList()
     return unless Spine.isArray selection
     
-#    if selection.length
-#      last = Album.exists(selection[selection.length-1])
-#      unless last?.destroyed
-#        Album.current(last)
+    if selection.length
+      last = Album.exists(selection[selection.length-1])
+      unless last?.destroyed
+        Album.current(last)
     if id and Album.exists(id)
       Album.current(id)
     else

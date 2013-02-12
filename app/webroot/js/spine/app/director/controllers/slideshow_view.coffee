@@ -128,7 +128,8 @@ class SlideshowView extends Spine.Controller
       joinTable: 'AlbumsPhoto'
       sorted: true
     
-    @render @phos = @photos()
+#    @render @phos = @photos()
+    @render Photo.filterRelated(album?.id, filterOptions)
     
   close: (e) ->
     @parent.showPrevious()

@@ -528,7 +528,7 @@ ShowView = (function() {
     for (_j = 0, _len2 = albs.length; _j < _len2; _j++) {
       alb = albs[_j];
       album = Album.exists(alb);
-      photos = album.photos() || [];
+      photos = (album != null ? album.photos() : void 0) || [];
       for (_k = 0, _len3 = photos.length; _k < _len3; _k++) {
         pho = photos[_k];
         phos.push(pho);

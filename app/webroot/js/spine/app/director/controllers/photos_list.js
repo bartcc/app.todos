@@ -160,9 +160,11 @@ PhotosList = (function() {
       return Spine.trigger('show:slideshow');
     }
   };
-  PhotosList.prototype.photos = function() {
+  PhotosList.prototype.photos = function(id) {
     if (Album.record) {
       return Album.record.photos();
+    } else if (id) {
+      return Album.photos(id);
     } else {
       return Photo.all();
     }

@@ -120,9 +120,11 @@ class PhotosList extends Spine.Controller
 #    @loadModal items
     Spine.trigger('show:slideshow') if App.slideshow.options.autostart
     
-  photos: ->
+  photos: (id) ->
     if Album.record
       Album.record.photos()
+    else if id
+      Album.photos(id)
     else
       Photo.all()
     
@@ -229,7 +231,6 @@ class PhotosList extends Spine.Controller
     e.preventDefault()
     
   sortupdate: ->
-#    return
     @children().each (index) ->
       item = $(@).item()
 #      console.log AlbumsPhoto.filter(item.id, func: 'selectPhoto').length

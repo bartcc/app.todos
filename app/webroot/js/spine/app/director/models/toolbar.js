@@ -375,14 +375,12 @@ Toolbar = (function() {
       content: [
         {
           name: function() {
-            return '';
+            return (App.showView.activePhotos.call(this)).length;
           },
           klass: 'optSlideshowPlay',
           icon: 'play',
           iconcolor: 'white',
-          disabled_: function() {
-            return false;
-          },
+          innerstyle: 'left: -8px; top: 8px;',
           disabled: function() {
             var sum;
             sum = App.showView.activePhotos.call(this);

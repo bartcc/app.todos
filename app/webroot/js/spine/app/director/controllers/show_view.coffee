@@ -475,7 +475,7 @@ class ShowView extends Spine.Controller
     albs.push itm for itm in Gallery.selectionList()
     for alb in albs
       album = Album.exists(alb)
-      photos = album.photos() or []
+      photos = album?.photos() or []
       phos.push pho for pho in photos
     phos
     

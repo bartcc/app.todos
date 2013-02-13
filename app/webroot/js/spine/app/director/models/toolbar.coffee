@@ -264,14 +264,15 @@ class Toolbar extends Spine.Model
       name: 'Slideshow'
       content:
         [
-          name: -> ''
+          name: -> (App.showView.activePhotos.call @).length
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled_: -> false #!App.showView.slideshowable()
+          innerstyle: 'left: -8px; top: 8px;'
           disabled: ->
             sum = App.showView.activePhotos.call @
             !sum.length
+            
         ]
     group10:
       name: 'Back'

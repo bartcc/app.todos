@@ -270,9 +270,7 @@ class Toolbar extends Spine.Model
           iconcolor: 'white'
           innerstyle: 'left: -8px; top: 8px;'
           disabled: ->
-            sum = App.showView.activePhotos.call @
-            !sum.length
-            
+            !(App.showView.activePhotos.call @).length
         ]
     group10:
       name: 'Back'
@@ -321,11 +319,11 @@ class Toolbar extends Spine.Model
           dataToggle: 'button'
           outerstyle: ''
         ,
-          name: -> ''
+          name: -> (App.showView.activePhotos.call @).length
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> !App.showView.activePhotos.call @
+          disabled: -> !(App.showView.activePhotos.call @).length
         ,
           name: '<span class="slider" style=""></span>'
           klass: 'optThumbsize '

@@ -382,9 +382,7 @@ Toolbar = (function() {
           iconcolor: 'white',
           innerstyle: 'left: -8px; top: 8px;',
           disabled: function() {
-            var sum;
-            sum = App.showView.activePhotos.call(this);
-            return !sum.length;
+            return !(App.showView.activePhotos.call(this)).length;
           }
         }
       ]
@@ -451,13 +449,13 @@ Toolbar = (function() {
           outerstyle: ''
         }, {
           name: function() {
-            return '';
+            return (App.showView.activePhotos.call(this)).length;
           },
           klass: 'optSlideshowPlay',
           icon: 'play',
           iconcolor: 'white',
           disabled: function() {
-            return !App.showView.activePhotos.call(this);
+            return !(App.showView.activePhotos.call(this)).length;
           }
         }, {
           name: '<span class="slider" style=""></span>',

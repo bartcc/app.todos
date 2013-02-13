@@ -359,8 +359,8 @@
 </script>
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{else}}no title{{/if}}
-  <h2>Album: {{if album.title}}${album.title}{{else}}no title{{/if}}
+  {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{else}}Gallery not found{{/if}}
+  <h2>Album: {{if album.title}}${album.title}{{else}}Album not found{{/if}}
     <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
   </h2>
 </script>

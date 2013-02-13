@@ -68,7 +68,7 @@ class PhotosView extends Spine.Controller
       joinTable: 'AlbumsPhoto'
       sorted: true
     
-    @buffer = Photo.filterRelated(album?.id, filterOptions)
+    @buffer = Photo.filterRelated(album.id, filterOptions)
   
   render: (items, mode) ->
     console.log 'PhotosView::render'

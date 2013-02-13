@@ -229,21 +229,22 @@ class PhotosList extends Spine.Controller
     e.preventDefault()
     
   sortupdate: ->
+#    return
     @children().each (index) ->
       item = $(@).item()
 #      console.log AlbumsPhoto.filter(item.id, func: 'selectPhoto').length
-      if item and Album.record
+      if item #and Album.record
         ap = AlbumsPhoto.filter(item.id, func: 'selectPhoto')[0]
         if ap and ap.order isnt index
           ap.order = index
           ap.save()
         # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated
         Album.record.invalid = true
-        Album.record.save(ajax:false)
-      else if item
-        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
-        photo.order = index
-        photo.save()
+#        Album.record.save(ajax:false)
+#      else if item
+#        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
+#        photo.order = index
+#        photo.save()
         
     @exposeSelection()
     

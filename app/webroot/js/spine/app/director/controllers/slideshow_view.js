@@ -164,7 +164,10 @@ SlideshowView = (function() {
       joinTable: 'AlbumsPhoto',
       sorted: true
     };
-    return this.render(Photo.filterRelated(typeof album !== "undefined" && album !== null ? album.id : void 0, filterOptions));
+    if (Album.record) {
+      this.render(Photo.filterRelated(Album.record.id, filterOptions));
+    }
+    return this.render(this.phos = this.photos());
   };
   SlideshowView.prototype.close = function(e) {
     this.parent.showPrevious();

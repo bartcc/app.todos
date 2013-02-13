@@ -288,9 +288,9 @@ PhotosList = (function() {
   };
   PhotosList.prototype.sortupdate = function() {
     this.children().each(function(index) {
-      var ap, item, photo;
+      var ap, item;
       item = $(this).item();
-      if (item && Album.record) {
+      if (item) {
         ap = AlbumsPhoto.filter(item.id, {
           func: 'selectPhoto'
         })[0];
@@ -298,16 +298,7 @@ PhotosList = (function() {
           ap.order = index;
           ap.save();
         }
-        Album.record.invalid = true;
-        return Album.record.save({
-          ajax: false
-        });
-      } else if (item) {
-        photo = (Photo.filter(item.id, {
-          func: 'selectPhoto'
-        }))[0];
-        photo.order = index;
-        return photo.save();
+        return Album.record.invalid = true;
       }
     });
     return this.exposeSelection();

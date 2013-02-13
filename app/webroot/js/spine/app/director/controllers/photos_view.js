@@ -85,7 +85,7 @@ PhotosView = (function() {
       joinTable: 'AlbumsPhoto',
       sorted: true
     };
-    return this.buffer = Photo.filterRelated(album != null ? album.id : void 0, filterOptions);
+    return this.buffer = Photo.filterRelated(album.id, filterOptions);
   };
   PhotosView.prototype.render = function(items, mode) {
     var list;

@@ -45,7 +45,7 @@ class UploadEditView extends Spine.Controller
 #    album_id = Album.record?.id
     list = Gallery.selectionList()
     return unless list.length
-    album_id = list[list.length-1]
+    album_id = list[0]
     
     if data.files.length
       $.extend data, link: album_id if album_id

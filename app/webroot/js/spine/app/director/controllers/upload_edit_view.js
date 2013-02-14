@@ -56,7 +56,7 @@ UploadEditView = (function() {
     if (!list.length) {
       return;
     }
-    album_id = list[list.length - 1];
+    album_id = list[0];
     if (data.files.length) {
       $.extend(data, {
         link: album_id ? album_id : void 0

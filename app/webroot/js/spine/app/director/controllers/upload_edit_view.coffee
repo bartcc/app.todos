@@ -33,7 +33,8 @@ class UploadEditView extends Spine.Controller
     console.log 'UploadView::render'
     selection = Gallery.selectionList()
     gallery = Gallery.record
-    @album = Album.record
+#    @album = Album.record
+    @album = (Album.find(selection[0]) if Album.exists(selection[0])) || false
     @uploadinfoEl.html @template
       gallery: gallery
       album: @album
@@ -41,7 +42,10 @@ class UploadEditView extends Spine.Controller
     @el
     
   add: (e, data) ->
-    album_id = Album.record?.id
+#    album_id = Album.record?.id
+    list = Gallery.selectionList()
+    return unless list.length
+    album_id = list[list.length-1]
     
     if data.files.length
       $.extend data, link: album_id if album_id
@@ -51,7 +55,7 @@ class UploadEditView extends Spine.Controller
         App.showView.openPanel('upload')
         
   send: (e, data) ->
-    console.log 'UploadView::send'
+#    alert 'UploadView::send'
     album = Album.exists(data.link)
     Spine.trigger('loading:start', album) if album
     

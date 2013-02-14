@@ -42,7 +42,7 @@ UploadEditView = (function() {
     console.log('UploadView::render');
     selection = Gallery.selectionList();
     gallery = Gallery.record;
-    this.album = Album.record;
+    this.album = (Album.exists(selection[0]) ? Album.find(selection[0]) : void 0) || false;
     this.uploadinfoEl.html(this.template({
       gallery: gallery,
       album: this.album
@@ -51,8 +51,12 @@ UploadEditView = (function() {
     return this.el;
   };
   UploadEditView.prototype.add = function(e, data) {
-    var album_id, _ref;
-    album_id = (_ref = Album.record) != null ? _ref.id : void 0;
+    var album_id, list;
+    list = Gallery.selectionList();
+    if (!list.length) {
+      return;
+    }
+    album_id = list[list.length - 1];
     if (data.files.length) {
       $.extend(data, {
         link: album_id ? album_id : void 0
@@ -66,7 +70,6 @@ UploadEditView = (function() {
   };
   UploadEditView.prototype.send = function(e, data) {
     var album;
-    console.log('UploadView::send');
     album = Album.exists(data.link);
     if (album) {
       return Spine.trigger('loading:start', album);

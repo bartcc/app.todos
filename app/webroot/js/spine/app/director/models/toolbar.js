@@ -65,6 +65,24 @@ Toolbar = (function() {
         }, {
           devider: true
         }, {
+          name: function() {
+            return 'Albummasters';
+          },
+          klass: 'optShowAlbumMasters',
+          disabled: function() {
+            return false;
+          }
+        }, {
+          name: function() {
+            return 'Photomasters';
+          },
+          klass: 'optShowPhotoMasters',
+          disabled: function() {
+            return false;
+          }
+        }, {
+          devider: true
+        }, {
           name: 'Modal Test',
           icon: 'th',
           iconcolor: 'black',
@@ -162,14 +180,6 @@ Toolbar = (function() {
           disabled: function() {
             return false;
           }
-        }, {
-          name: function() {
-            return 'Albummasters';
-          },
-          klass: 'optShowAlbumMasters',
-          disabled: function() {
-            return false;
-          }
         }
       ]
     },
@@ -233,14 +243,6 @@ Toolbar = (function() {
             }
           },
           klass: 'optQuickUpload'
-        }, {
-          name: function() {
-            return 'Photomasters';
-          },
-          klass: 'optShowPhotoMasters',
-          disabled: function() {
-            return false;
-          }
         }
       ]
     }

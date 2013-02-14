@@ -49,6 +49,16 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
+          name: -> 'Albummasters'
+          klass: 'optShowAlbumMasters'
+          disabled: -> false
+        ,
+          name: -> 'Photomasters'
+          klass: 'optShowPhotoMasters'
+          disabled: -> false
+        ,
+          devider: true
+        ,
           name: 'Modal Test'
           icon: 'th'
           iconcolor: 'black'
@@ -116,10 +126,6 @@ class Toolbar extends Spine.Model
           icon: -> if App.slideshow.options.autostart then 'ok' else ''
           klass: 'optSlideshowAutoStart'
           disabled: -> false
-        ,
-          name: -> 'Albummasters'
-          klass: 'optShowAlbumMasters'
-          disabled: -> false
         ]
     group3:
       name: 'Photo'
@@ -161,10 +167,6 @@ class Toolbar extends Spine.Model
           name: 'Auto Upload'
           icon: -> if App.showView.isQuickUpload() then 'ok' else ''
           klass: 'optQuickUpload'
-        ,
-          name: -> 'Photomasters'
-          klass: 'optShowPhotoMasters'
-          disabled: -> false
         ]
       
   @data:

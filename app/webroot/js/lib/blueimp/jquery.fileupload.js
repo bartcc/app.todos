@@ -78,7 +78,7 @@
             sequentialUploads: false,
             // To limit the number of concurrent uploads,
             // set the following option to an integer greater than 0:
-            limitConcurrentUploads: undefined,
+            limitConcurrentUploads: 1,
             // Set the following option to true to force iframe transport uploads:
             forceIframeTransport: false,
             // Set the following option to the location of a redirect url on the

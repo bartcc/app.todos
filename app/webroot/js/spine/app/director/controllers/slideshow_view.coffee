@@ -31,7 +31,7 @@ class SlideshowView extends Spine.Controller
     Spine.bind('chromeless', @proxy @chromeless)
     
     @bind('slideshow:ready', @proxy @play)
-    
+        
   render: (items) ->
     @items.html @template items
     @uri items
@@ -128,7 +128,7 @@ class SlideshowView extends Spine.Controller
       joinTable: 'AlbumsPhoto'
       sorted: true
     
-    if Album.record then
+    if Album.record
       @render Photo.filterRelated(Album.record.id, filterOptions)
     else
       @render @photos()
@@ -224,7 +224,7 @@ class SlideshowView extends Spine.Controller
     App.slideshow.stopSlideShow()
    
   notify: ->
-    App.modalView.show
+    App.modalSimpleView.show
       header: 'Information'
       body: 'To start a slideshow at least one (not empty) album must be selected'
       info: 'Tip of the day: You can also use your spacebar to start a slideshow'

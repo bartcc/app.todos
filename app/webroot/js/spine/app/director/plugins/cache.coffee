@@ -64,29 +64,6 @@ Model.Cache =
           return thisItem if thisItem[key]
         false
       
-      addToCache_: (url, uris) ->
-#        alert 'ADD TO CACHE'
-#        console.log url
-#        console.log uris
-#        if mode is 'html'
-        cache = @cacheList()
-        url_ = ->
-          for item in cache
-            return item[url] if item[url]
-            
-          urlObj = {}
-          urlObj[url] = []
-          cache.push urlObj
-          urlObj[url]
-#            console.log arr
-#            arr[0...arr.length] = []
-#            arr.push uri for uri in uris
-        uri_ = (arr) ->
-          for uri in uris
-            arr.push uri
-            
-        uri_(url_())
-        
       destroyCache: (id) ->
         list = @cacheList()
         

@@ -147,7 +147,8 @@ class ShowView extends Spine.Controller
     @canvasManager.change @galleriesView
     @headerManager.change @galleriesHeader
     
-  previousLocation: -> 
+  previousLocation: ->
+    console.log 'ShowView::previousLocation'
     if @prevLocation is location.hash
       return '/galleries/'
     else

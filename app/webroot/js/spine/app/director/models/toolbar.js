@@ -189,7 +189,7 @@ Toolbar = (function() {
         {
           name: 'Upload',
           icon: 'upload',
-          klass: 'optUpload'
+          klass: 'optUpload disabled'
         }, {
           devider: true
         }, {

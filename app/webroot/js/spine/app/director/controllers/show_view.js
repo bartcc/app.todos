@@ -158,6 +158,7 @@ ShowView = (function() {
     this.headerManager.change(this.galleriesHeader);
   }
   ShowView.prototype.previousLocation = function() {
+    console.log('ShowView::previousLocation');
     if (this.prevLocation === location.hash) {
       return '/galleries/';
     } else {

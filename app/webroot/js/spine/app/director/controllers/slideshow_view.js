@@ -165,9 +165,10 @@ SlideshowView = (function() {
       sorted: true
     };
     if (Album.record) {
-      this.render(Photo.filterRelated(Album.record.id, filterOptions));
+      return this.render(Photo.filterRelated(Album.record.id, filterOptions));
+    } else {
+      return this.render(this.photos());
     }
-    return this.render(this.phos = this.photos());
   };
   SlideshowView.prototype.close = function(e) {
     this.parent.showPrevious();
@@ -261,7 +262,7 @@ SlideshowView = (function() {
     return App.slideshow.stopSlideShow();
   };
   SlideshowView.prototype.notify = function() {
-    return App.modalView.show({
+    return App.modalSimpleView.show({
       header: 'Information',
       body: 'To start a slideshow at least one (not empty) album must be selected',
       info: 'Tip of the day: You can also use your spacebar to start a slideshow'

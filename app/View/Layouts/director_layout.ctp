@@ -69,8 +69,8 @@
     echo $this->Html->script('lib/blueimp/locale');
     echo $this->Html->script('lib/blueimp/canvas-to-blob.min');
     echo $this->Html->script('lib/blueimp/jquery.fileupload');
-    echo $this->Html->script('lib/blueimp/jquery.fileupload-ip');
-    echo $this->Html->script('lib/blueimp/jquery.fileupload-ui');
+//    echo $this->Html->script('lib/blueimp/jquery.fileupload-ip');
+//    echo $this->Html->script('lib/blueimp/jquery.fileupload-ui');
 
     echo $this->Html->script('spine/lib/spine_1.0.8');
     echo $this->Html->script('spine/lib/ajax_1.0.7');
@@ -99,7 +99,8 @@
     echo $this->Html->script('spine/app/director/models/spine_error');
     echo $this->Html->script('spine/app/director/models/recent');
     echo $this->Html->script('spine/app/director/models/toolbar');
-    echo $this->Html->script('spine/app/director/controllers/modal_view');
+    echo $this->Html->script('spine/app/director/controllers/modal_simple_view');
+    echo $this->Html->script('spine/app/director/controllers/modal_2_button_view');
     echo $this->Html->script('spine/app/director/controllers/toolbar_view');
     echo $this->Html->script('spine/app/director/controllers/loader');
     echo $this->Html->script('spine/app/director/controllers/info');

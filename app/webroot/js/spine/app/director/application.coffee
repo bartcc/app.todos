@@ -49,10 +49,14 @@ class App extends Spine.Controller
     
     $(window).bind('hashchange', @proxy @storeHash)
     User.bind('pinger', @proxy @validate)
+    $('#modal-gallery').bind('hidden', @proxy @hideSlideshow)
     
     @loadToolbars()
     
-    @modalView = new ModalView
+    @modalSimpleView = new ModalSimpleView
+      el: @modalSimpleEl
+      className: 'modal'
+    @modal2ButtonView = new Modal2ButtonView
       el: @modalEl
       className: 'modal'
     @galleryEditView = new GalleryEditorView
@@ -72,7 +76,7 @@ class App extends Spine.Controller
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
-      modalView: @modalView
+      modalView: @modalSimpleView
       uploader: @upload
     @overviewView = new OverviewView
       el: @overviewEl
@@ -120,14 +124,6 @@ class App extends Spine.Controller
     @slideshow = @initializeSlideshow()
     
     @routes
-#      '/gallery//': (params) ->
-#        alert '/gallery//'
-#        @contentManager.change(@showView)
-#        gallery = Gallery.exists(params.gid)
-#        album = Album.exists(params.aid)
-#        photo = Photo.exists(params.pid)
-#        Spine.trigger('show:photo', photo)
-#        Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid/:aid/:pid': (params) ->
 #        alert '/gallery/:gid/:aid/:pid'
         @contentManager.change(@showView)
@@ -138,14 +134,10 @@ class App extends Spine.Controller
         Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
-#        alert '/gallery/:gid/:aid'
-#        Spine.trigger('show:photos')
-        
         Spine.trigger('gallery:activate', params.gid)
         Spine.trigger('show:photos')
         Spine.trigger('album:activate', params.aid)
       '/gallery/:gid': (params) ->
-#        alert '/gallery/:gid'
         @contentManager.change(@showView)
         Spine.trigger('gallery:activate', params.gid)
       '/galleries/': ->
@@ -215,9 +207,11 @@ class App extends Spine.Controller
       slideshow: 1000
       autostart: false
       toggleAutostart: ->
-        console.log @autostart = !@autostart
       
     $('#modal-gallery').modal(options).data('modal')
+    
+  hideSlideshow: ->
+    @showView.showPrevious()
 
   initializeFileupload: ->
     @uploader.fileupload
@@ -256,7 +250,8 @@ class App extends Spine.Controller
         @showView.btnPrevious.click()
         e.preventDefault()
       when 13
-        @modalView.close()
+        @modalSimpleView.close()
+        @modal2ButtonView.close()
         e.preventDefault()
       else
         console.log keyCode

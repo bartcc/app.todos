@@ -21,6 +21,8 @@ UploadEditView = (function() {
     'change select': 'changeSelected',
     'fileuploaddone': 'done',
     'fileuploadsubmit': 'submit',
+    'fileuploadfail': 'fail',
+    'fileuploaddrop': 'drop',
     'fileuploadadd': 'add',
     'fileuploadpaste': 'paste',
     'fileuploadsend': 'send',
@@ -50,12 +52,22 @@ UploadEditView = (function() {
     this.refreshElements();
     return this.el;
   };
-  UploadEditView.prototype.add = function(e, data) {
-    var album_id, list;
+  UploadEditView.prototype.fail = function(e, data) {
+    return alert('File Upload Failed !!');
+  };
+  UploadEditView.prototype.drop = function(e, data) {
+    var list, _ref;
     list = Gallery.selectionList();
     if (!list.length) {
-      return;
+      [].splice.apply(data.files, [0, data.files.length - 0].concat(_ref = [])), _ref;
+      console.log(data.files);
+      return this.notify();
     }
+  };
+  UploadEditView.prototype.add = function(e, data) {
+    var album_id, list;
+    console.log(data);
+    list = Gallery.selectionList();
     album_id = list[0];
     if (data.files.length) {
       $.extend(data, {
@@ -67,6 +79,13 @@ UploadEditView = (function() {
         return App.showView.openPanel('upload');
       }
     }
+  };
+  UploadEditView.prototype.notify = function() {
+    return App.modal2ButtonView.show({
+      header: 'No Album selected',
+      body: 'Please select an album .',
+      info: ''
+    });
   };
   UploadEditView.prototype.send = function(e, data) {
     var album;

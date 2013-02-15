@@ -1,4 +1,4 @@
-var $, ModalView;
+var $, Modal2ButtonView;
 var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
   for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
   function ctor() { this.constructor = child; }
@@ -11,21 +11,22 @@ if (typeof Spine === "undefined" || Spine === null) {
   Spine = require("spine");
 }
 $ = Spine.$;
-ModalView = (function() {
-  __extends(ModalView, Spine.Controller);
-  ModalView.prototype.elements = {
+Modal2ButtonView = (function() {
+  __extends(Modal2ButtonView, Spine.Controller);
+  Modal2ButtonView.prototype.elements = {
     '.modal-header': 'header',
     '.modal-body': 'body',
     '.modal-footer': 'footer'
   };
-  ModalView.prototype.events = {
-    'click .btnClose': 'close'
+  Modal2ButtonView.prototype.events = {
+    'click .btnClose': 'close',
+    'click .btnYes': 'yes'
   };
-  ModalView.prototype.template = function(item) {
-    return $('#modalTemplate').tmpl(item);
+  Modal2ButtonView.prototype.template = function(item) {
+    return $('#modal2ButtonTemplate').tmpl(item);
   };
-  function ModalView() {
-    ModalView.__super__.constructor.apply(this, arguments);
+  function Modal2ButtonView() {
+    Modal2ButtonView.__super__.constructor.apply(this, arguments);
     this.el.modal({
       show: false
     });
@@ -35,21 +36,24 @@ ModalView = (function() {
       footer: 'Default Footer Text'
     };
   }
-  ModalView.prototype.render = function() {
-    console.log('ModalView::render');
+  Modal2ButtonView.prototype.render = function() {
+    console.log('Modal2ButtonView::render');
     this.html(this.template(this.options));
     return this.el;
   };
-  ModalView.prototype.show = function(options) {
+  Modal2ButtonView.prototype.show = function(options) {
     var el;
     this.options = $.extend(this.defaults, options);
     return el = this.render().modal('show');
   };
-  ModalView.prototype.close = function(e) {
+  Modal2ButtonView.prototype.yes = function(e) {
     return this.el.modal('hide');
   };
-  return ModalView;
+  Modal2ButtonView.prototype.close = function(e) {
+    return this.el.modal('hide');
+  };
+  return Modal2ButtonView;
 })();
 if (typeof module !== "undefined" && module !== null) {
-  module.exports = ModalView;
+  module.exports = Modal2ButtonView;
 }

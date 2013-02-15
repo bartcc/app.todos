@@ -133,7 +133,7 @@ class Toolbar extends Spine.Model
         [
           name: 'Upload'
           icon: 'upload'
-          klass: 'optUpload'
+          klass: 'optUpload disabled'
         ,
           devider: true
         ,

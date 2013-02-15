@@ -1,7 +1,7 @@
 Spine ?= require("spine")
 $      = Spine.$
 
-class ModalView extends Spine.Controller
+class ModalSimpleView extends Spine.Controller
   
   elements:
     '.modal-header'       : 'header'
@@ -12,11 +12,11 @@ class ModalView extends Spine.Controller
     'click .btnClose'     : 'close'
   
   template: (item) ->
-    $('#modalTemplate').tmpl(item)
+    $('#modalSimpleTemplate').tmpl(item)
     
   constructor: ->
     super
-    # initialize Flickr's Modal
+      
     @el.modal
       show: false
       
@@ -24,7 +24,7 @@ class ModalView extends Spine.Controller
       header  : 'Default Header Text'
       body    : 'Default Body Text'
       footer  : 'Default Footer Text'
-    
+      
   render: ->
     console.log 'ModalView::render'
     
@@ -37,7 +37,6 @@ class ModalView extends Spine.Controller
     
   close: (e) ->
     @el.modal 'hide'
+    App.showView.showPrevious()
     
-  
-    
-module?.exports = ModalView
+module?.exports = ModalSimpleView

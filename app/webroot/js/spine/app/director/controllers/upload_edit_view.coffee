@@ -11,6 +11,8 @@ class UploadEditView extends Spine.Controller
     'change select'               : 'changeSelected'
     'fileuploaddone'              : 'done'
     'fileuploadsubmit'            : 'submit'
+    'fileuploadfail'              : 'fail'
+    'fileuploaddrop'              : 'drop'
     'fileuploadadd'               : 'add'
     'fileuploadpaste'             : 'paste'
     'fileuploadsend'              : 'send'
@@ -39,10 +41,21 @@ class UploadEditView extends Spine.Controller
     @refreshElements()
     @el
     
+  fail: (e, data) ->
+    alert 'File Upload Failed !!'
+      
+  drop: (e, data) ->
+    list = Gallery.selectionList()
+    unless list.length
+      data.files[0...data.files.length] = []
+      console.log data.files
+      @notify()
+
   add: (e, data) ->
 #    album_id = Album.record?.id
+    console.log data
     list = Gallery.selectionList()
-    return unless list.length
+      
     album_id = list[0]
     
     if data.files.length
@@ -52,8 +65,13 @@ class UploadEditView extends Spine.Controller
       unless App.showView.isQuickUpload()
         App.showView.openPanel('upload')
         
+  notify: ->
+    App.modal2ButtonView.show
+      header: 'No Album selected'
+      body: 'Please select an album .'
+      info: ''
+        
   send: (e, data) ->
-#    alert 'UploadView::send'
     album = Album.exists(data.link)
     Spine.trigger('loading:start', album) if album
     

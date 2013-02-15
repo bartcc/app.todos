@@ -217,7 +217,7 @@ class AlbumsView extends Spine.Controller
     else
       queue = el.data()['queue']
       queue.push {}
-    console.log queue
+#    console.log queue
     
   loadingDone: (album) ->
     el = @items.children().forItem(album)

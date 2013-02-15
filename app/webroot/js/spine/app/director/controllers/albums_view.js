@@ -249,12 +249,11 @@ AlbumsView = (function() {
     el.addClass('loading');
     if (!el.data()['queue']) {
       queue = el.data()['queue'] = [];
-      queue.push({});
+      return queue.push({});
     } else {
       queue = el.data()['queue'];
-      queue.push({});
+      return queue.push({});
     }
-    return console.log(queue);
   };
   AlbumsView.prototype.loadingDone = function(album) {
     var el;

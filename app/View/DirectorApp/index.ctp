@@ -176,7 +176,7 @@
 <!-- modal-dialogue -->
 <div id="modal-view" class="hide fade"></div>
 <!-- Templates -->
-<script id="modalTemplate" type="text/x-jquery-tmpl">
+<script id="modalSimpleTemplate" type="text/x-jquery-tmpl">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>${header}</h3>
@@ -191,6 +191,24 @@
   {{/if}}
   <div class="modal-footer">
     <button class="btn btnClose">Ok</button>
+  </div>
+</script>
+
+<script id="modal2ButtonTemplate" type="text/x-jquery-tmpl">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>${header}</h3>
+  </div>
+  <div class="modal-body">
+    <p>{{html body}}</p>
+  </div>
+  {{if info}}
+  <div class="modal-header label-info">
+    <div class="label label-info">${info}</div>
+  </div>
+  {{/if}}
+  <div class="modal-footer">
+    <button class="btn btnClose" data-dismiss="modal" aria-hidden="true">OK</button>
   </div>
 </script>
 
@@ -354,7 +372,9 @@
 
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class="name bold"><span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span></li>
+    <li class="name bold">
+      <span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span>
+    </li>
   </ul>
 </script>
 

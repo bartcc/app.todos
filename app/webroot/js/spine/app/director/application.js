@@ -43,8 +43,13 @@ App = (function() {
     App.__super__.constructor.apply(this, arguments);
     $(window).bind('hashchange', this.proxy(this.storeHash));
     User.bind('pinger', this.proxy(this.validate));
+    $('#modal-gallery').bind('hidden', this.proxy(this.hideSlideshow));
     this.loadToolbars();
-    this.modalView = new ModalView({
+    this.modalSimpleView = new ModalSimpleView({
+      el: this.modalSimpleEl,
+      className: 'modal'
+    });
+    this.modal2ButtonView = new Modal2ButtonView({
       el: this.modalEl,
       className: 'modal'
     });
@@ -70,7 +75,7 @@ App = (function() {
     this.showView = new ShowView({
       el: this.showEl,
       activeControl: 'btnGallery',
-      modalView: this.modalView,
+      modalView: this.modalSimpleView,
       uploader: this.upload
     });
     this.overviewView = new OverviewView({
@@ -241,11 +246,12 @@ App = (function() {
       backdrop: true,
       slideshow: 1000,
       autostart: false,
-      toggleAutostart: function() {
-        return console.log(this.autostart = !this.autostart);
-      }
+      toggleAutostart: function() {}
     };
     return $('#modal-gallery').modal(options).data('modal');
+  };
+  App.prototype.hideSlideshow = function() {
+    return this.showView.showPrevious();
   };
   App.prototype.initializeFileupload = function() {
     return this.uploader.fileupload({
@@ -281,7 +287,8 @@ App = (function() {
         this.showView.btnPrevious.click();
         return e.preventDefault();
       case 13:
-        this.modalView.close();
+        this.modalSimpleView.close();
+        this.modal2ButtonView.close();
         return e.preventDefault();
       default:
         return console.log(keyCode);

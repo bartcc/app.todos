@@ -96,7 +96,7 @@ class GalleriesList extends Spine.Controller
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()
     App.showView.trigger('change:toolbarOne', ['Default'])
-    Spine.trigger('gallery:activate', item)
+    @navigate '/gallery', item.id
     e.stopPropagation()
     e.preventDefault()
 

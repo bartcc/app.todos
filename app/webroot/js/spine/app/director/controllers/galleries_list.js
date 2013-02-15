@@ -127,7 +127,7 @@ GalleriesList = (function() {
     console.log('GalleryList::click');
     item = $(e.currentTarget).item();
     App.showView.trigger('change:toolbarOne', ['Default']);
-    Spine.trigger('gallery:activate', item);
+    this.navigate('/gallery', item.id);
     e.stopPropagation();
     return e.preventDefault();
   };

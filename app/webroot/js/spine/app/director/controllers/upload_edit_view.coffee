@@ -21,8 +21,6 @@ class UploadEditView extends Spine.Controller
     
   constructor: ->
     super
-#    @bind("change", @change)
-#    Album.bind('change', @proxy @change)
     Spine.bind('change:selectedAlbum', @proxy @change)
     @queue = []
     
@@ -66,7 +64,6 @@ class UploadEditView extends Spine.Controller
     raws = $.parseJSON(data.jqXHR.responseText)
     Photo.refresh(raws, clear: false)
     
-    # create joins if we dropped it all in an album
     if album
       for raw, idx in raws
         photo = Photo.exists(raw['Photo'].id)

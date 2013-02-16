@@ -158,7 +158,11 @@ ShowView = (function() {
   }
   ShowView.prototype.previousLocation = function() {
     console.log('ShowView::previousLocation');
-    return this.prevLocation;
+    if (this.prevLocation === location.hash) {
+      return '/galleries/';
+    } else {
+      return this.prevLocation;
+    }
   };
   ShowView.prototype.canvas = function(controller) {
     console.log('ShowView::changeCanvas');

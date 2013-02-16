@@ -149,7 +149,10 @@ class ShowView extends Spine.Controller
     
   previousLocation: ->
     console.log 'ShowView::previousLocation'
-    @prevLocation
+    if @prevLocation is location.hash
+      return '/galleries/'
+    else
+      @prevLocation
     
   canvas: (controller) ->
     console.log 'ShowView::changeCanvas'

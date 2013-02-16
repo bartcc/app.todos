@@ -28,12 +28,13 @@ AlbumsList = (function() {
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
-    Album.bind('sortupdate', this.proxy(this.sortupdate));
+    Spine.bind('album:activate', this.proxy(this.activate));
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
+    Album.bind('update', this.proxy(this.update));
+    Album.bind('sortupdate', this.proxy(this.sortupdate));
+    Album.bind("ajaxError", Album.errorHandler);
     AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbumsPhoto));
     AlbumsPhoto.bind('destroy create', this.proxy(this.updateBackgrounds));
-    Album.bind("ajaxError", Album.errorHandler);
-    Spine.bind('album:activate', this.proxy(this.activate));
     GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     GalleriesAlbum.bind('change', this.proxy(this.renderRelatedAlbum));
   }
@@ -42,6 +43,25 @@ AlbumsList = (function() {
   };
   AlbumsList.prototype.change = function(items, mode) {
     return this.renderBackgrounds(items);
+  };
+  AlbumsList.prototype.update = function(item, options) {
+    var active, el, tb, tmplItem;
+    console.log('AlbumsList::update');
+    el = __bind(function() {
+      return this.children().forItem(item);
+    }, this);
+    tb = function() {
+      return $('.thumbnail', el());
+    };
+    if (!el().length) {
+      return;
+    }
+    active = el().hasClass('active');
+    tmplItem = el().tmplItem();
+    tmplItem.tmpl = $("#albumsTemplate").template();
+    tmplItem.update();
+    el().toggleClass('active', active);
+    return this.refreshElements();
   };
   AlbumsList.prototype.renderRelatedAlbum = function(item, mode) {
     var album, albumEl, gallery;

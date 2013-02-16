@@ -33,8 +33,8 @@ class App extends Spine.Controller
     
   events:
     'keypress'            : 'keys'
-    'drop'                : 'drop'
     'dragenter'           : 'dragenter'
+#    'drop'                : 'drop'
 
   constructor: ->
     super
@@ -140,27 +140,23 @@ class App extends Spine.Controller
       '/gallery/:gid': (params) ->
         @contentManager.change(@showView)
         Spine.trigger('gallery:activate', params.gid)
+        if params.gid
+          Spine.trigger('show:albums')
+        else
+          Spine.trigger('show:allAlbums')
       '/galleries/': ->
 #        alert '/galleries/'
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
-#      '/gallery/': (params) ->
-##        alert '/gallery/'
-#        @contentManager.change(@showView)
-#        Spine.trigger('show:albums')
-      '/albums/': ->
-        @contentManager.change(@showView)
-        @showView.albumsView.trigger('show:allAlbums')
-      '/photos/': ->
-        @contentManager.change(@showView)
-        Spine.trigger('show:photos')
-        Album.current()
       '/overview/': ->
         Spine.trigger('show:overview', true)
-      '/slideshow/:id': (params) ->
+      '/slideshow/:id/:autostart': (params) ->
+        @contentManager.change(@showView)
+        Spine.trigger('show:slideshow', params.autostart)
+        Spine.trigger('chromeless', true) if params.fs is 'yes'
+      '/slideshow/': ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
-        Spine.trigger('chromeless', true) if params.fs is 'yes'
     
   storeHash: ->
     localStorage.hash = location.hash
@@ -182,6 +178,7 @@ class App extends Spine.Controller
       
   drop: (e) ->
     console.log 'App::drop'
+    alert 'App::drop'
     event = e.originalEvent
     Spine.dragItem?.closest?.removeClass('over nodrop')
     Spine.sortItem?.splitter.remove()
@@ -211,7 +208,7 @@ class App extends Spine.Controller
     $('#modal-gallery').modal(options).data('modal')
     
   hideSlideshow: ->
-    @showView.showPrevious()
+    @showView.showPrevious() if @showView.slideshowView.autoplay
 
   initializeFileupload: ->
     @uploader.fileupload
@@ -250,8 +247,6 @@ class App extends Spine.Controller
         @showView.btnPrevious.click()
         e.preventDefault()
       when 13
-        @modalSimpleView.close()
-        @modal2ButtonView.close()
         e.preventDefault()
       else
         console.log keyCode

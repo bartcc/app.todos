@@ -242,7 +242,10 @@ Toolbar = (function() {
               return '';
             }
           },
-          klass: 'optQuickUpload'
+          klass: 'optQuickUpload',
+          disabled: function() {
+            return true;
+          }
         }
       ]
     }

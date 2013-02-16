@@ -50,6 +50,7 @@ SidebarList = (function() {
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandAfterTimeout));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
+    Spine.bind('gallery:exposeSelection', this.proxy(this.exposeSelection));
     Spine.bind('gallery:activate', this.proxy(this.activate));
   }
   SidebarList.prototype.template = function() {
@@ -192,6 +193,7 @@ SidebarList = (function() {
     }
     console.log('SidebarList::exposeSelection');
     this.deselect();
+    alert('deselect');
     if (item) {
       this.children().forItem(item).addClass("active");
     }
@@ -285,7 +287,6 @@ SidebarList = (function() {
   };
   SidebarList.prototype.activate = function(idOrRecord) {
     var diff, item, _ref;
-    Spine.trigger('show:albums');
     item = Gallery.current(idOrRecord);
     diff = (item != null ? item.id : void 0) === !((_ref = Gallery.record) != null ? _ref.id : void 0);
     if (diff) {
@@ -362,6 +363,7 @@ SidebarList = (function() {
     console.log('SidebarList::click');
     $(e.currentTarget).closest('.gal').addClass('active');
     item = $(e.target).closest('.data').item();
+    App.contentManager.change(App.showView);
     this.navigate('/gallery', (item != null ? item.id : void 0) || '');
     e.stopPropagation();
     return e.preventDefault();

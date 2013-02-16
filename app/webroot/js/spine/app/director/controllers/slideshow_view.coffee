@@ -114,14 +114,16 @@ class SlideshowView extends Spine.Controller
           'title' : item.title or item.src
           'rel'   : 'gallery'
           
-    @play()
+    @play() if @autoplay
         
-  show: ->
+  show: (autoplay) ->
     console.log 'Slideshow::show'
     
     App.showView.trigger('change:toolbarOne', [''])
     App.showView.trigger('change:toolbarTwo', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('canvas', @)
+    
+    @autoplay = autoplay
     
     filterOptions =
       key: 'album_id'
@@ -192,7 +194,7 @@ class SlideshowView extends Spine.Controller
     
   play: ->
     unless @isActive()
-      @navigate '/slideshow', (Math.random() * 16 | 0)
+      @navigate '/slideshow', (Math.random() * 16 | 0), true
     
     elFromSelection = =>
       console.log 'elFromSelection'
@@ -236,7 +238,7 @@ class SlideshowView extends Spine.Controller
       return
     
     unless App.slideshow.isShown
-      @navigate '/slideshow', (Math.random() * 16 | 0)
+      @navigate '/slideshow', (Math.random() * 16 | 0), 1
     else
       App.slideshow.toggleSlideShow()
     false

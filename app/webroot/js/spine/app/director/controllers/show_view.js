@@ -140,7 +140,6 @@ ShowView = (function() {
     this.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
     this.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
     this.bind('toggle:view', this.proxy(this.toggleView));
-    this.bind('show:previous', this.proxy(this.showPrevious));
     this.toolbarOne.bind('refresh', this.proxy(this.refreshToolbar));
     Gallery.bind('change', this.proxy(this.changeToolbarOne));
     Album.bind('change', this.proxy(this.changeToolbarOne));
@@ -159,11 +158,7 @@ ShowView = (function() {
   }
   ShowView.prototype.previousLocation = function() {
     console.log('ShowView::previousLocation');
-    if (this.prevLocation === location.hash) {
-      return '/galleries/';
-    } else {
-      return this.prevLocation;
-    }
+    return this.prevLocation;
   };
   ShowView.prototype.canvas = function(controller) {
     console.log('ShowView::changeCanvas');
@@ -331,7 +326,7 @@ ShowView = (function() {
   ShowView.prototype.toggleQuickUpload = function() {
     var active;
     this.refreshElements();
-    active = this.btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok');
+    active = true;
     this.quickUpload(active);
     return active;
   };
@@ -341,7 +336,7 @@ ShowView = (function() {
     return options.autoUpload = active;
   };
   ShowView.prototype.isQuickUpload = function() {
-    return $('#fileupload').data('fileupload').options.autoUpload;
+    return true;
   };
   ShowView.prototype.toggleView = function(controller, control) {
     var isActive;
@@ -515,7 +510,7 @@ ShowView = (function() {
     return this.allAlbums;
   };
   ShowView.prototype.slideshowPlay = function(e) {
-    return this.navigate('/slideshow', Math.random() * 16 | 0);
+    return this.navigate('/slideshow', Math.random() * 16 | 0, 1);
   };
   ShowView.prototype.activePhotos = function() {
     var alb, albs, album, itm, pho, phos, photos, _i, _j, _k, _len, _len2, _len3, _ref;

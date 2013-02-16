@@ -26,7 +26,7 @@ GalleriesList = (function() {
   function GalleriesList() {
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
-    this.select_ = __bind(this.select_, this);    GalleriesList.__super__.constructor.apply(this, arguments);
+    this.select = __bind(this.select, this);    GalleriesList.__super__.constructor.apply(this, arguments);
     Gallery.bind('change', this.proxy(this.renderOne));
     GalleriesAlbum.bind('change', this.proxy(this.renderRelated));
   }
@@ -104,7 +104,7 @@ GalleriesList = (function() {
       return newEl.before(oldEl);
     }
   };
-  GalleriesList.prototype.select_ = function(item) {
+  GalleriesList.prototype.select = function(item) {
     Spine.trigger('gallery:activate', item);
     return App.showView.trigger('change:toolbarOne', ['Default']);
   };
@@ -115,19 +115,22 @@ GalleriesList = (function() {
     if (item) {
       el = this.children().forItem(item);
       el.addClass("active");
-      App.showView.trigger('change:toolbarOne');
     }
-    return Spine.trigger('gallery:exposeSelection', item);
+    App.showView.trigger('change:toolbarOne');
+    return Spine.trigger('gallery:exposeSelection');
   };
   GalleriesList.prototype.clickDeselect = function(e) {
-    return Gallery.current();
+    Gallery.current();
+    return this.exposeSelection();
   };
   GalleriesList.prototype.click = function(e) {
     var item;
     console.log('GalleryList::click');
     item = $(e.currentTarget).item();
+    this.select(item);
     App.showView.trigger('change:toolbarOne', ['Default']);
-    this.navigate('/gallery', item.id);
+    Gallery.current(item.id);
+    this.exposeSelection(item);
     e.stopPropagation();
     return e.preventDefault();
   };

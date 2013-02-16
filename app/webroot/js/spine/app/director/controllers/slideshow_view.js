@@ -151,14 +151,17 @@ SlideshowView = (function() {
         });
       }
     }
-    return this.play();
+    if (this.autoplay) {
+      return this.play();
+    }
   };
-  SlideshowView.prototype.show = function() {
+  SlideshowView.prototype.show = function(autoplay) {
     var filterOptions;
     console.log('Slideshow::show');
     App.showView.trigger('change:toolbarOne', ['']);
     App.showView.trigger('change:toolbarTwo', ['SlideshowPackage', App.showView.initSlider]);
     App.showView.trigger('canvas', this);
+    this.autoplay = autoplay;
     filterOptions = {
       key: 'album_id',
       joinTable: 'AlbumsPhoto',
@@ -225,7 +228,7 @@ SlideshowView = (function() {
   SlideshowView.prototype.play = function() {
     var el, elFromCanvas, elFromSelection;
     if (!this.isActive()) {
-      this.navigate('/slideshow', Math.random() * 16 | 0);
+      this.navigate('/slideshow', Math.random() * 16 | 0, true);
     }
     elFromSelection = __bind(function() {
       var el, id, item, list, parent;
@@ -274,7 +277,7 @@ SlideshowView = (function() {
       return;
     }
     if (!App.slideshow.isShown) {
-      this.navigate('/slideshow', Math.random() * 16 | 0);
+      this.navigate('/slideshow', Math.random() * 16 | 0, 1);
     } else {
       App.slideshow.toggleSlideShow();
     }

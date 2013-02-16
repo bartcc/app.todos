@@ -12,7 +12,7 @@ class AlbumsView extends Spine.Controller
   events:
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragover   .items'               : 'dragover'
-    'drop       .items'               : 'drop'
+#    'drop       .items'               : 'drop'
     
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
@@ -44,16 +44,16 @@ class AlbumsView extends Spine.Controller
       sorted: true
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
     Spine.bind('show:albums', @proxy @show)
-    @bind('show:allAlbums', @proxy @renderAll)
+    Spine.bind('show:allAlbums', @proxy @renderAll)
     Spine.bind('create:album', @proxy @create)
-#    Album.bind('create', @proxy @createJoin)
+    Album.bind('create', @proxy @createJoin)
+#    Album.bind('destroy', @proxy @change)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
-    Album.bind('update destroy', @proxy @change)
-    GalleriesAlbum.bind('change', @proxy @renderHeader)
     GalleriesAlbum.bind('change', @proxy @change)
+    GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
@@ -68,24 +68,17 @@ class AlbumsView extends Spine.Controller
     # ommit a complete rendering on resorting
     # on anything else it's ok
     return if (item.constructor.className is 'GalleriesAlbum') and (changed is 'update')
+#    return unless changed
+#    return unless @isActive()
     # !important
 #    return unless @isActive()
 
-    if changed and @parent.allAlbums
-      # deactivate allAlbums
-      @parent.toggleShowAllAlbums()
-      
-    unless @list.loadtest()
-      alert ('stop')
-      return
-#    
-#    items = if @parent.allAlbums
-#      Album.filter()
-#    else
     items = Album.filterRelated(Gallery.record.id, @filterOptions)
       
-      
-    @render items
+    unless Gallery.record
+      @renderAll()
+    else
+      @render items
     
   renderAll: ->
     App.showView.canvasManager.change @
@@ -103,7 +96,7 @@ class AlbumsView extends Spine.Controller
     if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
       
-    Spine.trigger('album:activate')
+#    Spine.trigger('album:activate')
       
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
@@ -113,6 +106,7 @@ class AlbumsView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
+    @list.exposeSelection()
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid
@@ -203,6 +197,7 @@ class AlbumsView extends Spine.Controller
     Spine.trigger('album:activate')
     
   destroyJoin: (albums, target) ->
+    alert 'destroy join'
     return unless target and target.constructor.className is 'Gallery'
 
     for album in albums

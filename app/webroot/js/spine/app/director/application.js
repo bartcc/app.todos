@@ -36,7 +36,6 @@ App = (function() {
   };
   App.prototype.events = {
     'keypress': 'keys',
-    'drop': 'drop',
     'dragenter': 'dragenter'
   };
   function App() {
@@ -162,30 +161,30 @@ App = (function() {
       },
       '/gallery/:gid': function(params) {
         this.contentManager.change(this.showView);
-        return Spine.trigger('gallery:activate', params.gid);
+        Spine.trigger('gallery:activate', params.gid);
+        if (params.gid) {
+          return Spine.trigger('show:albums');
+        } else {
+          return Spine.trigger('show:allAlbums');
+        }
       },
       '/galleries/': function() {
         this.contentManager.change(this.showView);
         return Spine.trigger('show:galleries');
       },
-      '/albums/': function() {
-        this.contentManager.change(this.showView);
-        return this.showView.albumsView.trigger('show:allAlbums');
-      },
-      '/photos/': function() {
-        this.contentManager.change(this.showView);
-        Spine.trigger('show:photos');
-        return Album.current();
-      },
       '/overview/': function() {
         return Spine.trigger('show:overview', true);
       },
-      '/slideshow/:id': function(params) {
+      '/slideshow/:id/:autostart': function(params) {
         this.contentManager.change(this.showView);
-        Spine.trigger('show:slideshow');
+        Spine.trigger('show:slideshow', params.autostart);
         if (params.fs === 'yes') {
           return Spine.trigger('chromeless', true);
         }
+      },
+      '/slideshow/': function() {
+        this.contentManager.change(this.showView);
+        return Spine.trigger('show:slideshow');
       }
     });
   }
@@ -212,6 +211,7 @@ App = (function() {
   App.prototype.drop = function(e) {
     var event, _ref, _ref2, _ref3;
     console.log('App::drop');
+    alert('App::drop');
     event = e.originalEvent;
     if ((_ref = Spine.dragItem) != null) {
       if ((_ref2 = _ref.closest) != null) {
@@ -251,7 +251,9 @@ App = (function() {
     return $('#modal-gallery').modal(options).data('modal');
   };
   App.prototype.hideSlideshow = function() {
-    return this.showView.showPrevious();
+    if (this.showView.slideshowView.autoplay) {
+      return this.showView.showPrevious();
+    }
   };
   App.prototype.initializeFileupload = function() {
     return this.uploader.fileupload({
@@ -287,8 +289,6 @@ App = (function() {
         this.showView.btnPrevious.click();
         return e.preventDefault();
       case 13:
-        this.modalSimpleView.close();
-        this.modal2ButtonView.close();
         return e.preventDefault();
       default:
         return console.log(keyCode);

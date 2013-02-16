@@ -42,6 +42,7 @@ class SidebarList extends Spine.Controller
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
+    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
     Spine.bind('gallery:activate', @proxy @activate)
     
   template: -> arguments[0]
@@ -149,6 +150,7 @@ class SidebarList extends Spine.Controller
   exposeSelection: (item = Gallery.record) ->
     console.log 'SidebarList::exposeSelection'
     @deselect()
+    alert 'deselect'
     @children().forItem(item).addClass("active") if item
     @exposeSublistSelection()
         
@@ -208,7 +210,7 @@ class SidebarList extends Spine.Controller
     albumEl = $(e.target).parents('.alb').addClass('active')
   
   activate: (idOrRecord) ->
-    Spine.trigger('show:albums')
+#    Spine.trigger('show:albums')
     item = Gallery.current(idOrRecord)
     diff = item?.id is not Gallery.record?.id
     @navigate '/gallery', item.id if diff
@@ -269,6 +271,7 @@ class SidebarList extends Spine.Controller
 #    dont act on no-gallery items like the 'no album' - info
     item = $(e.target).closest('.data').item()
     
+    App.contentManager.change App.showView
     @navigate '/gallery', item?.id or ''
     
     e.stopPropagation()

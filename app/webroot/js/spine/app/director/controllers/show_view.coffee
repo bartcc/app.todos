@@ -117,7 +117,7 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
-    @bind('show:previous', @proxy @showPrevious)
+#    @bind('show:previous', @proxy @showPrevious)
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
@@ -149,11 +149,7 @@ class ShowView extends Spine.Controller
     
   previousLocation: ->
     console.log 'ShowView::previousLocation'
-    if @prevLocation is location.hash
-      return '/galleries/'
-    else
-      @prevLocation
-      
+    @prevLocation
     
   canvas: (controller) ->
     console.log 'ShowView::changeCanvas'
@@ -305,7 +301,9 @@ class ShowView extends Spine.Controller
     
   toggleQuickUpload: ->
     @refreshElements()
-    active = @btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok')
+    # toggle is disabled to unable upload-ui functionality
+#    active = @btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok')
+    active = true
     @quickUpload active
     active
   
@@ -315,7 +313,7 @@ class ShowView extends Spine.Controller
     options.autoUpload = active
     
   isQuickUpload: ->
-    $('#fileupload').data('fileupload').options.autoUpload
+    true #$('#fileupload').data('fileupload').options.autoUpload
     
   toggleView: (controller, control) ->
     console.log 'toggleView'
@@ -467,8 +465,7 @@ class ShowView extends Spine.Controller
     @allAlbums
     
   slideshowPlay: (e) =>
-#    Spine.trigger('slideshow:ready') unless @navigate '/slideshow/'
-    @navigate '/slideshow', (Math.random() * 16 | 0)
+    @navigate '/slideshow', (Math.random() * 16 | 0), 1
     
   activePhotos: ->
     phos = []

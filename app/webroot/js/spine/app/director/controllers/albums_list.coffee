@@ -17,12 +17,13 @@ class AlbumsList extends Spine.Controller
     super
     # initialize flickr's slideshow
 #    @el.toggleSlideshow()
-    Album.bind('sortupdate', @proxy @sortupdate)
+    Spine.bind('album:activate', @proxy @activate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
+    Album.bind('update', @proxy @update)
+    Album.bind('sortupdate', @proxy @sortupdate)
+    Album.bind("ajaxError", Album.errorHandler)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
-    Album.bind("ajaxError", Album.errorHandler)
-    Spine.bind('album:activate', @proxy @activate)
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     GalleriesAlbum.bind('change', @proxy @renderRelatedAlbum)
     
@@ -31,6 +32,23 @@ class AlbumsList extends Spine.Controller
   change: (items, mode) ->
     @renderBackgrounds items
     
+  update: (item, options) ->
+    console.log 'AlbumsList::update'
+    el = =>
+      @children().forItem(item)
+    tb = ->
+      $('.thumbnail', el())
+    
+    #Spine triggers 'update' also on new items
+    return unless el().length
+    
+    active = el().hasClass('active')
+    tmplItem = el().tmplItem()
+    tmplItem.tmpl = $( "#albumsTemplate" ).template()
+    tmplItem.update()
+    el().toggleClass('active', active)
+    @refreshElements()
+  
   renderRelatedAlbum: (item, mode) ->
     return unless album = Album.exists(item['album_id'])
     albumEl = @children().forItem(album, true)
@@ -143,7 +161,7 @@ class AlbumsList extends Spine.Controller
     Photo.uri
       width: 50
       height: 50,
-      (xhr, rec) => @callback(xhr, album),
+      (xhr, rec) => @callback(xhr, album)
       data
       
   callback: (json, album) =>

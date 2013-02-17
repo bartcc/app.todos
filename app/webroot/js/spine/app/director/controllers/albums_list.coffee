@@ -19,7 +19,7 @@ class AlbumsList extends Spine.Controller
 #    @el.toggleSlideshow()
     Spine.bind('album:activate', @proxy @activate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
-    Album.bind('update', @proxy @update)
+    Album.bind('change', @proxy @update)
     Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
@@ -32,10 +32,10 @@ class AlbumsList extends Spine.Controller
   change: (items, mode) ->
     @renderBackgrounds items
     
-  update: (item, options) ->
+  update: (item, mode) ->
     console.log 'AlbumsList::update'
     el = =>
-      @children().forItem(item)
+      @children().forItem(item, true unless mode is 'update')
     tb = ->
       $('.thumbnail', el())
     
@@ -43,10 +43,12 @@ class AlbumsList extends Spine.Controller
     return unless el().length
     
     active = el().hasClass('active')
+    css = el().attr('style')
     tmplItem = el().tmplItem()
     tmplItem.tmpl = $( "#albumsTemplate" ).template()
     tmplItem.update()
     el().toggleClass('active', active)
+    el().attr('style', css)
     @refreshElements()
   
   renderRelatedAlbum: (item, mode) ->
@@ -91,7 +93,7 @@ class AlbumsList extends Spine.Controller
     @el
   
   updateTemplate: ->
-  
+    
   exposeSelection: ->
     list = Gallery.selectionList()
     list.push Album.record.id if !list.length and Album.record
@@ -209,6 +211,7 @@ class AlbumsList extends Spine.Controller
     
     window.setTimeout( =>
       Spine.trigger('destroy:album')
+      el.remove()
     , 200)
     
     

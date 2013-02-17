@@ -30,7 +30,7 @@ AlbumsList = (function() {
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Spine.bind('album:activate', this.proxy(this.activate));
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
-    Album.bind('update', this.proxy(this.update));
+    Album.bind('change', this.proxy(this.update));
     Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
     AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbumsPhoto));
@@ -44,11 +44,11 @@ AlbumsList = (function() {
   AlbumsList.prototype.change = function(items, mode) {
     return this.renderBackgrounds(items);
   };
-  AlbumsList.prototype.update = function(item, options) {
-    var active, el, tb, tmplItem;
+  AlbumsList.prototype.update = function(item, mode) {
+    var active, css, el, tb, tmplItem;
     console.log('AlbumsList::update');
     el = __bind(function() {
-      return this.children().forItem(item);
+      return this.children().forItem(item, mode !== 'update' ? true : void 0);
     }, this);
     tb = function() {
       return $('.thumbnail', el());
@@ -57,10 +57,12 @@ AlbumsList = (function() {
       return;
     }
     active = el().hasClass('active');
+    css = el().attr('style');
     tmplItem = el().tmplItem();
     tmplItem.tmpl = $("#albumsTemplate").template();
     tmplItem.update();
     el().toggleClass('active', active);
+    el().attr('style', css);
     return this.refreshElements();
   };
   AlbumsList.prototype.renderRelatedAlbum = function(item, mode) {
@@ -272,7 +274,8 @@ AlbumsList = (function() {
     el.removeClass('in');
     this.stopInfo();
     window.setTimeout(__bind(function() {
-      return Spine.trigger('destroy:album');
+      Spine.trigger('destroy:album');
+      return el.remove();
     }, this), 200);
     e.stopPropagation();
     return e.preventDefault();

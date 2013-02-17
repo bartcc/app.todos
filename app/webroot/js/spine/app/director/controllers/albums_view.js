@@ -252,12 +252,12 @@ AlbumsView = (function() {
     }
   };
   AlbumsView.prototype.loadingDone = function(album) {
-    var el, _ref;
+    var el, _ref, _ref2;
     el = this.items.children().forItem(album);
     if ((_ref = el.data().queue) != null) {
       _ref.splice(0, 1);
     }
-    if (!el.data().queue.length) {
+    if (!((_ref2 = el.data().queue) != null ? _ref2.length : void 0)) {
       return el.removeClass('loading');
     }
   };

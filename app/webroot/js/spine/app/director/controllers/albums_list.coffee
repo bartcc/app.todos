@@ -34,40 +34,38 @@ class AlbumsList extends Spine.Controller
     
   update: (item, mode) ->
     console.log 'AlbumsList::update'
-    el = =>
-      @children().forItem(item, true unless mode is 'update')
-    tb = ->
-      $('.thumbnail', el())
     
-    #Spine triggers 'update' also on new items
-    return unless el().length
-    
-    active = el().hasClass('active')
-    css = el().attr('style')
-    tmplItem = el().tmplItem()
-    tmplItem.tmpl = $( "#albumsTemplate" ).template()
-    tmplItem.update()
-    el().toggleClass('active', active)
-    el().attr('style', css)
-    @refreshElements()
+    switch mode
+      when 'create'
+        if gallery = Gallery.record
+          @el.empty() if gallery.contains() is 1
+
+        @append @template item
+      when 'update'
+        el = =>
+          @children().forItem(item)
+        tb = ->
+          $('.thumbnail', el())
+
+        #Spine triggers 'update' also on new items
+        return unless el().length
+
+        active = el().hasClass('active')
+        css = el().attr('style')
+        tmplItem = el().tmplItem()
+        tmplItem.tmpl = $( "#albumsTemplate" ).template()
+        tmplItem.update()
+        el().toggleClass('active', active)
+        el().attr('style', css)
+        @refreshElements()
+        
   
   renderRelatedAlbum: (item, mode) ->
     return unless album = Album.exists(item['album_id'])
     albumEl = @children().forItem(album, true)
     
+    alert mode
     switch mode
-      when 'create'
-        # caution! watch out for the correct gallery
-        return unless item.gallery_id is Gallery.record.id
-        # clear screen for first element
-        if gallery = Gallery.record
-          @el.empty() if gallery.contains() is 1
-
-        @append @template album
-        
-      when 'update'
-        @updateTemplate album
-        
       when 'destroy'
         albumEl.remove()
         if gallery = Gallery.record
@@ -92,7 +90,7 @@ class AlbumsList extends Spine.Controller
     @change items, mode
     @el
   
-  updateTemplate: ->
+  updateTemplate: (item) ->
     
   exposeSelection: ->
     list = Gallery.selectionList()

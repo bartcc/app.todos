@@ -229,7 +229,6 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.destroyJoin = function(albums, target) {
     var album, _i, _len, _results;
-    alert('destroy join');
     if (!(target && target.constructor.className === 'Gallery')) {
       return;
     }

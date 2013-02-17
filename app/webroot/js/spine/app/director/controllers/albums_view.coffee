@@ -197,7 +197,6 @@ class AlbumsView extends Spine.Controller
     Spine.trigger('album:activate')
     
   destroyJoin: (albums, target) ->
-    alert 'destroy join'
     return unless target and target.constructor.className is 'Gallery'
 
     for album in albums

@@ -215,7 +215,7 @@ class AlbumsView extends Spine.Controller
     
   loadingDone: (album) ->
     el = @items.children().forItem(album)
-    el.data().queue.splice(0, 1)
+    el.data().queue?.splice(0, 1)
     el.removeClass('loading') unless el.data().queue.length
     
     

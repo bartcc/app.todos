@@ -79,7 +79,7 @@ AlbumsList = (function() {
       this.html(this.template(items));
     } else {
       if (!Gallery.record) {
-        this.navigate('/galleries');
+        this.navigate('/galleries/');
       } else if (Album.count()) {
         this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>');
       } else {

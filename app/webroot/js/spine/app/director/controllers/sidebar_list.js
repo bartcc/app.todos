@@ -46,7 +46,6 @@ SidebarList = (function() {
     AlbumsPhoto.bind('change', this.proxy(this.renderItemFromAlbumsPhoto));
     GalleriesAlbum.bind('change', this.proxy(this.renderItemFromGalleriesAlbum));
     Gallery.bind('change', this.proxy(this.change));
-    Album.bind('change', this.proxy(this.renderItemFromAlbum));
     Spine.bind('render:galleryAllSublist', this.proxy(this.renderAllSublist));
     Spine.bind('drag:timeout', this.proxy(this.expandAfterTimeout));
     Spine.bind('expose:sublistSelection', this.proxy(this.exposeSublistSelection));
@@ -68,7 +67,6 @@ SidebarList = (function() {
           break;
         case 'update':
           this.current = item;
-          this.update(item);
           break;
         case 'destroy':
           this.current = false;
@@ -148,6 +146,7 @@ SidebarList = (function() {
   };
   SidebarList.prototype.renderAllSublist = function() {
     var gal, _i, _len, _ref, _results;
+    console.log('SidebarList::renderAllSublist');
     _ref = Gallery.records;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -253,18 +252,6 @@ SidebarList = (function() {
       gallery = Gallery.find(ga.gallery_id);
     }
     return this.renderOneSublist(gallery);
-  };
-  SidebarList.prototype.renderItemFromAlbum = function(album) {
-    var ga, gas, _i, _len, _results;
-    gas = GalleriesAlbum.filter(album.id, {
-      key: 'album_id'
-    });
-    _results = [];
-    for (_i = 0, _len = gas.length; _i < _len; _i++) {
-      ga = gas[_i];
-      _results.push(this.renderItemFromGalleriesAlbum(ga));
-    }
-    return _results;
   };
   SidebarList.prototype.renderItemFromAlbumsPhoto = function(ap) {
     var ga, gas, _i, _len, _results;

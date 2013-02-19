@@ -297,14 +297,14 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in">
+  <li class="item container fade in sortable" draggable="true">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail left" draggable="true"></div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-zoom-in icon-white left"></span>
       <span class="icon-loading delete icon-remove icon-white right"></span>
     </div>
-    <div class="title">{{if title}}{{html title}}{{else}}No album selected{{/if}}</div>
+    <div class="title">{{if title}}{{html title}}{{else}}---{{/if}}</div>
     <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
@@ -373,7 +373,8 @@
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
     <li class="name bold">
-      <span class="left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span>
+      <span class="left">{{if title}}${title}{{else}}---{{/if}} </span>
+      <span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span>
     </li>
   </ul>
 </script>
@@ -390,7 +391,7 @@
   {{if !album}}
 <!--    <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying the master, will cause all derived photos (aliases) to be removed!</div>-->
   {{/if}}
-  <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}no title{{/if}}{{/if}}</h2>
+  <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}---{{/if}}{{/if}}</h2>
 </script>
 
 
@@ -406,7 +407,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  class="item data container fade in">
+  <li  class="item data container fade in sortable">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
@@ -561,7 +562,7 @@
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
   <span style="font-size: 0.6em;" class=" alert alert-success">
     <span style="font-size: 2.9em; font-family: cursive; margin-right: 20px;" class="alert alert-error">"</span>
-    {{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}all photos{{/if}}
+    {{if album}}{{if album.title}}${album.title}{{else}}---{{/if}}{{else}}all photos{{/if}}
     <span style="font-size: 5em; font-family: cursive;  margin-left: 20px;" class="alert alert-block uploadinfo"></span>
   </span>
 </script>

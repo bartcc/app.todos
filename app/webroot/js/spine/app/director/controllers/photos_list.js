@@ -54,6 +54,9 @@ PhotosList = (function() {
   };
   PhotosList.prototype.render = function(items, mode) {
     var html;
+    if (items == null) {
+      items = [];
+    }
     if (mode == null) {
       mode = 'html';
     }
@@ -112,10 +115,10 @@ PhotosList = (function() {
   };
   PhotosList.prototype.thumbSize = function(width, height) {
     if (width == null) {
-      width = this.parent.thumbSize;
+      width = App.showView.thumbSize;
     }
     if (height == null) {
-      height = this.parent.thumbSize;
+      height = App.showView.thumbSize;
     }
     return {
       width: width,
@@ -124,7 +127,7 @@ PhotosList = (function() {
   };
   PhotosList.prototype.uri = function(items, mode) {
     console.log('PhotosList::uri');
-    this.size(this.parent.sOutValue);
+    this.size(App.showView.sOutValue);
     return Photo.uri(this.thumbSize(), __bind(function(xhr, record) {
       return this.callback(xhr, items);
     }, this), this.photos());
@@ -281,8 +284,14 @@ PhotosList = (function() {
     el.removeClass('in');
     Album.updateSelection(item.id);
     window.setTimeout(__bind(function() {
+      var album;
       Spine.trigger('destroy:photo');
-      return this.stopInfo();
+      this.stopInfo();
+      if (album = Album.record) {
+        if (!this.el.children().length) {
+          return this.parent.render();
+        }
+      }
     }, this), 300);
     this.stopInfo();
     e.stopPropagation();

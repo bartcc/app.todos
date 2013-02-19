@@ -35,7 +35,7 @@ class PhotosView extends Spine.Controller
       el: @items
       template: @template
       info: @info
-      parent: @parent
+      parent: @
     @header.template = @headerTemplate
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
@@ -114,7 +114,7 @@ class PhotosView extends Spine.Controller
     Photo.each (record) =>
       photos.push record unless list.indexOf(record.id) is -1
       
-    if Album.record
+    if album = Album.record
       Album.emptySelection()
       Photo.trigger('destroy:join', photos, Album.record)
     else

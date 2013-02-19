@@ -42,7 +42,7 @@ class PhotosList extends Spine.Controller
     @current = Photo.current(item?)
     @exposeSelection()
   
-  render: (items, mode='html') ->
+  render: (items=[], mode='html') ->
     console.log 'PhotosList::render'
     if Album.record
       @el.removeClass 'all'
@@ -88,14 +88,14 @@ class PhotosList extends Spine.Controller
     el().toggleClass('active', active)
     @refreshElements()
   
-  thumbSize: (width = @parent.thumbSize, height = @parent.thumbSize) ->
+  thumbSize: (width = App.showView.thumbSize, height = App.showView.thumbSize) ->
     width: width
     height: height
   
   # the actual final rendering method
   uri: (items, mode) ->
     console.log 'PhotosList::uri'
-    @size(@parent.sOutValue)
+    @size(App.showView.sOutValue)
     
     Photo.uri @thumbSize(),
       (xhr, record) => @callback(xhr, items),
@@ -224,6 +224,9 @@ class PhotosList extends Spine.Controller
     window.setTimeout( =>
       Spine.trigger('destroy:photo')
       @stopInfo()
+      if album = Album.record
+          unless @el.children().length
+            @parent.render() #unless gallery.contains()
     , 300)
     
     @stopInfo()

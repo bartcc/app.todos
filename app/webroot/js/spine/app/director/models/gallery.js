@@ -75,12 +75,8 @@ Gallery = (function() {
     return this.constructor.selection.push(newSelection);
   };
   Gallery.prototype.details = function() {
-    var album, albums, filterOptions, imagesCount, _i, _len;
-    filterOptions = {
-      key: 'gallery_id',
-      joinTable: 'GalleriesAlbum'
-    };
-    albums = Album.filterRelated(this.id, filterOptions);
+    var album, albums, imagesCount, _i, _len;
+    albums = Gallery.albums(this.id);
     imagesCount = 0;
     for (_i = 0, _len = albums.length; _i < _len; _i++) {
       album = albums[_i];

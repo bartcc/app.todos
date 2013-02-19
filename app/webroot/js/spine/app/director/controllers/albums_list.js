@@ -28,36 +28,29 @@ AlbumsList = (function() {
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
-    Spine.bind('album:activate', this.proxy(this.activate));
-    Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
-    Album.bind('change', this.proxy(this.update));
+    Album.bind('change', this.proxy(this.change));
     Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
+    Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
     AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbumsPhoto));
     AlbumsPhoto.bind('destroy create', this.proxy(this.updateBackgrounds));
     GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
-    GalleriesAlbum.bind('change', this.proxy(this.renderRelatedAlbum));
+    GalleriesAlbum.bind('change', this.proxy(this.changeRelatedAlbum));
+    Spine.bind('album:activate', this.proxy(this.activate));
   }
   AlbumsList.prototype.template = function() {
     return arguments[0];
   };
-  AlbumsList.prototype.change = function(items, mode) {
-    return this.renderBackgrounds(items);
-  };
-  AlbumsList.prototype.update = function(item, mode) {
-    var active, css, el, gallery, tb, tmplItem;
-    console.log('AlbumsList::update');
+  AlbumsList.prototype.change = function(album, mode, options) {
+    var active, css, el, tb, tmplItem;
     switch (mode) {
-      case 'create':
-        if (gallery = Gallery.record) {
-          if (gallery.contains() === 1) {
-            this.el.empty();
-          }
-        }
-        return this.append(this.template(item));
       case 'update':
         el = __bind(function() {
-          return this.children().forItem(item);
+          try {
+            return this.children().forItem(album);
+          } catch (e) {
+            return [];
+          }
         }, this);
         tb = function() {
           return $('.thumbnail', el());
@@ -73,28 +66,9 @@ AlbumsList = (function() {
         el().toggleClass('active', active);
         el().attr('style', css);
         return this.refreshElements();
-    }
-  };
-  AlbumsList.prototype.renderRelatedAlbum = function(item, mode) {
-    var album, albumEl, gallery;
-    if (!(album = Album.exists(item['album_id']))) {
-      return;
-    }
-    albumEl = this.children().forItem(album, true);
-    alert(mode);
-    switch (mode) {
       case 'destroy':
-        albumEl.remove();
-        if (gallery = Gallery.record) {
-          if (!this.el.children().length) {
-            if (!gallery.contains()) {
-              this.parent.render();
-            }
-          }
-        }
+        return this.children().forItem(album, true).remove();
     }
-    this.exposeSelection();
-    return this.el;
   };
   AlbumsList.prototype.render = function(items, mode) {
     if (items == null) {
@@ -107,10 +81,38 @@ AlbumsList = (function() {
       if (Album.count()) {
         this.html('<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>');
       } else {
-        this.html('<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;<button class="optCreateAlbum dark large">New Album</button></span></label>');
+        this.html('<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<br><button class="optCreateAlbum dark large">New Album</button></span></label>');
       }
     }
-    this.change(items, mode);
+    this.renderBackgrounds(items, mode);
+    return this.el;
+  };
+  AlbumsList.prototype.changeRelatedAlbum = function(item, mode) {
+    var album, albumEl, gallery, wipe, _ref;
+    if (!(album = Album.exists(item['album_id']))) {
+      return;
+    }
+    switch (mode) {
+      case 'create':
+        wipe = ((_ref = Gallery.record) != null ? _ref.contains() : void 0) === 1;
+        if (wipe) {
+          this.el.empty();
+        }
+        this.append(this.template(album));
+        this.el.sortable('album');
+        break;
+      case 'destroy':
+        albumEl = this.children().forItem(album, true);
+        albumEl.remove();
+        if (gallery = Gallery.record) {
+          if (!this.el.children().length) {
+            if (!gallery.contains()) {
+              this.parent.render();
+            }
+          }
+        }
+    }
+    this.exposeSelection();
     return this.el;
   };
   AlbumsList.prototype.updateTemplate = function(item) {};

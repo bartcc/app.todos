@@ -60,7 +60,6 @@ AlbumsView = (function() {
     Album.bind('ajaxError', Album.errorHandler);
     Album.bind('destroy:join', this.proxy(this.destroyJoin));
     Album.bind('create:join', this.proxy(this.createJoin));
-    GalleriesAlbum.bind('change', this.proxy(this.change));
     GalleriesAlbum.bind('change', this.proxy(this.renderHeader));
     Spine.bind('change:selectedGallery', this.proxy(this.change));
     Spine.bind('change:selectedGallery', this.proxy(this.renderHeader));
@@ -84,7 +83,8 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.renderAll = function() {
     App.showView.canvasManager.change(this);
-    return this.render(Album.filter());
+    this.render(Album.filter());
+    return this.el;
   };
   AlbumsView.prototype.render = function(items, mode) {
     var list;
@@ -93,8 +93,9 @@ AlbumsView = (function() {
     list.sortable('album');
     this.header.render();
     if (items && items.constructor.className === 'GalleriesAlbum' && item.destroyed) {
-      return this.show();
+      this.show();
     }
+    return this.el;
   };
   AlbumsView.prototype.renderHeader = function() {
     console.log('AlbumsView::renderHeader');
@@ -119,7 +120,7 @@ AlbumsView = (function() {
   AlbumsView.prototype.newAttributes = function() {
     if (User.first()) {
       return {
-        title: 'New Album',
+        title: 'new',
         invalid: false,
         user_id: User.first().id,
         order: Album.count()
@@ -130,43 +131,28 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.create = function(list, options) {
     var album, cb;
-    console.log('AlbumsView::create');
-    if (list) {
-      cb = __bind(function() {
-        var album, gallery;
-        album = Album.last();
-        gallery = Gallery.record;
-        if (gallery) {
-          album.createJoin(gallery);
-        }
-        Photo.trigger('create:join', list, album);
-        if ((options != null ? options.origin : void 0) != null) {
-          Photo.trigger('destroy:join', list, options['origin']);
-        }
-        if (Gallery.record) {
-          this.navigate('/gallery', Gallery.record.id);
-        } else {
-          this.navigate('/gallery', null + '/' + album.id);
-        }
-        album.updateSelection([album.id]);
-        return Spine.trigger('album:activate');
-      }, this);
-    } else {
-      cb = function() {
-        if (Gallery.record) {
-          this.createJoin(Gallery.record);
-          album.updateSelection([this.id]);
-          Spine.trigger('album:activate');
-          return App.navigate('/gallery', Gallery.record.id);
-        } else {
-          return App.navigate('/galleries/');
-        }
-      };
+    if (list == null) {
+      list = [];
     }
+    console.log('AlbumsView::create');
+    cb = function() {
+      if (Gallery.record) {
+        this.createJoin(Gallery.record);
+      }
+      Photo.trigger('create:join', list, this);
+      if ((options != null ? options.origin : void 0) != null) {
+        return Photo.trigger('destroy:join', list, options['origin']);
+      }
+    };
     album = new Album(this.newAttributes());
-    return album.save({
+    album.save({
       success: cb
     });
+    if (Gallery.record) {
+      App.navigate('/gallery', Gallery.record.id);
+    }
+    Gallery.updateSelection([album.id]);
+    return Spine.trigger('album:activate');
   };
   AlbumsView.prototype.destroy = function() {
     var album, albums, ga, gallery, gas, list, photos, _i, _j, _k, _len, _len2, _len3, _results;
@@ -212,9 +198,6 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.createJoin = function(albums, target) {
     var album, _i, _len;
-    if (albums == null) {
-      albums = [];
-    }
     if (target == null) {
       target = Gallery.record;
     }

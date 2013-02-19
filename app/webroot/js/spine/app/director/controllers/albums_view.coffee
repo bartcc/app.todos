@@ -47,12 +47,10 @@ class AlbumsView extends Spine.Controller
     Spine.bind('show:allAlbums', @proxy @renderAll)
     Spine.bind('create:album', @proxy @create)
     Album.bind('create', @proxy @createJoin)
-#    Album.bind('destroy', @proxy @change)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
-    GalleriesAlbum.bind('change', @proxy @change)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
@@ -83,20 +81,22 @@ class AlbumsView extends Spine.Controller
   renderAll: ->
     App.showView.canvasManager.change @
     @render Album.filter()
+    @el
     
   render: (items, mode) ->
     console.log 'AlbumsView::render'
 
     
     list = @list.render items, mode
-    list.sortable 'album' #if Gallery.record
+    list.sortable('album')
+    
     @header.render()
 
-    # when Album is deleted in Photos View return to this View
+    # when in Photos View the Album is deleted return to this View
     if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed
       @show()
       
-#    Spine.trigger('album:activate')
+    @el
       
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
@@ -116,52 +116,32 @@ class AlbumsView extends Spine.Controller
     
   newAttributes: ->
     if User.first()
-      title   : 'New Album'
+      title   : 'new'
       invalid : false
       user_id : User.first().id
       order   : Album.count()
     else
       User.ping()
   
-  # creates new album
-  # argument can be an array of photos
-  create: (list, options) ->
+  create: (list=[], options) ->
     console.log 'AlbumsView::create'
     
-    if list
-      cb = =>
-        album = Album.last()
-        
-        gallery = Gallery.record
-        album.createJoin(gallery) if gallery
-        Photo.trigger('create:join', list, album)
-        Photo.trigger('destroy:join', list, options['origin']) if options?.origin?
-#        Album.trigger('create:join', album, Gallery.record) if Gallery.record
-        
-        if Gallery.record
-          @navigate '/gallery', Gallery.record.id
-        else
-          @navigate '/gallery', null + '/' + album.id
-          
-        # make the new album active
-        album.updateSelection [album.id]
-        Spine.trigger('album:activate')
-        
-    else
-      cb = ->
-        if Gallery.record
-          @createJoin(Gallery.record) 
-          # select first album
-          album.updateSelection [@id]
-          Spine.trigger('album:activate')
-          App.navigate '/gallery', Gallery.record.id
-        else
-          App.navigate '/galleries/'
-          
+    # creates an new album with photos
+    # argument can be an array of photos
+    cb = ->
+      @createJoin(Gallery.record) if Gallery.record
+      Photo.trigger('create:join', list, @)
+      Photo.trigger('destroy:join', list, options['origin']) if options?.origin?
         
     album = new Album @newAttributes()
-    album.save success: cb
-
+    album.save(success: cb) #
+      
+    if Gallery.record
+      App.navigate '/gallery', Gallery.record.id
+      
+    Gallery.updateSelection [album.id]
+    Spine.trigger('album:activate')
+        
   destroy: ->
     console.log 'AlbumsView::destroy'
     list = Gallery.selectionList().slice(0)
@@ -188,7 +168,7 @@ class AlbumsView extends Spine.Controller
         Gallery.removeFromSelection album.id
         album.destroy()
 
-  createJoin: (albums=[], target=Gallery.record) ->
+  createJoin: (albums, target=Gallery.record) ->
     return unless target and target.constructor.className is 'Gallery'
 
     for album in albums
@@ -217,6 +197,5 @@ class AlbumsView extends Spine.Controller
     el = @items.children().forItem(album)
     el.data().queue?.splice(0, 1)
     el.removeClass('loading') unless el.data().queue?.length
-    
     
 module?.exports = AlbumsView

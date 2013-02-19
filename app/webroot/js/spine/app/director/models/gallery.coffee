@@ -46,14 +46,11 @@ class Gallery extends Spine.Model
     @constructor.selection.push(newSelection)
     
   details: =>
-    filterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
-    albums = Album.filterRelated(@id, filterOptions)
+    albums = Gallery.albums(@id)
     imagesCount = 0
     for album in albums
       imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
-
+    
     iCount: imagesCount
     aCount: albums.length
     

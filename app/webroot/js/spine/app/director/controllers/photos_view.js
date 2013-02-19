@@ -47,7 +47,7 @@ PhotosView = (function() {
       el: this.items,
       template: this.template,
       info: this.info,
-      parent: this.parent
+      parent: this
     });
     this.header.template = this.headerTemplate;
     AlbumsPhoto.bind('change', this.proxy(this.renderHeader));
@@ -131,7 +131,7 @@ PhotosView = (function() {
         return photos.push(record);
       }
     }, this));
-    if (Album.record) {
+    if (album = Album.record) {
       Album.emptySelection();
       return Photo.trigger('destroy:join', photos, Album.record);
     } else {

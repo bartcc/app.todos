@@ -114,33 +114,6 @@ Model.Cache = {
         }
         return false;
       },
-      addToCache_: function(url, uris) {
-        var cache, uri_, url_;
-        cache = this.cacheList();
-        url_ = function() {
-          var item, urlObj, _i, _len;
-          for (_i = 0, _len = cache.length; _i < _len; _i++) {
-            item = cache[_i];
-            if (item[url]) {
-              return item[url];
-            }
-          }
-          urlObj = {};
-          urlObj[url] = [];
-          cache.push(urlObj);
-          return urlObj[url];
-        };
-        uri_ = function(arr) {
-          var uri, _i, _len, _results;
-          _results = [];
-          for (_i = 0, _len = uris.length; _i < _len; _i++) {
-            uri = uris[_i];
-            _results.push(arr.push(uri));
-          }
-          return _results;
-        };
-        return uri_(url_());
-      },
       destroyCache: function(id) {
         var findIdFromObject, findItemsFromArray, idx, itm, list, _len, _results;
         list = this.cacheList();

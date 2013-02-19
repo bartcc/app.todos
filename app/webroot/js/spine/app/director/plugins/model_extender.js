@@ -30,7 +30,6 @@ Model.Extender = {
         prev = this.record;
         this.record = rec;
         same = !!(((_ref = this.record) != null ? typeof _ref.eql === "function" ? _ref.eql(prev) : void 0 : void 0) && !!prev);
-        console.log('trigger ' + this.className);
         Spine.trigger('change:selected' + this.className, this.record, !same);
         return this.record;
       },

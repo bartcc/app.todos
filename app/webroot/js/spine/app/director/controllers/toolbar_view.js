@@ -61,7 +61,6 @@ ToolbarView = (function() {
   };
   ToolbarView.prototype.click_ = function(e) {
     this.refresh();
-    console.log('click');
     return e.preventDefault();
   };
   ToolbarView.prototype.lock = function() {

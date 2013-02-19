@@ -13,39 +13,32 @@ class AlbumsList extends Spine.Controller
     'mouseleave .item'        : 'infoBye'
     'dragstart .item'         : 'stopInfo'
     
+    
   constructor: ->
     super
     # initialize flickr's slideshow
 #    @el.toggleSlideshow()
-    Spine.bind('album:activate', @proxy @activate)
-    Photo.bind('refresh', @proxy @refreshBackgrounds)
-    Album.bind('change', @proxy @update)
+    Album.bind('change', @proxy @change)
     Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
+    Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
-    GalleriesAlbum.bind('change', @proxy @renderRelatedAlbum)
+    GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
+    Spine.bind('album:activate', @proxy @activate)
     
   template: -> arguments[0]
   
-  change: (items, mode) ->
-    @renderBackgrounds items
-    
-  update: (item, mode) ->
-    console.log 'AlbumsList::update'
-    
+  change: (album, mode, options) ->
     switch mode
-      when 'create'
-        if gallery = Gallery.record
-          @el.empty() if gallery.contains() is 1
-
-        @append @template item
       when 'update'
         el = =>
-          @children().forItem(item)
-        tb = ->
-          $('.thumbnail', el())
+          try
+            @children().forItem(album)
+          catch e
+            []
+        tb = -> $('.thumbnail', el())
 
         #Spine triggers 'update' also on new items
         return unless el().length
@@ -59,22 +52,9 @@ class AlbumsList extends Spine.Controller
         el().attr('style', css)
         @refreshElements()
         
-  
-  renderRelatedAlbum: (item, mode) ->
-    return unless album = Album.exists(item['album_id'])
-    albumEl = @children().forItem(album, true)
-    
-    alert mode
-    switch mode
       when 'destroy'
-        albumEl.remove()
-        if gallery = Gallery.record
-          unless @el.children().length
-            @parent.render() unless gallery.contains()
-          
-    @exposeSelection()
-    @el
-  
+        @children().forItem(album, true).remove()
+    
   render: (items=[], mode) ->
     console.log 'AlbumsList::render'
       
@@ -84,13 +64,35 @@ class AlbumsList extends Spine.Controller
       if Album.count()
         @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>'
       else
-        @html '<label class="invite"><span class="enlightened">Time to create a new album. &nbsp;<button class="optCreateAlbum dark large">New Album</button></span></label>'
+        @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
     
     
-    @change items, mode
+    @renderBackgrounds items, mode
+    @el
+  
+  changeRelatedAlbum: (item, mode) ->
+    return unless album = Album.exists(item['album_id'])
+    
+    switch mode
+      when 'create'
+        wipe = Gallery.record?.contains() is 1
+        @el.empty() if wipe
+        @append @template album
+        @el.sortable 'album'
+        
+      when 'destroy'
+        albumEl = @children().forItem(album, true)
+        albumEl.remove()
+        if gallery = Gallery.record
+          unless @el.children().length
+            @parent.render() unless gallery.contains()
+          
+        
+    @exposeSelection()
     @el
   
   updateTemplate: (item) ->
+    
     
   exposeSelection: ->
     list = Gallery.selectionList()

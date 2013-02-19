@@ -74,9 +74,6 @@ Album = (function() {
   };
   Album.createJoin = function(items, target) {
     var ga, item, _i, _len, _results;
-    if (items == null) {
-      items = [];
-    }
     if (!this.isArray(items)) {
       items = [].push(items);
     }

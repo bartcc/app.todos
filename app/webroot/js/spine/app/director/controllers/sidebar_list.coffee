@@ -38,7 +38,7 @@ class SidebarList extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
-    Album.bind('change', @proxy @renderItemFromAlbum)
+#    Album.bind('change', @proxy @renderItemFromAlbum)
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
@@ -58,7 +58,7 @@ class SidebarList extends Spine.Controller
           @create item
         when 'update'
           @current = item
-          @update item
+#          @update item
         when 'destroy'
           @current = false
           @destroy item
@@ -126,6 +126,7 @@ class SidebarList extends Spine.Controller
     @html @template items.sort(Gallery.nameSort)
 
   renderAllSublist: ->
+    console.log 'SidebarList::renderAllSublist'
     for gal in Gallery.records
       @renderOneSublist gal
   
@@ -192,11 +193,6 @@ class SidebarList extends Spine.Controller
     gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
     @renderOneSublist gallery
     
-  renderItemFromAlbum: (album) ->
-    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
-    for ga in gas
-      @renderItemFromGalleriesAlbum ga
-      
   renderItemFromAlbumsPhoto: (ap) ->
     gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
     for ga in gas

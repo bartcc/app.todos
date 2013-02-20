@@ -191,8 +191,8 @@ App = (function() {
       }
     });
   }
-  App.prototype.storeHash = function() {
-    return localStorage.hash = location.hash;
+  App.prototype.storeHash = function(hash) {
+    return localStorage.hash = hash || location.hash;
   };
   App.prototype.fullscreen = function() {
     return Spine.trigger('chromeless', true);
@@ -290,11 +290,12 @@ App = (function() {
 })();
 $(function() {
   var route;
+  route = location.hash || localStorage.hash;
   User.ping();
   window.App = new App({
-    el: $('body')
+    el: $('body'),
+    hash: null
   });
   Spine.Route.setup();
-  route = location.hash || localStorage.hash;
   return App.navigate(route);
 });

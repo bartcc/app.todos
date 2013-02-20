@@ -16,6 +16,7 @@ AlbumsList = (function() {
   AlbumsList.prototype.events = {
     'click .item': 'click',
     'click .icon-set .delete': 'deleteAlbum',
+    'click .icon-set .back': 'back',
     'click .icon-set .zoom': 'zoom',
     'mouseenter .item': 'infoEnter',
     'mousemove': 'infoMove',
@@ -29,12 +30,10 @@ AlbumsList = (function() {
     this.infoUp = __bind(this.infoUp, this);
     this.callback = __bind(this.callback, this);    AlbumsList.__super__.constructor.apply(this, arguments);
     Album.bind('change', this.proxy(this.change));
-    Album.bind('sortupdate', this.proxy(this.sortupdate));
     Album.bind("ajaxError", Album.errorHandler);
     Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
     AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbumsPhoto));
     AlbumsPhoto.bind('destroy create', this.proxy(this.updateBackgrounds));
-    GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     GalleriesAlbum.bind('change', this.proxy(this.changeRelatedAlbum));
     Spine.bind('album:activate', this.proxy(this.activate));
   }
@@ -90,18 +89,18 @@ AlbumsList = (function() {
     return this.el;
   };
   AlbumsList.prototype.changeRelatedAlbum = function(item, mode) {
-    var album, albumEl, gallery, wipe, _ref;
+    var album, albumEl, gallery, wipe;
     if (!(album = Album.exists(item['album_id']))) {
       return;
     }
     switch (mode) {
       case 'create':
-        wipe = ((_ref = Gallery.record) != null ? _ref.contains() : void 0) === 1;
+        wipe = Gallery.record && Gallery.record.contains() === 1;
         if (wipe) {
           this.el.empty();
         }
         this.append(this.template(album));
-        this.el.sortable('album');
+        this.el.sortable('destroy').sortable('album');
         break;
       case 'destroy':
         albumEl = this.children().forItem(album, true);
@@ -264,6 +263,9 @@ AlbumsList = (function() {
       }
     });
   };
+  AlbumsList.prototype.back = function() {
+    return this.navigate('/galleries/');
+  };
   AlbumsList.prototype.deleteAlbum = function(e) {
     var el, item, _ref;
     item = $(e.currentTarget).item();
@@ -280,28 +282,6 @@ AlbumsList = (function() {
     }, this), 200);
     e.stopPropagation();
     return e.preventDefault();
-  };
-  AlbumsList.prototype.sortupdate = function(e, item) {
-    this.children().each(function(index) {
-      var album, ga;
-      item = $(this).item();
-      if (item && Gallery.record) {
-        ga = GalleriesAlbum.filter(item.id, {
-          func: 'selectAlbum'
-        })[0];
-        if (ga && ga.order !== index) {
-          ga.order = index;
-          return ga.save();
-        }
-      } else if (item) {
-        album = (Album.filter(item.id, {
-          func: 'selectAlbum'
-        }))[0];
-        album.order = index;
-        return album.save();
-      }
-    });
-    return this.exposeSelection();
   };
   AlbumsList.prototype.infoUp = function(e) {
     var el;

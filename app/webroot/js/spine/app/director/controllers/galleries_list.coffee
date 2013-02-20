@@ -8,6 +8,7 @@ class GalleriesList extends Spine.Controller
   events:
     'click'                   : 'clickDeselect'
     'click .item'             : 'click'
+    'click .icon-set .back'   : 'back'
     'dblclick .item'          : 'zoom'
     'click .icon-set .delete' : 'deleteGallery'
     'click .icon-set .zoom'   : 'zoom'
@@ -103,6 +104,9 @@ class GalleriesList extends Spine.Controller
     @exposeSelection item
     e.stopPropagation()
     e.preventDefault()
+
+  back: ->
+    @navigate '/overview/'
 
   zoom: (e) ->
     console.log 'GalleryList::zoom'

@@ -20,7 +20,8 @@ AlbumsView = (function() {
   };
   AlbumsView.prototype.events = {
     'dragstart  .items .thumbnail': 'dragstart',
-    'dragover   .items': 'dragover'
+    'dragover   .items': 'dragover',
+    'sortupdate .items': 'sortupdate'
   };
   AlbumsView.prototype.albumsTemplate = function(items, options) {
     return $("#albumsTemplate").tmpl(items, options);
@@ -66,6 +67,8 @@ AlbumsView = (function() {
     Gallery.bind('refresh change', this.proxy(this.renderHeader));
     Spine.bind('loading:start', this.proxy(this.loadingStart));
     Spine.bind('loading:done', this.proxy(this.loadingDone));
+    Album.bind('sortupdate', this.proxy(this.sortupdate));
+    GalleriesAlbum.bind('destroy', this.proxy(this.sortupdate));
     $(this.views).queue('fx');
   }
   AlbumsView.prototype.change = function(item, changed) {
@@ -243,6 +246,28 @@ AlbumsView = (function() {
     if (!((_ref2 = el.data().queue) != null ? _ref2.length : void 0)) {
       return el.removeClass('loading');
     }
+  };
+  AlbumsView.prototype.sortupdate = function(e, item) {
+    this.list.children().each(function(index) {
+      var album, ga;
+      item = $(this).item();
+      if (item && Gallery.record) {
+        ga = GalleriesAlbum.filter(item.id, {
+          func: 'selectAlbum'
+        })[0];
+        if (ga && ga.order !== index) {
+          ga.order = index;
+          return ga.save();
+        }
+      } else if (item) {
+        album = (Album.filter(item.id, {
+          func: 'selectAlbum'
+        }))[0];
+        album.order = index;
+        return album.save();
+      }
+    });
+    return this.list.exposeSelection();
   };
   return AlbumsView;
 })();

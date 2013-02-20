@@ -21,7 +21,7 @@ class PhotoView extends Spine.Controller
     'dragenter'                       : 'dragenter'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
-    'click .icon-set .delete'         : 'deletePhoto'
+    'click .icon-set .back'           : 'back'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -130,6 +130,9 @@ class PhotoView extends Spine.Controller
     @stopInfo()
     e.stopPropagation()
     e.preventDefault()
+  
+  back: ->
+    @navigate '/gallery', Gallery.record.id, Album.record.id
   
   infoUp: (e) =>
     @info.up(e)

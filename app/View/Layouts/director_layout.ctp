@@ -32,7 +32,7 @@
     echo $this->Html->css('twitter/bootstrap/bootstrap');
     echo $this->Html->css('blueimp/bootstrap-image-gallery');
     echo $this->Html->css('blueimp/new/jquery.fileupload-ui');
-    echo $this->Html->css('html5sortable/jquery.html5sortable');
+    echo $this->Html->css('html5sortable/jquery.sortable');
     echo $this->Html->css('base');
     echo $this->Html->css('spine/director/modal');
     echo $this->Html->css('spine/director/application');
@@ -57,7 +57,7 @@
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.core');
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
     echo $this->Html->script('lib/jquery/jquery.tmpl');
-    echo $this->Html->script('lib/jquery/jquery.html5sortable');
+    echo $this->Html->script('lib/html5sortable/jquery.sortable');
     echo $this->Html->script('lib/twitter/bootstrap.min');
 //    echo $this->Html->script('lib/twitter/bootstrap-modal');
 //    echo $this->Html->script('lib/twitter/bootstrap-dropdown');
@@ -84,7 +84,6 @@
     echo $this->Html->script('spine/app/director/plugins/manager');
     echo $this->Html->script('spine/app/director/plugins/controller');
     echo $this->Html->script('spine/app/director/plugins/drag');
-    echo $this->Html->script('spine/app/director/plugins/sortable');
     echo $this->Html->script('spine/app/director/plugins/key_enhancer');
     echo $this->Html->script('spine/app/director/plugins/model_extender');
     echo $this->Html->script('spine/app/director/plugins/ajax_relations');

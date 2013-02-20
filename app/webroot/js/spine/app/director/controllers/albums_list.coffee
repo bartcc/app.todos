@@ -6,6 +6,7 @@ class AlbumsList extends Spine.Controller
   events:
     'click .item'             : 'click'
     'click .icon-set .delete' : 'deleteAlbum'
+    'click .icon-set .back'   : 'back'
     'click .icon-set .zoom'   : 'zoom'
     'mouseenter .item'        : 'infoEnter'
     'mousemove'               : 'infoMove'
@@ -19,12 +20,10 @@ class AlbumsList extends Spine.Controller
     # initialize flickr's slideshow
 #    @el.toggleSlideshow()
     Album.bind('change', @proxy @change)
-    Album.bind('sortupdate', @proxy @sortupdate)
     Album.bind("ajaxError", Album.errorHandler)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
-    GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     Spine.bind('album:activate', @proxy @activate)
     
@@ -77,10 +76,10 @@ class AlbumsList extends Spine.Controller
     
     switch mode
       when 'create'
-        wipe = Gallery.record?.contains() is 1
+        wipe = Gallery.record and Gallery.record.contains() is 1
         @el.empty() if wipe
         @append @template album
-        @el.sortable 'album'
+        @el.sortable('destroy').sortable('album')
         
       when 'destroy'
         albumEl = @children().forItem(album, true)
@@ -201,6 +200,9 @@ class AlbumsList extends Spine.Controller
       else
         return false 
 
+  back: ->
+    @navigate '/galleries/'
+
   deleteAlbum: (e) ->
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'
@@ -219,21 +221,6 @@ class AlbumsList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
-    
-  sortupdate: (e, item) ->
-    @children().each (index) ->
-      item = $(@).item()
-      if item and Gallery.record
-        ga = GalleriesAlbum.filter(item.id, func: 'selectAlbum')[0]
-        if ga and ga.order isnt index
-          ga.order = index
-          ga.save()
-      else if item
-        album = (Album.filter(item.id, func: 'selectAlbum'))[0]
-        album.order = index
-        album.save()
-        
-    @exposeSelection()
     
   infoUp: (e) =>
     @info.up(e)

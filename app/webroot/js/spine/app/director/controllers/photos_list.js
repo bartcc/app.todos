@@ -18,6 +18,7 @@ PhotosList = (function() {
   };
   PhotosList.prototype.events = {
     'click .item': 'click',
+    'click .icon-set .back': 'back',
     'click .icon-set .zoom': 'zoom',
     'click .icon-set .delete': 'deletePhoto',
     'mouseenter .item': 'infoEnter',
@@ -33,7 +34,6 @@ PhotosList = (function() {
     this.infoBye = __bind(this.infoBye, this);
     this.infoUp = __bind(this.infoUp, this);
     this.callback = __bind(this.callback, this);    PhotosList.__super__.constructor.apply(this, arguments);
-    Photo.bind('sortupdate', this.proxy(this.sortupdate));
     Spine.bind('photo:activate', this.proxy(this.activate));
     Spine.bind('slider:start', this.proxy(this.sliderStart));
     Spine.bind('slider:change', this.proxy(this.size));
@@ -274,6 +274,9 @@ PhotosList = (function() {
     e.stopPropagation();
     return e.preventDefault();
   };
+  PhotosList.prototype.back = function() {
+    return this.navigate('/gallery', Gallery.record.id);
+  };
   PhotosList.prototype.deletePhoto = function(e) {
     var el, item, _ref;
     item = $(e.currentTarget).item();
@@ -296,23 +299,6 @@ PhotosList = (function() {
     this.stopInfo();
     e.stopPropagation();
     return e.preventDefault();
-  };
-  PhotosList.prototype.sortupdate = function() {
-    this.children().each(function(index) {
-      var ap, item;
-      item = $(this).item();
-      if (item) {
-        ap = AlbumsPhoto.filter(item.id, {
-          func: 'selectPhoto'
-        })[0];
-        if (ap && ap.order !== index) {
-          ap.order = index;
-          ap.save();
-        }
-        return Album.record.invalid = true;
-      }
-    });
-    return this.exposeSelection();
   };
   PhotosList.prototype.initSelectable = function() {
     var options;

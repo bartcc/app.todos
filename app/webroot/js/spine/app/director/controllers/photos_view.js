@@ -20,7 +20,8 @@ PhotosView = (function() {
   };
   PhotosView.prototype.events = {
     'dragstart  .items .thumbnail': 'dragstart',
-    'dragover   .items .thumbnail': 'dragover'
+    'dragover   .items .thumbnail': 'dragover',
+    'sortupdate .items': 'sortupdate'
   };
   PhotosView.prototype.template = function(items) {
     return $('#photosTemplate').tmpl(items);
@@ -182,9 +183,9 @@ PhotosView = (function() {
     var photo, _ref;
     console.log('PhotosView::add');
     if (ap.album_id === ((_ref = Album.record) != null ? _ref.id : void 0)) {
-      photo = Photo.exists(ap.photo_id);
-      if (photo) {
-        return this.render([photo], 'append');
+      if (photo = Photo.exists(ap.photo_id)) {
+        this.render([photo], 'append');
+        return this.list.el.sortable('destroy').sortable('photos');
       }
     }
   };
@@ -235,6 +236,23 @@ PhotosView = (function() {
       _results.push(photos.indexOf(ap.photo_id) !== -1 ? (Album.removeFromSelection(ap.photo_id), ap.destroy()) : void 0);
     }
     return _results;
+  };
+  PhotosView.prototype.sortupdate = function() {
+    this.list.children().each(function(index) {
+      var ap, item;
+      item = $(this).item();
+      if (item) {
+        ap = AlbumsPhoto.filter(item.id, {
+          func: 'selectPhoto'
+        })[0];
+        if (ap && ap.order !== index) {
+          ap.order = index;
+          ap.save();
+        }
+        return Album.record.invalid = true;
+      }
+    });
+    return this.list.exposeSelection();
   };
   return PhotosView;
 })();

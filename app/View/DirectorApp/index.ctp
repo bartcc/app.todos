@@ -174,7 +174,7 @@
     </div>
 </div>
 <!-- modal-dialogue -->
-<div id="modal-view" class="hide fade"></div>
+<div id="modal-view" class="modal hide fade"></div>
 <!-- Templates -->
 <script id="modalSimpleTemplate" type="text/x-jquery-tmpl">
   <div class="modal-header">
@@ -203,8 +203,8 @@
     <p>{{html body}}</p>
   </div>
   {{if info}}
-  <div class="modal-header label-info">
-    <div class="label label-info">${info}</div>
+  <div class="modal-header">
+    <div class="label label-warning">${info}</div>
   </div>
   {{/if}}
   <div class="modal-footer">
@@ -270,6 +270,7 @@
     </div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-zoom-in icon-white left"></span>
+      <span class="back icon-arrow-left icon-white left"></span>
       <span class="delete icon-remove icon-white right"></span>
     </div>
     <div class="title">{{if name}}{{html name}}{{else}}---{{/if}}</div>
@@ -297,11 +298,12 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in sortable" draggable="true">
+  <li class="item container fade in sortable">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail left" draggable="true"></div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-zoom-in icon-white left"></span>
+      <span class="back icon-arrow-left icon-white left"></span>
       <span class="icon-loading delete icon-remove icon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title}}{{else}}---{{/if}}</div>
@@ -429,6 +431,7 @@
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="icon-set fade out" style="">
     <span class="zoom icon-zoom-in icon-white left"></span>
+    <span class="back icon-arrow-left icon-white left"></span>
     <span class="delete icon-remove icon-white right"></span>
   </div>
 </script>
@@ -436,7 +439,7 @@
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="icon-set fade out" style="">
-    <span class="delete icon-remove icon-white right"></span>
+    <span class="back icon-arrow-left icon-white right"></span>
   </div>
 </script>
 

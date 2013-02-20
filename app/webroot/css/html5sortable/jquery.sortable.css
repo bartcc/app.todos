@@ -1,0 +1,27 @@
+._html5sortable-state-highlight {
+  border-left: 2px solid rgba(255, 255, 0, 0.8);
+  float: left;
+}
+._html5sortable-state-highlight-horizontal {
+  border: 1px solid rgba(255, 255, 0, 0.8);
+  width: 100%;
+}
+.sortable-dragging {
+  background: rgba(0, 255, 0, 0.8) repeat scroll 0 0;
+}
+.sortable-placeholder {
+  background: none repeat scroll 0 0 rgba(255, 255, 0, 0);
+}
+.albums .sortable-placeholder {
+  border: 0.5px dashed #CCCCCC;
+  height: 150px;
+  width: 155px;
+  float: left;
+  margin: 25px 12px;
+}
+.photos .sortable-placeholder {
+  height: 150px;
+  width: 155px;
+  float: left;
+  margin: 25px 12px;
+}

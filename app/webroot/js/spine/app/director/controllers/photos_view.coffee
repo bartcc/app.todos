@@ -12,6 +12,7 @@ class PhotosView extends Spine.Controller
   events:
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragover   .items .thumbnail'    : 'dragover'
+    'sortupdate .items'               : 'sortupdate'
     
   template: (items) ->
     $('#photosTemplate').tmpl(items)
@@ -80,7 +81,7 @@ class PhotosView extends Spine.Controller
 #    @items.empty() unless @list.children('li').length
     
     list = @list.render items, mode
-    list.sortable 'photo' #if Album.record
+    list.sortable('photo') #if Album.record
     delete @buffer
   
   renderHeader: ->
@@ -172,8 +173,10 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::add'
     # only add when photo is for it's album
     if ap.album_id is Album.record?.id
-      photo = Photo.exists(ap.photo_id)
-      @render([photo], 'append') if photo
+      if photo = Photo.exists(ap.photo_id)
+        @render([photo], 'append')
+        @list.el.sortable('destroy').sortable('photos')
+      
       
   createJoin: (photos, target) ->
     console.log 'PhotosView::createJoin'
@@ -209,5 +212,24 @@ class PhotosView extends Spine.Controller
         ap.destroy()
 
 #    target.save()
+
+  sortupdate: ->
+    @list.children().each (index) ->
+      item = $(@).item()
+#      console.log AlbumsPhoto.filter(item.id, func: 'selectPhoto').length
+      if item #and Album.record
+        ap = AlbumsPhoto.filter(item.id, func: 'selectPhoto')[0]
+        if ap and ap.order isnt index
+          ap.order = index
+          ap.save()
+        # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated
+        Album.record.invalid = true
+#        Album.record.save(ajax:false)
+#      else if item
+#        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
+#        photo.order = index
+#        photo.save()
+        
+    @list.exposeSelection()
     
 module?.exports = PhotosView

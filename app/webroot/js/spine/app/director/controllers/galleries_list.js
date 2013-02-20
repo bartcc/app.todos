@@ -17,6 +17,7 @@ GalleriesList = (function() {
   GalleriesList.prototype.events = {
     'click': 'clickDeselect',
     'click .item': 'click',
+    'click .icon-set .back': 'back',
     'dblclick .item': 'zoom',
     'click .icon-set .delete': 'deleteGallery',
     'click .icon-set .zoom': 'zoom',
@@ -133,6 +134,9 @@ GalleriesList = (function() {
     this.exposeSelection(item);
     e.stopPropagation();
     return e.preventDefault();
+  };
+  GalleriesList.prototype.back = function() {
+    return this.navigate('/overview/');
   };
   GalleriesList.prototype.zoom = function(e) {
     var item, _ref, _ref2;

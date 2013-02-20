@@ -265,10 +265,9 @@ SlideshowView = (function() {
     return App.slideshow.stopSlideShow();
   };
   SlideshowView.prototype.notify = function() {
-    return App.modalSimpleView.show({
-      header: 'Information',
-      body: 'To start a slideshow at least one (not empty) album must be selected',
-      info: 'Tip of the day: You can also use your spacebar to start a slideshow'
+    return App.modal2ButtonView.show({
+      header: 'No Photos for Slideshow Message',
+      body: 'You have either selected none or an empty album. In order to start a slideshow you must select or open an appropriate album.'
     });
   };
   SlideshowView.prototype.toggle = function(e) {

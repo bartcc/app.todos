@@ -12,6 +12,7 @@ class AlbumsView extends Spine.Controller
   events:
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragover   .items'               : 'dragover'
+    'sortupdate .items'               : 'sortupdate'
 #    'drop       .items'               : 'drop'
     
   albumsTemplate: (items, options) ->
@@ -57,6 +58,10 @@ class AlbumsView extends Spine.Controller
     Gallery.bind('refresh change', @proxy @renderHeader)
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
+    
+    Album.bind('sortupdate', @proxy @sortupdate)
+    GalleriesAlbum.bind('destroy', @proxy @sortupdate)
+    
     $(@views).queue('fx')
     
   # this method is triggered when changing Gallery.record
@@ -191,11 +196,25 @@ class AlbumsView extends Spine.Controller
     else
       queue = el.data()['queue']
       queue.push {}
-#    console.log queue
     
   loadingDone: (album) ->
     el = @items.children().forItem(album)
     el.data().queue?.splice(0, 1)
     el.removeClass('loading') unless el.data().queue?.length
+    
+  sortupdate: (e, item) ->
+    @list.children().each (index) ->
+      item = $(@).item()
+      if item and Gallery.record
+        ga = GalleriesAlbum.filter(item.id, func: 'selectAlbum')[0]
+        if ga and ga.order isnt index
+          ga.order = index
+          ga.save()
+      else if item
+        album = (Album.filter(item.id, func: 'selectAlbum'))[0]
+        album.order = index
+        album.save()
+        
+    @list.exposeSelection()
     
 module?.exports = AlbumsView

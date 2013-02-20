@@ -34,7 +34,7 @@ class App extends Spine.Controller
   events:
     'keypress'            : 'keys'
     'dragenter'           : 'dragenter'
-#    'drop'                : 'drop'
+    'drop'                : 'drop'
 
   constructor: ->
     super
@@ -178,11 +178,9 @@ class App extends Spine.Controller
       
   drop: (e) ->
     console.log 'App::drop'
-    alert 'App::drop'
-    event = e.originalEvent
-    Spine.dragItem?.closest?.removeClass('over nodrop')
-    Spine.sortItem?.splitter.remove()
-    e.stopPropagation() unless event.dataTransfer.files.length
+    
+    # prevent ui drops
+    e.stopPropagation() unless e.originalEvent.dataTransfer.files.length
     e.preventDefault()
       
   setupView: ->

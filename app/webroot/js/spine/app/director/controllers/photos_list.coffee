@@ -8,6 +8,7 @@ class PhotosList extends Spine.Controller
     
   events:
     'click .item'             : 'click'
+    'click .icon-set .back'   : 'back'
     'click .icon-set .zoom'   : 'zoom'
     'click .icon-set .delete' : 'deletePhoto'
     
@@ -23,7 +24,6 @@ class PhotosList extends Spine.Controller
     
   constructor: ->
     super
-    Photo.bind('sortupdate', @proxy @sortupdate)
     Spine.bind('photo:activate', @proxy @activate)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
@@ -213,6 +213,9 @@ class PhotosList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
   
+  back: ->
+    @navigate '/gallery', Gallery.record.id
+  
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
@@ -232,25 +235,6 @@ class PhotosList extends Spine.Controller
     @stopInfo()
     e.stopPropagation()
     e.preventDefault()
-    
-  sortupdate: ->
-    @children().each (index) ->
-      item = $(@).item()
-#      console.log AlbumsPhoto.filter(item.id, func: 'selectPhoto').length
-      if item #and Album.record
-        ap = AlbumsPhoto.filter(item.id, func: 'selectPhoto')[0]
-        if ap and ap.order isnt index
-          ap.order = index
-          ap.save()
-        # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated
-        Album.record.invalid = true
-#        Album.record.save(ajax:false)
-#      else if item
-#        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
-#        photo.order = index
-#        photo.save()
-        
-    @exposeSelection()
     
   initSelectable: ->
     options =

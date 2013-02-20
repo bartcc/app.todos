@@ -17,7 +17,6 @@ class Modal2ButtonView extends Spine.Controller
     
   constructor: ->
     super
-    # initialize Flickr's Modal
     @el.modal
       show: false
       

@@ -30,7 +30,7 @@ PhotoView = (function() {
     'dragenter': 'dragenter',
     'drop': 'drop',
     'dragend': 'dragend',
-    'click .icon-set .delete': 'deletePhoto'
+    'click .icon-set .back': 'back'
   };
   PhotoView.prototype.template = function(item) {
     return $('#photoTemplate').tmpl(item);
@@ -155,6 +155,9 @@ PhotoView = (function() {
     this.stopInfo();
     e.stopPropagation();
     return e.preventDefault();
+  };
+  PhotoView.prototype.back = function() {
+    return this.navigate('/gallery', Gallery.record.id, Album.record.id);
   };
   PhotoView.prototype.infoUp = function(e) {
     var el;

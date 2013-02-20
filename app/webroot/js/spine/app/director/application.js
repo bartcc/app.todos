@@ -36,7 +36,8 @@ App = (function() {
   };
   App.prototype.events = {
     'keypress': 'keys',
-    'dragenter': 'dragenter'
+    'dragenter': 'dragenter',
+    'drop': 'drop'
   };
   function App() {
     App.__super__.constructor.apply(this, arguments);
@@ -209,19 +210,8 @@ App = (function() {
     }
   };
   App.prototype.drop = function(e) {
-    var event, _ref, _ref2, _ref3;
     console.log('App::drop');
-    alert('App::drop');
-    event = e.originalEvent;
-    if ((_ref = Spine.dragItem) != null) {
-      if ((_ref2 = _ref.closest) != null) {
-        _ref2.removeClass('over nodrop');
-      }
-    }
-    if ((_ref3 = Spine.sortItem) != null) {
-      _ref3.splitter.remove();
-    }
-    if (!event.dataTransfer.files.length) {
+    if (!e.originalEvent.dataTransfer.files.length) {
       e.stopPropagation();
     }
     return e.preventDefault();

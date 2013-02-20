@@ -66,7 +66,9 @@ $.fn.Html5Sortable = function(opts) {
           cond: null
         };
         $('._dragging').removeClass('_dragging');
-        return el.addClass('_dragging out');
+        el.addClass('_dragging out');
+        alert('clear');
+        return console.log($('._dragging'));
       }).bind('dragend', function(e) {
         var _ref;
         console.log('Sort::dragend');
@@ -108,6 +110,9 @@ $.fn.Html5Sortable = function(opts) {
           return true;
         }
         sourceEl = $('._dragging');
+        if (!sourceEl.length) {
+          alert('no element for sourceEl');
+        }
         Spine.sortItem.splitter.remove();
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out');
         it.data(Spine.sortItem.data);

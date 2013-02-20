@@ -65,7 +65,7 @@ label {
   margin-right: 5px;
 }
 [class^="icon-"]:last-child {
-  margin-right: 5px;
+/*  margin-right: 5px;*/
 }
 button:disabled .icon-white {
   opacity: 0.3

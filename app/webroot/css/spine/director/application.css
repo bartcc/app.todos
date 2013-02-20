@@ -1178,15 +1178,16 @@ button.chromeless, button.chromeless:hover {
 }
 .icon-set {
   position: absolute;
-  right: 10px;
+  right: 3px;
   top: 2px;
-  width: 38px;
+  width: 76px;
 }
 .item .container {
   position: relativ;
 }
 [class^="icon-"], [class*=" icon-"] {
   cursor: pointer;
+  margin: 0 3px;
 }
 .loading .icon-loading {
   background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;

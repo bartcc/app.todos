@@ -54,6 +54,9 @@ $.fn.Html5Sortable = (opts) ->
         # dt.setData("URL", options.type);
         $('._dragging').removeClass('_dragging')
         el.addClass('_dragging out')
+        alert 'clear'
+        console.log $('._dragging')
+        
         
       .bind 'dragend', (e) ->
         console.log 'Sort::dragend'
@@ -98,6 +101,7 @@ $.fn.Html5Sortable = (opts) ->
           return true
           
         sourceEl = $('._dragging')
+        alert 'no element for sourceEl' unless sourceEl.length
         Spine.sortItem.splitter.remove()
         
         it = $(JSON.parse(e.originalEvent.dataTransfer.getData('Text')).html).addClass('out')
@@ -112,7 +116,7 @@ $.fn.Html5Sortable = (opts) ->
             it.insertAfter @
           else
             it.insertBefore @
-
+            
           sourceEl.remove()
           
           that.init it

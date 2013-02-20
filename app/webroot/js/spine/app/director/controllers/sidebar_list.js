@@ -181,8 +181,6 @@ SidebarList = (function() {
       });
     }
     galleryEl = this.children().forItem(gallery);
-    console.log(gallery);
-    console.log(galleryEl);
     gallerySublist = $('ul', galleryEl);
     gallerySublist.html(this.sublistTemplate(albums));
     return this.updateTemplate(gallery);
@@ -193,7 +191,6 @@ SidebarList = (function() {
     }
     console.log('SidebarList::exposeSelection');
     this.deselect();
-    alert('deselect');
     if (item) {
       this.children().forItem(item).addClass("active");
     }

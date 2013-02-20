@@ -143,8 +143,6 @@ class SidebarList extends Spine.Controller
     albums.push {flash: 'no albums'} unless albums.length
     
     galleryEl = @children().forItem(gallery)
-    console.log gallery
-    console.log galleryEl
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
     
@@ -153,7 +151,6 @@ class SidebarList extends Spine.Controller
   exposeSelection: (item = Gallery.record) ->
     console.log 'SidebarList::exposeSelection'
     @deselect()
-    alert 'deselect'
     @children().forItem(item).addClass("active") if item
     @exposeSublistSelection()
         

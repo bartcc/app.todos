@@ -270,7 +270,7 @@
     </div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-zoom-in icon-white left"></span>
-      <span class="back icon-arrow-left icon-white left"></span>
+      <span class="back icon-arrow-up icon-white left"></span>
       <span class="delete icon-remove icon-white right"></span>
     </div>
     <div class="title">{{if name}}{{html name}}{{else}}---{{/if}}</div>
@@ -303,7 +303,7 @@
     <div class="thumbnail left" draggable="true"></div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-zoom-in icon-white left"></span>
-      <span class="back icon-arrow-left icon-white left"></span>
+      <span class="back icon-arrow-up icon-white left"></span>
       <span class="icon-loading delete icon-remove icon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title}}{{else}}---{{/if}}</div>
@@ -431,7 +431,7 @@
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="icon-set fade out" style="">
     <span class="zoom icon-zoom-in icon-white left"></span>
-    <span class="back icon-arrow-left icon-white left"></span>
+    <span class="back icon-arrow-up icon-white left"></span>
     <span class="delete icon-remove icon-white right"></span>
   </div>
 </script>
@@ -439,7 +439,7 @@
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="icon-set fade out" style="">
-    <span class="back icon-arrow-left icon-white right"></span>
+    <span class="back icon-arrow-up icon-white right"></span>
   </div>
 </script>
 

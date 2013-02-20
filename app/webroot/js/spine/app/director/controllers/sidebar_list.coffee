@@ -179,13 +179,10 @@ class SidebarList extends Spine.Controller
       removeAlbumSelection()
   
   updateTemplate: (item) ->
-    console.log item
     galleryEl = @children().forItem(item)
     galleryContentEl = $('.item-content', galleryEl)
-    console.log galleryContentEl
     tmplItem = galleryContentEl.tmplItem()
     if tmplItem
-      console.log tmplItem
       tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
       tmplItem.update()
       # restore active

@@ -236,13 +236,10 @@ SidebarList = (function() {
   };
   SidebarList.prototype.updateTemplate = function(item) {
     var galleryContentEl, galleryEl, tmplItem;
-    console.log(item);
     galleryEl = this.children().forItem(item);
     galleryContentEl = $('.item-content', galleryEl);
-    console.log(galleryContentEl);
     tmplItem = galleryContentEl.tmplItem();
     if (tmplItem) {
-      console.log(tmplItem);
       tmplItem.tmpl = $("#sidebarContentTemplate").template();
       return tmplItem.update();
     }

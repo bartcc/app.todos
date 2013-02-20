@@ -158,8 +158,8 @@ class App extends Spine.Controller
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
     
-  storeHash: (hash) ->
-    localStorage.hash = hash || location.hash
+  storeHash: ->
+    localStorage.hash = location.hash
     
   fullscreen: ->
     Spine.trigger('chromeless', true)
@@ -249,10 +249,8 @@ class App extends Spine.Controller
       else
         console.log keyCode
 $ ->
-  route = location.hash or localStorage.hash
   User.ping()
-  window.App = new App
-    el: $('body')
-    hash:  null #or '/galleries/'
+  window.App = new App el: $('body')
+  route = location.hash or localStorage.hash
   Spine.Route.setup()
   App.navigate route

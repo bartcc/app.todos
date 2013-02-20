@@ -295,6 +295,6 @@ $(function() {
     el: $('body')
   });
   Spine.Route.setup();
-  route = location.hash || localStorage.hash || '/galleries/';
+  route = location.hash || localStorage.hash;
   return App.navigate(route);
 });

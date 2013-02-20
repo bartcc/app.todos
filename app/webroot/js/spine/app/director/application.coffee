@@ -253,5 +253,5 @@ $ ->
   User.ping()
   window.App = new App(el: $('body'))
   Spine.Route.setup()
-  route = location.hash or localStorage.hash or '/galleries/'
+  route = location.hash or localStorage.hash #or '/galleries/'
   App.navigate route

@@ -38,7 +38,7 @@ class SidebarList extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
-#    Album.bind('change', @proxy @renderItemFromAlbum)
+    Album.bind('update', @proxy @renderAllSublist)
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
@@ -127,8 +127,8 @@ class SidebarList extends Spine.Controller
 
   renderAllSublist: ->
     console.log 'SidebarList::renderAllSublist'
-    for gal in Gallery.records
-      @renderOneSublist gal
+    for gal of Gallery.records
+      @renderOneSublist Gallery.records[gal]
   
   renderOneSublist: (gallery = Gallery.record) ->
     console.log 'SidebarList::renderOneSublist'
@@ -143,6 +143,8 @@ class SidebarList extends Spine.Controller
     albums.push {flash: 'no albums'} unless albums.length
     
     galleryEl = @children().forItem(gallery)
+    console.log gallery
+    console.log galleryEl
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
     
@@ -180,10 +182,13 @@ class SidebarList extends Spine.Controller
       removeAlbumSelection()
   
   updateTemplate: (item) ->
+    console.log item
     galleryEl = @children().forItem(item)
     galleryContentEl = $('.item-content', galleryEl)
+    console.log galleryContentEl
     tmplItem = galleryContentEl.tmplItem()
     if tmplItem
+      console.log tmplItem
       tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
       tmplItem.update()
       # restore active
@@ -193,6 +198,11 @@ class SidebarList extends Spine.Controller
     gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
     @renderOneSublist gallery
     
+  renderItemFromAlbum: (album) ->
+    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
+    for ga in gas
+      @renderItemFromGalleriesAlbum ga
+      
   renderItemFromAlbumsPhoto: (ap) ->
     gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
     for ga in gas

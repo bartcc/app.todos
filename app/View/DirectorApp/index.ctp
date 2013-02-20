@@ -228,7 +228,7 @@
     {{if name}}
     <span class="name">${name}</span>
     {{else}}
-    <span class="name empty">no name</span>
+    <span class="name empty">---</span>
     {{/if}}
     <span class="author info">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
     <span class="gal cta">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>

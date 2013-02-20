@@ -149,7 +149,9 @@ App = (function() {
         gallery = Gallery.exists(params.gid);
         album = Album.exists(params.aid);
         photo = Photo.exists(params.pid);
+        Spine.trigger('gallery:activate', params.gid);
         Spine.trigger('show:photo', photo);
+        Spine.trigger('album:activate', params.aid);
         if (params.fs === 'yes') {
           return Spine.trigger('chromeless', true);
         }

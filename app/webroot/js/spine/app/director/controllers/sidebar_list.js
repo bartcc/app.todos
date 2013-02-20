@@ -289,9 +289,6 @@ SidebarList = (function() {
     var diff, item, _ref;
     item = Gallery.current(idOrRecord);
     diff = (item != null ? item.id : void 0) === !((_ref = Gallery.record) != null ? _ref.id : void 0);
-    if (diff) {
-      this.navigate('/gallery', item.id);
-    }
     return this.exposeSelection();
   };
   SidebarList.prototype.exposeSelection = function(item) {

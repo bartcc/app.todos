@@ -42,108 +42,43 @@
       var base_url = '<?php echo $this->Html->url('/'); ?>';
     <?php
     echo $this->Html->scriptEnd();
-    
-    echo $this->Html->script('lib/jquery/jquery-1.7.1');
-    echo $this->Html->script('lib/jquery/ui/jquery-ui-1.8.16');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.widget.min');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.mouse');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.draggable');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.droppable');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.progressbar');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.button');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.slider');
-    echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.core');
-    echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
-    echo $this->Html->script('lib/jquery/jquery.tmpl');
-    echo $this->Html->script('lib/html5sortable/jquery.sortable');
-    echo $this->Html->script('lib/twitter/bootstrap.min');
-//    echo $this->Html->script('lib/twitter/bootstrap-modal');
-//    echo $this->Html->script('lib/twitter/bootstrap-dropdown');
-//    echo $this->Html->script('lib/twitter/bootstrap-button');
-    echo $this->Html->script('lib/blueimp/tmpl');
-    echo $this->Html->script('lib/blueimp/load-image');
-    echo $this->Html->script('lib/blueimp/bootstrap-image-gallery');
-    echo $this->Html->script('lib/blueimp/jquery.iframe-transport');
-    echo $this->Html->script('lib/blueimp/locale');
-    echo $this->Html->script('lib/blueimp/canvas-to-blob.min');
-    echo $this->Html->script('lib/blueimp/jquery.fileupload');
-//    echo $this->Html->script('lib/blueimp/jquery.fileupload-ip');
-//    echo $this->Html->script('lib/blueimp/jquery.fileupload-ui');
-
-    echo $this->Html->script('spine/lib/spine_1.0.8');
-    echo $this->Html->script('spine/lib/ajax_1.0.7');
-    echo $this->Html->script('spine/lib/route');
-    echo $this->Html->script('spine/lib/local');
-    echo $this->Html->script('spine/lib/manager');
-    echo $this->Html->script('spine/lib/tmpl');
-
-    echo $this->Html->script('spine/app/director/plugins/jquery-plugins');
-    echo $this->Html->script('spine/app/director/plugins/filter');
-    echo $this->Html->script('spine/app/director/plugins/manager');
-    echo $this->Html->script('spine/app/director/plugins/controller');
-    echo $this->Html->script('spine/app/director/plugins/drag');
-    echo $this->Html->script('spine/app/director/plugins/key_enhancer');
-    echo $this->Html->script('spine/app/director/plugins/model_extender');
-    echo $this->Html->script('spine/app/director/plugins/ajax_relations');
-    echo $this->Html->script('spine/app/director/plugins/cache');
-    echo $this->Html->script('spine/app/director/plugins/uri');
-    echo $this->Html->script('spine/app/director/models/galleries_album');
-    echo $this->Html->script('spine/app/director/models/albums_photo');
-    echo $this->Html->script('spine/app/director/models/gallery');
-    echo $this->Html->script('spine/app/director/models/photo');
-    echo $this->Html->script('spine/app/director/models/album');
-    echo $this->Html->script('spine/app/director/models/user');
-    echo $this->Html->script('spine/app/director/models/spine_error');
-    echo $this->Html->script('spine/app/director/models/recent');
-    echo $this->Html->script('spine/app/director/models/toolbar');
-    echo $this->Html->script('spine/app/director/controllers/modal_simple_view');
-    echo $this->Html->script('spine/app/director/controllers/modal_2_button_view');
-    echo $this->Html->script('spine/app/director/controllers/toolbar_view');
-    echo $this->Html->script('spine/app/director/controllers/loader');
-    echo $this->Html->script('spine/app/director/controllers/info');
-    echo $this->Html->script('spine/app/director/controllers/overview_view');
-    echo $this->Html->script('spine/app/director/controllers/gallery_editor_view');
-    echo $this->Html->script('spine/app/director/controllers/galleries_view');
-    echo $this->Html->script('spine/app/director/controllers/albums_view');
-    echo $this->Html->script('spine/app/director/controllers/photos_view');
-    echo $this->Html->script('spine/app/director/controllers/photo_view');
-    echo $this->Html->script('spine/app/director/controllers/slideshow_view');
-    echo $this->Html->script('spine/app/director/controllers/galleries_header');
-    echo $this->Html->script('spine/app/director/controllers/albums_header');
-    echo $this->Html->script('spine/app/director/controllers/photos_header');
-    echo $this->Html->script('spine/app/director/controllers/photo_header');
-    echo $this->Html->script('spine/app/director/controllers/main');
-    echo $this->Html->script('spine/app/director/controllers/login');
-    echo $this->Html->script('spine/app/director/controllers/sidebar');
-    echo $this->Html->script('spine/app/director/controllers/sidebar_flickr');
-    echo $this->Html->script('spine/app/director/controllers/show_view');
-    echo $this->Html->script('spine/app/director/controllers/sidebar_list');
-    echo $this->Html->script('spine/app/director/controllers/galleries_list');
-    echo $this->Html->script('spine/app/director/controllers/albums_list');
-    echo $this->Html->script('spine/app/director/controllers/photos_list');
-    echo $this->Html->script('spine/app/director/controllers/gallery_edit_view');
-    echo $this->Html->script('spine/app/director/controllers/album_edit_view');
-    echo $this->Html->script('spine/app/director/controllers/photo_edit_view');
-    echo $this->Html->script('spine/app/director/controllers/upload_edit_view');
-    echo $this->Html->script('spine/app/director/application');
+    echo $this->Html->script('spine/director/public/application');
     ?>
 
     <?php
     echo $this->Html->scriptStart();
     ?>
     
+    var exports = this;
     $(function() {
+      var route   = location.hash || localStorage.hash
       var galleries = <?php echo $this->Js->object($galleries); ?>;
       var albums = <?php echo $this->Js->object($albums); ?>;
       var photos = <?php echo $this->Js->object($photos); ?>;
-      Photo.refresh(photos, {clear: true});
-      Album.refresh(albums, {clear: true});
+      
+      Spine = require('spine');
+      Model = Spine.Model
+      User    = require("models/user");
+      Main    = require("index");
+      Spine.Route = require('spine/lib/route');
+      Gallery= require('models/gallery')
+      Album = require('models/album')
+      Photo= require('models/photo')
+      
+      exports.App = new Main({el: $("body")});
+      
       Gallery.refresh(galleries, {clear: true});
-    })
+      Album.refresh(albums, {clear: true});
+      Photo.refresh(photos, {clear: true});
+      
+      User.ping();
+      Spine.Route.setup()
+      App.navigate(route);
+    });
+
     
     <?php
+    
     echo $this->Html->scriptEnd();
 
     echo $scripts_for_layout;

@@ -1,0 +1,41 @@
+{
+  "main": "./app/login",
+  "public": "./public",
+  "dependencies": [
+    "es5-shimify", 
+    "json2ify",
+    "crypto-browserify",
+    "spine",
+    "spine/lib/local",
+    "spine/lib/ajax",
+    "spine/lib/route",
+    "spine/lib/manager",
+    "spine/lib/list",
+    "spine/lib/tmpl"
+  ],
+  "libs": [
+    "js/lib/jquery/jquery-1.7.1.js",
+    "js/lib/jquery/jquery-plugins.js",
+    "js/lib/jquery/ui/jquery-ui-1.8.16.js",
+    "js/lib/jquery/ui/jquery.ui.core.js",
+    "js/lib/jquery/ui/jquery.ui.widget.js",
+    "js/lib/jquery/ui/jquery.ui.mouse.js",
+    "js/lib/jquery/ui/jquery.ui.droppable.js",
+    "js/lib/jquery/ui/jquery.ui.sortable.js",
+    "js/lib/jquery/ui/jquery.ui.progressbar.js",
+    "js/lib/jquery/ui/jquery.ui.button.js",
+    "js/lib/jquery/ui/jquery.ui.slider.js",
+    "js/lib/jquery/ui/effects/jquery.effects.core.js",
+    "js/lib/jquery/ui/effects/jquery.effects.slide.js",
+    "js/lib/jquery/jquery.tmpl.js",
+    "js/lib/html5sortable/jquery.sortable.js",
+    "js/lib/twitter/bootstrap.js",
+    "js/lib/blueimp/tmpl.js",
+    "js/lib/blueimp/load-image.js",
+    "js/lib/blueimp/bootstrap-image-gallery.js",
+    "js/lib/blueimp/jquery.iframe-transport.js",
+    "js/lib/blueimp/locale.js",
+    "js/lib/blueimp/canvas-to-blob.min.js",
+    "js/lib/blueimp/jquery.fileupload.js"
+  ]
+}

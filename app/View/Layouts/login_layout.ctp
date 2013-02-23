@@ -31,20 +31,27 @@
     echo $this->Html->css('twitter/bootstrap/bootstrap');
 
 //    $this->log($this->request, LOG_DEBUG);
-    echo $this->Html->script('lib/jquery/jquery-1.7.1');
-    echo $this->Html->script('lib/jquery/jquery.tmpl');
-    echo $this->Html->script('spine/lib/spine_1.0.8');
-    echo $this->Html->script('spine/lib/local');
-    echo $this->Html->script('spine/app/director/plugins/filter');
-    echo $this->Html->script('spine/app/director/models/user');
-    echo $this->Html->script('spine/app/director/models/spine_error');
-    echo $this->Html->script('spine/app/director/login');
+//    echo $this->Html->script('lib/jquery/jquery-1.7.1');
+//    echo $this->Html->script('spine/director/lib/jquery/jquery.tmpl');
+//    echo $this->Html->script('spine/director/node_modules/spine/spine_1.0.8');
+//    echo $this->Html->script('spine/lib/local');
+//    echo $this->Html->script('spine/app/director/plugins/filter');
+//    echo $this->Html->script('spine/app/director/models/user');
+//    echo $this->Html->script('spine/app/director/models/spine_error');
+//    echo $this->Html->script('spine/app/director/login');
+    echo $this->Html->script('spine/director/public/application');
 
     echo $this->Html->scriptStart();
     ?>
 
     var base_url = '<?php echo $this->Html->url('/'); ?>';
 
+    var exports = this;
+    $(function(){
+      var Login = require("login");
+      exports.Login = new Login({el: $("body")})
+    });
+    
     <?php
     echo $this->Html->scriptEnd();
     echo $scripts_for_layout;

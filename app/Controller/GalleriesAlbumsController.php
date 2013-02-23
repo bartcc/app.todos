@@ -25,9 +25,8 @@ class GalleriesAlbumsController extends AppController {
   function add() {
     if (!empty($this->request->data)) {
       $this->GalleriesAlbum->create();
-//      $this->log($this->request->data, LOG_DEBUG);
-      $this->request->data['GalleriesAlbum']['id'] = null;
-      if ($this->GalleriesAlbum->saveAll($this->request->data)) {
+      $this->request->data['id'] = null;
+      if ($saved = $this->GalleriesAlbum->saveAll($this->request->data)) {
         $this->Session->setFlash(__('The galleries album has been saved', true));
         $this->set('_serialize', array('id' => $this->GalleriesAlbum->id));
         $this->render(SIMPLE_JSON);

@@ -13,3 +13,13 @@ nbproject
 /app/tmp/cache/persistent/*
 /uploads/photos/
 /app/Config/database.php
+/app/webroot/js/spine/director/app/node_modules/.bin/
+/app/webroot/js/spine/director/app/node_modules/hem/node_modules/.bin/
+/app/webroot/js/spine/director/app/node_modules/hem/node_modules/strata/node_modules/.bin/
+/app/webroot/js/spine/director/app/node_modules/hem/node_modules/stylus/node_modules/cssom/.idea/
+/app/webroot/js/spine/director/app/node_modules/serveup/node_modules/.bin/
+/app/webroot/js/spine/director/node_modules/.bin/
+/app/webroot/js/spine/director/node_modules/hem/node_modules/.bin/
+/app/webroot/js/spine/director/node_modules/hem/node_modules/strata/node_modules/.bin/
+/app/webroot/js/spine/director/node_modules/hem/node_modules/stylus/node_modules/cssom/.idea/
+/app/webroot/js/spine/director/node_modules/serveup/node_modules/.bin/

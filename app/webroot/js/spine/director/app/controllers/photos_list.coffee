@@ -79,7 +79,6 @@ class PhotosList extends Spine.Controller
     @el
   
   wipe: ->
-    alert Album.record.contains()
     wipe = Album.record and Album.record.contains() is 1
     @el.empty() if wipe
     @el

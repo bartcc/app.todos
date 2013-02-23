@@ -43,6 +43,19 @@
     </div>
   </div>
 </div>
+<div id="loader" class="view" style="opacity: 1">
+  <div class="dialogue-wrap">
+    <div class="dialogue">
+      <div class="dialogue-content">
+        <div class="" style="line-height: 1.5em; font-size:1.5em; text-align: center; color: #E1EEF7">
+          <div class="status-symbol" style="z-index: 2;">
+            <img src="/img/ajax-loader.gif" style="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/x-jquery-tmpl" id="flashTemplate">
   {{if flash}}

@@ -31,6 +31,8 @@ body {
 /*  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
   font-size: 14px;
   color: #414141;
+  background-image: url(img/pattern.png);
+  background-color: #666;
 }
 *[draggable=true] {
   -moz-user-select:none;

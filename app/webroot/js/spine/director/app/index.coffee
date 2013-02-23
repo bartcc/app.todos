@@ -198,8 +198,8 @@ class Main extends Spine.Controller
       User.logout()
     else
       @old_statusIcon = @statusIcon[0].src
-      @statusIcon[0].src = '/img/validated.png'
-      @statusText.text 'Verifying Account'
+      @statusIcon[0].src = '/img/ajax-loader.gif'
+#      @statusText.text 'Verifying Account'
       @delay @setupView, 300
       
   drop: (e) ->
@@ -211,7 +211,7 @@ class Main extends Spine.Controller
       
   setupView: ->
     Spine.unbind('uri:alldone')
-    @statusIcon[0].src = '/img/validated.png'
+    @statusIcon[0].src = '/img/ajax-loader.gif'
     @statusText.hide()
     @statusText.text('Welcome').fadeIn('slow', => @delay @finalizeView, 300)
       

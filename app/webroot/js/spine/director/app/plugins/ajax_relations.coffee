@@ -29,8 +29,6 @@ class Builder
 
       for key in @fModels
         model = Model[key.className]
-        console.log model
-        console.log Model[key.className]
         records = model.filterRelated @record.id,
           key: key.foreignKey
           joinTable: key.joinTable

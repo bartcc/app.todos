@@ -6,14 +6,15 @@ User              = require("models/user")
 class Login extends Spine.Controller
 
   elements:
-    'form'              : 'form'
-    '.flash'            : 'flashEl'
-    '.info'             : 'infoEl'
-    '#UserPassword'     : 'passwordEl'
-    '#UserUsername'     : 'usernameEl'
-    '#flashTemplate'    : 'flashTemplate'
-    '#infoTemplate'     : 'infoTemplate'
-    '.dialogue-content'  : 'contentEl'
+    'form'                      : 'form'
+    '.flash'                    : 'flashEl'
+    '.info'                     : 'infoEl'
+    '#UserPassword'             : 'passwordEl'
+    '#UserUsername'             : 'usernameEl'
+    '#flashTemplate'            : 'flashTemplate'
+    '#infoTemplate'             : 'infoTemplate'
+    '#login .dialogue-content'  : 'contentEl'
+    '#loader'                   : 'loader'
     
   events:
     'keypress'          : 'submitOnEnter'
@@ -59,9 +60,10 @@ class Login extends Spine.Controller
     if hash = location.hash
       localStorage['hash'] = hash
     delayedFunc = ->
+#      @loader.addClass('in')
       User.redirect 'director_app'+hash
     @contentEl.addClass('fade500')
-    @delay delayedFunc, 1000
+    @delay delayedFunc, 500
 
   error: (xhr) =>
     json = $.parseJSON(xhr.responseText)
@@ -82,7 +84,6 @@ class Login extends Spine.Controller
     e.preventDefault()
     
   guestLogin: ->
-    console.log 'guest login'
     @usernameEl.val('guest')
     @passwordEl.val('guest')
     @submit()

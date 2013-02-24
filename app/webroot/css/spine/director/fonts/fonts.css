@@ -9,21 +9,21 @@
 }
 @font-face {
   font-family: "Express";
-  src: url(fonts/Express);
+  src: url(fonts/Express.ttf);
 }
 @font-face {
-  font-family: "Kimberley";
-  src: url(fonts/kimberley);
+  font-family: "Kimberle";
+  src: url(fonts/kimberle.ttf);
 }
 @font-face {
   font-family: "Puritan";
-  src: url(fonts/Puritan);
+  src: url(fonts/Puritan.ttf);
 }
 @font-face {
   font-family: "PuritanAlternate";
-  src: url(fonts/PuritanAlternate-Bold);
+  src: url(fonts/PuritanAlternate-Bold.ttf);
 }
 @font-face {
   font-family: "PuritanSwash";
-  src: url(fonts/PuritanSwash-Bold);
+  src: url(fonts/PuritanSwash-Bold.ttf);
 }

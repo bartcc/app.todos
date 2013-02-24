@@ -91,8 +91,6 @@ class PhotosView extends Spine.Controller
     
     return unless @isActive()
       
-#    @items.empty() unless @list.children('li').length
-    
     list = @list.render items, mode
     list.sortable('photo') #if Album.record
     delete @buffer
@@ -105,14 +103,15 @@ class PhotosView extends Spine.Controller
     Photo.clearCache()
   
   # for AlbumsPhoto & Photo
-  remove: (record) ->
+  remove: (item) ->
     console.log 'PhotosView::remove'
-    unless record.constructor.className is 'Photo'
-      record = Photo.exists(record.photo_id)
+    unless item.constructor.className is 'Photo'
+      item = Photo.exists(item.photo_id)
 
-    photoEl = @items.children().forItem(record, true)
+    photoEl = @items.children().forItem(item, true)
     photoEl.remove()
-#    @render [] unless @items.children().length
+    if Album.record
+      @render() unless Album.contains(Album.record.id)
 
   redirect: (ga) ->
     @navigate '/gallery', Gallery.record.id if ga.destroyed

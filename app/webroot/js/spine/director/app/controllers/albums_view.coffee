@@ -96,7 +96,7 @@ class AlbumsView extends Spine.Controller
       @render items
     
   renderAll: ->
-    App.showView.canvasManager.change @
+    App.showView.trigger('canvas', @)
     @render Album.filter()
     @el
     

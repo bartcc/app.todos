@@ -49,7 +49,7 @@ class SidebarList extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
-    Album.bind('refresh update', @proxy @renderAllSublist)
+    Album.bind('refresh change', @proxy @renderAllSublist)
     Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)

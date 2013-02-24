@@ -14,6 +14,7 @@ class AlbumsHeader extends Spine.Controller
     @render()
     
   render: ->
+    console.log 'AlbumsHeader::render'
     @html @template
       record: @current
       count: @count()

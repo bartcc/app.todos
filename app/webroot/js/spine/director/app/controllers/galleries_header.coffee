@@ -7,6 +7,7 @@ class GalleriesHeader extends Spine.Controller
     super
 
   render: ->
+    console.log 'GalleryHeader::render'
     @html @template
       count: @count()
     

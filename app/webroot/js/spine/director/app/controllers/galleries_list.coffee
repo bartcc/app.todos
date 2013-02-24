@@ -27,7 +27,7 @@ class GalleriesList extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
-    gallery = Gallery.record #Gallery.exists(item['gallery_id'])
+    gallery = Gallery.record #|| Gallery.exists(item['gallery_id'])
     @updateTemplate gallery
     @el
     
@@ -50,6 +50,7 @@ class GalleriesList extends Spine.Controller
     @el
 
   updateTemplate: (item) ->
+    return unless item
     galleryEl = @children().forItem(item)
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryEl.tmplItem()

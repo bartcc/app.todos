@@ -239,8 +239,8 @@ class PhotosList extends Spine.Controller
       Spine.trigger('destroy:photo')
       @stopInfo()
       if album = Album.record
-          unless @el.children().length
-            @parent.render() #unless gallery.contains()
+        unless @el.children().length
+          @parent.render() #unless gallery.contains()
     , 300)
     
     @stopInfo()

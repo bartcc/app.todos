@@ -23,15 +23,6 @@ class Toolbar extends Spine.Model
       name: 'View'
       content:
         [
-#          name: -> 'Trashed Albums (' + Album.inactive().length + ')'
-#          klass: 'optShowAllAlbums'
-#          icon: -> if App.showView.allAlbums then 'ok' else ''
-#        ,
-#          name: -> 'Trashed Photos (' + Photo.inactive().length + ')'
-#          klass: 'optShowAllPhotos '
-#        ,
-#          devider: true
-#        ,
           name: 'Overview'
           klass: 'optOverview '
         ,

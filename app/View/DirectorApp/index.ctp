@@ -336,9 +336,9 @@
   <section class="top hoverinfo">
     {{if record}}
     <h3>Author: </h3><label> ${record.author}</label>
-    <h2>Gallery: {{if record.name}}${record.name}{{else}}---{{/if}}
+    <br>
+    <h2>Gallery: </h2>{{if record.name}}${record.name}{{else}}---{{/if}}
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
-    </h2>
     {{else}}
 <!--    <div class="alert alert-block"><h4 class="alert-heading">Note</h4>Drag your albums to a sidebar gallery item to make them belonging together. If you hover over a closed gallery item, it will drop down.</div>-->
     <h2>All Albums (Album-Masters)
@@ -383,9 +383,10 @@
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
   {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{else}}Gallery not found{{/if}}
-  <h2>Album: {{if album.title}}${album.title}{{else}}Album not found{{/if}}
+  <br>
+  <h2>Album: </h2>{{if album.title}}${album.title}{{else}}Album not found{{/if}}
     <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
-  </h2>
+  
 </script>
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">

@@ -7,12 +7,14 @@ Photo           = require('models/photo')
 AlbumsPhoto     = require('models/albums_photo')
 GalleriesAlbum  = require('models/galleries_album')
 Extender        = require("plugins/controller_extender")
+Drag            = require("plugins/drag")
 
 require("spine/lib/tmpl")
 
 class AlbumsList extends Spine.Controller
   
   @extend Extender
+  @extend Drag
   
   events:
     'click .item'             : 'click'
@@ -23,6 +25,7 @@ class AlbumsList extends Spine.Controller
     'mousemove'               : 'infoMove'
     'mousemove .item'         : 'infoUp'
     'mouseleave .item'        : 'infoBye'
+    'drop'                    : 'drop'
     'dragstart .item'         : 'stopInfo'
     
     
@@ -38,8 +41,6 @@ class AlbumsList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     Spine.bind('album:activate', @proxy @activate)
     
-  template: -> arguments[0]
-  
   change: (album, mode, options) ->
     switch mode
       when 'update'
@@ -83,6 +84,9 @@ class AlbumsList extends Spine.Controller
     @el
   
   changeRelatedAlbum: (item, mode) ->
+    # if we change a different gallery from within the sidebar, it should not have an effect here
+    return unless Gallery.record.id is item['gallery_id']
+    
     return unless album = Album.exists(item['album_id'])
     
     switch mode
@@ -90,6 +94,7 @@ class AlbumsList extends Spine.Controller
         wipe = Gallery.record and Gallery.record.contains() is 1
         @el.empty() if wipe
         @append @template album
+        @renderBackgrounds [album]
         @el.sortable('destroy').sortable('album')
         
       when 'destroy'

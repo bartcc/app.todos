@@ -19,7 +19,7 @@
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views canvas-bg-medium hbox vdraggable">
-      <div class="vbox flex inner">
+      <div class="vbox sidebar canvas flex inner">
         <div class="search">
           <form class="form-search">
             <input class="search-query" type="search" placeholder="Search" results="0" incremental="true" autofocus>
@@ -30,7 +30,7 @@
             <li id="flickr" class="splitter disabled"></li>
           </ul>
         </div>
-        <ul class="items canvas vbox flex autoflow"></ul>
+        <ul class="items vbox flex autoflow"></ul>
         <footer class="footer">
           <button class="createGallery dark">+ Gallery</button>
           <button class="createAlbum dark">+ Album</button>
@@ -38,7 +38,7 @@
       </div>
       <div class="vdivide draghandle"></div>
     </div>
-    <div id="content" class="views canvas-bg-dark vbox flex">
+    <div id="content" class="views canvas-bg-medium vbox flex">
       <div class="show view canvas vbox flex">
         <ul class="options hbox navbar">
           <ul class="toolbarOne hbox nav"></ul>
@@ -73,7 +73,7 @@
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
-          <div class="views content canvas vbox flex hdraggable">
+          <div class="views content vbox flex hdraggable">
             <div class="hdivide draghandle">
               <span class="optClose icon-remove icon-white right"></span>
             </div>
@@ -124,7 +124,7 @@
           </div>
         </div>
       </div>
-      <div class="overview view content canvas vbox flex data parent autoflow">
+      <div class="overview canvas view content vbox flex data parent autoflow">
         <ul class="navbar options">
           <li class="splitter disabled flex"></li>
           <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="icon-remove icon-white"></span></li>
@@ -151,7 +151,7 @@
         <ul class="navbar options hbox">
           <ul class="toolbar hbox"></ul>
         </ul>
-        <div class="content container canvas vbox flex autoflow"></div>
+        <div class="content container vbox flex autoflow"></div>
       </div>
     </div>
   </div>

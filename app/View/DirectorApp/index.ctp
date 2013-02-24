@@ -337,7 +337,8 @@
     {{if record}}
     <h3>Author: </h3><label> ${record.author}</label>
     <br>
-    <h2>Gallery: </h2>{{if record.name}}${record.name}{{else}}---{{/if}}
+    <h2>Gallery: </h2>
+    <label>{{if record.name}}${record.name}{{else}}---{{/if}}</label>
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     {{else}}
 <!--    <div class="alert alert-block"><h4 class="alert-heading">Note</h4>Drag your albums to a sidebar gallery item to make them belonging together. If you hover over a closed gallery item, it will drop down.</div>-->

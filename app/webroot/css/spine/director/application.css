@@ -1,3 +1,4 @@
+@import "fonts/fonts.css";
 * {
   user-select: none;
   -webkit-user-select: none;
@@ -1006,6 +1007,9 @@ textarea {
 }
 #content .header label, #content .header h3 {
   display: inline;
+}
+.header label {
+  font-family: "Puritan", sans-serif;
 }
 #content .header h3:nth-child(2) {
   margin-left: 20px;

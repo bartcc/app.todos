@@ -1,0 +1,29 @@
+@font-face {
+  font-family: ChopinScript;
+  src: url(fonts/ChopinScript.ttf);
+}
+@font-face {
+  font-family: ChopinScript;
+  src: url(fonts/ChopinScript.ttf);
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Express";
+  src: url(fonts/Express);
+}
+@font-face {
+  font-family: "Kimberley";
+  src: url(fonts/kimberley);
+}
+@font-face {
+  font-family: "Puritan";
+  src: url(fonts/Puritan);
+}
+@font-face {
+  font-family: "PuritanAlternate";
+  src: url(fonts/PuritanAlternate-Bold);
+}
+@font-face {
+  font-family: "PuritanSwash";
+  src: url(fonts/PuritanSwash-Bold);
+}

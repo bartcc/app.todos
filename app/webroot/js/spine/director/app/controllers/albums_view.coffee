@@ -16,6 +16,7 @@ require("spine/lib/tmpl")
 class AlbumsView extends Spine.Controller
   
   @extend Drag
+  @extend Extender
   
   elements:
     '.hoverinfo'                      : 'infoEl'
@@ -62,6 +63,7 @@ class AlbumsView extends Spine.Controller
     Album.bind('create', @proxy @createJoin)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
+    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     GalleriesAlbum.bind('change', @proxy @renderHeader)

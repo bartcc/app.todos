@@ -71,7 +71,7 @@
 
 <script type="text/x-jquery-tmpl" id="infoTemplate">
   {{if record}}
-  <span style="display: block;">Save failed !</span>
+  <span style="display: block;">Server action failed!</span>
   {{/if}}
 </script>
 <!--{json: {flash: ...}} {error: {record: {}, xhr: {}, statusText: {}, error:{}}}-->

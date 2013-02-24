@@ -385,8 +385,6 @@ class ShowView extends Spine.Controller
     item = @el.data().current
     className = @el.data().className
     switch className
-      when 'Photo'
-        -> # nothing to do here
       when 'Album'
         Album.emptySelection()
         Spine.trigger('photo:activate')
@@ -396,11 +394,14 @@ class ShowView extends Spine.Controller
       when 'Slideshow'
         ->
       else
-        ->
-#        Spine.trigger('gallery:activate', false)
+        Gallery.current()
+        Spine.trigger('gallery:exposeSelection')
         
     @changeToolbarOne()
     @current.items.deselect()
+    
+    e.stopPropagation()
+    e.preventDefault()
     
   selectAll: (e) ->
     root = @current.el.children('.items')

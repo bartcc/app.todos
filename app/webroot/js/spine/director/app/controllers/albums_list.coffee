@@ -246,12 +246,7 @@ class AlbumsList extends Spine.Controller
     @info.bye()
     
   infoEnter: (e) ->
-#    el = $(e.target).find('.more-icon')
-#    el.addClass('infast')
     
   infoMove: (e) ->
-#    return unless $(e.target).hasClass('items')
-#    el = $(e.target).find('.more-icon')
-#    el.removeClass('in')
 
 module?.exports = AlbumsList

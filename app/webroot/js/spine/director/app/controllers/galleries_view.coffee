@@ -4,7 +4,7 @@ Drag          = require("plugins/drag")
 Gallery       = require('models/gallery')
 GalleriesList = require("controllers/galleries_list")
 AlbumsPhoto   = require('models/albums_photo')
-Extender  = require('plugins/controller_extender')
+Extender      = require('plugins/controller_extender')
 
 class GalleriesView extends Spine.Controller
   
@@ -61,10 +61,10 @@ class GalleriesView extends Spine.Controller
     @header.render()
     
   show: ->
-#    Spine.trigger('gallery:activate')
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', [''])
     App.showView.trigger('canvas', @)
+    @list.exposeSelection(Gallery.record)
     
   newAttributes: ->
     if User.first()

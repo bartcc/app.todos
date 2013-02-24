@@ -11,7 +11,6 @@ class GalleriesList extends Spine.Controller
   @extend Extender
   
   events:
-    'click'                   : 'clickDeselect'
     'click .item'             : 'click'
     'click .icon-set .back'   : 'back'
     'dblclick .item'          : 'zoom'
@@ -23,7 +22,6 @@ class GalleriesList extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change', @proxy @renderOne)
-#    Spine.bind('change:selectedGallery', @proxy @exposeSelection)
     GalleriesAlbum.bind('change', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
@@ -95,10 +93,6 @@ class GalleriesList extends Spine.Controller
     App.showView.trigger('change:toolbarOne')
     Spine.trigger('gallery:exposeSelection')
         
-  clickDeselect: (e) ->
-    Gallery.current()
-    @exposeSelection()
-    
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()

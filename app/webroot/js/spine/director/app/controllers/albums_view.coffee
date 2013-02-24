@@ -82,7 +82,7 @@ class AlbumsView extends Spine.Controller
     
     # ommit a complete rendering on resorting
     # on anything else it's ok
-    return if (item.constructor.className is 'GalleriesAlbum') and (changed is 'update')
+    return if (item.constructor.className is 'GalleriesAlbum') and (changed is 'update') or !item
 #    return unless changed
 #    return unless @isActive()
     # !important

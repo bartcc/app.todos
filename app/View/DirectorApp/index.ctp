@@ -73,7 +73,7 @@
           </div>
         </div>
         <div id="views" class="settings canvas-bg-light hbox autoflow">
-          <div class="views content vbox flex hdraggable">
+          <div class="views canvas content vbox flex hdraggable">
             <div class="hdivide draghandle">
               <span class="optClose icon-remove icon-white right"></span>
             </div>

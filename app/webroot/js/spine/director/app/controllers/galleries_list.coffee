@@ -25,18 +25,10 @@ class GalleriesList extends Spine.Controller
     Gallery.bind('change', @proxy @renderOne)
     GalleriesAlbum.bind('change', @proxy @renderRelated)
     AlbumsPhoto.bind('change', @proxy @renderRelated)
-    GalleriesAlbum.bind('change', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
-    gallery = Gallery.exists(item['gallery_id'])
-    album = Album.exists(item['album_id'])
-    switch mode
-      when 'create'
-        @updateTemplate gallery
-      when 'update'
-        @updateTemplate gallery
-      when 'destroy'
-        @updateTemplate gallery
+    gallery = Gallery.record #Gallery.exists(item['gallery_id'])
+    @updateTemplate gallery
     @el
     
   renderOne: (item, mode) ->

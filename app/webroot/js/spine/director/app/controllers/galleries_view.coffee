@@ -32,7 +32,8 @@ class GalleriesView extends Spine.Controller
 #    Gallery.bind('change', @proxy @change)
     Gallery.bind('refresh', @proxy @refresh)
     
-    AlbumsPhoto.bind('refresh change', @proxy @change)
+    AlbumsPhoto.bind('change', @proxy @change)
+    AlbumsPhoto.bind('refresh', @proxy @refresh)
     Spine.bind('show:galleries', @proxy @show)
 
   change: (item, mode) ->

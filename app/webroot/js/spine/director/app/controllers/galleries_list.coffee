@@ -2,6 +2,7 @@ Spine           = require("spine")
 $               = Spine.$
 Gallery         = require('models/gallery')
 GalleriesAlbum  = require('models/galleries_album')
+AlbumsPhoto     = require('models/albums_photo')
 Drag            = require("plugins/drag")
 Extender        = require('plugins/controller_extender')
 
@@ -22,6 +23,8 @@ class GalleriesList extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change', @proxy @renderOne)
+    GalleriesAlbum.bind('change', @proxy @renderRelated)
+    AlbumsPhoto.bind('change', @proxy @renderRelated)
     GalleriesAlbum.bind('change', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->

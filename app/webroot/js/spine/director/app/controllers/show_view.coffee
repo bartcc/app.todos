@@ -400,9 +400,6 @@ class ShowView extends Spine.Controller
     @changeToolbarOne()
     @current.items.deselect()
     
-    e.stopPropagation()
-    e.preventDefault()
-    
   selectAll: (e) ->
     root = @current.el.children('.items')
     root.children().each (index, el) ->

@@ -6,6 +6,7 @@ Model.Album           = require('models/album')
 Model.Photo           = require('models/photo')
 Model.AlbumsPhoto     = require('models/albums_photo')
 Model.GalleriesAlbum  = require('models/galleries_album')
+SpineError            = require("models/spine_error")
 
 Model.Extender =
 

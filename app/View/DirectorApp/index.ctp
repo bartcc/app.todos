@@ -383,19 +383,20 @@
 </script>
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}<h3>Gallery: </h3> ${gallery.name}{{else}}Gallery not found{{/if}}
+  {{if gallery}}<h3>Gallery: </h3>
+  <label> ${gallery.name}{{else}}Gallery not found{{/if}}</label>
   <br>
-  <h2>Album: </h2>{{if album.title}}${album.title}{{else}}Album not found{{/if}}
+  <h2>Album: </h2><label>{{if album.title}}${album.title}{{else}}Album not found{{/if}}</label>
     <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
   
 </script>
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}<div class="left"><h3>Gallery: </h3>${gallery.name}</div>{{/if}}{{if album}}<div class=""><h3>Album: </h3>${album.title}</div>{{/if}}
+  {{if gallery}}<div class="left"><h3>Gallery: </h3><label>${gallery.name}</label></div>{{/if}}{{if album}}<div class=""><h3>Album: </h3><label>${album.title}</label></div>{{/if}}
   {{if !album}}
 <!--    <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying the master, will cause all derived photos (aliases) to be removed!</div>-->
   {{/if}}
-  <h2>Photo: {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}---{{/if}}{{/if}}</h2>
+  <h2>Photo: </h2><label>{{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}---{{/if}}{{/if}}</label>
 </script>
 
 

@@ -197,6 +197,8 @@ class Main extends Spine.Controller
     unless valid
       User.logout()
     else
+      @finalizeView()
+      return
       @old_statusIcon = @statusIcon[0].src
       @statusIcon[0].src = '/img/ajax-loader.gif'
 #      @statusText.text 'Verifying Account'

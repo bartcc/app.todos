@@ -16,9 +16,10 @@ Checkout the live [demo](http://gap.webpremiere.de)
 #Features / Libraries
 
 * RESTful CRUD
-* HTML5 native drag and drop
+* HTML5 native drag and drop (thanks to [Ali Farhadis script](http://farhadi.ir/))
 * HTML5upload / Slideshow (thanks to [BlueImp](https://github.com/blueimp))
 * [Twitter Bootstrap](http://twitter.github.com)
+* Hem integration (single javascript file served up)
 
 #Screenshot
 

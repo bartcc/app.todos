@@ -6,7 +6,7 @@
           <div class="status-symbol" style="z-index: 2;">
             <img src="/img/ajax-loader.gif" style="">
           </div>
-          <div class="status-text">Verifying </div>
+          <div class="status-text"></div>
         </div>
       </div>
     </div>

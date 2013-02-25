@@ -197,12 +197,7 @@ class Main extends Spine.Controller
     unless valid
       User.logout()
     else
-      @finalizeView()
-      return
-      @old_statusIcon = @statusIcon[0].src
-      @statusIcon[0].src = '/img/ajax-loader.gif'
-#      @statusText.text 'Verifying Account'
-      @delay @setupView, 300
+      @delay @setupView, 1000
       
   drop: (e) ->
     console.log 'App::drop'
@@ -213,13 +208,13 @@ class Main extends Spine.Controller
       
   setupView: ->
     Spine.unbind('uri:alldone')
-    @statusIcon[0].src = '/img/ajax-loader.gif'
-    @statusText.hide()
-    @statusText.text('Welcome').fadeIn('slow', => @delay @finalizeView, 300)
+    @appManager.change @mainView
+    @mainView.el.hide()
+    @statusSymbol.fadeOut('slow', @proxy @finalizeView)
       
   finalizeView: ->
-    @appManager.change @mainView
     @loginView.render User.first()
+    @mainView.el.fadeIn('slow')
       
     
   initializeSlideshow: ->

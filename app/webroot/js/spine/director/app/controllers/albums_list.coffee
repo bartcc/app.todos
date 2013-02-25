@@ -167,7 +167,6 @@ class AlbumsList extends Spine.Controller
     return unless App.ready
     if albums.length
       for album in albums
-        console.log album
         @processAlbum album
     else if @widows?.length
       @processAlbum album for album in @widows

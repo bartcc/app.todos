@@ -133,6 +133,8 @@ class PhotosController extends AppController {
   }
 
   public function uri($width = 550, $height = 550, $square = 2) {
+    $this->log('$this->data', LOG_DEBUG);
+    $this->log($this->data, LOG_DEBUG);
     $json = array();
     if ($this->Auth->user('id')) {
       $user_id = $uid = $this->Auth->user('id');
@@ -140,6 +142,8 @@ class PhotosController extends AppController {
       if (!empty($this->data)) {
         foreach ($this->data as $data) {
           $id = $data['id'];
+          $this->log('id', LOG_DEBUG);
+          $this->log($id, LOG_DEBUG);
           $path = PHOTOS . DS . $uid . DS . $id . DS . 'lg' . DS . '*.*';
           $files = glob($path);
           if (!empty($files[0])) {

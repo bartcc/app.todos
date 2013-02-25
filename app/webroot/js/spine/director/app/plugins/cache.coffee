@@ -15,17 +15,16 @@ Model.Cache =
         return unless id
         for item in @caches
           return item[id] if item[id]
-#        console.log item
         throw 'record ' + id + ' is not configured '
         
-      # returns array container
+      # returns object Object{234234-23423424-234234-234234={src='/sdmwes..'}}
       cache: (url, id) ->
         cached = @cacheList(id)
         return unless cached
         for item in cached  
           # find the url
           for key, val of item
-            return val if item[url]
+            return val[0] if item[url]
          
       initCache: (id) ->
         arr = @caches
@@ -38,7 +37,7 @@ Model.Cache =
         o
         
       hasCache: (url, id) ->
-        !!(@cache(url, id).length)
+        !!(@cache(url, id))
         
       addToCache: (url, uris) ->
         for uri in uris

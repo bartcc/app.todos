@@ -65,6 +65,7 @@ class URI extends Base
     super
     options = $.extend({}, @settings, params)
     @url = @uri options
+    
     return unless @data.length
   settings:
     square: 1
@@ -77,11 +78,13 @@ class URI extends Base
     res = []
     for data, idx in @data
       raw = (@model.cache @url, data.id)
-      cache = raw[0] if raw
-      return unless cache
-      res.push cache
-    
+      if raw
+        res.push raw
+      else
+        return
+      
     @callback res
+    return true
       
   recordResponse: (uris) =>
     @model.addToCache @url, uris

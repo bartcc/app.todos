@@ -28,7 +28,6 @@ class AlbumsList extends Spine.Controller
     'drop'                    : 'drop'
     'dragstart .item'         : 'stopInfo'
     
-    
   constructor: ->
     super
     # initialize flickr's slideshow
@@ -84,9 +83,8 @@ class AlbumsList extends Spine.Controller
     @el
   
   changeRelatedAlbum: (item, mode) ->
-    # if we change a different gallery from within the sidebar, it should not have an effect here
+    # if we change a different gallery from within the sidebar, should not be reflected here
     return unless Gallery.record.id is item['gallery_id']
-    
     return unless album = Album.exists(item['album_id'])
     
     switch mode
@@ -160,14 +158,16 @@ class AlbumsList extends Spine.Controller
     album = App.upload.album
     @renderBackgrounds [album] if album
   
-  # remember the AlbumPhoto before it gets deleted (needed to remove widowed photo thumbnails)
+  # remember the AlbumPhoto before it gets deleted (to remove widowed photo thumbnails)
   widowedAlbumsPhoto: (ap) ->
     @widows = ap.albums()
   
   renderBackgrounds: (albums) ->
+    console.log 'AlbumsList::renderBackgrounds'
     return unless App.ready
     if albums.length
       for album in albums
+        console.log album
         @processAlbum album
     else if @widows?.length
       @processAlbum album for album in @widows

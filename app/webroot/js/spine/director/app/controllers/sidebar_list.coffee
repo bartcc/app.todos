@@ -69,7 +69,7 @@ class SidebarList extends Spine.Controller
           @create item
         when 'update'
           @current = item
-#          @update item
+          @update item
         when 'destroy'
           @current = false
           @destroy item

@@ -194,7 +194,6 @@ class PhotosView extends Spine.Controller
   createJoin: (photos, target) ->
     console.log 'PhotosView::createJoin'
     return unless target and target.constructor.className is 'Album'
-    console.log target.id
     unless Photo.isArray photos
       records = []
       records.push(photos)

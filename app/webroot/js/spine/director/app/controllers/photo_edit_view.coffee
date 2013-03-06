@@ -47,12 +47,12 @@ class PhotoEditView extends Spine.Controller
     @el
   
   save: (el) ->
-    console.log 'PhotoView::save'
+    console.log 'PhotoEditView::save'
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)
       Album.updateSelection [@current.id]
-
+ 
   saveOnEnter: (e) =>
     @save @editEl if(e.keyCode == 13)
     

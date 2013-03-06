@@ -175,7 +175,11 @@ Model.Extender =
             invalid = yes
             @[key] = value
 
-        @save() if invalid
+        if invalid
+          @save()
+        else
+          alert @title + ' has not changed'
+          console.log @
         
       #private
       

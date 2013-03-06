@@ -102,6 +102,10 @@ class AlbumsList extends Spine.Controller
           unless @el.children().length
             @parent.render() unless gallery.contains()
           
+      when 'update'
+        album = Album.exists(item['album_id'])
+        @change(album, mode)
+        @el.sortable('destroy').sortable('album')
         
     @exposeSelection()
     @el

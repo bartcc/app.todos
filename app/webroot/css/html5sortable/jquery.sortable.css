@@ -1,11 +1,3 @@
-._html5sortable-state-highlight {
-  border-left: 2px solid rgba(255, 255, 0, 0.8);
-  float: left;
-}
-._html5sortable-state-highlight-horizontal {
-  border: 1px solid rgba(255, 255, 0, 0.8);
-  width: 100%;
-}
 .sortable-dragging {
   background: rgba(0, 255, 0, 0.8) repeat scroll 0 0;
 }

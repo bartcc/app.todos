@@ -404,7 +404,7 @@
   <label class="">
     <span class="enlightened">Photo Title</span>
   </label>
-  <input type="text" name="title" value="${src}" >
+  <input type="text" name="title" value="{{if title}}${title}{{else}}{{if src}}${src}{{/if}}{{/if}}" >
   <label class="">
     <span class="enlightened">Description</span>
   </label>

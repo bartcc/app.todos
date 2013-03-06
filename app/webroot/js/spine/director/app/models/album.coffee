@@ -8,9 +8,8 @@ AlbumsPhoto       = require('models/albums_photo')
 Filter            = require("plugins/filter")
 Extender          = require("plugins/model_extender")
 AjaxRelations     = require("plugins/ajax_relations")
-
 Uri               = require("plugins/uri")
-Cache             = require("plugins/cache")
+require("plugins/cache")
 require("spine/lib/ajax")
 
 

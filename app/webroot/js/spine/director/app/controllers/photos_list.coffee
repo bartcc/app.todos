@@ -36,6 +36,7 @@ class PhotosList extends Spine.Controller
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
+    AlbumsPhoto.bind('beforeSave', @proxy @updateRelated)
     Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
     
@@ -51,8 +52,7 @@ class PhotosList extends Spine.Controller
   render: (items=[], mode='html') ->
     console.log 'PhotosList::render'
     if Album.record
-      @el.removeClass 'all'
-      @wipe()
+      @wipe().removeClass 'all'
       if items.length
         @[mode] @template items
         @exposeSelection() if mode is 'html'
@@ -83,8 +83,9 @@ class PhotosList extends Spine.Controller
     @el.empty() if wipe
     @el
   
-  update: (item) ->
+  update: (item, ap) ->
     console.log 'PhotosList::update'
+#    console.log item
     el = =>
       @children().forItem(item)
     tb = ->
@@ -93,12 +94,21 @@ class PhotosList extends Spine.Controller
     backgroundImage = tb().css('backgroundImage')
     css = tb().attr('style')
     active = el().hasClass('active')
-    tmplItem = el().tmplItem()
-    tmplItem.tmpl = $( "#photosTemplate" ).template()
-    tmplItem.update()
+    try
+      tmplItem = el().tmplItem()
+      tmplItem.data.order = ap.order
+      tmplItem.tmpl = $( "#photosTemplate" ).template()
+      tmplItem.update()
+    catch e
+      return
     tb().attr('style', css)
     el().toggleClass('active', active)
+    @el.sortable('destroy').sortable('photos')
     @refreshElements()
+  
+  updateRelated: (ap) ->
+    photo = Photo.exists(ap['photo_id'])
+    @update(photo, ap)
   
   thumbSize: (width = App.showView.thumbSize, height = App.showView.thumbSize) ->
     width: width
@@ -152,7 +162,6 @@ class PhotosList extends Spine.Controller
   modalParams: ->
     width: 600
     height: 451
-    square: 2
     force: false
     
   loadModal: (items, mode='html') ->

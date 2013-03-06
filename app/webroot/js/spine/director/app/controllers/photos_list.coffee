@@ -96,7 +96,7 @@ class PhotosList extends Spine.Controller
     active = el().hasClass('active')
     try
       tmplItem = el().tmplItem()
-      tmplItem.data.order = ap.order
+      tmplItem.data.order = ap.order or tmplItem.data.order
       tmplItem.tmpl = $( "#photosTemplate" ).template()
       tmplItem.update()
     catch e

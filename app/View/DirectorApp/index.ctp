@@ -271,7 +271,7 @@
     <div class="icon-set fade out" style="">
       <span class="zoom icon-zoom-in icon-white left"></span>
       <span class="back icon-arrow-up icon-white left"></span>
-      <span class="delete icon-remove icon-white right"></span>
+      <span class="delete icon-trash icon-white right"></span>
     </div>
     <div class="title">{{if name}}{{html name}}{{else}}---{{/if}}</div>
   </li>
@@ -304,7 +304,7 @@
     <div class="icon-set fade out" style="">
       <span class="zoom icon-zoom-in icon-white left"></span>
       <span class="back icon-arrow-up icon-white left"></span>
-      <span class="icon-loading delete icon-remove icon-white right"></span>
+      <span class="icon-loading delete icon-trash icon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title}}{{else}}---{{/if}}</div>
     <div class="title" style="font-size: 0.5em">${order}</div>
@@ -435,7 +435,7 @@
   <div class="icon-set fade out" style="">
     <span class="zoom icon-zoom-in icon-white left"></span>
     <span class="back icon-arrow-up icon-white left"></span>
-    <span class="delete icon-remove icon-white right"></span>
+    <span class="delete icon-trash icon-white right"></span>
   </div>
 </script>
 

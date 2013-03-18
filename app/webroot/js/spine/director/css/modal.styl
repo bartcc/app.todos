@@ -1,0 +1,422 @@
+html, body {
+  background: none repeat scroll 0 0 #606067;
+
+  display: -webkit-box;
+  -webkit-box-align: stretch;
+  -webkit-box-orient: vertical;
+
+  display: -moz-box;
+  -moz-box-align: stretch;
+  -moz-box-orient: vertical;
+
+  display: box;
+  box-align: stretch;
+  box-orient: vertical;
+
+  height: 100%;
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden
+}
+body {
+  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;
+}
+#messenger h1, h2 {
+  text-shadow: 0 1px 1px #ffffff;
+}
+#messenger h1 {
+  font-size: 21pt;
+  color: #404040;
+}
+#messenger h2 {
+  font-size: 24pt;
+  color: #404040;
+  margin: 1em 0 0.7em 0;
+}
+#messenger header, footer {
+  display: block;
+}
+#messenger #title {
+  overflow: hidden;
+  height: 50px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-box-shadow: inset 0px -1px 3px #1d1d1d;
+  -webkit-box-shadow: inset 0px -1px 3px #1d1d1d;
+  box-shadow: inset 0px -1px 3px #1d1d1d;
+  background: #474747;
+  background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#303030));
+  background: -moz-linear-gradient(top, #474747, #303030);
+  background: linear-gradient(top, #474747, #303030);
+}
+#messenger #title h1 {
+  line-height: 50px;
+  font-size: 2.5em;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  color: #555;
+  border-right: 1px solid #181818;
+  -moz-box-shadow: 1px 0px 1px #525252;
+  -webkit-box-shadow: 1px 0px 1px #525252;
+  box-shadow: 1px 0px 1px #525252;
+  text-shadow: 0 -1px 1px black;
+  font-weight: bold;
+  width: 200px
+}
+#messenger header .info {
+  color: #666;
+  padding: 10px;
+  float: right
+}
+.cloud {
+  background-color: #E1EEF7
+}
+.empty {
+  font-style: italic;
+}
+#messenger footer {
+  padding: 6px;
+  border-top: 1px solid #c5c5c5;
+  background: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#dedfe0));
+  background: -moz-linear-gradient(top, #ffffff, #dedfe0);
+  background: linear-gradient(top, #ffffff, #dedfe0);
+  -moz-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
+  text-align: right;
+  min-height: 33px
+}
+.tright {
+  text-align: right
+}
+.ui-tooltip-top {
+  left: 270px;
+  top: 112px;
+  position: absolute;
+  z-index: 999;
+}
+/*
+ *  François 'cahnory' Germain
+*/
+.ui-tooltip, .ui-tooltip-top, .ui-tooltip-right, .ui-tooltip-bottom, .ui-tooltip-left {
+  color:#ffffff;
+  cursor:normal;
+  display:-moz-inline-stack;
+  display:inline-block;
+  font-family:arial;
+  font-size: 12px;
+  padding:.5em 1em;
+  text-align:center;
+  text-shadow:0 -1px 1px #111111;
+  -webkit-border-top-left-radius:4px ;
+  -webkit-border-top-right-radius:4px ;
+  -webkit-border-bottom-right-radius:4px ;
+  -webkit-border-bottom-left-radius:4px ;
+  -khtml-border-top-left-radius:4px ;
+  -khtml-border-top-right-radius:4px ;
+  -khtml-border-bottom-right-radius:4px ;
+  -khtml-border-bottom-left-radius:4px ;
+  -moz-border-radius-topleft:4px ;
+  -moz-border-radius-topright:4px ;
+  -moz-border-radius-bottomright:4px ;
+  -moz-border-radius-bottomleft:4px ;
+  border-top-left-radius:4px ;
+  border-top-right-radius:4px ;
+  border-bottom-right-radius:4px ;
+  border-bottom-left-radius:4px ;
+  -o-box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  -moz-box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  -khtml-box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  -webkit-box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  box-shadow:0 1px 2px #000000, inset 0 0 0 1px #222222, inset 0 2px #666666, inset 0 -2px 2px #444444;
+  background-color:#3b3b3b;
+  background-image:-moz-linear-gradient(top,#555555,#222222);
+  background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#555555),color-stop(1,#222222));
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#555555,EndColorStr=#222222);
+  -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorStr=#555555,EndColorStr=#222222);
+}
+.ui-tooltip:after, .ui-tooltip-top:after, .ui-tooltip-right:after, .ui-tooltip-bottom:after, .ui-tooltip-left:after {
+  content:"\25B8";
+  display:block;
+  font-size:2em;
+  height:0;
+  line-height:0;
+  position:absolute;
+}
+.ui-tooltip:after, .ui-tooltip-bottom:after {
+  color:#2a2a2a;
+  bottom:0;
+  left:1px;
+  text-align:center;
+  text-shadow:1px 0 2px #000000;
+  -o-transform:rotate(90deg);
+  -moz-transform:rotate(90deg);
+  -khtml-transform:rotate(90deg);
+  -webkit-transform:rotate(90deg);
+  width:100%;
+}
+.ui-tooltip-top:after {
+  bottom:auto;
+  color:#4f4f4f;
+  left:-2px;
+  top:0;
+  text-align:center;
+  text-shadow:none;
+  -o-transform:rotate(-90deg);
+  -moz-transform:rotate(-90deg);
+  -khtml-transform:rotate(-90deg);
+  -webkit-transform:rotate(-90deg);
+  width:100%;
+}
+.ui-tooltip-right:after {
+  color:#222222;
+  right:-0.375em;
+  top:50%;
+  margin-top:-.05em;
+  text-shadow:0 1px 2px #000000;
+  -o-transform:rotate(0);
+  -moz-transform:rotate(0);
+  -khtml-transform:rotate(0);
+  -webkit-transform:rotate(0);
+}
+.ui-tooltip-left:after {
+  color:#222222;
+  left:-0.375em;
+  top:50%;
+  margin-top:.1em;
+  text-shadow:0 -1px 2px #000000;
+  -o-transform:rotate(180deg);
+  -moz-transform:rotate(180deg);
+  -khtml-transform:rotate(180deg);
+  -webkit-transform:rotate(180deg);
+}
+#messenger button {
+  font-weight: bold;
+  font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+  font-size: 14px;
+  padding: 6px 10px;
+  outline: none;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  height: 32px;
+}
+#messenger button.light {
+  border: 1px solid #bbbbbb;
+  text-shadow: 0 1px 1px #ffffff;
+  color: #565656;
+  background: #f9f9f9;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#e3e3e3));
+  background: -moz-linear-gradient(top, #f9f9f9, #e3e3e3);
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  -moz-box-shadow: 0 1px 1px #ffffff;
+  -webkit-box-shadow: 0 1px 1px #ffffff;
+  box-shadow: 0 1px 1px #ffffff;
+}
+#messenger button.dark {
+  border: 1px solid #555555;
+  color: #9C9C9C;
+  text-shadow: 0 -1px 1px #333333;
+  background: #494949;
+  background: -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333333));
+  background: -moz-linear-gradient(top, #494949, #333333);
+  background: linear-gradient(top, #494949, #333333);
+  -moz-box-shadow: 0 1px 1px #333333;
+  -webkit-box-shadow: 0 1px 1px #333333;
+  box-shadow: 0 1px 1px #333333;
+}
+#messenger button[type="button"], button[type="submit"], button[type="reset"] {
+  margin: 0;
+}
+#messenger button.light:active {
+  background: #e3e3e3;
+  background: -webkit-gradient(linear, left top, left bottom, from(#e3e3e3), to(#f9f9f9));
+  background: -moz-linear-gradient(top, #e3e3e3, #f9f9f9);
+  background: linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+#messenger button.dark:active {
+  background: #404040;
+  background: -webkit-gradient(linear, left top, left bottom, from(#404040), to(#454545));
+  background: -moz-linear-gradient(top, #404040, #454545);
+  background: linear-gradient(top, #404040, #454545);
+}
+#messenger button.clear {
+  margin-right: 10px
+}
+#messenger button.primary_lg.alert {
+  background: #963030;
+  background: -webkit-gradient(linear, left top, left bottom, from(#963030), to(#7B3030));
+  background: -moz-linear-gradient(top, #963030, #7B3030);
+  background: linear-gradient(top, #963030, #7B3030);
+}
+#messenger button.primary_lg {
+  background: #474747;
+  background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#303030));
+  background: -moz-linear-gradient(top, #474747, #303030);
+  background: linear-gradient(top, #474747, #303030);
+  border-top: 0 none;
+  border-bottom: 1px solid #111111;
+  border-left: 0 none;
+  border-right: 0 none;
+  color: #DCDCDC;
+  font: 13px/22px 'Lusida Garande','Verdana',sans-serif;
+  opacity: 0.99;
+  text-align: center;
+  text-shadow: 0 -1px 0 #000000;
+}
+#messenger button.primary_lg {
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  border-radius: 0;
+  width: 100%;
+  min-width: 100px;
+  height: 50px;
+  min-height: 50px;
+  padding: 0 10px;
+  margin: 0;
+}
+#messenger button.primary_lg:hover:not(.disabled) {
+  background: #474747;
+  background: -webkit-gradient(linear, left top, left bottom, from(#474747), to(#404040));
+  background: -moz-linear-gradient(top, #474747, #404040);
+  background: linear-gradient(top, #474747, #404040);
+  cursor: pointer;
+}
+#messenger button.primary_lg.alert:hover {
+  background: #963030;
+  background: -webkit-gradient(linear, left top, left bottom, from(#963030), to(#8B4040));
+  background: -moz-linear-gradient(top, #963030, #8B4040);
+  background: linear-gradient(top, #963030, #8B4040);
+}
+#messenger button.light.disabled, button.light.disabled:active {
+  background: -webkit-gradient(linear, left top, left bottom, from(#F7F7F7), to(#C7C7C7));
+  background: -moz-linear-gradient(center top , #F7F7F7, #C7C7C7);
+  background: linear-gradient(top, #F7F7F7, #C7C7C7);
+  text-shadow: 0 1px 0 #FFFFFF;
+}
+#messenger button.disabled {
+  background: #878787;
+  background: -webkit-gradient(linear, left top, left bottom, from(#878787), to(#676767));
+  background: -moz-linear-gradient(top, #878787, #676767);
+  background: linear-gradient(top, #878787, #676767);
+  cursor: default;
+  color: #B0B0B0;
+  text-shadow: 0 -1px 0 #2f2f2f;
+}
+#messenger fieldset legend {
+  font-size: 100%;
+  color: #999999;
+  padding: 5px
+}
+#messenger fieldset {
+  padding: 0;
+  border: 0 none;
+}
+fieldset button {
+  margin: 0 10px
+}
+
+#messenger fieldset label {
+  padding: 0 10px 0 0
+}
+#messenger fieldset > div:nth-child(2) {
+  padding-left: 10px
+}
+#messenger {
+		z-index:998;
+  color: #767676;
+  font: 1.5em;
+  text-shadow: 0 1px 0 #FFFFFF;
+}
+#messenger h1 {
+  font-size: 2em;
+}
+#messenger h3 {
+  color: #565656;
+}
+#messenger footer {
+  -webkit-border-top-left-radius:0px ;
+  -webkit-border-top-right-radius:0px ;
+  -webkit-border-bottom-right-radius:8px ;
+  -webkit-border-bottom-left-radius:8px ;
+  -khtml-border-top-left-radius:0px ;
+  -khtml-border-top-right-radius:0px ;
+  -khtml-border-bottom-right-radius:8px ;
+  -khtml-border-bottom-left-radius:8px ;
+  -moz-border-radius-topleft:0px ;
+  -moz-border-radius-topright:0px ;
+  -moz-border-radius-bottomright:8px ;
+  -moz-border-radius-bottomleft:8px ;
+  border-top-left-radius:0px ;
+  border-top-right-radius:0px ;
+  border-bottom-right-radius:8px ;
+  border-bottom-left-radius:8px ;
+}
+div.dialogue {
+  display: table-cell;
+  vertical-align: middle;
+}
+div.dialogue-wrap {
+  position:fixed;
+  background: transparent;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  display:table;
+}
+div.dialogue-wrap-inner {
+  position: absolute;
+  z-index: 1005;
+  background: transparent;
+  text-align: center;
+}
+div.dialogue-content {
+  margin: 0 auto;
+  width: 400px;
+}
+#messenger div.bg > div:nth-child(2) {
+  margin: 20px;
+}
+#messenger div.dialogue-content div.bg {
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.6);
+  background: none repeat scroll 0 0 #E3E3E3;
+  float: left;
+  padding: 0;
+  position: relative;
+  width: 100%;
+}
+#messenger .input.window {
+  border-radius: 0 0 3px 3px;
+  border-top-width: 0;
+  margin-right: 10px;
+  padding: 2px 8px;
+}
+#messenger div.dialogue div.dialogue-scroll {
+  position: relative;
+  padding: 10px 0;
+  margin: 0 auto;
+}
+#messenger .flash {
+}
+#messenger .flash img {
+  position: absolute;
+  left: 10px;
+  bottom: 10px
+}
+#messenger .info {
+  color: rgba(20, 20, 20, 0.4);
+  float: left;
+  padding: 8px 0 0 40px;
+}

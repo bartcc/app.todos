@@ -154,6 +154,7 @@ class Main extends Spine.Controller
         gallery = Gallery.exists(params.gid)
         album = Album.exists(params.aid)
         photo = Photo.exists(params.pid)
+        Album.updateSelection(params.pid)
         Spine.trigger('gallery:activate', params.gid)
         Spine.trigger('show:photo', photo)
         Spine.trigger('album:activate', params.aid)

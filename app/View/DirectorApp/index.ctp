@@ -333,7 +333,7 @@
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
-  <section class="top hoverinfo">
+  <section class="top hoverinfo {{if record == ''}}red{{/if}}">
     {{if record}}
     Author:   <span class="label">${record.author}</span>
     <br><br>
@@ -452,7 +452,7 @@
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
-  <section class="top hoverinfo">
+  <section class="top hoverinfo {{if album == ''}}red{{/if}}">
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}

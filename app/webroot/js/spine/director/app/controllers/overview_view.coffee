@@ -12,7 +12,7 @@ class OverviewView extends Spine.Controller
     
   events:
     'click .optClose'     : 'close'
-    'click .item'    : 'navi'
+    'click .item'         : 'navi'
 
   template: (items) ->
     $("#overviewTemplate").tmpl items
@@ -93,6 +93,7 @@ class OverviewView extends Spine.Controller
     
   navi: (e) ->
     item = $(e.currentTarget).item()
+    
     @navigate '/gallery', '/', item.id
     false
     

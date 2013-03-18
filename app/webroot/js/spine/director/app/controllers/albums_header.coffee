@@ -19,11 +19,6 @@ class AlbumsHeader extends Spine.Controller
       record: @current
       count: @count()
     
-    unless Gallery.record
-      $('.hoverinfo', @el).addClass('red')
-    else
-      $('.hoverinfo', @el).removeClass('red')
-    
   count: ->
     if Gallery.record
       filterOptions =

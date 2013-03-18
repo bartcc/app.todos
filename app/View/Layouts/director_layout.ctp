@@ -34,9 +34,9 @@
     echo $this->Html->css('blueimp/new/jquery.fileupload-ui');
     echo $this->Html->css('html5sortable/jquery.sortable');
     echo $this->Html->css('base');
-    echo $this->Html->css('spine/director/modal');
-    echo $this->Html->css('spine/director/application');
-    echo $this->Html->css('spine/director/public/application');
+//    echo $this->Html->css('spine/director/modal');
+//    echo $this->Html->css('spine/director/application');
+    echo $this->Html->css('/js/spine/director/public/application');
 
     echo $this->Html->scriptStart();
     ?>

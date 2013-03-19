@@ -165,6 +165,7 @@ class Main extends Spine.Controller
         Spine.trigger('show:photos')
         Spine.trigger('album:activate', params.aid)
       '/gallery/:gid': (params) ->
+        Album.current()
         @contentManager.change(@showView)
         Spine.trigger('gallery:activate', params.gid)
         if params.gid
@@ -172,6 +173,7 @@ class Main extends Spine.Controller
         else
           Spine.trigger('show:allAlbums')
       '/galleries/': ->
+        Album.current()
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
       '/overview/': ->

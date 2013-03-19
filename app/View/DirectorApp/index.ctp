@@ -269,7 +269,7 @@
       </div>
     </div>
     <div class="icon-set fade out" style="">
-      <span class="zoom icon-zoom-in icon-white left"></span>
+      <span class="zoom icon-eye-open icon-white left"></span>
       <span class="back icon-arrow-up icon-white left"></span>
       <span class="delete icon-trash icon-white right"></span>
     </div>
@@ -302,7 +302,7 @@
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail left" draggable="true"></div>
     <div class="icon-set fade out" style="">
-      <span class="zoom icon-zoom-in icon-white left"></span>
+      <span class="zoom icon-eye-open icon-white left"></span>
       <span class="back icon-arrow-up icon-white left"></span>
       <span class="icon-loading delete icon-trash icon-white right"></span>
     </div>
@@ -366,7 +366,7 @@
   <span class="author">${flash}</span>
   {{else}}
   <li class="sublist-item alb item data" draggable="true" title="Move (Hold Cmd-Key to Copy)">
-    <span class="ui-symbol ui-symbol-album"></span>
+    <span class="icon icon-folder-close ui-symbol-album"></span>
     <span class="title">{{if title}}{{html title}}{{else}}---{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
@@ -433,7 +433,7 @@
 <script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="icon-set fade out" style="">
-    <span class="zoom icon-zoom-in icon-white left"></span>
+    <span class="zoom icon-eye-open icon-white left"></span>
     <span class="back icon-arrow-up icon-white left"></span>
     <span class="delete icon-trash icon-white right"></span>
   </div>

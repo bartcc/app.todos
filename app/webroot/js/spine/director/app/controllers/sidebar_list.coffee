@@ -240,6 +240,8 @@ class SidebarList extends Spine.Controller
         galleryEl = @children().forItem(item)
         albums = galleryEl.find('li')
         albums.removeClass('selected').removeClass('active')
+        $('.icon', albums).removeClass('icon-folder-open')
+        
         
     if Gallery.record
       removeAlbumSelection()
@@ -251,7 +253,8 @@ class SidebarList extends Spine.Controller
           albums.forItem(album).addClass('selected')
           if id is Album.record?.id
             album = Album.exists(Album.record.id)
-            albums.forItem(album).addClass('active')
+            activeEl = albums.forItem(album).addClass('active')
+            $('.icon', activeEl).addClass('icon-folder-open')
     else
       removeAlbumSelection()
 

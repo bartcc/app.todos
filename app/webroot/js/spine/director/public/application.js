@@ -34974,6 +34974,7 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
     AlbumsView.prototype.show = function(idOrRecord) {
       var alb, albums, _i, _len, _results;
 
+      Album.current();
       App.showView.trigger('change:toolbarOne', ['Default']);
       App.showView.trigger('change:toolbarTwo', ['Slideshow']);
       App.showView.trigger('canvas', this);
@@ -39137,7 +39138,7 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
     };
 
     SidebarList.prototype.exposeSublistSelection = function() {
-      var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _ref1, _results,
+      var activeEl, album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _ref1, _results,
         _this = this;
 
       removeAlbumSelection = function() {
@@ -39154,7 +39155,8 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
           item = galleries[_i];
           galleryEl = _this.children().forItem(item);
           albums = galleryEl.find('li');
-          _results.push(albums.removeClass('selected').removeClass('active'));
+          albums.removeClass('selected').removeClass('active');
+          _results.push($('.icon', albums).removeClass('icon-folder-open'));
         }
         return _results;
       };
@@ -39173,7 +39175,8 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
             albums.forItem(album).addClass('selected');
             if (id === ((_ref1 = Album.record) != null ? _ref1.id : void 0)) {
               album = Album.exists(Album.record.id);
-              _results.push(albums.forItem(album).addClass('active'));
+              activeEl = albums.forItem(album).addClass('active');
+              _results.push($('.icon', activeEl).addClass('icon-folder-open'));
             } else {
               _results.push(void 0);
             }
@@ -40149,6 +40152,7 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
           return Spine.trigger('album:activate', params.aid);
         },
         '/gallery/:gid': function(params) {
+          Album.current();
           this.contentManager.change(this.showView);
           Spine.trigger('gallery:activate', params.gid);
           if (params.gid) {
@@ -40158,6 +40162,7 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
           }
         },
         '/galleries/': function() {
+          Album.current();
           this.contentManager.change(this.showView);
           return Spine.trigger('show:galleries');
         },

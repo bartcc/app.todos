@@ -34974,7 +34974,6 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
     AlbumsView.prototype.show = function(idOrRecord) {
       var alb, albums, _i, _len, _results;
 
-      Album.current();
       App.showView.trigger('change:toolbarOne', ['Default']);
       App.showView.trigger('change:toolbarTwo', ['Slideshow']);
       App.showView.trigger('canvas', this);
@@ -36930,7 +36929,7 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
 
       console.log('PhotosList::update');
       el = function() {
-        return _this.children().forItem(item);
+        return _this.children().forItem(item, true);
       };
       tb = function() {
         return $('.thumbnail', el());
@@ -37485,11 +37484,11 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
       }
     };
 
-    PhotosView.prototype.createJoin = function(photos, target) {
-      var ap, record, records, _i, _len, _results;
+    PhotosView.prototype.createJoin = function(photos, album) {
+      var ap, record, records, _i, _len;
 
       console.log('PhotosView::createJoin');
-      if (!(target && target.constructor.className === 'Album')) {
+      if (!(album && album.constructor.className === 'Album')) {
         return;
       }
       if (!Photo.isArray(photos)) {
@@ -37498,17 +37497,18 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
       } else {
         records = photos;
       }
-      _results = [];
       for (_i = 0, _len = records.length; _i < _len; _i++) {
         record = records[_i];
+        if (!(record && record.constructor.className === 'Photo')) {
+          return;
+        }
         ap = new AlbumsPhoto({
-          album_id: target.id,
+          album_id: album.id,
           photo_id: record.id,
-          order: AlbumsPhoto.photos(target.id).length
+          order: AlbumsPhoto.photos(album.id).length
         });
-        _results.push(ap.save());
+        ap.save();
       }
-      return _results;
     };
 
     PhotosView.prototype.destroyJoin = function(photos, target) {
@@ -38990,7 +38990,8 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
       galleryEl = this.children().forItem(gallery);
       gallerySublist = $('ul', galleryEl);
       gallerySublist.html(this.sublistTemplate(albums));
-      return this.updateTemplate(gallery);
+      this.updateTemplate(gallery);
+      return this.exposeSublistSelection();
     };
 
     SidebarList.prototype.exposeSelection = function(item) {
@@ -39006,7 +39007,7 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
     };
 
     SidebarList.prototype.exposeSublistSelection = function() {
-      var album, albums, galleryEl, id, removeAlbumSelection, _i, _len, _ref, _ref1, _results,
+      var removeAlbumSelection,
         _this = this;
 
       console.log('SidebarList::exposeSublistSelection');
@@ -39028,33 +39029,7 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
         }
         return _results;
       };
-      if (Gallery.record) {
-        removeAlbumSelection();
-        galleryEl = this.children().forItem(Gallery.record);
-        albums = galleryEl.find('li');
-        _ref = Gallery.selectionList();
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          id = _ref[_i];
-          if (Album.exists(id)) {
-            album = Album.find(id);
-          }
-          if (album) {
-            albums.forItem(album).addClass('selected');
-            if (id === ((_ref1 = Album.record) != null ? _ref1.id : void 0)) {
-              album = Album.exists(Album.record.id);
-              _results.push(albums.forItem(album).addClass('active'));
-            } else {
-              _results.push(void 0);
-            }
-          } else {
-            _results.push(void 0);
-          }
-        }
-        return _results;
-      } else {
-        return removeAlbumSelection();
-      }
+      return removeAlbumSelection();
     };
 
     SidebarList.prototype.updateTemplate = function(item) {
@@ -40208,8 +40183,8 @@ module.exports = jQuery;}, "controllers/album_edit_view": function(exports, requ
       console.log('App::drop');
       if (!e.originalEvent.dataTransfer.files.length) {
         e.stopPropagation();
+        return e.preventDefault();
       }
-      return e.preventDefault();
     };
 
     Main.prototype.setupView = function() {

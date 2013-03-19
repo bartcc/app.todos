@@ -158,6 +158,7 @@ class SidebarList extends Spine.Controller
     gallerySublist.html @sublistTemplate(albums)
     
     @updateTemplate gallery
+    @exposeSublistSelection()
   
   exposeSelection: (item = Gallery.record) ->
     console.log 'SidebarList::exposeSelection'
@@ -175,19 +176,21 @@ class SidebarList extends Spine.Controller
         albums = galleryEl.find('li')
         albums.removeClass('selected').removeClass('active')
         
-    if Gallery.record
-      removeAlbumSelection()
-      galleryEl = @children().forItem(Gallery.record)
-      albums = galleryEl.find('li')
-      for id in Gallery.selectionList()
-        album = Album.find(id) if Album.exists(id)
-        if album
-          albums.forItem(album).addClass('selected')
-          if id is Album.record?.id
-            album = Album.exists(Album.record.id)
-            albums.forItem(album).addClass('active')
-    else
-      removeAlbumSelection()
+#    if Gallery.record
+#      removeAlbumSelection()
+#      galleryEl = @children().forItem(Gallery.record)
+#      albums = galleryEl.find('li')
+#      for id in Gallery.selectionList()
+#        album = Album.find(id) if Album.exists(id)
+#        if album
+#          albums.forItem(album).addClass('selected')
+#          if id is Album.record?.id
+#            album = Album.exists(Album.record.id)
+#            albums.forItem(album).addClass('active')
+#    else
+#      removeAlbumSelection()
+
+    removeAlbumSelection()
   
   updateTemplate: (item) ->
     galleryEl = @children().forItem(item)
@@ -325,7 +328,6 @@ class SidebarList extends Spine.Controller
       
     if $('.expand', parent).length
       @renderOneSublist gallery
-#      @exposeSublistSelection()
       content.show()
     else
       content.hide()

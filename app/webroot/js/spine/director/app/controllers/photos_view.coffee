@@ -191,19 +191,20 @@ class PhotosView extends Spine.Controller
         @list.el.sortable('destroy').sortable('photos')
       
       
-  createJoin: (photos, target) ->
+  createJoin: (photos, album) ->
     console.log 'PhotosView::createJoin'
-    return unless target and target.constructor.className is 'Album'
+    return unless album and album.constructor.className is 'Album'
     unless Photo.isArray photos
       records = []
       records.push(photos)
     else records = photos
 
     for record in records
+      return unless record and record.constructor.className is 'Photo'
       ap = new AlbumsPhoto
-        album_id: target.id
+        album_id: album.id
         photo_id: record.id
-        order: AlbumsPhoto.photos(target.id).length
+        order: AlbumsPhoto.photos(album.id).length
       ap.save()
   
   destroyJoin: (photos, target) ->

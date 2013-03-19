@@ -85,9 +85,8 @@ class PhotosList extends Spine.Controller
   
   update: (item, ap) ->
     console.log 'PhotosList::update'
-#    console.log item
     el = =>
-      @children().forItem(item)
+      @children().forItem(item, true)
     tb = ->
       $('.thumbnail', el())
       

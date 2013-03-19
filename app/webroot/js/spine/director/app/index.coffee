@@ -205,8 +205,9 @@ class Main extends Spine.Controller
     console.log 'App::drop'
     
     # prevent ui drops
-    e.stopPropagation() unless e.originalEvent.dataTransfer.files.length
-    e.preventDefault()
+    unless e.originalEvent.dataTransfer.files.length
+      e.stopPropagation()
+      e.preventDefault()
       
   setupView: ->
     Spine.unbind('uri:alldone')

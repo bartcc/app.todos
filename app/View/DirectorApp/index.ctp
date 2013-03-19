@@ -338,7 +338,7 @@
     <h3>Author: </h3><label> ${record.author}</label>
     <br>
     <h2>Gallery: </h2>
-    <label>{{if record.name}}${record.name}{{else}}---{{/if}}</label>
+    <label class="h2">{{if record.name}}${record.name}{{else}}---{{/if}}</label>
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     {{else}}
 <!--    <div class="alert alert-block"><h4 class="alert-heading">Note</h4>Drag your albums to a sidebar gallery item to make them belonging together. If you hover over a closed gallery item, it will drop down.</div>-->
@@ -386,7 +386,7 @@
   {{if gallery}}<h3>Gallery: </h3>
   <label> ${gallery.name}{{else}}Gallery not found{{/if}}</label>
   <br>
-  <h2>Album: </h2><label>{{if album.title}}${album.title}{{else}}Album not found{{/if}}</label>
+  <h2>Album: </h2><label class="h2">{{if album.title}}${album.title}{{else}}Album not found{{/if}}</label>
     <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
   
 </script>
@@ -396,7 +396,7 @@
   {{if !album}}
 <!--    <div class="alert alert-error"><h4 class="alert-heading">Warning!</h4>Each photo that's part of an album derives from a master-photo. Destroying the master, will cause all derived photos (aliases) to be removed!</div>-->
   {{/if}}
-  <h2>Photo: </h2><label>{{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}---{{/if}}{{/if}}</label>
+  <h2>Photo: </h2><label class="h2">{{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}---{{/if}}{{/if}}</label>
 </script>
 
 

@@ -13,7 +13,7 @@ class GalleryEditView extends Spine.Controller
 
   events:
     'click'           : 'click'
-    'keydown'         : 'saveOnEnter'
+    'keyup'         : 'saveOnEnter'
     'click .optCreate': 'createGallery'
     
   template: (item) ->
@@ -42,7 +42,7 @@ class GalleryEditView extends Spine.Controller
 
   saveOnEnter: (e) ->
     console.log 'GalleryEditView::saveOnEnter'
-    Spine.trigger('save:gallery', @editEl) if(e.keyCode == 13)
+    Spine.trigger('save:gallery', @editEl) #if(e.keyCode == 13)
     
   createGallery: ->
     Spine.trigger('create:gallery')

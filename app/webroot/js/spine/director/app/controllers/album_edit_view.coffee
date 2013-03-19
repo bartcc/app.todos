@@ -12,7 +12,7 @@ class AlbumEditView extends Spine.Controller
     'form'        : 'formEl'
 
   events:
-    'keydown'         : 'saveOnEnter'
+    'keyup'         : 'saveOnEnter'
   
   template: (item) ->
     $('#editAlbumTemplate').tmpl item
@@ -72,7 +72,7 @@ class AlbumEditView extends Spine.Controller
       Spine.trigger('expose:sublistSelection', Gallery.record)
 
   saveOnEnter: (e) =>
-    @save @editEl if(e.keyCode == 13)
+    @save @editEl #if(e.keyCode == 13)
     e.stopPropagation() if (e.keyCode == 9)
       
 

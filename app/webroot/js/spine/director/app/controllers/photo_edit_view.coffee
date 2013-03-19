@@ -12,7 +12,7 @@ class PhotoEditView extends Spine.Controller
     
   events:
     'click'           : 'click'
-    'keydown'         : 'saveOnEnter'
+    'keyup'         : 'saveOnEnter'
     
   template: (item) ->
     $('#editPhotoTemplate').tmpl(item)
@@ -54,7 +54,7 @@ class PhotoEditView extends Spine.Controller
       Album.updateSelection [@current.id]
  
   saveOnEnter: (e) =>
-    @save @editEl if(e.keyCode == 13)
+    @save @editEl #if(e.keyCode == 13)
     
   click: (e) ->
     e.stopPropagation()

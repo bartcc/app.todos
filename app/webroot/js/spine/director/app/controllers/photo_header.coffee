@@ -23,6 +23,7 @@ class PhotoHeader extends Spine.Controller
     super
     Gallery.bind('change', @proxy @change)
     Album.bind('change', @proxy @change)
+    Photo.bind('change', @proxy @change)
 
   backToGalleries: (e) ->
 #    Spine.trigger('album:activate')

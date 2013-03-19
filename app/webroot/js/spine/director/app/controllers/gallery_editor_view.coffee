@@ -17,8 +17,8 @@ class GalleryEditorView extends Spine.Controller
     
   events:
     "click .optDestroy"   : "destroy"
-    "click .optSave"      : "save"
-    "keydown"             : "saveOnEnter"
+    "click .optSave"      : "saveOnClick"
+    "keyup"               : "save"
 
   template: (item) ->
     $("#editGalleryTemplate").tmpl item
@@ -32,7 +32,6 @@ class GalleryEditorView extends Spine.Controller
       el: @toolbarEl
       template: @toolsTemplate
     Gallery.bind "change", @proxy @change
-    Spine.bind('save:gallery', @proxy @save)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:toolbar', @proxy @changeToolbar)
     @bind 'change', @proxy @changed
@@ -74,15 +73,18 @@ class GalleryEditorView extends Spine.Controller
 #    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
-  save: (el) ->
-#    return if $(el.currentTarget).hasClass('disabled')
-    if @current and Gallery.record
+  saveOnClick: (el) ->
+    return if $(el.currentTarget).hasClass('disabled')
+    if Gallery.record
       atts = el.serializeForm?() or @el.serializeForm()
-      @current.updateChangedAttributes(atts)
+      Gallery.record.updateChangedAttributes(atts)
     App.contentManager.change(App.showView)
 
-  saveOnEnter: (e) =>
+  save: (e) =>
     console.log 'GalleryEditorView::saveOnEnter'
-    Spine.trigger('save:gallery', @) if(e.keyCode == 13)
+#    return unless (e.keyCode is 13)
+      
+    atts = @el.serializeForm()
+    Gallery.record.updateChangedAttributes(atts)
 
 module?.exports = GalleryEditorView

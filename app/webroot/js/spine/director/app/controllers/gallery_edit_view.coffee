@@ -12,8 +12,8 @@ class GalleryEditView extends Spine.Controller
     '.optCreate'      : 'createGalleryEl'
 
   events:
-    'click'           : 'click'
-    'keyup'         : 'saveOnEnter'
+#    'click'           : 'click'
+    'keyup'        : 'saveOnEnter'
     'click .optCreate': 'createGallery'
     
   template: (item) ->
@@ -21,11 +21,17 @@ class GalleryEditView extends Spine.Controller
 
   constructor: ->
     super
-    Spine.bind('change:selectedGallery', @proxy @change)
-    Gallery.bind "refresh change", @proxy @change
+    Spine.bind('change:selectedGallery', @proxy @render)
+    Gallery.bind "refresh", @proxy @refresh
+    Gallery.bind "change", @proxy @change
 
   change: (item, mode) ->
     console.log 'GalleryEditView::change'
+    return if mode is 'update'
+    alert mode
+    @render()
+
+  refresh: ->
     @render()
 
   render: ->
@@ -42,16 +48,15 @@ class GalleryEditView extends Spine.Controller
 
   saveOnEnter: (e) ->
     console.log 'GalleryEditView::saveOnEnter'
-    Spine.trigger('save:gallery', @editEl) #if(e.keyCode == 13)
+    return unless (e.keyCode is 13)
+    atts = @editEl.serializeForm()
+    Gallery.record.updateChangedAttributes(atts)
     
   createGallery: ->
     Spine.trigger('create:gallery')
     
   click: (e) ->
-    console.log 'click'
-    
     e.stopPropagation()
     e.preventDefault()
-    false
 
 module?.exports = GalleryEditView

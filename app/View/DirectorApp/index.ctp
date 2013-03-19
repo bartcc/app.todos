@@ -386,7 +386,7 @@
   {{if gallery}}<h3>Gallery: </h3>
   <label> ${gallery.name}{{else}}Gallery not found{{/if}}</label>
   <br>
-  <h2>Album: </h2><label class="h2">{{if album.title}}${album.title}{{else}}Album not found{{/if}}</label>
+  <h2>Album: </h2><label class="h2">{{if album.title}}${album.title}{{else}}no name{{/if}}</label>
     <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
   
 </script>

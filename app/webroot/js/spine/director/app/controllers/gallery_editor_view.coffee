@@ -82,7 +82,7 @@ class GalleryEditorView extends Spine.Controller
 
   save: (e) =>
     console.log 'GalleryEditorView::saveOnEnter'
-#    return unless (e.keyCode is 13)
+    return unless (e.keyCode is 13)
       
     atts = @el.serializeForm()
     Gallery.record.updateChangedAttributes(atts)

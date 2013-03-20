@@ -23,12 +23,10 @@ class GalleryEditView extends Spine.Controller
     super
     Spine.bind('change:selectedGallery', @proxy @render)
     Gallery.bind "refresh", @proxy @refresh
-    Gallery.bind "change", @proxy @change
+    Gallery.bind "refresh change", @proxy @change
 
   change: (item, mode) ->
     console.log 'GalleryEditView::change'
-    return if mode is 'update'
-    alert mode
     @render()
 
   refresh: ->

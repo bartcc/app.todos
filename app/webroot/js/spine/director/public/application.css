@@ -259,4 +259,4 @@ button.chromeless,button.chromeless:hover{background:-moz-linear-gradient(center
 [class^="icon-"],[class*=" icon-"]{cursor:pointer;margin:0 3px}
 .loading .icon-loading{background:url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent}
 .loading .out{opacity:1}
-.easter{font-weight:normal;font-family:"HappyEaster",serif;font-size:4em}
+.easter{font-weight:normal;font-family:"HappyEaster",serif}

@@ -14,8 +14,8 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1><a style="line-height:0px" href="/"><span class="easter">P</span><span style="margin-left:-40px">hotoDirector</span></a></h1>
-    <div id="login" class="flex tright" style="margin-top: 5px;"></div>
+    <h1><a href="/" style="font-size: 2.5em; line-height: 91px;"><span class="easter">Photo Director</span></a></h1>
+    <div id="login" class="flex tright" style="line-height: 90px; text-align: center;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views canvas-bg-medium hbox vdraggable">

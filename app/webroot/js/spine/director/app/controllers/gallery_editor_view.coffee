@@ -14,6 +14,7 @@ class GalleryEditorView extends Spine.Controller
     '.optDestroy'         : 'destroyBtn'
     '.optSave'            : 'saveBtn'
     '.toolbar'            : 'toolbarEl'
+    'galleryEditor input' : 'input'
     
   events:
     "click .optDestroy"   : "destroy"
@@ -86,5 +87,17 @@ class GalleryEditorView extends Spine.Controller
       
     atts = @el.serializeForm()
     Gallery.record.updateChangedAttributes(atts)
+    
+  # Lazily show the tooltip that tells you to press `enter` to save
+  # a new todo item, after one second.
+  showTooltip: (e) ->
+    tooltip = @$(".ui-tooltip-top");
+    val = @input.val()
+    tooltip.fadeOut()
+    if (@tooltipTimeout) then clearTimeout(@tooltipTimeout)
+    return if (val == '' or val is @input.attr('placeholder'))
+    show = ->
+      tooltip.show().fadeIn()
+    @tooltipTimeout = setTimeout(show, 1000)
 
 module?.exports = GalleryEditorView

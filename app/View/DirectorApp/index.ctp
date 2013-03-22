@@ -14,7 +14,7 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1><a href="/">Photo Director</a></h1>
+    <h1><a style="line-height:0px" href="/"><span class="easter">P</span><span style="margin-left:-40px">hotoDirector</span></a></h1>
     <div id="login" class="flex tright" style="margin-top: 5px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
@@ -284,11 +284,12 @@
 
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">
   <div class="">
-    <div class="">
+    <div class="galleryEditor">
       <label>
-        <span class="enlightened">Gallery Name</span>
+        <span class="enlightened">Gallery - Name</span>
       </label>
-      <input type="text" name="name" value="${name}">
+      <input class="galleryName" type="text" name="name" value="${name}">
+      <span class="ui-tooltip-top" style="display:none;">Press Enter to save</span>
       <label>
         <span class="enlightened">Description</span>
       </label>

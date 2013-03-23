@@ -158,11 +158,12 @@ span.breadcrumb{border-radius:0 0 0 0;padding:5px;position:relative;top:5px}
 .ui-symbol-gallery{background-position:-50px 0}
 .ui-symbol-photo{background-position:-50px -50px}
 .ui-symbol span{display:inline-block}
-#sidebar ul.sublist li.sublist-item{position:relative}
+#sidebar ul.sublist li.sublist-item{position:relative;margin-left:-10px;padding-left:10px}
 #sidebar ul.sublist li.sublist-item.selected .ui-symbol{-moz-background-position:0 -200px;-webkit-background-position:0 -200px;background-position:0 -200px}
 #sidebar ul.sublist li.sublist-item.active .ui-symbol{-moz-background-position:0 -50px;-webkit-background-position:0 -50px;background-position:0 -50px}
 #sidebar ul.sublist li.sublist-item.over .ui-symbol{-moz-background-position:0 -150px;-webkit-background-position:0 -150px;background-position:0 -150px}
-#sidebar ul.sublist li.sublist-item.nodrop .ui-symbol{-moz-background-position:0 -100px;-webkit-background-position:0 -100px;background-position:0 -100px}
+li.item.nodrop{border:2px solid #ff584d}
+li.item.over{border:2px solid #a3ff8b}
 #sidebar .expander{width:23px;height:23px;float:left;margin:0 10px;cursor:pointer}
 #sidebar .expander{background:url("img/arrow.png") no-repeat 0 0}
 #sidebar .expander.expand{background:url("img/arrow.png") no-repeat 0 -23px}

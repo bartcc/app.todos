@@ -684,6 +684,8 @@ span.breadcrumb {
 }
 #sidebar ul.sublist li.sublist-item {
   position: relative;
+  margin-left: -10px;
+  padding-left: 10px;
 }
 #sidebar ul.sublist li.sublist-item.selected .ui-symbol {
   -moz-background-position: 0 -200px;
@@ -700,10 +702,15 @@ span.breadcrumb {
 	 -webkit-background-position: 0 -150px;
 	 background-position: 0 -150px;
 }
-#sidebar ul.sublist li.sublist-item.nodrop .ui-symbol {
-  -moz-background-position: 0 -100px;
-	 -webkit-background-position: 0 -100px;
-	 background-position: 0 -100px;
+li.item.over, .nodrop{
+/*  border-radius: 10px;
+  border: 2px none;*/
+}
+li.item.nodrop {
+  border: 2px solid #FF584D
+}
+li.item.over {
+  border: 2px solid #A3FF8B;
 }
 #sidebar .expander {
   width: 23px;

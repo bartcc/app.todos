@@ -81,7 +81,7 @@ ul,li{list-style:none;padding:0}
 .tright{text-align:right}
 .underline{text-decoration:underline}
 li hr{margin:19px 2px -41px;border-width:1px;border-color:rgba(0,0,0,0.5)}
-.items{padding-top:10px}
+.items{margin-top:-25px;padding-top:19px}
 .content label div{color:rgba(0,0,0,0.6)}
 div.show div.content label.label span{font-weight:normal;font-family:serif;font-style:italic}
 button.clear{margin-right:10px}
@@ -129,7 +129,7 @@ textarea{-moz-border-radius:10px;-webkit-border-radius:10px;border-radius:10px;h
 .cta{padding:0 5px}
 #content .header section.breadcrumb{padding:0;text-shadow:0 1px 0 rgba(255,255,255,0.6);position:absolute;z-index:10}
 #content .header section.breadcrumb ul{float:left;}
-span.breadcrumb{border-radius:0 0 0 0;padding:5px;position:relative;top:5px}
+span.breadcrumb{border-radius:0 0 0 0;padding:5px;position:relative;top:5px;z-index:1}
 .disabled{cursor:auto}
 #content .header section{border-radius:0;margin:3px 0 0 0}
 .header section.top{position:relative}

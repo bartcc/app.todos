@@ -224,7 +224,7 @@ class Main extends Spine.Controller
       show: false
       canvas: true
       backdrop: true
-      slideshow: 1000
+      slideshow: 2000
       autostart: false
       toggleAutostart: ->
       

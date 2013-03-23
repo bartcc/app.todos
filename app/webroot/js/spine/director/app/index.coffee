@@ -217,9 +217,8 @@ class Main extends Spine.Controller
       
   finalizeView: ->
     @loginView.render User.first()
-    @mainView.el.fadeIn('slow')
+    @mainView.el.fadeIn(1500)
       
-    
   initializeSlideshow: ->
     options =
       show: false

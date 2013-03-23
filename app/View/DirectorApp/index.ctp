@@ -14,15 +14,15 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="hbox">
-    <h1><a href="/" style="font-size: 2.5em; line-height: 91px;"><span class="easter">Photo Director</span></a></h1>
-    <div id="login" class="flex tright" style="line-height: 90px; text-align: center;"></div>
+    <h1><a style="font-size: 3em;" href="/"><span class="chopin">Photo Director</span></a></h1>
+    <div id="login" class="flex tright" style="line-height: 72px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views canvas-bg-medium hbox vdraggable">
       <div class="vbox sidebar canvas flex inner">
         <div class="search">
           <form class="form-search">
-            <input class="search-query" type="search" placeholder="Search" results="0" incremental="true" autofocus>
+            <input class="search-query" type="search" placeholder="Search" results="0" incremental="true">
           </form>
         </div>
         <div class="originals hbox">
@@ -283,13 +283,12 @@
 </script>
 
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">
-  <div class="">
+  <div class="editGallery">
     <div class="galleryEditor">
       <label>
         <span class="enlightened">Gallery - Name</span>
       </label>
-      <input class="galleryName" type="text" name="name" value="${name}">
-      <span class="ui-tooltip-top" style="display:none;">Press Enter to save</span>
+      <input class="name" data-toggle="tooltip" placeholder="Gallery Name" data-placement="right" data-trigger="manual" data-title="Press Enter to save" data-content="${name}" type="text" name="name" value="${name}">
       <label>
         <span class="enlightened">Description</span>
       </label>
@@ -328,33 +327,33 @@
 </script>
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
-  <section class="top hoverinfo">
-    <h2>Gallery Overview<span class="active cta right"><h2>${count}</h2></span></h2>
+  <section class="top hoverinfo" style="padding-top: 33px; height: 55px;">
+    <label class="h2 chopin">Gallery Overview</label><span class="active cta right"><h2>${count}</h2></span>
   </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
   <section class="top hoverinfo">
     {{if record}}
-    <h3>Author: </h3><label> ${record.author}</label>
+    Author:   <span class="label">${record.author}</span>
     <br>
     <h2>Gallery: </h2>
-    <label class="h2">{{if record.name}}${record.name}{{else}}---{{/if}}</label>
+    <label class="h2 chopin">{{if record.name}}${record.name}{{else}}---{{/if}}</label>
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     {{else}}
 <!--    <div class="alert alert-block"><h4 class="alert-heading">Note</h4>Drag your albums to a sidebar gallery item to make them belonging together. If you hover over a closed gallery item, it will drop down.</div>-->
-    <h2>All Albums (Album-Masters)
+    <h2 class="chopin">All Albums (Album-Masters)
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{/if}}
   </section>
-  <section class="breadcrumb">
-    <ul class="">
+  <section class="">
+    <span class="breadcrumb">
       <li class="gal">
-        <a href="#">Galleries</a> <span class="divider">/</span>
+        <a href="#">Galleries</a> <span class="">/</span>
       </li>
       <li class="alb active">Albums</li>
-    </ul>
+    </span>
   </section>
 </script>
 
@@ -384,11 +383,14 @@
 </script>
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}<h3>Gallery: </h3>
-  <label> ${gallery.name}{{else}}Gallery not found{{/if}}</label>
+  Author:  <span class="label">${gallery.author}</span>
+  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}---{{/if}}{{else}}Gallery not found{{/if}}</span>
   <br>
-  <h2>Album: </h2><label class="h2">{{if album.title}}${album.title}{{else}}no name{{/if}}</label>
-    <span class="active cta right"><h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2></span>
+  <h2>Album: </h2>
+  <label class="h2 chopin">{{if album.title}}${album.title}{{else}}no name{{/if}}</label>
+  <span class="active cta right">
+    <h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2>
+  </span>
   
 </script>
 
@@ -462,16 +464,16 @@
     </h2>
     {{/if}}
   </section>
-  <section class="breadcrumb">
-    <ul class="">
+  <section class="">
+    <span class="breadcrumb">
       <li class="gal">
-        <a href="#">Galleries</a> <span class="divider">/</span>
+        <a href="#">Galleries</a> <span class="">/</span>
       </li>
       <li class="alb">
-        <a href="#">Albums</a> <span class="divider">/</span>
+        <a href="#">Albums</a> <span class="">/</span>
       </li>
       <li class="pho active">Photos</li>
-    </ul>
+    </span>
   </section>
 </script>
 
@@ -479,19 +481,19 @@
   <section class="top hoverinfo">
     {{if $item.data.details}}{{tmpl($item.data.details()) "#photoDetailsTemplate"}}{{/if}}
   </section>
-  <section class="breadcrumb">
-    <ul class="">
+  <section class="">
+    <span class="breadcrumb">
       <li class="gal">
-        <a href="#">Galleries</a> <span class="divider">/</span>
+        <a href="#">Galleries</a> <span class="">/</span>
       </li>
       <li class="alb">
-        <a href="#">Albums</a> <span class="divider">/</span>
+        <a href="#">Albums</a> <span class="">/</span>
       </li>
       <li class="pho">
-        <a href="#">Photos</a> <span class="divider">/</span>
+        <a href="#">Photos</a> <span class="">/</span>
       </li>
       <li class="active">{{if src}}${src}{{else}}deleted{{/if}}</li>
-    </ul>
+    </span>
   </section>
 </script>
 
@@ -643,10 +645,10 @@ var fileUploadErrors = {
       <td class="error" colspan="2"><span class="label important">Error</span> {%=fileUploadErrors[file.error] || file.error%}</td>
       {% } else { %}
       <td class="preview">{% if (file.thumbnail_url) { %}
-        <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery"><img src="{%=file.thumbnail_url%}"></a>
+        <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="gallery"><img src="{%=file.thumbnail_url%}"></a>
         {% } %}</td>
       <td class="name">
-        <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}">{%=file.name%}</a>
+        <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}">{%=file.name%}</a>
       </td>
       <td class="size">{%=o.formatFileSize(file.size)%}</td>
       <td colspan="2"></td>

@@ -37,7 +37,6 @@ class GalleriesList extends Spine.Controller
         @append @template item
         @exposeSelection(item)
       when 'update'
-        console.log item
         @updateTemplate item
         @reorder item
       when 'destroy'

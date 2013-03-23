@@ -8,16 +8,14 @@ class GalleryEditView extends Spine.Controller
   @extend KeyEnhancer
   
   elements:
-    '.editGallery'        : 'editEl'
-    '.optCreate'          : 'createGalleryEl'
-    '.galleryEditor input.name': 'input'
-    '.ui-tooltip-top'     : 'tooltipEl'
+    '.editGallery'              : 'editEl'
+    '.optCreate'                : 'createGalleryEl'
+    '.galleryEditor input.name' : 'input'
 
   events:
-#    'click'           : 'click'
-    'keyup'               : 'saveOnEnter'
-    'click .optCreate'    : 'createGallery'
-    'keyup .galleryEditor': 'showTooltip'
+    'keyup .galleryEditor'  : 'showTooltip'
+    'keyup'                 : 'saveOnEnter'
+    'click .optCreate'      : 'createGallery'
     
   template: (item) ->
     $('#editGalleryTemplate').tmpl item
@@ -36,6 +34,7 @@ class GalleryEditView extends Spine.Controller
     @render()
 
   render: ->
+#    @el.tooltip('destroy')
     console.log 'GalleryEditView::render'
 #    return unless @isActive()
     if Gallery.record
@@ -62,17 +61,76 @@ class GalleryEditView extends Spine.Controller
     
   # Lazily show the tooltip that tells you to press `enter` to save
   # a new todo item, after one second.
-  showTooltip: (e) ->
-    tooltipEl = @$(".galleryName")
-    console.log tooltipEl
+  showTooltip_: (e) ->
+    tooltip = @$(".ui-tooltip-top");
     val = @input.val()
-    tooltipEl.fadeOut()
+    tooltip.fadeOut()
     if (@tooltipTimeout) then clearTimeout(@tooltipTimeout)
     return if (val == '' or val is @input.attr('placeholder'))
     show = ->
-      alert 'showing tooltip'
-      tooltipEl.tooltip
-        selector: @input
+      tooltip.show().fadeIn()
     @tooltipTimeout = setTimeout(show, 1000)
+    
+  initPopover: ->
+    popoverEl = @$('a[data-toggle=popover]')
+    po = $().popover()
+    console.log popoverEl
+    console.log po
+    
+    
+  # Lazily show the tooltip that tells you to press `enter` to save
+  # a new todo item, after one second.
+  showTooltip: (e) ->
+    tooltipEl = @$('input[data-toggle=tooltip]')
+      
+      
+    console.log 'GallerEditView::showTooltip'
+    tooltipEl.tooltip
+      trigger: 'manual'
+      container: '.galleryEditor'
+     
+    window.tooltip = tooltip = tooltipEl.data('tooltip')
+    
+    input = @$('input.name')
+    val = input.val()
+    
+    if (@tooltipTimeout)
+      clearTimeout(@tooltipTimeout)
+      
+    if val is Gallery.record.name
+      tooltipEl.tooltip('hide')
+      return
+#    return if tooltip.tip().parent().length
+    show = ->
+      tooltipEl.tooltip('show') unless tooltip.tip().parent().length
+      
+    @tooltipTimeout = setTimeout(show, 1000)
+    
+  showPopover: (e) ->
+    popoverEl = @$('input[data-toggle=popover]')
+      
+    input = @$('input.name')
+    val = input.val()
+      
+    console.log 'GallerEditView::showPopover'
+    popoverEl.popover
+      trigger: 'manual'
+      container: '.galleryEditor'
+      content: val
+     
+    window.popover = popover = popoverEl.data('popover')
+    
+    
+    if (@popoverTimeout)
+      clearTimeout(@popoverTimeout)
+      
+    if val is Gallery.record.name
+      popoverEl.popover('hide')
+      return
+#    return if tooltip.tip().parent().length
+    show = ->
+      popoverEl.popover('show') #unless popover.tip().parent().length
+      
+    @popoverTimeout = setTimeout(show, 1000)
 
 module?.exports = GalleryEditView

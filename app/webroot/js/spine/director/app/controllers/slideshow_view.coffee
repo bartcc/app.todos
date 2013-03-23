@@ -118,9 +118,9 @@ class SlideshowView extends Spine.Controller
       if jsn
         el = @items.children().forItem(item)
         $('div.thumbnail', el).attr
-          'data-href'  : jsn.src
-          'title' : item.title or item.src
-          'rel'   : 'gallery'
+          'data-href'   : jsn.src
+          'title'       : item.title or item.src
+          'data-gallery': 'gallery'
           
     @play() if @autoplay
         
@@ -211,14 +211,14 @@ class SlideshowView extends Spine.Controller
         id = list[0] 
         item = Photo.find(id) if Photo.exists(id)
         parent = @el.children().forItem(item, true)
-        el = $('[rel="gallery"]', parent)[0]
+        el = $('[data-gallery="gallery"]', parent)[0]
         return el
       return
     
     elFromCanvas = =>
       console.log 'elFromCanvas'
       item = AlbumsPhoto.photos(Album.record.id)[0]
-      el = $('[rel=gallery]', @el)[0]
+      el = $('[data-gallery=gallery]', @el)[0]
       el
     
     if @slideshowable()

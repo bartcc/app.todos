@@ -418,7 +418,7 @@ textarea {
   -moz-box-shadow: 1px 0px 1px #525252;
   -webkit-box-shadow: 1px 0px 1px #525252;
   box-shadow: 1px 0px 1px #525252;
-  text-shadow: 0 -1px 1px black;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.31);
   font-weight: bold;
 }
 .canvas {

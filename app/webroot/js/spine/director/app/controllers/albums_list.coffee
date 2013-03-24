@@ -66,6 +66,10 @@ class AlbumsList extends Spine.Controller
       when 'destroy'
         @children().forItem(album, true).remove()
     
+      when 'create'
+        unless Gallery.record
+          @children().forItem(album, true).remove()
+        
   render: (items=[], mode) ->
     console.log 'AlbumsList::render'
       

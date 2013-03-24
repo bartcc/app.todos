@@ -60,7 +60,7 @@ class AlbumsView extends Spine.Controller
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('show:allAlbums', @proxy @renderAll)
     Spine.bind('create:album', @proxy @create)
-    Album.bind('create', @proxy @createJoin)
+    Album.bind('create destroy', @proxy @change)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
@@ -186,6 +186,12 @@ class AlbumsView extends Spine.Controller
         Gallery.removeFromSelection album.id
         album.destroy()
 
+  createAlbum: (albums, target=Gallery.record) ->
+    if target
+      @createJoin(albums, target=Gallery.record)
+    else
+      @renderAll()
+  
   createJoin: (albums, target=Gallery.record) ->
     return unless target and target.constructor.className is 'Gallery'
 

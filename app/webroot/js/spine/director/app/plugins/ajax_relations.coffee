@@ -39,7 +39,7 @@ class Builder
 
     @data[@model.className] = @record
     @data
-#
+
 class Request extends Spine.Singleton
   constructor: (@record) ->
     super
@@ -51,15 +51,6 @@ class Request extends Spine.Singleton
       type: "POST"
       data: JSON.stringify(@data)
       url:  Spine.Ajax.getURL(@model)
-    ).done(@recordResponse(options))
-     .fail(@failResponse(options))
-
-  create_: (params, options) ->
-    @ajaxQueue(
-      params,
-      type: 'POST'
-      data: JSON.stringify(@record)
-      url:  Ajax.getURL(@model)
     ).done(@recordResponse(options))
      .fail(@failResponse(options))
 

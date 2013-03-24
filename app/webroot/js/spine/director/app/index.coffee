@@ -78,9 +78,6 @@ class Main extends Spine.Controller
     User.bind('pinger', @proxy @validate)
     $('#modal-gallery').bind('hidden', @proxy @hideSlideshow)
     
-    @loadToolbars()
-    @loadSettings()
-    
     @modalSimpleView = new ModalSimpleView
       el: @modalSimpleEl
       className: 'modal'
@@ -188,6 +185,12 @@ class Main extends Spine.Controller
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
     
+    @defaultSettings =
+      welcomeScreen: false,
+      test: true
+    
+    @loadToolbars()
+  
   storeHash: ->
     localStorage.hash = location.hash
     
@@ -210,6 +213,9 @@ class Main extends Spine.Controller
     unless e.originalEvent.dataTransfer.files.length
       e.stopPropagation()
       e.preventDefault()
+      
+    # clean up placeholders, jquery-sortable-plugin sometimes leaves alone
+    $('.sortable-placeholder').detach()
       
   setupView: ->
     Spine.unbind('uri:alldone')
@@ -244,10 +250,6 @@ class Main extends Spine.Controller
     
   loadToolbars: ->
     Toolbar.load()
-    
-  loadSettings: ->
-    Config.fetch()
-    console.log Config.count()
     
   keys: (e) ->
     charCode = e.charCode

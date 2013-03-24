@@ -152,7 +152,7 @@ class ShowView extends Spine.Controller
 #    Spine.bind('show:allAlbums', @proxy @showAllAlbums)
     
     
-    @sOutValue = 174 # size thumbs initially are shown (slider setting)
+    @sOutValue = 140 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @current = @galleriesView
     

@@ -122,14 +122,12 @@ Model.Extender =
           error.save()
           User.redirect 'users/login'
           
-        console.log record
-        console.log xhr
-        console.log statusText
-        console.log error
+#        console.log record
+#        console.log xhr
+#        console.log statusText
+#        console.log error
         
       customErrorHandler: (record, xhr) ->
-        console.log record
-        console.log xhr
         status = xhr.status
         unless status is 200
           error = new Error

@@ -100,8 +100,7 @@ class AlbumsList extends Spine.Controller
         albumEl = @children().forItem(album, true)
         albumEl.remove()
         if gallery = Gallery.record
-          unless @el.children().length
-            @parent.render() unless gallery.contains()
+          @parent.render() unless gallery.contains()
           
       when 'update'
         album = Album.exists(item['album_id'])

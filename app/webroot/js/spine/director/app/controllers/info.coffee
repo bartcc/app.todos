@@ -5,8 +5,8 @@ class Info extends Spine.Controller
   
   constructor: ->
     super
-#    @el.css
-#      visibility:'hidden'
+    @el.css
+      visibility:'hidden'
     
   render: (item) ->
     @html @template item

@@ -27,7 +27,7 @@ class AlbumsList extends Spine.Controller
     'mouseleave .item'        : 'infoBye'
     'drop'                    : 'drop'
     'dragstart .item'         : 'stopInfo'
-    'dragstart .item'        : 'dragstart'
+    'dragstart'               : 'dragstart'
     
   constructor: ->
     super
@@ -244,12 +244,10 @@ class AlbumsList extends Spine.Controller
   infoUp: (e) =>
     @info.up(e)
     el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
-    e.preventDefault()
     
   infoBye: (e) =>
     @info.bye()
     el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
-    e.preventDefault()
     
   stopInfo: (e) =>
     @info.bye()

@@ -46,31 +46,24 @@ class Request extends Spine.Singleton
     @data = new Builder(@record).build()
   
   create: (params, options) ->
-    @ajaxQueue(
-      params,
-      type: "POST"
-      data: JSON.stringify(@data)
-      url:  Spine.Ajax.getURL(@model)
-    ).done(@recordResponse(options))
-     .fail(@failResponse(options))
-
-  create_: (params, options) ->
-    @ajaxQueue(
-      params,
-      type: 'POST'
-      data: JSON.stringify(@record)
-      url:  Ajax.getURL(@model)
-    ).done(@recordResponse(options))
-     .fail(@failResponse(options))
+    @queue =>
+      @ajax(
+        params,
+        type: "POST"
+        data: JSON.stringify(@data)
+        url:  Spine.Ajax.getURL(@model)
+      ).success(@recordResponse(options))
+       .error(@errorResponse(options))
 
   update: (params, options) ->
-    @ajaxQueue(
-      params,
-      type: "PUT"
-      data: JSON.stringify(@data)
-      url:  Spine.Ajax.getURL(@record)
-    ).done(@recordResponse(options))
-     .fail(@failResponse(options))
+    @queue =>
+      @ajax(
+        params,
+        type: "PUT"
+        data: JSON.stringify(@data)
+        url:  Spine.Ajax.getURL(@record)
+      ).success(@recordResponse(options))
+       .error(@errorResponse(options))
 
 AjaxRelations =
   
@@ -78,7 +71,6 @@ AjaxRelations =
     
     Include =
       ajax: -> new Request @
-      
       
     @include Include
     

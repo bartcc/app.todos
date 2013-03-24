@@ -63,6 +63,7 @@ class AlbumsView extends Spine.Controller
     Album.bind('create', @proxy @createJoin)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
+#    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
@@ -133,7 +134,7 @@ class AlbumsView extends Spine.Controller
     
   newAttributes: ->
     if User.first()
-      title   : 'new'
+      title   : 'empty'
       invalid : false
       user_id : User.first().id
       order   : Album.count()
@@ -143,15 +144,15 @@ class AlbumsView extends Spine.Controller
   create: (list=[], options) ->
     console.log 'AlbumsView::create'
     
-    # creates an new album with photos
-    # argument can be an array of photos
     cb = ->
       @createJoin(Gallery.record) if Gallery.record
+      
+      # Have photos moved/copied to the new album
       Photo.trigger('create:join', list, @)
       Photo.trigger('destroy:join', list, options['origin']) if options?.origin?
         
     album = new Album @newAttributes()
-    album.save(success: cb) #
+    album.save(done: cb)
       
     if Gallery.record
       App.navigate '/gallery', Gallery.record.id
@@ -189,6 +190,7 @@ class AlbumsView extends Spine.Controller
     return unless target and target.constructor.className is 'Gallery'
 
     for album in albums
+      console.log 'joining ' + album.title + ' to ' + target.name
       album.createJoin target
       
     Spine.trigger('album:activate')

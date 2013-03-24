@@ -57,15 +57,15 @@
             <div class="items"></div>
           </div>
           <div class="view albums content vbox flex data parent autoflow">
-            <div class="hoverinfo"></div>
+            <div class="hoverinfo in"></div>
             <div class="items flex"></div>
           </div>
           <div class="view photos content vbox flex data parent autoflow">
-            <div class="hoverinfo"></div>
+            <div class="hoverinfo in"></div>
             <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a"></div>
           </div>
           <div class="view photo content vbox flex data parent autoflow">
-            <div class="hoverinfo"></div>
+            <div class="hoverinfo in"></div>
             <div class="items flex">PHOTO</div>
           </div>
           <div class="view slideshow content flex data parent autoflow">
@@ -328,7 +328,7 @@
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
   <section class="top hoverinfo" style="padding-top: 33px; height: 55px;">
-    <label class="h2 chopin">Gallery Overview</label><span class="active cta right"><h2>${count}</h2></span>
+    <h2>Gallery Overview</h2><span class="active cta right"><h2>${count}</h2></span>
   </section>
 </script>
 
@@ -342,7 +342,7 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     {{else}}
 <!--    <div class="alert alert-block"><h4 class="alert-heading">Note</h4>Drag your albums to a sidebar gallery item to make them belonging together. If you hover over a closed gallery item, it will drop down.</div>-->
-    <h2 class="chopin">All Albums (Album-Masters)
+    <h2 class="">All Albums (Album-Masters)
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{/if}}

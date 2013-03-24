@@ -63,6 +63,7 @@ class Album extends Spine.Model
     @findAllByAttribute('active', false)
     
   @createJoin: (items, target) ->
+    console.log items
     unless @isArray items
       items = [].push(items)
 
@@ -109,7 +110,8 @@ class Album extends Spine.Model
       gallery_id  : target.id
       album_id    : @id
       order       : GalleriesAlbum.albums(target.id).length
-    ga.save()
+    done = ->
+    ga.save(done: done)
   
   destroyJoin: (target) ->
     filterOptions =

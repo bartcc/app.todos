@@ -11,7 +11,7 @@
     "spine/lib/list"
   ],
   "libs": [
-    "js/lib/jquery/jquery-1.9.1.min.js",
+    "js/lib/jquery/jquery-1.9.1.js",
     "js/lib/jquery/jquery-plugins.js",
     "js/lib/jquery/ui/jquery-ui.min.js",
     "js/lib/jquery/ui/jquery.ui.core.min.js",

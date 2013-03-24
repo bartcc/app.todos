@@ -7,7 +7,6 @@ Album   = require('models/album')
 Photo   = require('models/photo')
 AlbumsPhoto    = require('models/albums_photo')
 GalleriesAlbum = require('models/galleries_album')
-#require('spine/lib/ajax')
 
 Ajax =
 
@@ -45,17 +44,17 @@ class Base
   ajax: (params, defaults) ->
     $.ajax($.extend({}, @defaults, defaults, params))
 #    
-  ajaxQueue: (callback) ->
+  queue: (callback) ->
     Ajax.queue(callback)
     
   get: ->
-    @ajaxQueue =>
+    @queue =>
       @ajax(
         type: "POST"
         url: base_url + 'photos/uri/' + @url
         data: JSON.stringify(@data)
-      ).done(@recordResponse)
-       .fail(@failResponse)
+      ).success(@recordResponse)
+       .error(@failResponse)
        
   uri: (options) ->
     options.width + '/' + options.height + '/' + options.square + '/' + options.quality
@@ -90,7 +89,7 @@ class URI extends Base
     @model.addToCache @url, uris
     @callback uris
     
-  failResponse: (xhr, statusText, error) =>
+  errorResponse: (xhr, statusText, error) =>
     @model.trigger('ajaxError', xhr, statusText, error)
 
 class URICollection extends Base
@@ -124,19 +123,19 @@ class URICollection extends Base
       @get()
       
   all: ->
-    @ajaxQueue =>
+    @queue =>
       @ajax(
         type: "POST"
         url: base_url + 'photos/uri/' + @url
         data: JSON.stringify(@photos)
-      ).done(@recordResponse)
-       .fail(@failResponse)
+      ).success(@recordResponse)
+       .error(@errorResponse)
 
   recordResponse: (uris) =>
     @record.addToCache @url, uris, @mode
     @callback uris, @record
     
-  failResponse: (xhr, statusText, error) =>
+  errorResponse: (xhr, statusText, error) =>
     @record.trigger('ajaxError', xhr, statusText, error)
   
 Model.Uri =

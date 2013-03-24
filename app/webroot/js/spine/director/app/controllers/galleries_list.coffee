@@ -6,6 +6,8 @@ AlbumsPhoto     = require('models/albums_photo')
 Drag            = require("plugins/drag")
 Extender        = require('plugins/controller_extender')
 
+require("plugins/tmpl")
+
 class GalleriesList extends Spine.Controller
 
   @extend Drag

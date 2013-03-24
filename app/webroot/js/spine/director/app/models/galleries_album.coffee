@@ -3,10 +3,10 @@ $             = Spine.$
 Model         = Spine.Model
 Filter        = require("plugins/filter")
 AjaxRelations = require("plugins/ajax_relations")
-Model.Gallery         = require('models/gallery')
-Model.Album           = require('models/album')
-Photo           = require('models/photo')
-AlbumsPhoto     = require('models/albums_photo')
+Model.Gallery = require('models/gallery')
+Model.Album   = require('models/album')
+Photo         = require('models/photo')
+AlbumsPhoto   = require('models/albums_photo')
 require("spine/lib/ajax")
 
 
@@ -33,7 +33,7 @@ class GalleriesAlbum extends Spine.Model
       sorted: true
     )
     
-  @albums_do_not_uses_is_slow: (gid) ->
+  @albums_too_slow_do_not_use: (gid) ->
     ret = []
     @each (item) ->
       ret.push Album.find(item['album_id']) if item['gallery_id'] is gid

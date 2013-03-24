@@ -16,11 +16,7 @@ Controller.Drag =
         Spine.dragItem = {}
         Spine.dragItem.el = el
         Spine.dragItem.source = el.item()
-        console.log "Spine.dragItem.source"
-        console.log Spine.dragItem.source
         parentDataElement = $(e.target).parents('.parent.data')
-        console.log "$(e.target).parents('.parent.data')"
-        console.log parentDataElement
         Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data()?.current.record
         event = e.originalEvent
         event.dataTransfer?.effectAllowed = 'move'

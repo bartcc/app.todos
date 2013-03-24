@@ -11,7 +11,7 @@ AlbumsList      = require('controllers/albums_list')
 Extender        = require("plugins/controller_extender")
 User            = require('models/user')
 
-require("spine/lib/tmpl")
+require("plugins/tmpl")
 
 class AlbumsView extends Spine.Controller
   
@@ -63,7 +63,6 @@ class AlbumsView extends Spine.Controller
     Album.bind('create', @proxy @createJoin)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
-    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
@@ -129,7 +128,6 @@ class AlbumsView extends Spine.Controller
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid
-#        @list.refreshBackgrounds alb
         alb.invalid = false
         alb.save(ajax:false)
     

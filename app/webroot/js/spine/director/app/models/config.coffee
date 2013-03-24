@@ -5,7 +5,7 @@ require('spine/lib/local')
 
 class Config extends Spine.Model
 
-  @configure 'Config', 'id', 'name', 'setting'
+  @configure 'Config', 'id', 'key', 'value'
   
   @extend Model.Local
   

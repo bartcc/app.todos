@@ -9,7 +9,7 @@ GalleriesAlbum  = require('models/galleries_album')
 Extender        = require("plugins/controller_extender")
 Drag            = require("plugins/drag")
 
-require("spine/lib/tmpl")
+require("plugins/tmpl")
 
 class AlbumsList extends Spine.Controller
   
@@ -27,6 +27,7 @@ class AlbumsList extends Spine.Controller
     'mouseleave .item'        : 'infoBye'
     'drop'                    : 'drop'
     'dragstart .item'         : 'stopInfo'
+    'dragstart .item'        : 'dragstart'
     
   constructor: ->
     super

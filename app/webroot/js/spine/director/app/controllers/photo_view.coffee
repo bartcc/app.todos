@@ -5,7 +5,7 @@ Album         = require('models/album')
 AlbumsPhoto   = require('models/albums_photo')
 Info          = require('controllers/info')
 
-require("spine/lib/tmpl")
+require("plugins/tmpl")
 
 class PhotoView extends Spine.Controller
   

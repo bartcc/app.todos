@@ -247,6 +247,7 @@ class Main extends Spine.Controller
     
   loadSettings: ->
     Config.fetch()
+    console.log Config.count()
     
   keys: (e) ->
     charCode = e.charCode

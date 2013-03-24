@@ -8,8 +8,7 @@
     "spine/lib/ajax",
     "spine/lib/route",
     "spine/lib/manager",
-    "spine/lib/list",
-    "spine/lib/tmpl"
+    "spine/lib/list"
   ],
   "libs": [
     "js/lib/jquery/jquery-1.9.1.min.js",

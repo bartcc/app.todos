@@ -122,6 +122,7 @@ Model.Extender =
           error.save()
           User.redirect 'users/login'
           
+        console.log record
         console.log xhr
         console.log statusText
         console.log error

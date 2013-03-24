@@ -1,7 +1,7 @@
 Spine = require("spine")
 $     = Spine.$
 
-require("spine/lib/tmpl")
+require("plugins/tmpl")
 
 class SidebarFlickr extends Spine.Controller
 

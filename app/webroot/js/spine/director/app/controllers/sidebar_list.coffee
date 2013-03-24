@@ -9,7 +9,7 @@ Drag            = require("plugins/drag")
 KeyEnhancer     = require("plugins/key_enhancer")
 Extender        = require('plugins/controller_extender')
 
-require("spine/lib/tmpl")
+require("plugins/tmpl")
 
 class SidebarList extends Spine.Controller
 

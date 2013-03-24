@@ -6,7 +6,7 @@ Photo       = require('models/photo')
 AlbumsPhoto = require('models/albums_photo')
 
 require('plugins/uri')
-require("spine/lib/tmpl")
+require("plugins/tmpl")
 Extender = require("plugins/controller_extender")
 
 class SlideshowView extends Spine.Controller

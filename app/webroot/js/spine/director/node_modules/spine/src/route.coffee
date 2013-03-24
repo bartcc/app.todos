@@ -17,6 +17,7 @@ class Spine.Route extends Spine.Module
     trigger: true
     history: false
     shim: false
+    replace: false
 
   @add: (path, callback) ->
     if (typeof path is 'object' and path not instanceof RegExp)
@@ -28,7 +29,7 @@ class Spine.Route extends Spine.Module
     @options = $.extend({}, @options, options)
 
     if (@options.history)
-      @history = @historySupport && @options.history
+      @history = @historySupport and @options.history
 
     return if @options.shim
 
@@ -39,6 +40,8 @@ class Spine.Route extends Spine.Module
     @change()
 
   @unbind: ->
+    return if @options.shim
+
     if @history
       $(window).unbind('popstate', @change)
     else
@@ -65,41 +68,37 @@ class Spine.Route extends Spine.Module
 
     return if options.shim
 
-    if @history
-      history.pushState(
-        {},
-        document.title,
-        @path
-      )
+    if @history and options.replace
+      history.replaceState({}, document.title, @path)
+    else if @history
+      history.pushState({}, document.title, @path)
     else
       window.location.hash = @path
 
   # Private
 
   @getPath: ->
-    path = window.location.pathname
-    if path.substr(0,1) isnt '/'
-      path = '/' + path
+    if @history
+      path = window.location.pathname
+      path = '/' + path if path.substr(0,1) isnt '/'
+    else
+      path = window.location.hash
+      path = path.replace(hashStrip, '')
     path
 
-  @getHash: -> window.location.hash
-
-  @getFragment: -> @getHash().replace(hashStrip, '')
-
   @getHost: ->
-    (document.location + '').replace(@getPath() + @getHash(), '')
+    "#{window.location.protocol}//#{window.location.host}"
 
   @change: ->
-    path = if @getFragment() isnt '' then @getFragment() else @getPath()
+    path = @getPath()
     return if path is @path
     @path = path
     @matchRoute(@path)
 
   @matchRoute: (path, options) ->
-    for route in @routes
-      if route.match(path, options)
-        @trigger('change', route, path)
-        return route
+    for route in @routes when route.match(path, options)
+      @trigger('change', route, path)
+      return route
 
   constructor: (@path, @callback) ->
     @names = []
@@ -117,7 +116,7 @@ class Spine.Route extends Spine.Module
                  .replace(namedParam, '([^\/]*)')
                  .replace(splatParam, '(.*?)')
 
-      @route = new RegExp('^' + path + '$')
+      @route = new RegExp("^#{path}$")
     else
       @route = path
 

@@ -3,7 +3,7 @@ $       = Spine.$
 Recent  = require('models/recent')
 Photo   = require('models/photo')
 
-require("spine/lib/tmpl")
+require("plugins/tmpl")
 
 class OverviewView extends Spine.Controller
 

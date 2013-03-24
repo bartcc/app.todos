@@ -2,6 +2,7 @@ Spine             = require("spine")
 $                 = Spine.$
 Drag              = require("plugins/drag")
 User              = require('models/user')
+Config            = require('models/config')
 Album             = require('models/album')
 Gallery           = require('models/gallery')
 Toolbar           = require("models/toolbar")
@@ -78,6 +79,7 @@ class Main extends Spine.Controller
     $('#modal-gallery').bind('hidden', @proxy @hideSlideshow)
     
     @loadToolbars()
+    @loadSettings()
     
     @modalSimpleView = new ModalSimpleView
       el: @modalSimpleEl
@@ -242,6 +244,9 @@ class Main extends Spine.Controller
     
   loadToolbars: ->
     Toolbar.load()
+    
+  loadSettings: ->
+    Config.fetch()
     
   keys: (e) ->
     charCode = e.charCode

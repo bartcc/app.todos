@@ -300,7 +300,7 @@
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
   <li class="item container fade in sortable">
     <div class="ui-symbol ui-symbol-album center"></div>
-    <div class="thumbnail left" draggable="true"></div>
+    <div class="thumbnail left" draggable=""></div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-eye-open icon-white left"></span>
       <span class="back icon-arrow-up icon-white left"></span>

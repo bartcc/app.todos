@@ -65,7 +65,7 @@
   {{/if}}
   {{/if}}
   {{if error}}
-  <h3>Uuups... {{if xhr.status==403}}Your sessions seems to be over{{else}}Something went wrong{{/if}}</h3>
+  <h3>Sorry... {{if xhr.status==403}}Your sessions seems to be over{{else}}Something went wrong{{/if}}</h3>
   {{/if}}
 </script>
 

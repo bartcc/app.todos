@@ -23,4 +23,4 @@ Checkout the live [demo](http://gap.webpremiere.de)
 
 #Screenshot
 
-![Director](https://lh4.googleusercontent.com/-BCcP-3R-LXQ/T3uNLsNxY0I/AAAAAAAADP8/K1VUhC5ABSs/s1006/Bildschirmfoto+2012-04-04+um+01.50.01.jpg)
+![Director](https://lh5.googleusercontent.com/-ichiLNQKNn4/UVDcxA3qT6I/AAAAAAAALiU/cvRw43jimyI/s646/screenshot_20130326.gif)

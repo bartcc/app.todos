@@ -31,9 +31,7 @@ h1, h2 {
   font-weight: bold;
   text-shadow: 0 1px 1px #ffffff;
 }
-a {
-  text-decoration: underline;
-}
+a {}
 h1 {
   font-size: 21pt;
   color: #404040;
@@ -160,9 +158,9 @@ header .info {
   list-style: none;
 }
 #tasks .item {
-  padding: 15px 20px 15px 15px;
+  padding: 5px 20px 8px 15px;
   position: relative;
-  font-size: 24px;
+  font-size: 14px;
   border-bottom: 1px solid #cccccc;
 }
 #tasks .item.editing{
@@ -174,10 +172,13 @@ header .info {
   font-style: italic;
   text-decoration: line-through;
 }
+#tasks .item a {
+ text-decoration: underline;
+}
 #tasks .item .destroy {
   position: absolute;
   right: 10px;
-  top: 16px;
+  top: 6px;
   display: none;
   cursor: pointer;
   width: 20px;

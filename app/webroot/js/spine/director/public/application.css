@@ -194,7 +194,7 @@ li.item.over{border:2px solid #a3ff8b}
 #main #content .content .container .hoverinfo{padding:10px 0}
 #content .content li.item{position:relative}
 #content .content.overview div.item{margin:0 5px 5px 0}
-#content .content.overview div.items{width:320px;padding:7px;float:left}
+#content .content.overview div.items{width:320px;padding:7px;float:left;margin-top:20px}
 #content .content .item{outline:#121212}
 .galleries .thumbnail,.albums .thumbnail{background:url("img/bauer.png") no-repeat 0 0}
 .galleries .thumbnail{background-position:0 -160px}

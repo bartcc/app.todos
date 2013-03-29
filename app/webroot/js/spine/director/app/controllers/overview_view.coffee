@@ -42,17 +42,26 @@ class OverviewView extends Spine.Controller
     width: width
     height: height
     
-  # mode tells Spine::uri wheter to append (=> append) or replace (=> html) the cache
   uri: (items) ->
-    Photo.uri @thumbSize(),
-      (xhr, record) => @callback(xhr, items),
-      items
+    #test if items are known
+    tests = []
+    for itm in items
+      tests.push itm if Photo.exists(itm.id)
+      
+    try
+      Photo.uri @thumbSize(),
+        (xhr, record) => @callback(xhr, tests),
+        items
+    catch e
+      alert "New photos found. \n\nRestarting Application!"
+      User.redirect 'director_app'
   
   callback: (json, items) =>
     console.log 'PhotoList::callback'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
+        
     for item in items
       photo = item
       jsn = searchJSON photo.id

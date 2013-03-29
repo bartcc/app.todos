@@ -505,7 +505,6 @@
 
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    
     <em><li class="empty bold">{{if title}}{{html title}}{{else}}${src}{{/if}}</li></em>
     <li class="">${src}</li>
     <li class="">iso: ${iso}</li>

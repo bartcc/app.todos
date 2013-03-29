@@ -115,13 +115,14 @@ class PhotosController extends AppController {
     if ($this->Auth->user('id')) {
       $user_id = $uid = $this->Auth->user('id');
       
-      $recent = $this->Photo->find('all', array(
-          'Photo.created >' => date('Y-m-d', strtotime('-20 weeks')),
-          'order' => array('Photo.created DESC'),
-          'user_id' => $user_id,
-          'limit' => $max
-        )
-      );
+      $params = array('conditions' => array(
+                          'Photo.user_id' => $user_id,
+                          'Photo.created >' => date('Y-m-d', strtotime('-20 weeks'))), //array of conditions
+                      'order' => array('Photo.created DESC'), //string or array defining order
+                      'limit' => $max, //int
+                  );
+              
+      $recent = $this->Photo->find('all', $params);
       
     } else {
       $json = array('flash' => '<strong style="color:red">No valid user</strong>');

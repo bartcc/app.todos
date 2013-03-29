@@ -298,7 +298,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in sortable" style="background-image: url(img/drag_info.png)">
+  <li class="item container fade in sortable">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail left"></div>
     <div class="icon-set fade out" style="">

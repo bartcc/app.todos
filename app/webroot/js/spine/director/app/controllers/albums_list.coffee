@@ -181,7 +181,7 @@ class AlbumsList extends Spine.Controller
       @widows = []
   
   processAlbum: (album) ->
-    return unless album?.contains?()
+#    return unless album?.contains?()
     data = album.photos(4)
       
     Photo.uri
@@ -204,7 +204,10 @@ class AlbumsList extends Spine.Controller
       
     css = for itm in res
       'url(' + itm + ')'
-    el.css('backgroundImage', css)
+    check_css =  ->
+      (['url(img/drag_info.png)'] unless css.length) or css
+      
+    el.css('backgroundImage', check_css())
   
   click: (e) ->
     console.log 'AlbumsList::click'

@@ -18,6 +18,7 @@ class UploadEditView extends Spine.Controller
     'fileuploadpaste'             : 'paste'
     'fileuploadsend'              : 'send'
     'fileuploadprogressall'       : 'alldone'
+    'fileuploadprogress'          : 'progress'
     
   template: (item) ->
     $('#fileuploadTemplate').tmpl item
@@ -94,6 +95,10 @@ class UploadEditView extends Spine.Controller
       App.hmanager.change @c
         
     e.preventDefault()
+    
+  progress: (e, data) ->
+    console.log e
+    console.log data
     
   paste: (e, data) ->
     

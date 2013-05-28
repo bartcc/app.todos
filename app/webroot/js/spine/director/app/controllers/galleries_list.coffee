@@ -25,23 +25,32 @@ class GalleriesList extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change', @proxy @renderOne)
-    GalleriesAlbum.bind('change', @proxy @renderRelated)
-    AlbumsPhoto.bind('change', @proxy @renderRelated)
+    GalleriesAlbum.bind('destroy create', @proxy @renderRelated)
+    AlbumsPhoto.bind('destroy create', @proxy @renderRelated)
+    Photo.bind('destroy', @proxy @renderRelated)
+    Album.bind('destroy', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
+    console.log 'GalleriesList::renderRelated'
     gallery = Gallery.record #|| Gallery.exists(item['gallery_id'])
-    @updateTemplate gallery
+    @updateTemplates item
     @el
     
   renderOne: (item, mode) ->
     switch mode
       when 'create'
+        alert 'CREATE'
+        console.log item
         @append @template item
         @exposeSelection(item)
       when 'update'
+        alert 'UPDATE'
+        console.log item 
         @updateTemplate item
         @reorder item
       when 'destroy'
+        alert 'DESTROY'
+        console.log item
         @children().forItem(item, true).remove()
     @el
 
@@ -50,15 +59,16 @@ class GalleriesList extends Spine.Controller
     @html @template items
     @el
 
-  updateTemplate: (item) ->
-    return unless item
-    galleryEl = @children().forItem(item)
-    galleryContentEl = $('.item-content', galleryEl)
-    tmplItem = galleryEl.tmplItem()
-    alert 'no tmpl item' unless tmplItem
-    if tmplItem
-      tmplItem.tmpl = $( "#galleriesTemplate" ).template()
-      tmplItem.update()
+  updateTemplates: ->
+    console.log 'GalleriesList::updateTemplates'
+    for id, gallery of Gallery.records
+      galleryEl = @children().forItem(gallery)
+      galleryContentEl = $('.thumbnail', galleryEl)
+      tmplItem = galleryContentEl.tmplItem()
+      alert 'no tmpl item' unless tmplItem
+      if tmplItem
+        tmplItem.tmpl = $( "#galleriesTemplate" ).template()
+        tmplItem.update?()
 
   reorder: (item) ->
     id = item.id

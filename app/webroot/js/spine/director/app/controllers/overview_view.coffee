@@ -34,7 +34,12 @@ class OverviewView extends Spine.Controller
     Recent.refresh(recents, {clear:true})
     @render Recent.all()
     
-  render: (items) ->
+  render: (tests) ->
+    #validate fresh records against existing model collection
+    items = []
+    for test in tests
+      items.push test if Photo.exists(test.id)
+      
     @items.html @template items
     @uri items
     
@@ -43,14 +48,9 @@ class OverviewView extends Spine.Controller
     height: height
     
   uri: (items) ->
-    #test if items are known
-    tests = []
-    for itm in items
-      tests.push itm if Photo.exists(itm.id)
-      
     try
       Photo.uri @thumbSize(),
-        (xhr, record) => @callback(xhr, tests),
+        (xhr, records) => @callback(xhr, items),
         items
     catch e
       alert "New photos found. \n\nRestarting Application!"
@@ -58,6 +58,7 @@ class OverviewView extends Spine.Controller
   
   callback: (json, items) =>
     console.log 'PhotoList::callback'
+      
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]

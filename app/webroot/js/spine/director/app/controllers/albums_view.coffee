@@ -154,8 +154,8 @@ class AlbumsView extends Spine.Controller
     album = new Album @newAttributes()
     album.save(done: cb)
       
-    if Gallery.record
-      App.navigate '/gallery', Gallery.record.id
+#    if Gallery.record
+#      App.navigate '/gallery', Gallery.record.id
       
     Gallery.updateSelection [album.id]
     Spine.trigger('album:activate')

@@ -32,24 +32,21 @@ class GalleriesList extends Spine.Controller
 
   renderRelated: (item, mode) ->
     console.log 'GalleriesList::renderRelated'
-    gallery = Gallery.record #|| Gallery.exists(item['gallery_id'])
-    @updateTemplates item
-    @el
+#    gallery = Gallery.record #|| Gallery.exists(item['gallery_id'])
+    @updateTemplates()
+#    @el
     
   renderOne: (item, mode) ->
     switch mode
       when 'create'
-        alert 'CREATE'
         console.log item
         @append @template item
         @exposeSelection(item)
       when 'update'
-        alert 'UPDATE'
         console.log item 
         @updateTemplate item
         @reorder item
       when 'destroy'
-        alert 'DESTROY'
         console.log item
         @children().forItem(item, true).remove()
     @el
@@ -69,6 +66,9 @@ class GalleriesList extends Spine.Controller
       if tmplItem
         tmplItem.tmpl = $( "#galleriesTemplate" ).template()
         tmplItem.update?()
+      if id is Gallery.record.id
+        cur = gallery
+    @exposeSelection(cur)
 
   reorder: (item) ->
     id = item.id

@@ -17880,6 +17880,7 @@ if (typeof JSON !== 'object') {
         }
       }
       this.renderBackgrounds(items, mode);
+      this.exposeSelection();
       return this.el;
     };
 
@@ -18252,7 +18253,6 @@ if (typeof JSON !== 'object') {
       App.showView.trigger('change:toolbarOne', ['Default']);
       App.showView.trigger('change:toolbarTwo', ['Slideshow']);
       App.showView.trigger('canvas', this);
-      this.list.exposeSelection();
       albums = GalleriesAlbum.albums(Gallery.record.id);
       _results = [];
       for (_i = 0, _len = albums.length; _i < _len; _i++) {
@@ -18420,7 +18420,7 @@ if (typeof JSON !== 'object') {
     };
 
     AlbumsView.prototype.sortupdate = function(e, item) {
-      this.list.children().each(function(index) {
+      return this.list.children().each(function(index) {
         var album, ga;
 
         item = $(this).item();
@@ -18440,7 +18440,6 @@ if (typeof JSON !== 'object') {
           return album.save();
         }
       });
-      return this.list.exposeSelection();
     };
 
     return AlbumsView;

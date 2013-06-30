@@ -51,7 +51,7 @@ class AlbumsList extends Spine.Controller
             []
         tb = -> $('.thumbnail', el())
 
-        #Spine triggers 'update' also on new items
+        #on "change" events Spine additionally triggers "create/update/destroy" respectively
         return unless el().length
 
         active = el().hasClass('active')
@@ -107,6 +107,7 @@ class AlbumsList extends Spine.Controller
         @navigate '/galleries/'
     
     @renderBackgrounds items, mode
+    @exposeSelection()
     @el
   
   updateTemplate: (item) ->

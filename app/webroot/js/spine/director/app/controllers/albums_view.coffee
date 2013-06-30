@@ -119,7 +119,7 @@ class AlbumsView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
-    @list.exposeSelection()
+    
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid
@@ -229,6 +229,6 @@ class AlbumsView extends Spine.Controller
         album.order = index
         album.save()
         
-    @list.exposeSelection()
+#    @list.exposeSelection()
     
 module?.exports = AlbumsView

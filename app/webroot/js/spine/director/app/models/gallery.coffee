@@ -1,4 +1,5 @@
 Spine                 = require("spine")
+Spine                 = require("spine")
 $                     = Spine.$
 Model                 = Spine.Model
 #Album           = require('models/album')

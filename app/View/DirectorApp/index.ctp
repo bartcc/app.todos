@@ -18,7 +18,7 @@
     <div id="login" class="flex tright" style="line-height: 72px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
-    <div id="sidebar" class="views canvas-bg-medium hbox vdraggable">
+    <div id="sidebar" class="views bg-medium hbox vdraggable">
       <div class="vbox sidebar canvas flex inner">
         <div class="search">
           <form class="form-search">
@@ -38,7 +38,7 @@
       </div>
       <div class="vdivide draghandle"></div>
     </div>
-    <div id="content" class="views canvas-bg-medium vbox flex">
+    <div id="content" class="views bg-medium vbox flex">
       <div class="show view canvas vbox flex">
         <ul class="options hbox navbar">
           <ul class="toolbarOne hbox nav"></ul>
@@ -72,7 +72,7 @@
             <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
           </div>
         </div>
-        <div id="views" class="settings canvas-bg-light hbox autoflow">
+        <div id="views" class="settings bg-light hbox autoflow">
           <div class="views canvas content vbox flex hdraggable">
             <div class="hdivide draghandle">
               <span class="optClose icon-remove icon-white right"></span>
@@ -90,7 +90,7 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fu" class="view canvas-bg-light flex autoflow" style="">
+            <div id="fu" class="view bg-light flex autoflow" style="">
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
                 <div class="hero-unit" style="margin-bottom: 0;">
                   <h1><span>Drop Files </span><span class="right alert alert-info uploadinfo" style="font-size: 0.7em;"></span></h1>

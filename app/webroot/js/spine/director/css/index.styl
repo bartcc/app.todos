@@ -429,10 +429,10 @@ textarea {
 .canvas {
   background: url(img/pattern.png) repeat  0 0;
 }
-.canvas-bg-light {
+.canvas .bg-light {
   background-color: #EFEFEF;
 }
-.canvas-bg-medium {
+.canvas .bg-medium {
   background-color: #606067;
 }
 #content .content.over {
@@ -1124,6 +1124,11 @@ li.item.over {
   padding: 10px 15px;
   position: absolute;
   z-index: 1
+}
+.header .red {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(256, 200, 200, 0.9)), to( rgba(200, 140, 140, 0.7)));
+  background: -moz-linear-gradient(center top , rgba(256, 200, 200, 0.9),  rgba(200, 140, 140, 0.7));
+  background: linear-gradient(center top , rgba(256, 200, 200, 0.9), rgba(200, 140, 140, 0.7));
 }
 #content .hoverinfo li {
   color: rgba(5, 5, 5, 0.8);

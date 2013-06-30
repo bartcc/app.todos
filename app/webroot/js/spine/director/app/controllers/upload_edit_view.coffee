@@ -55,7 +55,6 @@ class UploadEditView extends Spine.Controller
 
   add: (e, data) ->
 #    album_id = Album.record?.id
-    console.log data
     list = Gallery.selectionList()
       
     album_id = list[0]

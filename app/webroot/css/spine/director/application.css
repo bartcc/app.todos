@@ -422,13 +422,16 @@ textarea {
   font-weight: bold;
 }
 .canvas {
-  background: url(img/pattern.png) repeat  0 0;
+  background: url(img/pattern.png) repeat  0 0 #666666;
 }
-.canvas-bg-light {
+.canvas bg-light {
   background-color: #EFEFEF;
 }
-.canvas-bg-medium {
+.canvas .bg-medium {
   background-color: #606067;
+}
+.canvas .bg-red {
+  background-color: #FF6067;
 }
 #content .content.over {
 /*  background: url(img/gradient-over.png) repeat 0 0;
@@ -865,7 +868,7 @@ textarea {
   outline: #121212;
 }
 .galleries .thumbnail, .albums .thumbnail {
-  background: url("img/bauer.png") no-repeat 0 0;
+  background: url("img/album.png") no-repeat 0 0;
 }
 .galleries .thumbnail {
   background-position: 0 -160px;

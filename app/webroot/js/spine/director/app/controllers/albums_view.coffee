@@ -20,6 +20,7 @@ class AlbumsView extends Spine.Controller
   
   elements:
     '.hoverinfo'                      : 'infoEl'
+    '.header .hoverinfo'              : 'headerEl'
     '.items'                          : 'items'
     
   events:
@@ -95,15 +96,16 @@ class AlbumsView extends Spine.Controller
   render: ->
     console.log 'AlbumsView::render'
     
+    @header.render()
+    
     unless Gallery.record
       items = Album.filter()
     else
       items = Album.filterRelated(Gallery.record.id, @filterOptions)
-    
+      
     list = @list.render items
     list.sortable('album')
     
-    @header.render()
 
     # when in Photos View the Album is deleted return to this View
     if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed

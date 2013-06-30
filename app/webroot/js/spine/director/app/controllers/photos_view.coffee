@@ -99,6 +99,11 @@ class PhotosView extends Spine.Controller
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
     @header.change()
+    
+    unless Gallery.record
+      $('.hoverinfo', @header.el).addClass('red')
+    else
+      $('.hoverinfo', @header.el).removeClass('red')
   
   clearPhotoCache: ->
     Photo.clearCache()

@@ -12,7 +12,7 @@ Cache         = require("plugins/cache")
 require("spine/lib/ajax")
 
 class Photo extends Spine.Model
-  @configure "Photo", 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'active'
+  @configure "Photo", 'id', 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'active'
 
   @extend Cache
   @extend Model.Ajax
@@ -72,6 +72,7 @@ class Photo extends Spine.Model
     @findAllByAttribute('active', false)
     
   init: (instance) ->
+    return unless instance.id
     @constructor.initCache instance.id
   
   selectAttributes: ->

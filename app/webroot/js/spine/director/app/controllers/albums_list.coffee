@@ -104,7 +104,7 @@ class AlbumsList extends Spine.Controller
         else
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
       else
-        @navigate '/galleries/'
+        @html '<label class="invite"><span class="enlightened">You have no albums so far.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
     
     @renderBackgrounds items, mode
     @exposeSelection()

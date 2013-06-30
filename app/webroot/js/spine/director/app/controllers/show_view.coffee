@@ -449,24 +449,6 @@ class ShowView extends Spine.Controller
     # rerender thumbnails on the server to its final size
 #    @slider.toggle()
 
-  showOverview: (e) ->
-    @navigate '/overview/'
-
-  showSlideshow: (e) ->
-    @slideshowMode = App.SILENTMODE
-    @navigate '/slideshow/'
-    
-  showPrevious: ->
-    @navigate @previousLocation()
-  
-  showModal: (options) ->
-    opts =
-      header: 'Neuer Header'
-      body  : 'Neuer Body'
-      footer: 'Neuer Footer'
-    opts = $.extend({}, opts, options)
-    @modalView.show(opts)
-    
   toggleShowAllPhotos: (e) ->
     @allPhotos = !@allPhotos
 #    Album.current() if @allAlbums
@@ -500,6 +482,24 @@ class ShowView extends Spine.Controller
         photos = album.photos() or []
         phos.push pho for pho in photos
     phos
+    
+  showOverview: (e) ->
+    @navigate '/overview/'
+
+  showSlideshow: (e) ->
+    @slideshowMode = App.SILENTMODE
+    @navigate '/slideshow/'
+    
+  showPrevious: ->
+    @navigate @previousLocation()
+  
+  showModal: (options) ->
+    opts =
+      header: 'Neuer Header'
+      body  : 'Neuer Body'
+      footer: 'Neuer Footer'
+    opts = $.extend({}, opts, options)
+    @modalView.show(opts)
     
   showPhotosTrash: ->
     Photo.inactive()

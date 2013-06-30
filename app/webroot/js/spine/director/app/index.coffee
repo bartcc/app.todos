@@ -175,7 +175,7 @@ class Main extends Spine.Controller
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
       '/overview/': ->
-        Spine.trigger('show:overview', true)
+        Spine.trigger('show:overview')
       '/slideshow/:id/:autostart': (params) ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow', params.autostart)

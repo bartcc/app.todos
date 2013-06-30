@@ -18659,8 +18659,10 @@ if (typeof JSON !== 'object') {
       return e.preventDefault();
     };
 
-    GalleriesList.prototype.back = function() {
-      return this.navigate('/overview/');
+    GalleriesList.prototype.back = function(e) {
+      this.navigate('/overview/');
+      e.stopPropagation();
+      return e.preventDefault();
     };
 
     GalleriesList.prototype.zoom = function(e) {
@@ -21581,31 +21583,6 @@ if (typeof JSON !== 'object') {
 
     ShowView.prototype.sliderStop = function() {};
 
-    ShowView.prototype.showOverview = function(e) {
-      return this.navigate('/overview/');
-    };
-
-    ShowView.prototype.showSlideshow = function(e) {
-      this.slideshowMode = App.SILENTMODE;
-      return this.navigate('/slideshow/');
-    };
-
-    ShowView.prototype.showPrevious = function() {
-      return this.navigate(this.previousLocation());
-    };
-
-    ShowView.prototype.showModal = function(options) {
-      var opts;
-
-      opts = {
-        header: 'Neuer Header',
-        body: 'Neuer Body',
-        footer: 'Neuer Footer'
-      };
-      opts = $.extend({}, opts, options);
-      return this.modalView.show(opts);
-    };
-
     ShowView.prototype.toggleShowAllPhotos = function(e) {
       var _ref, _ref1;
 
@@ -21660,6 +21637,31 @@ if (typeof JSON !== 'object') {
         }
       }
       return phos;
+    };
+
+    ShowView.prototype.showOverview = function(e) {
+      return this.navigate('/overview/');
+    };
+
+    ShowView.prototype.showSlideshow = function(e) {
+      this.slideshowMode = App.SILENTMODE;
+      return this.navigate('/slideshow/');
+    };
+
+    ShowView.prototype.showPrevious = function() {
+      return this.navigate(this.previousLocation());
+    };
+
+    ShowView.prototype.showModal = function(options) {
+      var opts;
+
+      opts = {
+        header: 'Neuer Header',
+        body: 'Neuer Body',
+        footer: 'Neuer Footer'
+      };
+      opts = $.extend({}, opts, options);
+      return this.modalView.show(opts);
     };
 
     ShowView.prototype.showPhotosTrash = function() {
@@ -23580,7 +23582,7 @@ if (typeof JSON !== 'object') {
           return Spine.trigger('show:galleries');
         },
         '/overview/': function() {
-          return Spine.trigger('show:overview', true);
+          return Spine.trigger('show:overview');
         },
         '/slideshow/:id/:autostart': function(params) {
           this.contentManager.change(this.showView);

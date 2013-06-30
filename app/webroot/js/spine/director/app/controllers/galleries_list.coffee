@@ -114,8 +114,11 @@ class GalleriesList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
 
-  back: ->
+  back: (e) ->
     @navigate '/overview/'
+    
+    e.stopPropagation()
+    e.preventDefault()
 
   zoom: (e) ->
     console.log 'GalleryList::zoom'

@@ -342,7 +342,7 @@
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     {{else}}
 <!--    <div class="alert alert-block"><h4 class="alert-heading">Note</h4>Drag your albums to a sidebar gallery item to make them belonging together. If you hover over a closed gallery item, it will drop down.</div>-->
-    <h2 class="">All Albums (Album-Masters)
+    <h2 class="">Master Albums
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{/if}}
@@ -457,7 +457,7 @@
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
 <!--    <div class="alert alert-error"><h4 class="alert-heading">Note</h4>Drag your selected photos on to an album in the sidebar to become part of it. Wait to reveal its albums, if necessary.</div>-->
-    <h2>All Photos (Photo-Masters)
+    <h2>Master Photos
       <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{/if}}

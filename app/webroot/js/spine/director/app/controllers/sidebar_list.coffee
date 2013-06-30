@@ -50,7 +50,7 @@ class SidebarList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
     Album.bind('refresh change', @proxy @renderAllSublist)
-    Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
+#    Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
@@ -204,7 +204,7 @@ class SidebarList extends Spine.Controller
     
   renderItemFromGalleriesAlbum: (ga, mode) ->
     gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
-    @renderOneSublist gallery
+    @renderOneSublist gallery if gallery
     
   renderItemFromAlbum: (album) ->
     gas = GalleriesAlbum.filter(album.id, key: 'album_id')
@@ -226,8 +226,8 @@ class SidebarList extends Spine.Controller
   activate: (idOrRecord) ->
 #    Spine.trigger('show:albums')
     item = Gallery.current(idOrRecord)
-    diff = item?.id is not Gallery.record?.id
-    @navigate '/gallery', item.id if diff
+#    diff = item?.id is not Gallery.record?.id
+#    @navigate '/gallery', item.id if diff
     @exposeSelection()
 
   exposeSelection: (item = Gallery.record) ->

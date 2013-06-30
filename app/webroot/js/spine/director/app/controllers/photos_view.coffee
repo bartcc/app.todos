@@ -55,7 +55,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
     
-    GalleriesAlbum.bind('destroy', @proxy @redirect)
+#    GalleriesAlbum.bind('destroy', @proxy @redirect)
     Gallery.bind('change', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
     Photo.bind('refresh destroy', @proxy @renderHeader)

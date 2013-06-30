@@ -168,6 +168,7 @@ class ShowView extends Spine.Controller
     # switch to assigned start view
     @canvasManager.change @galleriesView
     @headerManager.change @galleriesHeader
+    @trigger('change:toolbarOne')
     
   previousLocation: ->
     console.log 'ShowView::previousLocation'

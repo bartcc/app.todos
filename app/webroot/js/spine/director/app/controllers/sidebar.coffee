@@ -67,10 +67,10 @@ class Sidebar extends Spine.Controller
     return unless mode is ('' or 'delete')
     @renderOne item, mode
   
-  refresh: (items) ->
-    @render items
+  refresh: ->
+    @render()
     
-  render: (items) ->
+  render: ->
     console.log 'Sidebar::render'
     items = Gallery.filter(@query, func: 'searchSelect')
     items = items.sort Gallery.nameSort
@@ -230,15 +230,20 @@ class Sidebar extends Spine.Controller
   destroy: (item=Gallery.record) ->
     console.log 'Sidebar::destroy'
     return unless item
+    
     gas = GalleriesAlbum.filter(item.id, key: 'gallery_id')
+    
     for ga in gas
       Spine.Ajax.disable ->
         ga.destroy()
         
-    if Gallery.record?.id is item.id
-      Gallery.current() #unless Gallery.count()
+#    if Gallery.record?.id is item.id
+#      Gallery.current() #unless Gallery.count()
       
     item.destroy()
+    unless Gallery.count()
+      Spine.trigger('show:galleries')
+      Gallery.trigger('refresh')
 
   edit: ->
     App.galleryEditView.render()

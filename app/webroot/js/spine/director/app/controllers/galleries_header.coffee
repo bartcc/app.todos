@@ -5,6 +5,7 @@ class GalleriesHeader extends Spine.Controller
   
   constructor: ->
     super
+    Gallery.bind('change', @proxy @render)
 
   render: ->
     console.log 'GalleryHeader::render'

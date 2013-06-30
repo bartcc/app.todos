@@ -65,28 +65,7 @@ class AlbumsList extends Spine.Controller
         
       when 'destroy'
         @children().forItem(album, true).remove()
-    
-      when 'create'
-        unless Gallery.record
-          @children().forItem(album, true).remove()
         
-  render: (items=[], mode) ->
-    console.log 'AlbumsList::render'
-      
-    if items.length
-      @html @template items
-    else
-      if !Gallery.record
-        @navigate '/galleries/'
-      else if Album.count()
-        @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>'
-      else
-        @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
-    
-    
-    @renderBackgrounds items, mode
-    @el
-  
   changeRelatedAlbum: (item, mode) ->
     # if we change a different gallery from within the sidebar, should not be reflected here
     return unless Gallery.record.id is item['gallery_id']
@@ -112,6 +91,22 @@ class AlbumsList extends Spine.Controller
         @el.sortable('destroy').sortable('album')
         
     @exposeSelection()
+    @el
+  
+  render: (items=[], mode) ->
+    console.log 'AlbumsList::render'
+    if items.length
+      @html @template items
+    else
+      if Gallery.record
+        if Album.count()
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>'
+        else
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
+      else
+        @navigate '/galleries/'
+    
+    @renderBackgrounds items, mode
     @el
   
   updateTemplate: (item) ->

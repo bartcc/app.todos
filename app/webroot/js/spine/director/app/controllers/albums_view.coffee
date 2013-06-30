@@ -58,7 +58,7 @@ class AlbumsView extends Spine.Controller
       sorted: true
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
     Spine.bind('show:albums', @proxy @show)
-    Spine.bind('show:allAlbums', @proxy @renderAll)
+    Spine.bind('show:allAlbums', @proxy @render)
     Spine.bind('create:album', @proxy @create)
     Album.bind('create destroy', @proxy @change)
     Spine.bind('destroy:album', @proxy @destroy)
@@ -90,23 +90,17 @@ class AlbumsView extends Spine.Controller
     # !important
 #    return unless @isActive()
 
-    items = Album.filterRelated(Gallery.record.id, @filterOptions)
-      
-    unless Gallery.record
-      @renderAll()
-    else
-      @render items
+    @render()
     
-  renderAll: ->
-    App.showView.trigger('canvas', @)
-    @render Album.filter()
-    @el
-    
-  render: (items, mode) ->
+  render: ->
     console.log 'AlbumsView::render'
-
     
-    list = @list.render items, mode
+    unless Gallery.record
+      items = Album.filter()
+    else
+      items = Album.filterRelated(Gallery.record.id, @filterOptions)
+    
+    list = @list.render items
     list.sortable('album')
     
     @header.render()
@@ -190,7 +184,7 @@ class AlbumsView extends Spine.Controller
     if target
       @createJoin(albums, target=Gallery.record)
     else
-      @renderAll()
+      @render Album.filter()
   
   createJoin: (albums, target=Gallery.record) ->
     return unless target and target.constructor.className is 'Gallery'

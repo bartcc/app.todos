@@ -36,18 +36,22 @@ class GalleriesList extends Spine.Controller
     @updateTemplates()
 #    @el
     
-  renderOne: (item, mode) ->
+  renderOne: (item, mode, o) ->
+    console.log 'GalleryList::renderOne'
     switch mode
       when 'create'
-        console.log item
+        if Gallery.count() is 1
+          @el.empty()
         @append @template item
         @exposeSelection(item)
+
       when 'update'
-        console.log item 
-        @updateTemplates item
-        @reorder item
+        try
+          @updateTemplates item
+          @reorder item
+        catch e
+          
       when 'destroy'
-        console.log item
         @children().forItem(item, true).remove()
     @el
 
@@ -87,26 +91,25 @@ class GalleriesList extends Spine.Controller
     else if idxBeforeSort > idxAfterSort
       newEl.before oldEl
 
-  select: (item) =>
-    Spine.trigger('gallery:activate', item)
-    App.showView.trigger('change:toolbarOne', ['Default'])
-    
   exposeSelection: (item) ->
     console.log 'GalleryList::exposeSelection'
     @deselect()
     if item
-      el = @children().forItem(item)
+      el = @children().forItem(item, true)
       el.addClass("active")
     App.showView.trigger('change:toolbarOne')
     Spine.trigger('gallery:exposeSelection')
         
+  select: (item) =>
+    Spine.trigger('gallery:activate', item)
+    App.showView.trigger('change:toolbarOne', ['Default'])
+    
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()
     @select item
     App.showView.trigger('change:toolbarOne', ['Default'])
-#    @navigate '/gallery', item.id
-    Gallery.current(item.id)
+    @navigate '/gallery', item.id
     @exposeSelection item
     e.stopPropagation()
     e.preventDefault()
@@ -131,7 +134,7 @@ class GalleriesList extends Spine.Controller
     
     window.setTimeout( ->
       Spine.trigger('destroy:gallery', item)
-    , 300)
+    , 0)
     
     e.preventDefault()
     e.stopPropagation()

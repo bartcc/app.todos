@@ -29,9 +29,7 @@ class GalleriesView extends Spine.Controller
       el: @items
       template: @template
     @header.template = @headerTemplate
-#    Gallery.bind('change', @proxy @change)
     Gallery.bind('refresh', @proxy @refresh)
-    
     AlbumsPhoto.bind('change', @proxy @change)
     AlbumsPhoto.bind('refresh', @proxy @refresh)
     Spine.bind('show:galleries', @proxy @show)
@@ -48,7 +46,7 @@ class GalleriesView extends Spine.Controller
 #        @destroy item
 #    @render item
     
-  refresh: (items) ->
+  refresh: ->
     items = Gallery.all().sort Gallery.nameSort
     @render items
   
@@ -57,7 +55,7 @@ class GalleriesView extends Spine.Controller
     if Gallery.count()
       @list.render items
     else  
-      @html '<label class="invite"><span class="enlightened">This Application has no galleries. &nbsp;<button class="optCreateGallery dark large">New Gallery</button>'
+      @list.el.html '<label class="invite"><span class="enlightened">This Application has no galleries. &nbsp;<button class="optCreateGallery dark large">New Gallery</button>'
       
     @header.render()
     

@@ -21211,7 +21211,12 @@ if (typeof JSON !== 'object') {
           return photos.push(record);
         }
       });
-      return Spine.trigger('create:album', photos);
+      Spine.trigger('create:album', photos);
+      if (Gallery.record) {
+        return this.navigate('/gallery', Gallery.record.id, Album.last());
+      } else {
+        return this.showAlbumMasters();
+      }
     };
 
     ShowView.prototype.createAlbumFromSelCut = function() {
@@ -21224,9 +21229,14 @@ if (typeof JSON !== 'object') {
           return photos.push(record);
         }
       });
-      return Spine.trigger('create:album', photos, {
+      Spine.trigger('create:album', photos, {
         origin: Album.record
       });
+      if (Gallery.record) {
+        return this.navigate('/gallery', Gallery.record.id, Album.last());
+      } else {
+        return this.showAlbumMasters();
+      }
     };
 
     ShowView.prototype.editGallery = function(e) {

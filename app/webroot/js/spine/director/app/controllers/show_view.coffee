@@ -229,6 +229,11 @@ class ShowView extends Spine.Controller
     Photo.each (record) =>
       photos.push record unless list.indexOf(record.id) is -1
     Spine.trigger('create:album', photos)
+    
+    if Gallery.record
+      @navigate '/gallery', Gallery.record.id, Album.last()
+    else
+      @showAlbumMasters()
   
   createAlbumFromSelCut: ->
     list = Album.selectionList()
@@ -236,6 +241,11 @@ class ShowView extends Spine.Controller
     Photo.each (record) =>
       photos.push record unless list.indexOf(record.id) is -1
     Spine.trigger('create:album', photos, origin:Album.record)
+    
+    if Gallery.record
+      @navigate '/gallery', Gallery.record.id, Album.last()
+    else
+      @showAlbumMasters()
   
   editGallery: (e) ->
     Spine.trigger('edit:gallery')

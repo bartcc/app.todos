@@ -21215,7 +21215,12 @@ if (typeof JSON !== 'object') {
     };
 
     ShowView.prototype.createAlbum = function() {
-      return Spine.trigger('create:album');
+      Spine.trigger('create:album');
+      if (Gallery.record) {
+        return this.navigate('/gallery', Gallery.record.id, Album.last());
+      } else {
+        return this.showAlbumMasters();
+      }
     };
 
     ShowView.prototype.createAlbumFromSel = function() {

@@ -222,6 +222,11 @@ class ShowView extends Spine.Controller
   
   createAlbum: ->
     Spine.trigger('create:album')
+    
+    if Gallery.record
+      @navigate '/gallery', Gallery.record.id, Album.last()
+    else
+      @showAlbumMasters()
   
   createAlbumFromSel: ->
     list = Album.selectionList()

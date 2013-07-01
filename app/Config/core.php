@@ -133,7 +133,7 @@
  * Defines the default error type when using the log() function. Used for
  * differentiating error logging and debugging. Currently PHP supports LOG_DEBUG.
  */
-	define('LOG_ERROR', 2);
+	define('LOG_ERROR', 0);
 
 /**
  * Session configuration.
@@ -174,7 +174,7 @@
  */
 	Configure::write('Session', array(
 		'defaults' => 'php',
-  'timeout' => 30
+  'timeout' => 4320 // 3 days
 	));
 
 /**

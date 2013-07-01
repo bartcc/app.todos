@@ -521,6 +521,7 @@ class ShowView extends Spine.Controller
     @navigate '/gallery/'
     
   showPhotoMasters: ->
+    Gallery.emptySelection()
     @navigate '/gallery//'
 
 module?.exports = ShowView

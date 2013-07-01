@@ -54,7 +54,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @add)
-    
+#    Photo.bind('refresh', @proxy @add)
 #    GalleriesAlbum.bind('destroy', @proxy @redirect)
     Gallery.bind('change', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
@@ -190,6 +190,13 @@ class PhotosView extends Spine.Controller
         @render([photo], 'append')
         @list.el.sortable('destroy').sortable('photos')
       
+  add_: (photos) ->
+    console.log 'PhotosView::add'
+    for photo in photos
+      if Photo.exists(photo.id)
+        console.log photo
+        @render([photo], 'append')
+        @list.el.sortable('destroy').sortable('photos')
       
   createJoin: (photos, album) ->
     console.log 'PhotosView::createJoin'

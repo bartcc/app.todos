@@ -20845,6 +20845,23 @@ if (typeof JSON !== 'object') {
       }
     };
 
+    PhotosView.prototype.add_ = function(photos) {
+      var photo, _i, _len, _results;
+      console.log('PhotosView::add');
+      _results = [];
+      for (_i = 0, _len = photos.length; _i < _len; _i++) {
+        photo = photos[_i];
+        if (Photo.exists(photo.id)) {
+          console.log(photo);
+          this.render([photo], 'append');
+          _results.push(this.list.el.sortable('destroy').sortable('photos'));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    };
+
     PhotosView.prototype.createJoin = function(photos, album) {
       var ap, record, records, _i, _len;
       console.log('PhotosView::createJoin');
@@ -21598,6 +21615,7 @@ if (typeof JSON !== 'object') {
     };
 
     ShowView.prototype.showPhotoMasters = function() {
+      Gallery.emptySelection();
       return this.navigate('/gallery//');
     };
 

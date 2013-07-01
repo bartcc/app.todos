@@ -10,13 +10,13 @@ class AlbumsHeader extends Spine.Controller
     super
 
   change: (item) ->
-    @current = item
+    alert 'Album::change'
     @render()
     
   render: ->
     console.log 'AlbumsHeader::render'
     @html @template
-      record: @current
+      record: Gallery.record
       count: @count()
     
   count: ->

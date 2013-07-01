@@ -115,7 +115,7 @@ class AlbumsView extends Spine.Controller
       
   renderHeader: ->
     console.log 'AlbumsView::renderHeader'
-    @header.change Gallery.record
+    @header.render()
   
   show: (idOrRecord) ->
     App.showView.trigger('change:toolbarOne', ['Default'])

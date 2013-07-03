@@ -162,7 +162,19 @@ Model.Extender =
         if isMetaKey
           @addUnique(list)
         else
-          @addRemove(list)
+          @toggleSelected(list)
+        Model[modelName].trigger('change:selection', list)
+        list
+        
+      addToSelection: (isMetaKey) ->
+        modelName = @constructor['parent']
+        list = Model[modelName].selectionList()
+        return unless list
+        if isMetaKey
+          @addUnique(list)
+        else
+          unless @id in list
+            list.push @id
         Model[modelName].trigger('change:selection', list)
         list
 
@@ -182,7 +194,7 @@ Model.Extender =
         list[0...list.length] = [@id]
         list
 
-      addRemove: (list) ->
+      toggleSelected: (list) ->
         unless @id in list
           list.unshift @id
         else

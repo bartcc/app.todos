@@ -37,7 +37,7 @@ class PhotosList extends Spine.Controller
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
     AlbumsPhoto.bind('beforeSave', @proxy @updateRelated)
-    Photo.bind("ajaxError", Photo.errorHandler)
+#    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
     
   change: ->
@@ -58,7 +58,9 @@ class PhotosList extends Spine.Controller
         @exposeSelection() if mode is 'html'
         @uri items, mode
       else
-        html = '<label class="invite"><span class="enlightened">This Album has no Photos yet. &nbsp;<p>Simply drop your photos in your browser window</p>'
+        if Album.record
+          html = '<label class="invite"><span class="enlightened">No Photos here. &nbsp;<p>Simply drop your photos in your browser window</p>'
+          
         if Photo.count()
           html += '<button class="optShowAllPhotos dark large">Show existing Photos</button></span>'
         html += '</label>'

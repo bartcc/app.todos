@@ -131,7 +131,7 @@ class Toolbar extends Spine.Model
         [
           name: 'Upload'
           icon: 'upload'
-          klass: 'optUpload disabled'
+          klass: 'optUpload'
         ,
           devider: true
         ,
@@ -165,7 +165,7 @@ class Toolbar extends Spine.Model
           name: 'Auto Upload'
           icon: -> if App.showView.isQuickUpload() then 'ok' else ''
           klass: 'optQuickUpload'
-          disabled: -> true
+          disabled: -> false
         ]
       
   @data:

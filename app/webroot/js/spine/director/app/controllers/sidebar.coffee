@@ -219,10 +219,11 @@ class Sidebar extends Spine.Controller
     console.log 'Sidebar::create'
 #    App.showView.openPanel('gallery')
     gallery = new Gallery @newAttributes()
-    gallery.save success: @createCallback
+    gallery.save() #success: @createCallback
+    @navigate '/galleries/'
     
   createCallback: ->
-    App.navigate '/gallery', @id
+#    @navigate '/gallery', @id
     
   createAlbum: ->
     Spine.trigger('create:album')

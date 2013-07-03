@@ -48,7 +48,11 @@ class ToolbarView extends Spine.Controller
   
   click_: (e) ->
     @refresh()
-    e.preventDefault()
+    @lastcontrol = $(e.target)
+    
+#    e.preventDefault()
+#    e.stopPropagation()
+    
     
   lock: ->
     @locked = true

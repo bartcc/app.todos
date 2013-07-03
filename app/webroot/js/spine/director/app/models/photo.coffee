@@ -54,7 +54,6 @@ class Photo extends Spine.Model
     Photo.trigger('ajaxError', json)
   
   @create: (atts) ->
-    console.log 'my create'
     @__super__.constructor.create.call @, atts
   
   @refresh: (values, options = {}) ->
@@ -72,7 +71,7 @@ class Photo extends Spine.Model
     @findAllByAttribute('active', false)
     
   init: (instance) ->
-    return unless instance.id
+    return unless instance?.id
     @constructor.initCache instance.id
   
   selectAttributes: ->

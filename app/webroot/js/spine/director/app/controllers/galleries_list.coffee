@@ -109,13 +109,8 @@ class GalleriesList extends Spine.Controller
     item = $(e.currentTarget).item()
     @select item
     App.showView.trigger('change:toolbarOne', ['Default'])
-    @navigate '/gallery', item.id
+    
     @exposeSelection item
-    e.stopPropagation()
-    e.preventDefault()
-
-  back: (e) ->
-    @navigate '/overview/'
     
     e.stopPropagation()
     e.preventDefault()
@@ -123,10 +118,15 @@ class GalleriesList extends Spine.Controller
   zoom: (e) ->
     console.log 'GalleryList::zoom'
     item = $(e.currentTarget).item()
-    return unless item?.constructor?.className is 'Gallery'
-    Gallery.current item
-    @navigate '/gallery', Gallery.record?.id or ''
     
+    @navigate '/gallery', item.id
+    
+  back: (e) ->
+    @navigate '/overview/'
+    
+    e.stopPropagation()
+    e.preventDefault()
+
     e.stopPropagation()
     e.preventDefault()
     

@@ -1,5 +1,10 @@
+@import "base";
 @import "modal";
 @import "fonts";
+
+$light-grey = #868686
+$dark-grey = #565656
+
 * {
   user-select: none;
   -webkit-user-select: none;
@@ -44,6 +49,13 @@ body {
 
 *:-khtml-drag {
   background-color: rgba(255,255,0, 0.5) !important;
+}
+.table {
+  color: $light-grey;
+}
+.table th,
+.table td {
+  border-top: 1px solid $light-grey;
 }
 input, textarea {
   user-select: text;
@@ -188,17 +200,28 @@ button.default .active {
   background: -moz-linear-gradient(top, #4775b8, #7bb5db);
   background: linear-gradient(top, #4775b8, #7bb5db);
 }
-button.dark:active:not(:disabled) {
+.dark:active:not(:disabled), .dark:active:not(:disabled) {
   background: #404040;
   background: -webkit-gradient(linear, left top, left bottom, from(#404040), to(#454545));
   background: -moz-linear-gradient(top, #404040, #454545);
   background: linear-gradient(top, #404040, #454545);
 }
-button, .options li.opt, .options li.dropdown > a {
+.dark {
+  color: $light-grey;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
+  background: #494949;
+  background: -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333333));
+  background: -moz-linear-gradient(top, #494949, #333333);
+  background: linear-gradient(top, #494949, #333333);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+button, .btn, .options li.opt, .options li.dropdown > a {
   border: 1px solid #555555;
   text-shadow: 0 1px 1px #ffffff;
 /*  font:14px/22px 'Lucida Grande', 'Lucida Sans Unicode','Lucida Sans Regular', Verdana, sans-serif;*/
-  color: #565656;
+  color: $dark-grey;
   padding: 10px;
   outline: none;
   background: #f9f9f9;
@@ -212,8 +235,8 @@ button, .options li.opt, .options li.dropdown > a {
   -webkit-box-shadow: 0 1px 1px #ffffff;
   box-shadow: 0 1px 1px #ffffff;
 }
-button.dark, .options li.disabled, .options li.opt, .options li.opt > a, .options li.dropdown > a {
-  color: #BCBCBC;
+button.dark, a.btn.dark, .fileinput-button.dark, .options li.disabled, .options li.opt, .options li.opt > a, .options li.dropdown > a {
+  color: $light-grey;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
   background: #494949;
   background: -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333333));
@@ -268,16 +291,6 @@ button.large {
   margin: 0 auto;
   text-align: center;
 }
-.container label.label {
-  display: block;
-  margin: 15px 0 10px 0;
-  overflow: visible;
-  color: rgba(0, 0, 0, 0.7);
-  font-family: serif;
-  background-color: none;
-  float: none;
-}
-
 label span {
 /*  display: block;
   margin-bottom: 6px;
@@ -434,6 +447,9 @@ textarea {
 }
 .canvas .bg-medium {
   background-color: #606067;
+}
+.canvas .bg-dark {
+  background-color: #666666;
 }
 #content .content.over {
 /*  background: url(img/gradient-over.png) repeat 0 0;
@@ -811,9 +827,9 @@ li.item.over {
 }
 #content .content .items .item:not(.thumbnail) {
   background-repeat: no-repeat;
-  -moz-background-position: 30px 43px, 100px 43px, 30px 109px, 100px 109px;
-	 -webkit-background-position: 30px 43px, 100px 43px, 30px 109px, 100px 109px;
-	 background-position: 30px 43px, 100px 43px, 30px 109px, 100px 109px;
+  -moz-background-position: 30px 50px, 100px 50px, 30px 115px, 100px 115px;
+	 -webkit-background-position: 30px 50px, 100px 50px, 30px 115px, 100px 115px;
+	 background-position: 30px 50px, 100px 50px, 30px 115px, 100px 115px;
 }
 #content .content .container.active {
 /*  background-repeat: no-repeat;
@@ -832,21 +848,20 @@ li.item.over {
 }
 #content .content .item:hover {
 }
-.container:not(.item) {
-  background-color: rgba(0,0,9, 0.5);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
-  padding: 10px;
+.container {
   margin: 10px;
-}
-#main .container {
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
   padding: 10px;
   width: auto;
 }
-.overview .container {
-  background-color: rgba(0,0,9, 0.2);
+.container.item {
+  border-radius: 10px;
+  margin-top: 15px;
+  padding: 27px 10px 10px;
+}
+.overview .container:not(.item) {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
 }
 #main #content .photos.content .container {
   background: none;
@@ -857,10 +872,6 @@ li.item.over {
   margin: 10px 0 0;
   min-height: 100px;
   width: 320px;
-}
-#main #content .content .container {
-  margin: 1px;
-  padding: 21px 10px 10px;
 }
 #main #content .content .container .hoverinfo {
   padding: 10px 0;
@@ -1126,9 +1137,9 @@ li.item.over {
   z-index: 1
 }
 .header .red {
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(256, 200, 200, 0.9)), to( rgba(200, 140, 140, 0.7)));
-  background: -moz-linear-gradient(center top , rgba(256, 200, 200, 0.9),  rgba(200, 140, 140, 0.7));
-  background: linear-gradient(center top , rgba(256, 200, 200, 0.9), rgba(200, 140, 140, 0.7));
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(256, 100, 100, 0.9)), to( rgba(200, 40, 40, 0.7)));
+  background: -moz-linear-gradient(center top , rgba(256, 100, 100, 0.9),  rgba(200, 40, 40, 0.7));
+  background: linear-gradient(center top , rgba(256, 100, 100, 0.9), rgba(200, 40, 40, 0.7));
 }
 #content .hoverinfo li {
   color: rgba(5, 5, 5, 0.8);
@@ -1220,7 +1231,7 @@ button.chromeless, button.chromeless:hover {
 .icon-set {
   position: absolute;
   right: 3px;
-  top: 2px;
+  top: 7px;
   width: 76px;
 }
 .item .container {

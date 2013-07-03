@@ -12,6 +12,7 @@
   ],
   "libs": [
     "js/lib/jquery/jquery-1.9.1.js",
+    "js/lib/jquery/jquery.tmpl.js",
     "js/lib/jquery/jquery-plugins.js",
     "js/lib/jquery/ui/jquery-ui.min.js",
     "js/lib/jquery/ui/jquery.ui.core.min.js",
@@ -23,15 +24,20 @@
     "js/lib/jquery/ui/jquery.ui.button.min.js",
     "js/lib/jquery/ui/jquery.ui.slider.min.js",
     "js/lib/jquery/ui/jquery.ui.effect-slide.min.js",
-    "js/lib/jquery/jquery.tmpl.js",
     "js/lib/html5sortable/jquery.sortable.js",
     "js/lib/twitter/bootstrap.js",
-    "js/lib/blueimp/tmpl.js",
-    "js/lib/blueimp/load-image.js",
+    "js/lib/blueimp/load-image.min.js",
     "js/lib/blueimp/bootstrap-image-gallery.js",
-    "js/lib/blueimp/jquery.iframe-transport.js",
     "js/lib/blueimp/locale.js",
+    "js/lib/blueimp/tmpl.min.js",
     "js/lib/blueimp/canvas-to-blob.min.js",
-    "js/lib/blueimp/jquery.fileupload.js"
+    "js/lib/blueimp/jquery.iframe-transport.js",
+    "js/lib/blueimp/jquery.fileupload.js",
+    "js/lib/blueimp/jquery.fileupload-process.js",
+    "js/lib/blueimp/jquery.fileupload-image.js",
+    "js/lib/blueimp/jquery.fileupload-audio.js",
+    "js/lib/blueimp/jquery.fileupload-video.js",
+    "js/lib/blueimp/jquery.fileupload-validate.js",
+    "js/lib/blueimp/jquery.fileupload-ui.js"
   ]
 }

@@ -3,6 +3,14 @@ $ = jQuery ? require("jqueryify")
 $.fn.deselect = (sel) ->
   $(@).children(sel).removeClass('active')
   
+
+$.extend jQuery.tmpl.tag,
+  "for": 
+    _default: {$2: "var i=1;i<=1;i++"},
+    open: 'for ($2){',
+    close: '};'
+  
+
 ############
 # intelligent buttons
 ############

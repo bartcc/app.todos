@@ -143,6 +143,14 @@ class AlbumsList extends Spine.Controller
     it = item?.addRemoveSelection(lonely)
     Spine.trigger('album:activate')
     
+  click: (e) ->
+    console.log 'AlbumsList::click'
+    item = $(e.currentTarget).item()
+    @select(item, @isCtrlClick(e))
+    
+    e.stopPropagation()
+    e.preventDefault()
+    
   zoom: (e) ->
     item = $(e.currentTarget).item()
     
@@ -204,14 +212,6 @@ class AlbumsList extends Spine.Controller
       (['url(img/drag_info.png)'] unless css.length) or css
       
     el.css('backgroundImage', check_css())
-  
-  click: (e) ->
-    console.log 'AlbumsList::click'
-    item = $(e.currentTarget).item()
-    @select(item, @isCtrlClick(e))
-    
-    e.stopPropagation()
-    e.preventDefault()
 
   loadtest: (t) ->
     test = $('.item', @el).each ->

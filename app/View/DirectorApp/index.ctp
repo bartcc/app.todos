@@ -72,7 +72,7 @@
             <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
           </div>
         </div>
-        <div id="views" class="settings bg-light hbox autoflow">
+        <div id="views" class="settings bg-light hbox autoflow bg-medium">
           <div class="views canvas content vbox flex hdraggable">
             <div class="hdivide draghandle">
               <span class="optClose icon-remove icon-white right"></span>
@@ -90,35 +90,45 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fu" class="view bg-light flex autoflow" style="">
+            <div id="fu" class="view flex autoflow" style="margin: 0px">
+              <!-- The file upload form used as target for the file upload widget -->
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
-                <div class="hero-unit" style="margin-bottom: 0;">
-                  <h1><span>Drop Files </span><span class="right alert alert-info uploadinfo" style="font-size: 0.7em;"></span></h1>
-                  <p>enjoy...</p>
-                  <span class="btn btn-primary btn-large fileinput-button">
-                    <span><i class="icon-plus icon-white"></i> Add more files...</span><input type="file" name="files[]" multiple>
-                  </span>
-                  <div class="row fileupload-buttonbar">
-                    <div class="span7">
-                      <!-- The fileinput-button span is used to style the file input field as button -->
-                      <button type="submit" class="btn btn-success start">
-                          <i class="icon-upload icon-white"></i>
-                          <span>Start upload</span>
-                      </button>
-                      <button type="reset" class="btn btn-warning cancel">
-                          <i class="icon-ban-circle icon-white"></i>
-                          <span>Cancel upload</span>
-                      </button>
-                      <button type="button" class="btn btn-danger delete">
-                          <i class="icon-trash icon-white"></i>
-                          <span>Delete</span>
-                      </button>
-                      <input type="checkbox" class="toggle">
-                    </div>
+                  <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                  <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
+                  <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                  <div class="row fileupload-buttonbar" style="padding: 10px;">
+                      <div class="span6">
+                          <!-- The fileinput-button span is used to style the file input field as button -->
+                          <span class="btn dark fileinput-button">
+                              <i class="icon-plus icon-white"></i>
+                              <span>Add files...</span>
+                              <input type="file" name="files[]" multiple>
+                          </span>
+                          <button type="submit" class="dark start">
+                              <i class="icon-upload icon-white"></i>
+                              <span>Start upload</span>
+                          </button>
+                          <button type="reset" class="dark cancel">
+                              <i class="icon-ban-circle icon-white"></i>
+                              <span>Cancel upload</span>
+                          </button>
+                          <button type="button" class="dark delete">
+                              <i class="icon-remove icon-white"></i>
+                              <span>Clear List</span>
+                          </button>
+                          <!-- The loading indicator is shown during file processing -->
+                          <span class="fileupload-loading"></span>
+                      </div>
+                      <!-- The global progress information -->
+                      <div class="span3 fileupload-progress fade">
+                          <!-- The global progress bar -->
+                          <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                              <div class="bar" style="width:0%;"></div>
+                          </div>
+                      </div>
                   </div>
-                  <div class="fileupload-loading"></div>
-                  <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
-                </div>
+                  <!-- The table listing the files available for upload/download -->
+                  <table role="presentation" class="table"><tbody class="files"></tbody></table>
               </form>
             </div>
           </div>
@@ -130,7 +140,7 @@
           <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="icon-remove icon-white"></span></li>
         </ul>
         <div class="flex vbox autoflow">
-          <div class="container">
+          <div class="container canvas bg-medium">
             <fieldset>
               <label><span class="enlightened">Recently Uploaded:</span></label>
               <div class="items"></div>
@@ -167,9 +177,9 @@
     </div>
     <div class="modal-body"><div class="modal-image"></div></div>
     <div class="modal-footer">
-        <a class="btn btn-info modal-prev"><i class="icon-arrow-left icon-white"></i> Previous</a>
-        <a class="btn btn-primary modal-next">Next <i class="icon-arrow-right icon-white"></i></a>
-        <a class="btn btn-success modal-play modal-slideshow" data-slideshow="2000"><i class="icon-pause icon-white"></i> Slideshow</a>
+        <a class="btn modal-prev"><i class="icon-arrow-left"></i> Previous</a>
+        <a class="btn modal-next">Next <i class="icon-arrow-right"></i></a>
+        <a class="btn modal-play modal-slideshow" data-slideshow="2000"><i class="icon-pause"></i> Slideshow</a>
         <a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
     </div>
 </div>
@@ -573,87 +583,72 @@
   </span>
 </script>
 
-<script>
-var fileUploadErrors = {
-    maxFileSize: 'File is too big',
-    minFileSize: 'File is too small',
-    acceptFileTypes: 'Filetype not allowed',
-    maxNumberOfFiles: 'Max number of files exceeded',
-    uploadedBytes: 'Uploaded bytes exceed file size',
-    emptyResult: 'Empty file upload result'
-};
-</script>
-
-<script id="template-upload_" type="text/html">
-  {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
-    <tr class="template-upload fade">
-      <td class="preview"><span class="fade"></span></td>
-      <td class="name">{%=file.name%}</td>
-      <td class="size">{%=o.formatFileSize(file.size)%}</td>
-      {% if (file.error) { %}
-      <td class="error" colspan="2"><span class="label important">Error</span> {%=fileUploadErrors[file.error] || file.error%}</td>
-      {% } else if (o.files.valid && !i) { %}
-      <td class="progress"><div class="progress progressbar progress-info"><div class="bar" style="width:0%;"></div></div></td>
-      <td class="start">{% if (!o.options.autoUpload) { %}<button class="btn primary">Start</button>{% } %}</td>
-      {% } else { %}
-      <td colspan="2"></td>
-      {% } %}
-      <td class="cancel">{% if (!i) { %}<button class="btn info">Cancel</button>{% } %}</td>
-    </tr>
-  {% } %}
-</script>
-
-<script id="template-upload" type="text/x-jquery-tmpl">
-{% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
-    <tr class="template-upload fade">
-        <td class="preview"><span class="fade"></span></td>
-        <td class="name">{%=file.name%}</td>
-        <td class="size">{%=o.formatFileSize(file.size)%}</td>
-        {% if (file.error) { %}
-            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
-        {% } else if (o.files.valid && !i) { %}
-            <td>
-                <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
-            </td>
-            <td class="start">{% if (!o.options.autoUpload) { %}
-                <button class="btn btn-primary">
-                    <i class="icon-upload icon-white"></i> {%=locale.fileupload.start%}
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade dark">
+        <td>
+            <span class="preview"></span>
+        </td>
+        <td>
+            <p class="name">{%=file.name%}</p>
+            {% if (file.error) { %}
+                <div><span class="label label-important">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <p class="size">{%=o.formatFileSize(file.size)%}</p>
+            {% if (!o.files.error) { %}
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+            {% } %}
+        </td>
+        <td>
+            {% if (!o.files.error && !i && !o.options.autoUpload) { %}
+                <button class="dark start">
+                    <i class="icon-upload icon-white"></i>
+                    <span>Start</span>
                 </button>
-            {% } %}</td>
-        {% } else { %}
-            <td colspan="2"></td>
-        {% } %}
-        <td class="cancel">{% if (!i) { %}
-            <button class="btn btn-warning">
-                <i class="icon-ban-circle icon-white"></i> {%=locale.fileupload.cancel%}
+            {% } %}
+            {% if (!i) { %}
+                <button class="dark cancel">
+                    <i class="icon-ban-circle icon-white"></i>
+                    <span>Cancel</span>
+                </button>
+            {% } %}
+        </td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade dark">
+        <td>
+            <button class="dark delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
+                <i class="icon-remove icon-white"></i>
+                <span></span>
             </button>
-        {% } %}</td>
+        </td>
+        <td>
+            <span class="preview">
+                {% if (file.thumbnail_url) { %}
+                    <a href="{%=file.url%}" title="{%=file.name%}" class="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+                {% } %}
+            </span>
+        </td>
+        <td>
+            <p class="name">
+                <a href="{%=file.url%}" title="{%=file.name%}" class="{%=file.thumbnail_url?'gallery':''%}" download="{%=file.name%}">{%=file.name%}</a>
+            </p>
+            {% if (file.error) { %}
+                <div><span class="label label-important">Error</span> {%=file.error%}</div>
+            {% } %}
+        </td>
+        <td>
+            <span class="size">{%=o.formatFileSize(file.size)%}</span>
+        </td>
     </tr>
 {% } %}
 </script>
 
-<script id="template-download" type="text/html">
-  {% for (var i=0, files=o.files, l=files.length, file=files[0]; i<l; file=files[++i]) { %}
-    <tr class="template-download fade">
-      {% if (file.error) { %}
-      <td></td>
-      <td class="name">{%=file.name%}</td>
-      <td class="size">{%=o.formatFileSize(file.size)%}</td>
-      <td class="error" colspan="2"><span class="label important">Error</span> {%=fileUploadErrors[file.error] || file.error%}</td>
-      {% } else { %}
-      <td class="preview">{% if (file.thumbnail_url) { %}
-        <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="gallery"><img src="{%=file.thumbnail_url%}"></a>
-        {% } %}</td>
-      <td class="name">
-        <a href="{%=file.url%}" title="{%=file.name%}" data-gallery="{%=file.thumbnail_url&&'gallery'%}">{%=file.name%}</a>
-      </td>
-      <td class="size">{%=o.formatFileSize(file.size)%}</td>
-      <td colspan="2"></td>
-      {% } %}
-      <td class="delete">
-        <button class="btn danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">Delete</button>
-        <input type="checkbox" name="delete" value="1">
-      </td>
-    </tr>
-  {% } %}
-</script>
+

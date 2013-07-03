@@ -260,6 +260,9 @@ class ShowView extends Spine.Controller
 
   destroyGallery: (e) ->
     Spine.trigger('destroy:gallery')
+    
+    @navigate '/galleries/'
+    
     @deselect()
   
   destroyAlbum: (e) ->
@@ -341,20 +344,15 @@ class ShowView extends Spine.Controller
     @toggleDraghandle()
     
   toggleQuickUpload: ->
-    @refreshElements()
-    # toggle is disabled to unable upload-ui functionality
-#    active = @btnQuickUpload.find('i').toggleClass('icon-ok icon-').hasClass('icon-ok')
-    active = true
-    @quickUpload active
-    active
+    @quickUpload !@isQuickUpload()
+    @refreshToolbars()
   
   quickUpload: (active) ->
-    options = $('#fileupload').data('fileupload').options
-#    options = App.uploader.data().fileupload.options
-    options.autoUpload = active
+    console.log $('#fileupload').data()
+    $('#fileupload').data('blueimpFileupload').options['autoUpload'] = active
     
   isQuickUpload: ->
-    true #$('#fileupload').data('fileupload').options.autoUpload
+    $('#fileupload').data('blueimpFileupload').options['autoUpload']
     
   toggleView: (controller, control) ->
     console.log 'toggleView'

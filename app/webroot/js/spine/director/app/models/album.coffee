@@ -98,7 +98,7 @@ class Album extends Spine.Model
 #        ga.destroy()
 #    
   init: (instance) ->
-#    return unless instance.id
+    return unless instance?.id
     s = new Object()
     s[instance.id] = []
     @constructor.selection.push s

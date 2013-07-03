@@ -243,10 +243,15 @@ class Main extends Spine.Controller
 
   initializeFileupload: ->
     @uploader.fileupload
-      autoUpload        : true
+      autoUpload        : false
       singleFileUploads : true
-      maxFileSize: 4000000 #5MB
-      maxNumberOfFiles: 20
+      maxFileSize       : 4000000 #5MB
+      maxNumberOfFiles  : 20
+      getFilesFromResponse: (data) ->
+        res = []
+        for file in data.files
+          res.push file
+        res
     
   loadToolbars: ->
     Toolbar.load()

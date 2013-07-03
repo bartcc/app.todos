@@ -21,7 +21,7 @@ class UploadEditView extends Spine.Controller
     'fileuploadprogress'          : 'progress'
     
   template: (item) ->
-    $('#fileuploadTemplate').tmpl item
+    $('#template-upload').tmpl item
     
   constructor: ->
     super
@@ -44,14 +44,13 @@ class UploadEditView extends Spine.Controller
     @el
     
   fail: (e, data) ->
-    alert 'File Upload Failed !!'
       
   drop: (e, data) ->
     list = Gallery.selectionList()
-    unless list.length
-      data.files[0...data.files.length] = []
-      console.log data.files
-      @notify()
+    # dont allow uploads without an album selected
+#    unless list.length
+#      data.files[0...data.files.length] = []
+#      @notify()
 
   add: (e, data) ->
 #    album_id = Album.record?.id
@@ -81,7 +80,10 @@ class UploadEditView extends Spine.Controller
   done: (e, data) ->
     album = Album.exists(data.link)
     raws = $.parseJSON(data.jqXHR.responseText)
-    Photo.refresh(raws, clear: false)
+#    Photo.refresh(raws, clear: false)
+    for raw in raws
+      photo = new Photo(raw['Photo'])
+      photo.save(ajax: false)
     
     if album
       for raw, idx in raws
@@ -89,6 +91,9 @@ class UploadEditView extends Spine.Controller
         Photo.trigger('create:join', photo, album) if photo
         Spine.trigger('loading:done', album)
       Spine.trigger('album:updateBuffer', album)
+    else
+      @navigate '/gallery//'
+      Photo.trigger('created', photo)
     
     if App.showView.isQuickUpload()
       App.hmanager.change @c
@@ -96,8 +101,6 @@ class UploadEditView extends Spine.Controller
     e.preventDefault()
     
   progress: (e, data) ->
-    console.log e
-    console.log data
     
   paste: (e, data) ->
     

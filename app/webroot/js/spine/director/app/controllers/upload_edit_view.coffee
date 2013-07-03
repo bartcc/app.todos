@@ -94,12 +94,7 @@ class UploadEditView extends Spine.Controller
       else
         Photo.trigger('created', photo)
         @navigate '/gallery//'
-    
       
-    
-    if App.showView.isQuickUpload()
-      App.hmanager.change @c
-        
     e.preventDefault()
     
   progress: (e, data) ->

@@ -43,24 +43,16 @@ class PhotosList extends Spine.Controller
   change: ->
     console.log 'PhotosList::change'
     
-  select: (item, lonely) ->
-    console.log 'PhotosList::select'
-    item?.addRemoveSelection(lonely)
-    @current = Photo.current(item?)
-    @exposeSelection()
-  
   render: (items=[], mode='html') ->
     console.log 'PhotosList::render'
     if Album.record
       @wipe().removeClass 'all'
       if items.length
+        console.log items
         @[mode] @template items
-        @exposeSelection() if mode is 'html'
         @uri items, mode
       else
-        if Album.record
-          html = '<label class="invite"><span class="enlightened">No Photos here. &nbsp;<p>Simply drop your photos in your browser window</p>'
-          
+        html = '<label class="invite"><span class="enlightened">No Photos here. &nbsp;<p>Simply drop your photos in your browser window</p>'
         if Photo.count()
           html += '<button class="optShowAllPhotos dark large">Show existing Photos</button></span>'
         html += '</label>'
@@ -214,7 +206,13 @@ class PhotosList extends Spine.Controller
         Photo.current(first)
     else
       Photo.current()
-    
+      
+  select: (item, lonely) ->
+    console.log 'PhotosList::select'
+    item?.addRemoveSelection(lonely)
+    @current = Photo.current(item?)
+    @exposeSelection()
+  
   click: (e) ->
     console.log 'PhotosList::click'
     item = $(e.currentTarget).item()

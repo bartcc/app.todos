@@ -53,7 +53,7 @@ class PhotosView extends Spine.Controller
     @header.template = @headerTemplate
     AlbumsPhoto.bind('change', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @remove)
-    AlbumsPhoto.bind('create', @proxy @add)
+    AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
     Photo.bind('created', @proxy @add)
 #    GalleriesAlbum.bind('destroy', @proxy @redirect)
     Gallery.bind('change', @proxy @renderHeader)
@@ -180,16 +180,24 @@ class PhotosView extends Spine.Controller
       
     @renderHeader()
     
-  add: (photo) ->
+  add_: (photo) ->
     console.log 'PhotosView::add'
     if photo = Photo.exists(photo.id)
       @render([photo], 'append')
       @list.el.sortable('destroy').sortable('photos')
       
     @renderHeader()
-    
-  add_: (photos) ->
+  
+  addAlbumsPhoto: (ap) ->
+    photo = Photo.find(ap.photo_id)
+    @add photo
+  
+  add: (records) ->
     console.log 'PhotosView::add'
+    unless Photo.isArray records
+      photos = []
+      photos.push(records)
+    else photos = records
     for photo in photos
       if Photo.exists(photo.id)
         console.log photo

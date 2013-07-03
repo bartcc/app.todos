@@ -83,17 +83,19 @@ class UploadEditView extends Spine.Controller
 #    Photo.refresh(raws, clear: false)
     for raw in raws
       photo = new Photo(raw['Photo'])
+      photo.addToSelection()
       photo.save(ajax: false)
     
-    if album
-      for raw, idx in raws
+      if album
         photo = Photo.exists(raw['Photo'].id)
         Photo.trigger('create:join', photo, album) if photo
         Spine.trigger('loading:done', album)
-      Spine.trigger('album:updateBuffer', album)
-    else
-      @navigate '/gallery//'
-      Photo.trigger('created', photo)
+        Spine.trigger('album:updateBuffer', album)
+      else
+        Photo.trigger('created', photo)
+        @navigate '/gallery//'
+    
+      
     
     if App.showView.isQuickUpload()
       App.hmanager.change @c

@@ -32,8 +32,14 @@
         </div>
         <ul class="items vbox flex autoflow"></ul>
         <footer class="footer">
-          <button class="createGallery dark">+ Gallery</button>
-          <button class="createAlbum dark">+ Album</button>
+          <button class="createGallery dark">
+            <i class="icon-plus icon-white"></i>
+            <span>Gallery</span>
+          </button>
+          <button class="createAlbum dark">
+            <i class="icon-plus icon-white"></i>
+            <span>Album</span>
+          </button>
         </footer>
       </div>
       <div class="vdivide draghandle"></div>

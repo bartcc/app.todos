@@ -55,16 +55,14 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
     Photo.bind('created', @proxy @add)
-#    GalleriesAlbum.bind('destroy', @proxy @redirect)
     Gallery.bind('change', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
     Photo.bind('refresh destroy', @proxy @renderHeader)
-    Photo.bind('refresh', @proxy @refresh)
     Photo.bind('beforeDestroy', @proxy @remove)
     Photo.bind('create:join', @proxy @createJoin)
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
-#    AlbumsPhoto.bind('ajaxError', Photo.errorHandler)
+    AlbumsPhoto.bind('ajaxError', Photo.errorHandler)
     Spine.bind('destroy:photo', @proxy @destroy)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
@@ -175,6 +173,7 @@ class PhotosView extends Spine.Controller
     else photos = records
     for photo in photos
       if Photo.exists(photo.id)
+        console.log photo
         @render([photo], 'append')
         @list.el.sortable('destroy').sortable('photos')
       

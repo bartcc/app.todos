@@ -101,7 +101,7 @@ class GalleriesList extends Spine.Controller
     Spine.trigger('gallery:exposeSelection')
         
   select: (item) =>
-    Spine.trigger('gallery:activate', item)
+    Gallery.trigger('activate', item)
     App.showView.trigger('change:toolbarOne', ['Default'])
     
   click: (e) ->

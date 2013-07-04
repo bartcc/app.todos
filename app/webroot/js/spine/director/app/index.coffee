@@ -24,8 +24,9 @@ UploadEditView    = require("controllers/upload_edit_view")
 GalleryEditView   = require("controllers/gallery_edit_view")
 GalleryEditorView = require("controllers/gallery_editor_view")
 
+require("plugins/manager")
 require('spine/lib/route')
-require('plugins/manager')
+require('spine/lib/manager')
 
 class Main extends Spine.Controller
   
@@ -107,6 +108,7 @@ class Main extends Spine.Controller
       el: @overviewEl
     @sidebar = new Sidebar
       el: @sidebarEl
+      externalUI: '.optSidebar'
     @flickr = new SidebarFlickr
       el: @flickrEl
     @loginView = new LoginView
@@ -117,12 +119,14 @@ class Main extends Spine.Controller
       el: @loaderEl
 
     @vmanager = new Spine.Manager(@sidebar)
+    @vmanager.external = @showView.toolbarOne
     @vmanager.initDrag @vDrag,
-      initSize: => @sidebar.el.width()
+      initSize: => @el.width()/4
+      sleep: true
       disabled: false
       axis: 'x'
       min: -> 8
-      tol: -> 20
+      tol: -> 50
       max: => @el.width()/2
       goSleep: => @sidebar.inner.hide()
       awake: => @sidebar.inner.show()
@@ -130,13 +134,16 @@ class Main extends Spine.Controller
     @hmanager = new Spine.Manager(@gallery, @album, @photo, @upload)
     @hmanager.external = @showView.toolbarOne
     @hmanager.initDrag @hDrag,
-      initSize: => @el.height()/2
+      initSize: => @el.height()/4
       disabled: false
       axis: 'y'
-      min: -> 90
+      min: -> 30
+      sleep: true
       max: => @el.height()/2
-      goSleep: => #@showView.toggleDraghandle()
-      awake: => #@showView.activeControl?.click()
+      goSleep: =>
+#        @showView.closeDraghandle()
+      awake: => 
+#        @showView.openDraghandle()
 
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
@@ -154,20 +161,20 @@ class Main extends Spine.Controller
         gallery = Gallery.exists(params.gid)
         album = Album.exists(params.aid)
         photo = Photo.exists(params.pid)
-        Album.updateSelection(params.pid)
-        Spine.trigger('gallery:activate', params.gid)
+#        Album.updateSelection(params.pid)
+        Gallery.trigger('activate', params.gid)
         Spine.trigger('show:photo', photo)
-        Spine.trigger('album:activate', params.aid)
+        Album.trigger('activate', params.aid)
         Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
-        Spine.trigger('gallery:activate', params.gid)
+        Gallery.trigger('activate', params.gid)
         Spine.trigger('show:photos')
-        Spine.trigger('album:activate', params.aid)
+        Album.trigger('activate', params.aid)
       '/gallery/:gid': (params) ->
         Album.current()
         @contentManager.change(@showView)
-        Spine.trigger('gallery:activate', params.gid)
+        Gallery.trigger('activate', params.gid)
         Spine.trigger('show:albums')
         unless params.gid
           Spine.trigger('show:allAlbums')

@@ -54,7 +54,7 @@ class SidebarList extends Spine.Controller
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
-    Spine.bind('gallery:activate', @proxy @activate)
+    Gallery.bind('activate', @proxy @activate)
     
   template: -> arguments[0]
 
@@ -111,7 +111,6 @@ class SidebarList extends Spine.Controller
     if (!@current or @current.destroyed) and !(mode is 'update')
       unless @children(".active").length
         App.ready = true
-#        @children(":first").click()
   
   reorder: (item) ->
     id = item.id

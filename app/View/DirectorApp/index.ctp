@@ -19,7 +19,7 @@
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views bg-medium hbox vdraggable">
-      <div class="vbox sidebar canvas flex inner">
+      <div class="vbox sidebar canvas flex inner" style="display: none">
         <div class="search">
           <form class="form-search">
             <input class="search-query" type="search" placeholder="Search" results="0" incremental="true">

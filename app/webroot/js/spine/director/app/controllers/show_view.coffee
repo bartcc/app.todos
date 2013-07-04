@@ -275,7 +275,6 @@ class ShowView extends Spine.Controller
 
   toggleGalleryShow: (e) ->
     @trigger('toggle:view', App.gallery, e.target)
-#    e.stopPropagation()
     e.preventDefault()
     
   toggleGallery: (e) ->
@@ -334,14 +333,21 @@ class ShowView extends Spine.Controller
   
   toggleDraghandle: ->
     UI = App.hmanager.externalUI()
-    if UI.hasClass('disabled')
-      UI.removeClass('disabled').click().addClass('disabled')
+    if UI.hasClass('open')
+      @closeDraghandle()
     else
-      UI.click()
+      @openDraghandle()
     false
     
+  openDraghandle: ->
+    UI = App.hmanager.externalUI()
+    unless UI.hasClass('open')
+      UI.addClass('open').click()
+    
   closeDraghandle: ->
-    @toggleDraghandle()
+    UI = App.hmanager.externalUI()
+    if UI.hasClass('open')
+      UI.removeClass('open').click()
     
   toggleQuickUpload: ->
     @quickUpload !@isQuickUpload()
@@ -384,7 +390,7 @@ class ShowView extends Spine.Controller
       400
       ->
         $(@).toggleClass('open')
-  
+    
   openPanel: (controller) ->
     return if @views.hasClass('open')
     App[controller].deactivate()
@@ -400,11 +406,9 @@ class ShowView extends Spine.Controller
     className = @el.data().className
     switch className
       when 'Album'
-        Album.emptySelection()
-        Spine.trigger('photo:activate')
+        Photo.trigger('activate', Album.emptySelection())
       when 'Gallery'
-        Gallery.emptySelection()
-        Spine.trigger('album:activate')
+        Album.trigger('activate', Gallery.emptySelection())
       when 'Slideshow'
         ->
       else
@@ -464,12 +468,10 @@ class ShowView extends Spine.Controller
 
   toggleShowAllPhotos: (e) ->
     @allPhotos = !@allPhotos
-#    Album.current() if @allAlbums
     if @allPhotos
       @navigate '/photos/'
     else
       @navigate '/gallery', (Gallery.record?.id or '') + (Album.record?.id or '')
-#    @photosView.items.toggleClass('all', @allPhotos)
     @refreshToolbars()
     @allPhotos
     

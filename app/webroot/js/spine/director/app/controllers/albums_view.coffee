@@ -95,7 +95,6 @@ class AlbumsView extends Spine.Controller
     
   render: ->
     console.log 'AlbumsView::render'
-    
     @header.render()
     
     unless Gallery.record
@@ -140,31 +139,25 @@ class AlbumsView extends Spine.Controller
   create: (list=[], options) ->
     console.log 'AlbumsView::create'
     
-    cb = ->
+    cb = (result) ->
       @createJoin(Gallery.record) if Gallery.record
-      
+      console.log result
       # Have photos moved/copied to the new album
       Photo.trigger('create:join', list, @)
       Photo.trigger('destroy:join', list, options['origin']) if options?.origin?
-        
+      Album.trigger('activate', Gallery.updateSelection Album.last().id)
+      
     album = new Album @newAttributes()
     album.save(done: cb)
-      
-#    if Gallery.record
-#      App.navigate '/gallery', Gallery.record.id
-      
-    Gallery.updateSelection [album.id]
-    Spine.trigger('album:activate')
         
-  destroy: ->
+  destroy: (ids) ->
     console.log 'AlbumsView::destroy'
-    list = Gallery.selectionList().slice(0)
+    list = ids || Gallery.selectionList()
     albums = []
     Album.each (record) =>
       albums.push record unless list.indexOf(record.id) is -1
       
     if Gallery.record
-      Gallery.emptySelection()
       Album.trigger('destroy:join', albums,  Gallery.record)
     else
       for album in albums
@@ -177,7 +170,7 @@ class AlbumsView extends Spine.Controller
             Photo.trigger('destroy:join', photos, album)
           Spine.Ajax.disable ->
             Album.trigger('destroy:join', album, gallery) if gallery
-            
+
       for album in albums
         Gallery.removeFromSelection album.id
         album.destroy()
@@ -192,10 +185,9 @@ class AlbumsView extends Spine.Controller
     return unless target and target.constructor.className is 'Gallery'
 
     for album in albums
-      console.log 'joining ' + album.title + ' to ' + target.name
       album.createJoin target
       
-    Spine.trigger('album:activate')
+    Album.trigger('activate', [album.id])
     
   destroyJoin: (albums, target) ->
     return unless target and target.constructor.className is 'Gallery'

@@ -32,7 +32,7 @@ class PhotosList extends Spine.Controller
     
   constructor: ->
     super
-    Spine.bind('photo:activate', @proxy @activate)
+    Photo.bind('activate', @proxy @activate)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
@@ -191,27 +191,28 @@ class PhotosList extends Spine.Controller
     @deselect()
     list = Album.selectionList()
     for id in list
-      if Photo.exists(id)
-        item = Photo.find(id) 
-        @children().forItem(item).addClass("active")
-    @activate()
+      if photo = Photo.exists(id)
+        @children().forItem(photo, true).addClass("active")
   
-  activate: ->
-    selection = Album.selectionList()
-    if selection.length is 1
-      first = Photo.find(selection[0]) if Photo.exists(selection[0])
-
-      if !first?.destroyed
-        @current = first
-        Photo.current(first)
-    else
-      Photo.current()
+  activate: (items = []) ->
+    id = null
+    unless Spine.isArray items
+      items = [items]
+    
+    for item in items
+      if photo = Photo.exists(item)
+        unless photo.destroyed
+          id = photo.id
+          break
+      
+    Photo.current(id)
+      
+    @exposeSelection()
       
   select: (item, lonely) ->
     console.log 'PhotosList::select'
-    item?.addRemoveSelection(lonely)
-    @current = Photo.current(item?)
-    @exposeSelection()
+    list = item?.addRemoveSelection(lonely)
+    Photo.trigger('activate', list)
   
   click: (e) ->
     console.log 'PhotosList::click'
@@ -227,7 +228,7 @@ class PhotosList extends Spine.Controller
     @select item, true
     @stopInfo()
     @navigate '/gallery', (Gallery.record?.id or 'nope'), (Album.record?.id or 'nope'), item.id
-    Spine.trigger('photo:activate', item)
+    Photo.trigger('activate', item)
     
     e.stopPropagation()
     e.preventDefault()

@@ -9,7 +9,6 @@ class UploadEditView extends Spine.Controller
     '.uploadinfo'                 : 'uploadinfoEl'
 
   events:
-    'change select'               : 'changeSelected'
     'fileuploaddone'              : 'done'
     'fileuploadsubmit'            : 'submit'
     'fileuploadfail'              : 'fail'
@@ -25,7 +24,9 @@ class UploadEditView extends Spine.Controller
     
   constructor: ->
     super
-    Spine.bind('change:selectedAlbum', @proxy @change)
+    Spine.bind('change:selectedAlbum', @proxy @changedSelected)
+    @fileslist = []
+    @data = fileslist: @fileslist
     @queue = []
     
   change: (item) ->
@@ -53,17 +54,13 @@ class UploadEditView extends Spine.Controller
 #      @notify()
 
   add: (e, data) ->
-#    album_id = Album.record?.id
-    list = Gallery.selectionList()
-      
-    album_id = list[0]
-    
-    if data.files.length
-      $.extend data, link: album_id if album_id
-      @c = App.hmanager.hasActive()
-      App.hmanager.change @
-      unless App.showView.isQuickUpload()
-        App.showView.openPanel('upload')
+    @fileslist.push data for file in data.files
+    @data.link = Album.record.id
+    console.log data
+    @c = App.hmanager.hasActive()
+    App.hmanager.change @
+    unless App.showView.isQuickUpload()
+      App.showView.openPanel('upload')
         
   notify: ->
     App.modal2ButtonView.show
@@ -72,15 +69,15 @@ class UploadEditView extends Spine.Controller
       info: ''
         
   send: (e, data) ->
-    album = Album.exists(data.link)
+    album = Album.exists(@data.link)
     Spine.trigger('loading:start', album) if album
     
   alldone: (e, data) ->
+    @fileslist = []
     
   done: (e, data) ->
-    album = Album.exists(data.link)
+    album = Album.exists(@data.link)
     raws = $.parseJSON(data.jqXHR.responseText)
-#    Photo.refresh(raws, clear: false)
     for raw in raws
       photo = new Photo(raw['Photo'])
       photo.addToSelection()
@@ -103,12 +100,9 @@ class UploadEditView extends Spine.Controller
     
   submit: (e, data) ->
     
-  changeSelected: (e) ->
-    el = $(e.currentTarget)
-    id = el.val()
-    album = Album.exists(id)
-    if album
-      album.updateSelection [album.id]
-      Spine.trigger('album:activate')
-    
+  changedSelected: (album, changed) ->
+    album = Album.exists(album.id)
+    if @fileslist.length
+      $.extend @data, link: Album.record?.id
+        
 module?.exports = UploadEditView

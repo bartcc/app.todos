@@ -26,7 +26,7 @@ class PhotoHeader extends Spine.Controller
     Photo.bind('change', @proxy @change)
 
   backToGalleries: (e) ->
-#    Spine.trigger('album:activate')
+#    Album.trigger('activate')
 #    Spine.trigger('show:galleries')
     @navigate '/galleries/'
     
@@ -34,7 +34,7 @@ class PhotoHeader extends Spine.Controller
     e.preventDefault()
     
   backToAlbums: (e) ->
-#    Spine.trigger('gallery:activate', Gallery.record)
+#    Gallery.trigger('activate', Gallery.record)
 #    Spine.trigger('show:albums')
     @navigate '/gallery', Gallery.record?.id or ''
     

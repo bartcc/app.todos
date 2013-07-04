@@ -14,7 +14,8 @@ Spine.Manager.include
     @el = el
     defaults =
       initSize: -> 500
-      disabled: true
+      disabled: false
+      sleep: false
       axis: 'x'
       min: -> 20
       max: -> 300
@@ -28,6 +29,7 @@ Spine.Manager.include
     rev = if options.axis is 'y' then 1 else -1
     min = (options.min)
     max = (options.max)
+    @sleep = (options.sleep)
     @currentDim = options.initSize.call @
     @disableDrag() if options.disabled
     @goSleep = =>

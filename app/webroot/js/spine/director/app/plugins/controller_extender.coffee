@@ -27,6 +27,15 @@ Controller.Extender =
 
       panelIsActive: (controller) ->
         App[controller].isActive()
+        
+      openPanel: (controller) ->
+        ui = App.vmanager.externalUI(App[controller])
+        ui.click()
+
+      closePanel: (controller, target) ->
+        App[controller].activate()
+        ui = App.vmanager.externalUI(App[controller])
+        ui.click()
 
       isCtrlClick: (e) ->
         return unless e

@@ -89,10 +89,13 @@ Model.Extender =
         @trigger('change:selection', originalList)
         originalList
 
-      removeFromSelection: (id) ->
+      removeFromSelection: (idOrList) ->
         list = @selectionList()
-        index = list.indexOf(id)
-        list.splice(index, 1) unless index is -1
+        unless @isArray idOrList
+          ids = [idOrList]
+        for id in idOrList
+          index = list.indexOf(id)
+          list.splice(index, 1) unless index is -1
         list
 
       isArray: (value) ->

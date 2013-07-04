@@ -22,12 +22,12 @@ class AlbumEditView extends Spine.Controller
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @change)
 
-  changeSelected: (e) ->
-    el = $(e.currentTarget)
-    id = el.val()
-    album = Album.exists(id)
-    album.updateSelection [album.id]
-    Spine.trigger('album:activate')
+#  changeSelected: (e) ->
+#    el = $(e.currentTarget)
+#    id = el.val()
+#    album = Album.exists(id)
+#    
+#    Album.trigger('activate', album.updateSelection [album.id])
 
   change: (item, mode) ->
     console.log 'AlbumEditView::change'
@@ -36,8 +36,8 @@ class AlbumEditView extends Spine.Controller
         @current = item
       when 'Gallery'
         firstID = Gallery.selectionList()[0]
-        if Album.exists(firstID)
-          @current = Album.exists(firstID)
+        if album = Album.exists(firstID)
+          @current = album
         else
           @current = false
         

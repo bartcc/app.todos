@@ -39,7 +39,7 @@ class AlbumsList extends Spine.Controller
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
-    Spine.bind('album:activate', @proxy @activate)
+    Album.bind('activate', @proxy @activate)
     
   change: (album, mode, options) ->
     switch mode
@@ -90,7 +90,7 @@ class AlbumsList extends Spine.Controller
         @change(album, mode)
         @el.sortable('destroy').sortable('album')
         
-    @exposeSelection()
+    Album.trigger('activate', Gallery.selectionList())
     @el
   
   render: (items=[], mode) ->
@@ -107,41 +107,42 @@ class AlbumsList extends Spine.Controller
         @html '<label class="invite"><span class="enlightened">You have no albums so far.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
     
     @renderBackgrounds items, mode
-    @exposeSelection()
+    Album.trigger('activate', Gallery.selectionList())
     @el
   
   updateTemplate: (item) ->
     
     
   exposeSelection: ->
-    list = Gallery.selectionList()
+    list = Gallery.selectionList().slice(0)
+    
     list.push Album.record.id if !list.length and Album.record
     @deselect()
     for id in list
-      if item = Album.exists(id)
-        el = @children().forItem(item, true)
+      if album = Album.exists(id)
+        el = @children().forItem(album, true)
         el.addClass("active")
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (id) ->
-    selection = Gallery.selectionList()
-    return unless Spine.isArray selection
+  activate: (items = []) ->
+    id = null
+    unless Spine.isArray items
+      items = [items]
     
-    if selection.length
-      last = Album.exists(selection[selection.length-1])
-      unless last?.destroyed
-        Album.current(last)
-    if id and Album.exists(id)
-      Album.current(id)
-    else
-      Album.current()
+    for item in items
+      if album = Album.exists(item)
+        unless album.destroyed
+          id = album.id
+          break
+      
+    Album.current(id)
       
     @exposeSelection()
   
   select: (item, lonely) ->
-    it = item?.addRemoveSelection(lonely)
-    Spine.trigger('album:activate')
+    list = item?.addRemoveSelection(lonely)
+    Album.trigger('activate', list)
     
   click: (e) ->
     console.log 'AlbumsList::click'
@@ -227,7 +228,7 @@ class AlbumsList extends Spine.Controller
   deleteAlbum: (e) ->
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'
-    Gallery.updateSelection item.id
+#    Gallery.updateSelection item.id
     
     el = $(e.currentTarget).parents('.item')
     el.removeClass('in')
@@ -235,7 +236,7 @@ class AlbumsList extends Spine.Controller
     @stopInfo()
     
     window.setTimeout( =>
-      Spine.trigger('destroy:album')
+      Spine.trigger('destroy:album', [item.id])
       el.remove()
     , 200)
     

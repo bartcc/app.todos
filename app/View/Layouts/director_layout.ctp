@@ -53,6 +53,14 @@
       var galleries = <?php echo $this->Js->object($galleries); ?>;
       var albums = <?php echo $this->Js->object($albums); ?>;
       var photos = <?php echo $this->Js->object($photos); ?>;
+      var startScript = startScript = function() {
+        setTimeout(function() {
+          App.showView.openDraghandle('upload');
+        }, 2000)
+        setTimeout(function(){
+          App.sidebar.toggleDraghandle('');
+        }, 2500)
+      };
       
       Spine = require('spine');
       Model = Spine.Model
@@ -72,6 +80,8 @@
       User.ping();
       Spine.Route.setup()
       App.navigate(route);
+      startScript()
+      
     });
 
     

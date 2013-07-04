@@ -41,7 +41,7 @@ class Sidebar extends Spine.Controller
     
   constructor: ->
     super
-    @el.width(360)
+    @el.width(8)
     @list = new SidebarList
       el: @items,
       template: @template
@@ -105,12 +105,12 @@ class Sidebar extends Spine.Controller
     # make an unselected item part of selection only if there is nothing selected yet
     return unless Album.isArray(selection)
     if !(source.id in selection)# and !(selection.length)
-      source.emptySelection().push source.id
+      list = source.emptySelection().push source.id
       switch source.constructor.className
         when 'Album'
-          Spine.trigger('album:activate') unless fromSidebar
+          Album.trigger('activate', list) unless fromSidebar
         when 'Photo'
-          Spine.trigger('photo:activate')
+          Photo.trigger('activate', list)
       
     @clonedSelection = selection.slice(0)
 
@@ -217,7 +217,7 @@ class Sidebar extends Spine.Controller
 
   createGallery: ->
     console.log 'Sidebar::create'
-#    App.showView.openPanel('gallery')
+    App.showView.openPanel('gallery')
     gallery = new Gallery @newAttributes()
     gallery.save() #success: @createCallback
     @navigate '/galleries/'

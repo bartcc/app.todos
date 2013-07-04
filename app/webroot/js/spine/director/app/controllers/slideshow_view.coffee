@@ -138,10 +138,7 @@ class SlideshowView extends Spine.Controller
       joinTable: 'AlbumsPhoto'
       sorted: true
     
-    if Album.record
-      @render Photo.filterRelated(Album.record.id, filterOptions)
-    else
-      @render @photos()
+    @render @photos()
     
   close: (e) ->
     @parent.showPrevious()
@@ -235,7 +232,7 @@ class SlideshowView extends Spine.Controller
    
   notify: ->
     App.modal2ButtonView.show
-      header: 'No Photos for Slideshow Message'
+      header: 'No Photos for this Slideshow'
       body: 'You have either selected none or an empty album. In order to start a slideshow you must select or open an appropriate album.'
    
   toggle: (e) ->

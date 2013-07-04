@@ -87,7 +87,6 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::render'
     # render only if necessary
     # if view is dirty but inactive we'll use the buffer next time 
-    
     return unless @isActive()
       
     list = @list.render items, mode

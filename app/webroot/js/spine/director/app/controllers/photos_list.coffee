@@ -60,7 +60,7 @@ class PhotosList extends Spine.Controller
     else
       @el.addClass 'all'
       @renderAll()
-    
+    @exposeSelection()
     @el
   
   renderAll: ->

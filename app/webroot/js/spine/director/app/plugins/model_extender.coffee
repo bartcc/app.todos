@@ -111,7 +111,7 @@ Model.Extender =
         record.id for record in records
       
       successHandler: (data, status, xhr) ->
-#        console.log data
+        console.log data
         
       errorHandler: (record, xhr, statusText, error) ->
         status = xhr.status

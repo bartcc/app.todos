@@ -75,7 +75,7 @@ class Toolbar extends Spine.Model
           name: 'Edit'
           icon: 'pencil'
           klass: 'optGallery'
-          disabled: -> !Gallery.record
+          disabled: ->
         ,
           name: 'Destroy'
           icon: 'trash'
@@ -87,7 +87,7 @@ class Toolbar extends Spine.Model
           name: 'Large Edit View'
           icon: 'pencil'
           klass: 'optEditGallery'
-          disabled: -> !Gallery.record
+          disabled: ->
         ]
     group2:
       name: 'Album'
@@ -102,7 +102,7 @@ class Toolbar extends Spine.Model
           name: 'Edit'
           icon: 'pencil'
           klass: 'optAlbum'
-          disabled: -> !Gallery.selectionList().length
+          disabled: ->
         ,
           name: ->
             len = '('+Gallery.selectionList().length+')'

@@ -12,7 +12,7 @@ class AlbumEditView extends Spine.Controller
     'form'        : 'formEl'
 
   events:
-    'keyup'         : 'saveOnEnter'
+    'keyup'         : 'saveOnKeyup'
   
   template: (item) ->
     $('#editAlbumTemplate').tmpl item
@@ -29,8 +29,9 @@ class AlbumEditView extends Spine.Controller
 #    
 #    Album.trigger('activate', album.updateSelection [album.id])
 
-  change: (item, mode) ->
+  change: (item, changed) ->
     console.log 'AlbumEditView::change'
+    return unless changed
     switch item?.constructor.className
       when 'Album'
         @current = item
@@ -41,11 +42,10 @@ class AlbumEditView extends Spine.Controller
         else
           @current = false
         
-    @render @current, mode
+    @render @current, changed
 
   render: (item, mode) ->
     console.log 'AlbumEditView::render'
-#    return unless @isActive()
     selection = Gallery.selectionList()
     if item and selection?.length is 1
       @item.html @template item
@@ -54,12 +54,6 @@ class AlbumEditView extends Spine.Controller
         @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select or create an album</span></label>'})
       else if selection?.length > 1
         @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Multiple selection</span></label>'})
-    
-#    else unless item
-#      unless Gallery.count()
-#        @item.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="enlightened">Create a gallery</span></label>'})
-#      else
-#        @item.html $("#noSelectionTemplate").tmpl({type: '<label class="label"><span class="enlightened">Select a gallery</span></label>'})
     
     @el
 
@@ -71,8 +65,8 @@ class AlbumEditView extends Spine.Controller
       Gallery.updateSelection [@current.id]
       Spine.trigger('expose:sublistSelection', Gallery.record)
 
-  saveOnEnter: (e) =>
-    @save @editEl #if(e.keyCode == 13)
+  saveOnKeyup: (e) =>
+    @save @editEl
     e.stopPropagation() if (e.keyCode == 9)
       
 

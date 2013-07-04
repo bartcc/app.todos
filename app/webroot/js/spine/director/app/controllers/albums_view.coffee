@@ -61,7 +61,7 @@ class AlbumsView extends Spine.Controller
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('show:allAlbums', @proxy @render)
     Spine.bind('create:album', @proxy @create)
-    Album.bind('create destroy', @proxy @change)
+    Album.bind('change', @proxy @change)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
@@ -80,29 +80,24 @@ class AlbumsView extends Spine.Controller
     $(@views).queue('fx')
     
   # this method is triggered when changing Gallery.record
-  change: (item, changed) ->
+  change: (item, mode) ->
     console.log 'AlbumsView::change'
     
     # ommit a complete rendering on resorting
     # on anything else it's ok
-    return if (item.constructor.className is 'GalleriesAlbum') and (changed is 'update') or !item
-#    return unless changed
-#    return unless @isActive()
-    # !important
-#    return unless @isActive()
-
+    return if (item.constructor.className is 'GalleriesAlbum') and (mode is 'update') or !item
     @render()
     
-  render: ->
+  render: (item, mode) ->
     console.log 'AlbumsView::render'
     @header.render()
     
     unless Gallery.record
-      items = Album.filter()
+      items = Album.filter() unless mode is 'update'
     else
       items = Album.filterRelated(Gallery.record.id, @filterOptions)
       
-    list = @list.render items
+    list = @list.render items unless mode is 'update'
     list.sortable('album')
     
 
@@ -178,8 +173,6 @@ class AlbumsView extends Spine.Controller
   createAlbum: (albums, target=Gallery.record) ->
     if target
       @createJoin(albums, target=Gallery.record)
-    else
-      @render Album.filter()
   
   createJoin: (albums, target=Gallery.record) ->
     return unless target and target.constructor.className is 'Gallery'

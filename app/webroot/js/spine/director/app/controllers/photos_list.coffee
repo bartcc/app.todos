@@ -52,7 +52,7 @@ class PhotosList extends Spine.Controller
         @[mode] @template items
         @uri items, mode
       else
-        html = '<label class="invite"><span class="enlightened">No Photos here. &nbsp;<p>Simply drop your photos in your browser window</p>'
+        html = '<label class="invite"><span class="enlightened">No Photos here. &nbsp;<p>Simply drop your photos to your browser window</p>'
         if Photo.count()
           html += '<button class="optShowAllPhotos dark large">Show existing Photos</button></span>'
         html += '</label>'

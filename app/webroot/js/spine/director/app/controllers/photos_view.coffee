@@ -163,31 +163,6 @@ class PhotosView extends Spine.Controller
 
   # methods after uplopad
   
-  refresh: (photos) ->
-#    if Album.record
-#      # this will trigger the add method for handeling uploaded files
-#      @createJoin photos, Album.record
-#    else
-#      @render photos
-      
-  add_: (ap) ->
-    console.log 'PhotosView::add'
-    # only add when photo is for it's album
-    if ap.album_id is Album.record?.id
-      if photo = Photo.exists(ap.photo_id)
-        @render([photo], 'append')
-        @list.el.sortable('destroy').sortable('photos')
-      
-    @renderHeader()
-    
-  add_: (photo) ->
-    console.log 'PhotosView::add'
-    if photo = Photo.exists(photo.id)
-      @render([photo], 'append')
-      @list.el.sortable('destroy').sortable('photos')
-      
-    @renderHeader()
-  
   addAlbumsPhoto: (ap) ->
     photo = Photo.find(ap.photo_id)
     @add photo
@@ -200,7 +175,6 @@ class PhotosView extends Spine.Controller
     else photos = records
     for photo in photos
       if Photo.exists(photo.id)
-        console.log photo
         @render([photo], 'append')
         @list.el.sortable('destroy').sortable('photos')
       

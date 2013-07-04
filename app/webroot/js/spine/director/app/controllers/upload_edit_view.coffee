@@ -56,7 +56,6 @@ class UploadEditView extends Spine.Controller
   add: (e, data) ->
     @fileslist.push data for file in data.files
     @data.link = Album.record.id
-    console.log data
     @c = App.hmanager.hasActive()
     App.hmanager.change @
     unless App.showView.isQuickUpload()

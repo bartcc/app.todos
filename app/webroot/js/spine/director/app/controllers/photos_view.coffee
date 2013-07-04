@@ -173,7 +173,6 @@ class PhotosView extends Spine.Controller
     else photos = records
     for photo in photos
       if Photo.exists(photo.id)
-        console.log photo
         @render([photo], 'append')
         @list.el.sortable('destroy').sortable('photos')
       

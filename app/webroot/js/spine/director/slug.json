@@ -17,7 +17,7 @@
     "js/lib/jquery/ui/jquery-ui-1.10.3.custom.js",
     "js/lib/html5sortable/jquery.sortable.js",
     "js/lib/twitter/bootstrap.js",
-    "js/lib/blueimp/load-image.min.js",
+    "js/lib/blueimp/load-image.js",
     "js/lib/blueimp/bootstrap-image-gallery.js",
     "js/lib/blueimp/locale.js",
     "js/lib/blueimp/tmpl.min.js",

@@ -1,5 +1,5 @@
 /*
- * JavaScript Templates 1.0.2
+ * JavaScript Templates 2.2.0
  * https://github.com/blueimp/JavaScript-Templates
  *
  * Copyright 2011, Sebastian Tschan
@@ -18,65 +18,66 @@
 (function ($) {
     "use strict";
     var tmpl = function (str, data) {
-        var f = !/[^\-\w]/.test(str) ? tmpl.cache[str] = tmpl.cache[str] ||
+        var f = !/[^\w\-\.:]/.test(str) ? tmpl.cache[str] = tmpl.cache[str] ||
                 tmpl(tmpl.load(str)) :
                     new Function(
-                        tmpl.arg,
-                        ("var _s=''" + tmpl.helper + ";_s+='" +
+                        tmpl.arg + ',tmpl',
+                        "var _e=tmpl.encode" + tmpl.helper + ",_s='" +
                             str.replace(tmpl.regexp, tmpl.func) +
-                            "';return _s;").split("_s+='';").join("")
+                            "';return _s;"
                     );
-        f.tmpl = f.tmpl || tmpl;
-        return data ? f(data) : f;
+        return data ? f(data, tmpl) : function (data) {
+            return f(data, tmpl);
+        };
     };
     tmpl.cache = {};
     tmpl.load = function (id) {
         return document.getElementById(id).innerHTML;
     };
-    tmpl.regexp = /(\s+)|('|\\)(?![^%]*%\})|(?:\{%(=|#)(.+?)%\})|(\{%)|(%\})/g;
-    tmpl.func = function (s, p1, p2, p3, p4, p5, p6, o, str) {
-        if (p1) { // whitespace
-            return o && o + s.length !== str.length ? " " : "";
+    tmpl.regexp = /([\s'\\])(?![^%]*%\})|(?:\{%(=|#)([\s\S]+?)%\})|(\{%)|(%\})/g;
+    tmpl.func = function (s, p1, p2, p3, p4, p5) {
+        if (p1) { // whitespace, quote and backspace in interpolation context
+            return {
+                "\n": "\\n",
+                "\r": "\\r",
+                "\t": "\\t",
+                " " : " "
+            }[s] || "\\" + s;
         }
-        if (p2) { // single quote or backslash
-            return "\\" + s;
-        }
-        if (p3) { // interpolation: {%=prop%}, or unescaped: {%#prop%}
-            if (p3 === "=") {
-                return "'+_e(" + p4 + ")+'";
+        if (p2) { // interpolation: {%=prop%}, or unescaped: {%#prop%}
+            if (p2 === "=") {
+                return "'+_e(" + p3 + ")+'";
             }
-            return "'+(" + p4 + "||'')+'";
+            return "'+" + p3 + "+'";
         }
-        if (p5) { // evaluation start tag: {%
+        if (p4) { // evaluation start tag: {%
             return "';";
         }
-        if (p6) { // evaluation end tag: %}
+        if (p5) { // evaluation end tag: %}
             return "_s+='";
         }
     };
-    tmpl.encReg = /[<>&"\x00]/g;
+    tmpl.encReg = /[<>&"'\x00]/g;
     tmpl.encMap = {
-        "<": "&lt;",
-        ">": "&gt;",
-        "&": "&amp;",
-        "\"": "&quot;",
-        "\x00": ""
+        "<"   : "&lt;",
+        ">"   : "&gt;",
+        "&"   : "&amp;",
+        "\""  : "&quot;",
+        "'"   : "&#39;"
     };
     tmpl.encode = function (s) {
-        return String(s || "").replace(
+        return String(s).replace(
             tmpl.encReg,
             function (c) {
-                return tmpl.encMap[c];
+                return tmpl.encMap[c] || "";
             }
         );
     };
     tmpl.arg = "o";
-    tmpl.helper = ",_t=arguments.callee.tmpl,_e=_t.encode" +
-        ",print=function(s,e){_s+=e&&(s||'')||_e(s);}" +
-        ",include=function(s,d){_s+=_t(s,d);}";
+    tmpl.helper = ",print=function(s,e){_s+=e&&(s||'')||_e(s);}" +
+        ",include=function(s,d){_s+=tmpl(s,d);}";
     if (typeof define === "function" && define.amd) {
-        // Register as an AMD module:
-        define("tmpl", function () {
+        define(function () {
             return tmpl;
         });
     } else {

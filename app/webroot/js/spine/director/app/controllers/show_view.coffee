@@ -405,10 +405,12 @@ class ShowView extends Spine.Controller
     item = @el.data().current
     className = @el.data().className
     switch className
-      when 'Album'
-        Photo.trigger('activate', Album.emptySelection())
       when 'Gallery'
         Album.trigger('activate', Gallery.emptySelection())
+      when 'Album'
+        Photo.trigger('activate', Album.emptySelection())
+      when 'Poto'
+        ->
       when 'Slideshow'
         ->
       else

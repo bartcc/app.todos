@@ -195,11 +195,10 @@ class SidebarList extends Spine.Controller
     galleryEl = @children().forItem(item)
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryContentEl.tmplItem()
-    if tmplItem
-      tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
+    tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
+    try
       tmplItem.update()
-      # restore active
-#      @exposeSublistSelection item
+    catch e
     
   renderItemFromGalleriesAlbum: (ga, mode) ->
     gallery = Gallery.find(ga.gallery_id) if Gallery.exists(ga.gallery_id)
@@ -224,6 +223,7 @@ class SidebarList extends Spine.Controller
   
   activate: (idOrRecord) ->
 #    Spine.trigger('show:albums')
+    
     item = Gallery.current(idOrRecord)
 #    diff = item?.id is not Gallery.record?.id
 #    @navigate '/gallery', item.id if diff

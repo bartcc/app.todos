@@ -322,7 +322,7 @@
       <span class="back icon-arrow-up icon-white left"></span>
       <span class="icon-loading delete icon-trash icon-white right"></span>
     </div>
-    <div class="title">{{if title}}{{html title}}{{else}}---{{/if}}</div>
+    <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}---{{/if}}</div>
     <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
@@ -431,6 +431,7 @@
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li  class="item data container fade in sortable">
     {{tmpl "#photosThumbnailTemplate"}}
+    <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}---{{/if}}{{/if}}</div>
     <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
@@ -461,6 +462,7 @@
   <div class="icon-set fade out" style="">
     <span class="back icon-arrow-up icon-white right"></span>
   </div>
+  <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}---{{/if}}{{/if}}</div>
 </script>
 
 <script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">

@@ -37,7 +37,7 @@ class PhotoView extends Spine.Controller
     
   constructor: ->
     super
-    @el.data current: Album
+    @el.data current: Photo
     @info = new Info
       el: @infoEl
       template: @infoTemplate
@@ -46,6 +46,8 @@ class PhotoView extends Spine.Controller
     
     Spine.bind('show:photo', @proxy @show)
     AlbumsPhoto.bind('destroy', @proxy @destroy)
+    Photo.bind('update', @proxy @renderHeader)
+    Spine.bind('change:selectedPhoto', @proxy @renderHeader)
     
   change: (item, changed) ->
     console.log 'PhotoView::change'
@@ -60,7 +62,6 @@ class PhotoView extends Spine.Controller
     
     return unless item
     @items.html @template item
-    @renderHeader item
     @uri item
     @change item
     

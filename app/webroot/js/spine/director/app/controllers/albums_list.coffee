@@ -33,7 +33,7 @@ class AlbumsList extends Spine.Controller
     super
     # initialize flickr's slideshow
 #    @el.toggleSlideshow()
-    Album.bind('change', @proxy @change)
+    Album.bind('update destroy', @proxy @change)
     Album.bind("ajaxError", Album.errorHandler)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
@@ -44,28 +44,12 @@ class AlbumsList extends Spine.Controller
   change: (album, mode, options) ->
     switch mode
       when 'update'
-        el = =>
-          try
-            @children().forItem(album)
-          catch e
-            []
-        tb = -> $('.thumbnail', el())
-
-        #on "change" events Spine additionally triggers "create/update/destroy" respectively
-        return unless el().length
-
-        active = el().hasClass('active')
-        css = el().attr('style')
-        tmplItem = el().tmplItem()
-        tmplItem.tmpl = $( "#albumsTemplate" ).template()
-        tmplItem.update()
-        el().toggleClass('active', active)
-        el().attr('style', css)
-        @refreshElements()
-        
+        return
+        @updateTemplate(album)
       when 'destroy'
         @children().forItem(album, true).remove()
-        
+    @refreshElements()
+  
   changeRelatedAlbum: (item, mode) ->
     # if we change a different gallery from within the sidebar, should not be reflected here
     return unless Gallery.record.id is item['gallery_id']
@@ -110,8 +94,29 @@ class AlbumsList extends Spine.Controller
     Album.trigger('activate', Gallery.selectionList())
     @el
   
-  updateTemplate: (item) ->
+  updateTemplate: (album) ->
+    helper =
+      refresh: =>
+        el = @children().forItem(album)
+        tb = $('.thumbnail', el)
+        el: el
+        tb: tb
+
+    elements = helper.refresh()
     
+    #on "change" events Spine additionally triggers "create/update/destroy" respectively
+    return unless elements.el().length
+    active = elements.el.hasClass('active')
+    css = elements.el.attr('style')
+    tmplItem = elements.el.tmplItem()
+    tmplItem.tmpl = $( "#albumsTemplate" ).template()
+    tmplItem.update()
+    
+    elements = helper.refresh()
+    
+    elements.el.toggleClass('active', active)
+    elments.el.attr('style', css)
+    @refreshElements()
     
   exposeSelection: ->
     list = Gallery.selectionList().slice(0)

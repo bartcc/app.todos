@@ -76,26 +76,28 @@ class PhotosList extends Spine.Controller
     wipe = Album.record and Album.record.contains() is 1
     @el.empty() if wipe
     @el
-  
-  update: (item, ap) ->
+
+  update: (item) ->
     console.log 'PhotosList::update'
-    el = =>
-      @children().forItem(item, true)
-    tb = ->
-      $('.thumbnail', el())
-      
-    backgroundImage = tb().css('backgroundImage')
-    css = tb().attr('style')
-    active = el().hasClass('active')
+    helper =
+      refresh: =>
+        el = @children().forItem(item, true)
+        tb = $('.thumbnail', el)
+        el: el
+        tb: tb
+
+    elements = helper.refresh()
+    css = elements.tb.attr('style')
+    active = elements.el.hasClass('active')
+    photoEl = elements.el.tmplItem()
+#    photoEl.tmpl = $( "#photosTemplate" ).template()
+    photoEl.data = item
     try
-      tmplItem = el().tmplItem()
-      tmplItem.data.order = ap.order or tmplItem.data.order
-      tmplItem.tmpl = $( "#photosTemplate" ).template()
-      tmplItem.update()
+      photoEl.update()
     catch e
-      return
-    tb().attr('style', css)
-    el().toggleClass('active', active)
+    elements = helper.refresh()
+    elements.tb.attr('style', css)
+    elements.el.toggleClass('active', active)
     @el.sortable('destroy').sortable('photos')
     @refreshElements()
   
@@ -235,8 +237,8 @@ class PhotosList extends Spine.Controller
     item = $(e?.currentTarget).item() || @current
     @select item, true
     @stopInfo()
+    Photo.trigger('activate', Album.updateSelection([item.id]))
     @navigate '/gallery', (Gallery.record?.id or 'nope'), (Album.record?.id or 'nope'), item.id
-    Photo.trigger('activate', item)
     
     e.stopPropagation()
     e.preventDefault()

@@ -12,7 +12,7 @@ class PhotoEditView extends Spine.Controller
     
   events:
     'click'           : 'click'
-    'keyup'         : 'saveOnEnter'
+    'keyup'           : 'saveOnKeyup'
     
   template: (item) ->
     $('#editPhotoTemplate').tmpl(item)
@@ -20,30 +20,22 @@ class PhotoEditView extends Spine.Controller
   constructor: ->
     super
     Spine.bind('change:selectedPhoto', @proxy @change)
-    Spine.bind('change:selectedAlbum', @proxy @change)
+#    Spine.bind('change:selectedAlbum', @proxy @change)
 #    Spine.bind('change:selectedGallery', @proxy @change)
   
-  change: (item) ->
-    if item?.constructor.className is 'Photo'
-      @current = item
-        
-    @render @current
+  change: (item, changed) ->
+    return unless changed
+    first = Album.selectionList()[0] if Album.selectionList().length
+    @current = Photo.record or Photo.exists(first)
+    @render()
   
-  render: (item) ->
-#    return unless @isActive()
-    selection = Album.selectionList()
-
-    unless selection?.length
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">No photo selected</span></label>'})
-    else if selection?.length > 1
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Multiple selection</span></label>'})
-    else unless item
-      unless Album.count()
-        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Create a album!</span></label>'})
-      else
-        @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select a album!</span></label>'})
+  render: () ->
+    if @current
+      @item.html @template @current
+    else unless Album.count()
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Create a album!</span></label>'})
     else
-      @item.html @template item
+      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">No photo selected</span></label>'})
     @el
   
   save: (el) ->
@@ -51,10 +43,10 @@ class PhotoEditView extends Spine.Controller
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)
-      Album.updateSelection [@current.id]
  
-  saveOnEnter: (e) =>
+  saveOnKeyup: (e) =>
     @save @editEl #if(e.keyCode == 13)
+    e.stopPropagation() if (e.keyCode == 9)
     
   click: (e) ->
     e.stopPropagation()

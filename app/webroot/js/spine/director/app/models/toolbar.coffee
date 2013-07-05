@@ -150,7 +150,7 @@ class Toolbar extends Spine.Model
           name: 'Edit'
           icon: 'pencil'
           klass: 'optPhoto'
-          disabled: -> !Album.selectionList().length
+          disabled: ->
         ,
           name: ->
             len = '('+Album.selectionList().length+')'

@@ -326,7 +326,7 @@ class SidebarList extends Spine.Controller
       parentEl = @expanderFromClick(eventOrItem)
       eventOrItem.stopPropagation()
       eventOrItem.preventDefault()
-      toggle = true
+      toggle = true 
     else
       parentEl = @expanderFromItem(eventOrItem)
       
@@ -344,7 +344,7 @@ class SidebarList extends Spine.Controller
       
     if toggle
       icon.toggleClass('icon', force)
-      if icon.hasClass('open')
+      if icon.hasClass('open') and !force
         parentEl.removeClass('manual')
         hide()
       else

@@ -193,6 +193,8 @@ class PhotosList extends Spine.Controller
     for id in list
       if photo = Photo.exists(id)
         @children().forItem(photo, true).addClass("active")
+        
+    Spine.trigger('expose:sublistSelection', Gallery.record)
   
   activate: (items = []) ->
     id = null

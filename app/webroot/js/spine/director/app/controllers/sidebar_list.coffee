@@ -234,7 +234,7 @@ class SidebarList extends Spine.Controller
     @children().forItem(item).addClass("active") if item
     @exposeSublistSelection()
 
-  exposeSublistSelection: ->
+  exposeSublistSelection: (gal = Gallery.record) ->
     removeAlbumSelection = =>
       galleries = []
       galleries.push val for item, val of Gallery.records
@@ -245,20 +245,19 @@ class SidebarList extends Spine.Controller
         $('.icon', albums).removeClass('icon-folder-open')
         
         
-    if Gallery.record
+    if gal
       removeAlbumSelection()
       galleryEl = @children().forItem(Gallery.record)
       albums = galleryEl.find('li')
-      for id in Gallery.selectionList()
-        album = Album.find(id) if Album.exists(id)
-        if album
-          albums.forItem(album).addClass('selected')
-          if id is Album.record?.id
-            album = Album.exists(Album.record.id)
-            activeEl = albums.forItem(album).addClass('active')
-            $('.icon', activeEl).addClass('icon-folder-open')
-    else
-      removeAlbumSelection()
+      album = Album.record
+      if album
+        albums.forItem(album).addClass('selected')
+        album = Album.exists(Album.record.id)
+        activeEl = albums.forItem(album).addClass('active')
+        $('.icon', activeEl).addClass('icon-folder-open')
+#    else
+#      removeAlbumSelection()
+    @refreshElements()
 
   clickAlbum: (e) ->
     galleryEl = $(e.target).parents('.gal').addClass('active')
@@ -269,15 +268,10 @@ class SidebarList extends Spine.Controller
     album = albumEl.item()
     gallery = galleryEl.item()
     
-    unless @isCtrlClick(e)
-#      unless Album.current.id is album.id
-      album.updateSelection [album.id]
-      @navigate '/gallery', gallery.id + '/' + album.id
-    else
-      @navigate '/photos/'
+    Gallery.trigger('activate', gallery)
+    Album.trigger('activate', Gallery.updateSelection [album.id])
+    @navigate '/gallery', gallery.id + '/' + album.id
     
-    
-    @exposeSelection_(e)
     e.stopPropagation()
     e.preventDefault()
     

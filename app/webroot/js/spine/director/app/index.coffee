@@ -145,6 +145,7 @@ class Main extends Spine.Controller
       awake: => 
 #        @showView.openDraghandle()
 
+    @hmanager.change @upload
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView

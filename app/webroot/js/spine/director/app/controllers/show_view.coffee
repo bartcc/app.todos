@@ -413,6 +413,7 @@ class ShowView extends Spine.Controller
         ->
       else
         Gallery.current()
+        App.sidebar.list.closeAllSublists()
         Spine.trigger('gallery:exposeSelection')
         
     @changeToolbarOne()

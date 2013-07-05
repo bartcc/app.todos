@@ -205,6 +205,10 @@ class PhotosList extends Spine.Controller
           id = photo.id
           break
       
+    if id
+      App.sidebar.list.expand(Gallery.record, true)
+      App.sidebar.list.closeAllSublists(Gallery.record)
+      
     Photo.current(id)
       
     @exposeSelection()
@@ -219,6 +223,8 @@ class PhotosList extends Spine.Controller
     item = $(e.currentTarget).item()
     
     @select item, @isCtrlClick(e)
+#    if Gallery.record
+#      App.sidebar.list.expand(Gallery.record, true)
     App.showView.trigger('change:toolbarOne')
     
     e.stopPropagation() if $(e.target).hasClass('thumbnail')

@@ -97,6 +97,10 @@ class GalleriesList extends Spine.Controller
     if item
       el = @children().forItem(item, true)
       el.addClass("active")
+      
+      App.sidebar.list.expand(Gallery.record, true)
+      App.sidebar.list.closeAllSublists(Gallery.record)
+      
     App.showView.trigger('change:toolbarOne')
     Spine.trigger('gallery:exposeSelection')
         
@@ -110,6 +114,8 @@ class GalleriesList extends Spine.Controller
     @select item
     App.showView.trigger('change:toolbarOne', ['Default'])
     
+    
+      
     @exposeSelection item
     
     e.stopPropagation()

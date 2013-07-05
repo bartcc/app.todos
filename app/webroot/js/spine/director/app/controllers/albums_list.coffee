@@ -136,6 +136,10 @@ class AlbumsList extends Spine.Controller
           id = album.id
           break
       
+    if id
+      App.sidebar.list.expand(Gallery.record, true)
+      App.sidebar.list.closeAllSublists(Gallery.record)
+      
     Album.current(id)
       
     @exposeSelection()
@@ -148,6 +152,7 @@ class AlbumsList extends Spine.Controller
     console.log 'AlbumsList::click'
     item = $(e.currentTarget).item()
     @select(item, @isCtrlClick(e))
+    
     
     e.stopPropagation()
     e.preventDefault()

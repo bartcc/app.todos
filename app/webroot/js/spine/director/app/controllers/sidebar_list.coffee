@@ -23,9 +23,9 @@ class SidebarList extends Spine.Controller
 
   events:
     'click'                           : 'show'
-    "click      .gal.item"            : "click",
+    "click      .gal.item"            : "click"
     "dblclick   .gal.item"            : "dblclick"
-    "click      .alb.item"            : "clickAlbum",
+    "click      .alb.item"            : "clickAlbum"
     "click      .expander"            : "expand"
     'dragstart  .sublist-item'        : 'dragstart'
     'dragenter  .sublist-item'        : 'dragenter'
@@ -313,27 +313,56 @@ class SidebarList extends Spine.Controller
 
   close: () ->
     
+  expanderFromClick: (e) ->
+    $(e.target).parents('li')
     
-  expand: (e, force = false) ->
-    parent = $(e.target).parents('li')
-    gallery = parent.item()
-    icon = $('.expander', parent)
-    content = $('.sublist', parent)
-
-    if force
-      icon.toggleClass('expand', force)
+  expanderFromItem: (item) ->
+    @children().forItem(item)
+    
+  expand: (eventOrItem, force) ->
+    isEvent = eventOrItem?.originalEvent
+    
+    if isEvent
+      parentEl = @expanderFromClick(eventOrItem)
+      eventOrItem.stopPropagation()
+      eventOrItem.preventDefault()
+      toggle = true
     else
-      icon.toggleClass('expand')
+      parentEl = @expanderFromItem(eventOrItem)
       
-    if $('.expand', parent).length
+    gallery = parentEl.item()
+    icon = $('.expander', parentEl)
+    sublist = $('.sublist', parentEl)
+    
+    show = =>
+      icon.addClass('open')
       @renderOneSublist gallery
-      content.show()
+      sublist.show()
+    hide = ->
+      icon.removeClass('open')
+      sublist.hide()
+      
+    if toggle
+      icon.toggleClass('icon', force)
+      if icon.hasClass('open')
+        parentEl.removeClass('manual')
+        hide()
+      else
+        parentEl.addClass('manual')
+        show()
     else
-      content.hide()
-
-    e.stopPropagation()
-    e.preventDefault()
-
+      if force
+        show()
+      else
+        hide()
+  
+  closeAllSublists: (item) ->
+    for gallery in Gallery.all()
+      parentEl = @expanderFromItem gallery
+      unless parentEl.hasClass('manual')
+        @expand gallery, item?.id is gallery.id
+        
+    
   show: (e) ->
     App.contentManager.change App.showView
     e.stopPropagation()

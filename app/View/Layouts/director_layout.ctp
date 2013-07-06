@@ -17,7 +17,7 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 ?>
-<!DOCTYPE html>
+
 <html xmlns="http://www.w3.org/1999/xhtml" >
   <head>
     <?php echo $this->Html->charset(); ?>

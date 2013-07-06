@@ -13,9 +13,9 @@
   </div>
 </div>
 <div id="main" class="view vbox flex">
-  <header id="title" class="hbox">
-    <h1><a style="font-size: 3em;" href="/"><span class="chopin">Photo Director</span></a></h1>
-    <div id="login" class="flex tright" style="line-height: 72px;"></div>
+  <header id="title" class="">
+    <h1 class="left" style="line-height: 3em;"><a style="font-size: 3em;" href="/"><span class="chopin">Photo Director</span></a></h1>
+    <div id="login" class="right" style="line-height: 3em; margin-top: 20px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views bg-medium hbox vdraggable">
@@ -59,18 +59,18 @@
             <div class="photosHeader view"></div>
             <div class="photoHeader view"></div>
           </div>
-          <div class="view galleries content vbox flex data parent autoflow">
+          <div class="view galleries content vbox flex data parent autoflow" style="">
             <div class="items"></div>
           </div>
-          <div class="view albums content vbox flex data parent autoflow">
+          <div class="view albums content vbox flex data parent autoflow" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
             <div class="items flex"></div>
           </div>
-          <div class="view photos content vbox flex data parent autoflow">
+          <div class="view photos content vbox flex data parent autoflow" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
             <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a"></div>
           </div>
-          <div class="view photo content vbox flex data parent autoflow">
+          <div class="view photo content vbox flex data parent autoflow" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
             <div class="items flex">PHOTO</div>
           </div>

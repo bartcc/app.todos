@@ -145,8 +145,8 @@
           <li class="splitter disabled flex"></li>
           <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="icon-remove icon-white"></span></li>
         </ul>
-        <div class="flex vbox autoflow">
-          <div class="container canvas bg-medium">
+        <div class="flex vbox">
+          <div class="container canvas bg-medium autoflow">
             <fieldset>
               <label><span class="enlightened">Recently Uploaded:</span></label>
               <div class="items"></div>
@@ -286,7 +286,7 @@
     </div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-eye-open icon-white left"></span>
-      <span class="back icon-arrow-up icon-white left"></span>
+      <span class="back icon-chevron-up icon-white left"></span>
       <span class="delete icon-trash icon-white right"></span>
     </div>
     <div class="title">{{if name}}{{html name}}{{else}}---{{/if}}</div>
@@ -319,7 +319,7 @@
     <div class="thumbnail left"></div>
     <div class="icon-set fade out" style="">
       <span class="zoom icon-eye-open icon-white left"></span>
-      <span class="back icon-arrow-up icon-white left"></span>
+      <span class="back icon-chevron-up icon-white left"></span>
       <span class="icon-loading delete icon-trash icon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}---{{/if}}</div>
@@ -452,7 +452,7 @@
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="icon-set fade out" style="">
     <span class="zoom icon-eye-open icon-white left"></span>
-    <span class="back icon-arrow-up icon-white left"></span>
+    <span class="back icon-chevron-up icon-white left"></span>
     <span class="delete icon-trash icon-white right"></span>
   </div>
 </script>
@@ -460,7 +460,7 @@
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="icon-set fade out" style="">
-    <span class="back icon-arrow-up icon-white right"></span>
+    <span class="back icon-chevron-up icon-white right"></span>
   </div>
   <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}---{{/if}}{{/if}}</div>
 </script>

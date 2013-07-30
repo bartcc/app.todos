@@ -91,10 +91,16 @@ class OverviewView extends Spine.Controller
     App.contentManager.change @
     @loadRecent()
     
+  
+    
   navi: (e) ->
     item = $(e.currentTarget).item()
+    photo = Photo.exists(item.id)
     
-    @navigate '/gallery', '/', item.id
+    if photo
+      photo.emptySelection()
+      @navigate '/gallery', '/', photo.id
+      
     false
     
   close: -> window.history.back()

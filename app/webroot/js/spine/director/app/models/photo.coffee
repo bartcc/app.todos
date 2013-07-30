@@ -4,15 +4,15 @@ Model         = Spine.Model
 Filter        = require("plugins/filter")
 Gallery       = require('models/gallery')
 Album         = require('models/album')
-AjaxRelations = require("plugins/ajax_relations")
 Extender      = require("plugins/model_extender")
+AjaxRelations = require("plugins/ajax_relations")
 
 Uri           = require("plugins/uri")
 Cache         = require("plugins/cache")
 require("spine/lib/ajax")
 
 class Photo extends Spine.Model
-  @configure "Photo", 'id', 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'active'
+  @configure "Photo", 'id', 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'make', 'model', 'user_id', 'order', 'active', 'src'
 
   @extend Cache
   @extend Model.Ajax
@@ -70,6 +70,12 @@ class Photo extends Spine.Model
   @inactive: ->
     @findAllByAttribute('active', false)
     
+  @getGallery: ->
+    Gallery.record
+    
+  @getAlbum: ->
+    Album.record
+    
   init: (instance) ->
     return unless instance?.id
     @constructor.initCache instance.id
@@ -87,9 +93,10 @@ class Photo extends Spine.Model
     return true if @id is id
     return false
       
-  details: ->
-    gallery : Gallery.record
-    album   : Album.record
-    photo   : Photo.record
+  details: =>
+    gallery : Model.Gallery.record
+    album   : Model.Album.record
+    photo   : Model.Photo.record
+    author  : User.first().name
 
 module?.exports = Model.Photo = Photo

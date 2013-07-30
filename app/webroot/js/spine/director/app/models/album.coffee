@@ -136,6 +136,7 @@ class Album extends Spine.Model
     iCount : @constructor.contains @id
     album  : Album.record
     gallery: Gallery.record
+    author: User.first().name
     
   selectAttributes: ->
     result = {}

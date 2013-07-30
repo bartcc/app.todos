@@ -48,7 +48,6 @@ class PhotosList extends Spine.Controller
     if Album.record
       @wipe().removeClass 'all'
       if items.length
-        console.log items
         @[mode] @template items
         @uri items, mode
       else
@@ -194,33 +193,42 @@ class PhotosList extends Spine.Controller
     list = Album.selectionList()
     for id in list
       if photo = Photo.exists(id)
-        @children().forItem(photo, true).addClass("active")
+        el = @children().forItem(photo, true)
+        el.addClass("active")
+        if Photo.record.id is photo.id
+          el.addClass("hot")
+          
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (items = []) ->
+  activate: (items = [], toggle) ->
     id = null
     unless Spine.isArray items
       items = [items]
     
     for item in items
-      if photo = Photo.exists(item)
+      if photo = Photo.exists(item?.id or item)
         unless photo.destroyed
-          id = photo.id
-          break
-      
+          photo.addToSelection() unless toggle
+          unless id
+            id = photo.id
+          
     if id
       App.sidebar.list.expand(Gallery.record, true)
       App.sidebar.list.closeAllSublists(Gallery.record)
       
-    Photo.current(id)
-      
+    Photo.current(Album.selectionList()[0] or null)
+    
     @exposeSelection()
       
-  select: (item, lonely) ->
-    console.log 'PhotosList::select'
-    list = item?.addRemoveSelection(lonely)
-    Photo.trigger('activate', list)
+  select: (items = [], lonely) ->
+    unless Spine.isArray items
+      items = [items]
+    
+    for item in items
+      item.addRemoveSelection(lonely)
+      
+    Photo.trigger('activate', items[0].id, true)
   
   click: (e) ->
     console.log 'PhotosList::click'

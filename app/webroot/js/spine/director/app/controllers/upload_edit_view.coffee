@@ -79,6 +79,7 @@ class UploadEditView extends Spine.Controller
     raws = $.parseJSON(data.jqXHR.responseText)
     for raw in raws
       photo = new Photo(raw['Photo'])
+      console.log photo
       photo.addToSelection()
       photo.save(ajax: false)
     

@@ -18,6 +18,7 @@ class AlbumsHeader extends Spine.Controller
     @html @template
       record: Gallery.record
       count: @count()
+      author: User.first().name
     
   count: ->
     if Gallery.record

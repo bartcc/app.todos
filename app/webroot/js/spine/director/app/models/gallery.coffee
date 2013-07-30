@@ -3,9 +3,10 @@ Spine                 = require("spine")
 $                     = Spine.$
 Model                 = Spine.Model
 #Album           = require('models/album')
-Photo           = require('models/photo')
-GalleriesAlbum  = require('models/galleries_album')
-AlbumsPhoto     = require('models/albums_photo')
+User                  = require('models/user')
+Photo                 = require('models/photo')
+GalleriesAlbum        = require('models/galleries_album')
+AlbumsPhoto           = require('models/albums_photo')
 
 Filter                = require("plugins/filter")
 AjaxRelations         = require("plugins/ajax_relations")
@@ -15,7 +16,7 @@ require("spine/lib/ajax")
 
 class Gallery extends Spine.Model
 
-  @configure 'Gallery', 'id', 'name', 'author', "description", 'user_id'
+  @configure 'Gallery', 'id', 'name', "description", 'user_id'
 
   @extend Filter
   @extend Model.Ajax
@@ -63,6 +64,7 @@ class Gallery extends Spine.Model
     
     iCount: imagesCount
     aCount: albums.length
+    author: User.first().name
     
   count: (inc = 0) ->
     filterOptions =

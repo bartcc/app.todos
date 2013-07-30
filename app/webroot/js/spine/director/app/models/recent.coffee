@@ -3,6 +3,7 @@ Model   = Spine.Model
 $       = Spine.$
 Photo   = require("models/photo")
 User    = require("models/user")
+
 require('spine/lib/local')
 
 class Recent extends Spine.Model

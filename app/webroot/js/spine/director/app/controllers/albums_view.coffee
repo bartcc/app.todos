@@ -2,6 +2,7 @@ Spine           = require("spine")
 $               = Spine.$
 Controller      = Spine.Controller
 Drag            = require("plugins/drag")
+User            = require("models/user")
 Album           = require('models/album')
 Gallery         = require('models/gallery')
 GalleriesAlbum  = require('models/galleries_album')
@@ -125,6 +126,7 @@ class AlbumsView extends Spine.Controller
   newAttributes: ->
     if User.first()
       title   : @albumName()
+      author  : User.first().name
       invalid : false
       user_id : User.first().id
       order   : Album.count()
@@ -194,7 +196,10 @@ class AlbumsView extends Spine.Controller
       album.destroyJoin target
       
   loadingStart: (album) ->
+    console.log album
     el = @items.children().forItem(album)
+    console.log @items.children()
+    console.log el.length
     el.addClass('loading')
     unless el.data()['queue']
       queue = el.data()['queue'] = []

@@ -1,7 +1,7 @@
 $ = jQuery ? require("jqueryify")
 
 $.fn.deselect = (sel) ->
-  $(@).children(sel).removeClass('active')
+  $(@).children(sel).removeClass('active', 'hot')
   
 
 $.extend jQuery.tmpl.tag,

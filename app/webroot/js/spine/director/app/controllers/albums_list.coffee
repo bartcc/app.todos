@@ -127,31 +127,39 @@ class AlbumsList extends Spine.Controller
       if album = Album.exists(id)
         el = @children().forItem(album, true)
         el.addClass("active")
+        if Album.record.id is album.id
+          el.addClass("hot")
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (items = []) ->
+  activate: (items = [], toggle) ->
     id = null
     unless Spine.isArray items
       items = [items]
     
     for item in items
-      if album = Album.exists(item)
+      if album = Album.exists(item?.id or item)
         unless album.destroyed
-          id = album.id
-          break
+          album.addToSelection() unless toggle
+          unless id
+            id = album.id
       
     if id
       App.sidebar.list.expand(Gallery.record, true)
       App.sidebar.list.closeAllSublists(Gallery.record)
       
-    Album.current(id)
+    Album.current(Gallery.selectionList()[0] or null)
       
     @exposeSelection()
   
-  select: (item, lonely) ->
-    list = item?.addRemoveSelection(lonely)
-    Album.trigger('activate', list)
+  select: (items = [], lonely) ->
+    unless Spine.isArray items
+      items = [items]
+    
+    for item in items
+      item.addRemoveSelection(lonely)
+      
+    Album.trigger('activate', item, true)
     
   click: (e) ->
     console.log 'AlbumsList::click'

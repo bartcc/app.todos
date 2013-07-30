@@ -224,9 +224,7 @@ class SidebarList extends Spine.Controller
   activate: (idOrRecord) ->
 #    Spine.trigger('show:albums')
     
-    item = Gallery.current(idOrRecord)
-#    diff = item?.id is not Gallery.record?.id
-#    @navigate '/gallery', item.id if diff
+    Gallery.current(idOrRecord)
     @exposeSelection()
 
   exposeSelection: (item = Gallery.record) ->

@@ -70,6 +70,7 @@ class GalleriesView extends Spine.Controller
     if User.first()
       name   : 'New Name'
       user_id : User.first().id
+      author: User.first().name
     else
       User.ping()
   

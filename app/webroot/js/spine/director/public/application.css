@@ -1277,9 +1277,6 @@ li.item.over {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
 }
-#main #content .photos.content .container {
-  background: none;
-}
 #main #content .content .container fieldset {
   border: medium none;
   float: left;
@@ -1389,9 +1386,13 @@ li.item.over {
   right: -14px;
 }
 #content .content .item.active {
-  background-color: rgba(155,155,150,0.20);
+  background-color: rgba(155,155,150,0.40);
   box-shadow: 1px -1px 0 #fff inset, 1px -1px 10px #666 inset, 1px 0 2px #fff, 0 0 3px #000 inset;
 /*  border: thin inset #C8C8C8;*/
+}
+#content .content .item.active.hot {
+  background-color: rgba(156,255,0,0.30);
+  box-shadow: 1px -1px 0 #6f0 inset, 1px -1px 10px #666 inset, 1px 0 2px #6f0, 0 0 3px #000 inset;
 }
 #content .content .item ul {
   float: left;

@@ -71,13 +71,13 @@
       Album = require('models/album')
       Photo= require('models/photo')
       
+      User.ping();
       exports.App = new Main({el: $("body")});
       
       Gallery.refresh(galleries, {clear: true});
       Album.refresh(albums, {clear: true});
       Photo.refresh(photos, {clear: true});
       
-      User.ping();
       Spine.Route.setup()
       App.navigate(route);
       startScript()

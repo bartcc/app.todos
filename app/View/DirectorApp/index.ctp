@@ -163,7 +163,7 @@
           </div>
         </div>
       </div>
-      <div class="edit view vbox flex">
+      <div class="canvas edit view vbox flex">
         <ul class="navbar options hbox">
           <ul class="toolbar hbox"></ul>
         </ul>
@@ -246,7 +246,7 @@
     {{else}}
     <span class="name empty">---</span>
     {{/if}}
-    <span class="author info">{{if author}} by ${author}{{else}}(no author){{/if}}</span>
+<!--    <span class="author info">{{if author}} by ${author}{{else}}(no author){{/if}}</span>-->
     <span class="gal cta">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
   </div>
 </script>
@@ -351,13 +351,12 @@
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
   <section class="top hoverinfo {{if record == ''}}red{{/if}}">
     {{if record}}
-    Author:   <span class="label">${record.author}</span>
+    Author:   <span class="label">${author}</span>
     <br><br>
     <h2>Gallery: </h2>
     <label class="h2 chopin">{{if record.name}}${record.name}{{else}}---{{/if}}</label>
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     {{else}}
-<!--    <div class="alert alert-block"><h4 class="alert-heading">Note</h4>Drag your albums to a sidebar gallery item to make them belonging together. If you hover over a closed gallery item, it will drop down.</div>-->
     <h2 class="">Master Albums
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -399,11 +398,11 @@
 </script>
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  Author:  <span class="label">${gallery.author}</span>
-  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}---{{/if}}{{else}}Gallery not found{{/if}}</span>
+  Author:  <span class="label">${author}</span>
+  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}---{{/if}}{{else}}Gallery was not found{{/if}}</span>
   <br><br>
   <h2>Album: </h2>
-  <label class="h2 chopin">{{if album.title}}${album.title}{{else}}no name{{/if}}</label>
+  <label class="h2 chopin">{{if album.title}}${album.title}{{else}}---{{/if}}</label>
   <span class="active cta right">
     <h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2>
   </span>
@@ -411,9 +410,18 @@
 </script>
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
-  {{if gallery}}<div class="left"><h3>Gallery: </h3><label>${gallery.name}</label></div>{{/if}}{{if album}}<div class=""><h3>Album: </h3><label>${album.title}</label></div>{{/if}}
+  Author:  <span class="label">{{if author}}${author}{{/if}}</span>
+  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}---{{/if}}{{else}}Gallery was not found{{/if}}</span>
+  Album:  <span class="label">{{if album}}{{if album.title}}${album.title}{{else}}---{{/if}}{{else}}Album was not found{{/if}}</span>
+  <br><br>
   <h2>Photo:  </h2>
-  <label class="h2 chopin">{{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}---{{/if}}{{/if}}</label>
+  <label class="h2 chopin">
+    {{if photo}}
+    {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}---{{/if}}{{/if}}
+    {{else}}
+    deleted
+    {{/if}}
+  </label>
 </script>
 
 
@@ -421,7 +429,7 @@
   <label class="">
     <span class="enlightened">Photo Title</span>
   </label>
-  <input type="text" name="title" value="{{if title}}${title}{{else}}{{if src}}${src}{{/if}}{{/if}}" >
+  <input placeholder="${src}" type="text" name="title" value="{{if title}}${title}{{else}}{{if src}}${src}{{/if}}{{/if}}" >
   <label class="">
     <span class="enlightened">Description</span>
   </label>

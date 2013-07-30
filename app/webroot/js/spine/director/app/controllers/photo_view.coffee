@@ -47,23 +47,25 @@ class PhotoView extends Spine.Controller
     Spine.bind('show:photo', @proxy @show)
     AlbumsPhoto.bind('destroy', @proxy @destroy)
     Photo.bind('update', @proxy @renderHeader)
+    Photo.bind('destroy', @proxy @destroy)
     Spine.bind('change:selectedPhoto', @proxy @renderHeader)
     
   change: (item, changed) ->
     console.log 'PhotoView::change'
     @current = item
+    @render()
     
-  render: (item, mode) ->
+  render: ->
     console.log 'PhotoView::render'
 #    if Album.record
 #      @el.removeClass 'all'
 #    else
 #      @el.addClass 'all'
     
-    return unless item
-    @items.html @template item
-    @uri item
-    @change item
+    return unless @current
+    @items.html @template @current
+    @uri @current
+    @renderHeader @current
     
   renderHeader: (item) ->
     @header.change item
@@ -72,6 +74,7 @@ class PhotoView extends Spine.Controller
     console.log 'PhotoView::destroy'
     photoEl = @items.children().forItem @current
     photoEl.remove()
+    Photo.current()
     delete @current
     @renderHeader()
     
@@ -155,9 +158,9 @@ class PhotoView extends Spine.Controller
     @info.bye()
   
   show: (photo) ->
-    Photo.current(item = Photo.exists(photo.id))
+#    Photo.current(Photo.exists(photo.id))
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)
-    @render item
+    @change photo
     
 module?.exports = PhotoView

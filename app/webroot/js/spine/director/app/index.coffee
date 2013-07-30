@@ -159,16 +159,15 @@ class Main extends Spine.Controller
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
         @contentManager.change(@showView)
-        gallery = Gallery.exists(params.gid)
-        album = Album.exists(params.aid)
-        photo = Photo.exists(params.pid)
-#        Album.updateSelection(params.pid)
         Gallery.trigger('activate', params.gid)
-        Spine.trigger('show:photo', photo)
         Album.trigger('activate', params.aid)
+        Photo.trigger('activate', params.pid)
+        Spine.trigger('show:photo', Photo.record)
         Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
+        unless params.gid
+          Spine.trigger('show:allAlbums')
         Spine.trigger('show:photos')
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)

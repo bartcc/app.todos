@@ -423,10 +423,12 @@ class ShowView extends Spine.Controller
     
   selectAll: (e) ->
     root = @current.el.children('.items')
+    list = []
     root.children().each (index, el) ->
       item = $(@).item()
-      item?.addRemoveSelection()
-    @current.list?.select()
+      list.unshift item
+#      item?.addRemoveSelection()
+    @current.list?.select(list)
     @changeToolbarOne()
     
   uploadProgress: (e, coll) ->

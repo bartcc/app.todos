@@ -244,7 +244,7 @@
     {{if name}}
     <span class="name">${name}</span>
     {{else}}
-    <span class="name empty">---</span>
+    <span class="name empty">no name</span>
     {{/if}}
 <!--    <span class="author info">{{if author}} by ${author}{{else}}(no author){{/if}}</span>-->
     <span class="gal cta">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
@@ -289,7 +289,7 @@
       <span class="back icon-chevron-up icon-white left"></span>
       <span class="delete icon-trash icon-white right"></span>
     </div>
-    <div class="title">{{if name}}{{html name}}{{else}}---{{/if}}</div>
+    <div class="title">{{if name}}{{html name}}{{else}}no name{{/if}}</div>
   </li>
 </script>
 
@@ -322,7 +322,7 @@
       <span class="back icon-chevron-up icon-white left"></span>
       <span class="icon-loading delete icon-trash icon-white right"></span>
     </div>
-    <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}---{{/if}}</div>
+    <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}no title{{/if}}</div>
     <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
@@ -354,7 +354,7 @@
     Author:   <span class="label">${author}</span>
     <br><br>
     <h2>Gallery: </h2>
-    <label class="h2 chopin">{{if record.name}}${record.name}{{else}}---{{/if}}</label>
+    <label class="h2 chopin">{{if record.name}}${record.name}{{else}}no name{{/if}}</label>
       <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
     {{else}}
     <h2 class="">Master Albums
@@ -382,7 +382,7 @@
   {{else}}
   <li class="sublist-item alb item data" draggable="true" title="Move (Hold Cmd-Key to Copy)">
     <span class="icon icon-folder-close ui-symbol-album"></span>
-    <span class="title">{{if title}}{{html title}}{{else}}---{{/if}}</span>
+    <span class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
   {{/if}}
@@ -391,7 +391,7 @@
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
     <li class="name bold">
-      <span class="left">{{if title}}${title}{{else}}---{{/if}} </span>
+      <span class="left">{{if title}}${title}{{else}}no title{{/if}} </span>
       <span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span>
     </li>
   </ul>
@@ -399,10 +399,10 @@
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
   Author:  <span class="label">${author}</span>
-  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}---{{/if}}{{else}}Gallery was not found{{/if}}</span>
+  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}Gallery was not found{{/if}}</span>
   <br><br>
   <h2>Album: </h2>
-  <label class="h2 chopin">{{if album.title}}${album.title}{{else}}---{{/if}}</label>
+  <label class="h2 chopin">{{if album.title}}${album.title}{{else}}no title{{/if}}</label>
   <span class="active cta right">
     <h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2>
   </span>
@@ -411,13 +411,13 @@
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
   Author:  <span class="label">{{if author}}${author}{{/if}}</span>
-  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}---{{/if}}{{else}}Gallery was not found{{/if}}</span>
-  Album:  <span class="label">{{if album}}{{if album.title}}${album.title}{{else}}---{{/if}}{{else}}Album was not found{{/if}}</span>
+  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}Gallery was not found{{/if}}</span>
+  Album:  <span class="label">{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}Album was not found{{/if}}</span>
   <br><br>
   <h2>Photo:  </h2>
   <label class="h2 chopin">
     {{if photo}}
-    {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}---{{/if}}{{/if}}
+    {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}no title{{/if}}{{/if}}
     {{else}}
     deleted
     {{/if}}
@@ -439,7 +439,7 @@
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li  class="item data container fade in sortable">
     {{tmpl "#photosThumbnailTemplate"}}
-    <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}---{{/if}}{{/if}}</div>
+    <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
     <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
@@ -470,7 +470,7 @@
   <div class="icon-set fade out" style="">
     <span class="back icon-chevron-up icon-white right"></span>
   </div>
-  <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}---{{/if}}{{/if}}</div>
+  <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
 </script>
 
 <script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">
@@ -594,7 +594,7 @@
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
   <span style="font-size: 0.6em;" class=" alert alert-success">
     <span style="font-size: 2.9em; font-family: cursive; margin-right: 20px;" class="alert alert-error">"</span>
-    {{if album}}{{if album.title}}${album.title}{{else}}---{{/if}}{{else}}all photos{{/if}}
+    {{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}all photos{{/if}}
     <span style="font-size: 5em; font-family: cursive;  margin-left: 20px;" class="alert alert-block uploadinfo"></span>
   </span>
 </script>

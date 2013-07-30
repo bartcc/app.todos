@@ -41,12 +41,6 @@ class Gallery extends Spine.Model
       associationForeignKey : 'album_id'
     
   @contains: (id) ->
-    filterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
-    Album.filterRelated(id, filterOptions)
-    
-  @contains: (id) ->
     GalleriesAlbum.filter(id, key: 'gallery_id').length
     
   @albums: (id) ->
@@ -70,11 +64,11 @@ class Gallery extends Spine.Model
     iCount: imagesCount
     aCount: albums.length
     
-  contains: ->
+  count: (inc = 0) ->
     filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
-    albums = Album.filterRelated(@id, filterOptions).length
+    Album.filterRelated(@id, filterOptions).length + inc
     
   updateAttributes: (atts, options={}) ->
     @load(atts)

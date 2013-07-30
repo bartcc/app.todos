@@ -73,7 +73,7 @@ class PhotosList extends Spine.Controller
     @el
   
   wipe: ->
-    wipe = Album.record and Album.record.contains() is 1
+    wipe = Album.record and Album.record.count() is 1
     @el.empty() if wipe
     @el
 
@@ -259,7 +259,7 @@ class PhotosList extends Spine.Controller
       @stopInfo()
       if album = Album.record
         unless @el.children().length
-          @parent.render() #unless gallery.contains()
+          @parent.render() #unless gallery.count()
     , 300)
     
     @stopInfo()

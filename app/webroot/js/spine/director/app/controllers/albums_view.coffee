@@ -131,9 +131,9 @@ class AlbumsView extends Spine.Controller
     else
       User.ping()
   
-  albumName: (proposal = 'Album ' + (Number)(Gallery.record.contains()+1)) ->
+  albumName: (proposal = 'Album ' + (Number)(Gallery.record.count?(1) or Album.count()+1)) ->
     Album.each (record) =>
-      if record.name is proposal
+      if record.title is proposal
         return proposal = @albumName(proposal + '_1')
     return proposal
   

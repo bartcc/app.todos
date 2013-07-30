@@ -57,7 +57,7 @@ class AlbumsList extends Spine.Controller
     
     switch mode
       when 'create'
-        wipe = Gallery.record and Gallery.record.contains() is 1
+        wipe = Gallery.record and Gallery.record.count() is 1
         @el.empty() if wipe
         @append @template album
         @renderBackgrounds [album]
@@ -67,7 +67,7 @@ class AlbumsList extends Spine.Controller
         albumEl = @children().forItem(album, true)
         albumEl.remove()
         if gallery = Gallery.record
-          @parent.render() unless gallery.contains()
+          @parent.render() unless gallery.count()
           
       when 'update'
         album = Album.exists(item['album_id'])
@@ -196,7 +196,6 @@ class AlbumsList extends Spine.Controller
       @widows = []
   
   processAlbum: (album) ->
-#    return unless album?.contains?()
     data = album.photos(4)
       
     Photo.uri

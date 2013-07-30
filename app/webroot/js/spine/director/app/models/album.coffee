@@ -127,10 +127,10 @@ class Album extends Spine.Model
         Gallery.removeFromSelection ga.album_id
         ga.destroy()
   
-  contains: -> @constructor.contains @id
+  count: (inc = 0) -> @constructor.contains(@id) + inc
   
   photos: (max) ->
-    @constructor.photos @id, max || @contains()
+    @constructor.photos @id, max || @count()
   
   details: =>
     iCount : @constructor.contains @id

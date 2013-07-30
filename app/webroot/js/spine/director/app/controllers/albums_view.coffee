@@ -124,12 +124,18 @@ class AlbumsView extends Spine.Controller
     
   newAttributes: ->
     if User.first()
-      title   : 'empty'
+      title   : @albumName()
       invalid : false
       user_id : User.first().id
       order   : Album.count()
     else
       User.ping()
+  
+  albumName: (proposal = 'Album ' + (Number)(Gallery.record.contains()+1)) ->
+    Album.each (record) =>
+      if record.name is proposal
+        return proposal = @albumName(proposal + '_1')
+    return proposal
   
   create: (list=[], options) ->
     console.log 'AlbumsView::create'

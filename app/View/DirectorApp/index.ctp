@@ -146,7 +146,7 @@
           <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="icon-remove icon-white"></span></li>
         </ul>
         <div class="flex vbox">
-          <div class="container canvas bg-medium autoflow">
+          <div class="container canvas bg-medium clearfix">
             <fieldset>
               <label><span class="enlightened">Recently Uploaded:</span></label>
               <div class="items"></div>

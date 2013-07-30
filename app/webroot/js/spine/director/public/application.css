@@ -590,6 +590,14 @@ li {
 .h2 {
   font-size: 2em;
 }
+.clearfix:after {
+  content: ".";
+  display: block;
+  clear: both;
+  font-size: 0;
+  height: 0;
+  visibility: hidden;
+}
 .right {
   float: right;
 }
@@ -1274,6 +1282,7 @@ li.item.over {
   padding: 7px;
   float: left;
   margin-top: 20px;
+  height: inherit;
 }
 #content .content .item {
   outline: #121212;

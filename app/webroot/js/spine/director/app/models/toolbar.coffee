@@ -94,7 +94,7 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'New'
-          icon: ''
+          icon: 'asterisk'
           klass: 'optCreateAlbum'
         ,
           devider: true
@@ -119,11 +119,6 @@ class Toolbar extends Spine.Model
           klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
           disabled: -> !(App.showView.activePhotos.call @).length
-        ,
-          name: -> 'Slideshow Autostart'
-          icon: -> if App.slideshow.options.autostart then 'ok' else ''
-          klass: 'optSlideshowAutoStart'
-          disabled: -> false
         ]
     group3:
       name: 'Photo'

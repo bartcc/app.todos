@@ -112,7 +112,6 @@ Model.Extender =
         record.id for record in records
       
       successHandler: (data, status, xhr) ->
-        console.log data
         
       errorHandler: (record, xhr, statusText, error) ->
         status = xhr.status
@@ -126,11 +125,6 @@ Model.Extender =
           error.save()
           User.redirect 'users/login'
           
-#        console.log record
-#        console.log xhr
-#        console.log statusText
-#        console.log error
-        
       customErrorHandler: (record, xhr) ->
         status = xhr.status
         unless status is 200

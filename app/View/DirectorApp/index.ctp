@@ -304,7 +304,7 @@
       <label>
         <span class="enlightened">Gallery - Name</span>
       </label>
-      <input class="name" data-toggle="tooltip" placeholder="Gallery Name" data-placement="right" data-trigger="manual" data-title="Press Enter to save" data-content="${name}" type="text" name="name" value="${name}">
+      <input class="name" data-toggle="tooltip" placeholder="gallery name" data-placement="right" data-trigger="manual" data-title="Press Enter to save" data-content="${name}" type="text" name="name" value="${name}">
       <label>
         <span class="enlightened">Description</span>
       </label>
@@ -331,7 +331,7 @@
   <label class="">
     <span class="enlightened">Album Title</span>
   </label>
-  <input type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
+  <input placeholder="album title" type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
   <label class="">
     <span class="enlightened">Description</span>
   </label>

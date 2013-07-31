@@ -261,8 +261,8 @@ class Toolbar extends Spine.Model
       content:
         [
           name: ->
-            l=Gallery.activePhotos().length
-            "Slideshow: " + l + " Image" + ("s" if l>1) 
+            len=Gallery.activePhotos().length
+            "Slideshow: " + len + (if len>1 then " Images" else " Image") 
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'

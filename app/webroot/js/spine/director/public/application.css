@@ -1329,7 +1329,7 @@ li.item.over {
   text-shadow: 0 1px 0.1px rgba(255,255,255,0.30);
 }
 .galleries .items .thumbnail .inner {
-  margin: 20px 15px 0 0;
+  margin: 20px 5px 0 0;
   padding-left: 2px;
 }
 .items .thumbnail {

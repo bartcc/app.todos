@@ -260,11 +260,11 @@ class Toolbar extends Spine.Model
       name: 'Slideshow'
       content:
         [
-          name: -> Gallery.activePhotos().length
+          name: -> "Slideshow: " + Gallery.activePhotos().length + " Images"
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          innerstyle: 'left: -8px; top: 8px;'
+          innerstyle: 'left: -8px; top: 8px; font-size: 0.9em; font-style: oblique;'
           disabled: ->
             !Gallery.activePhotos().length
         ]

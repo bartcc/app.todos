@@ -294,9 +294,12 @@
 </script>
 
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
-  <div>Albums: <span class="cta">${aCount}</span></div>
-  <div>Images: <span class="cta">${iCount}</span></div>
-  <div>Press Space for Slideshow: <span class="cta">${sCount}</span></div>
+  <div style="font-size: 0.8em; font-style: oblique; ">Albums: <span class="cta">${aCount}</span></div>
+  <div style="font-size: 0.8em; font-style: oblique; ">Images: <span class="cta">${iCount}</span></div>
+  <div style="font-size: 0.8em; font-style: oblique; ">Slideshow Images: <span class="cta">${sCount}</span></div>
+  {{if sCount}}
+  <div><span class="label info" style="font-size: 10px;">press space to play</span></div>
+  {{/if}}
 </script>
 
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">

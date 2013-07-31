@@ -196,10 +196,7 @@ class AlbumsView extends Spine.Controller
       album.destroyJoin target
       
   loadingStart: (album) ->
-    console.log album
     el = @items.children().forItem(album)
-    console.log @items.children()
-    console.log el.length
     el.addClass('loading')
     unless el.data()['queue']
       queue = el.data()['queue'] = []

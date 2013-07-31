@@ -4,8 +4,8 @@ Model         = Spine.Model
 Filter        = require("plugins/filter")
 AjaxRelations = require("plugins/ajax_relations")
 Gallery         = require('models/gallery')
-#Album           = require('models/album')
-#Photo           = require('models/photo')
+Model.Album           = require('models/album')
+Model.Photo           = require('models/photo')
 GalleriesAlbum  = require('models/galleries_album')
 require("spine/lib/ajax")
 

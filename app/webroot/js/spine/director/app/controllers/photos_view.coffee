@@ -206,7 +206,8 @@ class PhotosView extends Spine.Controller
     for ap in aps
       unless photos.indexOf(ap.photo_id) is -1
         Album.removeFromSelection ap.photo_id
-        ap.destroy()
+        console.log ap
+        ap.destroy()#ajax: false)
 
 #    target.save()
 

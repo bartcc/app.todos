@@ -189,6 +189,7 @@ class PhotosView extends Spine.Controller
         album_id: album.id
         photo_id: record.id
         order: AlbumsPhoto.photos(album.id).length
+      console.log ap
       ap.save()
   
   destroyJoin: (photos, target) ->

@@ -298,7 +298,7 @@
   <div style="font-size: 0.8em; font-style: oblique; ">Images: <span class="cta">${iCount}</span></div>
   <div style="font-size: 0.8em; font-style: oblique; ">Slideshow Images: <span class="cta">${sCount}</span></div>
   {{if sCount}}
-  <div><span class="label info" style="font-size: 10px;">press space to play</span></div>
+  <div><span class="label info">press space to play</span></div>
   {{/if}}
 </script>
 

@@ -24,7 +24,7 @@ class Gallery extends Spine.Model
   @extend Extender
   @extend Uri
 
-  @selectAttributes: ['name', 'author']
+  @selectAttributes: ['name']
   
   @url: ->
     '' + base_url + 'galleries'
@@ -105,10 +105,8 @@ class Gallery extends Spine.Model
     result
 
   select: (joinTableItems) ->
-#    ga = Spine.Model[options.joinTable].filter(id, options)
     for record in joinTableItems
       return true if record.gallery_id is @id
-#    @id is @constructor.record.id
 
   searchSelect: (query) ->
     query = query.toLowerCase()

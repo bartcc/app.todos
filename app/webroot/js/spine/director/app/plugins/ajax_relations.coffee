@@ -38,7 +38,7 @@ class Builder
         @data[model.className] = selected
 
     @data[@model.className] = @record
-    @data
+    @data[@model.className]
 
 class Request extends Spine.Singleton
   constructor: (@record) ->

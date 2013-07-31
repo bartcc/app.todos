@@ -28,7 +28,7 @@ class Toolbar extends Spine.Model
         ,
           name: 'Slides View'
           klass: 'optShowSlideshow '
-          disabled: -> !App.showView.activePhotos.call()
+          disabled: -> !Gallery.activePhotos().length
         ,
           devider: true
         ,
@@ -118,7 +118,7 @@ class Toolbar extends Spine.Model
           icon: 'play'
           klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
-          disabled: -> !(App.showView.activePhotos.call @).length
+          disabled: -> !Gallery.record.activePhotos?().length
         ]
     group3:
       name: 'Photo'
@@ -260,13 +260,13 @@ class Toolbar extends Spine.Model
       name: 'Slideshow'
       content:
         [
-          name: -> (App.showView.activePhotos.call @).length
+          name: -> Gallery.activePhotos().length
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
           innerstyle: 'left: -8px; top: 8px;'
           disabled: ->
-            !(App.showView.activePhotos.call @).length
+            !Gallery.activePhotos().length
         ]
     group10:
       name: 'Back'
@@ -294,7 +294,7 @@ class Toolbar extends Spine.Model
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> !App.showView.activePhotos.call @
+          disabled: -> !Gallery.activePhotos().length
         ]
     group12:
       name: 'Slider'
@@ -315,11 +315,11 @@ class Toolbar extends Spine.Model
           dataToggle: 'button'
           outerstyle: ''
         ,
-          name: -> (App.showView.activePhotos.call @).length
+          name: -> Gallery.activePhotos().length
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> !(App.showView.activePhotos.call @).length
+          disabled: -> !Gallery.activePhotos().length
         ,
           name: '<span class="slider" style=""></span>'
           klass: 'optThumbsize '

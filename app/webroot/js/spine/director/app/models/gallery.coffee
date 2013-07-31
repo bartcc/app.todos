@@ -50,6 +50,20 @@ class Gallery extends Spine.Model
       joinTable: 'GalleriesAlbum'
     Album.filterRelated(id, filterOptions)
 
+  @activePhotos: (id) =>
+    phos = []
+    albs =[]
+    list = @selectionList(id)
+    albs.push itm for itm in list
+    for alb in albs
+      if album = Album.exists(alb)
+        photos = album.photos() or []
+        phos.push pho for pho in photos
+    phos
+  
+  activePhotos: ->
+    @constructor.activePhotos @id
+    
   init: (instance) ->
     return unless instance.id
     newSelection = {}
@@ -64,6 +78,7 @@ class Gallery extends Spine.Model
     
     iCount: imagesCount
     aCount: albums.length
+    sCount: @activePhotos().length
     author: User.first().name
     
   count: (inc = 0) ->

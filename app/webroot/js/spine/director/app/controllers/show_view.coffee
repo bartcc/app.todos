@@ -133,7 +133,7 @@ class ShowView extends Spine.Controller
       parent: @
       parentModel: 'Photo'
       subview: true
-      photos: @activePhotos
+      photos: Gallery.activePhotos
     
     @bind('canvas', @proxy @canvas)
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
@@ -493,7 +493,7 @@ class ShowView extends Spine.Controller
   slideshowPlay: (e) =>
     @navigate '/slideshow', (Math.random() * 16 | 0), 1
     
-  activePhotos: ->
+  activePhotos_: ->
     phos = []
     albs =[]
     albs.push itm for itm in Gallery.selectionList()

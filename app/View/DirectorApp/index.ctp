@@ -296,6 +296,7 @@
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
   <div>Albums: <span class="cta">${aCount}</span></div>
   <div>Images: <span class="cta">${iCount}</span></div>
+  <div>Press Space for Slideshow: <span class="cta">${sCount}</span></div>
 </script>
 
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">

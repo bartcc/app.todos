@@ -196,15 +196,15 @@ class PhotosView extends Spine.Controller
     return unless target and target.constructor.className is 'Album'
 
     unless Photo.isArray photos
-      records = []
-      records.push(photos)
-    else records = photos
+      ids = []
+      ids.push(photos)
+    else ids = photos
 
-    photos = Photo.toID(records)
+#    photos = Photo.toID(records)
 
     aps = AlbumsPhoto.filter(target.id, key: 'album_id')
     for ap in aps
-      unless photos.indexOf(ap.photo_id) is -1
+      unless ids.indexOf(ap.photo_id) is -1
         Album.removeFromSelection ap.photo_id
         ap.destroy()
 

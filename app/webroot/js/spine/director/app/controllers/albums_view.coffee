@@ -146,7 +146,7 @@ class AlbumsView extends Spine.Controller
       @createJoin(target) if target
       # Have photos moved/copied to the new album
       Photo.trigger('create:join', list, @)
-      Photo.trigger('destroy:join', list, options['origin']) if options?.origin?
+      Photo.trigger('destroy:join', list, options.origin) if options?.origin?
       Album.trigger('activate', Gallery.updateSelection Album.last().id)
       
     album = new Album @newAttributes()

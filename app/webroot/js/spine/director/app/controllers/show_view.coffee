@@ -257,7 +257,7 @@ class ShowView extends Spine.Controller
     else
       @showAlbumMasters()
       
-  createPhotoMove: (photos, target = Album.record) ->
+  createPhotoMove: (photos=Album.selectionList(), target = Album.record) ->
     Spine.trigger('create:album', photos, target, origin:Album.record)
     
     if Gallery.record
@@ -265,7 +265,7 @@ class ShowView extends Spine.Controller
     else
       @showAlbumMasters()
   
-  createAlbumCopy: (albums, target = Gallery.record) ->
+  createAlbumCopy: (albums=Gallery.selectionList(), target = Gallery.record) ->
     for id in albums
       if Album.exists(id)
         photos = Photo.toID Album.photos(id)
@@ -277,14 +277,14 @@ class ShowView extends Spine.Controller
     else
       @showAlbumMasters()
       
-  createAlbumMove: (target) ->
-    tgt = target || Gallery.record
-    list = Album.selectionList()
-    photos = Photo.toID Album.photos(id)
-    Spine.trigger('create:album', photos, target, origin:Album.record)
+  createAlbumMove: (albums=Gallery.selectionList(), target = Gallery.record) ->
+    for id in albums
+      if Album.exists(id)
+        photos = Photo.toID Album.photos(id)
+        Spine.trigger('create:album', photos, target, origin:Album.record)
     
     if Gallery.record
-      @navigate '/gallery', Gallery.record.id, Album.last()
+      @navigate '/gallery', target.id
     else
       @showAlbumMasters()
   

@@ -23,7 +23,7 @@ class ToolbarView extends Spine.Controller
     'click'   : 'click'
     
   click: (e) ->
-    @lastcontrol = $(e.target) #.addClass('active')
+    @lastcontrol = $(e.target)
     
   change: (list = []) ->
     if list.length

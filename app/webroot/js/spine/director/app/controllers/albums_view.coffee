@@ -139,11 +139,11 @@ class AlbumsView extends Spine.Controller
         return proposal = @albumName(proposal + '_1')
     return proposal
   
-  create: (list=[], options) ->
+  create: (list=[], target=Gallery.record, options) ->
     console.log 'AlbumsView::create'
     
     cb = (result) ->
-      @createJoin(Gallery.record) if Gallery.record
+      @createJoin(target) if target
       # Have photos moved/copied to the new album
       Photo.trigger('create:join', list, @)
       Photo.trigger('destroy:join', list, options['origin']) if options?.origin?

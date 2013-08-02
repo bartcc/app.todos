@@ -97,6 +97,7 @@ Model.Extender =
         for id in idOrList
           index = list.indexOf(id)
           list.splice(index, 1) unless index is -1
+        @trigger('change:selection', list)
         list
 
       isArray: (value) ->

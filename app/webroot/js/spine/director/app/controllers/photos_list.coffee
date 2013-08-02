@@ -69,6 +69,7 @@ class PhotosList extends Spine.Controller
       @html @template items
       @exposeSelection()
       @uri items, 'html'
+    @exposeSelection()
     @el
   
   wipe: ->
@@ -228,7 +229,7 @@ class PhotosList extends Spine.Controller
     for item in items
       item.addRemoveSelection(lonely)
       
-    Photo.trigger('activate', items[0].id, true)
+    Photo.trigger('activate', items[0]?.id, true)
   
   click: (e) ->
     console.log 'PhotosList::click'

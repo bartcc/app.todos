@@ -25,7 +25,7 @@ class AlbumsController extends AppController {
   function add() {
     if (!empty($this->request->data)) {
       $this->Album->create();
-      $this->request->data['Album']['id'] = null;
+      $this->request->data['id'] = null;
       if ($this->Album->save($this->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
         $this->set('_serialize', array('id' => $this->Album->id));

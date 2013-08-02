@@ -166,20 +166,20 @@ class Main extends Spine.Controller
         Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
+        Gallery.trigger('activate', params.gid)
+        Spine.trigger('show:photos')
         unless params.gid
           Spine.trigger('show:allAlbums')
-        Spine.trigger('show:photos')
-        Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)
       '/gallery/:gid': (params) ->
-        Album.current()
+#        Album.current()
         @contentManager.change(@showView)
         Gallery.trigger('activate', params.gid)
         Spine.trigger('show:albums')
         unless params.gid
           Spine.trigger('show:allAlbums')
       '/galleries/': ->
-        Album.current()
+#        Album.current()
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
       '/overview/': ->

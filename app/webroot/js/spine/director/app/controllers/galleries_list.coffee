@@ -111,6 +111,9 @@ class GalleriesList extends Spine.Controller
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()
+    if Spine.albumCopyList
+      albums = Spine.albumCopyList
+    Gallery.trigger('action', albums, item)
     @select item
     App.showView.trigger('change:toolbarOne', ['Default'])
     

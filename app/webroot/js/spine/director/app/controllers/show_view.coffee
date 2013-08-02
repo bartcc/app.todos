@@ -61,6 +61,8 @@ class ShowView extends Spine.Controller
     'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
     'click .optCreateGallery:not(.disabled)'         : 'createGallery'
     'click .optCreateAlbum:not(.disabled)'           : 'createAlbum'
+    'click .optCreatePhotoFromSel:not(.disabled)'    : 'createPhotoFromSel'
+    'click .optCreatePhotoFromSelCut:not(.disabled)' : 'createPhotoFromSelCut'
     'click .optCreateAlbumFromSel:not(.disabled)'    : 'createAlbumFromSel'
     'click .optCreateAlbumFromSelCut:not(.disabled)' : 'createAlbumFromSelCut'
     'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
@@ -96,10 +98,13 @@ class ShowView extends Spine.Controller
       el: @toolbarTwoEl
     @photoHeader = new PhotoHeader
       el: @photoHeaderEl
+      parent: @
     @photosHeader = new PhotosHeader
       el: @photosHeaderEl
+      parent: @
     @albumsHeader = new AlbumsHeader
       el: @albumsHeaderEl
+      parent: @
     @galleriesHeader = new GalleriesHeader
       el: @galleriesHeaderEl
     @galleriesView = new GalleriesView
@@ -147,10 +152,6 @@ class ShowView extends Spine.Controller
     Photo.bind('change', @proxy @changeToolbarOne)
     Photo.bind('refresh', @proxy @refreshToolbars)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
-    
-#    Spine.bind('show:allPhotos', @proxy @showAllPhotos)
-#    Spine.bind('show:allAlbums', @proxy @showAllAlbums)
-    
     
     @sOutValue = 140 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
@@ -228,24 +229,59 @@ class ShowView extends Spine.Controller
     else
       @showAlbumMasters()
   
-  createAlbumFromSel: ->
-    list = Album.selectionList()
-    photos = []
-    Photo.each (record) =>
-      photos.push record unless list.indexOf(record.id) is -1
-    Spine.trigger('create:album', photos)
+  createPhotoFromSel: (e) ->
+    @createPhotoCopy()
+    e.preventDefault()
+    e.preventDefault()
+    
+  createPhotoFromSelCut: (e) ->
+    @createPhotoMove()
+    e.preventDefault()
+    e.preventDefault()
+  
+  createAlbumFromSel: (e) ->
+    @createAlbumCopy()
+    e.preventDefault()
+    e.preventDefault()
+    
+  createAlbumFromSelCut: (e) ->
+    @createAlbumMove()
+    e.preventDefault()
+    e.preventDefault()
+  
+  createPhotoCopy: (photos, target = Album.record) ->
+    Photo.trigger('create:join', photos, target)
+    
+    if target
+      @navigate '/gallery', Gallery.record?.id#, target.id
+    else
+      @showAlbumMasters()
+      
+  createPhotoMove: (photos, target = Album.record) ->
+    Spine.trigger('create:album', photos, target, origin:Album.record)
     
     if Gallery.record
-      @navigate '/gallery', Gallery.record.id, Album.last()
+      @navigate '/gallery', Gallery.record.id#, Album.last().id
     else
       @showAlbumMasters()
   
-  createAlbumFromSelCut: ->
+  createAlbumCopy: (albums, target = Gallery.record) ->
+    for id in albums
+      if Album.exists(id)
+        photos = Photo.toID Album.photos(id)
+        Spine.trigger('create:album', photos, target)
+        
+    if target
+      Gallery.updateSelection albums, target.id
+      @navigate '/gallery', target.id
+    else
+      @showAlbumMasters()
+      
+  createAlbumMove: (target) ->
+    tgt = target || Gallery.record
     list = Album.selectionList()
-    photos = []
-    Photo.each (record) =>
-      photos.push record unless list.indexOf(record.id) is -1
-    Spine.trigger('create:album', photos, origin:Album.record)
+    photos = Photo.toID Album.photos(id)
+    Spine.trigger('create:album', photos, target, origin:Album.record)
     
     if Gallery.record
       @navigate '/gallery', Gallery.record.id, Album.last()

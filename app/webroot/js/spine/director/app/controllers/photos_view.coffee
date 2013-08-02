@@ -179,17 +179,16 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::createJoin'
     return unless album and album.constructor.className is 'Album'
     unless Photo.isArray photos
-      records = []
-      records.push(photos)
-    else records = photos
-
-    for record in records
-      return unless record and record.constructor.className is 'Photo'
+      ids = []
+      ids.push(photos)
+    else ids = photos
+    console.log ids
+    
+    for id in ids
       ap = new AlbumsPhoto
         album_id: album.id
-        photo_id: record.id
+        photo_id: id
         order: AlbumsPhoto.photos(album.id).length
-      console.log ap
       ap.save()
   
   destroyJoin: (photos, target) ->

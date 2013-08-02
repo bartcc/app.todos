@@ -141,8 +141,10 @@ class PhotoView extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
   
-  back: ->
+  back: (e) ->
     @navigate '/gallery', Gallery.record.id, Album.record.id
+    e.stopPropagation()
+    e.preventDefault()
   
   infoUp: (e) =>
     @info.up(e)

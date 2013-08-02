@@ -294,11 +294,11 @@
 </script>
 
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
-  <div style="font-size: 0.8em; font-style: oblique; ">Albums: <span class="cta">${aCount}</span></div>
-  <div style="font-size: 0.8em; font-style: oblique; ">Images: <span class="cta">${iCount}</span></div>
-  <div style="font-size: 0.8em; font-style: oblique; ">Slideshow Images: <span class="cta">${sCount}</span></div>
+  <div style="font-size: 0.8em; font-style: oblique; ">Albums: ${aCount}</div>
+  <div style="font-size: 0.8em; font-style: oblique; ">Images: ${iCount}</div>
   {{if sCount}}
-  <div><span class="label info">press space to play</span></div>
+  <div style="font-size: 0.8em; font-style: oblique; "><span class="label info">Slideshow Images: ${sCount}</span></div>
+  <div style="font-size: 0.8em; font-style: oblique; ">(press space to play)</div>
   {{/if}}
 </script>
 
@@ -347,13 +347,13 @@
 </script>
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
-  <section class="top hoverinfo" style="padding-top: 33px; height: 55px;">
+  <section class="top viewheader z2" style="padding-top: 33px; height: 55px;">
     <h2>Gallery Overview</h2><span class="active cta right"><h2>${count}</h2></span>
   </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
-  <section class="top hoverinfo {{if record == ''}}red{{/if}}">
+  <section class="top viewheader z2 {{if record == ''}}red{{/if}}">
     {{if record}}
     Author:   <span class="label">${author}</span>
     <br><br>
@@ -366,12 +366,25 @@
     </h2>
     {{/if}}
   </section>
-  <section class="">
+  <section class="left">
     <span class="breadcrumb">
       <li class="gal">
         <a href="#">Galleries</a> <span class="">/</span>
       </li>
       <li class="alb active">Albums</li>
+    </span>
+  </section>
+  <section class="right">
+    <span class="breadcrumb move">
+      <li class="optAlbumActionCopy">
+        <a href="#"><i class="icon-share-alt"></i>Copy</a>
+      </li>
+      <li>
+        <a href="#"><i class="icon-ok"></i></a>
+      </li>
+      <li>
+        <a href="#"><i class="icon-remove"></i></a>
+      </li>
     </span>
   </section>
 </script>
@@ -384,7 +397,7 @@
   {{if flash}}
   <span class="author">${flash}</span>
   {{else}}
-  <li class="sublist-item alb item data" draggable="true" title="Move (Hold Cmd-Key to Copy)">
+  <li class="sublist-item alb item data" draggable="true" title="move (Hold Cmd-Key to Copy)">
     <span class="icon icon-folder-close ui-symbol-album"></span>
     <span class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
@@ -482,7 +495,7 @@
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
-  <section class="top hoverinfo {{if album == ''}}red{{/if}}">
+  <section class="top viewheader z2 {{if album == ''}}red{{/if}}">
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
@@ -492,7 +505,7 @@
     </h2>
     {{/if}}
   </section>
-  <section class="">
+  <section class="left">
     <span class="breadcrumb">
       <li class="gal">
         <a href="#">Galleries</a> <span class="">/</span>
@@ -503,13 +516,22 @@
       <li class="pho active">Photos</li>
     </span>
   </section>
+  <section class="right">
+    <span class="breadcrumb move">
+      <li class="optPhotoActionCopy">
+        <span class="">
+          <a href="#"><i class="icon-share-alt"></i>Copy</a>
+        </span>
+      </li>
+    </span>
+  </section>
 </script>
 
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
-  <section class="top hoverinfo">
+  <section class="top viewheader z2">
     {{if $item.data.details}}{{tmpl($item.data.details()) "#photoDetailsTemplate"}}{{/if}}
   </section>
-  <section class="">
+  <section class="left">
     <span class="breadcrumb">
       <li class="gal">
         <a href="#">Galleries</a> <span class="">/</span>
@@ -521,6 +543,15 @@
         <a href="#">Photos</a> <span class="">/</span>
       </li>
       <li class="active">{{if src}}${src}{{else}}deleted{{/if}}</li>
+    </span>
+  </section>
+  <section class="right">
+    <span class="breadcrumb move">
+      <li class="optAction">
+        <span class="">
+          <a href="#"><i class="icon-share-alt"></i>Copy</a>
+        </span>
+      </li>
     </span>
   </section>
 </script>
@@ -564,12 +595,12 @@
       <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
-      {{tmpl(content) "#dropListItemTemplate"}}
+      {{tmpl(content) "#dropdownListItemTemplate"}}
     </ul>
   </li>
 </script>
 
-<script id="dropListItemTemplate" type="text/x-jquery-tmpl">
+<script id="dropdownListItemTemplate" type="text/x-jquery-tmpl">
   {{if devider}}
   <li class="divider"></li>
   {{else}}

@@ -10,14 +10,19 @@ Photo           = require('models/photo')
 class PhotosHeader extends Spine.Controller
   
   events:
-    'click .gal'     : 'backToGalleries'
-    'click .alb'     : 'backToAlbums'
+    'click .gal'                      : 'backToGalleries'
+    'click .alb'                      : 'backToAlbums'
+    'click .optPhotoActionCopy'       : 'startPhotoActionCopy' 
+    
+  elements:
+    '.move'          : 'actionMenu'
 
   template: (item) ->
     $("#headerPhotosTemplate").tmpl item
 
   constructor: ->
     super
+    Album.bind('change:selection', @proxy @moveMenu)
     
   backToGalleries: (e) ->
     console.log 'PhotosHeader::backToGalleries'
@@ -41,11 +46,29 @@ class PhotosHeader extends Spine.Controller
       album: Album.record
       photo: Photo.record
       count:  @count()
+    @delay(@moveMenu, 500)
     
   count: ->
     if Album.record
       AlbumsPhoto.filter(Album.record.id, key: 'album_id').length
     else
       Photo.all().length
+      
+  hideMenu: ->
+    @actionMenu.removeClass('down')
+    
+  moveMenu: (list = Album.selectionList()) ->
+    @actionMenu.toggleClass('down', !!list.length)
+    
+  startPhotoActionCopy: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    
+    Spine.photoCopyList = Album.selectionList().slice(0)
+    Album.one('action', @proxy App.showView.createPhotoCopy)
+    Gallery.updateSelection [Album.record.id] if Album.record
+    @navigate '/gallery', Gallery.record?.id
+    
+    
 
 module?.exports = PhotosHeader

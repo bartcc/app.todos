@@ -141,6 +141,7 @@ class AlbumsView extends Spine.Controller
   
   create: (list=[], target=Gallery.record, options) ->
     console.log 'AlbumsView::create'
+    console.log list
     
     cb = (result) ->
       @createJoin(target) if target

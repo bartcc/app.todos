@@ -178,11 +178,14 @@ class PhotosView extends Spine.Controller
   createJoin: (photos, album, deleteTarget) ->
     console.log 'PhotosView::createJoin'
     return unless album and album.constructor.className is 'Album'
+#    Object.prototype.toString.call(photos) is '[object String]'
+#    Object::toString.call(photos) is '[object String]'
+    if typeof photos is 'string'
+      photos = Photo.exists photos
     unless Photo.isArray photos
       ids = []
-      ids.push(photos.id)
+      ids.push(photos.id) if photos.id
     else ids = Photo.toID(photos)
-    console.log ids
     
     for id in ids
       ap = new AlbumsPhoto
@@ -203,15 +206,11 @@ class PhotosView extends Spine.Controller
       ids.push(photos.id)
     else ids = Photo.toID(photos)
 
-#    photos = Photo.toID(records)
-
     aps = AlbumsPhoto.filter(target.id, key: 'album_id')
     for ap in aps
       unless ids.indexOf(ap.photo_id) is -1
         Album.removeFromSelection ap.photo_id
         ap.destroy()
-
-#    target.save()
 
   sortupdate: ->
     @list.children().each (index) ->

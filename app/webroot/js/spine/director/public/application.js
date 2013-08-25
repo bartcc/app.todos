@@ -25899,6 +25899,7 @@ if (typeof JSON !== 'object') {
         target = Gallery.record;
       }
       console.log('AlbumsView::create');
+      console.log(list);
       cb = function(result) {
         if (target) {
           this.createJoin(target);
@@ -28614,13 +28615,17 @@ if (typeof JSON !== 'object') {
       if (!(album && album.constructor.className === 'Album')) {
         return;
       }
+      if (typeof photos === 'string') {
+        photos = Photo.exists(photos);
+      }
       if (!Photo.isArray(photos)) {
         ids = [];
-        ids.push(photos.id);
+        if (photos.id) {
+          ids.push(photos.id);
+        }
       } else {
         ids = Photo.toID(photos);
       }
-      console.log(ids);
       for (_i = 0, _len = ids.length; _i < _len; _i++) {
         id = ids[_i];
         ap = new AlbumsPhoto({
@@ -31807,7 +31812,6 @@ if (typeof JSON !== 'object') {
         order: GalleriesAlbum.albums(target.id).length
       });
       done = function() {};
-      console.log(ga);
       return ga.save({
         done: done
       });
@@ -34202,6 +34206,9 @@ if (typeof JSON !== 'object') {
         },
         isObject: function(value) {
           return Object.prototype.toString.call(value) === "[object Object]";
+        },
+        isString: function(value) {
+          return Object.prototype.toString.call(value) === "[object String]";
         },
         selected: function() {
           return this.record;

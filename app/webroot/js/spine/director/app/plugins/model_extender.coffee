@@ -104,6 +104,9 @@ Model.Extender =
 
       isObject: (value) ->
         Object::toString.call(value) is "[object Object]"
+        
+      isString: (value) ->
+        Object::toString.call(value) is "[object String]"
 
       selected: ->
         @record

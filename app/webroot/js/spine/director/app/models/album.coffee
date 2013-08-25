@@ -111,7 +111,6 @@ class Album extends Spine.Model
       album_id    : @id
       order       : GalleriesAlbum.albums(target.id).length
     done = ->
-    console.log ga
     ga.save(done: done)
   
   destroyJoin: (target) ->

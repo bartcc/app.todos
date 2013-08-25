@@ -256,7 +256,7 @@ class ShowView extends Spine.Controller
     gallery = Gallery.record
     
     if gallery?.id
-      @navigate '/gallery', gallery.id, target.id
+      @navigate '/gallery', gallery.id, Album.last().id
     else
       @showAlbumMasters()
       

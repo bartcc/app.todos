@@ -331,7 +331,7 @@ class Toolbar extends Spine.Model
           name: ''
           klass: 'optPrevious'
           type: 'span'
-          innerklass: 'icon-white icon-remove'
+          innerklass: 'glyphicon glyphicon-white glyphicon glyphicon-remove'
           outerstyle: 'float: right;'
           innerstyle: 'left: -8px; top: 8px; position:relative;'
         ]

@@ -18,9 +18,9 @@ class AlbumsList extends Spine.Controller
   
   events:
     'click .item'             : 'click'
-    'click .icon-set .delete' : 'deleteAlbum'
-    'click .icon-set .back'   : 'back'
-    'click .icon-set .zoom'   : 'zoom'
+    'click .glyphicon-set .delete' : 'deleteAlbum'
+    'click .glyphicon-set .back'   : 'back'
+    'click .glyphicon-set .zoom'   : 'zoom'
     'mouseenter .item'        : 'infoEnter'
     'mousemove'               : 'infoMove'
     'mousemove .item'         : 'infoUp'
@@ -165,9 +165,10 @@ class AlbumsList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.currentTarget).item()
-    if Spine.photoCopyList
-      photos = Spine.photoCopyList
-    Album.trigger('action', photos, item)
+#    if Photo.photoCopyList.length
+#      photos = Photo.photoCopyList.splice
+#    Photo.trigger('action:move', photos, item, Album.origin)
+#    Photo.trigger('action:copy', photos, item)
     @select(item, @isCtrlClick(e))
     
     e.stopPropagation()
@@ -248,7 +249,6 @@ class AlbumsList extends Spine.Controller
   deleteAlbum: (e) ->
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'
-#    Gallery.updateSelection item.id
     
     el = $(e.currentTarget).parents('.item')
     el.removeClass('in')
@@ -266,11 +266,11 @@ class AlbumsList extends Spine.Controller
     
   infoUp: (e) =>
     @info.up(e)
-    el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     
   infoBye: (e) =>
     @info.bye()
-    el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     
   stopInfo: (e) =>
     @info.bye()

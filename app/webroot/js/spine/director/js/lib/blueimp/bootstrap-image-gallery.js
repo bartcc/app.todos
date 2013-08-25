@@ -30,10 +30,11 @@
     }
 }(function ($, loadImage) {
     'use strict';
+//    $.fn.modal.noConflict()
     // Bootstrap Image Gallery is an extension to the Modal dialog of Twitter's
     // Bootstrap toolkit, to ease navigation between a set of gallery images.
     // It features transition effects, fullscreen mode and slideshow functionality.
-    $.extend($.fn.modal.defaults, {
+    $.extend($.fn.modal.Constructor.DEFAULTS, {
         // Delegate to search gallery links from, can be anything that
         // is accepted as parameter for $():
         delegate: document,
@@ -62,6 +63,20 @@
     var originalShow = $.fn.modal.Constructor.prototype.show,
         originalHide = $.fn.modal.Constructor.prototype.hide;
     $.extend($.fn.modal.Constructor.prototype, {
+        myLinks: function() {
+          var $this = this,
+                options = this.options,
+                selector = options.selector,
+                links;
+          //console.log(options.filter)
+          links = $(options.delegate).find(selector)
+                .filter(options.filter).each(function (index) {
+                    if ($this.getUrl(this) === options.href) {
+                        options.index = index;
+                    }
+                });
+          console.log(links)
+        },
         initLinks: function () {
             var $this = this,
                 options = this.options,
@@ -231,6 +246,7 @@
         next: function () {
             var options = this.options;
             options.index += 1;
+            console.log(this.$links);
             if (options.index > this.$links.length - 1) {
                 options.index = 0;
             }
@@ -369,13 +385,13 @@
     });
     $(function () {
         $(document.body).on(
-            'click.modal-gallery.data-api',
+            'click.bs.modal-gallery.data-api',
             '[data-toggle="modal-gallery"]',
             function (e) {
                 var $this = $(this),
                     options = $this.data(),
                     modal = $(options.target),
-                    data = modal.data('modal'),
+                    data = modal.data('bs.modal'),
                     link;
                 if (!data) {
                     options = $.extend(modal.data(), options);

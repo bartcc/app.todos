@@ -13,6 +13,7 @@ class PhotosHeader extends Spine.Controller
     'click .gal'                      : 'backToGalleries'
     'click .alb'                      : 'backToAlbums'
     'click .optPhotoActionCopy'       : 'startPhotoActionCopy' 
+    'click .optPhotoActionMove'       : 'startPhotoActionMove' 
     
   elements:
     '.move'          : 'actionMenu'
@@ -65,8 +66,17 @@ class PhotosHeader extends Spine.Controller
     e.preventDefault()
     
     Spine.photoCopyList = Album.selectionList().slice(0)
-    Album.one('action', @proxy App.showView.createPhotoCopy)
-    Gallery.updateSelection [Album.record.id] if Album.record
+    Photo.one('action:copy', @proxy App.showView.createPhotoCopy)
+#    Gallery.updateSelection [Album.record.id] if Album.record
+    @navigate '/gallery', Gallery.record?.id
+    
+  startPhotoActionMove: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    
+    Spine.photoCopyList = Album.selectionList().slice(0)
+    Photo.one('action:move', @proxy App.showView.createPhotoMove)
+#    Album.updateSelection [Album.record.id] if Album.record
     @navigate '/gallery', Gallery.record?.id
     
     

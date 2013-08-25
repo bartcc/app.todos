@@ -175,13 +175,13 @@ class PhotosView extends Spine.Controller
         @render([photo], 'append')
         @list.el.sortable('destroy').sortable('photos')
       
-  createJoin: (photos, album) ->
+  createJoin: (photos, album, deleteTarget) ->
     console.log 'PhotosView::createJoin'
     return unless album and album.constructor.className is 'Album'
     unless Photo.isArray photos
       ids = []
-      ids.push(photos)
-    else ids = photos
+      ids.push(photos.id)
+    else ids = Photo.toID(photos)
     console.log ids
     
     for id in ids
@@ -190,6 +190,9 @@ class PhotosView extends Spine.Controller
         photo_id: id
         order: AlbumsPhoto.photos(album.id).length
       ap.save()
+      
+    if deleteTarget
+      @destroyJoin photos, deleteTarget
   
   destroyJoin: (photos, target) ->
     console.log 'PhotosView::destroyJoin'
@@ -197,8 +200,8 @@ class PhotosView extends Spine.Controller
 
     unless Photo.isArray photos
       ids = []
-      ids.push(photos)
-    else ids = photos
+      ids.push(photos.id)
+    else ids = Photo.toID(photos)
 
 #    photos = Photo.toID(records)
 

@@ -1,28 +1,29 @@
-Spine             = require("spine")
-$                 = Spine.$
-Drag              = require("plugins/drag")
-User              = require('models/user')
-Config            = require('models/config')
-Album             = require('models/album')
-Gallery           = require('models/gallery')
-Toolbar           = require("models/toolbar")
-SpineError        = require("models/spine_error")
-MainView          = require("controllers/main_view")
-LoginView         = require("controllers/login")
-LoaderView        = require("controllers/loader")
-Sidebar           = require("controllers/sidebar")
-ShowView          = require("controllers/show_view")
-ModalSimpleView   = require("controllers/modal_simple_view")
-Modal2ButtonView  = require("controllers/modal_2_button_view")
-ToolbarView       = require("controllers/toolbar_view")
-LoginView         = require("controllers/login_view")
-OverviewView      = require("controllers/overview_view")
-SidebarFlickr     = require("controllers/sidebar_flickr")
-AlbumEditView     = require("controllers/album_edit_view")
-PhotoEditView     = require("controllers/photo_edit_view")
-UploadEditView    = require("controllers/upload_edit_view")
-GalleryEditView   = require("controllers/gallery_edit_view")
-GalleryEditorView = require("controllers/gallery_editor_view")
+Spine                   = require("spine")
+$                       = Spine.$
+Drag                    = require("plugins/drag")
+User                    = require('models/user')
+Config                  = require('models/config')
+Album                   = require('models/album')
+Gallery                 = require('models/gallery')
+Toolbar                 = require("models/toolbar")
+SpineError              = require("models/spine_error")
+MainView                = require("controllers/main_view")
+LoginView               = require("controllers/login")
+LoaderView              = require("controllers/loader")
+Sidebar                 = require("controllers/sidebar")
+ShowView                = require("controllers/show_view")
+ModalSimpleView         = require("controllers/modal_simple_view")
+Modal2ButtonView        = require("controllers/modal_2_button_view")
+ModalGalleriesActionView= require("controllers/modal_galleries_action_view")
+ToolbarView             = require("controllers/toolbar_view")
+LoginView               = require("controllers/login_view")
+OverviewView            = require("controllers/overview_view")
+SidebarFlickr           = require("controllers/sidebar_flickr")
+AlbumEditView           = require("controllers/album_edit_view")
+PhotoEditView           = require("controllers/photo_edit_view")
+UploadEditView          = require("controllers/upload_edit_view")
+GalleryEditView         = require("controllers/gallery_edit_view")
+GalleryEditorView       = require("controllers/gallery_editor_view")
 
 require("plugins/manager")
 require('spine/lib/route')
@@ -41,9 +42,9 @@ class Main extends Spine.Controller
     '#flickr'             : 'flickrEl'
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
-    '.show'               : 'showEl'
-    '.overview'           : 'overviewEl'
-    '#content .edit'      : 'galleryEditEl'
+    '#show'               : 'showEl'
+    '#overview'           : 'overviewEl'
+    '#edit'               : 'galleryEditEl'
     '#ga'                 : 'galleryEl'
     '#al'                 : 'albumEl'
     '#ph'                 : 'photoEl'
@@ -54,7 +55,7 @@ class Main extends Spine.Controller
     '#modal-view'         : 'modalEl'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
-    '.show .content'      : 'content'
+    '#show .content'      : 'content'
     '.status-symbol img'  : 'statusIcon'
     '.status-text'        : 'statusText'
     '.status-symbol'      : 'statusSymbol'
@@ -80,9 +81,10 @@ class Main extends Spine.Controller
     $('#modal-gallery').bind('hidden', @proxy @hideSlideshow)
     
     @modalSimpleView = new ModalSimpleView
-      el: @modalSimpleEl
-      className: 'modal'
+      el: @modalEl
     @modal2ButtonView = new Modal2ButtonView
+      el: @modalEl
+    @modalGalleriesActionView = new ModalGalleriesActionView
       el: @modalEl
       className: 'modal'
     @galleryEditView = new GalleryEditorView
@@ -102,8 +104,8 @@ class Main extends Spine.Controller
     @showView = new ShowView
       el: @showEl
       activeControl: 'btnGallery'
-      modalView: @modalSimpleView
       uploader: @upload
+    @slideshowView = @showView.slideshowView
     @overviewView = new OverviewView
       el: @overviewEl
     @sidebar = new Sidebar
@@ -236,14 +238,15 @@ class Main extends Spine.Controller
       
   initializeSlideshow: ->
     options =
-      show: false
-      canvas: true
-      backdrop: true
-      slideshow: 2000
-      autostart: false
-      toggleAutostart: ->
+      show:       false
+      canvas:     true
+      backdrop:   -> $('#modal-gallery').modal('hide')
+      delegate:   'div#slideshow'
+      selector:   'div.thumbnail'
+      slideshow:  3000
+      autostart:  false
       
-    $('#modal-gallery').modal(options).data('modal')
+    $('#modal-gallery').modal(options)
     
   hideSlideshow: ->
     @showView.showPrevious() if @showView.slideshowView.autoplay
@@ -287,7 +290,7 @@ class Main extends Spine.Controller
         @sidebar.toggleDraghandle()
         e.preventDefault()
       when 27
-        @showView.btnPrevious.click()
+#        @showView.showPrevious()
         e.preventDefault()
       when 13
         e.preventDefault()

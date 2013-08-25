@@ -16,9 +16,9 @@ class PhotosList extends Spine.Controller
     
   events:
     'click .item'             : 'click'
-    'click .icon-set .back'   : 'back'
-    'click .icon-set .zoom'   : 'zoom'
-    'click .icon-set .delete' : 'deletePhoto'
+    'click .glyphicon-set .back'   : 'back'
+    'click .glyphicon-set .zoom'   : 'zoom'
+    'click .glyphicon-set .delete' : 'deletePhoto'
     
     'mouseenter .item'        : 'infoEnter'
     'mousemove'               : 'infoMove'
@@ -134,7 +134,7 @@ class PhotosList extends Spine.Controller
         img.element = ele
         img.onload = @imageLoad
         img.src = src
-    Spine.trigger('show:slideshow') if App.slideshow.options.autostart
+    Spine.trigger('show:slideshow') if App.slideshow.data('bs.modal').options.autostart
     
   photos: (id) ->
     if Album.record
@@ -282,12 +282,12 @@ class PhotosList extends Spine.Controller
     
   infoUp: (e) =>
     @info.up(e)
-    el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     e.preventDefault()
     
   infoBye: (e) =>
     @info.bye()
-    el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
     
   stopInfo: (e) =>

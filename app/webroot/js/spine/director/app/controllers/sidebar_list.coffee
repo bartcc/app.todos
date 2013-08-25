@@ -240,7 +240,7 @@ class SidebarList extends Spine.Controller
         galleryEl = @children().forItem(item)
         albums = galleryEl.find('li')
         albums.removeClass('selected').removeClass('active')
-        $('.icon', albums).removeClass('icon-folder-open')
+        $('.glyphicon', albums).removeClass('glyphicon-folder-open')
         
         
     if gal
@@ -252,7 +252,7 @@ class SidebarList extends Spine.Controller
         albums.forItem(album).addClass('selected')
         album = Album.exists(Album.record.id)
         activeEl = albums.forItem(album).addClass('active')
-        $('.icon', activeEl).addClass('icon-folder-open')
+        $('.glyphicon', activeEl).addClass('glyphicon-folder-open')
 #    else
 #      removeAlbumSelection()
     @refreshElements()
@@ -335,7 +335,7 @@ class SidebarList extends Spine.Controller
       sublist.hide()
       
     if toggle
-      icon.toggleClass('icon', force)
+      icon.toggleClass('glyphicon', force)
       if icon.hasClass('open') and !force
         parentEl.removeClass('manual')
         hide()

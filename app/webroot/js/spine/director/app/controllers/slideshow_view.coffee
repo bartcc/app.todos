@@ -27,11 +27,13 @@ class SlideshowView extends Spine.Controller
   constructor: ->
     super
     @el.data
-      current: className: 'Slideshow'
+      current:
+        className: 'Slideshow'
     @thumbSize = 240
     @fullScreen = true
     @autoplay = false #the slideshow itselfs autoplay
     @autostart = false #play slideshow upon opening a album
+    @modal = $('#modal-gallery')
     
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
@@ -39,8 +41,11 @@ class SlideshowView extends Spine.Controller
     Spine.bind('chromeless', @proxy @chromeless)
     
     @bind('slideshow:ready', @proxy @play)
+    @modal.bind('hide.bs.modal', @proxy @hide)
         
   render: (items) ->
+    console.log 'SlideshowView::render'
+    console.log items
     @items.html @template items
     @uri items
     @refreshElements()
@@ -63,12 +68,6 @@ class SlideshowView extends Spine.Controller
     width: width
     height: height
   
-  modalParams: ->
-    width: 600
-    height: 451
-    square: 2
-    force: false
-    
   uri: (items) ->
     console.log 'SlideshowView::uri'
     Photo.uri @params(),
@@ -98,6 +97,12 @@ class SlideshowView extends Spine.Controller
       'backgroundImage': css
       'backgroundPosition': 'center, center'
       'backgroundSize': '100%'
+    
+  modalParams: ->
+    width: 600
+    height: 451
+    square: 2
+    force: false
     
   # this loads the image-source attributes pointing to the regular sized image files necessary for the slideshow
   loadModal: (items, mode='html') ->
@@ -137,8 +142,16 @@ class SlideshowView extends Spine.Controller
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       sorted: true
-    
-    @render @photos()
+      
+    @slideshowPhotos = []
+    if @photos().length
+      for aid in Gallery.selectionList()
+        photos = Photo.filterRelated(aid, filterOptions)
+        @slideshowPhotos.push photo for photo in photos
+      @render @slideshowPhotos
+    else
+      @notify()
+      @parent.showPrevious()
     
   close: (e) ->
     @parent.showPrevious()
@@ -183,7 +196,7 @@ class SlideshowView extends Spine.Controller
     @autoplay
   
   isAutostart: ->
-    App.slideshow.options.autostart
+    @modal.data('bs.modal').options.autostart
   
 #  startSlideShow: ->
 #    App.slideshow.startSlideShow()
@@ -207,16 +220,13 @@ class SlideshowView extends Spine.Controller
       if list.length
         id = list[0] 
         item = Photo.find(id) if Photo.exists(id)
-        parent = @el.children().forItem(item, true)
-        el = $('[data-gallery="gallery"]', parent)[0]
+        el = $('[data-gallery="gallery"]', @el).forItem(item, true)
         return el
       return
     
     elFromCanvas = =>
       console.log 'elFromCanvas'
-      item = AlbumsPhoto.photos(Album.record.id)[0]
-      el = $('[data-gallery=gallery]', @el)[0]
-      el
+      $('[data-gallery=gallery]', @el).forItem(@slideshowPhotos[0])
     
     if @slideshowable()
       # prevent ghosted backdrops
@@ -227,25 +237,31 @@ class SlideshowView extends Spine.Controller
     else
       @notify()
       
-  stop: ->
-    App.slideshow.stopSlideShow()
+  stop: (e) ->
+    @modal.modal('stopSlideShow')
+    e.preventDefault()
+   
+  start: (e) ->
+    @modal.modal('startSlideShow')
+    e.preventDefault()
+   
+  hide: (e) ->
+    @parent.showPrevious()
    
   notify: ->
-    App.modal2ButtonView.show
-      header: 'No Photos for this Slideshow'
-      body: 'You have either selected none or an empty album. In order to start a slideshow you must select or open an appropriate album.'
+    App.modalSimpleView.show
+      header: 'No Photos for a Slideshow'
+      body: 'Please select on or more albums containing at least one photo'
    
   toggle: (e) ->
     unless @slideshowable()
       @notify()
-      
       return
     
     unless App.slideshow.isShown
       @navigate '/slideshow', (Math.random() * 16 | 0), 1
     else
-      App.slideshow.toggleSlideShow()
+      @modal.modal('toggleSlideShow')
     false
-  
-      
+    
 module?.exports = SlideshowView

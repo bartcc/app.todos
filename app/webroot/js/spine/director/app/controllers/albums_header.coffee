@@ -6,6 +6,7 @@ class AlbumsHeader extends Spine.Controller
   events:
     'click .gal'                     : 'backToGalleries'
     'click .optAlbumActionCopy'      : 'startAlbumActionCopy' 
+    'click .optAlbumActionMove'      : 'startAlbumActionMove' 
   
   elements:
     '.move'          : 'actionMenu'
@@ -49,7 +50,15 @@ class AlbumsHeader extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     Spine.albumCopyList = Gallery.selectionList().slice(0)
-    Gallery.one('action', @proxy App.showView.createAlbumCopy)
+    Album.one('action:copy', @proxy App.showView.createAlbumCopy)
+    
+    @navigate '/galleries/'
+    
+  startAlbumActionMove: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    Album.copyList = Gallery.selectionList().slice(0)
+    Album.one('action:move', @proxy App.showView.createAlbumMove)
     
     @navigate '/galleries/'
     

@@ -175,7 +175,7 @@ li hr {
 .items {
   height: 0;
 }
-div.show div.content label.label span {
+div.content label.label span {
   font-weight: normal;
   font-family: serif;
   font-style: italic
@@ -338,9 +338,8 @@ label input[type="text"] {
   cursor: auto;
 }
 button:disabled {
-  color: #303030;
   cursor: auto;
-  text-shadow: 0 1px 0 rgba(100, 100, 100, 0.4);
+  opacity: 0.3;
 }
 .view label span, .disabled {
 /*  color: #676767;*/
@@ -816,7 +815,7 @@ li.item.over {
 .empty {
   font-style: italic;
 }
-#views .views, .edit.view .content {
+#views .views, #edit.view .content {
   
 }
 #views .views .view {
@@ -868,7 +867,7 @@ li.item.over {
   margin-top: 15px;
   padding: 27px 10px 10px;
 }
-.overview .container:not(.item) {
+#overview .container:not(.item) {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -888,10 +887,10 @@ li.item.over {
 #content .content li.item {
   position: relative;
 }
-#content .content.overview div.item {
+#overview div.item {
   margin: 0 5px 5px 0;
 }
-#content .content.overview div.items {
+#overview div.items {
   width: 320px;
   padding: 7px;
   float: left;
@@ -919,8 +918,8 @@ li.item.over {
   line-height: 1.2em
 }
 .galleries .items .thumbnail {
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
 }
 .galleries .items .thumbnail {
   color: rgba(0, 0, 0, 0.7);
@@ -943,12 +942,12 @@ li.item.over {
   -webkit-border-radius: 17px;
 }
 .albums .thumbnail {
-  width: 139px;
-  height: 139px;
+  width: 160px;
+  height: 160px;
 }
-.overview .thumbnail {
-  width: 50px;
-  height: 50px;
+#overview .thumbnail {
+  width: 70px;
+  height: 70px;
 }
 .photos .thumbnail {
 /*  width: 120px;
@@ -1121,11 +1120,7 @@ li.item.over {
   color: rgba(0, 0, 0, 0.7);
 }
 .breadcrumb li {
-  color: rgba(0, 0, 0, 0.5);
-  margin: 0;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
-  font-size: 1em;
-  font-style: inherit;
   font-weight: bold;
 }
 .breadcrumb li.active, .breadcrumb .divider {
@@ -1255,7 +1250,7 @@ button.chromeless, button.chromeless:hover {
   padding: 1px 5px;
   position: relative;
 }
-.icon-set {
+.glyphicon-set {
   position: absolute;
   right: 3px;
   top: 7px;
@@ -1264,11 +1259,15 @@ button.chromeless, button.chromeless:hover {
 .item .container {
   position: relativ;
 }
-[class^="icon-"], [class*=" icon-"] {
+[class^="glyphicon-"], [class*=" glyphicon-"] {
   cursor: pointer;
-  margin: 0 3px;
+  margin: 4px 10px;
 }
-.loading .icon-loading {
+.thumbnail + .glyphicon-set .glyphicon {
+    font-size: 0.9em;
+    margin: 0 5px;
+}
+.loading .glyphicon-loading {
   background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;
 }
 .loading .out {
@@ -1297,7 +1296,7 @@ button.chromeless, button.chromeless:hover {
 .up {
   top: -50px
 }
-.down_ {
+.down {
   top: 5px
 }
 .z0 {
@@ -1312,6 +1311,6 @@ button.chromeless, button.chromeless:hover {
 .rel {
   position: relative;
 }
-[class^="icon-"].active, [class*=" icon-"].active {
+[class^="glyphicon-"].active, [class*=" glyphicon-"].active {
   cursor: auto;
 }

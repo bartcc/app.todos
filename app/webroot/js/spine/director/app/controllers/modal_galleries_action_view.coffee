@@ -1,7 +1,7 @@
 Spine = require("spine")
 $      = Spine.$
 
-class Modal2ButtonView extends Spine.Controller
+class ModalGalleriesActionView extends Spine.Controller
   
   elements:
     '.modal-header'       : 'header'
@@ -13,7 +13,7 @@ class Modal2ButtonView extends Spine.Controller
     'click .btnOk'        : 'yes'
   
   template: (item) ->
-    $('#modal2ButtonTemplate').tmpl(item)
+    $('#modalGalleriesActionTemplate').tmpl(item)
     
   constructor: ->
     super
@@ -24,10 +24,12 @@ class Modal2ButtonView extends Spine.Controller
       header  : 'Default Header Text'
       body    : 'Default Body Text'
       footer  : 'Default Footer Text'
+      
+    $('.nav-tabs').button()
     
   render: ->
-    console.log 'Modal2ButtonView::render'
-    console.log @options
+    console.log 'ModalGalleriesActionView::render'
+    
     @html @template @options
     @el
       
@@ -36,11 +38,11 @@ class Modal2ButtonView extends Spine.Controller
     el = @render().modal 'show'
     
   yes: (e) ->
-    @el.modal 'hide'
+#    @el.modal 'hide'
     
   close: (e) ->
-    @el.modal 'hide'
+#    @el.modal 'hide'
     
   
     
-module?.exports = Modal2ButtonView
+module?.exports = ModalGalleriesActionView

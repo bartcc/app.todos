@@ -15,7 +15,7 @@
 <div id="main" class="view vbox flex">
   <header id="title" class="">
     <h1 class="left" style="line-height: 3em;"><a style="font-size: 3em;" href="/"><span class="chopin">Photo Director</span></a></h1>
-    <div id="login" class="right" style="line-height: 3em; margin-top: 20px;"></div>
+    <div id="login" class="right" style="line-height: 2em; margin: 15px 5px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views bg-medium hbox vdraggable">
@@ -33,11 +33,11 @@
         <ul class="items vbox flex autoflow"></ul>
         <footer class="footer">
           <button class="createGallery dark">
-            <i class="icon-plus icon-white"></i>
+            <i class="glyphicon glyphicon-plus glyphicon glyphicon-white"></i>
             <span>Gallery</span>
           </button>
           <button class="createAlbum dark">
-            <i class="icon-plus icon-white"></i>
+            <i class="glyphicon glyphicon-plus glyphicon glyphicon-white"></i>
             <span>Album</span>
           </button>
         </footer>
@@ -45,8 +45,8 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="content" class="views bg-medium vbox flex">
-      <div class="show view canvas vbox flex">
-        <ul class="options hbox navbar">
+      <div id="show" class="view canvas vbox flex">
+        <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
           <li class="splitter disabled flex"></li>
 <!--          <li class="optSlideshow"><button class="dark">Slideshow</button></li>-->
@@ -74,14 +74,14 @@
             <div class="hoverinfo in"></div>
             <div class="items flex">PHOTO</div>
           </div>
-          <div class="view slideshow content flex data parent autoflow">
+          <div id="slideshow" class="view content flex data parent autoflow">
             <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
           </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
           <div class="views canvas content vbox flex hdraggable">
             <div class="hdivide draghandle">
-              <span class="optClose icon-remove icon-white right"></span>
+              <span class="optClose glyphicon glyphicon-remove glyphicon glyphicon-white right"></span>
             </div>
             <div id="ga" class="view container flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
@@ -106,20 +106,20 @@
                       <div class="span6">
                           <!-- The fileinput-button span is used to style the file input field as button -->
                           <span class="btn dark fileinput-button">
-                              <i class="icon-plus icon-white"></i>
+                              <i class="glyphicon glyphicon-plus glyphicon glyphicon-white"></i>
                               <span>Add files...</span>
                               <input type="file" name="files[]" multiple>
                           </span>
                           <button type="submit" class="dark start">
-                              <i class="icon-upload icon-white"></i>
+                              <i class="glyphicon glyphicon-upload glyphicon glyphicon-white"></i>
                               <span>Start upload</span>
                           </button>
                           <button type="reset" class="dark cancel">
-                              <i class="icon-ban-circle icon-white"></i>
+                              <i class="glyphicon glyphicon-ban-circle glyphicon glyphicon-white"></i>
                               <span>Cancel upload</span>
                           </button>
                           <button type="button" class="dark delete">
-                              <i class="icon-remove icon-white"></i>
+                              <i class="glyphicon glyphicon-remove glyphicon glyphicon-white"></i>
                               <span>Clear List</span>
                           </button>
                           <!-- The loading indicator is shown during file processing -->
@@ -140,10 +140,10 @@
           </div>
         </div>
       </div>
-      <div class="overview canvas view content vbox flex data parent autoflow">
-        <ul class="navbar options">
+      <div id="overview" class="canvas view content vbox flex data parent autoflow">
+        <ul class="options">
           <li class="splitter disabled flex"></li>
-          <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="icon-remove icon-white"></span></li>
+          <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="glyphicon glyphicon-remove glyphicon glyphicon-white"></span></li>
         </ul>
         <div class="flex vbox">
           <div class="container canvas bg-medium clearfix">
@@ -163,8 +163,8 @@
           </div>
         </div>
       </div>
-      <div class="canvas edit view vbox flex">
-        <ul class="navbar options hbox">
+      <div id="edit" class="canvas view vbox flex">
+        <ul class="options hbox">
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="content container vbox flex autoflow"></div>
@@ -173,58 +173,69 @@
   </div>
 </div>
 <!-- modal-image-gallery -->
-<div id="modal-gallery" class="modal modal-gallery hide fade" data-slideshow="2000">
-    <div class="modal-header">
+<div id="modal-gallery" class="modal modal-gallery fade" data-slideshow="1000" style="display: none;">
+      <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
         <h3 class="modal-title"></h3>
         <h5><span class="left modal-captured"></span></h5>
         <h5><span class="modal-description"></span></h5>
         <h5><span class="right modal-model"></span></h5>
-    </div>
-    <div class="modal-body"><div class="modal-image"></div></div>
-    <div class="modal-footer">
-        <a class="btn modal-prev"><i class="icon-arrow-left"></i> Previous</a>
-        <a class="btn modal-next">Next <i class="icon-arrow-right"></i></a>
-        <a class="btn modal-play modal-slideshow" data-slideshow="2000"><i class="icon-pause"></i> Slideshow</a>
-        <a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
-    </div>
+      </div>
+      <div class="modal-body"><div class="modal-image"></div></div>
+      <div class="modal-footer">
+        <a class="btn modal-prev"><i class="glyphicon glyphicon-arrow-left"></i> Previous</a>
+        <a class="btn modal-next">Next <i class="glyphicon glyphicon-arrow-right"></i></a>
+        <a class="btn modal-play modal-slideshow" data-slideshow="2000"><i class="glyphicon glyphicon-pause"></i> Slideshow</a>
+        <a class="btn modal-download" target="_blank"><i class="glyphicon glyphicon-download"></i> Download</a>
+      </div>
 </div>
 <!-- modal-dialogue -->
-<div id="modal-view" class="modal hide fade"></div>
+<div id="modal-view" class="modal fade"></div>
 <!-- Templates -->
 <script id="modalSimpleTemplate" type="text/x-jquery-tmpl">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>${header}</h3>
-  </div>
-  <div class="modal-body">
-    <p>{{html body}}</p>
-  </div>
-  {{if info}}
-  <div class="modal-header label-info">
-    <div class="label label-info">${info}</div>
-  </div>
-  {{/if}}
-  <div class="modal-footer">
-    <button class="btn btnClose">Ok</button>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>${header}</h3>
+      </div>
+      <div class="modal-body">
+        <p>{{html body}}</p>
+      </div>
+      {{if info}}
+      <div class="modal-header label-info">
+        <div class="label label-info">${info}</div>
+      </div>
+      {{/if}}
+      <div class="modal-footer">
+        <button class="btn btnClose">Ok</button>
+      </div>
+    </div>
   </div>
 </script>
 
 <script id="modal2ButtonTemplate" type="text/x-jquery-tmpl">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>${header}</h3>
-  </div>
-  <div class="modal-body">
-    <p>{{html body}}</p>
-  </div>
-  {{if info}}
-  <div class="modal-header">
-    <div class="label label-warning">${info}</div>
-  </div>
-  {{/if}}
-  <div class="modal-footer">
-    <button class="btn btnClose" data-dismiss="modal" aria-hidden="true">OK</button>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>${header}</h3>
+      </div>
+      <div class="modal-body content">
+        <ul class="items">
+          ${body}
+        </ul>
+      </div>
+      {{if info}}
+      <div class="modal-header">
+        <div class="label label-warning">${info}</div>
+      </div>
+      {{/if}}
+      <div class="modal-footer">
+        <button class="btn btnOk" data-dismiss="modal" aria-hidden="true">OK</button>
+        <button type="button" class="btn btnAlt">Save changes</button>
+      </div>
+    </div>
   </div>
 </script>
 
@@ -284,20 +295,66 @@
         {{tmpl($item.data.details()) "#galDetailsTemplate"}}
       </div>
     </div>
-    <div class="icon-set fade out" style="">
-      <span class="zoom icon-eye-open icon-white left"></span>
-      <span class="back icon-chevron-up icon-white left"></span>
-      <span class="delete icon-trash icon-white right"></span>
+    <div class="glyphicon-set fade out" style="">
+      <span class="zoom glyphicon glyphicon-eye-open glyphicon-white left"></span>
+      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
+      <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     </div>
     <div class="title">{{if name}}{{html name}}{{else}}no name{{/if}}</div>
   </li>
+</script>
+
+<script id="modalGalleriesActionTemplate" type="text/x-jquery-tmpl">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>${header}</h3>
+  </div>
+  <div class="modal-body content">
+    <div class="items btn-group" data-toggle="buttons">
+      {{tmpl($item.data.body) "#galleryActionTemplate"}}
+    </div>
+  </div>
+  <div class="modal-footer">
+    {{if info}}
+    <div class="left label label-warning">${info}</div>
+    {{/if}}
+    <button class="btn btnOk" data-dismiss="modal" aria-hidden="true">OK</button>
+    <button type="button" class="btn btnAlt">Save changes</button>
+  </div>
+</script>
+
+<script id="galleryActionTemplate" type="text/x-jquery-tmpl">
+  <label class="btn btn-primary">
+    <input type="radio" name="options" id="option1">${name}
+  </label>
+</script>
+
+<script id="defaultActionTemplate" type="text/x-jquery-tmpl">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>${header}</h3>
+  </div>
+  <div class="modal-body content">
+  {{if body}}
+    {{html body}}
+  {{/if}}
+  </div>
+  {{if info}}
+  <div class="modal-header">
+    <div class="label label-warning">${info}</div>
+  </div>
+  {{/if}}
+  <div class="modal-footer">
+    <button class="btn btnOk" data-dismiss="modal" aria-hidden="true">OK</button>
+    <button type="button" class="btn btnAlt">Save changes</button>
+  </div>
 </script>
 
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
   <div style="font-size: 0.8em; font-style: oblique; ">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique; ">Images: ${iCount}</div>
   {{if sCount}}
-  <div style="font-size: 0.8em; font-style: oblique; "><span class="label info">Slideshow Images: ${sCount}</span></div>
+  <div style="font-size: 0.8em; font-style: oblique; "><span class="label label-default">Slideshow Images: ${sCount}</span></div>
   <div style="font-size: 0.8em; font-style: oblique; ">(press space to play)</div>
   {{/if}}
 </script>
@@ -321,10 +378,10 @@
   <li class="item container fade in sortable">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail left"></div>
-    <div class="icon-set fade out" style="">
-      <span class="zoom icon-eye-open icon-white left"></span>
-      <span class="back icon-chevron-up icon-white left"></span>
-      <span class="icon-loading delete icon-trash icon-white right"></span>
+    <div class="glyphicon-set fade out" style="">
+      <span class="zoom glyphicon glyphicon-eye-open glyphicon glyphicon-white left"></span>
+      <span class="back glyphicon glyphicon-chevron-up glyphicon glyphicon-white left"></span>
+      <span class="glyphicon glyphicon-loading delete glyphicon glyphicon-trash glyphicon glyphicon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}no title{{/if}}</div>
     <div class="title" style="font-size: 0.5em">${order}</div>
@@ -347,7 +404,7 @@
 </script>
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader z2" style="padding-top: 33px; height: 55px;">
+  <section class="top viewheader z2" style="padding-top: 15px; height: 78px;">
     <h2>Gallery Overview</h2><span class="active cta right"><h2>${count}</h2></span>
   </section>
 </script>
@@ -355,7 +412,7 @@
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
   <section class="top viewheader z2 {{if record == ''}}red{{/if}}">
     {{if record}}
-    Author:   <span class="label">${author}</span>
+    Author:   <span class="label label-default">${author}</span>
     <br><br>
     <h2>Gallery: </h2>
     <label class="h2 chopin">{{if record.name}}${record.name}{{else}}no name{{/if}}</label>
@@ -369,21 +426,26 @@
   <section class="left">
     <span class="breadcrumb">
       <li class="gal">
-        <a href="#">Galleries</a> <span class="">/</span>
+        <a href="#">Galleries</a>
       </li>
       <li class="alb active">Albums</li>
     </span>
   </section>
-  <section class="right">
+  <section class="right hide">
     <span class="breadcrumb move">
       <li class="optAlbumActionCopy">
-        <a href="#"><i class="icon-share-alt"></i>Copy</a>
+        <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
+      </li>
+      <li class="optAlbumActionMove">
+        <span class="">
+          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Move</a>
+        </span>
       </li>
       <li>
-        <a href="#"><i class="icon-ok"></i></a>
+        <a href="#"><i class="glyphicon glyphicon-ok"></i></a>
       </li>
       <li>
-        <a href="#"><i class="icon-remove"></i></a>
+        <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
       </li>
     </span>
   </section>
@@ -398,7 +460,7 @@
   <span class="author">${flash}</span>
   {{else}}
   <li class="sublist-item alb item data" draggable="true" title="move (Hold Cmd-Key to Copy)">
-    <span class="icon icon-folder-close ui-symbol-album"></span>
+    <span class="glyphicon glyphicon-folder-close ui-symbol-album"></span>
     <span class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
@@ -415,8 +477,8 @@
 </script>
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
-  Author:  <span class="label">${author}</span>
-  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}Gallery was not found{{/if}}</span>
+  Author:  <span class="label label-default">${author}</span>
+  Gallery:  <span class="label label-default">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}Gallery was not found{{/if}}</span>
   <br><br>
   <h2>Album: </h2>
   <label class="h2 chopin">{{if album.title}}${album.title}{{else}}no title{{/if}}</label>
@@ -427,9 +489,9 @@
 </script>
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
-  Author:  <span class="label">{{if author}}${author}{{/if}}</span>
-  Gallery:  <span class="label">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}Gallery was not found{{/if}}</span>
-  Album:  <span class="label">{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}Album was not found{{/if}}</span>
+  Author:  <span class="label label-default">{{if author}}${author}{{/if}}</span>
+  Gallery:  <span class="label label-default">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}Gallery was not found{{/if}}</span>
+  Album:  <span class="label label-default">{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}Album was not found{{/if}}</span>
   <br><br>
   <h2>Photo:  </h2>
   <label class="h2 chopin">
@@ -464,6 +526,7 @@
 <script id="photosSlideshowTemplate" type="text/x-jquery-tmpl">
   <li  class="item data container fade in">
     <div class="thumbnail image left" draggable="true"></div>
+    <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
 
@@ -475,17 +538,17 @@
 
 <script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fade in" draggable="true"></div>
-  <div class="icon-set fade out" style="">
-    <span class="zoom icon-eye-open icon-white left"></span>
-    <span class="back icon-chevron-up icon-white left"></span>
-    <span class="delete icon-trash icon-white right"></span>
+  <div class="glyphicon glyphicon-set fade out" style="">
+    <span class="zoom glyphicon glyphicon-eye-open glyphicon-white left"></span>
+    <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
+    <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
   </div>
 </script>
 
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fade in" draggable="true"></div>
-  <div class="icon-set fade out" style="">
-    <span class="back icon-chevron-up icon-white right"></span>
+  <div class="glyphicon glyphicon-set fade out" style="">
+    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
   </div>
   <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
 </script>
@@ -508,20 +571,31 @@
   <section class="left">
     <span class="breadcrumb">
       <li class="gal">
-        <a href="#">Galleries</a> <span class="">/</span>
+        <a href="#">Galleries</a>
       </li>
       <li class="alb">
-        <a href="#">Albums</a> <span class="">/</span>
+        <a href="#">Albums</a>
       </li>
       <li class="pho active">Photos</li>
     </span>
   </section>
-  <section class="right">
+  <section class="right hide">
     <span class="breadcrumb move">
       <li class="optPhotoActionCopy">
         <span class="">
-          <a href="#"><i class="icon-share-alt"></i>Copy</a>
+          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
         </span>
+      </li>
+      <li class="optPhotoActionMove">
+        <span class="">
+          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Move</a>
+        </span>
+      </li>
+      <li>
+        <a href="#"><i class="glyphicon glyphicon-ok"></i></a>
+      </li>
+      <li>
+        <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
       </li>
     </span>
   </section>
@@ -534,22 +608,27 @@
   <section class="left">
     <span class="breadcrumb">
       <li class="gal">
-        <a href="#">Galleries</a> <span class="">/</span>
+        <a href="#">Galleries</a>
       </li>
       <li class="alb">
-        <a href="#">Albums</a> <span class="">/</span>
+        <a href="#">Albums</a>
       </li>
       <li class="pho">
-        <a href="#">Photos</a> <span class="">/</span>
+        <a href="#">Photos</a>
       </li>
       <li class="active">{{if src}}${src}{{else}}deleted{{/if}}</li>
     </span>
   </section>
-  <section class="right">
+  <section class="right hide">
     <span class="breadcrumb move">
       <li class="optAction">
         <span class="">
-          <a href="#"><i class="icon-share-alt"></i>Copy</a>
+          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
+        </span>
+      </li>
+      <li class="optAction">
+        <span class="">
+          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Move</a>
         </span>
       </li>
     </span>
@@ -582,7 +661,7 @@
     <{{if type}}${type} class="tb-name {{if innerklass}}${innerklass}{{/if}}"{{else}}button class="dark {{if innerklass}}${innerklass}{{/if}}" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
     {{if innerstyle}} style="${innerstyle}"{{/if}}
     {{if disabled}}disabled{{/if}}>
-    {{if icon}}<i class="icon-${icon}  {{if iconcolor}}icon-${iconcolor}{{/if}}"></i>{{/if}}{{html name}}
+    {{if icon}}<i class="glyphicon glyphicon-${icon}  {{if iconcolor}}glyphicon glyphicon-${iconcolor}{{/if}}"></i>{{/if}}{{html name}}
     </{{if type}}${type}{{else}}button{{/if}}>
   </li>
   {{/if}}
@@ -604,7 +683,7 @@
   {{if devider}}
   <li class="divider"></li>
   {{else}}
-  <li><a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}}"><i class="icon-{{if icon}}${icon} {{if iconcolor}}icon-${iconcolor}{{/if}}{{/if}}"></i>${name}</a></li>
+  <li><a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}}"><i class="glyphicon glyphicon-{{if icon}}${icon} {{if iconcolor}}glyphicon glyphicon-${iconcolor}{{/if}}{{/if}}"></i>${name}</a></li>
   {{/if}}
 </script>
 
@@ -656,13 +735,13 @@
         <td>
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
                 <button class="dark start">
-                    <i class="icon-upload icon-white"></i>
+                    <i class="glyphicon glyphicon-upload glyphicon glyphicon-white"></i>
                     <span>Start</span>
                 </button>
             {% } %}
             {% if (!i) { %}
                 <button class="dark cancel">
-                    <i class="icon-ban-circle icon-white"></i>
+                    <i class="glyphicon glyphicon-ban-circle glyphicon glyphicon-white"></i>
                     <span>Cancel</span>
                 </button>
             {% } %}
@@ -676,7 +755,7 @@
     <tr class="template-download fade dark">
         <td>
             <button class="dark delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                <i class="icon-remove icon-white"></i>
+                <i class="glyphicon glyphicon-remove glyphicon glyphicon-white"></i>
                 <span></span>
             </button>
         </td>

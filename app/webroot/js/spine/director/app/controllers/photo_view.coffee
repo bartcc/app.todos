@@ -27,7 +27,7 @@ class PhotoView extends Spine.Controller
     'dragenter'                       : 'dragenter'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
-    'click .icon-set .back'           : 'back'
+    'click .glyphicon-set .back'           : 'back'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -148,12 +148,12 @@ class PhotoView extends Spine.Controller
   
   infoUp: (e) =>
     @info.up(e)
-    el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     e.preventDefault()
     
   infoBye: (e) =>
     @info.bye()
-    el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
     
   stopInfo: (e) =>

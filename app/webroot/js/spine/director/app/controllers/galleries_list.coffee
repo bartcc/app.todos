@@ -15,10 +15,10 @@ class GalleriesList extends Spine.Controller
   
   events:
     'click .item'             : 'click'
-    'click .icon-set .back'   : 'back'
+    'click .glyphicon-set .back'   : 'back'
     'dblclick .item'          : 'zoom'
-    'click .icon-set .delete' : 'deleteGallery'
-    'click .icon-set .zoom'   : 'zoom'
+    'click .glyphicon-set .delete' : 'deleteGallery'
+    'click .glyphicon-set .zoom'   : 'zoom'
     'mousemove .item'         : 'infoUp'
     'mouseleave .item'        : 'infoBye'
   
@@ -111,9 +111,10 @@ class GalleriesList extends Spine.Controller
   click: (e) ->
     console.log 'GalleryList::click'
     item = $(e.currentTarget).item()
-    if Spine.albumCopyList
-      albums = Spine.albumCopyList
-    Gallery.trigger('action', albums, item)
+#    if Album
+#    if Album.copyList.length
+#      Album.trigger('action', Album.copyList, item, Album.origin)
+#      Album.copyList = []
     @select item
     App.showView.trigger('change:toolbarOne', ['Default'])
     
@@ -152,11 +153,11 @@ class GalleriesList extends Spine.Controller
     e.stopPropagation()
     
   infoUp: (e) =>
-    el = $('.icon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     e.preventDefault()
     
   infoBye: (e) =>
-    el = $('.icon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
 
 module?.exports = GalleriesList

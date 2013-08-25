@@ -37,6 +37,6 @@ class ModalSimpleView extends Spine.Controller
     
   close: (e) ->
     @el.modal 'hide'
-    App.showView.showPrevious()
+#    App.showView.showPrevious()
     
 module?.exports = ModalSimpleView

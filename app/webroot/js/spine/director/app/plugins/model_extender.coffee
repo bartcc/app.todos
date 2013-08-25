@@ -94,8 +94,7 @@ Model.Extender =
         list = @selectionList()
         unless @isArray idOrList
           ids = [idOrList]
-        for id in idOrList
-          index = list.indexOf(id)
+        for id, index in idOrList
           list.splice(index, 1) unless index is -1
         @trigger('change:selection', list)
         list

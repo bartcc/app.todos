@@ -44,7 +44,7 @@ class ShowView extends Spine.Controller
     '.albums'                 : 'albumsEl'
     '.photos'                 : 'photosEl'
     '.photo'                  : 'photoEl'
-    '.slideshow'              : 'slideshowEl'
+    '#slideshow'              : 'slideshowEl'
     
     '.slider'                 : 'slider'
     '.optAlbum'               : 'btnAlbum'
@@ -153,7 +153,7 @@ class ShowView extends Spine.Controller
     Photo.bind('refresh', @proxy @refreshToolbars)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
     
-    @sOutValue = 140 # size thumbs initially are shown (slider setting)
+    @sOutValue = 160 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @current = @galleriesView
     
@@ -171,15 +171,16 @@ class ShowView extends Spine.Controller
     @headerManager.change @galleriesHeader
     @trigger('change:toolbarOne')
     
-  previousLocation: ->
+  previousLocation: (sameAllowed) ->
     console.log 'ShowView::previousLocation'
-    if @prevLocation is location.hash
+#    return @prevLocation
+    if @prevLocation is location.hash 
       return '/galleries/'
     else
       @prevLocation
     
   canvas: (controller) ->
-    console.log 'ShowView::changeCanvas'
+    console.log 'ShowView::canvas'
     @previous = @current unless @current.subview
     @current = controller
     @prevLocation = location.hash
@@ -258,7 +259,7 @@ class ShowView extends Spine.Controller
       @showAlbumMasters()
       
   createPhotoMove: (photos=Album.selectionList(), target = Album.record) ->
-    Spine.trigger('create:album', photos, target, origin:Album.record)
+    Photo.trigger('create:join', photos, target, origin:Album.record)
     
     if Gallery.record
       @navigate '/gallery', Gallery.record.id#, Album.last().id
@@ -360,7 +361,7 @@ class ShowView extends Spine.Controller
     @refreshToolbars()
 
   toggleSlideshowAutoStart: ->
-    res = App.slideshow.options.toggleAutostart()
+    res = App.slideshow.data('bs.modal').options.toggleAutostart()
     @refreshToolbars()
     res
     
@@ -419,7 +420,7 @@ class ShowView extends Spine.Controller
     
     height = ->
       App.hmanager.currentDim
-      if hasActive() then parseInt(App.hmanager.currentDim)+'px' else '18px'
+      if hasActive() then parseInt(App.hmanager.currentDim)+'px' else '25px'
     
     @views.animate
       height: height()
@@ -529,16 +530,6 @@ class ShowView extends Spine.Controller
   slideshowPlay: (e) =>
     @navigate '/slideshow', (Math.random() * 16 | 0), 1
     
-  activePhotos_: ->
-    phos = []
-    albs =[]
-    albs.push itm for itm in Gallery.selectionList()
-    for alb in albs
-      if album = Album.exists(alb)
-        photos = album.photos() or []
-        phos.push pho for pho in photos
-    phos
-    
   showOverview: (e) ->
     @navigate '/overview/'
 
@@ -546,16 +537,19 @@ class ShowView extends Spine.Controller
     @slideshowMode = App.SILENTMODE
     @navigate '/slideshow/'
     
-  showPrevious: ->
-    @navigate @previousLocation()
+  showPrevious: (sameAllowed) ->
+    loc = @previousLocation(sameAllowed)
+    console.log loc
+    @navigate loc
   
   showModal: (options) ->
     opts =
-      header: 'Neuer Header'
-      body  : 'Neuer Body'
-      footer: 'Neuer Footer'
+      header: 'New Header'
+      body  : Gallery.all()
+      footer: 'New Footer'
+      info  : 'Test Info'
     opts = $.extend({}, opts, options)
-    @modalView.show(opts)
+    App.modalGalleriesActionView.show(opts)
     
   showPhotosTrash: ->
     Photo.inactive()

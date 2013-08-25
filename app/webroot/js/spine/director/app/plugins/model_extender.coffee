@@ -114,6 +114,9 @@ Model.Extender =
       toID: (records = @records) ->
         record.id for record in records
       
+      toRecords: (ids) ->
+        @find id for id in ids
+      
       successHandler: (data, status, xhr) ->
         
       errorHandler: (record, xhr, statusText, error) ->

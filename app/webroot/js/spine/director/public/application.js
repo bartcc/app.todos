@@ -18414,14 +18414,12 @@ $.effects.effect.slide = function( o, done ) {
                 options = this.options,
                 selector = options.selector,
                 links;
-          //console.log(options.filter)
           links = $(options.delegate).find(selector)
                 .filter(options.filter).each(function (index) {
                     if ($this.getUrl(this) === options.href) {
                         options.index = index;
                     }
                 });
-          console.log(links)
         },
         initLinks: function () {
             var $this = this,
@@ -18592,7 +18590,6 @@ $.effects.effect.slide = function( o, done ) {
         next: function () {
             var options = this.options;
             options.index += 1;
-            console.log(this.$links);
             if (options.index > this.$links.length - 1) {
                 options.index = 0;
             }
@@ -25901,9 +25898,7 @@ if (typeof JSON !== 'object') {
       console.log('AlbumsView::create');
       console.log(list);
       cb = function(result) {
-        if (target) {
-          this.createJoin(target);
-        }
+        this.createJoin(target);
         Photo.trigger('create:join', list, this);
         if ((options != null ? options.origin : void 0) != null) {
           Photo.trigger('destroy:join', list, options.origin);
@@ -29004,30 +28999,30 @@ if (typeof JSON !== 'object') {
     };
 
     ShowView.prototype.createPhotoCopy = function(photos, target) {
-      var _ref;
-      if (target == null) {
-        target = Album.record;
+      var gallery;
+      if (photos == null) {
+        photos = Photo.toRecords(Album.selectionList());
       }
-      Photo.trigger('create:join', photos, target);
-      if (target) {
-        return this.navigate('/gallery', (_ref = Gallery.record) != null ? _ref.id : void 0);
+      Spine.trigger('create:album', photos, target);
+      gallery = Gallery.record;
+      if (gallery != null ? gallery.id : void 0) {
+        return this.navigate('/gallery', gallery.id, target.id);
       } else {
         return this.showAlbumMasters();
       }
     };
 
     ShowView.prototype.createPhotoMove = function(photos, target) {
+      var gallery;
       if (photos == null) {
-        photos = Album.selectionList();
+        photos = Photo.toRecords(Album.selectionList());
       }
-      if (target == null) {
-        target = Album.record;
-      }
-      Photo.trigger('create:join', photos, target, {
+      Spine.trigger('create:album', photos, target, {
         origin: Album.record
       });
-      if (Gallery.record) {
-        return this.navigate('/gallery', Gallery.record.id);
+      gallery = Gallery.record;
+      if (gallery != null ? gallery.id : void 0) {
+        return this.navigate('/gallery', gallery.id, Album.last().id);
       } else {
         return this.showAlbumMasters();
       }
@@ -34222,6 +34217,15 @@ if (typeof JSON !== 'object') {
           for (_i = 0, _len = records.length; _i < _len; _i++) {
             record = records[_i];
             _results.push(record.id);
+          }
+          return _results;
+        },
+        toRecords: function(ids) {
+          var id, _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = ids.length; _i < _len; _i++) {
+            id = ids[_i];
+            _results.push(this.find(id));
           }
           return _results;
         },

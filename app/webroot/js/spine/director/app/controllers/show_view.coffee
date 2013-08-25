@@ -250,19 +250,23 @@ class ShowView extends Spine.Controller
     e.preventDefault()
     e.preventDefault()
   
-  createPhotoCopy: (photos, target = Album.record) ->
-    Photo.trigger('create:join', photos, target)
+  createPhotoCopy: (photos=Photo.toRecords(Album.selectionList()), target) ->
+#    Photo.trigger('create:join', photos, target)
+    Spine.trigger('create:album', photos, target)
+    gallery = Gallery.record
     
-    if target
-      @navigate '/gallery', Gallery.record?.id#, target.id
+    if gallery?.id
+      @navigate '/gallery', gallery.id, target.id
     else
       @showAlbumMasters()
       
-  createPhotoMove: (photos=Album.selectionList(), target = Album.record) ->
-    Photo.trigger('create:join', photos, target, origin:Album.record)
+  createPhotoMove: (photos=Photo.toRecords(Album.selectionList()), target) ->
+    Spine.trigger('create:album', photos, target, origin:Album.record)
+    gallery = Gallery.record
     
-    if Gallery.record
-      @navigate '/gallery', Gallery.record.id#, Album.last().id
+    if gallery?.id
+      
+      @navigate '/gallery', gallery.id, Album.last().id
     else
       @showAlbumMasters()
   

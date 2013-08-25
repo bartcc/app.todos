@@ -144,7 +144,7 @@ class AlbumsView extends Spine.Controller
     console.log list
     
     cb = (result) ->
-      @createJoin(target) if target
+      @createJoin(target)
       # Have photos moved/copied to the new album
       Photo.trigger('create:join', list, @)
       Photo.trigger('destroy:join', list, options.origin) if options?.origin?

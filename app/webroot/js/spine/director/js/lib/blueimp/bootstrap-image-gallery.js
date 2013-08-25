@@ -68,14 +68,12 @@
                 options = this.options,
                 selector = options.selector,
                 links;
-          //console.log(options.filter)
           links = $(options.delegate).find(selector)
                 .filter(options.filter).each(function (index) {
                     if ($this.getUrl(this) === options.href) {
                         options.index = index;
                     }
                 });
-          console.log(links)
         },
         initLinks: function () {
             var $this = this,
@@ -246,7 +244,6 @@
         next: function () {
             var options = this.options;
             options.index += 1;
-            console.log(this.$links);
             if (options.index > this.$links.length - 1) {
                 options.index = 0;
             }

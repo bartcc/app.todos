@@ -365,10 +365,14 @@
       <label>
         <span class="enlightened">Gallery - Name</span>
       </label>
+      <br>
       <input class="name" data-toggle="tooltip" placeholder="gallery name" data-placement="right" data-trigger="manual" data-title="Press Enter to save" data-content="${name}" type="text" name="name" value="${name}">
+      <br>
+      <br>
       <label>
         <span class="enlightened">Description</span>
       </label>
+      <br>
       <textarea name="description">${description}</textarea>
     </div>
   </div>
@@ -392,10 +396,14 @@
   <label class="">
     <span class="enlightened">Album Title</span>
   </label>
+  <br>
   <input placeholder="album title" type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
+  <br>
+  <br>
   <label class="">
     <span class="enlightened">Description</span>
   </label>
+  <br>
   <textarea name="description">${description}</textarea>
 </script>
 
@@ -508,10 +516,14 @@
   <label class="">
     <span class="enlightened">Photo Title</span>
   </label>
+  <br>
   <input placeholder="${src}" type="text" name="title" value="{{if title}}${title}{{else}}{{if src}}${src}{{/if}}{{/if}}" >
+  <br>
+  <br>
   <label class="">
     <span class="enlightened">Description</span>
   </label>
+  <br>
   <textarea name="description">${description}</textarea>
 </script>
 

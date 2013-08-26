@@ -34,6 +34,7 @@
     echo $this->Html->css('blueimp/bootstrap-image-gallery');
     echo $this->Html->css('blueimp/jquery.fileupload-ui');
     echo $this->Html->css('html5sortable/jquery.sortable');
+    echo $this->Html->css('/js/spine/director/public/application');
 
     echo $this->Html->scriptStart();
     ?>

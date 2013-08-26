@@ -45,7 +45,6 @@ class SlideshowView extends Spine.Controller
         
   render: (items) ->
     console.log 'SlideshowView::render'
-    console.log items
     @items.html @template items
     @uri items
     @refreshElements()

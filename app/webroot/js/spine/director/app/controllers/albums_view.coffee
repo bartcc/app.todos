@@ -62,14 +62,14 @@ class AlbumsView extends Spine.Controller
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('show:allAlbums', @proxy @render)
     Spine.bind('create:album', @proxy @create)
-    Album.bind('change', @proxy @change)
+    Album.bind('update create', @proxy @change)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
-    Spine.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedGallery', @proxy @changeGallery)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
     Spine.bind('loading:start', @proxy @loadingStart)
@@ -84,21 +84,29 @@ class AlbumsView extends Spine.Controller
   change: (item, mode) ->
     console.log 'AlbumsView::change'
     
-    # ommit a complete rendering on resorting
-    # on anything else it's ok
-    return if (item.constructor.className is 'GalleriesAlbum') and (mode is 'update') or !item
-    @render()
+    return unless item
+    @render(item, mode)
+    
+  changeGallery: (item, mode) ->
+    console.log 'AlbumsView::changeGallery'
+    console.log mode
+    
+    return unless item
+    return if mode is 'update'
+    @render(item, mode)
     
   render: (item, mode) ->
     console.log 'AlbumsView::render'
     @header.render()
     
     unless Gallery.record
-      items = Album.filter() unless mode is 'update'
+      unless mode is ('update' or 'create')
+        items = Album.filter()
     else
       items = Album.filterRelated(Gallery.record.id, @filterOptions)
       
-    list = @list.render items unless mode is 'update'
+    unless mode is ('update' or 'create')
+      list = @list.render items
     list.sortable('album')
     
 
@@ -180,13 +188,14 @@ class AlbumsView extends Spine.Controller
 
   createAlbum: (albums, target=Gallery.record) ->
     if target
-      @createJoin(albums, target=Gallery.record)
+      @createJoin(albums, target)
   
   createJoin: (albums, target=Gallery.record) ->
-    return unless target and target.constructor.className is 'Gallery'
+    console.log 'AlbumsView::createJoin'
+#    return unless target and target.constructor.className is 'Gallery'
 
     for album in albums
-      album.createJoin target
+      album.createJoin target if target
       
     Album.trigger('activate', [album.id])
     

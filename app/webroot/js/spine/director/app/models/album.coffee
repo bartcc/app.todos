@@ -106,6 +106,7 @@ class Album extends Spine.Model
   selChange: (list) ->
   
   createJoin: (target) ->
+    return unless target
     ga = new GalleriesAlbum
       gallery_id  : target.id
       album_id    : @id

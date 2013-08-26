@@ -33,7 +33,7 @@ class AlbumsList extends Spine.Controller
     super
     # initialize flickr's slideshow
 #    @el.toggleSlideshow()
-    Album.bind('update destroy', @proxy @change)
+    Album.bind('destroy', @proxy @destroy)
     Album.bind("ajaxError", Album.errorHandler)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
@@ -41,17 +41,16 @@ class AlbumsList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     Album.bind('activate', @proxy @activate)
     
-  change: (album, mode, options) ->
-    switch mode
-      when 'update'
-        return
-        @updateTemplate(album)
-      when 'destroy'
-        @children().forItem(album, true).remove()
+  destroy: (album, mode, options) ->
+    @children().forItem(album, true).remove()
     @refreshElements()
   
   changeRelatedAlbum: (item, mode) ->
-    # if we change a different gallery from within the sidebar, should not be reflected here
+    console.log 'AlbumsList::changeRelatedAlbum'
+    console.log item
+    console.log mode
+    # if we change a different gallery from within the sidebar, it should not be reflected here
+    return unless Gallery.record
     return unless Gallery.record.id is item['gallery_id']
     return unless album = Album.exists(item['album_id'])
     
@@ -70,15 +69,13 @@ class AlbumsList extends Spine.Controller
           @parent.render() unless gallery.count()
           
       when 'update'
-        album = Album.exists(item['album_id'])
-        @change(album, mode)
         @el.sortable('destroy').sortable('album')
         
     Album.trigger('activate', Gallery.selectionList())
     @el
   
   render: (items=[], mode) ->
-    console.log 'AlbumsList::render'
+    console.log 'AlbumsList::render ' + items.length
     if items.length
       @html @template items
     else

@@ -28,7 +28,7 @@
 	<?php
 		echo $this->Html->meta('icon');
   
-  echo $this->Html->css('twitter/bootstrap/bootstrap');
+  echo $this->Html->css('twitter/bootstrap/css/bootstrap');
   echo $this->Html->css('app');
         
 		echo $scripts_for_layout;

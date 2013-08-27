@@ -129,7 +129,7 @@
                       <div class="span3 fileupload-progress fade">
                           <!-- The global progress bar -->
                           <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                              <div class="bar" style="width:0%;"></div>
+                              <div class="progress-bar" style="width:0%;"></div>
                           </div>
                       </div>
                   </div>
@@ -741,7 +741,7 @@
         <td>
             <p class="size">{%=o.formatFileSize(file.size)%}</p>
             {% if (!o.files.error) { %}
-                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar" style="width:0%;"></div></div>
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar" style="width:0%;"></div></div>
             {% } %}
         </td>
         <td>

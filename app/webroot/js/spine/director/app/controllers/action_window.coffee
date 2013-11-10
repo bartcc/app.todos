@@ -12,7 +12,7 @@ class ActionWindow extends Spine.Controller
     'click .previous'    : 'prevClick'
     'click .next'        : 'nextClick'
 #    'click .copy'        : 'startAlbumActionCopy'
-    'submit form'        : 'startPhotoActionCopy'
+    'submit form'        : 'startActionCopy'
 
   constructor: ->
     super
@@ -25,7 +25,7 @@ class ActionWindow extends Spine.Controller
     @modal.bind('shown.bs.modal', @proxy @setStatus)
     @modal.bind('hide.bs.modal', @proxy @setStatus)
     @renderTypeList = ['Gallery', 'Album']
-    @currentRenderType = @renderTypeList[0]
+    @renderType = @renderTypeList[0]
     @render()
   
   prevClick: (e) ->
@@ -41,7 +41,7 @@ class ActionWindow extends Spine.Controller
     @render()
   
   setRenderType: (type) ->
-    @currentRenderType = type
+    @renderType = type
   
   setStatus: (sts) ->
     switch sts.type
@@ -55,19 +55,21 @@ class ActionWindow extends Spine.Controller
     $("#modalActionTemplate").tmpl(items)
     
   render: ->
-    return if @renderTypeList.indexOf(@currentRenderType) is -1
-    t = {}
+    return if @renderTypeList.indexOf(@renderType) is -1
     gItems = Gallery.records
     gItems = gItems.sort Gallery.nameSort
+    
     aItems = Album.records
     aItems = aItems.sort Album.nameSort
+    
+    t = {}
     t['Gallery'] = gItems
     t['Album'] = aItems
       
-    @items = t[@currentRenderType]
+    @items = t[@renderType]
     pages = @getPages(@items)
     @html @template
-      text: 'Select ' + @currentRenderType
+      text: 'Select ' + @renderType
       items: => @items[pages.start..pages.end]
       min: @curPage is 0
       max: @curPage+1 >= @items.length/@maxItemsInPage
@@ -99,13 +101,17 @@ class ActionWindow extends Spine.Controller
     @el.modal('toggle')
     @render() if @visible is true
     
-  startPhotoActionCopy: (e) ->
+  startActionCopy: (e) ->
     e.stopPropagation()
     e.preventDefault()
+    @['actionCopyTo' + @renderType]()
+  
+  actionCopyToGallery: ->
     @close()
-    res = []
     checkbox = $('.remove[type=checkbox]', @form)
     remove = checkbox[0].checked
+    
+    res = []
     for input in $(@form).find('.active [type=radio]')
       res.push $(input).attr('id')
     if gallery = Gallery.exists res[0]
@@ -113,17 +119,25 @@ class ActionWindow extends Spine.Controller
       for id in albums
         if album = Album.exists id
           photos = album.photos()
-#    Spine.photoCopyList = Album.toID(photos)
           App.showView.copyPhotosToNewAlbum(photos, gallery)
-#          console.log album
-#          console.log photos
-#          console.log target
-#    return
+
+    # open edit-panel
+    App.showView.btnAlbum.click()
     
-#    res = []
-#    for input in $(@form).find('.active [type=radio]')
-#      res.push $(input).attr('id')
-#    if gallery = Gallery.exists res[0]
+  actionCopyToAlbum: ->
+    @close()
+    checkbox = $('.remove[type=checkbox]', @form)
+    remove = checkbox[0].checked
+    
+    res = []
+    for input in $(@form).find('.active [type=radio]')
+      res.push $(input).attr('id')
+      
+    photos = Photo.toRecords Album.selectionList()
+    if album = Album.exists res[0]
+      App.showView.copyPhotosToAlbum(photos, album)
+
+    # open edit-panel
     App.showView.btnAlbum.click()
     
 module.exports = ActionWindow

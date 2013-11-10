@@ -257,10 +257,7 @@ class ShowView extends Spine.Controller
   copyPhotosToAlbum: (photos, album) ->
     Photo.trigger('create:join', photos, album)
     
-    if gallery?.id
-      @navigate '/gallery', gallery.id, album.id
-    else
-      @showAlbumMasters()
+    @navigate '/gallery', null, album.id
       
   copyPhotosToNewAlbum: (photos, gallery=Gallery.record) ->
     Spine.trigger('create:album', photos, gallery)
@@ -419,7 +416,6 @@ class ShowView extends Spine.Controller
     
   toggleView: (controller, control) ->
     console.log 'toggleView'
-    console.log controller
     isActive = controller.isActive()
     
     if(isActive)
@@ -564,7 +560,7 @@ class ShowView extends Spine.Controller
     @navigate '/gallery/'
     
   showPhotoMasters: ->
-    Gallery.emptySelection()
+#    Gallery.emptySelection()
     @navigate '/gallery//'
 
 module?.exports = ShowView

@@ -180,6 +180,7 @@ class PhotosView extends Spine.Controller
         @list.el.sortable('destroy').sortable('photos')
       
   createJoin: (photos, album, deleteTarget) ->
+    # photos must be an array filled with type Photo
     console.log 'PhotosView::createJoin'
 #    alert 'no array' unless Photo.isArray(photos)
     return unless album and album.constructor.className is 'Album'

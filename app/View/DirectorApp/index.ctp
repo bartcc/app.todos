@@ -615,7 +615,7 @@
       <li class="pho active">Photos</li>
     </span>
   </section>
-  <section class="right hide">
+  <section class="right">
     <span class="breadcrumb move">
       <li class="optPhotoActionCopy">
         <span class="">

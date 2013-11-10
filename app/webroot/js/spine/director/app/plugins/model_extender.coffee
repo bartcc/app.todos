@@ -25,8 +25,8 @@ Model.Extender =
         prev = @record
         @record = rec
         same = !!(@record?.eql?(prev) and !!prev)
-#        alert 'changed current for ' + @className
-        Spine.trigger('change:selected'+@className, @record, !same)
+        if !same
+          Spine.trigger('change:selected'+@className, @record, !same) 
         @record
 
       fromJSON: (objects) ->
@@ -76,11 +76,13 @@ Model.Extender =
         res
         
       selectionList: (recordID) ->
-        id = recordID or @record?.id
+        ret = []
+        id = recordID or @record?.id or @record?.cid
         return @selection[0].global unless id
         for item in @selection
           return item[id] if item[id]
-
+        return ret
+      
       updateSelection: (list, id) ->
         @emptySelection list, id
 
@@ -111,7 +113,7 @@ Model.Extender =
       selected: ->
         @record
         
-      toID: (records = @records) ->
+      toID_: (records = @records) ->
         record.id for record in records
       
       toRecords: (ids) ->
@@ -149,6 +151,17 @@ Model.Extender =
           return @filter joinTableItems
           
     Include =
+      
+      updateSelectionID: ->
+        for item, idx in @constructor.selection
+          index = idx if item[@cid]
+        @constructor.selection.splice(index, 1) if index
+        @init @
+        
+      removeSelectionID: ->
+        for item, idx in @constructor.selection
+          index = idx if item[@id]
+        @constructor.selection.splice(index, 1) if index
       
       updateSelection: (list) ->
         modelName = @constructor['parent']

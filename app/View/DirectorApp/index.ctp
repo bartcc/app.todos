@@ -191,7 +191,41 @@
 </div>
 <!-- modal-dialogue -->
 <div id="modal-view" class="modal fade"></div>
+<div id="modal-action" class="modal fade">
+</div><!-- /.modal -->
 <!-- Templates -->
+<script id="modalActionTemplate" type="text/x-jquery-tmpl">
+  <form>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <ul class="pager">
+          <li class="previous {{if min}}disabled{{/if}}"><a href="#">&larr; Older</a></li>
+          <li class="next {{if max}}disabled{{/if}}"><a href="#">Newer &rarr;</a></li>
+        </ul>
+        <h4 class="modal-title">${text}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="btn-group" data-toggle="buttons">
+          {{tmpl($item.data.items()) "#modalActionContentTemplate"}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="copy btn btn-primary">Copy</button>
+        <label class="hide">
+        <input type="checkbox" class="remove">remove original items when done</label>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+  </form>
+</script>
+<script id="modalActionContentTemplate" type="text/x-jquery-tmpl">
+  <label class="btn dark jumbo">
+    <input type="radio" name="options" id="${id}">{{if name}}${name}{{else}}${title}{{/if}}
+  </label>
+</script>
 <script id="modalSimpleTemplate" type="text/x-jquery-tmpl">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -439,21 +473,10 @@
       <li class="alb active">Albums</li>
     </span>
   </section>
-  <section class="right hide">
+  <section class="right">
     <span class="breadcrumb move">
       <li class="optAlbumActionCopy">
         <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
-      </li>
-      <li class="optAlbumActionMove">
-        <span class="">
-          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Move</a>
-        </span>
-      </li>
-      <li>
-        <a href="#"><i class="glyphicon glyphicon-ok"></i></a>
-      </li>
-      <li>
-        <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
       </li>
     </span>
   </section>
@@ -591,23 +614,12 @@
       <li class="pho active">Photos</li>
     </span>
   </section>
-  <section class="right hide">
+  <section class="right">
     <span class="breadcrumb move">
       <li class="optPhotoActionCopy">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
         </span>
-      </li>
-      <li class="optPhotoActionMove">
-        <span class="">
-          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Move</a>
-        </span>
-      </li>
-      <li>
-        <a href="#"><i class="glyphicon glyphicon-ok"></i></a>
-      </li>
-      <li>
-        <a href="#"><i class="glyphicon glyphicon-remove"></i></a>
       </li>
     </span>
   </section>
@@ -631,16 +643,11 @@
       <li class="active">{{if src}}${src}{{else}}deleted{{/if}}</li>
     </span>
   </section>
-  <section class="right hide">
+  <section class="right">
     <span class="breadcrumb move">
       <li class="optAction">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
-        </span>
-      </li>
-      <li class="optAction">
-        <span class="">
-          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Move</a>
         </span>
       </li>
     </span>

@@ -227,6 +227,9 @@ button.default .active {
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
+button.jumbo, .btn.jumbo {
+  padding: 19px;
+}
 button, .btn, .options li.opt, .options li.dropdown > a {
   border: 1px solid #555555;
   text-shadow: 0 1px 1px #ffffff;
@@ -245,9 +248,12 @@ button, .btn, .options li.opt, .options li.dropdown > a {
   -webkit-box-shadow: 0 1px 1px #ffffff;
   box-shadow: 0 1px 1px #ffffff;
 }
-button.dark, a.btn.dark, .fileinput-button.dark, .options li.disabled, .options li.opt, .options li.opt > a, .options li.dropdown > a {
+label.btn.dark, button.dark, a.btn.dark, .fileinput-button.dark, .options li.disabled, .options li.opt, .options li.opt > a, .options li.dropdown > a {
   color: $light-grey;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
   background: #494949;
   background: -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333333));
   background: -moz-linear-gradient(top, #494949, #333333);
@@ -794,12 +800,12 @@ li.item.over {
 .options li button:not(:disabled) {
   cursor: pointer;
 }
-.options li.active button:not(:disabled), .options li button:active:not(:disabled) {
+.options li.active button:not(:disabled), .options li button:active:not(:disabled), label.btn.active {
   background: #00EEFF;
   box-shadow: 0 0 10px #1C1C1C inset;
   -moz-box-shadow: inset 0 0 10px #1C1C1C;
   -webkit-box-shadow: inset 0 0 10px #1C1C1C;
-  color: rgba(50, 50, 50, 0.6);
+  color: rgba(0, 0, 0, 0.8);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 .options li button:hover:not(:disabled) {

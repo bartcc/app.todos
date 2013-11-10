@@ -30,8 +30,7 @@ class Album extends Spine.Model
   
   @previousID: false
 
-  @url: ->
-    '' + base_url + @className.toLowerCase() + 's'
+  @url: '' + base_url + @className.toLowerCase() + 's'
 
   @nameSort: (a, b) ->
     aa = (a or '').title?.toLowerCase()
@@ -98,11 +97,16 @@ class Album extends Spine.Model
 #        ga.destroy()
 #    
   init: (instance) ->
-    return unless instance?.id
+    return unless id = instance.id
     s = new Object()
-    s[instance.id] = []
+    s[id] = []
     @constructor.selection.push s
     
+#  updateSelectionID: ->
+#    for item in @constructor.selection
+#      delete item[@cid] if item[@cid]
+#    @init @
+      
   selChange: (list) ->
   
   createJoin: (target) ->
@@ -120,7 +124,7 @@ class Album extends Spine.Model
       joinTable: 'GalleriesAlbum'
       sorted: true
       
-    albums = @constructor.toID([@]) #Album.toID(records)
+    albums = [@].toID()
     gas = GalleriesAlbum.filter(target.id, filterOptions)
 
     for ga in gas

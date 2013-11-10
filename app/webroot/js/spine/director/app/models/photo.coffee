@@ -32,8 +32,7 @@ class Photo extends Spine.Model
       foreignKey            : 'photo_id'
       associationForeignKey : 'album_id'
 
-  @url: ->
-    '' + base_url + @className.toLowerCase() + 's'
+  @url: '' + base_url + @className.toLowerCase() + 's'
 
   @nameSort: (a, b) ->
     aa = (a or '').name?.toLowerCase()
@@ -63,7 +62,7 @@ class Photo extends Spine.Model
     
   @trashed: ->
     res = []
-    for item of @records
+    for item of @irecords
       res.push item unless AlbumsPhoto.exists(item.id)
     res
     

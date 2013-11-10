@@ -209,7 +209,8 @@ class ShowView extends Spine.Controller
     
   renderViewControl: (controller, controlEl) ->
     active = controller.isActive()
-
+    console.log controller
+    console.log controlEl
     $('.options .opt').each ->
       if(@ == controlEl)
         $(@).toggleClass('active', active)
@@ -231,12 +232,17 @@ class ShowView extends Spine.Controller
       @showAlbumMasters()
   
   createPhotoFromSel: (e) ->
-    @createPhotoCopy()
+    @copyPhotosToAlbum()
+    e.preventDefault()
+    e.preventDefault()
+    
+  createAlbumFromSel: (e) ->
+    @copyPhotosToNewAlbum()
     e.preventDefault()
     e.preventDefault()
     
   createPhotoFromSelCut: (e) ->
-    @createPhotoMove()
+    @movePhotosToAlbum()
     e.preventDefault()
     e.preventDefault()
   
@@ -250,30 +256,38 @@ class ShowView extends Spine.Controller
     e.preventDefault()
     e.preventDefault()
   
-  createPhotoCopy: (photos=Photo.toRecords(Album.selectionList()), target) ->
-#    Photo.trigger('create:join', photos, target)
-    Spine.trigger('create:album', photos, target)
-    gallery = Gallery.record
+  copyPhotosToAlbum: (photos, album) ->
+    Photo.trigger('create:join', photos, album)
     
     if gallery?.id
-      @navigate '/gallery', gallery.id, Album.last().id
+      @navigate '/gallery', gallery.id, album.id
     else
       @showAlbumMasters()
       
-  createPhotoMove: (photos=Photo.toRecords(Album.selectionList()), target) ->
+  copyPhotosToNewAlbum: (photos, gallery=Gallery.record) ->
+    Spine.trigger('create:album', photos, gallery)
+    
+    if gallery?.id
+      @navigate '/gallery', gallery.id#, Album.last().id
+    else
+      @showAlbumMasters()
+    
+    
+      
+  movePhotosToAlbum: (photos=Photo.toRecords(Album.selectionList()), target) ->
     Spine.trigger('create:album', photos, target, origin:Album.record)
     gallery = Gallery.record
     
     if gallery?.id
-      
       @navigate '/gallery', gallery.id, Album.last().id
     else
       @showAlbumMasters()
   
-  createAlbumCopy: (albums=Gallery.selectionList(), target = Gallery.record) ->
+  createAlbumCopy: (albums=Gallery.selectionList(), target=Gallery.record) ->
     for id in albums
       if Album.exists(id)
-        photos = Photo.toID Album.photos(id)
+        photos = Album.photos(id).toID()
+        alert 'creating album'
         Spine.trigger('create:album', photos, target)
         
     if target
@@ -282,10 +296,10 @@ class ShowView extends Spine.Controller
     else
       @showAlbumMasters()
       
-  createAlbumMove: (albums=Gallery.selectionList(), target = Gallery.record) ->
+  createAlbumMove: (albums=Gallery.selectionList(), target=Gallery.record) ->
     for id in albums
       if Album.exists(id)
-        photos = Photo.toID Album.photos(id)
+        photos = Album.photos(id).toID()
         Spine.trigger('create:album', photos, target, origin:Album.record)
     
     if Gallery.record
@@ -321,18 +335,22 @@ class ShowView extends Spine.Controller
   toggleGallery: (e) ->
     @changeToolbarOne ['Gallery']
     @refreshToolbars()
+    e.preventDefault()
 
   toggleAlbumShow: (e) ->
     @trigger('toggle:view', App.album, e.target)
     @refreshToolbars()
+    e.preventDefault()
 
   toggleAlbum: (e) ->
     @changeToolbarOne ['Album']
     @refreshToolbars()
+    e.preventDefault()
     
   togglePhotoShow: (e) ->
     @trigger('toggle:view', App.photo, e.target)
     @refreshToolbars()
+    e.preventDefault()
     
   togglePhoto: (e) ->
     @changeToolbarOne ['Photos', 'Slider']#, App.showView.initSlider
@@ -403,6 +421,7 @@ class ShowView extends Spine.Controller
     
   toggleView: (controller, control) ->
     console.log 'toggleView'
+    console.log controller
     isActive = controller.isActive()
     
     if(isActive)
@@ -464,6 +483,7 @@ class ShowView extends Spine.Controller
     
   selectAll: (e) ->
     root = @current.el.children('.items')
+    return unless root.children('.item').length
     list = []
     root.children().each (index, el) ->
       item = $(@).item()
@@ -512,25 +532,6 @@ class ShowView extends Spine.Controller
     # rerender thumbnails on the server to its final size
 #    @slider.toggle()
 
-  toggleShowAllPhotos: (e) ->
-    @allPhotos = !@allPhotos
-    if @allPhotos
-      @navigate '/photos/'
-    else
-      @navigate '/gallery', (Gallery.record?.id or '') + (Album.record?.id or '')
-    @refreshToolbars()
-    @allPhotos
-    
-  toggleShowAllAlbums: (e) ->
-    @allAlbums = !@allAlbums
-    if @allAlbums
-      Gallery.current() if @allAlbums
-      @navigate '/albums/'
-    else
-      @navigate '/gallery', Gallery.record?.id or ''
-    @refreshToolbars()
-    @allAlbums
-    
   slideshowPlay: (e) =>
     @navigate '/slideshow', (Math.random() * 16 | 0), 1
     

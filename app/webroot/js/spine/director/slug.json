@@ -29,6 +29,7 @@
     "js/lib/blueimp/jquery.fileupload-audio.js",
     "js/lib/blueimp/jquery.fileupload-video.js",
     "js/lib/blueimp/jquery.fileupload-validate.js",
-    "js/lib/blueimp/jquery.fileupload-ui.js"
+    "js/lib/blueimp/jquery.fileupload-ui.js",
+    "js/lib/anito/array.js"
   ]
 }

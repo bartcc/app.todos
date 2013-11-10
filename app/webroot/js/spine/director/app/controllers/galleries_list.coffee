@@ -62,7 +62,7 @@ class GalleriesList extends Spine.Controller
 
   updateTemplates: ->
     console.log 'GalleriesList::updateTemplates'
-    for id, gallery of Gallery.records
+    for id, gallery of Gallery.irecords
       galleryEl = @children().forItem(gallery)
       galleryContentEl = $('.thumbnail', galleryEl)
       tmplItem = galleryContentEl.tmplItem()
@@ -117,9 +117,6 @@ class GalleriesList extends Spine.Controller
 #      Album.copyList = []
     @select item
     App.showView.trigger('change:toolbarOne', ['Default'])
-    
-    
-      
     @exposeSelection item
     
     e.stopPropagation()
@@ -147,7 +144,7 @@ class GalleriesList extends Spine.Controller
     
     window.setTimeout( ->
       Spine.trigger('destroy:gallery', item)
-    , 0)
+    , 100)
     
     e.preventDefault()
     e.stopPropagation()

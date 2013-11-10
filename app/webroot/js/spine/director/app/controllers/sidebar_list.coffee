@@ -33,7 +33,7 @@ class SidebarList extends Spine.Controller
     'drop       .sublist-item'        : 'drop'
     'dragend    .sublist-item'        : 'dragend'
 
-  selectFirst: false
+  selectFirst: true
     
   contentTemplate: (items) ->
     $('#sidebarContentTemplate').tmpl(items)
@@ -50,7 +50,6 @@ class SidebarList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
     Album.bind('refresh change', @proxy @renderAllSublist)
-#    Spine.bind('render:galleryAllSublist', @proxy @renderAllSublist)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
@@ -137,8 +136,8 @@ class SidebarList extends Spine.Controller
 
   renderAllSublist: ->
     console.log 'SidebarList::renderAllSublist'
-    for gal of Gallery.records
-      @renderOneSublist Gallery.records[gal]
+    for gal of Gallery.irecords
+      @renderOneSublist Gallery.irecords[gal]
   
   renderOneSublist: (gallery = Gallery.record) ->
     console.log 'SidebarList::renderOneSublist'
@@ -169,26 +168,12 @@ class SidebarList extends Spine.Controller
     console.log 'SidebarList::exposeSublistSelection'
     removeAlbumSelection = =>
       galleries = []
-      galleries.push val for item, val of Gallery.records
+      galleries.push val for item, val of Gallery.irecords
       for item in galleries
         galleryEl = @children().forItem(item)
         albums = galleryEl.find('li')
         albums.removeClass('selected').removeClass('active')
         
-#    if Gallery.record
-#      removeAlbumSelection()
-#      galleryEl = @children().forItem(Gallery.record)
-#      albums = galleryEl.find('li')
-#      for id in Gallery.selectionList()
-#        album = Album.find(id) if Album.exists(id)
-#        if album
-#          albums.forItem(album).addClass('selected')
-#          if id is Album.record?.id
-#            album = Album.exists(Album.record.id)
-#            albums.forItem(album).addClass('active')
-#    else
-#      removeAlbumSelection()
-
     removeAlbumSelection()
   
   updateTemplate: (item) ->
@@ -222,8 +207,6 @@ class SidebarList extends Spine.Controller
     albumEl = $(e.target).parents('.alb').addClass('active')
   
   activate: (idOrRecord) ->
-#    Spine.trigger('show:albums')
-    
     Gallery.current(idOrRecord)
     @exposeSelection()
 
@@ -235,7 +218,7 @@ class SidebarList extends Spine.Controller
   exposeSublistSelection: (gal = Gallery.record) ->
     removeAlbumSelection = =>
       galleries = []
-      galleries.push val for item, val of Gallery.records
+      galleries.push val for item, val of Gallery.irecords
       for item in galleries
         galleryEl = @children().forItem(item)
         albums = galleryEl.find('li')
@@ -259,7 +242,6 @@ class SidebarList extends Spine.Controller
 
   clickAlbum: (e) ->
     galleryEl = $(e.target).parents('.gal').addClass('active')
-#    albumEl = $(e.target).parents('.alb').addClass('active')
     albumEl = $(e.currentTarget)
     galleryEl = $(e.currentTarget).closest('.gal')
     
@@ -280,7 +262,12 @@ class SidebarList extends Spine.Controller
     item = $(e.target).closest('.data').item()
     
     App.contentManager.change App.showView
+    
+    
     @navigate '/gallery', item?.id or ''
+    
+    App.sidebar.list.expand(Gallery.record, true)
+    App.sidebar.list.closeAllSublists(Gallery.record)
     
     e.stopPropagation()
     e.preventDefault()

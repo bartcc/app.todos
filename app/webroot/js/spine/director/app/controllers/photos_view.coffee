@@ -71,27 +71,31 @@ class PhotosView extends Spine.Controller
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
     Spine.bind('slideshow:ready', @proxy @play)
     
-  change: (item, changed) ->
-    @updateBuffer item if changed
-    @render @buffer if @buffer
-  
   updateBuffer: (album) ->
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
       sorted: true
     
-    @buffer = Photo.filterRelated(album.id, filterOptions)
+    if album
+      items = Photo.filterRelated(album.id, filterOptions)
+    else
+      items = Photo.filter()
+      
+    @buffer = items
+  
+  change: (item, changed) ->
+    @updateBuffer item
+    @render @buffer
   
   render: (items, mode) ->
     console.log 'PhotosView::render'
     # render only if necessary
-    # if view is dirty but inactive we'll use the buffer next time 
+    # if view is dirty but inactive we'll use the buffer next time
     return unless @isActive()
-      
     list = @list.render items, mode
     list.sortable('photo') #if Album.record
-    delete @buffer
+    delete @buffer if @buffer
   
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
@@ -120,7 +124,6 @@ class PhotosView extends Spine.Controller
   destroy: (e) ->
     console.log 'PhotosView::destroy'
     list = Album.selectionList().slice(0)
-    
     photos = []
     Photo.each (record) =>
       photos.push record unless list.indexOf(record.id) is -1
@@ -155,6 +158,10 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
+    if @buffer
+      @render @buffer
+    else
+      @render()
   
   save: (item) ->
 
@@ -177,38 +184,27 @@ class PhotosView extends Spine.Controller
       
   createJoin: (photos, album, deleteTarget) ->
     console.log 'PhotosView::createJoin'
+#    alert 'no array' unless Photo.isArray(photos)
     return unless album and album.constructor.className is 'Album'
-#    Object.prototype.toString.call(photos) is '[object String]'
-#    Object::toString.call(photos) is '[object String]'
-    if typeof photos is 'string'
-      photos = Photo.exists photos
-    unless Photo.isArray photos
-      ids = []
-      ids.push(photos.id) if photos.id
-    else ids = Photo.toID(photos)
-    
-    for id in ids
+    photos = new Array(photos) unless Photo.isArray(photos)
+    for photo in photos
       ap = new AlbumsPhoto
         album_id: album.id
-        photo_id: id
+        photo_id: photo.id
         order: AlbumsPhoto.photos(album.id).length
       ap.save()
       
-    if deleteTarget
+    if deleteTarget and deleteTarget.constructor.className is 'Album'
       @destroyJoin photos, deleteTarget
   
   destroyJoin: (photos, target) ->
     console.log 'PhotosView::destroyJoin'
     return unless target and target.constructor.className is 'Album'
-
-    unless Photo.isArray photos
-      ids = []
-      ids.push(photos.id)
-    else ids = Photo.toID(photos)
-
     aps = AlbumsPhoto.filter(target.id, key: 'album_id')
+    photos = new Array(photos)  unless Photo.isArray(photos)
+    photos = photos.toID()
     for ap in aps
-      unless ids.indexOf(ap.photo_id) is -1
+      unless photos.indexOf(ap.photo_id) is -1
         Album.removeFromSelection ap.photo_id
         ap.destroy()
 

@@ -24,6 +24,7 @@ PhotoEditView           = require("controllers/photo_edit_view")
 UploadEditView          = require("controllers/upload_edit_view")
 GalleryEditView         = require("controllers/gallery_edit_view")
 GalleryEditorView       = require("controllers/gallery_editor_view")
+ActionWindow            = require("controllers/action_window")
 
 require("plugins/manager")
 require('spine/lib/route')
@@ -53,6 +54,7 @@ class Main extends Spine.Controller
     '#login'              : 'loginEl'
     '#modal-gallery'      : 'slideshowEl'
     '#modal-view'         : 'modalEl'
+    '#modal-action'       : 'modalActionEl'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '#show .content'      : 'content'
@@ -119,6 +121,8 @@ class Main extends Spine.Controller
       el: @mainEl
     @loaderView = new LoaderView
       el: @loaderEl
+    @actionWindow = new ActionWindow
+      el: @modalActionEl
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.external = @showView.toolbarOne
@@ -169,10 +173,8 @@ class Main extends Spine.Controller
       '/gallery/:gid/:aid': (params) ->
         @contentManager.change(@showView)
         Gallery.trigger('activate', params.gid)
-        Spine.trigger('show:photos')
-        unless params.gid
-          Spine.trigger('show:allAlbums')
         Album.trigger('activate', params.aid)
+        Spine.trigger('show:photos')
       '/gallery/:gid': (params) ->
 #        Album.current()
         @contentManager.change(@showView)
@@ -217,6 +219,7 @@ class Main extends Spine.Controller
       
   drop: (e) ->
     console.log 'App::drop'
+    console.log e
     
     # prevent ui drops
     unless e.originalEvent.dataTransfer.files.length

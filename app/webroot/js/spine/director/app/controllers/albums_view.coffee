@@ -54,22 +54,19 @@ class AlbumsView extends Spine.Controller
       info: @info
       parent: @
     @header.template = @headerTemplate
-    @filterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
-      sorted: true
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('show:allAlbums', @proxy @render)
     Spine.bind('create:album', @proxy @create)
-    Album.bind('update create', @proxy @change)
     Spine.bind('destroy:album', @proxy @destroy)
     Album.bind('ajaxError', Album.errorHandler)
+    Album.bind('create', @proxy @createAlbum)
+    Album.bind('destroy', @proxy @destroyAlbum)
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
-    Spine.bind('change:selectedGallery', @proxy @changeGallery)
+    Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Gallery.bind('refresh change', @proxy @renderHeader)
     Spine.bind('loading:start', @proxy @loadingStart)
@@ -80,39 +77,38 @@ class AlbumsView extends Spine.Controller
     
     $(@views).queue('fx')
     
-  # this method is triggered when changing Gallery.record
+  updateBuffer: (gallery=Gallery.record) ->
+    filterOptions =
+      key: 'gallery_id'
+      joinTable: 'GalleriesAlbum'
+      sorted: true
+    
+    if gallery
+      items = Album.filterRelated(gallery.id, filterOptions)
+    else
+      items = Album.filter()
+    
+    @buffer = items
+    
   change: (item, mode) ->
     console.log 'AlbumsView::change'
     
-    return unless item
-    @render(item, mode)
+    @updateBuffer item
+    @render @buffer
     
-  changeGallery: (item, mode) ->
-    console.log 'AlbumsView::changeGallery'
-    console.log mode
-    
-    return unless item
-    return if mode is 'update'
-    @render(item, mode)
-    
-  render: (item, mode) ->
+  render: (items, mode) ->
     console.log 'AlbumsView::render'
+    return unless @isActive()
     @header.render()
-    
-    unless Gallery.record
-      unless mode is ('update' or 'create')
-        items = Album.filter()
-    else
-      items = Album.filterRelated(Gallery.record.id, @filterOptions)
-      
-    unless mode is ('update' or 'create')
-      list = @list.render items
+    items = items || @updateBuffer()
+    list = @list.render items# || @updateBuffer()
     list.sortable('album')
+    delete @buffer
     
 
     # when in Photos View the Album is deleted return to this View
-    if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed
-      @show()
+#    if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed
+#      @show()
       
     @el
       
@@ -130,6 +126,8 @@ class AlbumsView extends Spine.Controller
       if alb.invalid
         alb.invalid = false
         alb.save(ajax:false)
+        
+    @render @buffer
     
   newAttributes: ->
     if User.first()
@@ -147,16 +145,18 @@ class AlbumsView extends Spine.Controller
         return proposal = @albumName(proposal + '_1')
     return proposal
   
-  create: (list=[], target=Gallery.record, options) ->
+  create: (list = [], target=Gallery.record, options) ->
     console.log 'AlbumsView::create'
-    console.log list
-    
-    cb = (result) ->
+    cb = ->
       @createJoin(target)
-      # Have photos moved/copied to the new album
-      Photo.trigger('create:join', list, @)
-      Photo.trigger('destroy:join', list, options.origin) if options?.origin?
+      # update selection by replacing local ID with server ID
+      @updateSelectionID()
       Album.trigger('activate', Gallery.updateSelection Album.last().id)
+      if list.length
+        # copy photos to this album if a list argument is available
+        Photo.trigger('create:join', list, @)
+        # optionally remove photos from original album
+        Photo.trigger('destroy:join', list, options.origin) if options?.origin?
       
     album = new Album @newAttributes()
     album.save(done: cb)
@@ -176,7 +176,7 @@ class AlbumsView extends Spine.Controller
         for ga in gas
           gallery = Gallery.exists(ga.gallery_id)
           # find all photos in album
-          photos = AlbumsPhoto.photos(album.id)
+          photos = AlbumsPhoto.photos(album.id).toID()
           Spine.Ajax.disable ->
             Photo.trigger('destroy:join', photos, album)
           Spine.Ajax.disable ->
@@ -185,19 +185,22 @@ class AlbumsView extends Spine.Controller
       for album in albums
         Gallery.removeFromSelection album.id
         album.destroy()
+        album.removeSelectionID()
 
-  createAlbum: (albums, target=Gallery.record) ->
-    if target
-      @createJoin(albums, target)
-  
-  createJoin: (albums, target=Gallery.record) ->
+  createAlbum: (album) ->
+    @render()
+    
+  destroyAlbum: (album) ->
+    @renderHeader()
+    
+  createJoin: (albums, target) ->
     console.log 'AlbumsView::createJoin'
 #    return unless target and target.constructor.className is 'Gallery'
-
-    for album in albums
-      album.createJoin target if target
+    if target
+      for album in albums
+        album.createJoin target
       
-    Album.trigger('activate', [album.id])
+#    Album.trigger('activate', [album.id])
     
   destroyJoin: (albums, target) ->
     return unless target and target.constructor.className is 'Gallery'

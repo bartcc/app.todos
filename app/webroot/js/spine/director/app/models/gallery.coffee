@@ -26,8 +26,7 @@ class Gallery extends Spine.Model
 
   @selectAttributes: ['name']
   
-  @url: ->
-    '' + base_url + 'galleries'
+  @url: '' + base_url + 'galleries'
 
   @nameSort: (a, b) ->
     aa = (a or '').name?.toLowerCase()
@@ -54,6 +53,7 @@ class Gallery extends Spine.Model
     phos = []
     albs =[]
     list = @selectionList(id)
+    return phos unless list
     albs.push itm for itm in list
     for alb in albs
       if album = Album.exists(alb)
@@ -65,10 +65,10 @@ class Gallery extends Spine.Model
     @constructor.activePhotos @id
     
   init: (instance) ->
-    return unless instance.id
-    newSelection = {}
-    newSelection[instance.id] = []
-    @constructor.selection.push(newSelection)
+    return unless id = instance.id
+    s = new Object()
+    s[id] = []
+    @constructor.selection.push s
     
   details: =>
     albums = Gallery.albums(@id)

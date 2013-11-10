@@ -46,7 +46,7 @@ class Sidebar extends Spine.Controller
       el: @items,
       template: @template
       
-    Gallery.bind('refresh', @proxy @refresh)
+    Gallery.one('refresh', @proxy @refresh)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Gallery.bind("ajaxSuccess", Gallery.successHandler)
     
@@ -218,16 +218,19 @@ class Sidebar extends Spine.Controller
 
   createGallery: ->
     console.log 'Sidebar::create'
+    
+    cb = -> @updateSelectionID()
+      
     gallery = new Gallery @newAttributes()
-    gallery.save()
-    @navigate '/galleries/'
+    gallery.save(done: cb)
+#    @navigate '/galleries/'
     
   createCallback: ->
 #    @navigate '/gallery', @id
     
   createAlbum: ->
     Spine.trigger('create:album')
-
+    
   destroy: (item=Gallery.record) ->
     console.log 'Sidebar::destroy'
     return unless item
@@ -242,9 +245,10 @@ class Sidebar extends Spine.Controller
 #      Gallery.current() #unless Gallery.count()
       
     item.destroy()
+    item.removeSelectionID()
     unless Gallery.count()
       Spine.trigger('show:galleries')
-      Gallery.trigger('refresh')
+      Gallery.trigger('refreshOnEmpty')
 
   edit: ->
     App.galleryEditView.render()

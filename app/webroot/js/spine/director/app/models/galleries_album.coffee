@@ -18,7 +18,7 @@ class GalleriesAlbum extends Spine.Model
   @extend AjaxRelations
   @extend Filter
 
-  @url: -> 'galleries_albums'
+  @url: 'galleries_albums'
   
   @galleryHasAlbum: (gid, aid) ->
     gas = @filter gid, key: 'gallery_id'
@@ -49,7 +49,7 @@ class GalleriesAlbum extends Spine.Model
   @c: 0
       
   select: (id, options) ->
-    return true if @[options.key] is id and @constructor.records[@id]
+    return true if @[options.key] is id and @constructor.irecords[@id]
     return false
     
   selectAlbum: (id) ->

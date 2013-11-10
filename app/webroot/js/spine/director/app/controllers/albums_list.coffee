@@ -34,6 +34,7 @@ class AlbumsList extends Spine.Controller
     # initialize flickr's slideshow
 #    @el.toggleSlideshow()
     Album.bind('destroy', @proxy @destroy)
+    Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
@@ -41,14 +42,12 @@ class AlbumsList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     Album.bind('activate', @proxy @activate)
     
-  destroy: (album, mode, options) ->
+  destroy: (album) ->
     @children().forItem(album, true).remove()
     @refreshElements()
   
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
-    console.log item
-    console.log mode
     # if we change a different gallery from within the sidebar, it should not be reflected here
     return unless Gallery.record
     return unless Gallery.record.id is item['gallery_id']
@@ -84,8 +83,6 @@ class AlbumsList extends Spine.Controller
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>'
         else
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
-      else
-        @html '<label class="invite"><span class="enlightened">You have no albums so far.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
     
     @renderBackgrounds items, mode
     Album.trigger('activate', Gallery.selectionList())
@@ -96,23 +93,22 @@ class AlbumsList extends Spine.Controller
       refresh: =>
         el = @children().forItem(album)
         tb = $('.thumbnail', el)
-        el: el
-        tb: tb
+        el
 
-    elements = helper.refresh()
-    
+    el = helper.refresh()
     #on "change" events Spine additionally triggers "create/update/destroy" respectively
-    return unless elements.el().length
-    active = elements.el.hasClass('active')
-    css = elements.el.attr('style')
-    tmplItem = elements.el.tmplItem()
+    return unless el.length
+    active = el.hasClass('active')
+    hot = el.hasClass('hot')
+    css = el.attr('style')
+    tmplItem = el.tmplItem()
     tmplItem.tmpl = $( "#albumsTemplate" ).template()
     tmplItem.update()
     
-    elements = helper.refresh()
-    
-    elements.el.toggleClass('active', active)
-    elments.el.attr('style', css)
+    el = helper.refresh()
+    el.attr('style', css)
+    el.toggleClass('active', active)
+    el.toggleClass('hot', hot)
     @refreshElements()
     
   exposeSelection: ->
@@ -153,7 +149,6 @@ class AlbumsList extends Spine.Controller
   select: (items = [], lonely) ->
     unless Spine.isArray items
       items = [items]
-    
     for item in items
       item.addRemoveSelection(lonely)
       
@@ -162,10 +157,6 @@ class AlbumsList extends Spine.Controller
   click: (e) ->
     console.log 'AlbumsList::click'
     item = $(e.currentTarget).item()
-#    if Photo.photoCopyList.length
-#      photos = Photo.photoCopyList.splice
-#    Photo.trigger('action:move', photos, item, Album.origin)
-#    Photo.trigger('action:copy', photos, item)
     @select(item, @isCtrlClick(e))
     
     e.stopPropagation()

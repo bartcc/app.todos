@@ -29,7 +29,8 @@ class GalleriesView extends Spine.Controller
       el: @items
       template: @template
     @header.template = @headerTemplate
-    Gallery.bind('refresh', @proxy @refresh)
+    Gallery.bind('refreshOnEmpty', @proxy @refresh)
+    Gallery.one('refresh', @proxy @refresh)
     AlbumsPhoto.bind('change', @proxy @change)
     AlbumsPhoto.bind('refresh', @proxy @refresh)
     Spine.bind('show:galleries', @proxy @show)

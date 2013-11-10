@@ -17,7 +17,7 @@ class AlbumsPhoto extends Spine.Model
   @extend AjaxRelations
   @extend Filter
   
-  @url: -> 'albums_photos'
+  @url: 'albums_photos'
   
   @albumHasPhoto: (aid, pid) ->
     aps = @filter aid, key: 'album_id'
@@ -54,7 +54,7 @@ class AlbumsPhoto extends Spine.Model
     )
 
   select: (id, options) ->
-    return true if @[options.key] is id and @constructor.records[@id]
+    return true if @[options.key] is id and @constructor.irecords[@id]
     return false
     
   selectPhoto: (id) ->

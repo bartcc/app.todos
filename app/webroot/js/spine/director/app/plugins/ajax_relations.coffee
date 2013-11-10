@@ -34,13 +34,13 @@ class Builder
           joinTable: key.joinTable
 
         selected = @newWrapper model
-        selected[model.className] = @model.toID(records)
+        selected[model.className] = @model.records.toID()
         @data[model.className] = selected
 
     @data[@model.className] = @record
     @data[@model.className]
 
-class Request extends Spine.Singleton
+class Request extends Spine.Ajax.Singleton
   constructor: (@record) ->
     super
     @data = new Builder(@record).build()

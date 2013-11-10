@@ -45,6 +45,7 @@ class PhotosList extends Spine.Controller
     
   render: (items=[], mode='html') ->
     console.log 'PhotosList::render'
+    
     if Album.record
       @wipe().removeClass 'all'
       if items.length
@@ -79,6 +80,7 @@ class PhotosList extends Spine.Controller
 
   update: (item) ->
     console.log 'PhotosList::update'
+    
     helper =
       refresh: =>
         el = @children().forItem(item, true)
@@ -256,6 +258,7 @@ class PhotosList extends Spine.Controller
     @navigate '/gallery', Gallery.record.id
   
   deletePhoto: (e) ->
+    console.log 'PhotosList::deletePhoto'
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
     

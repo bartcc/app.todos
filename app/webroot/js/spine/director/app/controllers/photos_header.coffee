@@ -4,7 +4,7 @@ Gallery     = require('models/gallery')
 AlbumsPhoto = require('models/albums_photo')
 
 Gallery         = require('models/gallery')
-Album           = require('models/album')
+require('models/album')
 Photo           = require('models/photo')
 
 class PhotosHeader extends Spine.Controller
@@ -12,8 +12,7 @@ class PhotosHeader extends Spine.Controller
   events:
     'click .gal'                      : 'backToGalleries'
     'click .alb'                      : 'backToAlbums'
-    'click .optPhotoActionCopy'       : 'startPhotoActionCopy' 
-    'click .optPhotoActionMove'       : 'startPhotoActionMove' 
+    'click .optPhotoActionCopy'       : 'toggleActionWindow' 
     
   elements:
     '.move'          : 'actionMenu'
@@ -54,30 +53,14 @@ class PhotosHeader extends Spine.Controller
       AlbumsPhoto.filter(Album.record.id, key: 'album_id').length
     else
       Photo.all().length
-      
-  hideMenu: ->
-    @actionMenu.removeClass('down')
     
   moveMenu: (list = Album.selectionList()) ->
     @actionMenu.toggleClass('down', !!list.length)
     
-  startPhotoActionCopy: (e) ->
+  toggleActionWindow: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    
-    Spine.photoCopyList = Album.selectionList().slice(0)
-    Photo.one('action:copy', @proxy App.showView.createPhotoCopy)
-#    Gallery.updateSelection [Album.record.id] if Album.record
-    @navigate '/gallery', Gallery.record?.id
-    
-  startPhotoActionMove: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
-    
-    Spine.photoCopyList = Album.selectionList().slice(0)
-    Photo.one('action:move', @proxy App.showView.createPhotoMove)
-#    Album.updateSelection [Album.record.id] if Album.record
-    @navigate '/gallery', Gallery.record?.id
+    App.actionWindow.open('Album')
     
     
 

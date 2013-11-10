@@ -44,6 +44,7 @@ Controller.Drag =
         $(e.target).removeClass('dragged')
 
       drop: (e, data) =>
+        console.log 'Drag::drop'
         clearTimeout Spine.timer
         event = e.originalEvent
         Spine.dragItem?.el.removeClass('dragged')

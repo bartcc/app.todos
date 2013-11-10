@@ -186,11 +186,12 @@ class PhotosView extends Spine.Controller
     return unless album and album.constructor.className is 'Album'
     photos = new Array(photos) unless Photo.isArray(photos)
     for photo in photos
-      ap = new AlbumsPhoto
-        album_id: album.id
-        photo_id: photo.id
-        order: AlbumsPhoto.photos(album.id).length
-      ap.save()
+      unless AlbumsPhoto.albumHasPhoto(album.id, photo.id)
+        ap = new AlbumsPhoto
+          album_id: album.id
+          photo_id: photo.id
+          order: AlbumsPhoto.photos(album.id).length
+        ap.save()
       
     if deleteTarget and deleteTarget.constructor.className is 'Album'
       @destroyJoin photos, deleteTarget

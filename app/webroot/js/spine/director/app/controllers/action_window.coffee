@@ -28,11 +28,15 @@ class ActionWindow extends Spine.Controller
     @currentRenderType = @renderTypeList[0]
     @render()
   
-  prevClick: ->
+  prevClick: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
     @prevPage()
     @render()
     
-  nextClick: ->
+  nextClick: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
     @nextPage(Gallery.records)
     @render()
   
@@ -53,16 +57,20 @@ class ActionWindow extends Spine.Controller
   render: ->
     return if @renderTypeList.indexOf(@currentRenderType) is -1
     t = {}
-    t['Gallery'] = Gallery.records
-    t['Album'] = Album.records
+    gItems = Gallery.records
+    gItems = gItems.sort Gallery.nameSort
+    aItems = Album.records
+    aItems = aItems.sort Album.nameSort
+    t['Gallery'] = gItems
+    t['Album'] = aItems
       
-    arr = t[@currentRenderType]
-    pages = @getPages(arr)
+    @items = t[@currentRenderType]
+    pages = @getPages(@items)
     @html @template
       text: 'Select ' + @currentRenderType
-      items: -> arr[pages.start..pages.end]
+      items: => @items[pages.start..pages.end]
       min: @curPage is 0
-      max: @curPage+1 >= arr.length/@maxItemsInPage
+      max: @curPage+1 >= @items.length/@maxItemsInPage
     @el
   
   getPages: ->
@@ -70,8 +78,8 @@ class ActionWindow extends Spine.Controller
     end: @curPage*@maxItemsInPage+@maxItemsInPage-1
     cur: @curPage
   
-  nextPage: (arr) ->
-    return @curPage unless @curPage+1 < arr.length/@maxItemsInPage
+  nextPage: ->
+    return @curPage unless @curPage+1 < @items.length/@maxItemsInPage
     ++@curPage
   
   prevPage: (arr) ->
@@ -84,6 +92,7 @@ class ActionWindow extends Spine.Controller
     @el.modal('show')
     
   close: ->
+    @curPage  = 0
     @el.modal('hide')
     
   toggle: ->

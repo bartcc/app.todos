@@ -708,7 +708,10 @@ button.default .active {
 }
 button.jumbo,
 .btn.jumbo {
-  padding: 19px;
+  padding: 40px 10px;
+  width: 108px;
+  height: 108px;
+  white-space: inherit;
 }
 button,
 .btn,
@@ -1653,7 +1656,7 @@ button.chromeless:hover {
   position: absolute;
   right: 3px;
   top: 7px;
-  width: 76px;
+  width: 91px;
 }
 .item .container {
   position: relativ;

@@ -219,7 +219,6 @@ class Main extends Spine.Controller
       
   drop: (e) ->
     console.log 'App::drop'
-    console.log e
     
     # prevent ui drops
     unless e.originalEvent.dataTransfer.files.length

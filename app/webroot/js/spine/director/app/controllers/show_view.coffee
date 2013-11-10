@@ -209,8 +209,6 @@ class ShowView extends Spine.Controller
     
   renderViewControl: (controller, controlEl) ->
     active = controller.isActive()
-    console.log controller
-    console.log controlEl
     $('.options .opt').each ->
       if(@ == controlEl)
         $(@).toggleClass('active', active)

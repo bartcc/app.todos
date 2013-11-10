@@ -209,8 +209,10 @@ class AlbumsView extends Spine.Controller
       album.destroyJoin target
       
   loadingStart: (album) ->
+    return unless @isActive()
     el = @items.children().forItem(album)
-    el.addClass('loading')
+    $('.glyphicon-set', el).addClass('in')
+    $('.downloading', el).addClass('in')
     unless el.data()['queue']
       queue = el.data()['queue'] = []
       queue.push {}
@@ -219,9 +221,12 @@ class AlbumsView extends Spine.Controller
       queue.push {}
     
   loadingDone: (album) ->
+    return unless @isActive()
     el = @items.children().forItem(album)
+    $('.glyphicon-set', el).removeClass('in')
     el.data().queue?.splice(0, 1)
-    el.removeClass('loading') unless el.data().queue?.length
+    $('.downloading', el).removeClass('in')
+#    el.removeClass('loading') unless el.data().queue?.length
     
   sortupdate: (e, item) ->
     @list.children().each (index) ->

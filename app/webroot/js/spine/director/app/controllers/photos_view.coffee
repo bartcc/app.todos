@@ -71,7 +71,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
     Spine.bind('slideshow:ready', @proxy @play)
     
-  updateBuffer: (album) ->
+  updateBuffer: (album=Album.record) ->
     filterOptions =
       key: 'album_id'
       joinTable: 'AlbumsPhoto'
@@ -84,7 +84,7 @@ class PhotosView extends Spine.Controller
       
     @buffer = items
   
-  change: (item, changed) ->
+  change: (item) ->
     @updateBuffer item
     @render @buffer
   
@@ -93,9 +93,9 @@ class PhotosView extends Spine.Controller
     # render only if necessary
     # if view is dirty but inactive we'll use the buffer next time
     return unless @isActive()
-    list = @list.render items, mode
+    list = @list.render(items || @updateBuffer(), mode)
     list.sortable('photo') #if Album.record
-    delete @buffer if @buffer
+    delete @buffer
   
   renderHeader: ->
     console.log 'PhotosView::renderHeader'
@@ -158,10 +158,7 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
-    if @buffer
-      @render @buffer
-    else
-      @render()
+    @render @buffer if @buffer
   
   save: (item) ->
 

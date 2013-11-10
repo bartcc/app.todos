@@ -201,8 +201,8 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <ul class="pager">
-          <li class="previous {{if min}}disabled{{/if}}"><a href="#">&larr; Older</a></li>
-          <li class="next {{if max}}disabled{{/if}}"><a href="#">Newer &rarr;</a></li>
+          <li class="previous {{if min}}disabled{{/if}}"><a href="#">&larr;</a></li>
+          <li class="next {{if max}}disabled{{/if}}"><a href="#">&rarr;</a></li>
         </ul>
         <h4 class="modal-title">${text}</h4>
       </div>
@@ -330,9 +330,9 @@
       </div>
     </div>
     <div class="glyphicon-set fade out" style="">
-      <span class="zoom glyphicon glyphicon-eye-open glyphicon-white left"></span>
-      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
       <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
+      <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
+      <span class="zoom glyphicon glyphicon-eye-open glyphicon-white right"></span>
     </div>
     <div class="title">{{if name}}{{html name}}{{else}}no name{{/if}}</div>
   </li>
@@ -417,9 +417,10 @@
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail left"></div>
     <div class="glyphicon-set fade out" style="">
-      <span class="zoom glyphicon glyphicon-eye-open glyphicon glyphicon-white left"></span>
-      <span class="back glyphicon glyphicon-chevron-up glyphicon glyphicon-white left"></span>
-      <span class="glyphicon glyphicon-loading delete glyphicon glyphicon-trash glyphicon glyphicon-white right"></span>
+      <span class="downloading glyphicon glyphicon-download-alt glyphicon-white left fade"></span>
+      <span class="zoom glyphicon glyphicon-eye-open glyphicon-white left"></span>
+      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
+      <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}no title{{/if}}</div>
     <div class="title" style="font-size: 0.5em">${order}</div>
@@ -574,9 +575,9 @@
 <script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
-    <span class="zoom glyphicon glyphicon-eye-open glyphicon-white left"></span>
-    <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
+    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
+    <span class="zoom glyphicon glyphicon-eye-open glyphicon-white right"></span>
   </div>
 </script>
 
@@ -614,7 +615,7 @@
       <li class="pho active">Photos</li>
     </span>
   </section>
-  <section class="right">
+  <section class="right hide">
     <span class="breadcrumb move">
       <li class="optPhotoActionCopy">
         <span class="">

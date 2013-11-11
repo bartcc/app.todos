@@ -36,7 +36,6 @@ class PhotosList extends Spine.Controller
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
-    AlbumsPhoto.bind('beforeSave', @proxy @updateRelated)
 #    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
     
@@ -91,6 +90,7 @@ class PhotosList extends Spine.Controller
     elements = helper.refresh()
     css = elements.tb.attr('style')
     active = elements.el.hasClass('active')
+    hot = elements.el.hasClass('hot')
     photoEl = elements.el.tmplItem()
 #    photoEl.tmpl = $( "#photosTemplate" ).template()
     photoEl.data = item
@@ -100,12 +100,9 @@ class PhotosList extends Spine.Controller
     elements = helper.refresh()
     elements.tb.attr('style', css)
     elements.el.toggleClass('active', active)
+    elements.el.toggleClass('hot', hot)
     @el.sortable('destroy').sortable('photos')
     @refreshElements()
-  
-  updateRelated: (ap) ->
-    photo = Photo.exists(ap['photo_id'])
-    @update(photo, ap)
   
   thumbSize: (width = App.showView.thumbSize, height = App.showView.thumbSize) ->
     width: width
@@ -121,8 +118,6 @@ class PhotosList extends Spine.Controller
       @photos()
   
   callback: (json = [], items) =>
-    console.log 'PhotosList::callback'
-    
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -136,6 +131,7 @@ class PhotosList extends Spine.Controller
         img.element = ele
         img.onload = @imageLoad
         img.src = src
+        
     Spine.trigger('show:slideshow') if App.slideshow.data('bs.modal').options.autostart
     
   photos: (id) ->

@@ -266,8 +266,6 @@ class ShowView extends Spine.Controller
       @navigate '/gallery', gallery.id#, Album.last().id
     else
       @showAlbumMasters()
-    
-    
       
   movePhotosToAlbum: (photos=Photo.toRecords(Album.selectionList()), target) ->
     Spine.trigger('create:album', photos, target, origin:Album.record)

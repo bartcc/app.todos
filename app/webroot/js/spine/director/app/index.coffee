@@ -174,7 +174,6 @@ class Main extends Spine.Controller
         @contentManager.change(@showView)
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)
-        alert Album.find(params.aid).title
         Spine.trigger('show:photos')
       '/gallery/:gid': (params) ->
 #        Album.current()

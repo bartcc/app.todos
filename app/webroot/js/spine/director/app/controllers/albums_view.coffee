@@ -194,7 +194,6 @@ class AlbumsView extends Spine.Controller
     
   createJoin: (albums, target) ->
     console.log 'AlbumsView::createJoin'
-#    return unless target and target.constructor.className is 'Gallery'
     if target
       for album in albums
         album.createJoin target

@@ -62,7 +62,6 @@ class Album extends Spine.Model
     @findAllByAttribute('active', false)
     
   @createJoin: (items, target) ->
-    console.log items
     unless @isArray items
       items = [].push(items)
 

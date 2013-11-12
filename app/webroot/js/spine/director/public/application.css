@@ -811,19 +811,12 @@ label input[type="checkbox"] + span {
   font-style: italic;
   text-shadow: 0 1px 0 rgba(0,0,0,0.50);
 }
-.view label span,
-.disabled,
-button:disabled {
+.view label span {
   cursor: auto;
 }
 button:disabled {
   cursor: auto;
   opacity: 0.3;
-}
-.view label span,
-.disabled {
-/*  color: #676767;*/
-  cursor: auto;
 }
 .view label.label span {
   font-family: serif;
@@ -1024,7 +1017,7 @@ textarea {
   z-index: 1;
 }
 .disabled {
-  cursor: auto;
+  cursor: not-allowed;
 }
 #content .header section {
 /*  background: linear-gradient(center top, #B9B9B9, #979797);

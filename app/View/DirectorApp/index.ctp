@@ -30,7 +30,7 @@
             <li id="flickr" class="splitter disabled"></li>
           </ul>
         </div>
-        <ul class="items vbox flex autoflow"></ul>
+        <ul class="container items vbox flex autoflow"></ul>
         <footer class="footer">
           <button class="createGallery dark">
             <i class="glyphicon glyphicon-plus glyphicon glyphicon-white"></i>
@@ -64,18 +64,18 @@
           </div>
           <div class="view albums content vbox flex data parent autoflow" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="items flex"></div>
+            <div class="container items flex"></div>
           </div>
           <div class="view photos content vbox flex data parent autoflow" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a"></div>
+            <div class="container items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a"></div>
           </div>
           <div class="view photo content vbox flex data parent autoflow" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="items flex">PHOTO</div>
+            <div class="container items flex">PHOTO</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">
-            <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
+            <div class="container items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
           </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
@@ -206,6 +206,48 @@
         </ul>
         <h4 class="modal-title">${text}</h4>
       </div>
+      <div class="modal-body autoflow">
+        <div class="row">
+          <div class="col-md-6 galleries">
+            <div class="list-group">
+            {{tmpl($item.data.galleries()) "#modalActionColTemplate"}}
+            </div>
+          </div>
+          <div class="col-md-6 albums">
+            <div class="list-group">
+            {{tmpl($item.data.albums()) "#modalActionColTemplate"}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="copy btn btn-primary">Copy</button>
+        <label class="hide">
+        <input type="checkbox" class="remove">remove original items when done</label>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+  </form>
+</script>
+<script id="modalActionColTemplate" type="text/x-jquery-tmpl">
+  {{tmpl($item.data.items) "#modalActionContentTemplate"}}
+</script>
+<script id="modalActionContentTemplate" type="text/x-jquery-tmpl">
+  <a class="list-group-item item" id="${id}">{{if name}}${name}{{else}}${title}{{/if}}</a>
+</script>
+<script id="modalActionTemplate_" type="text/x-jquery-tmpl">
+  <form>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <ul class="pager">
+          <li class="previous {{if min}}disabled{{/if}}"><a href="#">&larr;</a></li>
+          <li class="next {{if max}}disabled{{/if}}"><a href="#">&rarr;</a></li>
+        </ul>
+        <h4 class="modal-title">${text}</h4>
+      </div>
       <div class="modal-body">
         <div class="btn-group" data-toggle="buttons">
           {{tmpl($item.data.items()) "#modalActionContentTemplate"}}
@@ -221,7 +263,7 @@
   </div><!-- /.modal-dialog -->
   </form>
 </script>
-<script id="modalActionContentTemplate" type="text/x-jquery-tmpl">
+<script id="modalActionContentTemplate_" type="text/x-jquery-tmpl">
   <label class="btn dark jumbo">
     <input type="radio" name="options" id="${id}">{{if name}}${name}{{else}}${title}{{/if}}
   </label>
@@ -344,7 +386,7 @@
     <h3>${header}</h3>
   </div>
   <div class="modal-body content">
-    <div class="items btn-group" data-toggle="buttons">
+    <div class="container item btn-group" data-toggle="buttons">
       {{tmpl($item.data.body) "#galleryActionTemplate"}}
     </div>
   </div>

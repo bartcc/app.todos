@@ -150,12 +150,12 @@ class AlbumsView extends Spine.Controller
       @createJoin(target)
       # update selection by replacing local ID with server ID
       @updateSelectionID()
-      Album.trigger('activate', Gallery.updateSelection Album.last().id)
       if list.length
         # copy photos to this album if a list argument is available
         Photo.trigger('create:join', list, @)
         # optionally remove photos from original album
         Photo.trigger('destroy:join', list, options.origin) if options?.origin?
+      Album.trigger('activate', Gallery.updateSelection Album.last().id)
       
     album = new Album @newAttributes()
     album.save(done: cb)

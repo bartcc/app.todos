@@ -41,7 +41,7 @@ jQuery(function() {
       // To avoid XSS (not that it would be harmful in this particular app),
       // we use `jQuery.text` to set the contents of the todo item.
       setContent: function() {
-        var patt = /((?:http|https):\/\/[a-z0-9\/\?=_#&%~-]+(\.[a-z0-9\/\?=_#&%~-]+)+)|(www(\.[a-z0-9\/\?=_#&%~-]+){2,})/,
+        var patt = /((?:http|https):\/\/)+([a-z0-9\/\?=_#&%~-]+(\.[a-z0-9\/\?=_#&%~-]+)+)|(www(\.[a-z0-9\/\?=_#&%~-]+){2,})/,
         test, anchorEl, content, res, editor, anchorContent;
         
         content = this.model.get('content');
@@ -50,7 +50,7 @@ jQuery(function() {
         
         if (test) {
           anchorEl = $('<a></a>').attr({
-            'href'   : res[0],
+            'href'   : res.indexOf("http://") == -1 ? "http://" + res[0] : res[0],
             'target' : '_blank'
           }).addClass('editor');
           

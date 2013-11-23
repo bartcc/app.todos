@@ -142,8 +142,6 @@ class AlbumsList extends Spine.Controller
       App.sidebar.list.closeAllSublists(Gallery.record)
       
     Album.current(Gallery.selectionList()[0] or null)
-    
-      
     @exposeSelection()
   
   select: (items = [], lonely) ->
@@ -178,6 +176,7 @@ class AlbumsList extends Spine.Controller
     @renderBackgrounds albums
     
   refreshBackgrounds: (photos) ->
+    console.log 'AlbumsList::refreshBackgrounds'
     album = App.upload.album
     @renderBackgrounds [album] if album
   

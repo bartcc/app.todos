@@ -56,6 +56,7 @@ class Album extends Spine.Model
     filterOptions =
       key:'album_id'
       joinTable: 'AlbumsPhoto'
+      sorted: true
     Photo.filterRelated(id, filterOptions)[0...max]
     
   @inactive: ->

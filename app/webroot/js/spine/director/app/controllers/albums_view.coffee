@@ -93,22 +93,15 @@ class AlbumsView extends Spine.Controller
     console.log 'AlbumsView::change'
     
     @updateBuffer item
-    @render @buffer
+    @render()
     
-  render: (items, mode) ->
+  render: ->
     console.log 'AlbumsView::render'
     return unless @isActive()
     @header.render()
-    items = items || @updateBuffer()
-    list = @list.render items# || @updateBuffer()
+    list = @list.render @buffer
     list.sortable('album')
     delete @buffer
-    
-
-    # when in Photos View the Album is deleted return to this View
-#    if items and items.constructor.className is 'GalleriesAlbum' and item.destroyed
-#      @show()
-      
     @el
       
   renderHeader: (item) ->
@@ -126,7 +119,7 @@ class AlbumsView extends Spine.Controller
         alb.invalid = false
         alb.save(ajax:false)
         
-    @render @buffer
+    @change()
     
   newAttributes: ->
     if User.first()
@@ -186,10 +179,10 @@ class AlbumsView extends Spine.Controller
         album.destroy()
         album.removeSelectionID()
 
-  createAlbum: (album) ->
-    @render()
+  createAlbum: ->
+    @change()
     
-  destroyAlbum: (album) ->
+  destroyAlbum: ->
     @renderHeader()
     
   createJoin: (albums, target) ->

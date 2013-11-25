@@ -11,10 +11,6 @@ Extender = require("plugins/controller_extender")
 
 class SlideshowView extends Spine.Controller
   
-  #slideshow
-  # modal = $('#modal-gallery').data('modal')
-  # modal.startSlideShow()
-  # modal.stopSlideShow()
   @extend Extender
   
   elements:
@@ -33,10 +29,6 @@ class SlideshowView extends Spine.Controller
       current:
         className: 'Slideshow'
     @thumbSize = 240
-    @fullScreen = true
-    @autoplay = false #the slideshow itselfs autoplay
-    @autostart = false #play slideshow upon opening a album
-#    @modal = $('#modal-gallery')
     
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
@@ -44,9 +36,6 @@ class SlideshowView extends Spine.Controller
     Spine.bind('chromeless', @proxy @chromeless)
     @bind('play', @proxy @play)
     
-#    @bind('slideshow:ready', @proxy @play)
-#    @modal.bind('hide.bs.modal', @proxy @hide)
-        
   render: (items) ->
     console.log 'SlideshowView::render'
     @items.html @template items
@@ -143,14 +132,12 @@ class SlideshowView extends Spine.Controller
         list.push photo for photo in photos
     list
         
-  show: (autoplay) ->
+  show: ->
     console.log 'Slideshow::show'
     
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Back'])
     App.showView.trigger('canvas', @)
-    
-    @autoplay = autoplay
     
     list = @slideshowPhotos()
     if list.length
@@ -221,7 +208,7 @@ class SlideshowView extends Spine.Controller
     options =
       index             : target
       startSlideshow    : true
-      slideshowInterval : 1000
+      slideshowInterval : 2000
     links = $('.thumbnail', @items)
     gallery = blueimp.Gallery(links, options)
     

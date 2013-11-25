@@ -33,11 +33,11 @@
         <ul class="container items vbox flex autoflow"></ul>
         <footer class="footer">
           <button class="createGallery dark">
-            <i class="glyphicon glyphicon-plus glyphicon glyphicon-white"></i>
+            <i class="glyphicon glyphicon-plus"></i>
             <span>Gallery</span>
           </button>
           <button class="createAlbum dark">
-            <i class="glyphicon glyphicon-plus glyphicon glyphicon-white"></i>
+            <i class="glyphicon glyphicon-plus"></i>
             <span>Album</span>
           </button>
         </footer>
@@ -75,7 +75,7 @@
             <div class="container items flex">PHOTO</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">
-            <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
+            <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="div.thumbnail"></div>
           </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
@@ -751,7 +751,10 @@
 </script>
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">
-  <button data-active="active..." data-loading="loading..." data-complete="completed..." class="dark clear logout" title="Group ${groupname}">Logout ${name}</button>
+  <button data-active="active..." data-loading="loading..." data-complete="completed..." class="dark clear logout" title="Group ${groupname}">
+    <i class="glyphicon glyphicon-log-out"></i>
+    <span>Logout ${name}</span>
+  </button>
 </script>
 
 <script id="overviewTemplate" type="text/x-jquery-tmpl">

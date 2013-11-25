@@ -54,13 +54,6 @@ class Toolbar extends Spine.Model
           name: -> 'Photomasters'
           klass: 'optShowPhotoMasters'
           disabled: -> false
-        ,
-          devider: true
-        ,
-          name: 'Modal Test'
-          icon: 'th'
-          iconcolor: 'black'
-          klass: 'optShowModal'
         ]
     group1:
       name: 'Gallery'
@@ -114,7 +107,9 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: -> 'Start Slideshow'
+          name: ->
+            len=Gallery.activePhotos().length
+            'Start Slideshow (' + len + ')'
           icon: 'play'
           klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
@@ -262,11 +257,14 @@ class Toolbar extends Spine.Model
         [
           name: ->
             len=Gallery.activePhotos().length
-            "Slideshow: " + len + (if len==1 then " Image" else " Images") 
+            "Slides (" + len + ')'#(if len==1 then " Image" else " Images") 
           klass: 'optOpenSlideshow'
+          disabled: -> !Gallery.activePhotos().length
+        ,
+          name: -> ''
           icon: 'play'
-          iconcolor: 'white'
-          innerstyle: 'left: -8px; top: 8px; font-size: 0.9em; font-style: oblique;'
+          klass: 'optSlideshowPlay'
+          dataToggle: 'modal-gallery'
           disabled: -> !Gallery.activePhotos().length
         ]
     group10:

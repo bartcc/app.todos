@@ -33,7 +33,7 @@
               <fieldset>
                 <?php echo $this->Form->button('Guest Login', array('type'=>'button', 'class' => 'light', 'id' => 'guestLogin')); ?>
                 <?php echo $this->Form->button('Cancel', array('type'=>'submit', 'class' => 'light', 'id' => 'cancel')); ?>
-                <?php echo $this->Form->button('Login', array('type'=>'submit', 'class' => 'light')); ?>
+                <?php echo $this->Form->button('  ', array('type'=>'submit', 'class' => 'light glyphicon glyphicon-log-out')); ?>
               </fieldset>
             </span>
           </footer>

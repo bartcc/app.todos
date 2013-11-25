@@ -128,6 +128,20 @@ class SlideshowView extends Spine.Controller
           'data-href'   : jsn.src
           'title'       : item.title or item.src
           'data-gallery': 'gallery'
+    @trigger('slideshow:ready')
+        
+  slideshowPhotos: ->
+    filterOptions =
+      key: 'album_id'
+      joinTable: 'AlbumsPhoto'
+      sorted: true
+      
+    list = []
+    if @photos().length
+      for aid in Gallery.selectionList()
+        photos = Photo.filterRelated(aid, filterOptions)
+        list.push photo for photo in photos
+    list
         
   show: (autoplay) ->
     console.log 'Slideshow::show'
@@ -138,17 +152,9 @@ class SlideshowView extends Spine.Controller
     
     @autoplay = autoplay
     
-    filterOptions =
-      key: 'album_id'
-      joinTable: 'AlbumsPhoto'
-      sorted: true
-      
-    @slideshowPhotos = []
-    if @photos().length
-      for aid in Gallery.selectionList()
-        photos = Photo.filterRelated(aid, filterOptions)
-        @slideshowPhotos.push photo for photo in photos
-      @render @slideshowPhotos
+    list = @slideshowPhotos()
+    if list.length
+      @render list
     else
       @notify()
       @parent.showPrevious()
@@ -190,19 +196,22 @@ class SlideshowView extends Spine.Controller
   slideshowable: ->
     @photos().length
     
-  play: ->
-    unless @isActive()
-      @navigate '/slideshow', (Math.random() * 16 | 0), true
-    
+  playDeferred: ->
     first = =>
-      console.log 'elFromCanvas'
-      $('[data-gallery=gallery]', @el).forItem(@slideshowPhotos[0])
-    
+      $('[data-gallery=gallery]', @el)[0]
+      
     if @slideshowable()
-      el = first()
-      el?.click()
+      first().click()
     else
       @notify()
+    
+  play: ->
+    unless @isActive()
+      @one('slideshow:ready', @proxy @playDeferred)
+      @navigate '/slideshow', (Math.random() * 16 | 0), 1
+    else
+      @playDeferred()
+    
       
   click: (e) ->
     e.stopPropagation()
@@ -212,7 +221,7 @@ class SlideshowView extends Spine.Controller
     options =
       index             : target
       startSlideshow    : true
-      slideshowInterval : 2000
+      slideshowInterval : 1000
     links = $('.thumbnail', @items)
     gallery = blueimp.Gallery(links, options)
     

@@ -601,7 +601,7 @@
 
 <script id="photosSlideshowTemplate" type="text/x-jquery-tmpl">
   <li  class="item data fade in">
-    <div class="thumbnail container image left" draggable="true"></div>
+    <div class="thumbnail container image left"></div>
   </li>
 </script>
 

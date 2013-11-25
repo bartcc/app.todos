@@ -164,7 +164,6 @@ class Main extends Spine.Controller
     @contentManager.change @showView
 
     @initializeFileupload()
-    @slideshow = @initializeSlideshow()
     
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
@@ -240,25 +239,10 @@ class Main extends Spine.Controller
     @loginView.render User.first()
     @mainView.el.fadeIn(1500)
       
-  initializeSlideshow: ->
-    options =
-      show:       false
-      canvas:     true
-      backdrop:   -> $('#modal-gallery').modal('hide')
-      delegate:   'div#slideshow'
-      selector:   'div.thumbnail'
-      slideshow:  3000
-      autostart:  false
-      
-    $('#modal-gallery').modal(options)
-    
-  hideSlideshow: ->
-    @showView.showPrevious() if @showView.slideshowView.autoplay
-
   initializeFileupload: ->
     @uploader.fileupload
       autoUpload        : true
-      singleFileUploads : true
+      singleFileUploads : false
       maxFileSize       : 6000000 #5MB
       maxNumberOfFiles  : 20
       getFilesFromResponse: (data) ->

@@ -79,7 +79,7 @@
           </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
-          <div class="views canvas content vbox flex hdraggable">
+          <div class="views canvas content vbox flex hdraggable" style="position: relative">
             <div class="hdivide draghandle">
               <span class="optClose glyphicon glyphicon-remove glyphicon glyphicon-white right"></span>
             </div>
@@ -96,45 +96,49 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fu" class="view container flex autoflow" style="margin: 0px">
+            <div id="fu" class="view flex canvas bg-medium autoflow" style="margin: 0px">
               <!-- The file upload form used as target for the file upload widget -->
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
                   <!-- Redirect browsers with JavaScript disabled to the origin page -->
                   <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
                   <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                  <div class="row fileupload-buttonbar" style="padding: 10px;">
-                      <div class="span6">
-                          <!-- The fileinput-button span is used to style the file input field as button -->
-                          <span class="btn dark fileinput-button">
-                              <i class="glyphicon glyphicon-plus glyphicon glyphicon-white"></i>
-                              <span>Add files...</span>
-                              <input type="file" name="files[]" multiple>
-                          </span>
-                          <button type="submit" class="dark start">
-                              <i class="glyphicon glyphicon-upload glyphicon glyphicon-white"></i>
-                              <span>Start upload</span>
-                          </button>
-                          <button type="reset" class="dark cancel">
-                              <i class="glyphicon glyphicon-ban-circle glyphicon glyphicon-white"></i>
-                              <span>Cancel upload</span>
-                          </button>
-                          <button type="button" class="dark delete">
-                              <i class="glyphicon glyphicon-remove glyphicon glyphicon-white"></i>
-                              <span>Clear List</span>
-                          </button>
-                          <!-- The loading indicator is shown during file processing -->
-                          <span class="fileupload-loading"></span>
-                      </div>
-                      <!-- The global progress information -->
-                      <div class="span3 fileupload-progress fade">
-                          <!-- The global progress bar -->
-                          <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                              <div class="progress-bar" style="width:0%;"></div>
-                          </div>
-                      </div>
-                  </div>
-                  <!-- The table listing the files available for upload/download -->
-                  <table role="presentation" class="table"><tbody class="files"></tbody></table>
+                  <div class="">
+                    <!-- The table listing the files available for upload/download -->
+                    <div class="canvas bg-medium fileupload-buttonbar" style="z-index: 2; position: fixed; width: 100%;">
+                      <div class="span6 left" style="margin: 10px;">
+                            <!-- The fileinput-button span is used to style the file input field as button -->
+                            <span class="btn dark fileinput-button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Add files...</span>
+                                <input type="file" name="files[]" multiple>
+                            </span>
+                            <button type="submit" class="dark start">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>Start upload</span>
+                            </button>
+                            <button type="reset" class="dark cancel">
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <span>Cancel upload</span>
+                            </button>
+                            <button type="button" class="dark delete">
+                                <i class="glyphicon glyphicon-remove"></i>
+                                <span>Clear List</span>
+                            </button>
+                            <!-- The loading indicator is shown during file processing -->
+                            <span class="fileupload-loading"></span>
+                        </div>
+                        <!-- The global progress information -->
+                        <div class="span3 fileupload-progress fade left" style="width: 260px; margin: 14px;">
+                            <!-- The global progress bar -->
+                            <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width:0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="autoflow" style="top: 74px; position: relative; z-index: 1;">
+                      <table role="presentation" class="table"><tbody class="files"></tbody></table>
+                    </div>
+                </div>
               </form>
             </div>
           </div>
@@ -793,13 +797,13 @@
         <td>
             {% if (!o.files.error && !i && !o.options.autoUpload) { %}
                 <button class="dark start">
-                    <i class="glyphicon glyphicon-upload glyphicon glyphicon-white"></i>
+                    <i class="glyphicon glyphicon-upload"></i>
                     <span>Start</span>
                 </button>
             {% } %}
             {% if (!i) { %}
                 <button class="dark cancel">
-                    <i class="glyphicon glyphicon-ban-circle glyphicon glyphicon-white"></i>
+                    <i class="glyphicon glyphicon-ban-circle"></i>
                     <span>Cancel</span>
                 </button>
             {% } %}
@@ -813,7 +817,7 @@
     <tr class="template-download fade dark">
         <td>
             <button class="dark delete" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}"{% if (file.delete_with_credentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
-                <i class="glyphicon glyphicon-remove glyphicon glyphicon-white"></i>
+                <i class="glyphicon glyphicon-remove"></i>
                 <span></span>
             </button>
         </td>

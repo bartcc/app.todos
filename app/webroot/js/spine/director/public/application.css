@@ -1278,8 +1278,6 @@ label.btn.active {
 }
 .container {
   margin: 5px;
-  padding: 10px;
-  width: auto;
 }
 .container.item {
   border-radius: 10px;
@@ -1576,7 +1574,7 @@ label.btn.active {
 }
 .slider {
   height: 10px;
-  margin: 10px;
+  margin: 16px 10px;
   position: absolute;
   left: 10px;
   width: 150px;
@@ -1653,6 +1651,9 @@ button.chromeless:hover {
 }
 .item .container {
   position: relativ;
+}
+#slideshow .thumbnail {
+  cursor: pointer;
 }
 [class^="glyphicon-"],
 [class*=" glyphicon-"] {

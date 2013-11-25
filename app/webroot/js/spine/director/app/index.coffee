@@ -24,6 +24,7 @@ PhotoEditView           = require("controllers/photo_edit_view")
 UploadEditView          = require("controllers/upload_edit_view")
 GalleryEditView         = require("controllers/gallery_edit_view")
 GalleryEditorView       = require("controllers/gallery_editor_view")
+FlickrView              = require("controllers/flickr_view")
 ActionWindow            = require("controllers/action_window")
 
 require("plugins/manager")
@@ -44,6 +45,7 @@ class Main extends Spine.Controller
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
     '#show'               : 'showEl'
+    '#sidebar .flickr'    : 'sidebarFlickrEl'
     '#overview'           : 'overviewEl'
     '#edit'               : 'galleryEditEl'
     '#ga'                 : 'galleryEl'
@@ -107,14 +109,16 @@ class Main extends Spine.Controller
       el: @showEl
       activeControl: 'btnGallery'
       uploader: @upload
+    @flickrView = new FlickrView
+      el: @flickrEl
     @slideshowView = @showView.slideshowView
     @overviewView = new OverviewView
       el: @overviewEl
     @sidebar = new Sidebar
       el: @sidebarEl
       externalUI: '.optSidebar'
-    @flickr = new SidebarFlickr
-      el: @flickrEl
+    @sidebarFlickr = new SidebarFlickr
+      el: @sidebarFlickrEl
     @loginView = new LoginView
       el: @loginEl
     @mainView = new MainView
@@ -147,16 +151,16 @@ class Main extends Spine.Controller
       sleep: true
       max: => @el.height()/2
       goSleep: =>
-#        @showView.closeDraghandle()
+        @showView.closeView()
       awake: => 
-#        @showView.openDraghandle()
-
+        @showView.openView()
+        
     @hmanager.change @upload
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @appManager.change @loaderView
     
-    @contentManager = new Spine.Manager(@galleryEditView, @overviewView, @showView)
+    @contentManager = new Spine.Manager(@galleryEditView, @overviewView, @showView, @flickrView)
     @contentManager.change @showView
 
     @initializeFileupload()
@@ -253,7 +257,7 @@ class Main extends Spine.Controller
 
   initializeFileupload: ->
     @uploader.fileupload
-      autoUpload        : false
+      autoUpload        : true
       singleFileUploads : true
       maxFileSize       : 6000000 #5MB
       maxNumberOfFiles  : 20

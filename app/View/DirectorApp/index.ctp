@@ -27,7 +27,7 @@
         </div>
         <div class="originals hbox">
           <ul class="options flex">
-            <li id="flickr" class="splitter disabled"></li>
+            <li id="" class="splitter flickr disabled"></li>
           </ul>
         </div>
         <ul class="container items vbox flex autoflow"></ul>
@@ -75,7 +75,7 @@
             <div class="container items flex">PHOTO</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">
-            <div class="container items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
+            <div class="items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.thumbnail"></div>
           </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
@@ -96,7 +96,7 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fu" class="view flex autoflow" style="margin: 0px">
+            <div id="fu" class="view container flex autoflow" style="margin: 0px">
               <!-- The file upload form used as target for the file upload widget -->
               <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
                   <!-- Redirect browsers with JavaScript disabled to the origin page -->
@@ -169,11 +169,28 @@
         </ul>
         <div class="content container vbox flex autoflow"></div>
       </div>
+      <div id="flickr" class="canvas view vbox flex">
+        <ul class="options hbox">
+          <ul class="toolbar hbox"></ul>
+        </ul>
+        <div class="content links vbox flex autoflow"></div>
+      </div>
+      
     </div>
   </div>
 </div>
+<!-- blueimp-gallery -->
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+  <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
 <!-- modal-image-gallery -->
-<div id="modal-gallery" class="modal modal-gallery fade" data-slideshow="1000" style="display: none;">
+<div id="modal-gallery_" class="modal modal-gallery fade" data-slideshow="1000" style="display: none;">
       <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
         <h3 class="modal-title"></h3>
@@ -193,7 +210,14 @@
 <div id="modal-view" class="modal fade"></div>
 <div id="modal-action" class="modal fade">
 </div><!-- /.modal -->
+
 <!-- Templates -->
+<script id="flickrTemplate" type="text/x-jquery-tmpl">
+  <a href='http://farm${farm}.static.flickr.com/${server}/${id}_${secret}_b.jpg' title="${title}" data-gallery>
+    <img src='http://farm${farm}.static.flickr.com/${server}/${id}_${secret}_s.jpg'>
+  </a>
+</script>
+
 <script id="modalActionTemplate" type="text/x-jquery-tmpl">
   <form>
   <div class="modal-dialog">
@@ -230,44 +254,15 @@
   </div><!-- /.modal-dialog -->
   </form>
 </script>
+
 <script id="modalActionColTemplate" type="text/x-jquery-tmpl">
   {{tmpl($item.data.items) "#modalActionContentTemplate"}}
 </script>
+
 <script id="modalActionContentTemplate" type="text/x-jquery-tmpl">
   <a class="list-group-item item" id="${id}">{{if name}}${name}{{else}}${title}{{/if}}</a>
 </script>
-<script id="modalActionTemplate_" type="text/x-jquery-tmpl">
-  <form>
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <ul class="pager">
-          <li class="previous {{if min}}disabled{{/if}}"><a href="#">&larr;</a></li>
-          <li class="next {{if max}}disabled{{/if}}"><a href="#">&rarr;</a></li>
-        </ul>
-        <h4 class="modal-title">${text}</h4>
-      </div>
-      <div class="modal-body">
-        <div class="btn-group" data-toggle="buttons">
-          {{tmpl($item.data.items()) "#modalActionContentTemplate"}}
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="copy btn btn-primary">Copy</button>
-        <label class="hide">
-        <input type="checkbox" class="remove">remove original items when done</label>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-  </form>
-</script>
-<script id="modalActionContentTemplate_" type="text/x-jquery-tmpl">
-  <label class="btn dark jumbo">
-    <input type="radio" name="options" id="${id}">{{if name}}${name}{{else}}${title}{{/if}}
-  </label>
-</script>
+
 <script id="modalSimpleTemplate" type="text/x-jquery-tmpl">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -355,7 +350,7 @@
 
 <script id="sidebarFlickrSublistTemplate" type="text/x-jquery-tmpl">
   <div class="item-content">
-    <span class="name">${name}</span>
+    <span class="${klass}">${name}</span>
   </div>
 </script>
 
@@ -577,7 +572,6 @@
   </label>
 </script>
 
-
 <script id="editPhotoTemplate" type="text/x-jquery-tmpl">
   <label class="">
     <span class="enlightened">Photo Title</span>
@@ -602,9 +596,8 @@
 </script>
 
 <script id="photosSlideshowTemplate" type="text/x-jquery-tmpl">
-  <li  class="item data container fade in">
-    <div class="thumbnail image left" draggable="true"></div>
-    <div class="title" style="font-size: 0.5em">${order}</div>
+  <li  class="item data fade in">
+    <div class="thumbnail container image left" draggable="true"></div>
   </li>
 </script>
 

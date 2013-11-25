@@ -12,6 +12,7 @@ class SidebarFlickr extends Spine.Controller
   events:
     'click      .expander'  : 'expand'
     'click'                 : 'expand'
+    'click      .recent'    : 'recent'
 
   template: (items) ->
     $("#sidebarFlickrTemplate").tmpl(items)
@@ -19,14 +20,14 @@ class SidebarFlickr extends Spine.Controller
   constructor: ->
     super
     @render()
+    
 
   render: ->
     items = 
       name: 'Flickr'
       sub: [
-        name: 'Recent (disabled)'
-      ,
-        name: 'User (disabled)'
+        name: 'Recent'
+        klass: 'recent'
       ]
       
     @html @template(items)
@@ -36,7 +37,7 @@ class SidebarFlickr extends Spine.Controller
     icon = $('.expander', parent)
     content = $('.sublist', parent)
 
-    icon.toggleClass('expand')
+    icon.toggleClass('open')
       
     if content.is(':visible') then content.hide() else content.show()
 
@@ -60,5 +61,13 @@ class SidebarFlickr extends Spine.Controller
     gallerySublist.html @sublistTemplate(albums)
     
     @updateTemplate gallery
+
+  recent: (e) ->
+    console.log 'SidebarFlickrView::recent'
+    e.stopPropagation()
+    e.preventDefault()
+    
+    App.contentManager.change(App.flickrView)
+    App.flickrView.ajax()
 
 module?.exports = SidebarFlickr

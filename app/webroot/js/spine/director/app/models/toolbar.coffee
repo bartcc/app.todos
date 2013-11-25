@@ -263,12 +263,11 @@ class Toolbar extends Spine.Model
           name: ->
             len=Gallery.activePhotos().length
             "Slideshow: " + len + (if len==1 then " Image" else " Images") 
-          klass: 'optSlideshowPlay'
+          klass: 'optOpenSlideshow'
           icon: 'play'
           iconcolor: 'white'
           innerstyle: 'left: -8px; top: 8px; font-size: 0.9em; font-style: oblique;'
-          disabled: ->
-            !Gallery.activePhotos().length
+          disabled: -> !Gallery.activePhotos().length
         ]
     group10:
       name: 'Back'
@@ -277,9 +276,10 @@ class Toolbar extends Spine.Model
         [
           name: ''
           klass: 'optPrevious'
-          innerklass: 'chromeless'
-          outerstyle: 'float: left;'
-          innerstyle: 'left: -8px; top: 8px;'
+          type: 'span'
+          innerklass: 'glyphicon glyphicon-white glyphicon-remove'
+          outerstyle: 'float: right;'
+          innerstyle: 'left: -8px; top: 8px; position:relative;'
         ]
     group11:
       name: 'Chromeless'
@@ -311,29 +311,22 @@ class Toolbar extends Spine.Model
       name: 'SlideshowPackage'
       content:
         [
-          name: 'Chromeless'
-          klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
-          icon: ''
-          dataToggle: 'button'
-          outerstyle: ''
-        ,
-          name: -> Gallery.activePhotos().length
-          klass: 'optSlideshowPlay'
-          icon: 'play'
-          iconcolor: 'white'
-          disabled: -> !Gallery.activePhotos().length
-        ,
           name: '<span class="slider" style=""></span>'
           klass: 'optThumbsize '
           type: 'div'
           innerstyle: 'width: 190px; position: relative;'
         ,
           name: ''
-          klass: 'optPrevious'
-          type: 'span'
-          innerklass: 'glyphicon glyphicon-white glyphicon glyphicon-remove'
-          outerstyle: 'float: right;'
-          innerstyle: 'left: -8px; top: 8px; position:relative;'
+          klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
+          icon: 'fullscreen'
+          dataToggle: 'button'
+          outerstyle: ''
+        ,
+          name: ''
+          klass: 'optSlideshowPlay'
+          icon: 'play'
+          iconcolor: ''
+          disabled: -> !Gallery.activePhotos().length
         ]
         
   init: (ins) ->

@@ -32,6 +32,8 @@
     echo $this->Html->css('twitter/bootstrap/css/bootstrap');
     echo $this->Html->css('blueimp/bootstrap-image-gallery');
     echo $this->Html->css('blueimp/jquery.fileupload-ui');
+    echo $this->Html->css('blueimp/blueimp-gallery');
+    echo $this->Html->css('blueimp/blueimp-gallery-indicator');
     echo $this->Html->css('html5sortable/jquery.sortable');
     echo $this->Html->css('/js/spine/director/public/application');
 
@@ -55,7 +57,7 @@
       var photos = <?php echo $this->Js->object($photos); ?>;
       var startScript = startScript = function() {
         setTimeout(function() {
-          App.showView.openDraghandle('upload');
+          App.showView.toggleDraghandle('');
         }, 2000)
         setTimeout(function(){
           App.sidebar.toggleDraghandle('');

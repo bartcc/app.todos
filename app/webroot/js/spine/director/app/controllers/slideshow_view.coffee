@@ -21,6 +21,9 @@ class SlideshowView extends Spine.Controller
     '.items'           : 'items'
     '.thumbnail'       : 'thumb'
     
+  events:
+    'click .items': 'click'
+    
   template: (items) ->
     $("#photosSlideshowTemplate").tmpl items
 
@@ -33,15 +36,16 @@ class SlideshowView extends Spine.Controller
     @fullScreen = true
     @autoplay = false #the slideshow itselfs autoplay
     @autostart = false #play slideshow upon opening a album
-    @modal = $('#modal-gallery')
+#    @modal = $('#modal-gallery')
     
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('chromeless', @proxy @chromeless)
+    @bind('play', @proxy @play)
     
-    @bind('slideshow:ready', @proxy @play)
-    @modal.bind('hide.bs.modal', @proxy @hide)
+#    @bind('slideshow:ready', @proxy @play)
+#    @modal.bind('hide.bs.modal', @proxy @hide)
         
   render: (items) ->
     console.log 'SlideshowView::render'
@@ -51,7 +55,6 @@ class SlideshowView extends Spine.Controller
     @size(App.showView.sliderOutValue())
     
     @items.children().sortable 'photo'
-    @exposeSelection()
     @el
        
   exposeSelection: ->
@@ -125,14 +128,12 @@ class SlideshowView extends Spine.Controller
           'data-href'   : jsn.src
           'title'       : item.title or item.src
           'data-gallery': 'gallery'
-          
-    @play() if @autoplay
         
   show: (autoplay) ->
     console.log 'Slideshow::show'
     
-    App.showView.trigger('change:toolbarOne', [''])
-    App.showView.trigger('change:toolbarTwo', ['SlideshowPackage', App.showView.initSlider])
+    App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
+    App.showView.trigger('change:toolbarTwo', ['Back'])
     App.showView.trigger('canvas', @)
     
     @autoplay = autoplay
@@ -175,75 +176,46 @@ class SlideshowView extends Spine.Controller
     root = document.documentElement
     
     if activate or !(isActive = @fullScreenEnabled())
-      $('#modal-gallery').addClass('modal-fullscreen')
       if(root.webkitRequestFullScreen)
         root.webkitRequestFullScreen(window.Element.ALLOW_KEYBOARD_INPUT)
       else if(root.mozRequestFullScreen)
         root.mozRequestFullScreen()
     else
-      $('#modal-gallery').removeClass('modal-fullscreen')
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
     @fullScreenEnabled()
       
   fullScreenEnabled: ->
-    !!(window.fullScreen) or $('#modal-gallery').hasClass('modal-fullscreen')
+    !!(window.fullScreen)# or $('#modal-gallery').hasClass('modal-fullscreen')
     
   slideshowable: ->
     @photos().length
-    
-  isAutoplay: ->
-    @autoplay
-  
-  isAutostart: ->
-    @modal.data('bs.modal').options.autostart
-  
-#  startSlideShow: ->
-#    App.slideshow.startSlideShow()
-#    
-#  stopSlideShow: ->
-#    App.slideshow.stopSlideShow()
-#    
-#  cancelSlideShow: ->
-#    App.slideshow.stopSlideShow()
-#    
-#  toggleSlideShow: ->
-#    App.slideshow.toggleSlideShow()
     
   play: ->
     unless @isActive()
       @navigate '/slideshow', (Math.random() * 16 | 0), true
     
-    elFromSelection = =>
-      console.log 'elFromSelection'
-      list = Album.selectionList()
-      if list.length
-        id = list[0] 
-        item = Photo.find(id) if Photo.exists(id)
-        el = $('[data-gallery="gallery"]', @el).forItem(item, true)
-        return el
-      return
-    
-    elFromCanvas = =>
+    first = =>
       console.log 'elFromCanvas'
       $('[data-gallery=gallery]', @el).forItem(@slideshowPhotos[0])
     
     if @slideshowable()
-      # prevent ghosted backdrops
-      return if $('.modal-backdrop').length
-      
-      el = (elFromSelection() or elFromCanvas())
+      el = first()
       el?.click()
     else
       @notify()
       
-  stop: (e) ->
-    @modal.modal('stopSlideShow')
+  click: (e) ->
+    e.stopPropagation()
     e.preventDefault()
-   
-  start: (e) ->
-    @modal.modal('startSlideShow')
-    e.preventDefault()
-   
+    
+    target = $(e.target)[0]
+    options =
+      index             : target
+      startSlideshow    : true
+      slideshowInterval : 2000
+    links = $('.thumbnail', @items)
+    gallery = blueimp.Gallery(links, options)
+    
   hide: (e) ->
     @parent.showPrevious()
    

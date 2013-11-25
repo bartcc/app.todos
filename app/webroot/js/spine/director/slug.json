@@ -30,6 +30,10 @@
     "js/lib/blueimp/jquery.fileupload-video.js",
     "js/lib/blueimp/jquery.fileupload-validate.js",
     "js/lib/blueimp/jquery.fileupload-ui.js",
+    "js/lib/blueimp/blueimp-gallery.js",
+    "js/lib/blueimp/blueimp-gallery-fullscreen.js",
+    "js/lib/blueimp/blueimp-gallery-indicator.js",
+    "js/lib/blueimp/blueimp-helper.js",
     "js/lib/anito/array.js"
   ]
 }

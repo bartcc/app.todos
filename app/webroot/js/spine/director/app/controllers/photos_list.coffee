@@ -132,8 +132,6 @@ class PhotosList extends Spine.Controller
         img.onload = @imageLoad
         img.src = src
         
-    Spine.trigger('show:slideshow') if App.slideshow.data('bs.modal').options.autostart
-    
   photos: (id) ->
     if Album.record
       Album.record.photos()

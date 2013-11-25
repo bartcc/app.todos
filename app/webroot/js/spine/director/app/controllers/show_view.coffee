@@ -79,12 +79,13 @@ class ShowView extends Spine.Controller
     'click .optSlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
     'click .optShowSlideshow:not(.disabled)'         : 'showSlideshow'
     'click .optSlideshowPlay:not(.disabled)'         : 'slideshowPlay'
+    'click .optOpenSlideshow:not(.disabled)'         : 'slideshowOpen'
     'click .optShowAlbumMasters:not(.disabled)'      : 'showAlbumMasters'
     'click .optShowPhotoMasters:not(.disabled)'      : 'showPhotoMasters'
     'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
     'dblclick .draghandle'                           : 'toggleDraghandle'
-    'click .draghandle.optClose'                     : 'closeDraghandle'
+    'click .draghandle.optClose'                     : 'toggleDraghandle'
     'click .items'                                   : 'deselect'
     'slidestop .slider'                              : 'sliderStop'
     'slidestart .slider'                             : 'sliderStart'
@@ -144,7 +145,6 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
-#    @bind('show:previous', @proxy @showPrevious)
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
@@ -156,8 +156,6 @@ class ShowView extends Spine.Controller
     @sOutValue = 160 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @current = @galleriesView
-    
-#    @edit = @editGallery
     
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
@@ -207,13 +205,8 @@ class ShowView extends Spine.Controller
     @toolbarOne.refresh()
     @toolbarTwo.refresh()
     
-  renderViewControl: (controller, controlEl) ->
-    active = controller.isActive()
-    $('.options .opt').each ->
-      if(@ == controlEl)
-        $(@).toggleClass('active', active)
-      else
-        $(@).removeClass('active')
+  renderViewControl: (controller) ->
+    App.hmanager.change(controller)
   
   createGallery: (e) ->
     Spine.trigger('create:gallery')
@@ -258,8 +251,9 @@ class ShowView extends Spine.Controller
     Photo.trigger('create:join', photos, album)
     if gallery
       Album.trigger('create:join', [album], gallery)
-    
-    @navigate '/gallery', gallery.id, album.id
+      @navigate '/gallery', gallery.id, album.id
+    else
+      @navigate '/gallery', '', album.id
       
   copyPhotosToNewAlbum: (photos, gallery=Gallery.record) ->
     Spine.trigger('create:album', photos, gallery)
@@ -386,47 +380,37 @@ class ShowView extends Spine.Controller
     @slideshowView.autoplay
   
   toggleDraghandle: ->
-    UI = App.hmanager.externalUI()
-    if UI.hasClass('open')
-      @closeDraghandle()
-    else
-      @openDraghandle()
-    false
-    
-  openDraghandle: ->
-    UI = App.hmanager.externalUI()
-    unless UI.hasClass('open')
-      UI.addClass('open').click()
-    
-  closeDraghandle: ->
-    UI = App.hmanager.externalUI()
-    if UI.hasClass('open')
-      UI.removeClass('open').click()
+    @animateView()
     
   toggleQuickUpload: ->
     @quickUpload !@isQuickUpload()
     @refreshToolbars()
   
   quickUpload: (active) ->
-    console.log $('#fileupload').data()
+#    console.log $('#fileupload').data()
     $('#fileupload').data('blueimpFileupload').options['autoUpload'] = active
     
   isQuickUpload: ->
     $('#fileupload').data('blueimpFileupload').options['autoUpload']
     
-  toggleView: (controller, control) ->
-    console.log 'toggleView'
-    isActive = controller.isActive()
-    
-    if(isActive)
+  toggleView: (controller) ->
+    if(controller.isActive())
       App.hmanager.trigger('change', false)
+      @closeView()
     else
-      @activeControl = control
       App.hmanager.trigger('change', controller)
+      @openView()
+      @renderViewControl controller
     
-    @propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s')
-    $(control).toggleClass('ui-icon-carat-1-s', !isActive)
-    @renderViewControl controller, control
+#    @propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s')
+#    $(control).toggleClass('ui-icon-carat-1-s', !controller.isActive())
+    
+  closeView: ->
+    return unless App.hmanager.el.hasClass('open')
+    @animateView()
+  
+  openView: ->
+    return if App.hmanager.el.hasClass('open')
     @animateView()
     
   animateView: ->
@@ -435,9 +419,15 @@ class ShowView extends Spine.Controller
         return App.hmanager.enableDrag()
       false
     
+    isOpen = ->
+      App.hmanager.el.hasClass('open')
+    
     height = ->
-      App.hmanager.currentDim
-      if hasActive() then parseInt(App.hmanager.currentDim)+'px' else '25px'
+      h = unless isOpen()
+        parseInt(App.hmanager.currentDim)+'px'
+      else
+        '25px'
+      h
     
     @views.animate
       height: height()
@@ -526,8 +516,11 @@ class ShowView extends Spine.Controller
     # rerender thumbnails on the server to its final size
 #    @slider.toggle()
 
-  slideshowPlay: (e) =>
+  slideshowOpen: (e) =>
     @navigate '/slideshow', (Math.random() * 16 | 0), 1
+    
+  slideshowPlay: (e) =>
+    @slideshowView.trigger('play')
     
   showOverview: (e) ->
     @navigate '/overview/'
@@ -538,7 +531,6 @@ class ShowView extends Spine.Controller
     
   showPrevious: (sameAllowed) ->
     loc = @previousLocation(sameAllowed)
-    console.log loc
     @navigate loc
   
   showModal: (options) ->

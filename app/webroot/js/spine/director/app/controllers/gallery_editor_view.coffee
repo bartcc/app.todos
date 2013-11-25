@@ -42,6 +42,7 @@ class GalleryEditorView extends Spine.Controller
 
   change: (item, mode) ->
     console.log 'GalleryEditView::change'
+    return unless @active
     @current = item unless item?.destroyed
     @render @current
 

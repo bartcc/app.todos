@@ -192,10 +192,12 @@ class Main extends Spine.Controller
       '/slideshow/:id/:autostart': (params) ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow', params.autostart)
-        Spine.trigger('chromeless', true) if params.fs is 'yes'
       '/slideshow/': ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
+      '/flickr/:type': (params) ->
+        @contentManager.change(@flickrView)
+        @flickrView.trigger('flickr:'+params.type)
     
     @defaultSettings =
       welcomeScreen: false,

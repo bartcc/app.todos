@@ -38,6 +38,9 @@ class FlickrView extends Spine.Controller
       el: @toolbarEl
       template: @toolsTemplate
       
+    @bind('flickr:recent', @proxy @recent)
+    @bind('flickr:interestingness', @proxy @interestingness)
+      
   render: (items) ->
     @content.html @template items
     
@@ -118,9 +121,6 @@ class FlickrView extends Spine.Controller
     @spec[type].page = if (t = ((@spec[type].page || 1)+1)) <= @spec[type].pages then t else @spec[type].pages
     @setup type
     
-  getPage: (type) ->
-    @page[type]
-    
   details: (type) ->
     page = (Number) @spec[type].page
     perpage = (Number) @spec[type].per_page
@@ -132,5 +132,19 @@ class FlickrView extends Spine.Controller
     @spec[type].page = res.photos.page
     @spec[type].pages = res.photos.pages
     @spec[type].per_page = res.photos.perpage
-  
+
+  recent: ->
+    console.log 'FlickrView::recent'
+    App.sidebarFlickr.expander.click()
+    expander = App.sidebarFlickr.expander
+    expander .click() unless expander.hasClass('open')
+    @setup('recent')
+    
+  interestingness: ->
+    console.log 'FlickrView::interestingness'
+    expander = App.sidebarFlickr.expander
+    expander .click() unless expander.hasClass('open')
+    @setup('inter')
+    
+
 module.exports = FlickrView

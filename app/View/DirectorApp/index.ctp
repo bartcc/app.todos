@@ -174,8 +174,8 @@
         <div class="content container vbox flex autoflow"></div>
       </div>
       <div id="flickr" class="canvas view vbox flex">
-        <ul class="options hbox">
-          <ul class="toolbar hbox"></ul>
+        <ul class="options navbar-nav nav">
+          <span class="toolbar"></span>
         </ul>
         <div class="content links vbox flex autoflow"></div>
       </div>

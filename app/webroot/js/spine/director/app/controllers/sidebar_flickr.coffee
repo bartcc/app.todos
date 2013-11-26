@@ -8,6 +8,7 @@ class SidebarFlickr extends Spine.Controller
   elements:
     '.items'                : 'items'
     '.inner'                : 'inner'
+    '.expander'             : 'expander'
 
   events:
     'click      .expander'        : 'expand'
@@ -21,7 +22,6 @@ class SidebarFlickr extends Spine.Controller
   constructor: ->
     super
     @render()
-    
 
   render: ->
     items = 

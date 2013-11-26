@@ -104,8 +104,9 @@ class OverviewView extends Spine.Controller
     false
     
   close: ->
-    unless localStorage.previousHash is localStorage.hash
+    if localStorage.previousHash
       location.hash = localStorage.previousHash
+      delete localStorage.previousHash
     else
       @navigate '/galleries/'
     

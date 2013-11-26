@@ -208,7 +208,8 @@ class Main extends Spine.Controller
     @loadToolbars()
   
   storeHash: ->
-    localStorage.previousHash = localStorage.hash
+    if localStorage.hash
+      localStorage.previousHash = localStorage.hash
     localStorage.hash = location.hash
     
   fullscreen: ->

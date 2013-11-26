@@ -78,6 +78,7 @@ class FlickrView extends Spine.Controller
   ajax: (options) ->
     console.log 'FlickrView::ajax'
     data = $().extend @data, options
+    console.log data
     $.ajax(
       url: @url()
       data: data
@@ -88,6 +89,7 @@ class FlickrView extends Spine.Controller
     .fail(@failResponse)
     
   doneResponse: (result) =>
+    # update our own spec object with flickrs response
     @updateSpecs result
     @render result.photos.photo
     
@@ -129,9 +131,9 @@ class FlickrView extends Spine.Controller
     
   updateSpecs: (res) ->
     type = @type
-    @spec[type].page = res.photos.page
-    @spec[type].pages = res.photos.pages
-    @spec[type].per_page = res.photos.perpage
+    $().extend @spec[type], res.photos
+    # prevent flickr from choking on nested objects
+    delete @spec[type].photo
 
   recent: ->
     console.log 'FlickrView::recent'

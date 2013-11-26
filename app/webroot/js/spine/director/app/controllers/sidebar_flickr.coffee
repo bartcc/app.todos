@@ -29,9 +29,11 @@ class SidebarFlickr extends Spine.Controller
       sub: [
         name: 'Recent Photos'
         klass: 'optFlickrRecent'
+        icon: 'picture'
       ,
         name: 'Interesting Stuff'
         klass: 'optFlickrInter'
+        icon: 'picture'
       ]
       
     @html @template(items)

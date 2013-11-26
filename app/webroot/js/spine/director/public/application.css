@@ -756,6 +756,10 @@ a.btn.dark,
   box-shadow: 0 1px 2px rgba(0,0,0,0.20);
 }
 .options button,
+.options .li {
+  cursor: pointer;
+}
+.options button,
 .options li.opt,
 .options li.dropdown > a {
   border-radius: 0px;
@@ -771,7 +775,6 @@ a.btn.dark,
   border-style: solid;
   border-width: 0;
   margin: 0;
-  cursor: pointer;
 }
 .options li.disabled {
   color: #ababab;
@@ -1250,6 +1253,10 @@ label.btn.active {
 }
 .empty {
   font-style: italic;
+}
+.content input,
+.content textarea {
+  width: 100%;
 }
 #views .views .view {
   height: 0;

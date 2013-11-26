@@ -136,7 +136,7 @@ class SlideshowView extends Spine.Controller
     console.log 'Slideshow::show'
     
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
-    App.showView.trigger('change:toolbarTwo', ['Back'])
+    App.showView.trigger('change:toolbarTwo', ['Back', 'Play'])
     App.showView.trigger('canvas', @)
     
     list = @slideshowPhotos()

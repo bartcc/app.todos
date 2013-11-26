@@ -49,7 +49,6 @@
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
           <li class="splitter disabled flex"></li>
-<!--          <li class="optSlideshow"><button class="dark">Slideshow</button></li>-->
           <ul class="toolbarTwo hbox nav"></ul>
         </ul>
         <div class="contents views vbox flex">
@@ -174,8 +173,10 @@
         <div class="content container vbox flex autoflow"></div>
       </div>
       <div id="flickr" class="canvas view vbox flex">
-        <ul class="options navbar-nav nav">
-          <span class="toolbar"></span>
+        <ul class="options hbox">
+          <li class="splitter flex"></li>
+          <ul class="toolbar hbox nav"></ul>
+          <li class="splitter flex"></li>
         </ul>
         <div class="content links vbox flex autoflow"></div>
       </div>
@@ -192,23 +193,6 @@
     <a class="close">×</a>
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
-</div>
-<!-- modal-image-gallery -->
-<div id="modal-gallery_" class="modal modal-gallery fade" data-slideshow="1000" style="display: none;">
-      <div class="modal-header">
-        <a class="close" data-dismiss="modal">&times;</a>
-        <h3 class="modal-title"></h3>
-        <h5><span class="left modal-captured"></span></h5>
-        <h5><span class="modal-description"></span></h5>
-        <h5><span class="right modal-model"></span></h5>
-      </div>
-      <div class="modal-body"><div class="modal-image"></div></div>
-      <div class="modal-footer">
-        <a class="btn modal-prev"><i class="glyphicon glyphicon-arrow-left"></i> Previous</a>
-        <a class="btn modal-next">Next <i class="glyphicon glyphicon-arrow-right"></i></a>
-        <a class="btn modal-play modal-slideshow" data-slideshow="2000"><i class="glyphicon glyphicon-pause"></i> Slideshow</a>
-        <a class="btn modal-download" target="_blank"><i class="glyphicon glyphicon-download"></i> Download</a>
-      </div>
 </div>
 <!-- modal-dialogue -->
 <div id="modal-view" class="modal fade"></div>
@@ -354,7 +338,7 @@
 
 <script id="sidebarFlickrSublistTemplate" type="text/x-jquery-tmpl">
   <li class="sublist-item item item-content ${klass}">
-    <span class="glyphicon glyphicon-folder-close"></span>
+    <span class="glyphicon glyphicon-${icon}"></span>
     <span class="">${name}</span>
   </li>
 </script>

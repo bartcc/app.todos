@@ -333,18 +333,18 @@ class Toolbar extends Spine.Model
           name: ->
             details = App.flickrView.details('recent')
             'Recent Photos (' + details.from + '-' + details.to + ')'
-          klass: 'opt left'
+          klass: 'opt'
           icon: 'picture'
           type: 'span'
         ,
           name: ''
-          klass: 'optNext right'
-          icon: 'chevron-right'
+          klass: 'optPrev'
+          icon: 'chevron-left'
           disabled: -> 
         ,
           name: ''
-          klass: 'optPrev right'
-          icon: 'chevron-left'
+          klass: 'optNext'
+          icon: 'chevron-right'
           disabled: -> 
         ]
     group15:
@@ -355,17 +355,17 @@ class Toolbar extends Spine.Model
             details = App.flickrView.details('inter')
             'Interesting Stuff (' + details.from + '-' + details.to + ')'
           icon: 'picture'
-          klass: 'opt left'
+          klass: 'opt'
           type: 'span'
         ,
           name: ''
-          klass: 'optNext right'
-          icon: 'chevron-right'
+          klass: 'optPrev'
+          icon: 'chevron-left'
           disabled: -> 
         ,
           name: ''
-          klass: 'optPrev right'
-          icon: 'chevron-left'
+          klass: 'optNext'
+          icon: 'chevron-right'
           disabled: -> 
         ]
         

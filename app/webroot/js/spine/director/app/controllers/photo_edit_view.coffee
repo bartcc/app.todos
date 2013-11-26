@@ -20,21 +20,23 @@ class PhotoEditView extends Spine.Controller
   constructor: ->
     super
     Spine.bind('change:selectedPhoto', @proxy @change)
-#    Spine.bind('change:selectedAlbum', @proxy @change)
-#    Spine.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedAlbum', @proxy @change)
+    Spine.bind('change:selectedGallery', @proxy @change)
   
-  change: (item, changed) ->
-    return unless changed
+  change: ->
     first = Album.selectionList()[0] if Album.selectionList().length
     @current = Photo.record or Photo.exists(first)
     @render()
   
   render: () ->
     if @current
+      console.log 'switch 1'
       @item.html @template @current
     else unless Album.count()
+      console.log 'switch 2'
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Create a album!</span></label>'})
     else
+      console.log 'switch 3'
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">No photo selected</span></label>'})
     @el
   

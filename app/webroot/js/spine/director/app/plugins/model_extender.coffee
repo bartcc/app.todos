@@ -113,7 +113,7 @@ Model.Extender =
       selected: ->
         @record
         
-      toID_: (records = @records) ->
+      toID: (records = @records) ->
         record.id for record in records
       
       toRecords: (ids) ->
@@ -158,10 +158,17 @@ Model.Extender =
         @constructor.selection.splice(index, 1) if index
         @init @
         
+      # removes itself from the list
       removeSelectionID: ->
         for item, idx in @constructor.selection
           index = idx if item[@id]
         @constructor.selection.splice(index, 1) if index
+      
+      removeSelection: (idOrList) ->
+        selectionList = @constructor.selectionList(@id)
+        list = [list] unless @constructor.isArray list
+        selectionList.splice(index, 1) for id, index in list
+        selectionList
       
       updateSelection: (list) ->
         modelName = @constructor['parent']

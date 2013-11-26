@@ -332,6 +332,7 @@ class Toolbar extends Spine.Model
         [
           name: ->
             details = App.flickrView.details('recent')
+            console.log details
             'Recent Photos (' + details.from + '-' + details.to + ')'
           klass: 'opt'
           icon: 'picture'
@@ -353,6 +354,7 @@ class Toolbar extends Spine.Model
         [
           name: ->
             details = App.flickrView.details('inter')
+            console.log details
             'Interesting Stuff (' + details.from + '-' + details.to + ')'
           icon: 'picture'
           klass: 'opt'

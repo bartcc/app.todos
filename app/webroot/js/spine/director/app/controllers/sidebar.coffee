@@ -151,7 +151,6 @@ class Sidebar extends Spine.Controller
     
     switch source.constructor.className
       when 'Album'
-        console.log 'Source is Album'
         albums = []
         Album.each (record) =>
           albums.push record unless @clonedSelection.indexOf(record.id) is -1

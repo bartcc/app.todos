@@ -257,7 +257,7 @@ class SidebarList extends Spine.Controller
     
   click: (e) ->
     console.log 'SidebarList::click'
-    $(e.currentTarget).closest('.gal').addClass('active')
+    $(e.currentTarget).closest('.gal').addClass('active manual')
 #    dont act on no-gallery items like the 'no album' - info
     item = $(e.target).closest('.data').item()
     
@@ -266,37 +266,11 @@ class SidebarList extends Spine.Controller
     
     @navigate '/gallery', item?.id or ''
     
-    App.sidebar.list.expand(Gallery.record, true)
-    App.sidebar.list.closeAllSublists(Gallery.record)
+    @expand(Gallery.record, true)
+    @closeAllSublists(Gallery.record)
     
     e.stopPropagation()
     e.preventDefault()
-    
-
-  dblclick: (e) ->
-    console.log 'SidebarList::dblclick'
-    item = $(e.target).item()
-    @change item, 'edit', e
-    
-    e.stopPropagation()
-    e.preventDefault()
-
-  expandAfterTimeout: (e) ->
-    clearTimeout Spine.timer
-    el = $(e.target)
-    closest = (el.closest('.item')) or []
-    if closest.length
-      expander = $('.expander', closest)
-      if expander.length
-        @expand(e, true)
-
-  close: () ->
-    
-  expanderFromClick: (e) ->
-    $(e.target).parents('li')
-    
-  expanderFromItem: (item) ->
-    @children().forItem(item)
     
   expand: (eventOrItem, force) ->
     isEvent = eventOrItem?.originalEvent
@@ -334,6 +308,32 @@ class SidebarList extends Spine.Controller
         show()
       else
         hide()
+
+  expanderFromClick: (e) ->
+    $(e.target).parents('li')
+    
+  expanderFromItem: (item) ->
+    @children().forItem(item)
+    
+  dblclick: (e) ->
+    console.log 'SidebarList::dblclick'
+    item = $(e.target).item()
+    @change item, 'edit', e
+    
+    e.stopPropagation()
+    e.preventDefault()
+
+  expandAfterTimeout: (e) ->
+    clearTimeout Spine.timer
+    el = $(e.target)
+    closest = (el.closest('.item')) or []
+    if closest.length
+      expander = $('.expander', closest)
+      if expander.length
+        @expand(e, true)
+
+  close: () ->
+    
   
   closeAllSublists: (item) ->
     for gallery in Gallery.all()

@@ -124,12 +124,17 @@ class Album extends Spine.Model
       joinTable: 'GalleriesAlbum'
       sorted: true
       
+    albums = Album.toID()
+    console.log albums
     albums = [@].toID()
+    console.log albums
     gas = GalleriesAlbum.filter(target.id, filterOptions)
-
+    
     for ga in gas
       unless albums.indexOf(ga.album_id) is -1
-        Gallery.removeFromSelection ga.album_id
+        console.log ga.album_id
+#        Gallery.removeFromSelection ga.album_id
+        target.removeSelection(ga.album_id)
         ga.destroy()
   
   count: (inc = 0) -> @constructor.contains(@id) + inc

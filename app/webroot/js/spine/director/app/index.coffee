@@ -195,9 +195,10 @@ class Main extends Spine.Controller
       '/slideshow/': ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
-      '/flickr/:type': (params) ->
+      '/flickr/:type/:page': (params) ->
         @contentManager.change(@flickrView)
-        @flickrView.trigger('flickr:'+params.type)
+        location.href = location.href + '1' unless params.page
+        @flickrView.trigger('flickr:'+params.type, params.page)
     
     @defaultSettings =
       welcomeScreen: false,

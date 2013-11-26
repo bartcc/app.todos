@@ -30,10 +30,13 @@ class ToolbarView extends Spine.Controller
       tools = Toolbar.filter list
       content = new Array
       $.merge(content, itm.content) for itm in tools
-#      console.log content
         
       @current = content
-      @current.cb = itm if typeof itm is 'function' for itm in list
+      
+      # check for callback
+      lastItem = list.last()
+      @current.cb = lastItem if typeof lastItem is 'function'
+          
       
     @render()
     
@@ -58,6 +61,7 @@ class ToolbarView extends Spine.Controller
     
   render: (list=@current) ->
     return if @locked
+    
     @trigger 'before:refresh', @
     @html @template list
     @current?.cb?()

@@ -56,29 +56,29 @@ class FlickrView extends Spine.Controller
     method  : 'flickr.photos.getRecent',
     api_key : '7617adae70159d09ba78cfec73c13be3'
     
-  setup: (mode) ->
+  setup: (mode, page) ->
     console.log 'FlickrView::setup'
     @type = mode
     switch mode
       when 'recent'
-        @changeToolbar ['FlickrRecent']
+        toolsList = ['FlickrRecent']
         options =
-          page  : @spec[mode].page
+          page  : page || @spec[mode].page
           method: 'flickr.photos.getRecent'
       when 'inter'
-        @changeToolbar ['FlickrInter']
+        toolsList = ['FlickrInter']
         options =
-          page  : @spec[mode].page
+          page  : page || @spec[mode].page
           method: 'flickr.interestingness.getList'
       else
         return
     options = $().extend @spec[mode], options
+    @changeToolbar toolsList if toolsList
     @ajax(options)
     
   ajax: (options) ->
     console.log 'FlickrView::ajax'
     data = $().extend @data, options
-    console.log data
     $.ajax(
       url: @url()
       data: data
@@ -114,14 +114,14 @@ class FlickrView extends Spine.Controller
     e.preventDefault()
     type = @type
     @spec[type].page = if (t = ((@spec[type].page || 1)-1)) >= 1 then t else 1
-    @setup type
+    @navigate '/flickr', type, @spec[type].page
   
   nextPage: (e) ->
     e.stopPropagation()
     e.preventDefault()
     type = @type
     @spec[type].page = if (t = ((@spec[type].page || 1)+1)) <= @spec[type].pages then t else @spec[type].pages
-    @setup type
+    @navigate '/flickr', type, @spec[type].page
     
   details: (type) ->
     page = (Number) @spec[type].page
@@ -135,17 +135,17 @@ class FlickrView extends Spine.Controller
     # prevent flickr from choking on nested objects
     delete @spec[type].photo
 
-  recent: ->
+  recent: (page) ->
     console.log 'FlickrView::recent'
     expander = App.sidebarFlickr.expander
     expander.click() unless expander.hasClass('open')
-    @setup('recent')
+    @setup('recent', page)
     
-  interestingness: ->
+  interestingness: (page) ->
     console.log 'FlickrView::interestingness'
     expander = App.sidebarFlickr.expander
     expander.click() unless expander.hasClass('open')
-    @setup('inter')
+    @setup('inter', page)
     
 
 module.exports = FlickrView

@@ -69,13 +69,13 @@ class SidebarFlickr extends Spine.Controller
     @updateTemplate gallery
 
   navRecent: (e) ->
-    @navigate '/flickr', 'recent'
+    @navigate '/flickr', 'recent/1'
     
     e.stopPropagation()
     e.preventDefault()
 
   navInter: (e) ->
-    @navigate '/flickr', 'inter'
+    @navigate '/flickr', 'inter/1'
     
     e.stopPropagation()
     e.preventDefault()

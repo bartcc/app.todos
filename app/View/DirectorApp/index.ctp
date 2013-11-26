@@ -14,7 +14,10 @@
 </div>
 <div id="main" class="view vbox flex">
   <header id="title" class="">
-    <h1 class="left" style="line-height: 3em;"><a style="font-size: 3em;" href="/"><span class="chopin">Photo Director</span></a></h1>
+    <div class="left" style="position: relative;">
+      <h1 class="" style="line-height: 3em;"><a style="font-size: 3em;" href="/"><span class="chopin">Photo Director</span></a></h1>
+      <span style="position: absolute; top: 10px; right: 67px;"><a href="http://glyphicons.com/" target="_blank" class="glyphicon-brand" title="GLYPHICONS is a library of precisely prepared monochromatic icons and symbols, created with an emphasis on simplicity and easy orientation.">GLYPHICONS.com</a></span>
+    </div>
     <div id="login" class="right" style="line-height: 2em; margin: 15px 5px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">

@@ -103,7 +103,11 @@ class OverviewView extends Spine.Controller
       
     false
     
-  close: -> window.history.back()
+  close: ->
+    unless localStorage.previousHash is localStorage.hash
+      location.hash = localStorage.previousHash
+    else
+      @navigate '/galleries/'
     
   error: (xhr, statusText, error) ->
     console.log xhr

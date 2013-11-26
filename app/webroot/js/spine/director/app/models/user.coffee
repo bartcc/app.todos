@@ -21,7 +21,6 @@ class User extends Spine.Model
     @redirect 'logout'
   
   @redirect: (url='', hash='') ->
-#    window.location.replace base_url + url
     location.href = base_url + url + hash
 
   init: (instance) ->

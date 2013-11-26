@@ -179,27 +179,28 @@ class Main extends Spine.Controller
         Album.trigger('activate', params.aid)
         Spine.trigger('show:photos')
       '/gallery/:gid': (params) ->
-#        Album.current()
         @contentManager.change(@showView)
         Gallery.trigger('activate', params.gid)
         Spine.trigger('show:albums')
-      '/galleries/': ->
-#        Album.current()
+      '/galleries/*': ->
         @contentManager.change(@showView)
         Spine.trigger('show:galleries')
-      '/overview/': ->
+      '/overview/*': ->
         Spine.trigger('show:overview')
       '/slideshow/:id/:autostart': (params) ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow', params.autostart)
-      '/slideshow/': ->
+      '/slideshow/*': ->
         @contentManager.change(@showView)
         Spine.trigger('show:slideshow')
       '/flickr/:type/:page': (params) ->
         @contentManager.change(@flickrView)
-        location.href = location.href + '1' unless params.page
+#        location.href = location.href + '1' unless params.page
         @flickrView.trigger('flickr:'+params.type, params.page)
-    
+      '/*': (params) ->
+        location.hash = '#/overview/' # does not work
+        @navigate '/overview/'
+
     @defaultSettings =
       welcomeScreen: false,
       test: true
@@ -207,6 +208,7 @@ class Main extends Spine.Controller
     @loadToolbars()
   
   storeHash: ->
+    localStorage.previousHash = localStorage.hash
     localStorage.hash = location.hash
     
   fullscreen: ->

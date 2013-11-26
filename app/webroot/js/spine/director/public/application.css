@@ -914,7 +914,7 @@ textarea {
   line-height: 2em;
   text-align: center;
   margin: 0;
-  padding: 0 40px;
+  padding: 11px 40px 0;
   color: #555;
   border-right: 1px solid #181818;
   -moz-box-shadow: 1px 0px 1px #525252;
@@ -1720,4 +1720,22 @@ button.chromeless:hover {
 [class^="glyphicon-"].active,
 [class*=" glyphicon-"].active {
   cursor: auto;
+}
+.glyphicon-brand {
+  font-family: 'Helvetica Neue', Helvetica, 'Arial CE', Arial, sans-serif;
+  text-shadow: 0 1px 0 #2b1e1e;
+}
+a.glyphicon-brand:hover {
+  text-decoration: none;
+  color: rgba(188,35,40,0.90);
+  -webkit-transition: color 0.3s linear;
+  -moz-transition: color 0.3s linear;
+  -ms-transition: color 0.3s linear;
+  -o-transition: color 0.3s linear;
+  transition: color 0.3s linear;
+}
+a.glyphicon-brand {
+  color: rgba(129,126,126,0.70);
+  text-decoration: underline;
+  font-size: 1em;
 }

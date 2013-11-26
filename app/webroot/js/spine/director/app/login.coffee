@@ -60,8 +60,8 @@ class Login extends Spine.Controller
     if hash = location.hash
       localStorage['hash'] = hash
     delayedFunc = ->
-#      @loader.addClass('in')
-      User.redirect 'director_app'+hash
+      alert 'redirecting to: ' + hash
+      User.redirect 'director_app' + hash
     @contentEl.addClass('fade500')
     @delay delayedFunc, 500
 

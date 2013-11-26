@@ -1278,6 +1278,8 @@ label.btn.active {
 }
 .container {
   margin: 5px;
+  padding: 10px;
+  width: auto;
 }
 .container.item {
   border-radius: 10px;

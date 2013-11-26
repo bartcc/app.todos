@@ -39,7 +39,7 @@ class FlickrView extends Spine.Controller
       template: @toolsTemplate
       
     @bind('flickr:recent', @proxy @recent)
-    @bind('flickr:interestingness', @proxy @interestingness)
+    @bind('flickr:inter', @proxy @interestingness)
       
   render: (items) ->
     @content.html @template items
@@ -135,15 +135,14 @@ class FlickrView extends Spine.Controller
 
   recent: ->
     console.log 'FlickrView::recent'
-    App.sidebarFlickr.expander.click()
     expander = App.sidebarFlickr.expander
-    expander .click() unless expander.hasClass('open')
+    expander.click() unless expander.hasClass('open')
     @setup('recent')
     
   interestingness: ->
     console.log 'FlickrView::interestingness'
     expander = App.sidebarFlickr.expander
-    expander .click() unless expander.hasClass('open')
+    expander.click() unless expander.hasClass('open')
     @setup('inter')
     
 

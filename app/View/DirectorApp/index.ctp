@@ -353,9 +353,10 @@
 </script>
 
 <script id="sidebarFlickrSublistTemplate" type="text/x-jquery-tmpl">
-  <div class="item-content">
-    <span class="${klass}">${name}</span>
-  </div>
+  <li class="sublist-item item item-content ${klass}">
+    <span class="glyphicon glyphicon-folder-close"></span>
+    <span class="">${name}</span>
+  </li>
 </script>
 
 <script id="galleryDetailsTemplate" type="text/x-jquery-tmpl">

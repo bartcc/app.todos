@@ -10,9 +10,10 @@ class SidebarFlickr extends Spine.Controller
     '.inner'                : 'inner'
 
   events:
-    'click      .expander'  : 'expand'
-    'click'                 : 'expand'
-    'click      .recent'    : 'recent'
+    'click      .expander'        : 'expand'
+    'click'                       : 'expand'
+    'click      .optFlickrRecent' : 'recent'
+    'click      .optFlickrInter'  : 'inter'
 
   template: (items) ->
     $("#sidebarFlickrTemplate").tmpl(items)
@@ -26,8 +27,11 @@ class SidebarFlickr extends Spine.Controller
     items = 
       name: 'Flickr'
       sub: [
-        name: 'Recent'
-        klass: 'recent'
+        name: 'Recent Photos'
+        klass: 'optFlickrRecent'
+      ,
+        name: 'Interesting Stuff'
+        klass: 'optFlickrInter'
       ]
       
     @html @template(items)
@@ -68,6 +72,14 @@ class SidebarFlickr extends Spine.Controller
     e.preventDefault()
     
     App.contentManager.change(App.flickrView)
-    App.flickrView.ajax()
+    App.flickrView.setup('recent')
+    
+  inter: (e) ->
+    console.log 'SidebarFlickrView::inter'
+    e.stopPropagation()
+    e.preventDefault()
+    
+    App.contentManager.change(App.flickrView)
+    App.flickrView.setup('inter')
 
 module?.exports = SidebarFlickr

@@ -17,6 +17,7 @@ class PhotoView extends Spine.Controller
     '.items .item'     : 'item'
   
   events:
+    'click'                           : 'click'
     'mousemove  .item'                : 'infoUp'
     'mouseleave .item'                : 'infoBye'
     'dragstart  .item'                : 'stopInfo'
@@ -27,7 +28,7 @@ class PhotoView extends Spine.Controller
     'dragenter'                       : 'dragenter'
     'drop'                            : 'drop'
     'dragend'                         : 'dragend'
-    'click .glyphicon-set .back'           : 'back'
+    'click .glyphicon-set .back'      : 'back'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -41,42 +42,46 @@ class PhotoView extends Spine.Controller
     @info = new Info
       el: @infoEl
       template: @infoTemplate
-    @img = new Image
-    @img.onload = @imageLoad
+    
     
     Spine.bind('show:photo', @proxy @show)
-    AlbumsPhoto.bind('destroy', @proxy @destroy)
+    AlbumsPhoto.bind('destroy', @proxy @remove)
     Photo.bind('update', @proxy @renderHeader)
     Photo.bind('destroy', @proxy @destroy)
     Spine.bind('change:selectedPhoto', @proxy @renderHeader)
     
-  change: (item, changed) ->
+  change: (item) ->
     console.log 'PhotoView::change'
-    @current = item
-    @render()
+    @render(item)
     
-  render: ->
+  render: (item) ->
     console.log 'PhotoView::render'
-#    if Album.record
-#      @el.removeClass 'all'
-#    else
-#      @el.addClass 'all'
-    
-    return unless @current
-    @items.html @template @current
+    @current = item
+    @created = !!@items.html @template @current unless @once
     @uri @current
-    @renderHeader @current
+    @renderHeader item
     
   renderHeader: (item) ->
     @header.change item
   
+  remove: (ap) ->
+    console.log ap
+    photo = Photo.exists ap.photo_id
+    console.log photo
+    $('.item', @el).remove()
+    Photo.current()
+    @renderHeader @current
+    delete @current
+    @created = false
+  
   destroy: (item) ->
     console.log 'PhotoView::destroy'
-    photoEl = @items.children().forItem @current
+    photoEl = @items.children().forItem item
     photoEl.remove()
     Photo.current()
+    @renderHeader @current
     delete @current
-    @renderHeader()
+    @created = false
     
   params: ->
     width: 600
@@ -88,10 +93,12 @@ class PhotoView extends Spine.Controller
     console.log 'PhotoView::uri'
     Photo.uri @params(),
       (xhr, record) => @callback(xhr, item),
-      [Photo.record]
+      [item]
   
   callback: (json, item) =>
     console.log 'PhotoView::callback'
+    img = new Image
+    img.onload = @imageLoad
     
     searchJSON = (id) ->
       for itm in json
@@ -100,27 +107,27 @@ class PhotoView extends Spine.Controller
 #    for item in items
     jsn = searchJSON item.id
     if jsn
-      @img.element = $('.item', @items).forItem(item)
-      @img.src = jsn.src
+      img.parent = $('.thumbnail', @el)#.forItem(item)
+      img.src = jsn.src
   
   imageLoad: ->
-    el = $('.thumbnail', @element)
-    img = $(@)
+    parent = @parent
     w = @width
     h = @height
     
-    el.html img
+    img = $(@)
+    parent.html img
     .hide()
     .css
       'opacity'           : 0.01
-    el.animate
+    parent.animate
       'width'             : w+'px'
       'height'            : h+'px'
     , complete: => img
       .css
         'opacity'         : 1
       .fadeIn()
-      el.css
+      parent.css
         'borderStyle'       : 'solid'
         'backgroundColor'   : 'rgba(255, 255, 255, 0.5)'
         'backgroundImage'   : 'none'
@@ -145,6 +152,11 @@ class PhotoView extends Spine.Controller
     @navigate '/gallery', Gallery.record.id, Album.record.id
     e.stopPropagation()
     e.preventDefault()
+    
+  click: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    
   
   infoUp: (e) =>
     @info.up(e)
@@ -160,9 +172,8 @@ class PhotoView extends Spine.Controller
     @info.bye()
   
   show: (photo) ->
-#    Photo.current(Photo.exists(photo.id))
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)
-    @change photo
+    @change photo unless photo.id is @current?.id
     
 module?.exports = PhotoView

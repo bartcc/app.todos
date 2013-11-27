@@ -242,7 +242,7 @@ class PhotosList extends Spine.Controller
     item = $(e?.currentTarget).item() || @current
     @select item, true
     @stopInfo()
-    Photo.trigger('activate', Album.updateSelection([item.id]))
+#    Photo.trigger('activate', Album.updateSelection([item.id]))
     @navigate '/gallery', (Gallery.record?.id or 'nope'), (Album.record?.id or 'nope'), item.id
     
     e.stopPropagation()

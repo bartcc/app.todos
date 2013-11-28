@@ -47,7 +47,7 @@
       </div>
       <div class="vdivide draghandle"></div>
     </div>
-    <div id="content" class="views bg-medium vbox flex">
+    <div id="content" class="views bg-medium vbox">
       <div id="show" class="view canvas vbox flex">
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>

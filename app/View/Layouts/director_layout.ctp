@@ -55,7 +55,7 @@
       var galleries = <?php echo $this->Js->object($galleries); ?>;
       var albums = <?php echo $this->Js->object($albums); ?>;
       var photos = <?php echo $this->Js->object($photos); ?>;
-      var startScript = startScript = function() {
+      var startScript = function() {
         setTimeout(function() {
           App.showView.toggleDraghandle('');
         }, 2000)
@@ -86,7 +86,12 @@
       
     });
 
-    
+    $(window).on('resizestart', function () {
+        $('#content').addClass('flex');
+    });
+    jQuery(window).on('resizestop', function () {
+        $('#content').removeClass('flex');
+    });
     <?php
     
     echo $this->Html->scriptEnd();

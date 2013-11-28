@@ -87,10 +87,10 @@
     });
 
     $(window).on('resizestart', function () {
-        $('#content').addClass('flex');
+      $('#content').addClass('flex');
     });
     jQuery(window).on('resizestop', function () {
-        $('#content').removeClass('flex');
+      $('#content').removeClass('flex');
     });
     <?php
     

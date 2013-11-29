@@ -54,7 +54,7 @@
           <li class="splitter disabled flex"></li>
           <ul class="toolbarTwo hbox nav"></ul>
         </ul>
-        <div class="contents views vbox flex">
+        <div class="contents views vbox flex" style="height: 0;">
           <div class="header views">
             <div class="galleriesHeader view"></div>
             <div class="albumsHeader view"></div>

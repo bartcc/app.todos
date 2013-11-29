@@ -39,7 +39,7 @@
 
     echo $this->Html->scriptStart();
     ?>
-      var base_url = '<?php echo $this->Html->url('/'); ?>';
+    var base_url = '<?php echo $this->Html->url('/'); ?>';
     <?php
     echo $this->Html->scriptEnd();
     echo $this->Html->script('spine/director/public/application');
@@ -84,13 +84,6 @@
       App.navigate(route);
       startScript()
       
-    });
-
-    $(window).on('resizestart', function () {
-      $('#content').addClass('flex');
-    });
-    jQuery(window).on('resizestop', function () {
-      $('#content').removeClass('flex');
     });
     <?php
     

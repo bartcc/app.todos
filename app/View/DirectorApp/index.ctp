@@ -452,7 +452,6 @@
       <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right"></span>
     </div>
     <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}no title{{/if}}</div>
-    <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
 
@@ -583,7 +582,6 @@
   <li  class="item data container fade in sortable">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
-    <div class="title" style="font-size: 0.5em">${order}</div>
   </li>
 </script>
 

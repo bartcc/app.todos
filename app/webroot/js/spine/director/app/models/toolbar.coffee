@@ -26,7 +26,7 @@ class Toolbar extends Spine.Model
           name: 'Overview'
           klass: 'optOverview '
         ,
-          name: 'Slides View'
+          name: 'Preview'
           klass: 'optShowSlideshow '
           disabled: -> !Gallery.activePhotos().length
         ,
@@ -257,7 +257,7 @@ class Toolbar extends Spine.Model
         [
           name: ->
             len=Gallery.activePhotos().length
-            "Slides (" + len + ')'#(if len==1 then " Image" else " Images") 
+            "Preview (" + len + ')'#(if len==1 then " Image" else " Images") 
           klass: 'optOpenSlideshow'
           disabled: -> !Gallery.activePhotos().length
         ,

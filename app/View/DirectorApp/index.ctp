@@ -294,8 +294,8 @@
       </div>
       {{/if}}
       <div class="modal-footer">
-        <button class="btn btnOk" data-dismiss="modal" aria-hidden="true">OK</button>
-        <button type="button" class="btn btnAlt">Save changes</button>
+        <button class="btn btnOk" data-dismiss="modal" aria-hidden="true">${button_1_text}</button>
+        <button type="button" class="btn btnAlt">${button_2_text}</button>
       </div>
     </div>
   </div>

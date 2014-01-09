@@ -47,10 +47,12 @@ class UploadEditView extends Spine.Controller
   fail: (e, data) ->
       
   drop: (e, data) ->
+    console.log 'drop1'
     list = Gallery.selectionList()
     # dont allow uploads without an album selected
-#    unless list.length
+    unless list.length
 #      data.files[0...data.files.length] = []
+      console.log App.uploader.fileupload()
 #      @notify()
 
   add: (e, data) ->
@@ -66,6 +68,8 @@ class UploadEditView extends Spine.Controller
       header: 'No Album selected'
       body: 'Please select an album .'
       info: ''
+      button_1_text: 'Hallo'
+      button_2_text: 'Bye'
         
   send: (e, data) ->
     album = Album.exists(@data.link)
@@ -96,6 +100,7 @@ class UploadEditView extends Spine.Controller
   progress: (e, data) ->
     
   paste: (e, data) ->
+    @drop(e, data)
     
   submit: (e, data) ->
     

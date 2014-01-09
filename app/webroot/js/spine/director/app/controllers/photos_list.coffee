@@ -291,13 +291,8 @@ class PhotosList extends Spine.Controller
     @info.bye()
     
   infoEnter: (e) ->
-#    el = $(e.target).find('.more-icon')
-#    el.addClass('in')
     
   infoMove: (e) ->
-#    return unless $(e.target).hasClass('items')
-#    el = $(e.target).find('.more-icon')
-#    el.removeClass('in')
     
   sliderStart: =>
     @refreshElements()

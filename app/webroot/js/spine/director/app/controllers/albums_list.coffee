@@ -109,7 +109,7 @@ class AlbumsList extends Spine.Controller
     el.attr('style', css)
     el.toggleClass('active', active)
     el.toggleClass('hot', hot)
-    @refreshElements()
+    @el.sortable('album')
     
   exposeSelection: ->
     list = Gallery.selectionList().slice(0)

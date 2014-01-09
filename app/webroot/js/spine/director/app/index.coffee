@@ -251,6 +251,7 @@ class Main extends Spine.Controller
       sequentialUploads : true
       maxFileSize       : 10000000 #5MB
       maxNumberOfFiles  : 20
+      acceptFileTypes   : /(\.|\/)(gif|jpe?g|png)$/i
       getFilesFromResponse: (data) ->
         res = []
         for file in data.files

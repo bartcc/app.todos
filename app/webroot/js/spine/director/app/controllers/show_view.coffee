@@ -225,26 +225,21 @@ class ShowView extends Spine.Controller
   createPhotoFromSel: (e) ->
     @copyPhotosToAlbum()
     e.preventDefault()
-    e.preventDefault()
     
   createAlbumFromSel: (e) ->
     @copyPhotosToNewAlbum()
-    e.preventDefault()
     e.preventDefault()
     
   createPhotoFromSelCut: (e) ->
     @movePhotosToAlbum()
     e.preventDefault()
-    e.preventDefault()
   
   createAlbumFromSel: (e) ->
     @createAlbumCopy()
     e.preventDefault()
-    e.preventDefault()
     
   createAlbumFromSelCut: (e) ->
     @createAlbumMove()
-    e.preventDefault()
     e.preventDefault()
   
   copyPhotosToAlbum: (photos, album, gallery) ->

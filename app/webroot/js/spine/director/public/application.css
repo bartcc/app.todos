@@ -929,6 +929,9 @@ textarea {
 .canvas .bg-dark {
   background-color: #666;
 }
+#content .container.fade.in.sortable.active {
+  outline: 2px solid #39f;
+}
 #sidebar {
   width: 300px;
 }
@@ -1402,12 +1405,12 @@ label.btn.active {
   top: -20px;
   right: -14px;
 }
-#content .content .item.active {
-  background-color: rgba(155,155,150,0.40);
+#content .content .item.active.hot {
+  background-color: rgba(55,128,255,0.80);
 /*  border: thin inset #C8C8C8;*/
 }
-#content .content .item.active.hot {
-  background-color: rgba(156,255,0,0.40);
+#content .content .item.active {
+  background-color: rgba(55,128,255,0.20);
 }
 #content .content .item ul {
   float: left;

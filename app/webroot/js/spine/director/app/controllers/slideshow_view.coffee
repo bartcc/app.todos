@@ -225,10 +225,11 @@ class SlideshowView extends Spine.Controller
       @notify()
       return
     
-    unless App.slideshow.isShown
-      @navigate '/slideshow', (Math.random() * 16 | 0), 1
-    else
-      @modal.modal('toggleSlideShow')
-    false
+    @play()
+#    unless App.slideshow.isShown
+#      @navigate '/slideshow', (Math.random() * 16 | 0), 1
+#    else
+#      @modal.modal('toggleSlideShow')
+#    false
     
 module?.exports = SlideshowView

@@ -1405,7 +1405,7 @@ label.btn.active {
   top: -20px;
   right: -14px;
 }
-#content .content .item.hot {
+#content .content .item.active.hot {
   background-color: rgba(55,128,255,0.80);
 /*  border: thin inset #C8C8C8;*/
 }

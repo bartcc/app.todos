@@ -96,7 +96,7 @@ class GalleriesList extends Spine.Controller
     @deselect()
     if item
       el = @children().forItem(item, true)
-      el.addClass("hot")
+      el.addClass("active hot")
       
       App.sidebar.list.expand(Gallery.record, true)
       App.sidebar.list.closeAllSublists(Gallery.record)

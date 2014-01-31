@@ -44,8 +44,8 @@ Controller.Extender =
       children: (sel) ->
         @el.children(sel)
 
-      deselect: () ->
-        @el.deselect()
+      deselect: (args...) ->
+        @el.deselect(args...)
 
       sortable: (type) ->
         @el.sortable type

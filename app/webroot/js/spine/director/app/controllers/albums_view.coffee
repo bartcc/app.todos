@@ -189,14 +189,16 @@ class AlbumsView extends Spine.Controller
     if target
       for album in albums
         album.createJoin target
-      
-#    Album.trigger('activate', [album.id])
+        
+      @sortupdate()
     
   destroyJoin: (albums, target) ->
     return unless target and target.constructor.className is 'Gallery'
 
     for album in albums
       album.destroyJoin target
+      
+    @sortupdate()
       
   loadingStart: (album) ->
     return unless @isActive()
@@ -218,7 +220,7 @@ class AlbumsView extends Spine.Controller
     $('.downloading', el).removeClass('in')
 #    el.removeClass('loading') unless el.data().queue?.length
     
-  sortupdate: (e, item) ->
+  sortupdate: ->
     @list.children().each (index) ->
       item = $(@).item()
       if item and Gallery.record
@@ -226,11 +228,12 @@ class AlbumsView extends Spine.Controller
         if ga and ga.order isnt index
           ga.order = index
           ga.save()
-          Gallery.updateSelection Gallery.sortSelectionListByOrder()
       else if item
         album = (Album.filter(item.id, func: 'selectAlbum'))[0]
         album.order = index
         album.save()
+        
+    Gallery.updateSelection Gallery.sortSelectionListByOrder()
         
 #    @list.exposeSelection()
     

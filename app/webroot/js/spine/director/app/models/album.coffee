@@ -74,6 +74,7 @@ class Album extends Spine.Model
         album_id    : item.id
         order       : GalleriesAlbum.albums(target.id).length
       ga.save()
+      
 #    
 #  @destroyJoin: (albums, target) ->
 #    return unless target
@@ -111,12 +112,14 @@ class Album extends Spine.Model
   
   createJoin: (target) ->
     return unless target
+    order = GalleriesAlbum.albums(target.id).length
     ga = new GalleriesAlbum
       gallery_id  : target.id
       album_id    : @id
-      order       : GalleriesAlbum.albums(target.id).length
-    done = ->
-    ga.save(done: done)
+      order       : order
+    ga.save()
+  
+  
   
   destroyJoin: (target) ->
     filterOptions =
@@ -127,7 +130,6 @@ class Album extends Spine.Model
     albums = Album.toID()
     console.log albums
     albums = [@].toID()
-    console.log albums
     gas = GalleriesAlbum.filter(target.id, filterOptions)
     
     for ga in gas

@@ -262,7 +262,7 @@
         <h3>${header}</h3>
       </div>
       <div class="modal-body">
-        <p>{{html body}}</p>
+        <p>${body}</p>
       </div>
       {{if info}}
       <div class="modal-header label-info">
@@ -451,7 +451,7 @@
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
       <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right"></span>
     </div>
-    <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}no title{{/if}}</div>
+    <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
   </li>
 </script>
 

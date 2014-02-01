@@ -246,8 +246,8 @@ class SlideshowView extends Spine.Controller
     
   notify: ->
     @modalSimpleView.show
-      header: 'No album selected'
-      body: 'To start a slideshow one or more albums have to be selected'
+      header: 'Empty Slideshow'
+      body: 'Select one or more albums in order to present its content.'
       
    
 module?.exports = SlideshowView

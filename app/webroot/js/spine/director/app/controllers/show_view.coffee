@@ -172,7 +172,9 @@ class ShowView extends Spine.Controller
   previousLocation: (sameAllowed) ->
     console.log 'ShowView::previousLocation'
 #    return @prevLocation
-    if @prevLocation is location.hash 
+    return @prevLocation
+    if @prevLocation is location.hash
+      console.log location.hash
       return '/galleries/'
     else
       @prevLocation
@@ -524,9 +526,8 @@ class ShowView extends Spine.Controller
     @slideshowMode = App.SILENTMODE
     @navigate '/slideshow/'
     
-  showPrevious: (sameAllowed) ->
-    loc = @previousLocation(sameAllowed)
-    @navigate loc
+  showPrevious: =>
+    @navigate @previousLocation()
   
   showModal: (options) ->
     opts =

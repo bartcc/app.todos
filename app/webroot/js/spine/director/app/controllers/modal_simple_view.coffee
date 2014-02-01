@@ -10,6 +10,9 @@ class ModalSimpleView extends Spine.Controller
   
   events:
     'click .btnClose'     : 'close'
+    'keypress'            : 'keys'
+    'hidden.bs.modal'     : 'hiddenmodal'
+    'show.bs.modal'       : 'showmodal'
   
   template: (item) ->
     $('#modalSimpleTemplate').tmpl(item)
@@ -25,18 +28,31 @@ class ModalSimpleView extends Spine.Controller
       body    : 'Default Body Text'
       footer  : 'Default Footer Text'
       
-  render: ->
+  hiddenmodal: ->
+  
+  showmodal: ->
+      
+  keys: (e) ->
+    charCode = e.charCode
+    keyCode = e.keyCode
+    alert charCode
+    
+    switch charCode
+      when 13
+        @close()
+        e.preventDefault()
+      
+  render: (options) ->
     console.log 'ModalView::render'
     
-    @html @template @options
+    @html @template options
     @el
       
   show: (options) ->
-    @options = $.extend @defaults, options
-    el = @render().modal 'show'
+    opts = $.extend @defaults, options
+    @render(opts).modal 'show'
     
   close: (e) ->
     @el.modal 'hide'
-#    App.showView.showPrevious()
     
 module?.exports = ModalSimpleView

@@ -28,7 +28,6 @@ class AlbumsView extends Spine.Controller
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragover   .items'               : 'dragover'
     'sortupdate .items'               : 'sortupdate'
-#    'drop       .items'               : 'drop'
     
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
@@ -227,6 +226,7 @@ class AlbumsView extends Spine.Controller
         if ga and ga.order isnt index
           ga.order = index
           ga.save()
+          Gallery.updateSelection Gallery.sortSelectionListByOrder()
       else if item
         album = (Album.filter(item.id, func: 'selectAlbum'))[0]
         album.order = index

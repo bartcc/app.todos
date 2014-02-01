@@ -267,29 +267,27 @@ class Main extends Spine.Controller
     
     # CHARS
     switch charCode
-      when 97
-        #ctrl A -> select all / invert selection
+      when 97 #CTRL A
         if e.metaKey or e.ctrlKey
           @showView.selectAll()
           e.preventDefault()
-      when 32
-        #spacebar -> play/stop slideshow
-        @showView.slideshowView.toggle()
+      when 32 #SPACE
+        @slideshowView.play()
         e.preventDefault()
         
         
     # KEYS
     switch keyCode
-      #tabKey toggles sidebar
-      when 9
+      
+      when 9 #TAB
         @sidebar.toggleDraghandle()
         e.preventDefault()
-      when 27
-#        @showView.showPrevious()
+      when 27 #ESC
+        @slideshowView.close()
         e.preventDefault()
-      when 13
-        e.preventDefault()
-      else
-        console.log keyCode
+#      when 13
+#        e.preventDefault()
+#      else
+#        console.log keyCode
         
 module?.exports = Main

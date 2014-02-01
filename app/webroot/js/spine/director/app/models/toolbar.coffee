@@ -104,16 +104,6 @@ class Toolbar extends Spine.Model
           icon: 'trash'
           klass: 'optDestroyAlbum'
           disabled: -> !Gallery.selectionList().length
-        ,
-          devider: true
-        ,
-          name: ->
-            len=Gallery.activePhotos().length
-            'Start Slideshow (' + len + ')'
-          icon: 'play'
-          klass: 'optSlideshowPlay'
-          dataToggle: 'modal-gallery'
-          disabled: -> !Gallery.activePhotos?().length
         ]
     group3:
       name: 'Photo'
@@ -157,9 +147,29 @@ class Toolbar extends Spine.Model
           klass: 'optQuickUpload'
           disabled: -> false
         ]
+    group4:
+      name: -> 
+        len=Gallery.activePhotos().length
+        'Slideshow (' + len + ')'
+      content:
+        [
+          name: ->
+            'Preview'#(if len==1 then " Image" else " Images") 
+          klass: 'optOpenSlideshow'
+          icon: 'picture'
+          disabled: -> !Gallery.activePhotos().length
+        ,
+          name: ->
+            len=Gallery.activePhotos().length
+            'Start'
+          icon: 'play'
+          klass: 'optSlideshowPlay'
+          dataToggle: 'modal-gallery'
+          disabled: -> !Gallery.activePhotos?().length
+        ]
       
   @data:
-    group01:
+    package_01:
       name: 'Default'
       content:
         [
@@ -174,8 +184,11 @@ class Toolbar extends Spine.Model
         ,
           dropdown: true
           itemGroup: @dropdownGroups.group3
+        ,
+          dropdown: true
+          itemGroup: @dropdownGroups.group4
         ]
-    group02:
+    package_03:
       name: 'Gallery'
       content:
         [
@@ -196,7 +209,7 @@ class Toolbar extends Spine.Model
           dropdown: true
           itemGroup: @dropdownGroups.group0
         ]
-    group03:
+    package_04:
       name: 'GalleryEdit'
       content:
         [
@@ -204,7 +217,7 @@ class Toolbar extends Spine.Model
           klass: 'optSave default'
           disabled: -> !Gallery.record
         ]
-    group04:
+    package_05:
       name: 'Album'
       content:
         [
@@ -220,7 +233,7 @@ class Toolbar extends Spine.Model
           klass: 'optDestroyAlbum '
           disabled: -> !Gallery.selectionList().length
         ]
-    group05:
+    package_06:
       name: 'Photos'
       content:
         [
@@ -232,7 +245,7 @@ class Toolbar extends Spine.Model
           outerstyle: 'float: right;'
           disabled: -> !Album.selectionList().length
         ]
-    group06:
+    package_07:
       name: 'Photo'
       content:
         [
@@ -243,7 +256,7 @@ class Toolbar extends Spine.Model
           klass: 'optDestroyPhoto '
           disabled: -> !Album.selectionList().length
         ]
-    group07:
+    package_08:
       name: 'Upload'
       content:
         [
@@ -251,23 +264,17 @@ class Toolbar extends Spine.Model
           icon: 'upload'
           klass: ''
         ]
-    group08:
+    package_09:
       name: 'Slideshow'
       content:
         [
-          name: ->
-            len=Gallery.activePhotos().length
-            "Preview (" + len + ')'#(if len==1 then " Image" else " Images") 
-          klass: 'optOpenSlideshow'
-          disabled: -> !Gallery.activePhotos().length
-        ,
-          name: -> ''
+          name: -> 'Start'
           icon: 'play'
           klass: 'optSlideshowPlay'
           dataToggle: 'modal-gallery'
           disabled: -> !Gallery.activePhotos().length
         ]
-    group10:
+    package_10:
       name: 'Back'
       locked: true
       content:
@@ -279,7 +286,7 @@ class Toolbar extends Spine.Model
           outerstyle: 'float: right;'
           innerstyle: 'left: -8px; top: 8px; position:relative;'
         ]
-    group11:
+    package_11:
       name: 'Chromeless'
       locked: true
       content:
@@ -296,7 +303,7 @@ class Toolbar extends Spine.Model
           iconcolor: 'white'
           disabled: -> !Gallery.activePhotos().length
         ]
-    group12:
+    package_12:
       name: 'Slider'
       content:
         [
@@ -305,7 +312,7 @@ class Toolbar extends Spine.Model
           type: 'div'
           innerstyle: 'width: 190px; position: relative;'
         ]
-    group13:
+    package_13:
       name: 'SlideshowPackage'
       content:
         [
@@ -320,13 +327,13 @@ class Toolbar extends Spine.Model
           dataToggle: 'button'
           outerstyle: ''
         ,
-          name: ''
+          name: 'Start'
           klass: 'optSlideshowPlay'
           icon: 'play'
           iconcolor: ''
           disabled: -> !Gallery.activePhotos().length
         ]
-    group14:
+    package_14:
       name: 'FlickrRecent'
       content:
         [
@@ -348,7 +355,7 @@ class Toolbar extends Spine.Model
           icon: 'chevron-right'
           disabled: -> 
         ]
-    group15:
+    package_15:
       name: 'FlickrInter'
       content:
         [

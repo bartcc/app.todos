@@ -150,6 +150,13 @@ Model.Extender =
         else
           return @filter joinTableItems
           
+      sortSelectionListByOrder: ->
+        list = @selectionList()
+        list.sort (a, b) ->
+          aInt = parseInt(Album.exists(a).order)
+          bInt = parseInt(Album.exists(b).order)
+          if aInt < bInt then -1 else if aInt > bInt then 1 else 0
+          
     Include =
       
       updateSelectionID: ->

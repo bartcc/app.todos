@@ -778,7 +778,6 @@
 
       if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
       if (typeof option == 'string') {
-        console.log(option);
         data[option]()
       }
       else if (options.show) data.show()

@@ -45,7 +45,7 @@ class SlideshowView extends Spine.Controller
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('chromeless', @proxy @chromeless)
-    Spine.bind('loading:done', @proxy @show)
+    Spine.bind('loading:done', @proxy @loadingDone)
     
   render: (items) ->
     console.log 'SlideshowView::render'
@@ -57,6 +57,10 @@ class SlideshowView extends Spine.Controller
     
     @items.children().sortable 'photo'
     @el
+       
+  loadingDone: ->
+    return unless @isActive()
+    @show()
        
   exposeSelection: ->
     console.log 'SlideshowView::exposeSelection'

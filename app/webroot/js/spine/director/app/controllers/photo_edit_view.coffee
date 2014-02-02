@@ -30,13 +30,10 @@ class PhotoEditView extends Spine.Controller
   
   render: () ->
     if @current
-      console.log 'switch 1'
       @item.html @template @current
     else unless Album.count()
-      console.log 'switch 2'
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Create a album!</span></label>'})
     else
-      console.log 'switch 3'
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">No photo selected</span></label>'})
     @el
   
@@ -47,12 +44,18 @@ class PhotoEditView extends Spine.Controller
       @current.updateChangedAttributes(atts)
  
   saveOnKeyup: (e) =>
-    @save @editEl #if(e.keyCode == 13)
-    e.stopPropagation() if (e.keyCode == 9)
+    code = e.charCode or e.keyCode
+    
+    switch code
+      when 32 # SPACE
+        e.stopPropagation() 
+      when 9 # TAB
+        e.stopPropagation()
+    
+    @save @editEl
     
   click: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    false
 
 module?.exports = PhotoEditView

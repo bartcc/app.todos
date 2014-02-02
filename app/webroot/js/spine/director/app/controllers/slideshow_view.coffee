@@ -37,6 +37,7 @@ class SlideshowView extends Spine.Controller
     @modalSimpleView.el.bind('hidden.bs.modal', @proxy @hiddenmodal)
     @modalSimpleView.el.bind('hide.bs.modal', @proxy @hidemodal)
     @modalSimpleView.el.bind('show.bs.modal', @proxy @showmodal)
+    
     @links = $('.thumbnail', @items)
     @bind('play', @proxy @play)
     
@@ -44,12 +45,7 @@ class SlideshowView extends Spine.Controller
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('chromeless', @proxy @chromeless)
-    
-  hiddenmodal: ->
-    alert 'hidemodal 2'
-    
-  showmodal: ->
-    alert 'showmodal'
+    Spine.bind('loading:done', @proxy @show)
     
   render: (items) ->
     console.log 'SlideshowView::render'

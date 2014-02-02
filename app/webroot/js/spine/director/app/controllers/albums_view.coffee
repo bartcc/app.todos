@@ -235,6 +235,4 @@ class AlbumsView extends Spine.Controller
         
     Gallery.updateSelection Gallery.sortSelectionListByOrder()
         
-#    @list.exposeSelection()
-    
 module?.exports = AlbumsView

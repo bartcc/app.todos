@@ -107,7 +107,7 @@ class FlickrView extends Spine.Controller
     target = $(e.target).parent()[0]
     options = index: target
     links = $('a', @links)
-    gallery = blueimp.Gallery(links, options)
+    blueimp.Gallery(links, options)
     
   prevPage: (e) ->
     e.stopPropagation()

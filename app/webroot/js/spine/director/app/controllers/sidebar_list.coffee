@@ -24,7 +24,6 @@ class SidebarList extends Spine.Controller
   events:
     'click'                           : 'show'
     "click      .gal.item"            : "click"
-    "dblclick   .gal.item"            : "dblclick"
     "click      .alb.item"            : "clickAlbum"
     "click      .expander"            : "expand"
     'dragstart  .sublist-item'        : 'dragstart'

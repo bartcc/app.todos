@@ -65,7 +65,8 @@ class Main extends Spine.Controller
     '.status-symbol'      : 'statusSymbol'
     
   events:
-    'keypress'            : 'keys'
+    'keyup'               : 'keyup'
+    'keypress'            : 'keypress'
     'dragenter'           : 'dragenter'
     'drop'                : 'drop'
 
@@ -261,33 +262,34 @@ class Main extends Spine.Controller
   loadToolbars: ->
     Toolbar.load()
     
-  keys: (e) ->
-    charCode = e.charCode
-    keyCode = e.keyCode
+  keypress: (e) ->
+    code = e.charCode or e.keyCode
     
-    # CHARS
-    switch charCode
+    console.log 'Main:code: ' + code
+    
+    switch code
       when 97 #CTRL A
         if e.metaKey or e.ctrlKey
           @showView.selectAll()
           e.preventDefault()
+      when 13 #RETURN
+        e.preventDefault()
+    
+  keyup: (e) ->
+    code = e.charCode or e.keyCode
+    
+    console.log 'Main:code: ' + code
+    
+    switch code
       when 32 #SPACE
         @slideshowView.play()
-        e.preventDefault()
-        
-        
-    # KEYS
-    switch keyCode
-      
       when 9 #TAB
         @sidebar.toggleDraghandle()
         e.preventDefault()
+      when 13 #RETURN
+        e.preventDefault()
       when 27 #ESC
         @slideshowView.close()
-        e.preventDefault()
-#      when 13
 #        e.preventDefault()
-#      else
-#        console.log keyCode
         
 module?.exports = Main

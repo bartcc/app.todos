@@ -213,8 +213,8 @@ class Toolbar extends Spine.Model
       name: 'GalleryEdit'
       content:
         [
-          name: 'Save and Close'
-          klass: 'optSave default'
+          name: 'Close'
+          klass: 'optClose default'
           disabled: -> !Gallery.record
         ]
     package_05:
@@ -361,7 +361,6 @@ class Toolbar extends Spine.Model
         [
           name: ->
             details = App.flickrView.details('inter')
-            console.log details
             'Interesting Stuff (' + details.from + '-' + details.to + ')'
           icon: 'picture'
           klass: 'opt'

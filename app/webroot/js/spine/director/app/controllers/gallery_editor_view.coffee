@@ -12,14 +12,14 @@ class GalleryEditorView extends Spine.Controller
   elements:
     ".content"            : "editContent"
     '.optDestroy'         : 'destroyBtn'
-    '.optSave'            : 'saveBtn'
     '.toolbar'            : 'toolbarEl'
-    'galleryEditor input' : 'input'
+    '.galleryEditor input': 'input'
+    '.editGallery'        : 'editEl'
     
   events:
     "click .optDestroy"   : "destroy"
-    "click .optSave"      : "saveOnClick"
-    "keyup"               : "save"
+    "click .optClose"     : "closeOnClick"
+    "keyup"               : "saveOnKeyup"
 
   template: (item) ->
     $("#editGalleryTemplate").tmpl item
@@ -32,7 +32,7 @@ class GalleryEditorView extends Spine.Controller
     @toolbar = new ToolbarView
       el: @toolbarEl
       template: @toolsTemplate
-    Gallery.bind "change", @proxy @change
+#    Gallery.bind "change", @proxy @change
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('change:toolbar', @proxy @changeToolbar)
     @bind 'change', @proxy @changed
@@ -75,19 +75,28 @@ class GalleryEditorView extends Spine.Controller
 #    return if $(e.currentTarget).hasClass('disabled')
     Spine.trigger('destroy:gallery')
   
-  saveOnClick: (el) ->
-    return if $(el.currentTarget).hasClass('disabled')
-    if Gallery.record
-      atts = el.serializeForm?() or @el.serializeForm()
-      Gallery.record.updateChangedAttributes(atts)
+  closeOnClick: (e) ->
     App.contentManager.change(App.showView)
-
-  save: (e) =>
+    
+  saveOnKeyup: (e) ->
     console.log 'GalleryEditorView::saveOnEnter'
-    return unless (e.keyCode is 13)
+    
+    code = e.charCode or e.keyCode
+        
+    switch code
+      when 32 # SPACE
+        e.stopPropagation() 
+      when 9 # TAB
+        e.stopPropagation()
+        
+    @save @editEl
+
+  save: (el) =>
+    console.log 'GalleryEditorView::saveOnEnter'
       
-    atts = @el.serializeForm()
-    Gallery.record.updateChangedAttributes(atts)
+    if gallery = Gallery.record
+      atts = el.serializeForm?() or @editEl.serializeForm()
+      gallery.updateChangedAttributes(atts)
     
   # Lazily show the tooltip that tells you to press `enter` to save
   # a new todo item, after one second.

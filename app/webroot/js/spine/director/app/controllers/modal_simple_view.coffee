@@ -10,7 +10,7 @@ class ModalSimpleView extends Spine.Controller
   
   events:
     'click .btnClose'     : 'close'
-    'keypress'            : 'keys'
+    'keyup'               : 'keyup'
     'hidden.bs.modal'     : 'hiddenmodal'
     'show.bs.modal'       : 'showmodal'
   
@@ -22,6 +22,7 @@ class ModalSimpleView extends Spine.Controller
       
     @el.modal
       show: false
+      keyboard: true
       
     @defaults =
       header  : 'Default Header Text'
@@ -32,16 +33,24 @@ class ModalSimpleView extends Spine.Controller
   
   showmodal: ->
       
-  keys: (e) ->
-    charCode = e.charCode
-    keyCode = e.keyCode
-    alert charCode
+  keyup: (e) ->
+    console.log 'ModalSimpleView:keyup'
     
-    switch charCode
-      when 13
+    code = e.charCode or e.keyCode
+    console.log code
+        
+    switch code
+      when 32 # SPACE
+        e.stopPropagation() 
+      when 9 # TAB
+        e.stopPropagation()
+      when 27 # ESC
+        e.stopPropagation()
+      when 13 # RETURN
+        alert code
         @close()
-        e.preventDefault()
-      
+        e.stopPropagation()
+    
   render: (options) ->
     console.log 'ModalView::render'
     

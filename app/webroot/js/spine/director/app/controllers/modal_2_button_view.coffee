@@ -27,7 +27,6 @@ class Modal2ButtonView extends Spine.Controller
     
   render: ->
     console.log 'Modal2ButtonView::render'
-    console.log @options
     @html @template @options
     @el
       

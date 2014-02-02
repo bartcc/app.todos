@@ -43,13 +43,18 @@ class AlbumEditView extends Spine.Controller
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)
-      Spine.trigger('expose:sublistSelection')
 
   saveOnKeyup: (e) =>
-    @save @editEl
-    e.stopPropagation() if (e.keyCode == 9)
-      
+    code = e.charCode or e.keyCode
+        
+    switch code
+      when 32 # SPACE
+        e.stopPropagation() 
+      when 9 # TAB
+        e.stopPropagation()
 
+    @save @editEl
+    
   click: (e) ->
     e.stopPropagation()
     e.preventDefault()

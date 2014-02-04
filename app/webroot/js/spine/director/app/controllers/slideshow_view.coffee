@@ -41,6 +41,13 @@ class SlideshowView extends Spine.Controller
     @links = $('.thumbnail', @items)
     @bind('play', @proxy @play)
     
+    @defaults =
+      index             : 0
+      startSlideshow    : true
+      slideshowInterval : 2000
+      onclose: =>
+      onclosed: => @close()
+    
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('slider:start', @proxy @sliderStart)
@@ -83,7 +90,7 @@ class SlideshowView extends Spine.Controller
     
   # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
-    console.log 'PhotosList::callback'
+    console.log 'SlideshowView::callback'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -160,20 +167,11 @@ class SlideshowView extends Spine.Controller
     App.showView.trigger('canvas', @)
     
     list = @slideshowPhotos()
-#
+
     if list.length
       @render list
     else
       @notify(@parent.showPrevious)
-    
-  close: (e) ->
-    if @isActive()
-      @parent.showPrevious()
-#    else
-#      if Gallery.record
-#        @navigate '/gallery', Gallery.record.id
-#      else
-#        @navigate '/galleryies/'
     
   sliderStart: =>
     @refreshElements()
@@ -205,36 +203,8 @@ class SlideshowView extends Spine.Controller
   slideshowable: ->
     @photos().length
     
-  playDeferred: ->
-    first = =>
-      $('[data-gallery=gallery]', @el)[0]
-      
-    if @slideshowable()
-      first().click()
-    else
-      @notify()
-    
-  play: ->
-    unless @isActive()
-      @one('slideshow:ready', @proxy @playDeferred)
-      @navigate '/slideshow', (Math.random() * 16 | 0), 1
-    else
-      @playDeferred()
-    
-      
-  click: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
-    
-    target = $(e.target)
-    options =
-      index             : target[0]
-      startSlideshow    : true
-      slideshowInterval : 2000
-      stretchImages: -> @stretch
-      onclose: =>
-      onclosed: => @close()
-    blueimp.Gallery(@thumb, options)
+  opened: ->
+    alert 'opened'
     
   hidemodal: (e) ->
     
@@ -249,5 +219,31 @@ class SlideshowView extends Spine.Controller
       header: 'Empty Slideshow'
       body: 'Select one or more albums in order to present its content.'
       
-   
+  click: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    options = index: @thumb.index($(e.target))
+    @play(options)
+    
+  play: (options={}) ->
+    console.log 'play'
+    if @isActive()
+      options = $().extend(@defaults, options)
+      @gallery = blueimp.Gallery(@thumb, options)
+    else
+      @toggle()
+    
+  toggle: ->
+    if @isActive()
+      @play(index:0) unless @gallery
+      return
+    
+    @one('slideshow:ready', @proxy @play)
+    @navigate '/slideshow', (Math.random() * 16 | 0), 1
+      
+  close: (e) ->
+    if @isActive()
+      @gallery = null
+      @parent.showPrevious()
+  
 module?.exports = SlideshowView

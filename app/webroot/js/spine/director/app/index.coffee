@@ -265,7 +265,7 @@ class Main extends Spine.Controller
   keypress: (e) ->
     code = e.charCode or e.keyCode
     
-    console.log 'Main:code: ' + code
+    console.log 'Main:keypressCode: ' + code
     
     switch code
       when 97 #CTRL A
@@ -274,22 +274,25 @@ class Main extends Spine.Controller
           e.preventDefault()
       when 13 #RETURN
         e.preventDefault()
+#      when 32 # SPACE
+#        e.preventDefault()
     
   keyup: (e) ->
     code = e.charCode or e.keyCode
     
-    console.log 'Main:code: ' + code
+    console.log 'Main:keyupCode: ' + code
     
     switch code
-      when 32 #SPACE
-        @slideshowView.play()
-      when 9 #TAB
+      when 32 #Space
+        @slideshowView.toggle()
+        e.preventDefault()
+      when 9 #Tab
         @sidebar.toggleDraghandle()
         e.preventDefault()
-      when 13 #RETURN
+      when 13 #Return
         e.preventDefault()
-      when 27 #ESC
+      when 27 #Esc
         @slideshowView.close()
-#        e.preventDefault()
+        e.preventDefault()
         
 module?.exports = Main

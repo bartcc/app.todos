@@ -65,9 +65,7 @@ class PhotoView extends Spine.Controller
     @header.change item
   
   remove: (ap) ->
-    console.log ap
     photo = Photo.exists ap.photo_id
-    console.log photo
     $('.item', @el).remove()
     Photo.current()
     @renderHeader @current

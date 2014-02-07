@@ -538,7 +538,7 @@
 
 <script id="photosDetailsTemplate" type="text/x-jquery-tmpl">
   Author:  <span class="label label-default">${author}</span>
-  Gallery:  <span class="label label-default">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}Gallery was not found{{/if}}</span>
+  Gallery:  <span class="label label-default">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}not found{{/if}}</span>
   <br><br>
   <h2>Album: </h2>
   <label class="h2 chopin">{{if album.title}}${album.title}{{else}}no title{{/if}}</label>
@@ -550,8 +550,8 @@
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
   Author:  <span class="label label-default">{{if author}}${author}{{/if}}</span>
-  Gallery:  <span class="label label-default">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}Gallery was not found{{/if}}</span>
-  Album:  <span class="label label-default">{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}Album was not found{{/if}}</span>
+  Gallery:  <span class="label label-default">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}not found{{/if}}</span>
+  Album:  <span class="label label-default">{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}not found{{/if}}</span>
   <br><br>
   <h2>Photo:  </h2>
   <label class="h2 chopin">

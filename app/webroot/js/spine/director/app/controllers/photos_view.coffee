@@ -67,9 +67,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @change)
-    Spine.bind('start:slideshow', @proxy @slideshow)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
-    Spine.bind('slideshow:ready', @proxy @play)
     
   updateBuffer: (album=Album.record) ->
     filterOptions =

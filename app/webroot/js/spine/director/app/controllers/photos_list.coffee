@@ -15,7 +15,7 @@ class PhotosList extends Spine.Controller
     '.thumbnail'              : 'thumb'
     
   events:
-    'click .item'             : 'click'
+    'click .item'                  : 'click'
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
     'click .glyphicon-set .delete' : 'deletePhoto'
@@ -104,9 +104,9 @@ class PhotosList extends Spine.Controller
     @el.sortable('destroy').sortable('photos')
     @refreshElements()
   
-  thumbSize: (width = App.showView.thumbSize, height = App.showView.thumbSize) ->
-    width: width
-    height: height
+  thumbSize: (width, height) ->
+    width: width || App.showView.thumbSize
+    height: height || App.showView.thumbSize
   
   # the actual final rendering method
   uri: (items, mode) ->

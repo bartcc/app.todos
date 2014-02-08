@@ -14,7 +14,7 @@ Sidebar                 = require("controllers/sidebar")
 ShowView                = require("controllers/show_view")
 ModalSimpleView         = require("controllers/modal_simple_view")
 Modal2ButtonView        = require("controllers/modal_2_button_view")
-ModalGalleriesActionView= require("controllers/modal_galleries_action_view")
+ModalActionView         = require("controllers/modal_action_view")
 ToolbarView             = require("controllers/toolbar_view")
 LoginView               = require("controllers/login_view")
 OverviewView            = require("controllers/overview_view")
@@ -89,7 +89,7 @@ class Main extends Spine.Controller
       el: @modalEl
     @modal2ButtonView = new Modal2ButtonView
       el: @modalEl
-    @modalGalleriesActionView = new ModalGalleriesActionView
+    @modalActionView = new ModalActionView
       el: @modalEl
       className: 'modal'
     @galleryEditView = new GalleryEditorView

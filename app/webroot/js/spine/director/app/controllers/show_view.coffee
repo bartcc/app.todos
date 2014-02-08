@@ -64,6 +64,7 @@ class ShowView extends Spine.Controller
     'click .optCreatePhotoFromSel:not(.disabled)'    : 'createPhotoFromSel'
     'click .optCreatePhotoFromSelCut:not(.disabled)' : 'createPhotoFromSelCut'
     'click .optCreateAlbumFromSel:not(.disabled)'    : 'createAlbumFromSel'
+    'click .optCopyAlbums'                           : 'copyAlbums'
     'click .optCreateAlbumFromSelCut:not(.disabled)' : 'createAlbumFromSelCut'
     'click .optCreatePhoto:not(.disabled)'           : 'createPhoto'
     'click .optDestroyGallery:not(.disabled)'        : 'destroyGallery'
@@ -152,6 +153,8 @@ class ShowView extends Spine.Controller
     Photo.bind('change', @proxy @changeToolbarOne)
     Photo.bind('refresh', @proxy @refreshToolbars)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
+    Spine.bind('albums:copy', @proxy @copyAlbums)
+    Spine.bind('photos:copy', @proxy @copyPhotos)
     
     @sOutValue = 160 # size thumbs initially are shown (slider setting)
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
@@ -236,7 +239,7 @@ class ShowView extends Spine.Controller
     @movePhotosToAlbum()
     e.preventDefault()
   
-  createAlbumFromSel: (e) ->
+  createAlbumFromSel_: (e) ->
     @createAlbumCopy()
     e.preventDefault()
     
@@ -253,12 +256,27 @@ class ShowView extends Spine.Controller
       @navigate '/gallery', '', album.id
       
   copyPhotosToNewAlbum: (photos, gallery=Gallery.record) ->
+    return
     Spine.trigger('create:album', photos, gallery)
     
     if gallery?.id
       @navigate '/gallery', gallery.id#, Album.last().id
     else
       @showAlbumMasters()
+      
+  copyAlbums: (gallery) ->
+    list = Album.toRecords(Gallery.selectionList())
+    Album.trigger('create:join', list, gallery)
+    
+    @navigate '/gallery', gallery.id
+      
+  copyPhotos: (album, gallery) ->
+    list = Photo.toRecords(Album.selectionList())
+    Photo.trigger('create:join', list, album)
+    if gallery
+      @navigate '/gallery', gallery.id, album.id
+    else
+      @navigate '/gallery', '', album.id
       
   movePhotosToAlbum: (photos=Photo.toRecords(Album.selectionList()), target) ->
     Spine.trigger('create:album', photos, target, origin:Album.record)

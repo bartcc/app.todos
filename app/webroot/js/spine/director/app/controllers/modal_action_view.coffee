@@ -1,7 +1,7 @@
 Spine = require("spine")
 $      = Spine.$
 
-class ModalGalleriesActionView extends Spine.Controller
+class ModalActionView extends Spine.Controller
   
   elements:
     '.modal-header'       : 'header'
@@ -13,7 +13,7 @@ class ModalGalleriesActionView extends Spine.Controller
     'click .btnOk'        : 'yes'
   
   template: (item) ->
-    $('#modalGalleriesActionTemplate').tmpl(item)
+    $('#modalActionTemplate').tmpl(item)
     
   constructor: ->
     super
@@ -28,7 +28,7 @@ class ModalGalleriesActionView extends Spine.Controller
     $('.nav-tabs').button()
     
   render: ->
-    console.log 'ModalGalleriesActionView::render'
+    console.log 'ModalActionView::render'
     
     @html @template @options
     @el
@@ -45,4 +45,4 @@ class ModalGalleriesActionView extends Spine.Controller
     
   
     
-module?.exports = ModalGalleriesActionView
+module?.exports = ModalActionView

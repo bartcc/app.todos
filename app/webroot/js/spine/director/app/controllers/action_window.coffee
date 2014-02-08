@@ -140,14 +140,10 @@ class ActionWindow extends Spine.Controller
     
     gallery = $('.galleries .active', @form).item()
     if gallery
-      @close()
-      albums = Gallery.selectionList()
-      for id in albums
-        if album = Album.exists id
-          photos = album.photos()
-          App.showView.copyPhotosToNewAlbum(photos, gallery)
+      Spine.trigger('albums:copy', gallery)
       # open edit-panel
       App.showView.btnAlbum.click()
+      @close()
 
     
   actionCopyToAlbum: ->
@@ -159,7 +155,7 @@ class ActionWindow extends Spine.Controller
     photos = Photo.toRecords Album.selectionList()
     
     if album
-      App.showView.copyPhotosToAlbum(photos, album, gallery)
+      Spine.trigger('photos:copy', album, gallery)
       # open edit-panel
       App.showView.btnAlbum.click()
       @close()

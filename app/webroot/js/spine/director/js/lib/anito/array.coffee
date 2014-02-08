@@ -7,3 +7,6 @@ Array.prototype.toID = ->
 Array.prototype.last = ->
   lastIndex = @.length-1
   @[lastIndex]
+  
+Array.prototype.first = ->
+  @[0]

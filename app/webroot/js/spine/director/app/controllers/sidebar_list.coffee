@@ -148,32 +148,14 @@ class SidebarList extends Spine.Controller
     albums = Album.filterRelated(gallery.id, filterOptions)
     for album in albums
       album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
-    albums.push {flash: 'no albums'} unless albums.length
+    albums.push {flash: ' '} unless albums.length
     
     galleryEl = @children().forItem(gallery)
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
     
     @updateTemplate gallery
-    @exposeSublistSelection()
-  
-  exposeSelection: (item = Gallery.record) ->
-    console.log 'SidebarList::exposeSelection'
-    @deselect()
-    @children().forItem(item).addClass("active") if item
-    @exposeSublistSelection()
-        
-  exposeSublistSelection: ->
-    console.log 'SidebarList::exposeSublistSelection'
-    removeAlbumSelection = =>
-      galleries = []
-      galleries.push val for item, val of Gallery.irecords
-      for item in galleries
-        galleryEl = @children().forItem(item)
-        albums = galleryEl.find('li')
-        albums.removeClass('selected').removeClass('active')
-        
-    removeAlbumSelection()
+    @exposeSublistSelection(gallery)
   
   updateTemplate: (item) ->
     galleryEl = @children().forItem(item)
@@ -198,46 +180,40 @@ class SidebarList extends Spine.Controller
     for ga in gas
       @renderItemFromGalleriesAlbum ga
   
-  exposeSelection_: (e) ->
-    @children().removeClass('active')
-    $('.alb', @el).removeClass('active')
-    
-    galleryEl = $(e.target).parents('.gal').addClass('active')
-    albumEl = $(e.target).parents('.alb').addClass('active')
-  
-  activate: (idOrRecord) ->
-    Gallery.current(idOrRecord)
-    @exposeSelection()
-
   exposeSelection: (item = Gallery.record) ->
     @children().removeClass('active')
     @children().forItem(item).addClass("active") if item
     @exposeSublistSelection()
-
+    
   exposeSublistSelection: (gal = Gallery.record) ->
     removeAlbumSelection = =>
       galleries = []
       galleries.push val for item, val of Gallery.irecords
       for item in galleries
         galleryEl = @children().forItem(item)
-        albums = galleryEl.find('li')
-        albums.removeClass('selected').removeClass('active')
-        $('.glyphicon', albums).removeClass('glyphicon-folder-open')
+        albumsEl = galleryEl.find('li')
+        $('.glyphicon', albumsEl).removeClass('glyphicon-folder-open')
         
         
     if gal
       removeAlbumSelection()
-      galleryEl = @children().forItem(Gallery.record)
-      albums = galleryEl.find('li')
-      album = Album.record
-      if album
-        albums.forItem(album).addClass('selected')
-        album = Album.exists(Album.record.id)
-        activeEl = albums.forItem(album).addClass('active')
+      galleryEl = @children().forItem(gal)
+      albumsEl = galleryEl.find('li')
+      albumsEl.removeClass('selected').removeClass('active')
+      
+      albums = Gallery.selectionList()
+      for alb in albums
+        albumsEl.forItem(Album.exists(alb)).addClass('selected')
+        
+      if album = Album.exists(albums.first())
+        activeEl = albumsEl.forItem(album).addClass('active')
         $('.glyphicon', activeEl).addClass('glyphicon-folder-open')
-#    else
-#      removeAlbumSelection()
+        
     @refreshElements()
+    
+  activate: (idOrRecord) ->
+    Gallery.current(idOrRecord)
+    @exposeSelection()
 
   clickAlbum: (e) ->
     galleryEl = $(e.target).parents('.gal').addClass('active')
@@ -282,13 +258,14 @@ class SidebarList extends Spine.Controller
     else
       parentEl = @expanderFromItem(eventOrItem)
       
+      
     gallery = parentEl.item()
     icon = $('.expander', parentEl)
     sublist = $('.sublist', parentEl)
     
     show = =>
       icon.addClass('open')
-      @renderOneSublist gallery
+#      @renderOneSublist gallery
       sublist.show()
     hide = ->
       icon.removeClass('open')

@@ -233,6 +233,6 @@ class AlbumsView extends Spine.Controller
         album.order = index
         album.save()
         
-    Gallery.updateSelection Gallery.sortSelectionListByOrder()
+#    Gallery.updateSelection Gallery.sortSelectionListByOrder()
         
 module?.exports = AlbumsView

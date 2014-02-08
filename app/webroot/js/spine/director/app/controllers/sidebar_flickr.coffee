@@ -60,7 +60,7 @@ class SidebarFlickr extends Spine.Controller
     albums = Album.filterRelated(gallery.id, filterOptions)
     for album in albums
       album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
-    albums.push {flash: 'no albums'} unless albums.length
+    albums.push {flash: ' '} unless albums.length
     
     galleryEl = @children().forItem(gallery)
     gallerySublist = $('ul', galleryEl)

@@ -151,7 +151,7 @@ class AlbumsList extends Spine.Controller
       item.addRemoveSelection(lonely)
       
     Album.trigger('activate', item, true)
-    Gallery.updateSelection Gallery.sortSelectionListByOrder()
+#    Gallery.updateSelection Gallery.sortSelectionListByOrder()
     
   click: (e) ->
     console.log 'AlbumsList::click'

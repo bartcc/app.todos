@@ -972,6 +972,8 @@ textarea {
 #sidebar .active .alb.item .cta {
   background-color: #898989;
   border: 1px solid #575757;
+  position: absolute;
+  top: 3px;
 }
 #sidebar .alb.item .cta {
   -moz-border-radius: 20px;
@@ -1066,6 +1068,22 @@ textarea {
   font-size: 0.7em;
   vertical-align: baseline;
 }
+#sidebar .gal .sublist-item.selected.active {
+  background-color: rgba(51,51,51,0.30);
+  outline: 0px solid;
+}
+#sidebar .gal .sublist-item.selected {
+  background-color: rgba(51,51,51,0.10);
+  outline: 0px solid;
+}
+#sidebar .gal.active .sublist-item.selected.active {
+  background-color: rgba(51,153,255,0.80);
+  outline: 0px solid;
+}
+#sidebar .gal.active .sublist-item.selected {
+  background-color: rgba(51,153,255,0.40);
+  outline: 0px solid;
+}
 #sidebar .item span.author {
   font-size: 0.7em;
   font-style: italic;
@@ -1118,7 +1136,7 @@ textarea {
   opacity: 0.5;
 }
 #sidebar ul.sublist {
-  margin: 55px 5px 0 40px;
+  margin: 55px 0 0;
 }
 .center {
   margin: 0 auto;
@@ -1154,9 +1172,9 @@ textarea {
   display: inline-block;
 }
 #sidebar ul.sublist li.sublist-item {
-  position: relative;
   margin-left: -10px;
-  padding-left: 10px;
+  position: relative;
+  padding: 5px 30px;
 }
 #sidebar ul.sublist li.sublist-item.selected .ui-symbol {
   -moz-background-position: 0 -200px;

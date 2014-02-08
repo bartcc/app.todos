@@ -157,6 +157,7 @@ class ShowView extends Spine.Controller
     Spine.bind('photos:copy', @proxy @copyPhotos)
     
     @sOutValue = 160 # size thumbs initially are shown (slider setting)
+    @sliderRatio = 50
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @current = @galleriesView
     
@@ -231,30 +232,18 @@ class ShowView extends Spine.Controller
     @copyPhotosToAlbum()
     e.preventDefault()
     
-  createAlbumFromSel: (e) ->
-    @copyPhotosToNewAlbum()
-    e.preventDefault()
-    
   createPhotoFromSelCut: (e) ->
     @movePhotosToAlbum()
     e.preventDefault()
   
-  createAlbumFromSel_: (e) ->
-    @createAlbumCopy()
+  createAlbumFromSel: (e) ->
+    @copyPhotosToNewAlbum()
     e.preventDefault()
     
   createAlbumFromSelCut: (e) ->
     @createAlbumMove()
     e.preventDefault()
   
-  copyPhotosToAlbum: (photos, album, gallery) ->
-    Photo.trigger('create:join', photos, album)
-    if gallery
-      Album.trigger('create:join', [album], gallery)
-      @navigate '/gallery', gallery.id, album.id
-    else
-      @navigate '/gallery', '', album.id
-      
   copyPhotosToNewAlbum: (photos, gallery=Gallery.record) ->
     return
     Spine.trigger('create:album', photos, gallery)
@@ -278,12 +267,25 @@ class ShowView extends Spine.Controller
     else
       @navigate '/gallery', '', album.id
       
-  movePhotosToAlbum: (photos=Photo.toRecords(Album.selectionList()), target) ->
-    Spine.trigger('create:album', photos, target, origin:Album.record)
-    gallery = Gallery.record
+  copyPhotosToAlbum: ->
+    @photosToAlbum()
+#    Photo.trigger('create:join', photos, album)
+#    if gallery
+#      Album.trigger('create:join', [album], gallery)
+#      @navigate '/gallery', gallery.id, album.id
+#    else
+#      @navigate '/gallery', '', album.id
+      
+  movePhotosToAlbum: ->
+    @photosToAlbum Album.record
+  
+  photosToAlbum: (album) ->
+    photos = Photo.toRecords(Album.selectionList())
+    target = Gallery.record
+    Spine.trigger('create:album', photos, target, album)
     
-    if gallery?.id
-      @navigate '/gallery', gallery.id, Album.last().id
+    if target?.id
+      @navigate '/gallery', target.id, Album.last().id
     else
       @showAlbumMasters()
   
@@ -498,11 +500,11 @@ class ShowView extends Spine.Controller
     
   sliderInValue: (val) ->
     val = val or @sOutValue
-    @sInValue=(val/2)-20
+    @sInValue=(val/2)-@sliderRatio
     
   sliderOutValue: (value) ->
     val = value || @slider.slider('value')
-    @sOutValue=(val+20)*2
+    @sOutValue=(val+@sliderRatio)*2
     
   initSlider: =>
     inValue = @sliderInValue()

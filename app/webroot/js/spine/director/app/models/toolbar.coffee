@@ -115,12 +115,18 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: -> 'Copy Photos to New Album ('+Album.selectionList().length+')'
+          name: ->
+            len = Album.selectionList().length
+            s = if len>1 then 's' else ''
+            'Copy ' + (len or '') + ' Photo' + s + ' to New Album'
           icon: ''
           klass: 'optCreatePhotoFromSel'
           disabled: -> !Album.selectionList().length
         ,
-          name: -> 'Move Photos to New Album ('+Album.selectionList().length+')'
+          name: ->
+            len = Album.selectionList().length
+            s = if len>1 then 's' else ''
+            'Move ' + (len or '') + ' Photo' + s + ' to New Album'
           icon: ''
           klass: 'optCreatePhotoFromSelCut'
           disabled: -> !Album.selectionList().length

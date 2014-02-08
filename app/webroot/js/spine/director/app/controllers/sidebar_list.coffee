@@ -202,8 +202,9 @@ class SidebarList extends Spine.Controller
       albumsEl.removeClass('selected').removeClass('active')
       
       albums = Gallery.selectionList()
-      for alb in albums
-        albumsEl.forItem(Album.exists(alb)).addClass('selected')
+      for album in albums
+        alb = Album.exists(album)
+        albumsEl.forItem(alb).addClass('selected') if alb
         
       if album = Album.exists(albums.first())
         activeEl = albumsEl.forItem(album).addClass('active')

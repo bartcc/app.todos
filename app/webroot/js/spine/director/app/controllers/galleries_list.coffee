@@ -31,10 +31,9 @@ class GalleriesList extends Spine.Controller
     Album.bind('destroy', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
+    return unless @parent.isActive()
     console.log 'GalleriesList::renderRelated'
-#    gallery = Gallery.record #|| Gallery.exists(item['gallery_id'])
     @updateTemplates()
-#    @el
     
   renderOne: (item, mode, o) ->
     console.log 'GalleryList::renderOne'
@@ -62,7 +61,7 @@ class GalleriesList extends Spine.Controller
 
   updateTemplates: ->
     console.log 'GalleriesList::updateTemplates'
-    for id, gallery of Gallery.irecords
+    for gallery in Gallery.records
       galleryEl = @children().forItem(gallery)
       galleryContentEl = $('.thumbnail', galleryEl)
       tmplItem = galleryContentEl.tmplItem()
@@ -70,7 +69,7 @@ class GalleriesList extends Spine.Controller
       if tmplItem
         tmplItem.tmpl = $( "#galleriesTemplate" ).template()
         tmplItem.update?()
-      if id is Gallery.record.id
+      if gallery.id is Gallery.record.id
         cur = gallery
     @exposeSelection(cur)
 

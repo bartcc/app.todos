@@ -87,15 +87,16 @@ class PhotosView extends Spine.Controller
     @render @buffer
   
   render: (items, mode) ->
+    return unless @isActive()
     console.log 'PhotosView::render'
     # render only if necessary
     # if view is dirty but inactive we'll use the buffer next time
-    return unless @isActive()
     list = @list.render(items || @updateBuffer(), mode)
     list.sortable('photo') #if Album.record
     delete @buffer
   
   renderHeader: ->
+    return unless @isActive()
     console.log 'PhotosView::renderHeader'
     @header.change()
   
@@ -198,11 +199,11 @@ class PhotosView extends Spine.Controller
     return unless target and target.constructor.className is 'Album'
     aps = AlbumsPhoto.filter(target.id, key: 'album_id')
     photos = new Array(photos)  unless Photo.isArray(photos)
-    photos = photos.toID()
     for ap in aps
       unless photos.indexOf(ap.photo_id) is -1
         Album.removeFromSelection ap.photo_id
-        ap.destroy()
+        Spine.Ajax.disable ->
+          ap.destroy()
 
   sortupdate: ->
     @list.children().each (index) ->

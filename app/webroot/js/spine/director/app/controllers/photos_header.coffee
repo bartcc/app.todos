@@ -60,7 +60,8 @@ class PhotosHeader extends Spine.Controller
   toggleActionWindow: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    App.actionWindow.open('Album')
+    list = Album.selectionList().slice(0)
+    @parent.actionWindow.open('Album', list)
     
     
 

@@ -16,6 +16,7 @@ AlbumsHeader    = require('controllers/albums_header')
 GalleriesView   = require('controllers/galleries_view')
 GalleriesHeader = require('controllers/galleries_header')
 SlideshowView   = require('controllers/slideshow_view')
+ActionWindow    = require("controllers/action_window")
 Extender        = require('plugins/controller_extender')
 
 class ShowView extends Spine.Controller
@@ -45,6 +46,7 @@ class ShowView extends Spine.Controller
     '.photos'                 : 'photosEl'
     '.photo'                  : 'photoEl'
     '#slideshow'              : 'slideshowEl'
+    '#modal-action'           : 'modalActionEl'
     
     '.slider'                 : 'slider'
     '.optAlbum'               : 'btnAlbum'
@@ -94,6 +96,8 @@ class ShowView extends Spine.Controller
   constructor: ->
     super
     @silent = true
+    @actionWindow = new ActionWindow
+      el: @modalActionEl
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
     @toolbarTwo = new ToolbarView
@@ -253,15 +257,12 @@ class ShowView extends Spine.Controller
     else
       @showAlbumMasters()
       
-  copyAlbums: (gallery) ->
-    list = Album.toRecords(Gallery.selectionList())
-    Album.trigger('create:join', list, gallery)
-    
+  copyAlbums: (albums, gallery) ->
+    Album.trigger('create:join', albums, gallery)
     @navigate '/gallery', gallery.id
       
-  copyPhotos: (album, gallery) ->
-    list = Photo.toRecords(Album.selectionList())
-    Photo.trigger('create:join', list, album)
+  copyPhotos: (photos, gallery, album) ->
+    Photo.trigger('create:join', photos, album)
     if gallery
       @navigate '/gallery', gallery.id, album.id
     else
@@ -556,7 +557,7 @@ class ShowView extends Spine.Controller
       footer: 'New Footer'
       info  : 'Test Info'
     opts = $.extend({}, opts, options)
-    App.modalGalleriesActionView.show(opts)
+    @actionWindow.show(opts)
     
   showPhotosTrash: ->
     Photo.inactive()

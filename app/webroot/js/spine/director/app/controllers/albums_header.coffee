@@ -19,6 +19,7 @@ class AlbumsHeader extends Spine.Controller
     @render()
     
   render: ->
+    return unless @isActive()
     console.log 'AlbumsHeader::render'
     @html @template
       record: Gallery.record
@@ -48,6 +49,7 @@ class AlbumsHeader extends Spine.Controller
   toggleActionWindow: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    App.actionWindow.open('Gallery')
+    list = Gallery.selectionList().slice(0)
+    @parent.actionWindow.open('Gallery', list)
     
 module?.exports = AlbumsHeader

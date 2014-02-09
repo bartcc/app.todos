@@ -57,7 +57,7 @@
       var photos = <?php echo $this->Js->object($photos); ?>;
       var startScript = function() {
         setTimeout(function() {
-          App.showView.toggleDraghandle('');
+          //App.showView.toggleDraghandle('');
         }, 2000)
         setTimeout(function(){
           App.sidebar.toggleDraghandle('');

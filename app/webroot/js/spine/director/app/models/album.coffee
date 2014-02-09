@@ -75,7 +75,20 @@ class Album extends Spine.Model
         order       : GalleriesAlbum.albums(target.id).length
       ga.save()
       
-#    
+  @destroyJoins: (albums, target) ->
+    filterOptions =
+      key:'gallery_id'
+      joinTable: 'GalleriesAlbum'
+      
+    albums = albums.toID()
+    gas = GalleriesAlbum.filter(target.id, filterOptions)
+    
+    for ga in gas
+      unless albums.indexOf(ga.album_id) is -1
+        target.removeSelection(ga.album_id)
+        Spine.Ajax.disable ->
+          ga.destroy()
+  
 #  @destroyJoin: (albums, target) ->
 #    return unless target
 #
@@ -103,11 +116,6 @@ class Album extends Spine.Model
     s[id] = []
     @constructor.selection.push s
     
-#  updateSelectionID: ->
-#    for item in @constructor.selection
-#      delete item[@cid] if item[@cid]
-#    @init @
-      
   selChange: (list) ->
   
   createJoin: (target) ->
@@ -119,24 +127,19 @@ class Album extends Spine.Model
       order       : order
     ga.save()
   
-  
-  
   destroyJoin: (target) ->
     filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
       sorted: true
       
-    albums = Album.toID()
-    console.log albums
-    albums = [@].toID()
     gas = GalleriesAlbum.filter(target.id, filterOptions)
     
     for ga in gas
-      unless albums.indexOf(ga.album_id) is -1
-        console.log ga.album_id
-#        Gallery.removeFromSelection ga.album_id
+      if ga.album_id is @id
         target.removeSelection(ga.album_id)
+        console.log ga
+        console.log @
         ga.destroy()
   
   count: (inc = 0) -> @constructor.contains(@id) + inc

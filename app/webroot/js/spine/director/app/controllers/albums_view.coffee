@@ -61,7 +61,7 @@ class AlbumsView extends Spine.Controller
     Album.bind('create', @proxy @createAlbum)
     Album.bind('destroy', @proxy @destroyAlbum)
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
-    Album.bind('destroy:join', @proxy @destroyJoin)
+    GalleriesAlbum.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
     GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @change)
@@ -95,8 +95,8 @@ class AlbumsView extends Spine.Controller
     @render()
     
   render: ->
-    console.log 'AlbumsView::render'
     return unless @isActive()
+    console.log 'AlbumsView::render'
     @header.render()
     list = @list.render @buffer
     list.sortable('album')
@@ -104,6 +104,8 @@ class AlbumsView extends Spine.Controller
     @el
       
   renderHeader: (item) ->
+    return unless @isActive()
+    return unless Gallery.record
     console.log 'AlbumsView::renderHeader'
     @header.render item
   
@@ -155,34 +157,48 @@ class AlbumsView extends Spine.Controller
   destroy: (ids) ->
     console.log 'AlbumsView::destroy'
     list = ids || Gallery.selectionList()
-    albums = []
-    Album.each (record) =>
-      albums.push record unless list.indexOf(record.id) is -1
-      
+    list = [list] unless Album.isArray list
+    albums = Album.toRecords(list)
+    
     if Gallery.record
-      Album.trigger('destroy:join', albums,  Gallery.record)
+      Album.destroyJoins albums, Gallery.record
     else
       for album in albums
-        gas = GalleriesAlbum.filter(album.id, key: 'album_id')
-        for ga in gas
-          gallery = Gallery.exists(ga.gallery_id)
-          # find all photos in album
-          photos = AlbumsPhoto.photos(album.id).toID()
-          Spine.Ajax.disable ->
-            Photo.trigger('destroy:join', photos, album)
-          Spine.Ajax.disable ->
-            Album.trigger('destroy:join', album, gallery) if gallery
-
-      for album in albums
-        Gallery.removeFromSelection album.id
-        album.destroy()
-        album.removeSelectionID()
-
+        @destroyOneRelatedAlbum album
+        @destroyOneAlbum album
+        
+    @sortupdate()
+    
+  destroyOneRelatedAlbum: (album) ->
+    def = $.Deferred()
+    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
+    for ga in gas
+      gallery = Gallery.exists(ga.gallery_id)
+      # find all photos in album
+      photos = AlbumsPhoto.photos(album.id).toID()
+      Spine.Ajax.disable ->
+        Photo.trigger('destroy:join', photos, album)
+      Spine.Ajax.disable ->
+        GalleriesAlbum.trigger('destroy:join', ga)
+    def.resolve()
+    def
+    
+  destroyOneAlbum: (album) ->
+    def = $.Deferred()
+    Gallery.removeFromSelection album.id
+    album.destroy()
+    album.removeSelectionID()
+    def.resolve()
+    def
+  
   createAlbum: ->
     @change()
     
   destroyAlbum: ->
-    @renderHeader()
+    if Album.count()
+      @renderHeader()
+    else
+      @render()
     
   createJoin: (albums, target) ->
     console.log 'AlbumsView::createJoin'
@@ -192,13 +208,9 @@ class AlbumsView extends Spine.Controller
         
       @sortupdate()
     
-  destroyJoin: (albums, target) ->
-    return unless target and target.constructor.className is 'Gallery'
-
-    for album in albums
-      album.destroyJoin target
-      
-    @sortupdate()
+  destroyJoin: (ga) ->
+    Spine.Ajax.disable ->
+      ga.destroy()
       
   loadingStart: (album) ->
     return unless @isActive()

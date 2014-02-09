@@ -151,19 +151,11 @@ class Sidebar extends Spine.Controller
     
     switch source.constructor.className
       when 'Album'
-        albums = []
-        Album.each (record) =>
-          albums.push record unless @clonedSelection.indexOf(record.id) is -1
-          
+        albums = Album.toRecords(@clonedSelection)
         for album in albums
           album.createJoin(target) if target
           album.destroyJoin(origin) if origin
           
-#        Album.createJoin(albums, target)
-#        Album.destroyJoin(albums, origin) unless @isCtrlClick(e)
-#        Album.trigger('create:join', albums, target)
-#        Album.trigger('destroy:join', albums, origin) unless @isCtrlClick(e)
-        
       when 'Photo'
         photos = []
         Photo.each (record) =>

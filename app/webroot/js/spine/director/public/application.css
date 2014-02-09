@@ -800,7 +800,7 @@ button.large {
 }
 .invite {
   display: table;
-  margin: 0 auto;
+  margin: 30px auto;
   text-align: center;
 }
 label input[type="checkbox"] + span {

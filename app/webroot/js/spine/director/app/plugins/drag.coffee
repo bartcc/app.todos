@@ -27,7 +27,7 @@ Controller.Drag =
 #        $(e.target).addClass('over')
         func =  -> Spine.trigger('drag:timeout', e)
         clearTimeout Spine.timer
-        Spine.timer = setTimeout(func, 500)
+        Spine.timer = setTimeout(func, 1000)
         Spine.trigger('drag:enter', e, @)
         
       dragover: (e, data) ->

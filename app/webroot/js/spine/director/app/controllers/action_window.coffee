@@ -1,8 +1,9 @@
-Spine   = require('spine')
-$       = Spine.$
-Album   = require('models/album')
-Gallery = require('models/gallery')
-Extender= require('plugins/controller_extender')
+Spine           = require('spine')
+$               = Spine.$
+Album           = require('models/album')
+Gallery         = require('models/gallery')
+GalleriesAlbum  = require('models/galleries_album')
+Extender        = require('plugins/controller_extender')
 
 class ActionWindow extends Spine.Controller
 
@@ -32,6 +33,8 @@ class ActionWindow extends Spine.Controller
     @renderTypeList = ['Gallery', 'Album']
     @renderType = @renderTypeList[0]
     @render()
+#    Gallery.bind('create', @proxy @galleryCreated)
+#    Album.bind('activate', @proxy @albumCreated)
   
   template: (items) ->
     $("#modalActionTemplate").tmpl(items)
@@ -41,26 +44,35 @@ class ActionWindow extends Spine.Controller
     
   render: ->
     return if @renderTypeList.indexOf(@renderType) is -1
+#    console.log @el.modal()
     
 #    pages = @getPages(@items)
     @html @template
       text: 'Select ' + @renderType
       galleries: => []
       albums: => []
+      type: @renderType
       min: 0#@curPage is 0
       max: 0#@curPage+1 >= @items.length/@maxItemsInPage
-    @renderAlbums Album.records.sort Album.nameSort
     @renderGalleries Gallery.records.sort Gallery.nameSort
+#    @renderAlbums Gallery.albums(Gallery.record.cid).sort Album.nameSort
     if @renderType is 'Gallery'
       @albumsEl.children().addClass('disabled')
     @el
   
   renderAlbums: (items) ->
     @albumsEl.html @colTemplate items
+    console.log items
+    activeAlbum = Album.toRecords(Gallery.selectionList())[0]
+    console.log Album.toRecords(Gallery.selectionList())
+    @albumsEl.children().forItem(activeAlbum).addClass('active') if activeAlbum
     @albumsEl
     
   renderGalleries: (items) ->
     @galleriesEl.html @colTemplate items
+    console.log Gallery.record
+    el = @galleriesEl.children('#'+Gallery.record.id)
+    el.addClass('active').click() if Gallery.record
     @galleriesEl
   
   getPages: ->
@@ -89,9 +101,12 @@ class ActionWindow extends Spine.Controller
     switch type
       when 'Gallery'
         items = Gallery.albums(item.id).sort Album.nameSort
+        Gallery.trigger('activate', item)
         @renderAlbums items
         if @renderType is 'Gallery'
           @albumsEl.children().addClass('disabled')
+      when 'Album'
+        Album.trigger('activate', item)
     
   prevClick: (e) ->
     e.stopPropagation()
@@ -116,7 +131,8 @@ class ActionWindow extends Spine.Controller
         @visible = false
     return true
   
-  open: (type) ->
+  open: (type, list) ->
+    @clipBoard = list
     @setRenderType type
     @render()
     @el.modal('show')
@@ -139,8 +155,9 @@ class ActionWindow extends Spine.Controller
     remove = checkbox[0].checked
     
     gallery = $('.galleries .active', @form).item()
+    albums = Album.toRecords @clipBoard
     if gallery
-      Spine.trigger('albums:copy', gallery)
+      Spine.trigger('albums:copy', albums, gallery)
       # open edit-panel
       App.showView.btnAlbum.click()
       @close()
@@ -152,13 +169,20 @@ class ActionWindow extends Spine.Controller
     
     gallery = $('.galleries .active', @form).item()
     album = $('.albums .active', @form).item()
-    photos = Photo.toRecords Album.selectionList()
+    photos = Photo.toRecords @clipBoard
     
     if album
-      Spine.trigger('photos:copy', album, gallery)
+      Spine.trigger('photos:copy', photos, gallery, album)
       # open edit-panel
       App.showView.btnAlbum.click()
       @close()
 
+  albumCreated: (album) ->
+    albums = Gallery.albums()
+    @renderAlbums(albums)
+    
+  galleryCreated: (gal) ->
+    Gallery.trigger('activate', gal.id or gal.cid)
+    @renderGalleries(Gallery.records)
     
 module.exports = ActionWindow

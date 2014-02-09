@@ -49,6 +49,7 @@ class AlbumsList extends Spine.Controller
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
     # if we change a different gallery from within the sidebar, it should not be reflected here
+    return unless @parent.isActive()
     return unless Gallery.record
     return unless Gallery.record.id is item['gallery_id']
     return unless album = Album.exists(item['album_id'])
@@ -80,10 +81,13 @@ class AlbumsList extends Spine.Controller
     else
       if Gallery.record
         if Album.count()
-          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></span></label>'
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<div><button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></div></span></label>'
         else
-          @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<br><button class="optCreateAlbum dark large">New Album</button></span></label>'
-    
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<div><button class="optCreateAlbum dark large">New Album</button></div></span></label>'
+      else
+        @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet<div><button class="optCreateAlbum dark large">New Album</button></div></span></label>'
+        
+        
     @renderBackgrounds items, mode
     Album.trigger('activate', Gallery.selectionList())
     @el
@@ -247,7 +251,6 @@ class AlbumsList extends Spine.Controller
       Spine.trigger('destroy:album', [item.id])
       el.remove()
     , 200)
-    
     
     e.stopPropagation()
     e.preventDefault()

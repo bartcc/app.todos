@@ -44,6 +44,7 @@ class PhotoHeader extends Spine.Controller
     e.preventDefault()
 
   change: (item) ->
+    return unless @isActive()
     console.log 'PhotoHeader::change'
     @render item
     

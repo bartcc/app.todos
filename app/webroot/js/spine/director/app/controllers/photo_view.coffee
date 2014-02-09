@@ -55,6 +55,7 @@ class PhotoView extends Spine.Controller
     @render(item)
     
   render: (item) ->
+    return unless @isActive()
     console.log 'PhotoView::render'
     @current = item
     @created = !!@items.html @template @current unless @once
@@ -62,6 +63,7 @@ class PhotoView extends Spine.Controller
     @renderHeader item
     
   renderHeader: (item) ->
+    return unless @isActive()
     @header.change item
   
   remove: (ap) ->

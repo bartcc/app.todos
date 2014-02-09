@@ -25,7 +25,6 @@ UploadEditView          = require("controllers/upload_edit_view")
 GalleryEditView         = require("controllers/gallery_edit_view")
 GalleryEditorView       = require("controllers/gallery_editor_view")
 FlickrView              = require("controllers/flickr_view")
-ActionWindow            = require("controllers/action_window")
 
 require("plugins/manager")
 require('spine/lib/route')
@@ -56,7 +55,6 @@ class Main extends Spine.Controller
     '#login'              : 'loginEl'
     '#modal-gallery'      : 'slideshowEl'
     '#modal-view'         : 'modalEl'
-    '#modal-action'       : 'modalActionEl'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
     '#show .content'      : 'content'
@@ -89,9 +87,6 @@ class Main extends Spine.Controller
       el: @modalEl
     @modal2ButtonView = new Modal2ButtonView
       el: @modalEl
-    @modalActionView = new ModalActionView
-      el: @modalEl
-      className: 'modal'
     @galleryEditView = new GalleryEditorView
       el: @galleryEditEl
     @gallery = new GalleryEditView
@@ -126,8 +121,6 @@ class Main extends Spine.Controller
       el: @mainEl
     @loaderView = new LoaderView
       el: @loaderEl
-    @actionWindow = new ActionWindow
-      el: @modalActionEl
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.external = @showView.toolbarOne

@@ -28,6 +28,7 @@ class GalleriesView extends Spine.Controller
     @list = new GalleriesList
       el: @items
       template: @template
+      parent: @
     @header.template = @headerTemplate
     Gallery.bind('refreshOnEmpty', @proxy @refresh)
     Gallery.one('refresh', @proxy @refresh)
@@ -52,6 +53,7 @@ class GalleriesView extends Spine.Controller
     @render items
   
   render: (items) ->
+    return unless @isActive()
     console.log 'GalleriesView::render'
     if Gallery.count()
       @list.render items

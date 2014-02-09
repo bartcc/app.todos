@@ -49,6 +49,7 @@
     </div>
     <div id="content" class="views bg-medium vbox flex">
       <div id="show" class="view canvas vbox flex">
+        <div id="modal-action" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
           <li class="splitter disabled flex"></li>
@@ -199,7 +200,6 @@
 </div>
 <!-- modal-dialogue -->
 <div id="modal-view" class="modal fade"></div>
-<div id="modal-action" class="modal fade"></div>
 <!-- /.modal -->
 
 <!-- Templates -->
@@ -216,8 +216,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <ul class="pager">
-          <li class="previous {{if min}}disabled{{/if}}"><a href="#">&larr;</a></li>
-          <li class="next {{if max}}disabled{{/if}}"><a href="#">&rarr;</a></li>
+          <li class="previous {{if min}}disabled{{/if}}"><a href="#">Reset List</a></li>
         </ul>
         <h4 class="modal-title">${text}</h4>
       </div>
@@ -236,6 +235,8 @@
         </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="optCreateGallery btn btn-default">New Gallery</button>
+        <button type="button" class="optCreateAlbum btn btn-default" {{if type == 'Gallery'}}disabled{{/if}}>New Album</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="submit" class="copy btn btn-primary">Copy</button>
         <label class="hide">

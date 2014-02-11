@@ -258,6 +258,8 @@ class ShowView extends Spine.Controller
       @showAlbumMasters()
       
   copyAlbums: (albums, gallery) ->
+    console.log albums
+    console.log gallery
     Album.trigger('create:join', albums, gallery)
     @navigate '/gallery', gallery.id
       
@@ -269,21 +271,14 @@ class ShowView extends Spine.Controller
       @navigate '/gallery', '', album.id
       
   copyPhotosToAlbum: ->
-    @photosToAlbum()
-#    Photo.trigger('create:join', photos, album)
-#    if gallery
-#      Album.trigger('create:join', [album], gallery)
-#      @navigate '/gallery', gallery.id, album.id
-#    else
-#      @navigate '/gallery', '', album.id
+    @photosToAlbum Album.selectionList()
       
   movePhotosToAlbum: ->
-    @photosToAlbum Album.record
+    @photosToAlbum Album.selectionList(), Album.record
   
-  photosToAlbum: (album) ->
-    photos = Photo.toRecords(Album.selectionList())
+  photosToAlbum: (photos, album) ->
     target = Gallery.record
-    Spine.trigger('create:album', target
+    Spine.trigger('create:album', target,
       photos: photos
       from:album
     )
@@ -291,7 +286,7 @@ class ShowView extends Spine.Controller
     if target?.id
       @navigate '/gallery', target.id, Album.last().id
     else
-      @showAlbumMasters()
+      @navigate '/gallery/', Album.last().id
   
   createAlbumCopy: (albums=Gallery.selectionList(), target=Gallery.record) ->
     for id in albums

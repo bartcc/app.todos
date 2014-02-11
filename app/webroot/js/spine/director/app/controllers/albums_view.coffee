@@ -142,14 +142,14 @@ class AlbumsView extends Spine.Controller
   createAlbum: (target=Gallery.record, options={}) ->
     console.log 'AlbumsView::create'
     cb = ->
-      console.log @
       @createJoin(target) if target
+      @updateSelectionID()
+      console.log @id
       if options.photos
         # copy photos to this album if a list argument is available
-#        options = $.extend(options, )
         Photo.trigger('create:join', options.photos, @)
         # optionally remove photos from original album
-#        Photo.trigger('destroy:join', options.photos, options.from) if options.from
+        Photo.trigger('destroy:join', options.photos, options.from) if options.from
       Album.trigger('activate', Gallery.updateSelection @id)
       
     album = new Album @newAttributes()
@@ -187,6 +187,10 @@ class AlbumsView extends Spine.Controller
       @renderHeader()
     else
       @render()
+      
+  createJoin: (albums, target) ->
+    for aid in albums
+      album.createJoin target if album = Album.exists aid
       
   destroyJoin: (albums, gallery) ->
     return unless gallery and gallery.constructor.className is 'Gallery'

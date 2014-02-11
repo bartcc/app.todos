@@ -228,7 +228,6 @@ Model.Extender =
       toggleSelected: (list) ->
         unless @id in list
           list.unshift @id
-          console.log list.indexOf(@id)
         else
           index = list.indexOf(@id)
           list.splice(index, 1) unless index is -1

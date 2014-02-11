@@ -58,8 +58,12 @@ class PhotosList extends Spine.Controller
         @html html
     else
       @el.addClass 'all'
-      @renderAll()
-    @exposeSelection()
+      if Photo.count()
+        @renderAll()
+        @exposeSelection()
+      else
+        html = '<label class="invite"><span class="enlightened">No Photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
+        @html html
     @el
   
   renderAll: ->
@@ -256,19 +260,19 @@ class PhotosList extends Spine.Controller
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
     
-    el = $(e.currentTarget).parents('.item')
+    el = @findModelElement item
     el.removeClass('in')
-    Album.updateSelection item.id
-    
-    window.setTimeout( =>
-      Spine.trigger('destroy:photo')
-      @stopInfo()
-      if album = Album.record
-        unless @el.children().length
-          @parent.render() #unless gallery.count()
-    , 300)
     
     @stopInfo()
+    
+    window.setTimeout( =>
+      Spine.trigger('destroy:photo', [item.id])
+      
+#      if album = Album.record
+#        unless @el.children().length
+#          @parent.render() #unless gallery.count()
+    , 200)
+    
     e.stopPropagation()
     e.preventDefault()
     

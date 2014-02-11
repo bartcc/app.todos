@@ -250,7 +250,7 @@ class ShowView extends Spine.Controller
   
   copyPhotosToNewAlbum: (photos, gallery=Gallery.record) ->
     return
-    Spine.trigger('create:album', photos, gallery)
+    Spine.trigger('create:album', gallery, photos: photos)
     
     if gallery?.id
       @navigate '/gallery', gallery.id#, Album.last().id
@@ -283,7 +283,10 @@ class ShowView extends Spine.Controller
   photosToAlbum: (album) ->
     photos = Photo.toRecords(Album.selectionList())
     target = Gallery.record
-    Spine.trigger('create:album', photos, target, album)
+    Spine.trigger('create:album', target
+      photos: photos
+      from:album
+    )
     
     if target?.id
       @navigate '/gallery', target.id, Album.last().id
@@ -294,8 +297,10 @@ class ShowView extends Spine.Controller
     for id in albums
       if Album.exists(id)
         photos = Album.photos(id).toID()
-        alert 'creating album'
-        Spine.trigger('create:album', photos, target)
+        
+        Spine.trigger('create:album', target
+          photos: photos
+        )
         
     if target
       Gallery.updateSelection albums, target.id
@@ -307,7 +312,10 @@ class ShowView extends Spine.Controller
     for id in albums
       if Album.exists(id)
         photos = Album.photos(id).toID()
-        Spine.trigger('create:album', photos, target, origin:Album.record)
+        Spine.trigger('create:album', target
+          photos: photos
+          from:Album.record
+        )
     
     if Gallery.record
       @navigate '/gallery', target.id

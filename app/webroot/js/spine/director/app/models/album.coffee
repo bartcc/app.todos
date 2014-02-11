@@ -64,52 +64,17 @@ class Album extends Spine.Model
     
   @createJoin: (items, target) ->
     unless @isArray items
-      items = [].push(items)
+      items = [items]
 
     return unless items.length
-#    
+    
     for item in items
       ga = new GalleriesAlbum
         gallery_id  : target.id
-        album_id    : item.id
+        album_id    : item
         order       : GalleriesAlbum.albums(target.id).length
       ga.save()
       
-  @destroyJoins: (albums, target) ->
-    filterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
-      
-    albums = albums.toID()
-    gas = GalleriesAlbum.filter(target.id, filterOptions)
-    
-    for ga in gas
-      unless albums.indexOf(ga.album_id) is -1
-        target.removeSelection(ga.album_id)
-        Spine.Ajax.disable ->
-          ga.destroy()
-  
-#  @destroyJoin: (albums, target) ->
-#    return unless target
-#
-#    filterOptions =
-#      key:'gallery_id'
-#      joinTable: 'GalleriesAlbum'
-#      sorted: true
-#
-#    unless @isArray albums
-#      records = []
-#      records.push(albums)
-#    else records = albums
-#
-#    albums = @toID(records)
-#
-#    gas = GalleriesAlbum.filter(target.id, filterOptions)
-#    for ga in gas
-#      unless albums.indexOf(ga.album_id) is -1
-#        Gallery.removeFromSelection ga.album_id
-#        ga.destroy()
-#    
   init: (instance) ->
     return unless id = instance.id
     s = new Object()
@@ -120,12 +85,13 @@ class Album extends Spine.Model
   
   createJoin: (target) ->
     return unless target
-    order = GalleriesAlbum.albums(target.id).length
-    ga = new GalleriesAlbum
-      gallery_id  : target.id
-      album_id    : @id
-      order       : order
-    ga.save()
+    @constructor.createJoin [@id], target
+#    order = GalleriesAlbum.albums(target.id).length
+#    ga = new GalleriesAlbum
+#      gallery_id  : target.id
+#      album_id    : @id
+#      order       : order
+#    ga.save()
   
   destroyJoin: (target) ->
     filterOptions =

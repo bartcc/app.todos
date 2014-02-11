@@ -20,10 +20,10 @@ class GalleriesAlbum extends Spine.Model
 
   @url: 'galleries_albums'
   
-  @galleryHasAlbum: (gid, aid) ->
+  @galleryAlbumExists: (aid, gid) ->
     gas = @filter gid, key: 'gallery_id'
     for ga in gas
-      return true if ga.album_id == aid
+      return ga if ga.album_id == aid
     false
     
   @galleries: (aid) ->
@@ -32,12 +32,6 @@ class GalleriesAlbum extends Spine.Model
       key: 'album_id'
       sorted: true
     )
-    
-  @albums_too_slow_do_not_use: (gid) ->
-    ret = []
-    @each (item) ->
-      ret.push Album.find(item['album_id']) if item['gallery_id'] is gid
-    ret
     
   @albums: (gid) ->
     Album.filterRelated(gid,

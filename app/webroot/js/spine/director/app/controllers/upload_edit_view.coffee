@@ -47,13 +47,6 @@ class UploadEditView extends Spine.Controller
   fail: (e, data) ->
       
   drop: (e, data) ->
-    console.log 'drop1'
-    list = Gallery.selectionList()
-    # dont allow uploads without an album selected
-    unless list.length
-#      data.files[0...data.files.length] = []
-      console.log App.uploader.fileupload()
-#      @notify()
 
   add: (e, data) ->
     @fileslist.push data for file in data.files
@@ -88,7 +81,9 @@ class UploadEditView extends Spine.Controller
     
       if album
         photo = Photo.exists(raw['Photo'].id)
-        Photo.trigger('create:join', photo, album) if photo
+        if photo
+          Photo.trigger('create:join', photo.id, album)
+          
         Spine.trigger('loading:done', album)
         Spine.trigger('album:updateBuffer', album)
       else

@@ -50,6 +50,9 @@ Controller.Extender =
       sortable: (type) ->
         @el.sortable type
         
+      findModelElement: (item) ->
+        @children().forItem(item, true)
+        
     @extend Extend
     @include Include
 

@@ -62,15 +62,12 @@ class ActionWindow extends Spine.Controller
   
   renderAlbums: (items) ->
     @albumsEl.html @colTemplate items
-    console.log items
     activeAlbum = Album.toRecords(Gallery.selectionList())[0]
-    console.log Album.toRecords(Gallery.selectionList())
     @albumsEl.children().forItem(activeAlbum).addClass('active') if activeAlbum
     @albumsEl
     
   renderGalleries: (items) ->
     @galleriesEl.html @colTemplate items
-    console.log Gallery.record
     el = @galleriesEl.children('#'+Gallery.record.id)
     el.addClass('active').click() if Gallery.record
     @galleriesEl
@@ -153,11 +150,10 @@ class ActionWindow extends Spine.Controller
   actionCopyToGallery: ->
     checkbox = $('.remove[type=checkbox]', @form)
     remove = checkbox[0].checked
-    
     gallery = $('.galleries .active', @form).item()
-    albums = Album.toRecords @clipBoard
+    
     if gallery
-      Spine.trigger('albums:copy', albums, gallery)
+      Spine.trigger('albums:copy', @clipBoard, gallery)
       # open edit-panel
       App.showView.btnAlbum.click()
       @close()
@@ -169,10 +165,9 @@ class ActionWindow extends Spine.Controller
     
     gallery = $('.galleries .active', @form).item()
     album = $('.albums .active', @form).item()
-    photos = Photo.toRecords @clipBoard
     
     if album
-      Spine.trigger('photos:copy', photos, gallery, album)
+      Spine.trigger('photos:copy', @clipBoard, gallery, album)
       # open edit-panel
       App.showView.btnAlbum.click()
       @close()

@@ -56,8 +56,6 @@ class Photo extends Spine.Model
     @__super__.constructor.create.call @, atts
   
   @refresh: (values, options = {}) ->
-    console.log 'my refresh'
-    
     @__super__.constructor.refresh.call @, values, options
     
   @trashed: ->

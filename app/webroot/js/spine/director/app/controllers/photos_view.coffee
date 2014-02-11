@@ -51,19 +51,21 @@ class PhotosView extends Spine.Controller
       info: @info
       parent: @
     @header.template = @headerTemplate
-    AlbumsPhoto.bind('change', @proxy @renderHeader)
-    AlbumsPhoto.bind('destroy', @proxy @remove)
+#    AlbumsPhoto.bind('destroy', @proxy @remove)
+    AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
+    AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
+    AlbumsPhoto.bind('ajaxError', Photo.errorHandler)
     AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
-    Photo.bind('created', @proxy @add)
-    Gallery.bind('change', @proxy @renderHeader)
+    Gallery.bind('create update destroy', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
-    Photo.bind('refresh destroy', @proxy @renderHeader)
-    Photo.bind('beforeDestroy', @proxy @remove)
+    Photo.bind('created', @proxy @add)
+    Photo.bind('refresh', @proxy @renderHeader)
+    Photo.bind('destroy', @proxy @destroy)
+    Photo.bind('beforeDestroy', @proxy @beforeDestroy)
     Photo.bind('create:join', @proxy @createJoin)
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
-    AlbumsPhoto.bind('ajaxError', Photo.errorHandler)
-    Spine.bind('destroy:photo', @proxy @destroy)
+    Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @change)
@@ -87,71 +89,53 @@ class PhotosView extends Spine.Controller
     @render @buffer
   
   render: (items, mode) ->
+    # render only if necessary
     return unless @isActive()
     console.log 'PhotosView::render'
-    # render only if necessary
     # if view is dirty but inactive we'll use the buffer next time
     list = @list.render(items || @updateBuffer(), mode)
-    list.sortable('photo') #if Album.record
+    list.sortable('photo')
     delete @buffer
   
   renderHeader: ->
-    return unless @isActive()
+#    return unless @isActive()
     console.log 'PhotosView::renderHeader'
     @header.change()
   
   clearPhotoCache: ->
     Photo.clearCache()
   
-  # for AlbumsPhoto & Photo
-  remove: (item) ->
-    console.log 'PhotosView::remove'
-    unless item.constructor.className is 'Photo'
-      item = Photo.exists(item.photo_id)
-
-    photoEl = @items.children().forItem(item, true)
-    photoEl.remove()
-    if Album.record
-      @render() unless Album.contains(Album.record.id)
-
-  redirect: (ga) ->
-    @navigate '/gallery', Gallery.record.id if ga.destroyed
-  
-  next: (album) ->
-    album.last()
-  
-  destroy: (e) ->
-    console.log 'PhotosView::destroy'
-    list = Album.selectionList().slice(0)
-    photos = []
-    Photo.each (record) =>
-      photos.push record unless list.indexOf(record.id) is -1
-      
-    if album = Album.record
-      Album.emptySelection()
-      Photo.trigger('destroy:join', photos, Album.record)
-    else
-      # clean up joins first
-      for photo in photos
-        # 
-        # we can destroy the join without telling the server
-        # as long as cakephp handles photo HABTM as unique (default)
-        # 
-        # so the server-side join is automatically
-        # removed upon photo deletion in the next step
-        #
-        aps = AlbumsPhoto.filter(photo.id, key: 'photo_id')
-        for ap in aps
-          album = Album.exists(ap.album_id) 
-          Spine.Ajax.disable ->
-            Photo.trigger('destroy:join', photo, album) if album
-            
-      # now remove photo originals
-      for photo in photos
-        Album.removeFromSelection photo.id
-        photo.destroyCache()
-        photo.destroy()
+  beforeDestroy: (photo) ->
+    Album.removeFromSelection photo.id
+    photo.removeSelectionID()
     
+    @list.findModelElement(photo).remove()
+    
+    aps = AlbumsPhoto.filter(photo.id, key: 'photo_id')
+    for ap in aps
+      @destroyJoin [photo.id], Album.exists aps.album_id
+      
+  destroyPhoto: (ids) ->
+    console.log 'PhotosView::destroyPhoto'
+    photos = ids || Album.selectionList()
+    photos = [photos] unless Photo.isArray photos
+    if Album.record
+      @destroyJoin photos, Album.record
+    else
+      photos = Photo.toRecords(photos)
+      for photo in photos
+        photo.destroy()
+  
+  destroy: (album) ->
+    if Photo.count()
+      @renderHeader()
+    else
+      @render()
+      
+  destroyAlbumsPhoto: (ap) ->
+    photos = AlbumsPhoto.photos  ap.album_id
+    @render() unless photos.length
+      
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
@@ -177,33 +161,30 @@ class PhotosView extends Spine.Controller
         @render([photo], 'append')
         @list.el.sortable('destroy').sortable('photos')
       
-  createJoin: (photos, album, deleteTarget) ->
-    # photos must be an array filled with type Photo
+  createJoin: (photos, album, options={}) ->
+    # photos must be an array of photos
     console.log 'PhotosView::createJoin'
-#    alert 'no array' unless Photo.isArray(photos)
     return unless album and album.constructor.className is 'Album'
-    photos = new Array(photos) unless Photo.isArray(photos)
-    for photo in photos
-      unless AlbumsPhoto.albumHasPhoto(album.id, photo.id)
+    photos = [photos] unless Photo.isArray(photos)
+    for pid in photos
+      unless AlbumsPhoto.albumPhotoExists(pid, album.id)
         ap = new AlbumsPhoto
           album_id: album.id
-          photo_id: photo.id
+          photo_id: pid
           order: AlbumsPhoto.photos(album.id).length
         ap.save()
       
-    if deleteTarget and deleteTarget.constructor.className is 'Album'
-      @destroyJoin photos, deleteTarget
+    if options.from
+      @destroyJoin photos, options.from
   
-  destroyJoin: (photos, target) ->
+  destroyJoin: (photos, album) ->
     console.log 'PhotosView::destroyJoin'
-    return unless target and target.constructor.className is 'Album'
-    aps = AlbumsPhoto.filter(target.id, key: 'album_id')
-    photos = new Array(photos)  unless Photo.isArray(photos)
-    for ap in aps
-      unless photos.indexOf(ap.photo_id) is -1
-        Album.removeFromSelection ap.photo_id
-        Spine.Ajax.disable ->
-          ap.destroy()
+    return unless album and album.constructor.className is 'Album'
+    for pid in photos
+      ap = AlbumsPhoto.albumPhotoExists(pid, album.id)
+      Album.removeFromSelection pid
+      @list.findModelElement(photo).remove() if photo = Photo.exists(pid)
+      ap.destroy()
 
   sortupdate: ->
     @list.children().each (index) ->

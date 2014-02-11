@@ -33,7 +33,7 @@ class AlbumsList extends Spine.Controller
     super
     # initialize flickr's slideshow
 #    @el.toggleSlideshow()
-    Album.bind('destroy', @proxy @destroy)
+#    Album.bind('destroy', @proxy @destroy)
     Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
@@ -42,9 +42,9 @@ class AlbumsList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     Album.bind('activate', @proxy @activate)
     
-  destroy: (album) ->
-    @children().forItem(album, true).remove()
-    @refreshElements()
+#  destroy: (album) ->
+#    @children().forItem(album, true).remove()
+#    @refreshElements()
   
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
@@ -242,14 +242,13 @@ class AlbumsList extends Spine.Controller
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'
     
-    el = $(e.currentTarget).parents('.item')
+    el = @findModelElement item
     el.removeClass('in')
     
     @stopInfo()
     
     window.setTimeout( =>
       Spine.trigger('destroy:album', [item.id])
-      el.remove()
     , 200)
     
     e.stopPropagation()

@@ -155,14 +155,16 @@ class Sidebar extends Spine.Controller
         for album in albums
           album.createJoin(target) if target
           album.destroyJoin(origin) if origin
+#          Album.trigger('create:join', album, target) if target
+#          Album.trigger('destroy:join', origin) if origin
           
       when 'Photo'
         photos = []
         Photo.each (record) =>
           photos.push record unless @clonedSelection.indexOf(record.id) is -1
         
-        Photo.trigger('create:join', photos, target)
-        Photo.trigger('destroy:join', photos, origin) unless @isCtrlClick(e)
+        Photo.trigger('create:join', photos.toID(), target)
+        Photo.trigger('destroy:join', photos.toID(), origin) unless @isCtrlClick(e)
         
         
   validateDrop: (target, source, origin) =>

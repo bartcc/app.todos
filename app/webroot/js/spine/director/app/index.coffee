@@ -258,7 +258,7 @@ class Main extends Spine.Controller
   keypress: (e) ->
     code = e.charCode or e.keyCode
     
-    console.log 'Main:keypressCode: ' + code
+#    console.log 'Main:keypressCode: ' + code
     
     switch code
       when 97 #CTRL A
@@ -267,13 +267,11 @@ class Main extends Spine.Controller
           e.preventDefault()
       when 13 #RETURN
         e.preventDefault()
-#      when 32 # SPACE
-#        e.preventDefault()
     
   keyup: (e) ->
     code = e.charCode or e.keyCode
     
-    console.log 'Main:keyupCode: ' + code
+#    console.log 'Main:keyupCode: ' + code
     
     switch code
       when 32 #Space

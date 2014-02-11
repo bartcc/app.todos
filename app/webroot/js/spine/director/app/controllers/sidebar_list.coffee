@@ -45,12 +45,12 @@ class SidebarList extends Spine.Controller
     
   constructor: ->
     super
-    AlbumsPhoto.bind('destroy create update', @proxy @renderItemFromAlbumsPhoto)
+    AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('destroy create update', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
 #    Album.bind('refresh destroy create update', @proxy @renderAllSublist)
     Album.one('refresh', @proxy @renderAllSublist)
-    Album.bind('destroy update', @proxy @renderAllSublist)
+    Album.bind('update destroy', @proxy @renderSublists)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
@@ -140,9 +140,14 @@ class SidebarList extends Spine.Controller
     for gal, index in Gallery.records
       @renderOneSublist gal
       
+  renderSublists: (album) ->
+    console.log 'SidebarList::renderSublists'
+    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
+    for ga in gas
+      @renderOneSublist gallery if gallery = Gallery.exists ga.gallery_id
+      
   renderOneSublist: (gallery = Gallery.record) ->
     console.log 'SidebarList::renderOneSublist'
-    def = $.Deferred()
     filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
@@ -159,7 +164,6 @@ class SidebarList extends Spine.Controller
     
     @updateTemplate gallery
     @exposeSublistSelection gallery
-    def.resolve()
   
   updateTemplate: (item) ->
     galleryEl = @children().forItem(item)
@@ -180,6 +184,7 @@ class SidebarList extends Spine.Controller
       @renderItemFromGalleriesAlbum ga
       
   renderItemFromAlbumsPhoto: (ap) ->
+    console.log 'SidebarList::renderItemFromAlbumsPhoto'
     gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
     for ga in gas
       @renderItemFromGalleriesAlbum ga

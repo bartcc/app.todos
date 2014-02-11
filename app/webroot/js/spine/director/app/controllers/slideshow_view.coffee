@@ -226,7 +226,6 @@ class SlideshowView extends Spine.Controller
     @play(options)
     
   play: (options={}) ->
-    console.log 'play'
     if @isActive()
       options = $().extend(@defaults, options)
       @gallery = blueimp.Gallery(@thumb, options)

@@ -147,15 +147,14 @@ class PhotosView extends Spine.Controller
   # methods after uplopad
   
   addAlbumsPhoto: (ap) ->
-    photo = Photo.find(ap.photo_id)
+    el = @list.findModelElement photo if photo = Photo.exists(ap.photo_id)
+    return if el.length
     @add photo
   
-  add: (records) ->
+  add: (photos) ->
     console.log 'PhotosView::add'
-    unless Photo.isArray records
-      photos = []
-      photos.push(records)
-    else photos = records
+    unless Photo.isArray photos
+      photos = [photos]
     for photo in photos
       if Photo.exists(photo.id)
         @render([photo], 'append')

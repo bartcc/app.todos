@@ -196,7 +196,6 @@ class AlbumsView extends Spine.Controller
     return unless gallery and gallery.constructor.className is 'Gallery'
     for aid in albums
       ga = GalleriesAlbum.galleryAlbumExists(aid, gallery.id)
-      Gallery.removeFromSelection aid
       @list.findModelElement(album).remove() if album = Album.exists(aid)
       ga.destroy()
       

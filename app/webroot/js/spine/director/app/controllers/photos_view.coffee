@@ -54,7 +54,6 @@ class PhotosView extends Spine.Controller
 #    AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
-    AlbumsPhoto.bind('ajaxError', Photo.errorHandler)
     AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
     Gallery.bind('create update destroy', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
@@ -181,7 +180,6 @@ class PhotosView extends Spine.Controller
     return unless album and album.constructor.className is 'Album'
     for pid in photos
       ap = AlbumsPhoto.albumPhotoExists(pid, album.id)
-      Album.removeFromSelection pid
       @list.findModelElement(photo).remove() if photo = Photo.exists(pid)
       ap.destroy()
 

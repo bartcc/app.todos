@@ -788,7 +788,11 @@ li.item.over {
   width: auto;
 }
 #content .items .item .title {
+  position: relative;
+  bottom: -6px;
+  width: 100%;
   font-size: 0.9em;
+  font-family: monospace;
   color: rgba(255, 255, 255, 1);
   text-shadow: 0 1px 0px rgba(0, 0, 0, 1);
   text-align: center;
@@ -885,7 +889,6 @@ li.item.over {
 .container.item {
   border-radius: 0px;
   margin-top: 15px;
-  padding: 12px 10px 4px;
 }
 #overview .container:not(.item) {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
@@ -927,6 +930,12 @@ li.item.over {
 }
 .galleries .thumbnail {
   background-position: 0 -160px;
+}
+li .thumbnail.image {
+  position: relative;
+  background-position: center center;
+  background-size: 100% auto;
+  height: 218px;
 }
 .thumbnail {
   background-position: 0 0;
@@ -1157,14 +1166,14 @@ li.item.over {
 }
 .hoverinfo {
   min-width: 120px;
-  border-radius: 5px;
+  border-radius: 0px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  background: rgba(200, 200, 200, 0.9);
-  background: -webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, 0.9)), to(rgba(140, 140, 140, 0.7)));
-  background: -moz-linear-gradient(center top , rgba(200, 200, 200, 0.9), rgba(140, 140, 140, 0.7));
-  background: linear-gradient(center top , rgba(200, 200, 200, 0.9), rgba(140, 140, 140, 0.7));
+  background: rgba(55, 128, 255, 0.7);
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(55, 128, 255, 0.7)), to(rgba(55, 128, 255, 0.6)));
+  background: -moz-linear-gradient(center top , rgba(55, 128, 255, 0.7), rgba(55, 128, 255, 0.6));
+  background: linear-gradient(center top , rgba(55, 128, 255, 0.7), rgba(55, 128, 255, 0.6));
   padding: 10px 15px;
   position: absolute;
   z-index: 1
@@ -1188,9 +1197,8 @@ li.item.over {
   background: linear-gradient(center top , rgba(256, 100, 100, 1), rgba(200, 40, 40, 1));
 }
 #content .hoverinfo li {
-  color: rgba(5, 5, 5, 0.8);
-  text-shadow: 0 1px 0 rgba(250, 250, 250, 0.5);
-  font-family: Verdana, sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: monospace;
 }
 #content .hoverinfo .cta {
   background-color: #898989;

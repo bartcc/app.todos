@@ -582,7 +582,7 @@
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li  class="item data container fade in sortable">
     {{tmpl "#photosThumbnailTemplate"}}
-    <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
+    <div class="title hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>
 </script>
 
@@ -612,7 +612,7 @@
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
   </div>
-  <div class="title">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
+  <div class="title hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
 </script>
 
 <script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">
@@ -691,11 +691,10 @@
 
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <em><li class="empty bold">{{if title}}{{html title}}{{else}}${src}{{/if}}</li></em>
-    <li class="">${src}</li>
-    <li class="">iso: ${iso}</li>
-    <li class="">model: ${model}</li>
-    <li class="">date: ${captured}</li>
+    <li class="">{{if title}}{{html title}}{{else}}${src}{{/if}}</li>
+    <li class="">{{if iso}}iso&nbsp;&nbsp;: ${iso}{{/if}}</li>
+    <li class="">{{if model}}model: ${model}{{/if}}</li>
+    <li class="">{{if captured}}date : ${captured}{{/if}}</li>
   </ul>
 </script>
 

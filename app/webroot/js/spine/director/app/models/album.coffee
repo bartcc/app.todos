@@ -86,12 +86,6 @@ class Album extends Spine.Model
   createJoin: (target) ->
     return unless target
     @constructor.createJoin [@id], target
-#    order = GalleriesAlbum.albums(target.id).length
-#    ga = new GalleriesAlbum
-#      gallery_id  : target.id
-#      album_id    : @id
-#      order       : order
-#    ga.save()
   
   destroyJoin: (target) ->
     filterOptions =
@@ -104,8 +98,6 @@ class Album extends Spine.Model
     for ga in gas
       if ga.album_id is @id
         target.removeSelection(ga.album_id)
-        console.log ga
-        console.log @
         ga.destroy()
   
   count: (inc = 0) -> @constructor.contains(@id) + inc

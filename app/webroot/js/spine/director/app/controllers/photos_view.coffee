@@ -107,7 +107,6 @@ class PhotosView extends Spine.Controller
   beforeDestroy: (photo) ->
     Album.removeFromSelection photo.id
     photo.removeSelectionID()
-    
     @list.findModelElement(photo).remove()
     
     aps = AlbumsPhoto.filter(photo.id, key: 'photo_id')
@@ -116,20 +115,19 @@ class PhotosView extends Spine.Controller
       
   destroyPhoto: (ids) ->
     console.log 'PhotosView::destroyPhoto'
-    photos = ids || Album.selectionList()
+    photos = ids || Album.selectionList().slice(0)
     photos = [photos] unless Photo.isArray photos
     if Album.record
       @destroyJoin photos, Album.record
     else
-      photos = Photo.toRecords(photos)
-      for photo in photos
-        photo.destroy()
+      for id in photos
+        albums = AlbumsPhoto.albums(id)
+        for album in albums
+          @destroyJoin id, album
+        photo.destroy() if photo = Photo.exists(id)
   
   destroy: (album) ->
-    if Photo.count()
-      @renderHeader()
-    else
-      @render()
+    @render() unless Photo.count()
       
   destroyAlbumsPhoto: (ap) ->
     photos = AlbumsPhoto.photos  ap.album_id
@@ -178,6 +176,7 @@ class PhotosView extends Spine.Controller
   destroyJoin: (photos, album) ->
     console.log 'PhotosView::destroyJoin'
     return unless album and album.constructor.className is 'Album'
+    photos = [photos] unless Photo.isArray(photos)
     for pid in photos
       ap = AlbumsPhoto.albumPhotoExists(pid, album.id)
       @list.findModelElement(photo).remove() if photo = Photo.exists(pid)

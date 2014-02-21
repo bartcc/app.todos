@@ -23,6 +23,7 @@ class PhotosHeader extends Spine.Controller
   constructor: ->
     super
     Album.bind('change:selection', @proxy @moveMenu)
+    Photo.bind('change', @proxy @render)
     
   backToGalleries: (e) ->
     console.log 'PhotosHeader::backToGalleries'
@@ -52,7 +53,7 @@ class PhotosHeader extends Spine.Controller
     if Album.record
       AlbumsPhoto.filter(Album.record.id, key: 'album_id').length
     else
-      Photo.all().length
+      Photo.count()
     
   moveMenu: (list = Album.selectionList()) ->
     @actionMenu.toggleClass('down', !!list.length)

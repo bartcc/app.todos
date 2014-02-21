@@ -178,6 +178,12 @@ class SidebarList extends Spine.Controller
     gallery = Gallery.exists(ga.gallery_id)
     @renderOneSublist gallery if gallery
     
+  renderItemFromPhoto: (photo) ->
+    for photo in photos
+      albums = AlbumsPhoto.albums(photo)
+      for album in albums
+        Photo.triggerdestroyJoin photo, album
+  
   renderItemFromAlbum: (album) ->
     gas = GalleriesAlbum.filter(album.id, key: 'album_id')
     for ga in gas

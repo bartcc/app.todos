@@ -144,7 +144,6 @@ class AlbumsView extends Spine.Controller
     cb = ->
       @createJoin(target) if target
       @updateSelectionID()
-      console.log @id
       if options.photos
         # copy photos to this album if a list argument is available
         Photo.trigger('create:join', options.photos, @)
@@ -157,14 +156,16 @@ class AlbumsView extends Spine.Controller
         
   destroyAlbum: (ids) ->
     console.log 'AlbumsView::destroyAlbum'
-    albums = ids || Gallery.selectionList()
+    albums = ids || Gallery.selectionList().slice(0)
     albums = [albums] unless Album.isArray albums
     if Gallery.record
       @destroyJoin albums, Gallery.record
     else
-      albums = Album.toRecords(albums)
-      for album in albums
-        album.destroy()
+      for id in albums
+        galleries = GalleriesAlbum.galleries(id)
+        for gallery in galleries
+          @destroyJoin id, gallery
+        album.destroy() if album = Album.exists(id)
   
   create: ->
     @change()
@@ -183,10 +184,7 @@ class AlbumsView extends Spine.Controller
       @destroyJoin [album.id], Gallery.exists gas.gallery_id
    
   destroy: (album) ->
-    if Album.count()
-      @renderHeader()
-    else
-      @render()
+    @render() unless Album.count()
       
   createJoin: (albums, target) ->
     for aid in albums
@@ -194,6 +192,7 @@ class AlbumsView extends Spine.Controller
       
   destroyJoin: (albums, gallery) ->
     return unless gallery and gallery.constructor.className is 'Gallery'
+    albums = [albums] unless Album.isArray(albums)
     for aid in albums
       ga = GalleriesAlbum.galleryAlbumExists(aid, gallery.id)
       @list.findModelElement(album).remove() if album = Album.exists(aid)

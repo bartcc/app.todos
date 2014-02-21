@@ -265,7 +265,7 @@ class PhotosList extends Spine.Controller
     
     window.setTimeout( =>
       Spine.trigger('destroy:photo', [item.id])
-      
+      el.remove()
 #      if album = Album.record
 #        unless @el.children().length
 #          @parent.render() #unless gallery.count()

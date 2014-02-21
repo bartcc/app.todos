@@ -13,6 +13,7 @@ class AlbumsHeader extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change:selection', @proxy @moveMenu)
+    Album.bind('change', @proxy @render)
 
   change: (item) ->
     alert 'Album::change'
@@ -34,9 +35,8 @@ class AlbumsHeader extends Spine.Controller
         key:'gallery_id'
         joinTable: 'GalleriesAlbum'
       Album.filterRelated(Gallery.record.id, filterOptions).length
-#      GalleriesAlbum.filter(Gallery.record.id, key:'gallery_id').length
     else
-      Album.all().length
+      Album.count()
       
   backToGalleries: (e) ->
     @navigate '/galleries/'

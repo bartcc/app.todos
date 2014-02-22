@@ -202,7 +202,7 @@ class AlbumsView extends Spine.Controller
     return unless @isActive()
     el = @items.children().forItem(album)
     $('.glyphicon-set', el).addClass('in')
-    $('.downloading', el).addClass('in')
+    $('.downloading', el).removeClass('hide').addClass('in')
     unless el.data()['queue']
       queue = el.data()['queue'] = []
       queue.push {}
@@ -215,7 +215,7 @@ class AlbumsView extends Spine.Controller
     el = @items.children().forItem(album)
     $('.glyphicon-set', el).removeClass('in')
     el.data().queue?.splice(0, 1)
-    $('.downloading', el).removeClass('in')
+    $('.downloading', el).removeClass('in').addClass('hide')
 #    el.removeClass('loading') unless el.data().queue?.length
     
   sortupdate: ->

@@ -1,7 +1,7 @@
 Spine     = require("spine")
 $         = Spine.$
 Model     = Spine.Model
-Toolbar = Model.Toolbar   = require('models/toolbar')
+Toolbar   = Model.Toolbar   = require('models/toolbar')
 Extender  = require('plugins/controller_extender')
 
 

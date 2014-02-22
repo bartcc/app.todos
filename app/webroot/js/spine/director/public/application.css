@@ -1681,10 +1681,15 @@ li.item.active .glyphicon-set {
 .glyphicon-set .glyphicon {
   text-shadow: 1px 0px 0px #000;
 }
+.albums li.item.active .glyphicon-set {
+  background-color: transparent;
+}
 .glyphicon-set {
+  background-color: rgba(51,153,255,0.80);
   position: absolute;
-  right: 3px;
-  top: 16px;
+  right: 10px;
+  top: 8px;
+  padding: 4px 10px 5px 0;
 }
 .item .container {
   position: relativ;
@@ -1695,11 +1700,7 @@ li.item.active .glyphicon-set {
 [class^="glyphicon-"],
 [class*=" glyphicon-"] {
   cursor: pointer;
-  margin: 0 7px 4px 0;
-}
-.thumbnail + .glyphicon-set .glyphicon {
-  font-size: 0.9em;
-  margin: 0 5px;
+  margin: 2px 0 4px 10px;
 }
 .loading .glyphicon-loading {
   background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;

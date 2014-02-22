@@ -3,6 +3,7 @@ $           = Spine.$
 Photo       = require('models/photo')
 Album       = require('models/album')
 AlbumsPhoto = require('models/albums_photo')
+ToolbarView = require("controllers/toolbar_view")
 Extender    = require('plugins/controller_extender')
 
 require("plugins/tmpl")
@@ -13,6 +14,7 @@ class PhotosList extends Spine.Controller
   
   elements:
     '.thumbnail'              : 'thumb'
+    '.toolbar'                : 'toolbarEl'
     
   events:
     'click .item'                  : 'click'
@@ -32,12 +34,17 @@ class PhotosList extends Spine.Controller
     
   constructor: ->
     super
+    
+    @toolbar = new ToolbarView
+      el: @toolbarEl
+      
     Photo.bind('activate', @proxy @activate)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
 #    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
+    
     
   change: ->
     console.log 'PhotosList::change'

@@ -692,9 +692,12 @@
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
     <li class="">{{if title}}{{html title}}{{else}}${src}{{/if}}</li>
-    <li class="">{{if iso}}iso&nbsp;&nbsp;: ${iso}{{/if}}</li>
-    <li class="">{{if model}}model: ${model}{{/if}}</li>
-    <li class="">{{if captured}}date : ${captured}{{/if}}</li>
+    <li class="">{{if model}}model&nbsp;&nbsp;&nbsp;&nbsp;: ${model}{{/if}}</li>
+    <li class="">{{if software}}software : ${software}{{/if}}</li>
+    <li class="">{{if exposure}}exposure : ${exposure}{{/if}}</li>
+    <li class="">{{if iso}}iso&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${iso}{{/if}}</li>
+    <li class="">{{if aperture}}aperture : ${aperture}{{/if}}</li>
+    <li class="">{{if captured}}captured : ${captured}{{/if}}</li>
   </ul>
 </script>
 

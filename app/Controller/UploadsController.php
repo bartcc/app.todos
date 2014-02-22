@@ -64,13 +64,18 @@ class UploadsController extends AppController {
                   unlink($lg_temp);
 
                   list($meta, $captured) = $file->imageMetadata($lg_path);
-//                  $this->log($meta, LOG_DEBUG);
+                  $this->log($meta, LOG_DEBUG);
                   $exposure = $file->parseMetaTags('exif:exposure', $meta);
                   $iso = $file->parseMetaTags('exif:iso', $meta);
                   $longitude = $file->parseMetaTags('exif:longitude', $meta);
                   $aperture = $file->parseMetaTags('exif:aperture', $meta);
-                  $make = $file->parseMetaTags('exif:make', $meta);
                   $model = $file->parseMetaTags('exif:model', $meta);
+                  $date = $file->parseMetaTags('exif:date time', $meta);
+                  $title = $file->parseMetaTags('exif:title', $meta);
+                  $bias = $file->parseMetaTags('exif:exposure bias', $meta);
+                  $metering = $file->parseMetaTags('exif:metering mode', $meta);
+                  $focal = $file->parseMetaTags('exif:focal length', $meta);
+                  $software = $file->parseMetaTags('exif:software', $meta);
 //                  $keywords = str_replace(' ', ',', urldecode($keywords));
 //                  $keywords = ereg_replace("[^,A-Za-z0-9._-]", "", $keywords);
 
@@ -78,12 +83,12 @@ class UploadsController extends AppController {
                   $this->request->data['Photo']['user_id'] = $user_id;
                   $this->request->data['Photo']['src'] = $the_file;
                   $this->request->data['Photo']['filesize'] = filesize($lg_path);
-                  $this->request->data['Photo']['captured'] = $captured;
+                  $this->request->data['Photo']['captured'] = $date;
+                  $this->request->data['Photo']['software'] = $software;
                   $this->request->data['Photo']['exposure'] = $exposure;
                   $this->request->data['Photo']['iso'] = $iso;
                   $this->request->data['Photo']['longitude'] = $longitude;
                   $this->request->data['Photo']['aperture'] = $aperture;
-                  $this->request->data['Photo']['make'] = $make;
                   $this->request->data['Photo']['model'] = $model;
                   $this->request->data['Photo']['order'] = -1;
                   $this->request->data['Photo']['title'] = "";

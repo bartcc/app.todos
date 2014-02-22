@@ -448,8 +448,8 @@ class FileComponent extends Object {
       if (isset($data['Exif']['EXIF'])) {
         $exif = $data['Exif']['EXIF'];
         switch ($template) {
-          case 'exif:DateTimeOriginal':
-            return @$data['Exif']['DateTimeOriginal'];
+          case 'exif:date time':
+            return @$data['Exif']['IFD0']['DateTime'];
             break;
           case 'exif:make':
             return @$data['Exif']['IFD0']['Make'];
@@ -462,6 +462,9 @@ class FileComponent extends Object {
             break;
           case 'exif:model':
             return @$data['Exif']['IFD0']['Model'];
+            break;
+          case 'exif:software':
+            return @$data['Exif']['IFD0']['Software'];
             break;
           case 'exif:exposure':
             return @$exif['ExposureTime'];

@@ -1290,9 +1290,9 @@ label.btn.active {
 }
 #content .content .items .item:not(.thumbnail) {
   background-repeat: no-repeat;
-  -moz-background-position: 34px 39px, 95px 39px, 34px 100px, 95px 100px;
-  -webkit-background-position: 34px 39px, 95px 39px, 34px 100px, 95px 100px;
-  background-position: 34px 39px, 95px 39px, 34px 100px, 95px 100px;
+  -moz-background-position: 34px 34px, 95px 34px, 34px 95px, 95px 95px;
+  -webkit-background-position: 34px 34px, 95px 34px, 34px 95px, 95px 95px;
+  background-position: 34px 34px, 95px 34px, 34px 95px, 95px 95px;
 }
 #content .content .items {
   padding: 0px 10px;
@@ -1695,7 +1695,7 @@ li.item.active .glyphicon-set {
 [class^="glyphicon-"],
 [class*=" glyphicon-"] {
   cursor: pointer;
-  margin: 4px 10px 4px 0;
+  margin: 0 7px 4px 0;
 }
 .thumbnail + .glyphicon-set .glyphicon {
   font-size: 0.9em;

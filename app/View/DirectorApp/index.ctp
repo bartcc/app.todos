@@ -482,7 +482,7 @@
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader z2 {{if record == ''}}red{{/if}}">
+  <section class="top viewheader z2 {{if record == ''}}all{{/if}}">
     {{if record}}
     Author:   <span class="label label-default">${author}</span>
     <br><br>
@@ -620,7 +620,7 @@
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader z2 {{if album == ''}}red{{/if}}">
+  <section class="top viewheader z2 {{if album == ''}}all{{/if}}">
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}

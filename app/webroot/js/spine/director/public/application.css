@@ -1587,10 +1587,10 @@ li .thumbnail.image {
   position: absolute;
   z-index: 1;
 }
-.header .red {
-  background: -webkit-gradient(linear, left top, left bottom, from(#ff6464), to(#c82828));
-  background: -moz-linear-gradient(center top, #ff6464, #c82828);
-  background: linear-gradient(center top, #ff6464, #c82828);
+.header .all {
+  background: -webkit-gradient(linear, left top, left bottom, from(#c09853), to(#c09853));
+  background: -moz-linear-gradient(center top, #c09853, #c09853);
+  background: linear-gradient(center top, #c09853, #c09853);
 }
 #content .hoverinfo li {
   color: rgba(255,255,255,0.80);
@@ -1654,14 +1654,14 @@ li.active button.dark {
   text-shadow: 1px 0 10px rgba(0,224,255,0.80), 1px 0 10px rgba(0,224,255,0.20), -1px -1px 0 #000;
 }
 .items.all .thumbnail {
-  border-width: 2px;
+  border-width: 1px;
   border-style: solid;
 }
 .albums .items.all .thumbnail {
   border-color: #c09853;
 }
 .photos .items.all .thumbnail {
-  border-color: rgba(250,0,0,0.50);
+  border-color: #c09853;
 }
 button.chromeless,
 button.chromeless:hover {

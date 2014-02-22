@@ -64,7 +64,7 @@ class UploadsController extends AppController {
                   unlink($lg_temp);
 
                   list($meta, $captured) = $file->imageMetadata($lg_path);
-                  $this->log($meta, LOG_DEBUG);
+//                  $this->log($meta, LOG_DEBUG);
                   $exposure = $file->parseMetaTags('exif:exposure', $meta);
                   $iso = $file->parseMetaTags('exif:iso', $meta);
                   $longitude = $file->parseMetaTags('exif:longitude', $meta);

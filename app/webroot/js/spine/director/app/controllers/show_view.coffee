@@ -85,6 +85,8 @@ class ShowView extends Spine.Controller
     'click .optOpenSlideshow:not(.disabled)'         : 'slideshowOpen'
     'click .optShowAlbumMasters:not(.disabled)'      : 'showAlbumMasters'
     'click .optShowPhotoMasters:not(.disabled)'      : 'showPhotoMasters'
+    'click .optShowPhotoSelection:not(.disabled)'    : 'showPhotoSelection'
+    'click .optShowAlbumSelection:not(.disabled)'    : 'showAlbumSelection'
     'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
     'dblclick .draghandle'                           : 'toggleDraghandle'
@@ -574,7 +576,12 @@ class ShowView extends Spine.Controller
     @navigate '/gallery/'
     
   showPhotoMasters: ->
-    Gallery.emptySelection()
     @navigate '/gallery//'
+    
+  showPhotoSelection: ->
+    @navigate '/gallery', Gallery.record.id or '', Album.record.id
+    
+  showAlbumSelection: ->
+    @navigate '/gallery', Gallery.record.id or ''
 
 module?.exports = ShowView

@@ -8,7 +8,7 @@ class AlbumsHeader extends Spine.Controller
     'click .optAlbumActionCopy'      : 'toggleActionWindow'
   
   elements:
-    '.move'          : 'actionMenu'
+    '.movefromright'          : 'actionMenu'
     
   constructor: ->
     super

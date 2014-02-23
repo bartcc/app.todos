@@ -209,6 +209,18 @@ Model.Extender =
         Model[modelName].trigger('change:selection', list)
         list
 
+      shiftSelection: ->
+        modelName = @constructor['parent']
+        list = Model[modelName].selectionList()
+        return unless list
+        return list if index = list.indexOf(@id) is 0
+        rm = list.splice(0, 1, list[index])
+        list.splice(index, 1)
+        list.push(rm[0])
+        index = list.indexOf(@id)
+        list
+        
+
       #prevents an update if model hasn't changed
       updateChangedAttributes: (atts) ->
         origAtts = @attributes()

@@ -15,7 +15,7 @@ class PhotosHeader extends Spine.Controller
     'click .optPhotoActionCopy'       : 'toggleActionWindow' 
     
   elements:
-    '.move'          : 'actionMenu'
+    '.movefromright'          : 'actionMenu'
 
   template: (item) ->
     $("#headerPhotosTemplate").tmpl item

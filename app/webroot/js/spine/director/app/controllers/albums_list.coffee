@@ -76,11 +76,11 @@ class AlbumsList extends Spine.Controller
   
   render: (items=[], mode) ->
     console.log 'AlbumsList::render'
+    if Gallery.record
+      @el.removeClass 'all'
+    else
+      @el.addClass 'all'
     if items.length
-      if Gallery.record
-        @el.removeClass 'all'
-      else
-        @el.addClass 'all'
       @html @template items
     else
       if Gallery.record
@@ -120,10 +120,8 @@ class AlbumsList extends Spine.Controller
     @el.sortable('album')
     
   exposeSelection: ->
-    list = Gallery.selectionList().slice(0)
-    
-    list.push Album.record.id if !list.length and Album.record
     @deselect()
+    list = Gallery.selectionList()
     for id in list
       if album = Album.exists(id)
         el = @children().forItem(album, true)
@@ -133,33 +131,33 @@ class AlbumsList extends Spine.Controller
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (items = [], toggle) ->
+  activate: (items, toggle) ->
     id = null
-    unless Spine.isArray items
-      items = [items]
+    items = items or []
+    items = [items] unless Album.isArray items
     
-    for item in items
-      if album = Album.exists(item?.id or item)
-        unless album.destroyed
-          album.addToSelection() unless toggle
-          unless id
-            id = album.id
+    id = items[0]
       
     if id
       App.sidebar.list.expand(Gallery.record, true)
       App.sidebar.list.closeAllSublists(Gallery.record)
       
-    Album.current(Gallery.selectionList()[0] or null)
+    Album.current(id)
     @exposeSelection()
   
-  select: (items = [], lonely) ->
+  select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]
-    for item in items
-      item.addRemoveSelection(lonely)
       
-    Album.trigger('activate', item, true)
-#    Gallery.updateSelection Gallery.sortSelectionListByOrder()
+    list = []
+    for item in items
+      exists = Gallery.selectionList().indexOf(item.id) isnt -1
+      if !Album.record and Gallery.selectionList().length and exists
+        list = item.shiftSelection() if exists
+      else
+        list = item.addRemoveSelection(exclusive)
+      
+    Album.trigger('activate', list[0], true)
     
   click: (e) ->
     console.log 'AlbumsList::click'

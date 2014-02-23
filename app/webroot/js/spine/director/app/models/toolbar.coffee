@@ -104,6 +104,14 @@ class Toolbar extends Spine.Model
           icon: 'trash'
           klass: 'optDestroyAlbum'
           disabled: -> !Gallery.selectionList().length
+        ,
+          devider: true
+        ,
+          name: ->
+            'Show Selection'
+          icon: 'hand-right'
+          klass: 'optShowAlbumSelection '
+          disabled: -> !Gallery.selectionList().length
         ]
     group3:
       name: 'Photo'
@@ -144,6 +152,14 @@ class Toolbar extends Spine.Model
             return type+' '+len
           icon: 'trash'
           klass: 'optDestroyPhoto '
+          disabled: -> !Album.selectionList().length
+        ,
+          devider: true
+        ,
+          name: ->
+            'Show Selection'
+          icon: 'hand-right'
+          klass: 'optShowPhotoSelection '
           disabled: -> !Album.selectionList().length
         ,
           devider: true

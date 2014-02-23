@@ -56,8 +56,10 @@ class GalleriesList extends Spine.Controller
     @el
 
   render: (items, mode) ->
+    console.log 'GalleriesList::render'
     @activate()
     @html @template items
+    @exposeSelection()
     @el
 
   updateTemplates: ->
@@ -88,13 +90,13 @@ class GalleriesList extends Spine.Controller
     else if idxBeforeSort > idxAfterSort
       newEl.before oldEl
 
-  exposeSelection: (item) ->
+  exposeSelection: (item=Gallery.record) ->
     console.log 'GalleriesList::exposeSelection'
     @deselect()
     if item
       el = @children().forItem(item, true)
       el.addClass("active hot")
-      
+      console.log el
       App.sidebar.list.expand(Gallery.record, true)
       App.sidebar.list.closeAllSublists(Gallery.record)
       

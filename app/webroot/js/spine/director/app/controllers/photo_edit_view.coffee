@@ -25,7 +25,7 @@ class PhotoEditView extends Spine.Controller
   
   change: ->
     first = Album.selectionList()[0] if Album.selectionList().length
-    @current = Photo.record or Photo.exists(first)
+    @current = Photo.record
     @render()
   
   render: () ->

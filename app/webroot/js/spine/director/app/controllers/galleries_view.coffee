@@ -61,8 +61,7 @@ class GalleriesView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
-    @list.exposeSelection(Gallery.record)
-    @list.updateTemplates()
+    @list.exposeSelection()
     
   newAttributes: ->
     if User.first()

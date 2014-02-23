@@ -67,10 +67,10 @@ class PhotosList extends Spine.Controller
       @el.addClass 'all'
       if Photo.count()
         @renderAll()
-        @exposeSelection()
       else
         html = '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
         @html html
+    @exposeSelection()
     @el
   
   renderAll: ->
@@ -80,7 +80,6 @@ class PhotosList extends Spine.Controller
       @html @template items
       @exposeSelection()
       @uri items, 'html'
-    @exposeSelection()
     @el
   
   wipe: ->
@@ -203,46 +202,43 @@ class PhotosList extends Spine.Controller
         el.addClass("active")
         if Photo.record.id is photo.id
           el.addClass("hot")
-          
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (items = [], toggle) ->
+  activate: (items, toggle) ->
     id = null
-    unless Spine.isArray items
-      items = [items]
-    
-    for item in items
-      if photo = Photo.exists(item?.id or item)
-        unless photo.destroyed
-          photo.addToSelection() unless toggle
-          unless id
-            id = photo.id
+    items = items or []
+    items = [items] unless Photo.isArray items
+      
+    id = items[0]
           
     if id
       App.sidebar.list.expand(Gallery.record, true)
       App.sidebar.list.closeAllSublists(Gallery.record)
       
-    Photo.current(Album.selectionList()[0] or null)
-    
+    Photo.current(id)
     @exposeSelection()
       
-  select: (items = [], lonely) ->
+  select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]
     
+    list = []
     for item in items
-      item.addRemoveSelection(lonely)
+      exists = Album.selectionList().indexOf(item.id) isnt -1
+      if !Photo.record and Album.selectionList().length and exists
+        list = item.shiftSelection() if exists
+      else
+        list = item.addRemoveSelection(exclusive)
+        
       
-    Photo.trigger('activate', items[0]?.id, true)
+    Photo.trigger('activate', list[0], true)
   
   click: (e) ->
     console.log 'PhotosList::click'
     item = $(e.currentTarget).item()
     
     @select item, @isCtrlClick(e)
-#    if Gallery.record
-#      App.sidebar.list.expand(Gallery.record, true)
     App.showView.trigger('change:toolbarOne')
     
     e.stopPropagation() if $(e.target).hasClass('thumbnail')

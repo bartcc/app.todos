@@ -107,7 +107,7 @@
                   <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
                   <div class="">
                     <!-- The table listing the files available for upload/download -->
-                    <div class="canvas bg-medium fileupload-buttonbar" style="z-index: 2; position: fixed; width: 100%;">
+                    <div class="canvas bg-medium fileupload-buttonbar" style="position: fixed; width: 100%;">
                       <div class="span6 left" style="margin: 10px;">
                             <!-- The fileinput-button span is used to style the file input field as button -->
                             <span class="btn dark fileinput-button">
@@ -476,13 +476,13 @@
 </script>
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader z2" style="padding-top: 15px; height: 78px;">
+  <section class="top viewheader" style="padding-top: 15px; height: 78px;">
     <h2>Gallery Overview</h2><span class="active cta right"><h2>${count}</h2></span>
   </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader z2 {{if record == ''}}all{{/if}}">
+  <section class="top viewheader {{if record == ''}}all{{/if}}">
     {{if record}}
     Author:   <span class="label label-default">${author}</span>
     <br><br>
@@ -504,7 +504,7 @@
     </span>
   </section>
   <section class="right">
-    <span class="breadcrumb move">
+    <span class="breadcrumb movefromright">
       <li class="optAlbumActionCopy">
         <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
       </li>
@@ -620,7 +620,7 @@
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader z2 {{if album == ''}}all{{/if}}">
+  <section class="top viewheader {{if album == ''}}all{{/if}}">
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
@@ -642,7 +642,7 @@
     </span>
   </section>
   <section class="right">
-    <span class="breadcrumb move">
+    <span class="breadcrumb movefromright">
       <li class="optPhotoActionCopy">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
@@ -653,7 +653,7 @@
 </script>
 
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader z2">
+  <section class="top viewheader">
     {{if $item.data.details}}{{tmpl($item.data.details()) "#photoDetailsTemplate"}}{{/if}}
   </section>
   <section class="left">
@@ -671,7 +671,7 @@
     </span>
   </section>
   <section class="right">
-    <span class="breadcrumb move">
+    <span class="breadcrumb movefromright">
       <li class="optAction">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
@@ -691,7 +691,7 @@
 
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class="tr"><span class="td">Title</span><span class="td">:</span><span class="td">{{if title}}{{html title}}{{else}}${src}</span>{{/if}}</li>
+    <li class=""><span class="">{{if title}}{{html title}}{{else}}${src}</span>{{/if}}</li>
     <li class="tr">{{if model}}<span class="td">Model</span><span class="td">:</span><span class="td">${model}</span>{{/if}}</li>
     <li class="tr">{{if software}}<span class="td">Software</span><span class="td">:</span><span class="td">${software}</span>{{/if}}</li>
     <li class="tr">{{if exposure}}<span class="td">Exposure</span><span class="td">:</span><span class="td">${exposure}</span>{{/if}}</li>

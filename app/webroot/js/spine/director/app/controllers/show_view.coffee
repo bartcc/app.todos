@@ -220,9 +220,11 @@ class ShowView extends Spine.Controller
   
   createGallery: (e) ->
     Spine.trigger('create:gallery')
+    e.preventDefault()
   
   createPhoto: (e) ->
     Spine.trigger('create:photo')
+    e.preventDefault()
   
   createAlbum: ->
     Spine.trigger('create:album')

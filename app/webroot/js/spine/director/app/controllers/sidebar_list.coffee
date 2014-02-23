@@ -282,7 +282,6 @@ class SidebarList extends Spine.Controller
     
     show = =>
       icon.addClass('open')
-#      @renderOneSublist gallery
       sublist.show()
     hide = ->
       icon.removeClass('open')
@@ -308,14 +307,6 @@ class SidebarList extends Spine.Controller
   expanderFromItem: (item) ->
     @children().forItem(item)
     
-  dblclick: (e) ->
-    console.log 'SidebarList::dblclick'
-    item = $(e.target).item()
-    @change item, 'edit', e
-    
-    e.stopPropagation()
-    e.preventDefault()
-
   expandAfterTimeout: (e) ->
     clearTimeout Spine.timer
     el = $(e.target)
@@ -327,7 +318,6 @@ class SidebarList extends Spine.Controller
 
   close: () ->
     
-  
   closeAllSublists: (item) ->
     for gallery in Gallery.all()
       parentEl = @expanderFromItem gallery

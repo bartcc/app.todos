@@ -24,10 +24,10 @@ class Sidebar extends Spine.Controller
     '.optAllPhotos'         : 'photos'
 
   events:
-    'keyup input'           : 'filter'
-    'click .createAlbum'    : 'createAlbum'
-    'click .createGallery'  : 'createGallery'
-    'dblclick .draghandle'  : 'toggleDraghandle'
+    'keyup input'               : 'filter'
+    'click .optCreateAlbum'     : 'createAlbum'
+    'click .optCreateGallery'   : 'createGallery'
+    'dblclick .draghandle'      : 'toggleDraghandle'
 
     'dragstart  .items .item'        : 'dragstart'
     'dragenter  .items .item'        : 'dragenter'
@@ -68,6 +68,7 @@ class Sidebar extends Spine.Controller
     @renderOne item, mode
   
   refresh: ->
+    console.log 'Sidebar::refresh'
     @render()
     
   render: ->
@@ -216,13 +217,13 @@ class Sidebar extends Spine.Controller
       
     gallery = new Gallery @newAttributes()
     gallery.save(done: cb)
-#    @navigate '/galleries/'
     
   createCallback: ->
 #    @navigate '/gallery', @id
     
   createAlbum: ->
     Spine.trigger('create:album')
+    @navigate '/gallery', Gallery.record.id or ''
     
   destroy: (item=Gallery.record) ->
     console.log 'Sidebar::destroy'

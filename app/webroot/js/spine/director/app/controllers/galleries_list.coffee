@@ -14,13 +14,13 @@ class GalleriesList extends Spine.Controller
   @extend Extender
   
   events:
-    'click .item'             : 'click'
-    'click .glyphicon-set .back'   : 'back'
-    'dblclick .item'          : 'zoom'
-    'click .glyphicon-set .delete' : 'deleteGallery'
-    'click .glyphicon-set .zoom'   : 'zoom'
-    'mousemove .item'         : 'infoUp'
-    'mouseleave .item'        : 'infoBye'
+    'click .item'                   : 'click'
+    'click .glyphicon-set .back'    : 'back'
+    'dblclick .item'                : 'zoom'
+    'click .glyphicon-set .delete'  : 'deleteGallery'
+    'click .glyphicon-set .zoom'    : 'zoom'
+    'mousemove .item'               : 'infoUp'
+    'mouseleave .item'              : 'infoBye'
   
   constructor: ->
     super
@@ -36,18 +36,19 @@ class GalleriesList extends Spine.Controller
     @updateTemplates()
     
   renderOne: (item, mode, o) ->
-    console.log 'GalleryList::renderOne'
+    console.log 'GalleriesList::renderOne'
     switch mode
       when 'create'
         if Gallery.count() is 1
           @el.empty()
         @append @template item
-        @exposeSelection(item)
+        @exposeSelection item
 
       when 'update'
         try
           @updateTemplates item
           @reorder item
+          @exposeSelection item
         catch e
           
       when 'destroy'
@@ -69,9 +70,6 @@ class GalleriesList extends Spine.Controller
       if tmplItem
         tmplItem.tmpl = $( "#galleriesTemplate" ).template()
         tmplItem.update?()
-      if gallery.id is Gallery.record.id
-        cur = gallery
-    @exposeSelection(cur)
 
   reorder: (item) ->
     id = item.id
@@ -91,7 +89,7 @@ class GalleriesList extends Spine.Controller
       newEl.before oldEl
 
   exposeSelection: (item) ->
-    console.log 'GalleryList::exposeSelection'
+    console.log 'GalleriesList::exposeSelection'
     @deselect()
     if item
       el = @children().forItem(item, true)
@@ -101,19 +99,15 @@ class GalleriesList extends Spine.Controller
       App.sidebar.list.closeAllSublists(Gallery.record)
       
     App.showView.trigger('change:toolbarOne')
-    Spine.trigger('gallery:exposeSelection')
+#    Spine.trigger('gallery:exposeSelection')
         
   select: (item) =>
     Gallery.trigger('activate', item)
     App.showView.trigger('change:toolbarOne', ['Default'])
     
   click: (e) ->
-    console.log 'GalleryList::click'
+    console.log 'GalleriesList::click'
     item = $(e.currentTarget).item()
-#    if Album
-#    if Album.copyList.length
-#      Album.trigger('action', Album.copyList, item, Album.origin)
-#      Album.copyList = []
     @select item
     App.showView.trigger('change:toolbarOne', ['Default'])
     @exposeSelection item
@@ -122,7 +116,7 @@ class GalleriesList extends Spine.Controller
     e.preventDefault()
 
   zoom: (e) ->
-    console.log 'GalleryList::zoom'
+    console.log 'GalleriesList::zoom'
     item = $(e.currentTarget).item()
     
     @navigate '/gallery', item.id

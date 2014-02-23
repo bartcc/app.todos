@@ -42,11 +42,6 @@ class GalleriesView extends Spine.Controller
     switch mode
       when 'create'
         @create item
-#      when 'update'
-#        @update item
-#      when 'destroy'
-#        @destroy item
-#    @render item
     
   refresh: ->
     items = Gallery.all().sort Gallery.nameSort

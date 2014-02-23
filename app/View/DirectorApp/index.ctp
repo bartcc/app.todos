@@ -35,11 +35,11 @@
         </div>
         <ul class="container items vbox flex autoflow"></ul>
         <footer class="footer">
-          <button class="createGallery dark">
+          <button class="optCreateGallery dark">
             <i class="glyphicon glyphicon-plus"></i>
             <span>Gallery</span>
           </button>
-          <button class="createAlbum dark">
+          <button class="optCreateAlbum dark">
             <i class="glyphicon glyphicon-plus"></i>
             <span>Album</span>
           </button>
@@ -691,13 +691,13 @@
 
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class="">{{if title}}{{html title}}{{else}}${src}{{/if}}</li>
-    <li class="">{{if model}}model&nbsp;&nbsp;&nbsp;&nbsp;: ${model}{{/if}}</li>
-    <li class="">{{if software}}software : ${software}{{/if}}</li>
-    <li class="">{{if exposure}}exposure : ${exposure}{{/if}}</li>
-    <li class="">{{if iso}}iso&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${iso}{{/if}}</li>
-    <li class="">{{if aperture}}aperture : ${aperture}{{/if}}</li>
-    <li class="">{{if captured}}captured : ${captured}{{/if}}</li>
+    <li class="tr"><span class="td">Title</span><span class="td">:</span><span class="td">{{if title}}{{html title}}{{else}}${src}</span>{{/if}}</li>
+    <li class="tr">{{if model}}<span class="td">Model</span><span class="td">:</span><span class="td">${model}</span>{{/if}}</li>
+    <li class="tr">{{if software}}<span class="td">Software</span><span class="td">:</span><span class="td">${software}</span>{{/if}}</li>
+    <li class="tr">{{if exposure}}<span class="td">Exposure</span><span class="td">:</span><span class="td">${exposure}</span>{{/if}}</li>
+    <li class="tr">{{if iso}}<span class="td">Iso</span><span class="td">:</span><span class="td">${iso}</span>{{/if}}</li>
+    <li class="tr">{{if aperture}}<span class="td">Aperture</span><span class="td">:</span><span class="td">${aperture}</span>{{/if}}</li>
+    <li class="tr">{{if captured}}<span class="td">Captured</span><span class="td">:</span><span class="td">${captured}</span>{{/if}}</li>
   </ul>
 </script>
 

@@ -56,7 +56,6 @@ class PhotoView extends Spine.Controller
     
   render: (item) ->
     return unless @isActive()
-    console.log 'PhotoView::render'
     @current = item
     @created = !!@items.html @template @current unless @once
     @uri @current
@@ -64,6 +63,7 @@ class PhotoView extends Spine.Controller
     
   renderHeader: (item) ->
     return unless @isActive()
+    console.log 'PhotoView::renderHeader'
     @header.change item
   
   remove: (ap) ->
@@ -174,6 +174,6 @@ class PhotoView extends Spine.Controller
   show: (photo) ->
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)
-    @change photo unless photo.id is @current?.id
+    @change photo #unless photo.id is @current?.id
     
 module?.exports = PhotoView

@@ -58,9 +58,9 @@ class PhotosList extends Spine.Controller
         @[mode] @template items
         @uri items, mode
       else
-        html = '<label class="invite"><span class="enlightened">No Photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
+        html = '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
         if Photo.count()
-          html += '<button class="optShowAllPhotos dark large">Show existing Photos</button></span>'
+          html += '<button class="optShowAllPhotos dark large">Show existing photos</button></span>'
         html += '</label>'
         @html html
     else
@@ -69,7 +69,7 @@ class PhotosList extends Spine.Controller
         @renderAll()
         @exposeSelection()
       else
-        html = '<label class="invite"><span class="enlightened">No Photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
+        html = '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
         @html html
     @el
   

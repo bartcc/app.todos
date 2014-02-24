@@ -75,6 +75,13 @@ class Album extends Spine.Model
         order       : GalleriesAlbum.albums(target.id).length
       ga.save()
       
+  @gallerySelectionList: ->
+    if Gallery.record and Album.record
+      albumId = Gallery.selectionList()[0]
+      return Album.selectionList(albumId)
+    else# if Gallery.record and Gallery.selectionList().length
+      return []
+      
   init: (instance) ->
     return unless id = instance.id
     s = new Object()

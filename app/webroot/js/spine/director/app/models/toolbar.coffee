@@ -124,20 +124,36 @@ class Toolbar extends Spine.Model
           devider: true
         ,
           name: ->
-            len = Album.selectionList().length
+            if Gallery.record
+              len = Album.gallerySelectionList().length
+            else
+              len = Album.selectionList().length
             s = if len>1 then 's' else ''
             'Copy ' + (len or '') + ' Photo' + s + ' to New Album'
           icon: ''
           klass: 'optCreatePhotoFromSel'
-          disabled: -> !Album.selectionList().length
+          disabled: ->
+            if Gallery.record
+              len = Album.gallerySelectionList().length
+            else
+              len = Album.selectionList().length
+            return !len
         ,
           name: ->
-            len = Album.selectionList().length
+            if Gallery.record
+              len = Album.gallerySelectionList().length
+            else
+              len = Album.selectionList().length
             s = if len>1 then 's' else ''
             'Move ' + (len or '') + ' Photo' + s + ' to New Album'
           icon: ''
           klass: 'optCreatePhotoFromSelCut'
-          disabled: -> !Album.selectionList().length
+          disabled: ->
+            if Gallery.record
+              len = Album.gallerySelectionList().length
+            else
+              len = Album.selectionList().length
+            return !len
         ,
           devider: true
         ,
@@ -147,12 +163,24 @@ class Toolbar extends Spine.Model
           disabled: ->
         ,
           name: ->
-            len = '('+Album.selectionList().length+')'
-            type = if Album.record then 'Remove' else 'Destroy'
-            return type+' '+len
+            if Gallery.record
+              len = Album.gallerySelectionList().length
+              type = 'Remove'
+            else unless Album.record
+              len = Album.selectionList().length
+              type = 'Destroy'
+            else
+              len = Album.selectionList().length
+              type = 'Remove'
+            return type+' ('+len+')'
           icon: 'trash'
           klass: 'optDestroyPhoto '
-          disabled: -> !Album.selectionList().length
+          disabled: ->
+            if Gallery.record
+              len = Album.gallerySelectionList().length
+            else
+              len = Album.selectionList().length
+            return !len
         ,
           devider: true
         ,
@@ -160,7 +188,13 @@ class Toolbar extends Spine.Model
             'Show Selection'
           icon: 'hand-right'
           klass: 'optShowPhotoSelection '
-          disabled: -> !Album.selectionList().length
+          disabled: ->
+            len = 0
+            if Gallery.record
+              len = Album.gallerySelectionList().length
+            else
+              len = Album.selectionList().length
+            return !len
         ,
           devider: true
         ,

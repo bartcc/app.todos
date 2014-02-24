@@ -66,6 +66,7 @@ class PhotosView extends Spine.Controller
     Photo.bind('ajaxError', Photo.errorHandler)
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
+    Spine.bind('change:selectedGallery', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @change)
     Spine.bind('album:updateBuffer', @proxy @updateBuffer)
@@ -185,7 +186,7 @@ class PhotosView extends Spine.Controller
   sortupdate: ->
     @list.children().each (index) ->
       item = $(@).item()
-#      console.log AlbumsPhoto.filter(item.id, func: 'selectPhoto').length
+#      console.og AlbumsPhoto.filter(item.id, func: 'selectPhoto').length
       if item #and Album.record
         ap = AlbumsPhoto.filter(item.id, func: 'selectPhoto')[0]
         if ap and ap.order isnt index
@@ -193,11 +194,6 @@ class PhotosView extends Spine.Controller
           ap.save()
         # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated
         Album.record.invalid = true
-#        Album.record.save(ajax:false)
-#      else if item
-#        photo = (Photo.filter(item.id, func: 'selectPhoto'))[0]
-#        photo.order = index
-#        photo.save()
         
     @list.exposeSelection()
     

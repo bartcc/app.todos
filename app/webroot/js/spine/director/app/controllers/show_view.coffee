@@ -483,9 +483,8 @@ class ShowView extends Spine.Controller
       when 'Slideshow'
         ->
       else
-        Gallery.current()
+        Gallery.trigger('activate')
         App.sidebar.list.closeAllSublists()
-        Spine.trigger('gallery:exposeSelection')
         
     @changeToolbarOne()
     @current.items.deselect()
@@ -579,7 +578,10 @@ class ShowView extends Spine.Controller
     @navigate '/gallery//'
     
   showPhotoSelection: ->
-    @navigate '/gallery', Gallery.record.id or '', Album.record.id
+    if Gallery.record
+      @navigate '/gallery', Gallery.record.id, Gallery.selectionList()[0] or ''
+    else
+      @navigate '/gallery','', Gallery.selectionList()[0] or ''
     
   showAlbumSelection: ->
     @navigate '/gallery', Gallery.record.id or ''

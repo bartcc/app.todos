@@ -93,7 +93,7 @@ class AlbumsList extends Spine.Controller
         
         
     @renderBackgrounds items, mode
-    Album.trigger('activate', Gallery.selectionList())
+    @activate()
     @el
   
   updateTemplate: (album) ->
@@ -131,12 +131,15 @@ class AlbumsList extends Spine.Controller
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (items, toggle) ->
+  activate: (items=Gallery.selectionList(), toggle) ->
     id = null
     items = items or []
     items = [items] unless Album.isArray items
     
     id = items[0]
+    for item in items
+      if album = Album.exists item
+        album.addToSelection()
       
     if id
       App.sidebar.list.expand(Gallery.record, true)

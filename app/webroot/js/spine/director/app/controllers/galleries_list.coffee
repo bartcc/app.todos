@@ -96,7 +96,6 @@ class GalleriesList extends Spine.Controller
     if item
       el = @children().forItem(item, true)
       el.addClass("active hot")
-      console.log el
       App.sidebar.list.expand(Gallery.record, true)
       App.sidebar.list.closeAllSublists(Gallery.record)
       

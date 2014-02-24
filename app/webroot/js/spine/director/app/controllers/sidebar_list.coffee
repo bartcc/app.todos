@@ -230,6 +230,7 @@ class SidebarList extends Spine.Controller
     
   activate: (idOrRecord) ->
     Gallery.current(idOrRecord)
+    Album.trigger('activate', Gallery.selectionList()[0])
     @exposeSelection()
 
   clickAlbum: (e) ->
@@ -240,8 +241,9 @@ class SidebarList extends Spine.Controller
     album = albumEl.item()
     gallery = galleryEl.item()
     
+    Gallery.updateSelection [album.id]
     Gallery.trigger('activate', gallery)
-    Album.trigger('activate', Gallery.updateSelection [album.id])
+    
     @navigate '/gallery', gallery.id + '/' + album.id
     
     e.stopPropagation()

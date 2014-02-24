@@ -70,7 +70,7 @@ class PhotosList extends Spine.Controller
       else
         html = '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
         @html html
-    @exposeSelection()
+    @activate()
     @el
   
   renderAll: ->
@@ -205,7 +205,7 @@ class PhotosList extends Spine.Controller
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (items, toggle) ->
+  activate: (items=Album.selectionList(), toggle) ->
     id = null
     items = items or []
     items = [items] unless Photo.isArray items

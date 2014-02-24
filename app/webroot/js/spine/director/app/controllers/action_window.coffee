@@ -15,6 +15,7 @@ class ActionWindow extends Spine.Controller
     '.albums'     : 'albumsEl'
 
   events:
+    'click .refresh'                    : 'render'
     'click .previous'                   : 'prevClick'
     'click .next'                       : 'nextClick'
     'click .item:not(.disabled)'        : 'click'
@@ -33,8 +34,8 @@ class ActionWindow extends Spine.Controller
     @renderTypeList = ['Gallery', 'Album']
     @renderType = @renderTypeList[0]
     @render()
-#    Gallery.bind('create', @proxy @galleryCreated)
-#    Album.bind('activate', @proxy @albumCreated)
+    Gallery.bind('update', @proxy @galleryCreated)
+    GalleriesAlbum.bind('update', @proxy @albumCreated)
   
   template: (items) ->
     $("#modalActionTemplate").tmpl(items)
@@ -44,9 +45,7 @@ class ActionWindow extends Spine.Controller
     
   render: ->
     return if @renderTypeList.indexOf(@renderType) is -1
-#    console.log @el.modal()
     
-#    pages = @getPages(@items)
     @html @template
       text: 'Select ' + @renderType
       galleries: => []
@@ -55,7 +54,7 @@ class ActionWindow extends Spine.Controller
       min: 0#@curPage is 0
       max: 0#@curPage+1 >= @items.length/@maxItemsInPage
     @renderGalleries Gallery.records.sort Gallery.nameSort
-#    @renderAlbums Gallery.albums(Gallery.record.cid).sort Album.nameSort
+    @renderAlbums Gallery.albums(Gallery.record.id).sort Album.nameSort
     if @renderType is 'Gallery'
       @albumsEl.children().addClass('disabled')
     @el
@@ -168,16 +167,15 @@ class ActionWindow extends Spine.Controller
     
     if album
       Spine.trigger('photos:copy', @clipBoard, gallery, album)
+#      Photo.trigger('create:join', @clipBoard, album)
       # open edit-panel
       App.showView.btnAlbum.click()
       @close()
 
   albumCreated: (album) ->
-    albums = Gallery.albums()
-    @renderAlbums(albums)
+    @render()
     
   galleryCreated: (gal) ->
-    Gallery.trigger('activate', gal.id or gal.cid)
-    @renderGalleries(Gallery.records)
+    @render()
     
 module.exports = ActionWindow

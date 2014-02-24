@@ -268,11 +268,12 @@ class ShowView extends Spine.Controller
     @navigate '/gallery', gallery.id
       
   copyPhotos: (photos, gallery, album) ->
-    Photo.trigger('create:join', photos, album)
     if gallery
       @navigate '/gallery', gallery.id, album.id
     else
       @navigate '/gallery', '', album.id
+    Photo.trigger('create:join', photos, album)
+#    Album.trigger('activate', Gallery.updateSelection @id)
       
   copyPhotosToAlbum: ->
     @photosToAlbum Album.selectionList()

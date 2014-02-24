@@ -150,7 +150,6 @@ class PhotosView extends Spine.Controller
     @add photo
   
   add: (photos) ->
-    console.log 'PhotosView::add'
     unless Photo.isArray photos
       photos = [photos]
     for photo in photos

@@ -216,7 +216,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <ul class="pager">
-          <li class="previous {{if min}}disabled{{/if}}"><a href="#">Reset List</a></li>
+          <li class="refresh previous {{if min}}disabled{{/if}}"><a href="#">Refresh List</a></li>
         </ul>
         <h4 class="modal-title">${text}</h4>
       </div>

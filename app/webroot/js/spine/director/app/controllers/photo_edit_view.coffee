@@ -31,10 +31,11 @@ class PhotoEditView extends Spine.Controller
   render: () ->
     if @current
       @item.html @template @current
-    else unless Album.count()
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Create a album!</span></label>'})
     else
-      @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">No photo selected</span></label>'})
+      info = ''
+      info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()
+      info += '<label class="invite"><span class="enlightened">You should create an album first to catalogue your photos.</span></label>' unless Album.count()
+      @item.html $("#noSelectionTemplate").tmpl({type: info})
     @el
   
   save: (el) ->

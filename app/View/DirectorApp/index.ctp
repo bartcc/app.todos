@@ -78,7 +78,7 @@
             <div class="container items flex">PHOTO</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">
-            <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="div.thumbnail"></div>
+            <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
           </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
@@ -588,7 +588,7 @@
 
 <script id="photosSlideshowTemplate" type="text/x-jquery-tmpl">
   <li  class="item data fade in">
-    <div class="thumbnail container image left"></div>
+    <a class="thumbnail image left"></a>
   </li>
 </script>
 

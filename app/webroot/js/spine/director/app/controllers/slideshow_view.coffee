@@ -62,7 +62,7 @@ class SlideshowView extends Spine.Controller
     @refreshElements()
     @size(App.showView.sliderOutValue())
     
-    @items.children().sortable 'photo'
+#    @items.children().sortable 'photo'
     @el
        
   loadingDone: ->
@@ -99,12 +99,13 @@ class SlideshowView extends Spine.Controller
       if jsn
         ele = @items.children().forItem(item)
         img = new Image
+        img.onload = @imageLoad
         img.that = @
         img.element = ele
         img.index = index
         img.items = items
         img.src = jsn.src
-        img.onload = @imageLoad
+        $(img).addClass('hide')
   
   imageLoad: ->
     css = 'url(' + @src + ')'
@@ -112,6 +113,7 @@ class SlideshowView extends Spine.Controller
       'backgroundImage': css
       'backgroundPosition': 'center, center'
       'backgroundSize': '100%'
+    .append @
     if @index is @items.length-1
       @that.loadModal @items
       
@@ -141,7 +143,7 @@ class SlideshowView extends Spine.Controller
         el = @items.children().forItem(item)
         thumb = $('.thumbnail', el)
         thumb.attr
-          'data-href'   : jsn.src
+          'href'   : jsn.src
           'title'       : item.title or item.src
           'data-gallery': 'gallery'
     @trigger('slideshow:ready')

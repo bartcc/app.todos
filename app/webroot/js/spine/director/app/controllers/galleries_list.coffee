@@ -25,13 +25,14 @@ class GalleriesList extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change', @proxy @renderOne)
-    GalleriesAlbum.bind('destroy create', @proxy @renderRelated)
-    AlbumsPhoto.bind('destroy create', @proxy @renderRelated)
+    Gallery.bind('change:selection', @proxy @renderRelated)
+    GalleriesAlbum.bind('destroy create update', @proxy @renderRelated)
+    AlbumsPhoto.bind('destroy create update', @proxy @renderRelated)
     Photo.bind('destroy', @proxy @renderRelated)
     Album.bind('destroy', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
-    return unless @parent.isActive()
+#    return unless @parent.isActive()
     console.log 'GalleriesList::renderRelated'
     @updateTemplates()
     
@@ -46,7 +47,7 @@ class GalleriesList extends Spine.Controller
 
       when 'update'
         try
-          @updateTemplates item
+          @updateTemplates()
           @reorder item
           @exposeSelection item
         catch e

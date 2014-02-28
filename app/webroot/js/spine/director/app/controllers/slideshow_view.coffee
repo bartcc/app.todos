@@ -62,7 +62,6 @@ class SlideshowView extends Spine.Controller
     @refreshElements()
     @size(App.showView.sliderOutValue())
     
-#    @items.children().sortable 'photo'
     @el
        
   loadingDone: ->

@@ -16,11 +16,11 @@ class GalleriesList extends Spine.Controller
   events:
     'click .item'                   : 'click'
     'click .glyphicon-set .back'    : 'back'
-    'dblclick .item'                : 'zoom'
     'click .glyphicon-set .delete'  : 'deleteGallery'
     'click .glyphicon-set .zoom'    : 'zoom'
     'mousemove .item'               : 'infoUp'
     'mouseleave .item'              : 'infoBye'
+    'dblclick .item'                : 'zoom'
   
   constructor: ->
     super
@@ -120,8 +120,10 @@ class GalleriesList extends Spine.Controller
   zoom: (e) ->
     console.log 'GalleriesList::zoom'
     item = $(e.currentTarget).item()
-    
     @navigate '/gallery', item.id
+    
+    e.stopPropagation()
+    e.preventDefault()
     
   back: (e) ->
     @navigate '/overview/'
@@ -129,8 +131,6 @@ class GalleriesList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
 
-    e.stopPropagation()
-    e.preventDefault()
     
   deleteGallery: (e) ->
     item = $(e.currentTarget).item()

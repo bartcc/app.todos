@@ -445,14 +445,14 @@
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
   <li class="item container fade in sortable">
     <div class="ui-symbol ui-symbol-album center"></div>
-    <div class="thumbnail left"></div>
-    <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
+    <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
       <span class="downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade"></span>
       <span class="zoom glyphicon glyphicon-eye-open glyphicon-white left"></span>
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
       <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right"></span>
     </div>
+    <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
   </li>
 </script>
 

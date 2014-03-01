@@ -5,8 +5,7 @@ class Info extends Spine.Controller
   
   constructor: ->
     super
-    @el.css
-      visibility:'hidden'
+    @el.addClass('hide')
     
   render: (item) ->
     @html @template item
@@ -16,14 +15,12 @@ class Info extends Spine.Controller
     unless @current
       el = $(e.currentTarget)
       @current = el.item()
-      @render(@current)
-        .removeClass('outout')
-        .css visibility: 'visible'
+      @render(@current).removeClass('hide')
     @position(e)
     
   bye: ->
     return unless @current
-    @el.addClass('outout').css(visibility: 'hidden')
+    @el.addClass('hide')
     @current = null
     
   position: (e) =>

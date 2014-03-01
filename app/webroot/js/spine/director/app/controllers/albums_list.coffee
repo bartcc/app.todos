@@ -17,35 +17,28 @@ class AlbumsList extends Spine.Controller
   @extend Drag
   
   events:
-    'click .item'             : 'click'
+    'click .item'                  : 'click'
     'click .glyphicon-set .delete' : 'deleteAlbum'
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
-    'mouseenter .item'        : 'infoEnter'
-    'mousemove'               : 'infoMove'
-    'mousemove .item'         : 'infoUp'
-    'mouseleave .item'        : 'infoBye'
-    'drop'                    : 'drop'
-    'dragstart .item'         : 'stopInfo'
-    'dragstart'               : 'dragstart'
+    'drop'                         : 'drop'
+    'dragstart .item'              : 'stopInfo'
+    'dragstart'                    : 'dragstart'
+    'mousemove .item'              : 'infoUp'
+    'mouseleave .item'             : 'infoBye'
+#    'mouseenter .item'        : 'infoEnter'
+#    'mousemove'                    : 'infoMove'
     
   constructor: ->
     super
-    # initialize flickr's slideshow
-#    @el.toggleSlideshow()
-#    Album.bind('destroy', @proxy @destroy)
     Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
+    Album.bind('activate', @proxy @activate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
-    Album.bind('activate', @proxy @activate)
     
-#  destroy: (album) ->
-#    @children().forItem(album, true).remove()
-#    @refreshElements()
-  
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
     # if we change a different gallery from within the sidebar, it should not be reflected here
@@ -162,24 +155,6 @@ class AlbumsList extends Spine.Controller
       
     Album.trigger('activate', list[0], true)
     
-  click: (e) ->
-    console.log 'AlbumsList::click'
-    item = $(e.currentTarget).item()
-    @select(item, @isCtrlClick(e))
-    
-    e.stopPropagation()
-    e.preventDefault()
-    
-  zoom: (e) ->
-    item = $(e.currentTarget).item()
-    
-    @select(item, true)
-    @stopInfo()
-    @navigate '/gallery', (Gallery.record?.id or ''), item.id
-    
-    e.stopPropagation()
-    e.preventDefault()
-  
   updateBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::updateBackgrounds'
     albums = ap.albums()
@@ -240,9 +215,30 @@ class AlbumsList extends Spine.Controller
       else
         return false 
 
-  back: ->
+  click: (e) ->
+    console.log 'AlbumsList::click'
+    item = $(e.currentTarget).item()
+    @select(item, @isCtrlClick(e))
+    
+    e.stopPropagation()
+    e.preventDefault()
+    
+  zoom: (e) ->
+    item = $(e.currentTarget).item()
+    
+    @select(item, true)
+    @stopInfo()
+    @navigate '/gallery', (Gallery.record?.id or ''), item.id
+    
+    e.stopPropagation()
+    e.preventDefault()
+  
+  back: (e) ->
     @navigate '/galleries/'
 
+    e.stopPropagation()
+    e.preventDefault()
+    
   deleteAlbum: (e) ->
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'
@@ -250,10 +246,10 @@ class AlbumsList extends Spine.Controller
     el = @findModelElement item
     el.removeClass('in')
     
-    @stopInfo()
     
     window.setTimeout( =>
       Spine.trigger('destroy:album', [item.id])
+      @stopInfo()
     , 200)
     
     e.stopPropagation()
@@ -262,13 +258,15 @@ class AlbumsList extends Spine.Controller
   infoUp: (e) =>
     @info.up(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    e.preventDefault()
     
   infoBye: (e) =>
-    @info.bye()
+    @info.bye(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
+    e.preventDefault()
     
   stopInfo: (e) =>
-    @info.bye()
+    @info.bye(e)
     
   infoEnter: (e) ->
     

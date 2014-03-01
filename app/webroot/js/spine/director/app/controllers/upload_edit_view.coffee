@@ -85,7 +85,7 @@ class UploadEditView extends Spine.Controller
           Photo.trigger('create:join', photo.id, album)
           
         Spine.trigger('loading:done', album)
-        Spine.trigger('album:updateBuffer', album)
+        Spine.trigger('done:upload', album)
       else
         Photo.trigger('created', photo)
         @navigate '/gallery//'

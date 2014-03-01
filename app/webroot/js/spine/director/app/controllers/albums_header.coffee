@@ -1,5 +1,7 @@
 Spine = require("spine")
 $      = Spine.$
+Gallery         = require('models/gallery')
+GalleriesAlbum  = require('models/galleries_album')
 
 class AlbumsHeader extends Spine.Controller
   
@@ -14,11 +16,9 @@ class AlbumsHeader extends Spine.Controller
     super
     Gallery.bind('change:selection', @proxy @moveMenu)
     Album.bind('change', @proxy @render)
+    GalleriesAlbum.bind('change', @proxy @render)
+    Gallery.bind('refresh change', @proxy @render)
 
-  change: (item) ->
-    alert 'Album::change'
-    @render()
-    
   render: ->
     return unless @isActive()
     console.log 'AlbumsHeader::render'
@@ -51,5 +51,8 @@ class AlbumsHeader extends Spine.Controller
     e.preventDefault()
     list = Gallery.selectionList().slice(0)
     @parent.actionWindow.open('Gallery', list)
+    
+  activated: ->
+    @render()
     
 module?.exports = AlbumsHeader

@@ -1,15 +1,17 @@
 Spine         = require("spine")
-Drag          = require("plugins/drag")
 $             = Spine.$
 Album         = require('models/album')
 AlbumsPhoto   = require('models/albums_photo')
 Info          = require('controllers/info')
+Extender      = require('plugins/controller_extender')
+Drag          = require("plugins/drag")
 
 require("plugins/tmpl")
 
 class PhotoView extends Spine.Controller
   
   @extend Drag
+  @extend Extender
   
   elements:
     '.hoverinfo'       : 'infoEl'
@@ -21,14 +23,10 @@ class PhotoView extends Spine.Controller
     'mousemove  .item'                : 'infoUp'
     'mouseleave .item'                : 'infoBye'
     'dragstart  .item'                : 'stopInfo'
-    'dragstart  .items .thumbnail'    : 'dragstart'
-    'dragenter  .items .thumbnail'    : 'dragenter'
-    'drop       .items .thumbnail'    : 'drop'
-    'dragend    .items .thumbnail'    : 'dragend'
-    'dragenter'                       : 'dragenter'
-    'drop'                            : 'drop'
-    'dragend'                         : 'dragend'
+    'dragstart'                       : 'dragstart'
+    'drop       .item'                : 'drop'
     'click .glyphicon-set .back'      : 'back'
+    'click .glyphicon-set .delete'    : 'deletePhoto'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -46,42 +44,38 @@ class PhotoView extends Spine.Controller
     
     Spine.bind('show:photo', @proxy @show)
     AlbumsPhoto.bind('destroy', @proxy @remove)
-    Photo.bind('update', @proxy @renderHeader)
     Photo.bind('destroy', @proxy @destroy)
-    Spine.bind('change:selectedPhoto', @proxy @renderHeader)
+    AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
     
-  change: (item) ->
-    console.log 'PhotoView::change'
-    @render(item)
     
-  render: (item) ->
+  render: (item=Photo.record) ->
     return unless @isActive()
-    @current = item
-    @created = !!@items.html @template @current unless @once
-    @uri @current
-    @renderHeader item
-    
-  renderHeader: (item) ->
-    return unless @isActive()
-    console.log 'PhotoView::renderHeader'
-    @header.change item
+    alert 'not active' unless @isActive()
+    @items.html @template item
+    @uri item
+    @el
   
+  show: ->
+    App.showView.trigger('change:toolbarOne', ['Default'])
+    App.showView.trigger('canvas', @)
+    
+  activated: ->
+    @render() #unless photo.id is @current?.id
+    
   remove: (ap) ->
-    photo = Photo.exists ap.photo_id
-    $('.item', @el).remove()
-    Photo.current()
-    @renderHeader @current
-    delete @current
-    @created = false
+    @parent.updateBuffer()
+    Album.updateSelection()
+    
+    @navigate '/gallery', Gallery.record.id, Album.record?.id or ''
   
   destroy: (item) ->
-    console.log 'PhotoView::destroy'
-    photoEl = @items.children().forItem item
-    photoEl.remove()
-    Photo.current()
-    @renderHeader @current
-    delete @current
-    @created = false
+    @parent.updateBuffer()
+    
+    @navigate '/gallery', Gallery.record.id, Album.record?.id or ''
+    
+  destroyAlbumsPhoto: (ap) ->
+    return unless @isActive()
+    @navigate '/gallery', Gallery.record.id or '', ap.album_id
     
   params: ->
     width: 600
@@ -107,27 +101,27 @@ class PhotoView extends Spine.Controller
 #    for item in items
     jsn = searchJSON item.id
     if jsn
-      img.parent = $('.thumbnail', @el)#.forItem(item)
+      img.parentEl = $('.thumbnail', @el)#.forItem(item)
       img.src = jsn.src
   
   imageLoad: ->
-    parent = @parent
+    parentEl = @parentEl
     w = @width
     h = @height
     
     img = $(@)
-    parent.html img
+    parentEl.html img
     .hide()
     .css
       'opacity'           : 0.01
-    parent.animate
+    parentEl.animate
       'width'             : w+'px'
       'height'            : h+'px'
     , complete: => img
       .css
         'opacity'         : 1
       .fadeIn()
-      parent.css
+      parentEl.css
         'borderStyle'       : 'solid'
         'backgroundColor'   : 'rgba(255, 255, 255, 0.5)'
         'backgroundImage'   : 'none'
@@ -136,15 +130,15 @@ class PhotoView extends Spine.Controller
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
     
-    el = $(e.currentTarget).parents('.item')
+    el = @findModelElement item
     el.removeClass('in')
-    Album.updateSelection item.id
     
     window.setTimeout( ->
-      Spine.trigger('destroy:photo')
+      Spine.trigger('destroy:photo', [item.id])
     , 300)
     
-    @stopInfo()
+    @stopInfo(e)
+    
     e.stopPropagation()
     e.preventDefault()
   
@@ -170,10 +164,5 @@ class PhotoView extends Spine.Controller
     
   stopInfo: (e) =>
     @info.bye()
-  
-  show: (photo) ->
-    App.showView.trigger('change:toolbarOne', ['Default'])
-    App.showView.trigger('canvas', @)
-    @change photo #unless photo.id is @current?.id
     
 module?.exports = PhotoView

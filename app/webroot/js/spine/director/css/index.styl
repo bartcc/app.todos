@@ -968,29 +968,18 @@ li .thumbnail.image {
   margin: 20px 5px 0 0;
   padding-left: 2px;
 }
-.items .thumbnail_ {
-  margin-bottom: 2px;
-}
-.items .thumbnail_ {
-  box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 3px 2px 6px rgba(0, 0, 0, 0.5);
-  border-radius: 17px;
-  -moz-border-radius: 17px;
-  -webkit-border-radius: 17px;
-}
 .albums .thumbnail {
   background-color: rgba(255, 255, 255, 0.15);
   width: 160px;
   height: 160px;
+  border: 0 solid;
+}
+.photos .thumbnail {
+  border: 0 solid;
 }
 #overview .thumbnail {
   width: 70px;
   height: 70px;
-}
-.photos .thumbnail {
-/*  width: 120px;
-  height: 120px;*/
 }
 .galleries .thumbnail {
   background: rgba(255, 255, 255, 0.15);
@@ -1049,12 +1038,12 @@ li .thumbnail.image {
   display: none;
 }
 .in {
-  opacity: 1;
+/*  opacity: 1;
   -webkit-transition: opacity 0.5s linear;
   -moz-transition: opacity 0.5s linear;
   -ms-transition: opacity 0.5s linear;
   -o-transition: opacity 0.5s linear;
-  transition: opacity 0.5s linear;
+  transition: opacity 0.5s linear;*/
 }
 .outout {
   opacity: 0;
@@ -1191,18 +1180,28 @@ li .thumbnail.image {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  background: rgba(200, 200, 200, 1);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, 1)), to(rgba(140, 140, 140, 1)));
   background: -moz-linear-gradient(center top , rgba(200, 200, 200, 1), rgba(140, 140, 140, 1));
   background: linear-gradient(center top , rgba(200, 200, 200, 1), rgba(140, 140, 140, 1));
+  background: rgba(200, 200, 200, 1);
   padding: 10px 15px;
   position: absolute;
   z-index: 1
 }
-.header .all {
-  background: -webkit-gradient(linear, left top, left bottom, from(#C09853), to( #C09853));
-  background: -moz-linear-gradient(center top , #C09853,  #C09853);
-  background: linear-gradient(center top , #C09853, #C09853);
+.contents .view {
+  background: transparent;
+}
+.fadeelement {
+  transition: background 0.5s linear 0s;
+}
+.all .view.content.items.active {
+  background: none repeat scroll 0 0 rgba(192, 152, 83, 0.5);
+}
+.all .fadeelement {
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(192, 152, 83, 1)), to(rgba(192, 152, 83, 1)));
+  background: -moz-linear-gradient(center top , rgba(192, 152, 83, 1), rgba(192, 152, 83, 1));
+  background: linear-gradient(center top , rgba(192, 152, 83, 1), rgba(192, 152, 83, 1));
+  background: rgba(192, 152, 83, 1)
 }
 #content .hoverinfo li {
   color: rgba(255, 255, 255, 0.8);
@@ -1266,15 +1265,11 @@ li.active button.dark {
   color: #00BBCC;
   text-shadow: 1px 0 10px rgba(0, 224, 255, 0.8), 1px 0 10px rgba(0, 224, 255, 0.2), -1px -1px 0 #000000;
 }
-.items.all .thumbnail {
-  border-width: 1px;
+.all .thumbnail {
+  border-color:  #C09853;
+  border-width: 10px;
   border-style: solid;
-}
-.albums .items.all .thumbnail {
-  border-color:  #C09853;
-}
-.photos .items.all .thumbnail {
-  border-color:  #C09853;
+  transition: all 0.5s linear 0s;
 }
 button.chromeless, button.chromeless:hover {
   background: -moz-linear-gradient(center center , #999999, #222222) repeat scroll 2px 0 transparent;

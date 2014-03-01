@@ -9,13 +9,13 @@ GalleriesAlbum  = require('models/galleries_album')
 Info            = require('controllers/info')
 PhotosList      = require('controllers/photos_list')
 Extender        = require("plugins/controller_extender")
-Drag            = require("plugins/drag")
+#Drag            = require("plugins/drag")
 
 require("plugins/tmpl")
 
 class PhotosView extends Spine.Controller
   
-  @extend Drag
+#  @extend Drag
   @extend Extender
   
   elements:
@@ -23,8 +23,8 @@ class PhotosView extends Spine.Controller
     '.items'          : 'items'
   
   events:
-    'dragstart  .items .thumbnail'    : 'dragstart'
-    'dragover   .items .thumbnail'    : 'dragover'
+#    'dragstart  .items .thumbnail'    : 'dragstart'
+#    'dragover   .items .thumbnail'    : 'dragover'
     'sortupdate .items'               : 'sortupdate'
     
   template: (items) ->
@@ -54,11 +54,11 @@ class PhotosView extends Spine.Controller
 #    AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
+    GalleriesAlbum.bind('destroy', @proxy @destroyGalleriesAlbum)
     AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
     Gallery.bind('create update destroy', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
     Photo.bind('created', @proxy @add)
-    Photo.bind('refresh', @proxy @renderHeader)
     Photo.bind('destroy', @proxy @destroy)
     Photo.bind('beforeDestroy', @proxy @beforeDestroy)
     Photo.bind('create:join', @proxy @createJoin)
@@ -66,10 +66,8 @@ class PhotosView extends Spine.Controller
     Photo.bind('ajaxError', Photo.errorHandler)
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
-    Spine.bind('change:selectedGallery', @proxy @renderHeader)
-    Spine.bind('change:selectedAlbum', @proxy @renderHeader)
     Spine.bind('change:selectedAlbum', @proxy @change)
-    Spine.bind('album:updateBuffer', @proxy @updateBuffer)
+    Spine.bind('done:upload', @proxy @updateBuffer)
     
   updateBuffer: (album=Album.record) ->
     filterOptions =
@@ -84,8 +82,8 @@ class PhotosView extends Spine.Controller
       
     @buffer = items
   
-  change: (album) ->
-    @updateBuffer album
+  change: ->
+    @updateBuffer()
     @render @buffer
   
   render: (items, mode) ->
@@ -98,7 +96,6 @@ class PhotosView extends Spine.Controller
     delete @buffer
   
   renderHeader: ->
-#    return unless @isActive()
     console.log 'PhotosView::renderHeader'
     @header.change()
   
@@ -130,6 +127,11 @@ class PhotosView extends Spine.Controller
   destroy: (album) ->
     @render() unless Photo.count()
       
+  destroyGalleriesAlbum: (ga) ->
+    @navigate '/gallery', ga.gallery_id
+#    photos = AlbumsPhoto.photos  ap.album_id
+#    @render() unless photos.length
+      
   destroyAlbumsPhoto: (ap) ->
     photos = AlbumsPhoto.photos  ap.album_id
     @render() unless photos.length
@@ -138,8 +140,10 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
-    @render @buffer if @buffer
   
+  activated: ->
+    @change()
+    
   save: (item) ->
 
   # methods after uplopad
@@ -179,7 +183,6 @@ class PhotosView extends Spine.Controller
     photos = [photos] unless Photo.isArray(photos)
     for pid in photos
       ap = AlbumsPhoto.albumPhotoExists(pid, album.id)
-      @list.findModelElement(photo).remove() if photo = Photo.exists(pid)
       ap.destroy()
 
   sortupdate: ->

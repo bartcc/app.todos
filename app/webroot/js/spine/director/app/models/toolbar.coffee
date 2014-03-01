@@ -49,10 +49,12 @@ class Toolbar extends Spine.Model
         ,
           name: -> 'Albummasters'
           klass: 'optShowAlbumMasters'
+          icon: 'book'
           disabled: -> false
         ,
           name: -> 'Photomasters'
           klass: 'optShowPhotoMasters'
+          icon: 'book'
           disabled: -> false
         ]
     group1:
@@ -74,13 +76,6 @@ class Toolbar extends Spine.Model
           icon: 'trash'
           klass: 'optDestroyGallery'
           disabled: -> !Gallery.record
-        ,
-          devider: true
-        ,
-          name: 'Large Edit View'
-          icon: 'pencil'
-          klass: 'optEditGallery'
-          disabled: ->
         ]
     group2:
       name: 'Album'
@@ -112,6 +107,13 @@ class Toolbar extends Spine.Model
           icon: 'hand-right'
           klass: 'optShowAlbumSelection '
           disabled: -> !Gallery.selectionList().length
+        ,
+          devider: true
+        ,
+          name: -> 'Albummasters'
+          klass: 'optShowAlbumMasters'
+          icon: 'book'
+          disabled: -> false
         ]
     group3:
       name: 'Photo'
@@ -195,6 +197,11 @@ class Toolbar extends Spine.Model
             else
               len = Album.selectionList().length
             return !len
+        ,
+          name: -> 'Photomasters'
+          klass: 'optShowPhotoMasters'
+          icon: 'book'
+          disabled: -> false
         ,
           devider: true
         ,

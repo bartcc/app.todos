@@ -2,7 +2,6 @@ Spine           = require("spine")
 $               = Spine.$
 Model           = Spine.Model
 Controller      = Spine.Controller
-Manager         = require('spine/lib/manager')
 Gallery         = require('models/gallery')
 Album           = require('models/album')
 Photo           = require('models/photo')
@@ -18,6 +17,7 @@ GalleriesHeader = require('controllers/galleries_header')
 SlideshowView   = require('controllers/slideshow_view')
 ActionWindow    = require("controllers/action_window")
 Extender        = require('plugins/controller_extender')
+require('spine/lib/manager')
 
 class ShowView extends Spine.Controller
 
@@ -25,11 +25,11 @@ class ShowView extends Spine.Controller
 
   elements:
     '#views .views'           : 'views'
-    '.galleriesHeader'        : 'galleriesHeaderEl'
-    '.albumsHeader'           : 'albumsHeaderEl'
-    '.photosHeader'           : 'photosHeaderEl'
-    '.photoHeader'            : 'photoHeaderEl'
-    '.header'                 : 'albumHeader'
+    '.contents'               : 'contents'
+    '.header .galleries'      : 'galleriesHeaderEl'
+    '.header .albums'         : 'albumsHeaderEl'
+    '.header .photos'         : 'photosHeaderEl'
+    '.header .photo'          : 'photoHeaderEl'
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery .ui-icon'    : 'btnGallery'
@@ -41,10 +41,10 @@ class ShowView extends Spine.Controller
     '.toolbarOne'             : 'toolbarOneEl'
     '.toolbarTwo'             : 'toolbarTwoEl'
     '.props'                  : 'propsEl'
-    '.galleries'              : 'galleriesEl'
-    '.albums'                 : 'albumsEl'
-    '.photos'                 : 'photosEl'
-    '.photo'                  : 'photoEl'
+    '.content.galleries'      : 'galleriesEl'
+    '.content.albums'         : 'albumsEl'
+    '.content.photos'         : 'photosEl'
+    '.content.photo'          : 'photoEl'
     '#slideshow'              : 'slideshowEl'
     '#modal-action'           : 'modalActionEl'
     
@@ -104,17 +104,17 @@ class ShowView extends Spine.Controller
       el: @toolbarOneEl
     @toolbarTwo = new ToolbarView
       el: @toolbarTwoEl
-    @photoHeader = new PhotoHeader
-      el: @photoHeaderEl
+    @galleriesHeader = new GalleriesHeader
+      el: @galleriesHeaderEl
+    @albumsHeader = new AlbumsHeader
+      el: @albumsHeaderEl
       parent: @
     @photosHeader = new PhotosHeader
       el: @photosHeaderEl
       parent: @
-    @albumsHeader = new AlbumsHeader
-      el: @albumsHeaderEl
+    @photoHeader = new PhotoHeader
+      el: @photoHeaderEl
       parent: @
-    @galleriesHeader = new GalleriesHeader
-      el: @galleriesHeaderEl
     @galleriesView = new GalleriesView
       el: @galleriesEl
       className: 'items'
@@ -137,12 +137,12 @@ class ShowView extends Spine.Controller
       el: @photoEl
       className: 'items'
       header: @photoHeader
-      parent: @
+      parent: @photosView
       parentModel: Photo
     @slideshowView = new SlideshowView
       el: @slideshowEl
       className: 'items'
-      header: false
+      header: null
       parent: @
       parentModel: 'Photo'
       subview: true
@@ -160,6 +160,7 @@ class ShowView extends Spine.Controller
     Photo.bind('change', @proxy @changeToolbarOne)
     Photo.bind('refresh', @proxy @refreshToolbars)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
+    Spine.bind('done:upload', @proxy @refreshToolbars)
     Spine.bind('albums:copy', @proxy @copyAlbums)
     Spine.bind('photos:copy', @proxy @copyPhotos)
     
@@ -172,13 +173,26 @@ class ShowView extends Spine.Controller
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
     
     # setup visibility of view stack
-    @active()
-    @galleriesView.active()
-    
     # switch to assigned start view
     @canvasManager.change @galleriesView
     @headerManager.change @galleriesHeader
     @trigger('change:toolbarOne')
+    @canvasManager.bind('change', @proxy @changeCanvas)
+    @headerManager.bind('change', @proxy @changeHeader)
+    
+  changeCanvas: (controller) ->
+    controller.activated()
+    window.setTimeout( =>
+      if controller.constructor.name is 'AlbumsView' and !Gallery.record
+        @contents.addClass('all')
+      else if ['PhotoView', 'PhotosView'].indexOf(controller.constructor.name isnt -1) and !Album.record
+        @contents.addClass('all')
+      else
+        @contents.removeClass('all')
+    , 200)
+    
+  changeHeader: (controller) ->
+    controller.activated()
     
   previousLocation: (sameAllowed) ->
     console.log 'ShowView::previousLocation'
@@ -194,13 +208,15 @@ class ShowView extends Spine.Controller
     console.log 'ShowView::canvas'
     @previous = @current unless @current.subview
     @current = controller
+    @currentHeader = controller.header
     @prevLocation = location.hash
     @el.data
       current: controller.el.data().current.record
       className: controller.el.data().current.className
-    
-    @canvasManager.change controller
-    @headerManager.change controller.header
+    controller.trigger 'active'
+    controller.header?.trigger 'active'
+#    @canvasManager.change controller
+#    @headerManager.change controller.header
     
   changeToolbarOne: (list) ->
     @toolbarOne.change list

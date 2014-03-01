@@ -57,25 +57,25 @@
         </ul>
         <div class="contents views vbox flex" style="height: 0;">
           <div class="header views">
-            <div class="galleriesHeader view"></div>
-            <div class="albumsHeader view"></div>
-            <div class="photosHeader view"></div>
-            <div class="photoHeader view"></div>
+            <div class="galleries view"></div>
+            <div class="albums view"></div>
+            <div class="photos view"></div>
+            <div class="photo view"></div>
           </div>
           <div class="view galleries content vbox flex data parent autoflow" style="">
-            <div class="items"></div>
+            <div class="items">Galleries</div>
           </div>
-          <div class="view albums content vbox flex data parent autoflow" style="margin-top: -24px;">
+          <div class="view albums content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex"></div>
+            <div class="container items flex">Albums</div>
           </div>
-          <div class="view photos content vbox flex data parent autoflow" style="margin-top: -24px;">
+          <div class="view photos content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a"></div>
+            <div class="container items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
-          <div class="view photo content vbox flex data parent autoflow" style="margin-top: -24px;">
+          <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex">PHOTO</div>
+            <div class="container items flex">Photo</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">
             <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
@@ -476,13 +476,13 @@
 </script>
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader" style="padding-top: 15px; height: 78px;">
+  <section class="top viewheader fadeelement" style="padding-top: 15px; height: 78px;">
     <h2>Gallery Overview</h2><span class="active cta right"><h2>${count}</h2></span>
   </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader {{if record == ''}}all{{/if}}">
+  <section class="top viewheader fadeelement">
     {{if record}}
     Author:   <span class="label label-default">${author}</span>
     <br><br>
@@ -496,7 +496,7 @@
     {{/if}}
   </section>
   <section class="left">
-    <span class="breadcrumb">
+    <span class="fadeelement breadcrumb">
       <li class="gal">
         <a href="#">Galleries</a>
       </li>
@@ -504,7 +504,7 @@
     </span>
   </section>
   <section class="right">
-    <span class="breadcrumb movefromright">
+    <span class="fadeelement breadcrumb movefromright">
       <li class="optAlbumActionCopy">
         <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
       </li>
@@ -610,6 +610,7 @@
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fade in" draggable="true"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
+    <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
   </div>
   <div class="title hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
@@ -620,7 +621,7 @@
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader {{if album == ''}}all{{/if}}">
+  <section class="top viewheader fadeelement">
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
@@ -631,7 +632,7 @@
     {{/if}}
   </section>
   <section class="left">
-    <span class="breadcrumb">
+    <span class="fadeelement breadcrumb">
       <li class="gal">
         <a href="#">Galleries</a>
       </li>
@@ -642,7 +643,7 @@
     </span>
   </section>
   <section class="right">
-    <span class="breadcrumb movefromright">
+    <span class="fadeelement breadcrumb movefromright">
       <li class="optPhotoActionCopy">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
@@ -653,11 +654,16 @@
 </script>
 
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader">
-    {{if $item.data.details}}{{tmpl($item.data.details()) "#photoDetailsTemplate"}}{{/if}}
+  <section class="fadeelement top viewheader fadeelement">
+    {{if album}}
+      {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
+    {{else}}
+<!--    <div class="alert alert-error"><h4 class="alert-heading">Note</h4>Drag your selected photos on to an album in the sidebar to become part of it. Wait to reveal its albums, if necessary.</div>-->
+      <h2>Master Photo</h2>
+    {{/if}}
   </section>
   <section class="left">
-    <span class="breadcrumb">
+    <span class="fadeelement breadcrumb">
       <li class="gal">
         <a href="#">Galleries</a>
       </li>
@@ -667,11 +673,11 @@
       <li class="pho">
         <a href="#">Photos</a>
       </li>
-      <li class="active">{{if src}}${src}{{else}}deleted{{/if}}</li>
+      <li class="active">{{if $item.data.item.src}}${$item.data.item.src}{{else}}deleted{{/if}}</li>
     </span>
   </section>
   <section class="right">
-    <span class="breadcrumb movefromright">
+    <span class="forall breadcrumb movefromright">
       <li class="optAction">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>

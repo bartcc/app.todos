@@ -63,6 +63,15 @@ class SlideshowView extends Spine.Controller
     @size(App.showView.sliderOutValue())
     
     @el
+    
+  activated: ->
+    albums = GalleriesAlbum.albums(Gallery.record.id)
+    for alb in albums
+      if alb.invalid
+        alb.invalid = false
+        alb.save(ajax:false)
+    
+    @change()
        
   loadingDone: ->
     return unless @isActive()
@@ -161,12 +170,11 @@ class SlideshowView extends Spine.Controller
     list
         
   show: ->
-    console.log 'Slideshow::show'
-
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Back', 'Play'])
     App.showView.trigger('canvas', @)
     
+  activated: ->
     list = @slideshowPhotos()
 
     if list.length

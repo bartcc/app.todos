@@ -23,9 +23,9 @@ class SidebarList extends Spine.Controller
 
   events:
     'click'                           : 'show'
-    "click      .gal.item"            : "click"
-    "click      .alb.item"            : "clickAlbum"
-    "click      .expander"            : "expand"
+    "click      .gal.item"            : 'clickGallery'
+    "click      .alb.item"            : 'clickAlbum'
+    "click      .expander"            : 'expand'
     'dragstart  .sublist-item'        : 'dragstart'
     'dragenter  .sublist-item'        : 'dragenter'
     'dragleave  .sublist-item'        : 'dragleave'
@@ -242,20 +242,21 @@ class SidebarList extends Spine.Controller
     gallery = galleryEl.item()
     
     Gallery.updateSelection [album.id]
-    Gallery.trigger('activate', gallery)
     
     @navigate '/gallery', gallery.id + '/' + album.id
+    
+    Gallery.trigger('activate', gallery)
     
     e.stopPropagation()
     e.preventDefault()
     
-  click: (e) ->
+  clickGallery: (e) ->
     console.log 'SidebarList::click'
     $(e.currentTarget).closest('.gal').addClass('active manual')
 #    dont act on no-gallery items like the 'no album' - info
     item = $(e.target).closest('.data').item()
     
-    App.contentManager.change App.showView
+#    App.contentManager.change App.showView
     
     
     @navigate '/gallery', item?.id or ''

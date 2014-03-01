@@ -64,15 +64,13 @@ class AlbumsView extends Spine.Controller
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     GalleriesAlbum.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('create:join', @proxy @createJoin)
-    GalleriesAlbum.bind('change', @proxy @renderHeader)
     Spine.bind('change:selectedGallery', @proxy @change)
-#    Spine.bind('change:selectedGallery', @proxy @renderHeader)
-    Gallery.bind('refresh change', @proxy @renderHeader)
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
     
     Album.bind('sortupdate', @proxy @sortupdate)
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
+#    @bind('active', @proxy @active)
     
     $(@views).queue('fx')
     
@@ -89,38 +87,32 @@ class AlbumsView extends Spine.Controller
     
     @buffer = items
     
-  change: (item, mode) ->
+  change: ->
     console.log 'AlbumsView::change'
     
-    @updateBuffer item
+    @updateBuffer()
     @render()
     
   render: ->
     return unless @isActive()
     console.log 'AlbumsView::render'
-    @header.render()
     list = @list.render @buffer
     list.sortable('album')
     delete @buffer
     @el
       
-  renderHeader: (item) ->
-#    return unless @isActive()
-#    return unless Gallery.record
-    console.log 'AlbumsView::renderHeader'
-    @header.render item
-  
-  show: (idOrRecord) ->
+  show: ->
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
     
+  activated: ->
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid
         alb.invalid = false
         alb.save(ajax:false)
-        
+    
     @change()
     
   newAttributes: ->

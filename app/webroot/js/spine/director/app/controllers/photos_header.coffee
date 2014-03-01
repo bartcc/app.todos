@@ -22,8 +22,13 @@ class PhotosHeader extends Spine.Controller
 
   constructor: ->
     super
+    Gallery.bind('create update destroy', @proxy @render)
+    Album.bind('change', @proxy @render)
     Album.bind('change:selection', @proxy @moveMenu)
     Photo.bind('change', @proxy @render)
+    Photo.bind('refresh', @proxy @render)
+    Spine.bind('change:selectedGallery', @proxy @render)
+    Spine.bind('change:selectedAlbum', @proxy @render)
     
   backToGalleries: (e) ->
     console.log 'PhotosHeader::backToGalleries'
@@ -42,6 +47,7 @@ class PhotosHeader extends Spine.Controller
     @render()
     
   render: ->
+    return unless @isActive()
     @html @template
       gallery: Gallery.record
       album: Album.record
@@ -64,6 +70,7 @@ class PhotosHeader extends Spine.Controller
     list = Album.selectionList().slice(0)
     @parent.actionWindow.open('Album', list)
     
-    
+  activated: ->
+    @render()
 
 module?.exports = PhotosHeader

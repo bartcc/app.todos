@@ -1,30 +1,34 @@
 Spine       = require("spine")
 $           = Spine.$
-Drag        = require("plugins/drag")
 Album       = require('models/album')
 Gallery     = require('models/gallery')
 
 class PhotoHeader extends Spine.Controller
   
-  @extend Drag
-  
   events:
     'click .gal'    : 'backToGalleries'
     'click .alb'    : 'backToAlbums'
     'click .pho'    : 'backToPhotos'
-    'dragenter'     : 'dragenter'
-    'dragend'       : 'dragend'
-    'drop'          : 'drop'
 
   template: (item) ->
     $("#headerPhotoTemplate").tmpl item
 
   constructor: ->
     super
-    Gallery.bind('change', @proxy @change)
-    Album.bind('change', @proxy @change)
-    Photo.bind('change', @proxy @change)
+    Spine.bind('change:selectedPhoto', @proxy @render)
+    Gallery.bind('change', @proxy @render)
+    Album.bind('change', @proxy @render)
+    Photo.bind('change', @proxy @render)
 
+  render: ->
+    return unless @isActive()
+    @html @template
+      gallery: Gallery.record
+      album: Album.record
+      item: Photo.record
+    
+  activated: ->
+    @render()
   backToGalleries: (e) ->
     @navigate '/galleries/'
     
@@ -43,16 +47,9 @@ class PhotoHeader extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
 
-  change: (item) ->
-    return unless @isActive()
-    console.log 'PhotoHeader::change'
-    @render item
-    
-  render: (item) ->
-    @html @template  item
-    
   drop: (e) ->
     e.stopPropagation()
     e.preventDefault()
+
     
 module?.exports = PhotoHeader

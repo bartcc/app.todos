@@ -20,7 +20,6 @@ class GalleriesList extends Spine.Controller
     'click .glyphicon-set .zoom'    : 'zoom'
     'mousemove .item'               : 'infoUp'
     'mouseleave .item'              : 'infoBye'
-    'dblclick .item'                : 'zoom'
   
   constructor: ->
     super
@@ -36,7 +35,7 @@ class GalleriesList extends Spine.Controller
     console.log 'GalleriesList::renderRelated'
     @updateTemplates()
     
-  renderOne: (item, mode, o) ->
+  renderOne: (item, mode) ->
     console.log 'GalleriesList::renderOne'
     switch mode
       when 'create'
@@ -48,9 +47,9 @@ class GalleriesList extends Spine.Controller
       when 'update'
         try
           @updateTemplates()
-          @reorder item
-          @exposeSelection item
         catch e
+        @reorder item
+        @exposeSelection item
           
       when 'destroy'
         @children().forItem(item, true).remove()

@@ -69,10 +69,6 @@ class AlbumsList extends Spine.Controller
   
   render: (items=[], mode) ->
     console.log 'AlbumsList::render'
-    if Gallery.record
-      @el.removeClass 'all'
-    else
-      @el.addClass 'all'
     if items.length
       @html @template items
     else

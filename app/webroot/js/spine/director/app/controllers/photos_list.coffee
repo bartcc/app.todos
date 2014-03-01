@@ -5,11 +5,13 @@ Album       = require('models/album')
 AlbumsPhoto = require('models/albums_photo')
 ToolbarView = require("controllers/toolbar_view")
 Extender    = require('plugins/controller_extender')
+Drag        = require("plugins/drag")
 
 require("plugins/tmpl")
 
 class PhotosList extends Spine.Controller
   
+  @extend Drag
   @extend Extender
   
   elements:
@@ -22,13 +24,14 @@ class PhotosList extends Spine.Controller
     'click .glyphicon-set .zoom'   : 'zoom'
     'click .glyphicon-set .delete' : 'deletePhoto'
     
-    'mouseenter .item'        : 'infoEnter'
-    'mousemove'               : 'infoMove'
+    'mouseenter .item'             : 'infoEnter'
+    'mousemove'                    : 'infoMove'
     
-    'mousemove .item'         : 'infoUp'
-    'mouseleave  .item'       : 'infoBye'
-    
-    'dragstart .item'         : 'stopInfo'
+    'mousemove .item'              : 'infoUp'
+    'mouseleave  .item'            : 'infoBye'
+    'dragstart'                    : 'dragstart'
+    'dragstart .item'              : 'stopInfo'
+    'dragover .item'               : 'dragover'
     
   selectFirst: true
     
@@ -44,6 +47,7 @@ class PhotosList extends Spine.Controller
     Photo.bind('update', @proxy @update)
 #    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
+    AlbumsPhoto.bind('destroy', @proxy @remove)
     
     
   change: ->
@@ -53,7 +57,6 @@ class PhotosList extends Spine.Controller
     console.log 'PhotosList::render'
     
     if Album.record
-      @wipe().removeClass 'all'
       if items.length
         @[mode] @template items
         @uri items, mode
@@ -64,7 +67,6 @@ class PhotosList extends Spine.Controller
         html += '</label>'
         @html html
     else
-      @el.addClass 'all'
       if Photo.count()
         @renderAll()
       else
@@ -234,6 +236,28 @@ class PhotosList extends Spine.Controller
       
     Photo.trigger('activate', list[0], true)
   
+  remove: (ap) ->
+    item = Photo.exists ap.photo_id
+    @findModelElement(item).remove() if item
+    
+  deletePhoto: (e) ->
+    console.log 'PhotosList::deletePhoto'
+    item = $(e.currentTarget).item()
+    return unless item?.constructor?.className is 'Photo' 
+    
+    el = @findModelElement item
+    el.removeClass('in')
+    
+    
+    window.setTimeout( =>
+      Spine.trigger('destroy:photo', [item.id])
+    , 300)
+    
+    @stopInfo(e)
+    
+    e.stopPropagation()
+    e.preventDefault()
+    
   click: (e) ->
     console.log 'PhotosList::click'
     item = $(e.currentTarget).item()
@@ -246,37 +270,18 @@ class PhotosList extends Spine.Controller
   zoom: (e) ->
     item = $(e?.currentTarget).item() || @current
     @select item, true
-    @stopInfo()
-#    Photo.trigger('activate', Album.updateSelection([item.id]))
+    @stopInfo(e)
     @navigate '/gallery', (Gallery.record?.id or 'nope'), (Album.record?.id or 'nope'), item.id
     
     e.stopPropagation()
     e.preventDefault()
   
-  back: ->
+  back: (e) ->
     @navigate '/gallery', Gallery.record.id
-  
-  deletePhoto: (e) ->
-    console.log 'PhotosList::deletePhoto'
-    item = $(e.currentTarget).item()
-    return unless item?.constructor?.className is 'Photo' 
-    
-    el = @findModelElement item
-    el.removeClass('in')
-    
-    @stopInfo()
-    
-    window.setTimeout( =>
-      Spine.trigger('destroy:photo', [item.id])
-      el.remove()
-#      if album = Album.record
-#        unless @el.children().length
-#          @parent.render() #unless gallery.count()
-    , 200)
     
     e.stopPropagation()
     e.preventDefault()
-    
+  
   initSelectable: ->
     options =
       helper: 'clone'
@@ -288,12 +293,12 @@ class PhotosList extends Spine.Controller
     e.preventDefault()
     
   infoBye: (e) =>
-    @info.bye()
+    @info.bye(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
     
   stopInfo: (e) =>
-    @info.bye()
+    @info.bye(e)
     
   infoEnter: (e) ->
     

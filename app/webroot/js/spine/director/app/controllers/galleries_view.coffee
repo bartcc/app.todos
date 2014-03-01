@@ -30,37 +30,26 @@ class GalleriesView extends Spine.Controller
       template: @template
       parent: @
     @header.template = @headerTemplate
-    Gallery.bind('refreshOnEmpty', @proxy @refresh)
-    Gallery.one('refresh', @proxy @refresh)
-    AlbumsPhoto.bind('change', @proxy @change)
-    AlbumsPhoto.bind('refresh', @proxy @refresh)
+    Gallery.bind('refreshOnEmpty', @proxy @render)
+    Gallery.one('refresh', @proxy @render)
     Spine.bind('show:galleries', @proxy @show)
 
-  change: (item, mode) ->
-    console.log 'GalleriesView::change'
-    return unless item.constructor.className is 'Gallery'
-    switch mode
-      when 'create'
-        @create item
-    
-  refresh: ->
-    items = Gallery.all().sort Gallery.nameSort
-    @render items
-  
-  render: (items) ->
+  render: ->
     return unless @isActive()
     console.log 'GalleriesView::render'
     if Gallery.count()
+      items = Gallery.records.sort Gallery.nameSort
       @list.render items
     else  
       @list.el.html '<label class="invite"><span class="enlightened">This Application has no galleries. &nbsp;<button class="optCreateGallery dark large">New Gallery</button>'
-      
-    @header.render()
-    
+          
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
+    
+  activated: ->
+    @render()
     @list.exposeSelection()
     
   newAttributes: ->

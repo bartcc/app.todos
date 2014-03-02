@@ -42,6 +42,7 @@ class PhotosView extends Spine.Controller
   constructor: ->
     super
     @el.data current: Album
+    @type = 'Photo'
     @info = new Info
       el: @infoEl
       template: @infoTemplate

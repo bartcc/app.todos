@@ -182,23 +182,19 @@ class ShowView extends Spine.Controller
     
   changeCanvas: (controller) ->
     controller.activated()
+    t = switch controller.type
+      when "Album"
+        unless Gallery.record
+          true
+        else false
+      when "Photo"
+        unless Album.record
+          true
+        else false
+      else false
+        
     window.setTimeout( =>
-      name = controller.constructor.name
-      destroy = (name) ->
-        switch name
-          when 'AlbumsView'
-            return true unless Gallery.record
-            false
-          when 'PhotosView'
-            return true unless Album.record
-            false
-          when 'PhotoView'
-            return true unless Album.record
-            false
-          else
-            false
-          
-      if destroy(name)
+      if t
         @contents.addClass('all')
       else
         @contents.removeClass('all')

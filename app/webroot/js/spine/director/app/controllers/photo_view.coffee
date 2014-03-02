@@ -37,6 +37,7 @@ class PhotoView extends Spine.Controller
   constructor: ->
     super
     @el.data current: Photo
+    @type = 'Photo'
     @info = new Info
       el: @infoEl
       template: @infoTemplate
@@ -46,7 +47,6 @@ class PhotoView extends Spine.Controller
     AlbumsPhoto.bind('destroy', @proxy @remove)
     Photo.bind('destroy', @proxy @destroy)
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
-    
     
   render: (item=Photo.record) ->
     return unless @isActive()

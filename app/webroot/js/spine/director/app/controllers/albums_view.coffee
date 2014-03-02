@@ -44,6 +44,7 @@ class AlbumsView extends Spine.Controller
   constructor: ->
     super
     @el.data current: Gallery
+    @type = 'Album'
     @info = new Info
       el: @infoEl
       template: @infoTemplate

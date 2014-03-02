@@ -173,7 +173,7 @@ class Main extends Spine.Controller
 #        Photo.trigger('activate')
         Spine.trigger('show:photos')
       '/gallery/:gid': (params) ->
-        @contentManager.trigger('active', @showView)
+        @contentManager.change(@showView)
         Gallery.trigger('activate', params.gid)
 #        Album.trigger('activate', params.aid)
 #        Photo.trigger('activate')

@@ -477,7 +477,7 @@
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
   <section class="top viewheader fadeelement" style="padding-top: 15px; height: 78px;">
-    <h2>Gallery Overview</h2><span class="active cta right"><h2>${count}</h2></span>
+    <h2>Gallery Overview</h2><span class="active cta right"><h2>Total: ${count}</h2></span>
   </section>
 </script>
 
@@ -486,12 +486,12 @@
     {{if record}}
     Author:   <span class="label label-default">${author}</span>
     <br><br>
-    <h2>Gallery: </h2>
+    <h2>Albums in Gallery: </h2>
     <label class="h2 chopin">{{if record.name}}${record.name}{{else}}no name{{/if}}</label>
-      <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+      <span class="active cta {{if record}}active{{/if}} right"><h2>Total: {{if count}}${count}{{else}}0{{/if}}</h2></span>
     {{else}}
     <h2 class="">Master Albums
-      <span class="active cta {{if record}}active{{/if}} right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+      <span class="active cta {{if record}}active{{/if}} right"><h2>Total: {{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{/if}}
   </section>
@@ -530,8 +530,8 @@
 
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class="name bold">
-      <span class="left">{{if title}}${title}{{else}}no title{{/if}} </span>
+    <li class="name">
+      <span class="left">#${order} {{if title}}${title}{{else}}no title{{/if}} </span>
       <span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span>
     </li>
   </ul>
@@ -541,10 +541,10 @@
   Author:  <span class="label label-default">${author}</span>
   Gallery:  <span class="label label-default">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}not found{{/if}}</span>
   <br><br>
-  <h2>Album: </h2>
+  <h2>Photos in Album: </h2>
   <label class="h2 chopin">{{if album.title}}${album.title}{{else}}no title{{/if}}</label>
   <span class="active cta right">
-    <h2>{{if iCount}}${iCount}{{else}}0{{/if}}</h2>
+    <h2>Total: {{if iCount}}${iCount}{{else}}0{{/if}}</h2>
   </span>
   
 </script>
@@ -627,7 +627,7 @@
     {{else}}
 <!--    <div class="alert alert-error"><h4 class="alert-heading">Note</h4>Drag your selected photos on to an album in the sidebar to become part of it. Wait to reveal its albums, if necessary.</div>-->
     <h2>Master Photos
-      <span class="active cta right"><h2>{{if count}}${count}{{else}}0{{/if}}</h2></span>
+      <span class="active cta right"><h2>Total: {{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
     {{/if}}
   </section>

@@ -654,7 +654,7 @@
 </script>
 
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
-  <section class="fadeelement top viewheader fadeelement">
+  <section class="fadeelement top viewheader">
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
@@ -677,7 +677,7 @@
     </span>
   </section>
   <section class="right">
-    <span class="forall breadcrumb movefromright">
+    <span class="fadeelement breadcrumb movefromright">
       <li class="optAction">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>

@@ -25,6 +25,7 @@ class GalleriesView extends Spine.Controller
     @el.data current:
       className: null
       record: null
+    @type = 'Gallery'
     @list = new GalleriesList
       el: @items
       template: @template

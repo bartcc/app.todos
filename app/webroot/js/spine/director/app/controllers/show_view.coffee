@@ -183,6 +183,8 @@ class ShowView extends Spine.Controller
   changeCanvas: (controller) ->
     controller.activated()
     t = switch controller.type
+      when "Gallery"
+        true
       when "Album"
         unless Gallery.record
           true

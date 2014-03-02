@@ -326,7 +326,7 @@
 </script>
 
 <script id="sidebarFlickrTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item data parent" title="" draggable="true">
+  <li class="gal item parent" title="" draggable="true">
     <div class="item-header">
       <div class="expander"></div>
         <div class="item-content">

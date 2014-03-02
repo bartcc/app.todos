@@ -136,20 +136,6 @@ class AlbumsList extends Spine.Controller
       
     Album.current(id)
     @exposeSelection()
-  
-  select: (items = [], exclusive) ->
-    unless Spine.isArray items
-      items = [items]
-      
-    list = []
-    for item in items
-      exists = Gallery.selectionList().indexOf(item.id) isnt -1
-      if !Album.record and Gallery.selectionList().length and exists
-        list = item.shiftSelection() if exists
-      else
-        list = item.addRemoveSelection(exclusive)
-      
-    Album.trigger('activate', list[0], true)
     
   updateBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::updateBackgrounds'
@@ -218,6 +204,20 @@ class AlbumsList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
+    
+  select: (items = [], exclusive) ->
+    unless Spine.isArray items
+      items = [items]
+      
+    list = []
+    for item in items
+      exists = Gallery.selectionList().indexOf(item.id) isnt -1
+      if !Album.record and Gallery.selectionList().length and exists
+        list = item.shiftSelection() if exists
+      else
+        list = item.addRemoveSelection(exclusive)
+      
+    Album.trigger('activate', list[0], true)
     
   zoom: (e) ->
     item = $(e.currentTarget).item()

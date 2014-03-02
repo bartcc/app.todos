@@ -1181,10 +1181,12 @@ textarea {
   -webkit-background-position: 0 -150px;
   background-position: 0 -150px;
 }
-li.item.nodrop {
+#sidebar .item.nodrop {
+  background-color: rgba(200,0,0,0.17);
   border: 2px solid #ff584d;
 }
-li.item.over {
+#sidebar .item.over {
+  background-color: rgba(0,200,0,0.17);
   border: 2px solid #a3ff8b;
 }
 #sidebar .expander {

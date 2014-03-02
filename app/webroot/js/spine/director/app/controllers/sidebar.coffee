@@ -103,16 +103,10 @@ class Sidebar extends Spine.Controller
         when 'Photo'
           selection = Album.selectionList()
       
-
     # make an unselected item part of selection only if there is nothing selected yet
     return unless Album.isArray(selection)
     if !(source.id in selection)# and !(selection.length)
       list = source.emptySelection().push source.id
-      switch source.constructor.className
-        when 'Album'
-          Album.trigger('activate', list) unless fromSidebar
-        when 'Photo'
-          Photo.trigger('activate', list)
       
     @clonedSelection = selection.slice(0)
 
@@ -155,9 +149,7 @@ class Sidebar extends Spine.Controller
         albums = Album.toRecords(@clonedSelection)
         for album in albums
           album.createJoin(target) if target
-          album.destroyJoin(origin) if origin
-#          Album.trigger('create:join', album, target) if target
-#          Album.trigger('destroy:join', origin) if origin
+          album.destroyJoin(origin) if origin  unless @isCtrlClick(e)
           
       when 'Photo'
         photos = []

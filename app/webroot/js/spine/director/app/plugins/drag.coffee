@@ -15,6 +15,7 @@ Controller.Drag =
         el.addClass('dragged')
         Spine.dragItem = {}
         Spine.dragItem.el = el
+        Spine.dragItem.els = []
         Spine.dragItem.source = el.item()
         parentDataElement = $(e.target).parents('.parent.data')
         Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data()?.current.record
@@ -24,8 +25,9 @@ Controller.Drag =
         Spine.trigger('drag:start', e, @)
 
       dragenter: (e, data) ->
+        console.log e.type
 #        $(e.target).addClass('over')
-        func =  -> Spine.trigger('drag:timeout', e)
+        func =  => Spine.trigger('drag:timeout', e, Spine.timer)
         clearTimeout Spine.timer
         Spine.timer = setTimeout(func, 1000)
         Spine.trigger('drag:enter', e, @)

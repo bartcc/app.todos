@@ -25,7 +25,7 @@ class SidebarList extends Spine.Controller
     'click'                           : 'show'
     "click      .gal.item"            : 'clickGallery'
     "click      .alb.item"            : 'clickAlbum'
-    "click      .expander"            : 'expand'
+    "click      .expander"            : 'clickExpander'
     'dragstart  .sublist-item'        : 'dragstart'
     'dragenter  .sublist-item'        : 'dragenter'
     'dragleave  .sublist-item'        : 'dragleave'
@@ -251,79 +251,74 @@ class SidebarList extends Spine.Controller
     e.preventDefault()
     
   clickGallery: (e) ->
-    console.log 'SidebarList::click'
-    $(e.currentTarget).closest('.gal').addClass('active manual')
-#    dont act on no-gallery items like the 'no album' - info
+    console.log 'SidebarList::clickGallery'
+    e.stopPropagation()
+    e.preventDefault()
+    galleryEl = $(e.target).closest('li.gal')
+    item = galleryEl.item()
+    @expand(item) if item
+    $(e.currentTarget).closest('.gal').addClass('active')
     item = $(e.target).closest('.data').item()
-    
-#    App.contentManager.change App.showView
-    
     
     @navigate '/gallery', item?.id or ''
     
-    @expand(Gallery.record, true)
-    @closeAllSublists(Gallery.record)
+#    @closeAllSublists(Gallery.record)
+    
+  clickExpander: (e) ->
+    console.log 'expander'
+    galleryEl = $(e.target).closest('li.gal')
+    item = galleryEl.item()
+    @expand(item, false, e) if item
     
     e.stopPropagation()
     e.preventDefault()
     
-  expand: (eventOrItem, force) ->
-    isEvent = eventOrItem?.originalEvent
     
-    if isEvent
-      parentEl = @expanderFromClick(eventOrItem)
-      eventOrItem.stopPropagation()
-      eventOrItem.preventDefault()
-      toggle = true 
-    else
-      parentEl = @expanderFromItem(eventOrItem)
-      
-      
-    gallery = parentEl.item()
-    icon = $('.expander', parentEl)
-    sublist = $('.sublist', parentEl)
+  expand: (item, force, e) ->
+    galleryEl = @galleryFromItem(item)
+    expander = $('.expander', galleryEl)
+    if e
+      targetIsExpander = $(e.currentTarget).hasClass('expander')
     
-    show = =>
-      icon.addClass('open')
-      sublist.show()
-    hide = ->
-      icon.removeClass('open')
-      sublist.hide()
-      
-    if toggle
-      icon.toggleClass('glyphicon', force)
-      if icon.hasClass('open') and !force
-        parentEl.removeClass('manual')
-        hide()
-      else
-        parentEl.addClass('manual')
-        show()
+    if force
+      @openSublist(galleryEl)
     else
-      if force
-        show()
-      else
-        hide()
+      isOpen = expander.hasClass('open')
+      isActive = galleryEl.hasClass('active')
 
-  expanderFromClick: (e) ->
-    $(e.target).parents('li')
+      if isOpen
+        @closeSublist(galleryEl) if isActive or targetIsExpander
+      else
+        @openSublist(galleryEl)
+        
+  openSublist: (el) ->
+    expander = $('.expander', el)
+    sublist = $('.sublist', el)
+    expander.addClass('open')
+    sublist.show()
     
-  expanderFromItem: (item) ->
+  closeSublist: (el) ->
+    expander = $('.expander', el)
+    sublist = $('.sublist', el)
+    expander.removeClass('open')
+    sublist.hide()
+      
+  galleryFromItem: (item) ->
     @children().forItem(item)
     
-  expandAfterTimeout: (e) ->
-    clearTimeout Spine.timer
-    el = $(e.target)
-    closest = (el.closest('.item')) or []
-    if closest.length
-      expander = $('.expander', closest)
-      if expander.length
-        @expand(e, true)
+  expandAfterTimeout: (e, timer) ->
+    console.log timer
+    clearTimeout timer
+    galleryEl = $(e.target).closest('.gal.item')
+    item = galleryEl.item()
+    return unless item and item.id isnt Spine.dragItem.origin.id
+    @expand(item, true)
 
   close: () ->
     
   closeAllSublists: (item) ->
     for gallery in Gallery.all()
-      parentEl = @expanderFromItem gallery
+      parentEl = @galleryFromItem gallery
       unless parentEl.hasClass('manual')
         @expand gallery, item?.id is gallery.id
         

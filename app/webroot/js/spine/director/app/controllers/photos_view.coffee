@@ -55,7 +55,6 @@ class PhotosView extends Spine.Controller
 #    AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
-    GalleriesAlbum.bind('destroy', @proxy @destroyGalleriesAlbum)
     AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
     Gallery.bind('create update destroy', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
@@ -127,11 +126,6 @@ class PhotosView extends Spine.Controller
   
   destroy: (album) ->
     @render() unless Photo.count()
-      
-  destroyGalleriesAlbum: (ga) ->
-    @navigate '/gallery', ga.gallery_id
-#    photos = AlbumsPhoto.photos  ap.album_id
-#    @render() unless photos.length
       
   destroyAlbumsPhoto: (ap) ->
     photos = AlbumsPhoto.photos  ap.album_id

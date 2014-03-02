@@ -64,7 +64,7 @@ class SlideshowView extends Spine.Controller
     
     @el
     
-  activated: ->
+  activated_: ->
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid

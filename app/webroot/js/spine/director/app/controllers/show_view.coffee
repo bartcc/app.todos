@@ -15,6 +15,7 @@ AlbumsHeader    = require('controllers/albums_header')
 GalleriesView   = require('controllers/galleries_view')
 GalleriesHeader = require('controllers/galleries_header')
 SlideshowView   = require('controllers/slideshow_view')
+SlideshowHeader = require('controllers/slideshow_header')
 ActionWindow    = require("controllers/action_window")
 Extender        = require('plugins/controller_extender')
 require('spine/lib/manager')
@@ -30,6 +31,7 @@ class ShowView extends Spine.Controller
     '.header .albums'         : 'albumsHeaderEl'
     '.header .photos'         : 'photosHeaderEl'
     '.header .photo'          : 'photoHeaderEl'
+    '.header .slideshow'      : 'slideshowHeaderEl'
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
     '.optGallery .ui-icon'    : 'btnGallery'
@@ -115,6 +117,8 @@ class ShowView extends Spine.Controller
     @photoHeader = new PhotoHeader
       el: @photoHeaderEl
       parent: @
+    @slideshowHeader = new SlideshowHeader
+      header: @slideshowHeaderEl
     @galleriesView = new GalleriesView
       el: @galleriesEl
       className: 'items'
@@ -142,7 +146,7 @@ class ShowView extends Spine.Controller
     @slideshowView = new SlideshowView
       el: @slideshowEl
       className: 'items'
-      header: null
+      header: @slideshowHeader
       parent: @
       parentModel: 'Photo'
       subview: true
@@ -170,7 +174,7 @@ class ShowView extends Spine.Controller
     @current = @galleriesView
     
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
-    @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader)
+    @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader, @slideshowHeader)
     
     # setup visibility of view stack
     # switch to assigned start view
@@ -225,9 +229,7 @@ class ShowView extends Spine.Controller
       current: controller.el.data().current.record
       className: controller.el.data().current.className
     controller.trigger 'active'
-    controller.header?.trigger 'active'
-#    @canvasManager.change controller
-#    @headerManager.change controller.header
+    controller.header.trigger 'active'
     
   changeToolbarOne: (list) ->
     @toolbarOne.change list

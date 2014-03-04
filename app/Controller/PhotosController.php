@@ -12,8 +12,10 @@ class PhotosController extends AppController {
   }
 
   public function index() {
-    $this->Photo->recursive = 0;
-    $this->set('photos', $this->paginate());
+    $this->Photo->recursive = 1;
+    $photos = $this->Photo->findAllByUser_id((string)($this->Auth->user('id')));
+    $this->set('_serialize', $photos);
+    $this->render(SIMPLE_JSON);
   }
 
   public function view($id = null) {

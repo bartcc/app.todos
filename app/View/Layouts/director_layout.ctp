@@ -75,9 +75,9 @@
       User.ping();
       exports.App = new Main({el: $("body")});
       
-      Gallery.refresh(galleries, {clear: true});
-      Album.refresh(albums, {clear: true});
       Photo.refresh(photos, {clear: true});
+      Album.refresh(albums, {clear: true});
+      Gallery.refresh(galleries, {clear: true});
       
       Spine.Route.setup()
       App.navigate(route);

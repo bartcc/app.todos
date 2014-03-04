@@ -27,6 +27,7 @@ class Sidebar extends Spine.Controller
     'keyup input'               : 'filter'
     'click .optCreateAlbum'     : 'createAlbum'
     'click .optCreateGallery'   : 'createGallery'
+    'click .optRefresh'         : 'refreshAll'
     'dblclick .draghandle'      : 'toggleDraghandle'
 
     'dragstart  .items .item'        : 'dragstart'
@@ -46,7 +47,7 @@ class Sidebar extends Spine.Controller
       el: @items,
       template: @template
       
-    Gallery.one('refresh', @proxy @refresh)
+    Gallery.bind('refresh', @proxy @refresh)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Gallery.bind("ajaxSuccess", Gallery.successHandler)
     
@@ -63,25 +64,25 @@ class Sidebar extends Spine.Controller
     @query = @input.val();
     @render();
   
-  change: (item, mode) ->
-    return unless mode is ('' or 'delete')
-    @renderOne item, mode
-  
   refresh: ->
     console.log 'Sidebar::refresh'
     @render()
+    @list.renderAllSublist()
     
   render: ->
     console.log 'Sidebar::render'
 #    console.log @query
     items = Gallery.filter(@query, func: 'searchSelect')
     items = items.sort Gallery.nameSort
-#    sorted = Gallery.sortByName items
     @list.render items
       
-  renderOne: (item, mode) ->
-    console.log 'Sidebar::renderOne'
-    @list.render item, mode
+  refreshAll: (e) ->
+    Photo.fetch(null, clear:true)
+    Album.fetch(null, clear:true)
+    Gallery.fetch(null, clear:true)
+#    @list.exposeSelection()
+    e.preventDefault()
+    e.stopPropagation()
   
   dragStart: (e, controller) ->
     console.log 'Sidebar::dragStart'

@@ -51,6 +51,7 @@ Controller.Drag =
         event = e.originalEvent
         Spine.dragItem?.el.removeClass('dragged')
         Spine.trigger('drag:drop', e, data)
+        delete Spine.dragItem
         
     @include Include
 

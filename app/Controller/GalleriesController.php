@@ -12,7 +12,9 @@ class GalleriesController extends AppController {
 
   public function index() {
     $this->Gallery->recursive = 1;
-    $this->set('galleries', $this->paginate());
+    $galleries = $this->Gallery->findAllByUser_id((string) $this->Auth->user('id'));
+    $this->set('_serialize', $galleries);
+    $this->render(SIMPLE_JSON);
   }
 
   public function view($id = null) {

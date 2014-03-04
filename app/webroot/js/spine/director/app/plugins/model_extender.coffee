@@ -39,7 +39,7 @@ Model.Extender =
         return unless @isArray arr
         joinTables = @joinTables()
         for key in joinTables
-          Model[key].refresh(@createJoins arr, key)
+          Model[key].refresh(@createJoins(arr, key), clear: true)
         
       joinTables: ->
         fModels = @foreignModels()

@@ -60,21 +60,24 @@ class AlbumsView extends Spine.Controller
     Spine.bind('create:album', @proxy @createAlbum)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
     Album.bind('ajaxError', Album.errorHandler)
+    Album.bind('refresh', @proxy @refresh)
     Album.bind('create', @proxy @create)
     Album.bind('beforeDestroy', @proxy @beforeDestroy)
     Album.bind('destroy', @proxy @destroy)
+    Album.bind('create:join', @proxy @createJoin)
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     GalleriesAlbum.bind('destroy:join', @proxy @destroyJoin)
-    Album.bind('create:join', @proxy @createJoin)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
     
     Album.bind('sortupdate', @proxy @sortupdate)
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
-#    @bind('active', @proxy @active)
     
     $(@views).queue('fx')
+    
+  refresh: (records) ->
+    @change()
     
   updateBuffer: (gallery=Gallery.record) ->
     filterOptions =

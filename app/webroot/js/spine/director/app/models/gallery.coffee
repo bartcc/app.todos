@@ -2,12 +2,10 @@ Spine                 = require("spine")
 Spine                 = require("spine")
 $                     = Spine.$
 Model                 = Spine.Model
-#Album           = require('models/album')
 User                  = require('models/user')
 Photo                 = require('models/photo')
 GalleriesAlbum        = require('models/galleries_album')
 AlbumsPhoto           = require('models/albums_photo')
-
 Filter                = require("plugins/filter")
 AjaxRelations         = require("plugins/ajax_relations")
 Uri                   = require("plugins/uri")

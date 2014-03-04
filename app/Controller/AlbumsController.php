@@ -11,8 +11,10 @@ class AlbumsController extends AppController {
   }
 
   function index() {
-    $this->Album->recursive = 0;
-    $this->set('albums', $this->paginate());
+    $this->Album->recursive = 1;
+    $albums = $this->Album->findAllByUser_id((string)($this->Auth->user('id')));
+    $this->set('_serialize', $albums);
+    $this->render(SIMPLE_JSON);
   }
 
   function view($id = null) {

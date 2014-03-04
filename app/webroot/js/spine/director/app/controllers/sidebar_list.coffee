@@ -47,9 +47,11 @@ class SidebarList extends Spine.Controller
     super
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('destroy create update', @proxy @renderItemFromGalleriesAlbum)
+#    GalleriesAlbum.bind('refresh', @proxy @test)
+#    Gallery.bind('refresh', @proxy @test)
     Gallery.bind('change', @proxy @change)
 #    Album.bind('refresh destroy create update', @proxy @renderAllSublist)
-    Album.one('refresh', @proxy @renderAllSublist)
+#    Album.one('refresh', @proxy @renderAllSublist)
     Album.bind('update destroy', @proxy @renderSublists)
     Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
@@ -57,7 +59,10 @@ class SidebarList extends Spine.Controller
     Gallery.bind('activate', @proxy @activate)
     
   template: -> arguments[0]
-
+  
+  test: (r) ->
+    console.log r
+    
   change: (item, mode, e) =>
     console.log 'SidebarList::change'
     ctrlClick = @isCtrlClick(e?)
@@ -108,9 +113,9 @@ class SidebarList extends Spine.Controller
     
     @html @template items.sort(Gallery.nameSort)
     
-    if (!@current or @current.destroyed) and !(mode is 'update')
-      unless @children(".active").length
-        App.ready = true
+#    if (!@current or @current.destroyed) and !(mode is 'update')
+#      unless @children(".active").length
+#        App.ready = true
   
   reorder: (item) ->
     id = item.id
@@ -135,8 +140,9 @@ class SidebarList extends Spine.Controller
   renderAll: (items) ->
     @html @template items.sort(Gallery.nameSort)
 
-  renderAllSublist: (album) ->
+  renderAllSublist: (gas) ->
     console.log 'SidebarList::renderAllSublist'
+#    console.log Gallery.records
     for gal, index in Gallery.records
       @renderOneSublist gal
       
@@ -167,12 +173,15 @@ class SidebarList extends Spine.Controller
   
   updateTemplate: (item) ->
     galleryEl = @children().forItem(item)
+    active = item.id is Gallery.record.id
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryContentEl.tmplItem()
     tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
     try
       tmplItem.update()
     catch e
+    galleryEl.toggleClass('active', active)
+#    galleryEl.toggleClass('closed', !active)
     
   renderItemFromGalleriesAlbum: (ga) ->
     gallery = Gallery.exists(ga.gallery_id)
@@ -197,8 +206,8 @@ class SidebarList extends Spine.Controller
   
   exposeSelection: (item = Gallery.record) ->
     @children().removeClass('active')
-    @children().forItem(item).addClass("active") if item
-    @exposeSublistSelection()
+    @children().forItem(item).addClass("active") if item.id is Gallery.record.id
+    @exposeSublistSelection(item)
     
   exposeSublistSelection: (gallery = Gallery.record) ->
     console.log 'SidebarList::exposeSublistSelection'
@@ -239,11 +248,9 @@ class SidebarList extends Spine.Controller
     e.preventDefault()
     galleryEl = $(e.target).closest('li.gal')
     item = galleryEl.item()
-    @expand(item) if item
-    $(e.currentTarget).closest('.gal').addClass('active')
-    item = $(e.target).closest('.data').item()
-    
-    @navigate '/gallery', item?.id or ''
+    if item
+      @expand(item) 
+      @navigate '/gallery', item.id
     
   clickAlbum: (e) ->
     galleryEl = $(e.target).parents('.gal').addClass('active')

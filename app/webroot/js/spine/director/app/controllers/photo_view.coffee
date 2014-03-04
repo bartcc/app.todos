@@ -43,7 +43,7 @@ class PhotoView extends Spine.Controller
       template: @infoTemplate
     @viewport = @items
     
-    
+    Photo.bind('refresh', @proxy @refresh)
     Spine.bind('show:photo', @proxy @show)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     Photo.bind('destroy', @proxy @destroy)
@@ -51,11 +51,13 @@ class PhotoView extends Spine.Controller
     
   render: (item=Photo.record) ->
     return unless @isActive()
-    alert 'not active' unless @isActive()
     @items.html @template item
     @uri item
     @el
   
+  refresh: ->
+    @render()
+    
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('canvas', @)

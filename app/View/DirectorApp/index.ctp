@@ -35,6 +35,10 @@
         </div>
         <ul class="container items vbox flex autoflow"></ul>
         <footer class="footer">
+          <button class="optRefresh dark left">
+            <i class="glyphicon glyphicon-repeat" style="line-height: 1.5em;"></i>
+            <span></span>
+          </button>
           <button class="optCreateGallery dark">
             <i class="glyphicon glyphicon-plus"></i>
             <span>Gallery</span>
@@ -326,7 +330,7 @@
 </script>
 
 <script id="sidebarFlickrTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item parent" title="" draggable="true">
+  <li class="gal item parent" title="">
     <div class="item-header">
       <div class="expander"></div>
         <div class="item-content">
@@ -580,7 +584,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  class="item data container fade in sortable">
+  <li  class="item data container">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>
@@ -593,13 +597,13 @@
 </script>
 
 <script id="photoTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in">
+  <li class="item container">
     {{tmpl "#photoThumbnailTemplate"}}
   </li>
 </script>
 
 <script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left fade in" draggable="true"></div>
+  <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
@@ -608,7 +612,7 @@
 </script>
 
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left fade in" draggable="true"></div>
+  <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
@@ -617,7 +621,7 @@
 </script>
 
 <script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left" draggable="true"></div>
+  <div class="thumbnail image left"></div>
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">

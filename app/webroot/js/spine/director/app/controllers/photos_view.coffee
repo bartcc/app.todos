@@ -52,6 +52,7 @@ class PhotosView extends Spine.Controller
       info: @info
       parent: @
     @header.template = @headerTemplate
+    @viewport = @list.el
 #    AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)

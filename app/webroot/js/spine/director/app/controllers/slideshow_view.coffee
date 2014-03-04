@@ -30,6 +30,7 @@ class SlideshowView extends Spine.Controller
     @el.data
       current:
         className: 'Slideshow'
+    @viewport = @el
     @thumbSize = 240
     @modalSimpleView = new ModalSimpleView
       el: $('#modal-view')

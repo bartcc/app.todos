@@ -27,6 +27,7 @@ class ShowView extends Spine.Controller
   elements:
     '#views .views'           : 'views'
     '.contents'               : 'contents'
+    '.items'                  : 'lists'
     '.header .galleries'      : 'galleriesHeaderEl'
     '.header .albums'         : 'albumsHeaderEl'
     '.header .photos'         : 'photosHeaderEl'
@@ -176,16 +177,18 @@ class ShowView extends Spine.Controller
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader, @slideshowHeader)
     
-    # setup visibility of view stack
-    # switch to assigned start view
-    @canvasManager.change @galleriesView
-    @headerManager.change @galleriesHeader
-    @trigger('change:toolbarOne')
     @canvasManager.bind('change', @proxy @changeCanvas)
     @headerManager.bind('change', @proxy @changeHeader)
+    # setup visibility of view stack
+    # switch to assigned start view
+    @canvasManager.trigger('active', @galleriesView)
+    @headerManager.trigger('active', @galleriesHeader)
+    @trigger('change:toolbarOne')
     
   changeCanvas: (controller) ->
     controller.activated()
+#    @contents.removeClass('all')
+    $('.items', @el).removeClass('in')
     t = switch controller.type
       when "Gallery"
         true
@@ -199,11 +202,20 @@ class ShowView extends Spine.Controller
         else false
       else false
         
-    window.setTimeout( =>
+        
+    _1 = =>
       if t
         @contents.addClass('all')
       else
         @contents.removeClass('all')
+      _2()
+        
+    _2 = =>
+      controller.viewport.addClass('in')
+      
+      
+    window.setTimeout( =>
+      _1()
     , 200)
     
   changeHeader: (controller) ->
@@ -515,7 +527,6 @@ class ShowView extends Spine.Controller
         ->
       else
         Gallery.trigger('activate')
-        App.sidebar.list.closeAllSublists()
         
     @changeToolbarOne()
     @current.items.deselect()

@@ -170,13 +170,10 @@ class Main extends Spine.Controller
         @contentManager.change(@showView)
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)
-#        Photo.trigger('activate')
         Spine.trigger('show:photos')
       '/gallery/:gid': (params) ->
         @contentManager.change(@showView)
         Gallery.trigger('activate', params.gid)
-#        Album.trigger('activate', params.aid)
-#        Photo.trigger('activate')
         Spine.trigger('show:albums')
       '/galleries/*': ->
         @contentManager.change(@showView)

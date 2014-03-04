@@ -54,6 +54,7 @@ class AlbumsView extends Spine.Controller
       info: @info
       parent: @
     @header.template = @headerTemplate
+    @viewport = @list.el
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @createAlbum)

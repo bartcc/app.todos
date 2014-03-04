@@ -120,19 +120,19 @@ class AlbumsList extends Spine.Controller
         
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (items=Gallery.selectionList(), toggle) ->
+  activate: (items=Gallery.selectionList()) ->
     id = null
-    items = items or []
-    items = [items] unless Album.isArray items
+    unless Album.isArray items
+      unique = true
+      items = [items]
     
     id = items[0]
     for item in items
       if album = Album.exists item
-        album.addToSelection()
+        album.addToSelection(unique)
       
     if id
       App.sidebar.list.expand(Gallery.record, true)
-      App.sidebar.list.closeAllSublists(Gallery.record)
       
     Album.current(id)
     @exposeSelection()
@@ -217,7 +217,7 @@ class AlbumsList extends Spine.Controller
       else
         list = item.addRemoveSelection(exclusive)
       
-    Album.trigger('activate', list[0], true)
+    Album.trigger('activate', list, true)
     
   zoom: (e) ->
     item = $(e.currentTarget).item()

@@ -41,6 +41,7 @@ class PhotoView extends Spine.Controller
     @info = new Info
       el: @infoEl
       template: @infoTemplate
+    @viewport = @items
     
     
     Spine.bind('show:photo', @proxy @show)

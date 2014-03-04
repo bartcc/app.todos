@@ -63,19 +63,19 @@
             <div class="photo view"></div>
           </div>
           <div class="view galleries content vbox flex data parent autoflow" style="">
-            <div class="items">Galleries</div>
+            <div class="items fadein">Galleries</div>
           </div>
           <div class="view albums content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex">Albums</div>
+            <div class="container items flex fadein">Albums</div>
           </div>
           <div class="view photos content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
+            <div class="container items flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
           <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex">Photo</div>
+            <div class="container items flex fadein">Photo</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">
             <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
@@ -303,13 +303,13 @@
 </script>
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item data parent" title="" draggable="true">
+  <li class="gal item data parent closed" title="" draggable="true">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#sidebarContentTemplate"}}
     </div>
     <hr>
-    <ul class="sublist" style="display: none;"></ul>
+    <ul class="sublist" style=""></ul>
   </li>
 </script>
 
@@ -352,7 +352,7 @@
 </script>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in">
+  <li class="item container">
     <div class="ui-symbol ui-symbol-gallery center"></div>
     <div class="thumbnail" draggable="true">
       <div class="inner">
@@ -415,10 +415,10 @@
 </script>
 
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
-  <div style="font-size: 0.8em; font-style: oblique; ">Albums: ${aCount}</div>
+  <div style="">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique; ">Images: ${iCount}</div>
   {{if sCount}}
-  <div style="font-size: 0.8em; font-style: oblique; "><span class="label label-default">Slideshow Images: ${sCount}</span></div>
+  <div style=""><span class="label label-default">Slideshow Images: ${sCount}</span></div>
   <div style="font-size: 0.8em; font-style: oblique; ">(press space to play)</div>
   {{/if}}
 </script>
@@ -443,7 +443,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in sortable">
+  <li class="item container sortable">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
@@ -452,7 +452,7 @@
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
       <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right"></span>
     </div>
-    <div class="title">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
+    <div class="title center">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
   </li>
 </script>
 
@@ -476,7 +476,7 @@
 </script>
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader fadeelement" style="padding-top: 15px; height: 78px;">
+  <section class="top viewheader fadeelement">
     <h2>Gallery Overview</h2><span class="active cta right"><h2>Total: ${count}</h2></span>
   </section>
 </script>
@@ -522,7 +522,7 @@
   {{else}}
   <li class="sublist-item alb item data" draggable="true" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close ui-symbol-album"></span>
-    <span class="title">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
+    <span class="title center">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
   {{/if}}
@@ -582,7 +582,7 @@
 <script id="photosTemplate" type="text/x-jquery-tmpl">
   <li  class="item data container fade in sortable">
     {{tmpl "#photosThumbnailTemplate"}}
-    <div class="title hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
+    <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>
 </script>
 
@@ -613,7 +613,7 @@
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
   </div>
-  <div class="title hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
+  <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
 </script>
 
 <script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">

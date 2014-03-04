@@ -177,7 +177,7 @@ Model.Extender =
         selectionList.splice(index, 1) for id, index in list
         selectionList
       
-      updateSelection: (list) ->
+      updateSelection: (list=@id) ->
         modelName = @constructor['parent']
         list = [list] unless @constructor.isArray list
         list = Model[modelName].updateSelection list

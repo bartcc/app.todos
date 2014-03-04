@@ -216,7 +216,6 @@ class PhotosList extends Spine.Controller
           
     if id
       App.sidebar.list.expand(Gallery.record, true)
-      App.sidebar.list.closeAllSublists(Gallery.record)
       
     Photo.current(id)
     @exposeSelection()

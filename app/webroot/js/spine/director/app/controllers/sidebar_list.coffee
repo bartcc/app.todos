@@ -230,26 +230,9 @@ class SidebarList extends Spine.Controller
     
   activate: (idOrRecord) ->
     Gallery.current(idOrRecord)
-    Album.trigger('activate', Gallery.selectionList()[0])
+    Album.trigger('activate', Gallery.selectionList())
     @exposeSelection()
 
-  clickAlbum: (e) ->
-    galleryEl = $(e.target).parents('.gal').addClass('active')
-    albumEl = $(e.currentTarget)
-    galleryEl = $(e.currentTarget).closest('.gal')
-    
-    album = albumEl.item()
-    gallery = galleryEl.item()
-    
-    Gallery.updateSelection [album.id]
-    
-    @navigate '/gallery', gallery.id + '/' + album.id
-    
-    Gallery.trigger('activate', gallery)
-    
-    e.stopPropagation()
-    e.preventDefault()
-    
   clickGallery: (e) ->
     console.log 'SidebarList::clickGallery'
     e.stopPropagation()
@@ -262,7 +245,18 @@ class SidebarList extends Spine.Controller
     
     @navigate '/gallery', item?.id or ''
     
-#    @closeAllSublists(Gallery.record)
+  clickAlbum: (e) ->
+    galleryEl = $(e.target).parents('.gal').addClass('active')
+    albumEl = $(e.currentTarget)
+    galleryEl = $(e.currentTarget).closest('.gal')
+    
+    album = albumEl.item()
+    gallery = galleryEl.item()
+    
+    @navigate '/gallery', gallery.id + '/' + album.id
+    
+    e.stopPropagation()
+    e.preventDefault()
     
   clickExpander: (e) ->
     console.log 'expander'
@@ -283,25 +277,19 @@ class SidebarList extends Spine.Controller
     if force
       @openSublist(galleryEl)
     else
-      isOpen = expander.hasClass('open')
+      isClosed = galleryEl.hasClass('closed')
       isActive = galleryEl.hasClass('active')
 
-      if isOpen
+      unless isClosed
         @closeSublist(galleryEl) if isActive or targetIsExpander
       else
         @openSublist(galleryEl)
         
   openSublist: (el) ->
-    expander = $('.expander', el)
-    sublist = $('.sublist', el)
-    expander.addClass('open')
-    sublist.show()
+    el.removeClass('closed')
     
   closeSublist: (el) ->
-    expander = $('.expander', el)
-    sublist = $('.sublist', el)
-    expander.removeClass('open')
-    sublist.hide()
+    el.addClass('closed')
       
   galleryFromItem: (item) ->
     @children().forItem(item)

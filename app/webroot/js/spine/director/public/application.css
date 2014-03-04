@@ -546,6 +546,9 @@ footer {
 footer.footer {
   margin: 0;
 }
+.center {
+  text-align: center;
+}
 .autoflow {
   overflow: auto;
 }
@@ -930,11 +933,14 @@ textarea {
 .canvas .bg-dark {
   background-color: #666;
 }
-#content .container.fade.in.sortable.active {
-  outline: 2px solid #39f;
+.header .view .top {
+  padding: 15px;
 }
 #sidebar {
   width: 300px;
+}
+.sidebar .gal.closed {
+  height: 60px;
 }
 #sidebar ul {
   margin: 0;
@@ -972,8 +978,6 @@ textarea {
 }
 #sidebar .active .alb.item .cta {
   border: 1px solid #575757;
-  position: absolute;
-  top: 3px;
 }
 #sidebar .alb.item .cta {
   -moz-border-radius: 20px;
@@ -981,6 +985,7 @@ textarea {
   border-radius: 20px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.20) inset;
   border: 1px solid #979797;
+  position: absolute;
 }
 #sidebar .item .gal.cta {
   border: 1px solid #575757;
@@ -1196,10 +1201,10 @@ textarea {
   margin: 0 10px;
   cursor: pointer;
 }
-#sidebar .expander {
+#sidebar .closed .expander {
   background: url("img/arrow.png") no-repeat 0 0;
 }
-#sidebar .expander.open {
+#sidebar .expander {
   background: url("img/arrow.png") no-repeat 0 -23px;
 }
 .toolbar .tb-name > tb-options {
@@ -1334,9 +1339,6 @@ label.btn.active {
 #content .content .item {
   outline: #121212;
 }
-.galleries .thumbnail {
-  background-position: 0 -160px;
-}
 li .thumbnail.image {
   position: relative;
   background-position: center center;
@@ -1353,15 +1355,20 @@ li .thumbnail.image {
   color: rgba(200,200,200,0.50);
   line-height: 1.2em;
   border-radius: 0;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.50);
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.50);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.50);
 }
 .galleries .items .thumbnail {
   width: 160px;
   height: 160px;
 }
 .galleries .items .thumbnail {
-  color: rgba(0,0,0,0.70);
+  color: rgba(255,255,255,0.90);
   line-height: 2em;
-  text-shadow: 0 1px 0.1px rgba(255,255,255,0.30);
+  text-shadow: 0 1px 0.1px rgba(0,0,0,0.90);
 }
 .galleries .items .thumbnail .inner {
   margin: 20px 5px 0 0;
@@ -1380,17 +1387,9 @@ li .thumbnail.image {
   width: 70px;
   height: 70px;
 }
-.galleries .thumbnail {
-  background: rgba(255,255,255,0.15);
-}
 .thumbnail.image {
   background: url("img/photo-loader.gif") no-repeat center center;
   border: 1px solid #575757;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.50);
-  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.50);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.50);
 }
 .photo .thumbnail.image {
   height: 240px;
@@ -1404,10 +1403,6 @@ li .thumbnail.image {
   text-shadow: 0 -1px 0 rgba(0,0,0,0.70);
   font-family: Verdana, sans-serif;
 }
-#content .content .item.active {
-  margin-bottom: 5px;
-  border: 1px solid inset rgba(255,255,255,0.50);
-}
 #content .content .item:not(.active) span.close {
   display: none;
 }
@@ -1417,9 +1412,12 @@ li .thumbnail.image {
   top: -20px;
   right: -14px;
 }
+#content .content .item.active {
+  margin-bottom: 5px;
+  outline: 1px solid #39f;
+}
 #content .content .item.active.hot {
   background-color: rgba(55,128,255,0.80);
-/*  border: thin inset #C8C8C8;*/
 }
 #content .content .item.active {
   background-color: rgba(55,128,255,0.20);
@@ -1453,6 +1451,14 @@ li .thumbnail.image {
   -ms-transition: opacity 0.1s linear;
   -o-transition: opacity 0.1s linear;
   transition: opacity 0.1s linear;
+}
+.inslow {
+  opacity: 1;
+  -webkit-transition: opacity 0.8s linear;
+  -moz-transition: opacity 0.8s linear;
+  -ms-transition: opacity 0.8s linear;
+  -o-transition: opacity 0.8s linear;
+  transition: opacity 0.8s linear;
 }
 #content .content .item.active ul {
   display: inherit;
@@ -1565,20 +1571,42 @@ li .thumbnail.image {
   position: absolute;
   z-index: 1;
 }
-.contents .view {
-  background: transparent;
+.fadein.in {
+  opacity: 1;
+  transition: all 0.7s ease 0s;
+}
+.fadein {
+  opacity: 0;
 }
 .fadeelement {
   transition: background 0.5s linear 0s;
 }
-.all .view.content.items.active {
+.all .view.active {
   background: none repeat scroll 0 0 rgba(192,152,83,0.50);
 }
+.all .header .fadeelement {
+  background: rgba(192,152,83,0.70);
+}
+/*.all .galleries .fadeelement {
+  background: none repeat scroll 0 0 rgba(225, 205, 202, 0.5);
+}
+.all .galleries.view.active {
+  background: none repeat scroll 0 0 rgba(141, 90, 102, 0.5);
+  transition: all 0.5s linear 0s;
+}*/
 .all .fadeelement {
   background: -webkit-gradient(linear, left top, left bottom, from(#c09853), to(#c09853));
   background: -moz-linear-gradient(center top, #c09853, #c09853);
   background: linear-gradient(center top, #c09853, #c09853);
-  background: #c09853;
+  background: rgba(192,152,83,0.70);
+}
+.all .view .thumbnail {
+  border: 10px solid rgba(192,152,83,0.80);
+  background-color: rgba(250,250,250,0.10);
+  transition: border 0.5s linear 0s;
+}
+.galleries .thumbnail {
+  background-position: 0 -160px;
 }
 #content .hoverinfo li {
   color: rgba(255,255,255,0.80);
@@ -1640,12 +1668,6 @@ label {
 li.active button.dark {
   color: #0bc;
   text-shadow: 1px 0 10px rgba(0,224,255,0.80), 1px 0 10px rgba(0,224,255,0.20), -1px -1px 0 #000;
-}
-.all .thumbnail {
-  border-color: #c09853;
-  border-width: 10px;
-  border-style: solid;
-  transition: all 0.5s linear 0s;
 }
 button.chromeless,
 button.chromeless:hover {

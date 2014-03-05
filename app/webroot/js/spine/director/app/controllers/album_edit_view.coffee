@@ -26,8 +26,9 @@ class AlbumEditView extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @changeFromGalleriesAlbum)
 
   change: (item, mode) ->
-    @current = null
-    @render() if item.destroyed
+    if item.destroyed
+      @current = null
+      @render() 
   
   changeFromGalleriesAlbum: (ga, mode) ->
     switch mode

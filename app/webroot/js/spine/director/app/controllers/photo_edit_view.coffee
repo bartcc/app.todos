@@ -1,6 +1,7 @@
 Spine       = require("spine")
-KeyEnhancer = require("plugins/key_enhancer")
 $           = Spine.$
+KeyEnhancer = require("plugins/key_enhancer")
+AlbumsPhoto  = require('models/albums_photo')
 
 class PhotoEditView extends Spine.Controller
 
@@ -19,18 +20,32 @@ class PhotoEditView extends Spine.Controller
   
   constructor: ->
     super
-    Spine.bind('change:selectedPhoto', @proxy @change)
-    Spine.bind('change:selectedAlbum', @proxy @change)
-    Spine.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedPhoto', @proxy @changeSelection)
+    Spine.bind('change:selectedAlbum', @proxy @changeSelection)
+    Spine.bind('change:selectedGallery', @proxy @changeSelection)
+    Photo.bind('change', @proxy @change)
+    AlbumsPhoto.bind('change', @proxy @changeFromAlbumsPhoto)
   
-  change: ->
-    first = Album.selectionList()[0] if Album.selectionList().length
+  change: (item, mode) ->
+    if item.destroyed
+      @current = null
+      @render() 
+  
+  changeFromAlbumsPhoto: (ap, mode) ->
+    switch mode
+      when 'destroy'
+        item = Photo.exists ap.photo_id
+        @current = null
+        @render()
+  
+  changeSelection: (item, changed) ->
+    return unless changed
     @current = Photo.record
     @render()
   
-  render: () ->
-    if @current
-      @item.html @template @current
+  render: (item=@current) ->
+    if item and !item.destroyed 
+      @item.html @template item
     else
       info = ''
       info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()

@@ -54,9 +54,6 @@ class PhotosView extends Spine.Controller
     @header.template = @headerTemplate
     @viewport = @list.el
 #    AlbumsPhoto.bind('destroy', @proxy @remove)
-    AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
-    AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
-    AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
     Gallery.bind('create update destroy', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
     Photo.bind('refresh', @proxy @change)
@@ -66,6 +63,9 @@ class PhotosView extends Spine.Controller
     Photo.bind('create:join', @proxy @createJoin)
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
+    AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
+    AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
+    AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)

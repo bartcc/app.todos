@@ -307,7 +307,7 @@
 </script>
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item data parent closed" title="" draggable="true">
+  <li class="gal item data parent" title="" draggable="true">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#sidebarContentTemplate"}}
@@ -324,7 +324,6 @@
     {{else}}
     <span class="name empty">no name</span>
     {{/if}}
-<!--    <span class="author info">{{if author}} by ${author}{{else}}(no author){{/if}}</span>-->
     <span class="gal cta">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
   </div>
 </script>
@@ -338,7 +337,7 @@
         </div>
     </div>
     <hr>
-    <ul class="sublist" style="display: none;">
+    <ul class="sublist" style="">
       {{tmpl($item.data.sub) "#sidebarFlickrSublistTemplate"}}
     </ul>
   </li>
@@ -629,7 +628,6 @@
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
-<!--    <div class="alert alert-error"><h4 class="alert-heading">Note</h4>Drag your selected photos on to an album in the sidebar to become part of it. Wait to reveal its albums, if necessary.</div>-->
     <h2>Master Photos
       <span class="active cta right"><h2>Total: {{if count}}${count}{{else}}0{{/if}}</h2></span>
     </h2>
@@ -662,7 +660,6 @@
     {{if album}}
       {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
     {{else}}
-<!--    <div class="alert alert-error"><h4 class="alert-heading">Note</h4>Drag your selected photos on to an album in the sidebar to become part of it. Wait to reveal its albums, if necessary.</div>-->
       <h2>Master Photo</h2>
     {{/if}}
   </section>

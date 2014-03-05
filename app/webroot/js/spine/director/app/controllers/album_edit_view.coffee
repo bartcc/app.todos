@@ -1,6 +1,7 @@
-Spine       = require("spine")
-KeyEnhancer = require("plugins/key_enhancer")
-$     = Spine.$
+Spine           = require("spine")
+$               = Spine.$
+KeyEnhancer     = require("plugins/key_enhancer")
+GalleriesAlbum  = require('models/galleries_album')
 
 class AlbumEditView extends Spine.Controller
   
@@ -19,19 +20,30 @@ class AlbumEditView extends Spine.Controller
 
   constructor: ->
     super
-    Spine.bind('change:selectedAlbum', @proxy @change)
-    Spine.bind('change:selectedGallery', @proxy @change)
+    Spine.bind('change:selectedAlbum', @proxy @changeSelection)
+    Spine.bind('change:selectedGallery', @proxy @changeSelection)
+    Album.bind('change', @proxy @change)
+    GalleriesAlbum.bind('change', @proxy @changeFromGalleriesAlbum)
 
-
-  change: (item, changed) ->
-    console.log 'AlbumEditView::change'
+  change: (item, mode) ->
+    @current = null
+    @render() if item.destroyed
+  
+  changeFromGalleriesAlbum: (ga, mode) ->
+    switch mode
+      when 'destroy'
+        item = Album.exists ga.albums_id
+        @current = null
+        @render()
+  
+  changeSelection: (item, changed) ->
     return unless changed
     @current = Album.record
     @render()
 
-  render: (item = Album.record) ->
+  render: (item=@current) ->
     console.log 'AlbumEditView::render'
-    if item
+    if item and !item.destroyed 
       @item.html @template item
     else
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select or create an album</span></label>'})
@@ -42,7 +54,7 @@ class AlbumEditView extends Spine.Controller
     console.log 'AlbumEditView::save'
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
-      @current.updateChangedAttributes(atts)
+      @current.updateAttributes(atts)
 
   saveOnKeyup: (e) =>
     code = e.charCode or e.keyCode

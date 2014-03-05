@@ -42,7 +42,7 @@ class PhotoEditView extends Spine.Controller
     console.log 'PhotoEditView::save'
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
-      @current.updateChangedAttributes(atts)
+      @current.updateAttributes(atts)
  
   saveOnKeyup: (e) =>
     code = e.charCode or e.keyCode

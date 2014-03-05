@@ -245,6 +245,7 @@ class AlbumsList extends Spine.Controller
     
     window.setTimeout( =>
       Spine.trigger('destroy:album', [item.id])
+      Gallery.removeFromSelection item.id
       @stopInfo()
     , 200)
     

@@ -58,6 +58,7 @@ class PhotosList extends Spine.Controller
     
     if Album.record
       if items.length
+        @wipe()
         @[mode] @template items
         @uri items, mode
       else
@@ -104,7 +105,6 @@ class PhotosList extends Spine.Controller
     active = elements.el.hasClass('active')
     hot = elements.el.hasClass('hot')
     photoEl = elements.el.tmplItem()
-#    photoEl.tmpl = $( "#photosTemplate" ).template()
     photoEl.data = item
     try
       photoEl.update()
@@ -190,7 +190,6 @@ class PhotosList extends Spine.Controller
           'rel'                   : 'gallery'
         $('.play', el).append a
         
-#    App.showView.slideshowView.play() if App.showView.slideshowView.autoplay
     
   #  ****** END ***** 
   
@@ -205,7 +204,7 @@ class PhotosList extends Spine.Controller
         if Photo.record.id is photo.id
           el.addClass("hot")
         
-    Spine.trigger('expose:sublistSelection', Gallery.record)
+#    Spine.trigger('expose:sublistSelection', Gallery.record)
   
   activate: (items=Album.selectionList(), toggle) ->
     id = null

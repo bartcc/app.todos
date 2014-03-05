@@ -334,6 +334,7 @@ class Toolbar extends Spine.Model
           name: -> 'Start'
           icon: 'play'
           klass: 'optSlideshowPlay'
+          innerklass: 'symbol'
           dataToggle: 'modal-gallery'
           disabled: -> !Gallery.activePhotos().length
         ]
@@ -392,6 +393,7 @@ class Toolbar extends Spine.Model
         ,
           name: 'Start'
           klass: 'optSlideshowPlay'
+          innerklass: 'symbol'
           icon: 'play'
           iconcolor: ''
           disabled: -> !Gallery.activePhotos().length
@@ -402,9 +404,9 @@ class Toolbar extends Spine.Model
         [
           name: ->
             details = App.flickrView.details('recent')
-            console.log details
             'Recent Photos (' + details.from + '-' + details.to + ')'
           klass: 'opt'
+          innerklass: 'symbol'
           icon: 'picture'
           type: 'span'
         ,

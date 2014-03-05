@@ -24,6 +24,7 @@ class SidebarFlickr extends Spine.Controller
     @render()
 
   render: ->
+    console.log 'SidebarFlickr::render'
     items = 
       name: 'Flickr'
       sub: [
@@ -39,42 +40,22 @@ class SidebarFlickr extends Spine.Controller
     @html @template(items)
 
   expand: (e) ->
+    console.log 'main clicked'
     parent = $(e.target).parents('li')
-    icon = $('.expander', parent)
-    content = $('.sublist', parent)
-
-    icon.toggleClass('open')
-      
-    if content.is(':visible') then content.hide() else content.show()
+    parent.toggleClass('open')
 
     e.stopPropagation()
     e.preventDefault()
-    
-  renderSublist: (gallery = Gallery.record) ->
-    console.log 'SidebarList::renderOneSublist'
-    return unless gallery
-    filterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
-      sorted: true
-    albums = Album.filterRelated(gallery.id, filterOptions)
-    for album in albums
-      album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
-    albums.push {flash: ' '} unless albums.length
-    
-    galleryEl = @children().forItem(gallery)
-    gallerySublist = $('ul', galleryEl)
-    gallerySublist.html @sublistTemplate(albums)
-    
-    @updateTemplate gallery
 
   navRecent: (e) ->
+    console.log 'flickr recent clicked'
     @navigate '/flickr', 'recent/1'
     
     e.stopPropagation()
     e.preventDefault()
 
   navInter: (e) ->
+    console.log 'flickr interesting clicked'
     @navigate '/flickr', 'inter/1'
     
     e.stopPropagation()

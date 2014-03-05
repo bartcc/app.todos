@@ -136,15 +136,9 @@ class FlickrView extends Spine.Controller
     delete @spec[type].photo
 
   recent: (page) ->
-    console.log 'FlickrView::recent'
-    expander = App.sidebarFlickr.expander
-    expander.click() unless expander.hasClass('open')
     @setup('recent', page)
     
   interestingness: (page) ->
-    console.log 'FlickrView::interestingness'
-    expander = App.sidebarFlickr.expander
-    expander.click() unless expander.hasClass('open')
     @setup('inter', page)
     
 

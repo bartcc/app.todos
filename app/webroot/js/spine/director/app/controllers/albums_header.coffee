@@ -14,10 +14,11 @@ class AlbumsHeader extends Spine.Controller
     
   constructor: ->
     super
+    Gallery.bind('change', @proxy @render)
     Gallery.bind('change:selection', @proxy @moveMenu)
+    Album.bind('refresh', @proxy @render)
     Album.bind('change', @proxy @render)
     GalleriesAlbum.bind('change', @proxy @render)
-    Gallery.bind('refresh change', @proxy @render)
 
   render: ->
     return unless @isActive()

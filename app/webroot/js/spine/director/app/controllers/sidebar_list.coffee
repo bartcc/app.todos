@@ -4,11 +4,9 @@ Album           = require('models/album')
 Gallery         = require('models/gallery')
 AlbumsPhoto     = require('models/albums_photo')
 GalleriesAlbum  = require('models/galleries_album')
-
 Drag            = require("plugins/drag")
 KeyEnhancer     = require("plugins/key_enhancer")
 Extender        = require('plugins/controller_extender')
-
 require("plugins/tmpl")
 
 class SidebarList extends Spine.Controller
@@ -22,7 +20,6 @@ class SidebarList extends Spine.Controller
     '.expander'               : 'expander'
 
   events:
-    'click'                           : 'show'
     "click      .gal.item"            : 'clickGallery'
     "click      .alb.item"            : 'clickAlbum'
     "click      .expander"            : 'clickExpander'
@@ -46,9 +43,7 @@ class SidebarList extends Spine.Controller
   constructor: ->
     super
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
-    GalleriesAlbum.bind('destroy create update', @proxy @renderItemFromGalleriesAlbum)
-#    GalleriesAlbum.bind('refresh', @proxy @test)
-#    Gallery.bind('refresh', @proxy @test)
+    GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
 #    Album.bind('refresh destroy create update', @proxy @renderAllSublist)
 #    Album.one('refresh', @proxy @renderAllSublist)
@@ -60,40 +55,21 @@ class SidebarList extends Spine.Controller
     
   template: -> arguments[0]
   
-  test: (r) ->
-    console.log r
-    
   change: (item, mode, e) =>
     console.log 'SidebarList::change'
-    ctrlClick = @isCtrlClick(e?)
     
-    unless ctrlClick
-      switch mode
-        when 'create'
-          @current = item
-          @create item
-        when 'update'
-          @current = item
-          @update item
-        when 'destroy'
-          @current = false
-          @destroy item
-        when 'edit'
-          Spine.trigger('edit:gallery')
-        when 'show'
-          @current = item
-          @navigate '/gallery/' + Gallery.record?.id
-        when 'photo'
-          @current = item
+    switch mode
+      when 'create'
+        @current = item
+        @create item
+      when 'update'
+        @current = item
+        @update item
+      when 'destroy'
+        @current = false
+        @destroy item
           
-    else
-      @current = false
-      switch mode
-        when 'show'
-          @navigate '/gallery/' + Gallery.record?.id + '/' + Album.record?.id
-          
-    
-    @activate(@current) if @current
+    @activate(@current)
         
   create: (item) ->
     @append @template item
@@ -106,17 +82,19 @@ class SidebarList extends Spine.Controller
   destroy: (item) ->
     @children().forItem(item, true).remove()
   
-  checkChange: (item, mode) ->
-  
   render: (items, mode) ->
     console.log 'SidebarList::render'
+    @children().addClass('invalid')
+    for item in items
+      galleryEl = @children().forItem(item)
+      unless galleryEl.length
+        @append @template item
+        @reorder item
+      else
+        @updateTemplate(item).removeClass('invalid')
+      @renderOneSublist item
+    @children('.invalid').remove()
     
-    @html @template items.sort(Gallery.nameSort)
-    
-#    if (!@current or @current.destroyed) and !(mode is 'update')
-#      unless @children(".active").length
-#        App.ready = true
-  
   reorder: (item) ->
     id = item.id
     index = (id, list) ->
@@ -134,15 +112,8 @@ class SidebarList extends Spine.Controller
     else if idxBeforeSort > idxAfterSort
       newEl.before oldEl
     
-  renderOne: (item, mode) ->
-    console.log 'SidebarList::renderOne'
-  
-  renderAll: (items) ->
-    @html @template items.sort(Gallery.nameSort)
-
-  renderAllSublist: (gas) ->
+  renderAllSublist: ->
     console.log 'SidebarList::renderAllSublist'
-#    console.log Gallery.records
     for gal, index in Gallery.records
       @renderOneSublist gal
       
@@ -162,43 +133,29 @@ class SidebarList extends Spine.Controller
     for album in albums
       album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
     albums.push {flash: ' '} unless albums.length
-    
     galleryEl = @children().forItem(gallery)
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
     
-    
-    @updateTemplate gallery
     @exposeSublistSelection gallery
   
   updateTemplate: (item) ->
+    console.log 'SidebarList::updateTemplate'
     galleryEl = @children().forItem(item)
-    active = item.id is Gallery.record.id
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryContentEl.tmplItem()
     tmplItem.tmpl = $( "#sidebarContentTemplate" ).template()
     try
       tmplItem.update()
     catch e
-    galleryEl.toggleClass('active', active)
-#    galleryEl.toggleClass('closed', !active)
+    galleryEl
     
-  renderItemFromGalleriesAlbum: (ga) ->
+  renderItemFromGalleriesAlbum: (ga, mode) ->
     gallery = Gallery.exists(ga.gallery_id)
+    @updateTemplate gallery
     @renderOneSublist gallery if gallery
     
-  renderItemFromPhoto: (photo) ->
-    for photo in photos
-      albums = AlbumsPhoto.albums(photo)
-      for album in albums
-        Photo.triggerdestroyJoin photo, album
-  
-  renderItemFromAlbum: (album) ->
-    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
-    for ga in gas
-      @renderItemFromGalleriesAlbum ga
-      
-  renderItemFromAlbumsPhoto: (ap) ->
+  renderItemFromAlbumsPhoto: (ap, mode) ->
     console.log 'SidebarList::renderItemFromAlbumsPhoto'
     gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
     for ga in gas
@@ -266,7 +223,6 @@ class SidebarList extends Spine.Controller
     e.preventDefault()
     
   clickExpander: (e) ->
-    console.log 'expander'
     galleryEl = $(e.target).closest('li.gal')
     item = galleryEl.item()
     @expand(item, false, e) if item
@@ -284,25 +240,24 @@ class SidebarList extends Spine.Controller
     if force
       @openSublist(galleryEl)
     else
-      isClosed = galleryEl.hasClass('closed')
-      isActive = galleryEl.hasClass('active')
+      open = galleryEl.hasClass('open')
+      active = galleryEl.hasClass('active')
 
-      unless isClosed
-        @closeSublist(galleryEl) if isActive or targetIsExpander
+      if open
+        @closeSublist(galleryEl) if active or targetIsExpander
       else
         @openSublist(galleryEl)
         
   openSublist: (el) ->
-    el.removeClass('closed')
+    el.addClass('open')
     
   closeSublist: (el) ->
-    el.addClass('closed')
+    el.removeClass('open')
       
   galleryFromItem: (item) ->
     @children().forItem(item)
     
   expandAfterTimeout: (e, timer) ->
-    console.log timer
     clearTimeout timer
     galleryEl = $(e.target).closest('.gal.item')
     item = galleryEl.item()

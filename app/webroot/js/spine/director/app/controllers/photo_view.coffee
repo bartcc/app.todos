@@ -43,7 +43,7 @@ class PhotoView extends Spine.Controller
       template: @infoTemplate
     @viewport = @items
     
-    Photo.bind('refresh', @proxy @refresh)
+    Photo.one('refresh', @proxy @refresh)
     Spine.bind('show:photo', @proxy @show)
     AlbumsPhoto.bind('destroy', @proxy @remove)
     Photo.bind('destroy', @proxy @destroy)

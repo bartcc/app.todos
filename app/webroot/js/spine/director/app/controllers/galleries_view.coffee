@@ -32,8 +32,8 @@ class GalleriesView extends Spine.Controller
       parent: @
     @header.template = @headerTemplate
     @viewport = @list.el
-    Gallery.bind('refreshOnEmpty', @proxy @render)
     Gallery.bind('refresh', @proxy @render)
+    Gallery.bind('refreshOnEmpty', @proxy @render)
     Spine.bind('show:galleries', @proxy @show)
 
   render: ->

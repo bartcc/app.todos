@@ -96,10 +96,8 @@ class GalleriesList extends Spine.Controller
     if item
       el = @children().forItem(item, true)
       el.addClass("active hot")
-      App.sidebar.list.expand(Gallery.record, true)
       
     App.showView.trigger('change:toolbarOne')
-#    Spine.trigger('gallery:exposeSelection')
         
   select: (item) =>
     Gallery.trigger('activate', item)

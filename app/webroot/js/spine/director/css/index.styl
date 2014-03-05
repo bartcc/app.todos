@@ -183,6 +183,9 @@ li hr {
 }
 .content, #views .views .view {
 }
+.symbol i {
+  margin-right: 10px;
+}
 .items {
   height: 0;
 }
@@ -351,11 +354,12 @@ label input[type="text"] {
   box-sizing: border-box;*/
 }
 .all .view .enlightened {
-  color: rgb(201, 154, 83);
+  color: rgb(50, 50, 40);
+  text-shadow: 0 1px 0 rgba(200, 200, 200, 0.8);
 }
 .view .enlightened {
-  color: rgba(250, 250, 250, 0.5);
-  text-shadow: 0px 1px 0 rgba(0, 0, 0, 0.80);
+  color: rgba(200, 200, 200, 0.5);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
 }
 .view label span {
   cursor: auto;
@@ -487,7 +491,7 @@ textarea {
 #sidebar {
   width: 300px;
 }
-.sidebar .gal.closed {
+.sidebar li.gal:not(.open) {
   height: 60px;
 }
 #sidebar ul {
@@ -758,10 +762,10 @@ textarea {
   margin: 0 10px;
   cursor: pointer
 }
-#sidebar .closed .expander {
+#sidebar .expander {
   background: url('img/arrow.png') no-repeat 0 0
 }
-#sidebar .expander {
+#sidebar .open .expander {
   background: url('img/arrow.png') no-repeat 0 -23px
 }
 .toolbar .tb-name > tb-options {

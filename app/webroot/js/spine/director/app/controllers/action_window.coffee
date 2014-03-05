@@ -85,7 +85,6 @@ class ActionWindow extends Spine.Controller
     --@curPage
   
   click: (e) ->
-    console.log 'click'
     e.stopPropagation()
     e.preventDefault()
     

@@ -47,7 +47,7 @@ class Sidebar extends Spine.Controller
       el: @items,
       template: @template
       
-    Gallery.bind('refresh', @proxy @refresh)
+    Gallery.one('refresh', @proxy @refresh)
     Gallery.bind("ajaxError", Gallery.errorHandler)
     Gallery.bind("ajaxSuccess", Gallery.successHandler)
     
@@ -64,23 +64,21 @@ class Sidebar extends Spine.Controller
     @query = @input.val();
     @render();
   
-  refresh: ->
+  refresh: (items) ->
     console.log 'Sidebar::refresh'
     @render()
-    @list.renderAllSublist()
     
   render: ->
     console.log 'Sidebar::render'
-#    console.log @query
     items = Gallery.filter(@query, func: 'searchSelect')
     items = items.sort Gallery.nameSort
     @list.render items
       
   refreshAll: (e) ->
+    Gallery.one('refresh', @proxy @refresh)
     Photo.fetch(null, clear:true)
     Album.fetch(null, clear:true)
     Gallery.fetch(null, clear:true)
-#    @list.exposeSelection()
     e.preventDefault()
     e.stopPropagation()
   

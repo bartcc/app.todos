@@ -525,7 +525,7 @@
   {{else}}
   <li class="sublist-item alb item data" draggable="true" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close ui-symbol-album"></span>
-    <span class="title center">{{if title}}{{html title}}{{else}}no title{{/if}}</span>
+    <span class="title center">{{if title}}{{html title.substring(0, 45)}}{{else}}no title{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
   {{/if}}

@@ -8,17 +8,17 @@ Controller.Extender =
     
     Extend = 
     
-      createImage: (url) ->
-        img = new Image()
-        img.src = url
-        img
-
       empty: ->
         console.log 'empty'
         @constructor.apply @, arguments
     
     
     Include = 
+    
+      createImage: (url) ->
+        img = new Image()
+        img.src = url
+        img
   
       focusFirstInput: (el) ->
         return unless el

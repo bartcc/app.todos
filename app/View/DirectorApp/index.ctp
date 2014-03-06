@@ -367,7 +367,7 @@
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
       <span class="zoom glyphicon glyphicon-eye-open glyphicon-white right"></span>
     </div>
-    <div class="title">{{if name}}{{html name}}{{else}}no name{{/if}}</div>
+    <div class="title">{{if name}}{{html name.substring(0, 15)}}{{else}}...{{/if}}</div>
   </li>
 </script>
 

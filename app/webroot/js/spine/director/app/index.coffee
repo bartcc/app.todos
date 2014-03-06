@@ -25,6 +25,7 @@ UploadEditView          = require("controllers/upload_edit_view")
 GalleryEditView         = require("controllers/gallery_edit_view")
 GalleryEditorView       = require("controllers/gallery_editor_view")
 FlickrView              = require("controllers/flickr_view")
+Extender                = require('plugins/controller_extender')
 
 require("plugins/manager")
 require('spine/lib/route')
@@ -33,6 +34,7 @@ require('spine/lib/manager')
 class Main extends Spine.Controller
   
   @extend Drag
+  @extend Extender
   
   # Note:
   # this is how to change a toolbar:
@@ -72,10 +74,10 @@ class Main extends Spine.Controller
     super
     
 #    @ready = false
-#    @ALBUM_SINGLE_MOVE = @constructor.createImage('/img/dragndrop/album_single_move.png')
-#    @ALBUM_SINGLE_COPY = @constructor.createImage('/img/dragndrop/album_single_copy.png')
-#    @ALBUM_DOUBLE_MOVE = @constructor.createImage('/img/dragndrop/album_double_move.png')
-#    @ALBUM_DOUBLE_COPY = @constructor.createImage('/img/dragndrop/album_double_copy.png')
+    @ALBUM_SINGLE_MOVE = @createImage('/img/dragndrop/album_single_move.png')
+    @ALBUM_SINGLE_COPY = @createImage('/img/dragndrop/album_single_copy.png')
+    @ALBUM_DOUBLE_MOVE = @createImage('/img/dragndrop/album_double_move.png')
+    @ALBUM_DOUBLE_COPY = @createImage('/img/dragndrop/album_double_copy.png')
 #
 #    @PHOTO_SINGLE_MOVE = @constructor.createImage
     

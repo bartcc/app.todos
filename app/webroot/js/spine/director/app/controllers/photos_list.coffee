@@ -206,19 +206,30 @@ class PhotosList extends Spine.Controller
         
 #    Spine.trigger('expose:sublistSelection', Gallery.record)
   
-  activate: (items=Album.selectionList(), toggle) ->
+  activate: (items=Album.selectionList()) ->
     id = null
-    items = items or []
-    items = [items] unless Photo.isArray items
-      
+    unless Photo.isArray items
+      unique = true
+      items = [items]
+    
     id = items[0]
-          
-    if id
-      App.sidebar.list.expand(Gallery.record, true)
+    for item in items
+      if photo = Photo.exists item
+        photo.addToSelection(unique)
       
     Photo.current(id)
     @exposeSelection()
       
+  click: (e) ->
+    console.log 'PhotosList::click'
+    item = $(e.currentTarget).item()
+    
+    @select item, @isCtrlClick(e)
+    App.showView.trigger('change:toolbarOne')
+    
+    e.stopPropagation()
+    e.preventDefault()
+  
   select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]
@@ -230,9 +241,8 @@ class PhotosList extends Spine.Controller
         list = item.shiftSelection() if exists
       else
         list = item.addRemoveSelection(exclusive)
-        
       
-    Photo.trigger('activate', list[0], true)
+    Photo.trigger('activate', list, true)
   
   remove: (ap) ->
     item = Photo.exists ap.photo_id
@@ -256,15 +266,6 @@ class PhotosList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     
-  click: (e) ->
-    console.log 'PhotosList::click'
-    item = $(e.currentTarget).item()
-    
-    @select item, @isCtrlClick(e)
-    App.showView.trigger('change:toolbarOne')
-    
-    e.stopPropagation() if $(e.target).hasClass('thumbnail')
-  
   zoom: (e) ->
     item = $(e?.currentTarget).item() || @current
     @select item, true

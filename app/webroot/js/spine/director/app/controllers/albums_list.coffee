@@ -74,7 +74,7 @@ class AlbumsList extends Spine.Controller
     else
       if Gallery.record
         if Album.count()
-          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<div><button class="optCreateAlbum dark large">New Album</button><button class="optShowAllAlbums dark large">Show existing Albums</button></div></span></label>'
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<div><span><button class="optCreateAlbum dark large">New Album</button></span><span><button class="optShowAllAlbums dark large">Show existing Albums</button></span></div></span></label>'
         else
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<div><button class="optCreateAlbum dark large">New Album</button></div></span></label>'
       else
@@ -86,26 +86,22 @@ class AlbumsList extends Spine.Controller
     @el
   
   updateTemplate: (album) ->
-    helper =
-      refresh: =>
-        el = @children().forItem(album)
-        tb = $('.thumbnail', el)
-        el
-
-    el = helper.refresh()
-    #on "change" events Spine additionally triggers "create/update/destroy" respectively
-    return unless el.length
-    active = el.hasClass('active')
-    hot = el.hasClass('hot')
-    css = el.attr('style')
-    tmplItem = el.tmplItem()
-    tmplItem.tmpl = $( "#albumsTemplate" ).template()
-    tmplItem.update()
-    
-    el = helper.refresh()
-    el.attr('style', css)
-    el.toggleClass('active', active)
-    el.toggleClass('hot', hot)
+    albumEl = @children().forItem(album)
+    contentEl = $('.thumbnail', albumEl)
+    active = albumEl.hasClass('active')
+    hot = albumEl.hasClass('hot')
+    style = contentEl.attr('style')
+    tmplItem = contentEl.tmplItem()
+    alert 'no tmpl item' unless tmplItem
+    console.log tmplItem
+    if tmplItem
+      tmplItem.tmpl = $( "#albumsTemplate" ).template()
+      tmplItem.update?()
+      albumEl = @children().forItem(album)
+      contentEl = $('.thumbnail', albumEl)
+      albumEl.toggleClass('active', active)
+      albumEl.toggleClass('hot', hot)
+      contentEl.attr('style', style)
     @el.sortable('album')
     
   exposeSelection: ->
@@ -136,6 +132,28 @@ class AlbumsList extends Spine.Controller
       
     Album.current(id)
     @exposeSelection()
+  
+  click: (e) ->
+    console.log 'AlbumsList::click'
+    item = $(e.currentTarget).item()
+    @select(item, @isCtrlClick(e))
+    
+    e.stopPropagation()
+    e.preventDefault()
+    
+  select: (items = [], exclusive) ->
+    unless Spine.isArray items
+      items = [items]
+      
+    list = []
+    for item in items
+      exists = Gallery.selectionList().indexOf(item.id) isnt -1
+      if !Album.record and Gallery.selectionList().length and exists
+        list = item.shiftSelection() if exists
+      else
+        list = item.addRemoveSelection(exclusive)
+      
+    Album.trigger('activate', list, true)
     
   updateBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::updateBackgrounds'
@@ -173,7 +191,7 @@ class AlbumsList extends Spine.Controller
   callback: (json, album) =>
     console.log 'AlbumsList::callback'
     el = @children().forItem(album)
-    
+    el = $('.thumbnail', el)
     search = (o) ->
       for key, val of o
         return o[key].src
@@ -197,28 +215,6 @@ class AlbumsList extends Spine.Controller
       else
         return false 
 
-  click: (e) ->
-    console.log 'AlbumsList::click'
-    item = $(e.currentTarget).item()
-    @select(item, @isCtrlClick(e))
-    
-    e.stopPropagation()
-    e.preventDefault()
-    
-  select: (items = [], exclusive) ->
-    unless Spine.isArray items
-      items = [items]
-      
-    list = []
-    for item in items
-      exists = Gallery.selectionList().indexOf(item.id) isnt -1
-      if !Album.record and Gallery.selectionList().length and exists
-        list = item.shiftSelection() if exists
-      else
-        list = item.addRemoveSelection(exclusive)
-      
-    Album.trigger('activate', list, true)
-    
   zoom: (e) ->
     item = $(e.currentTarget).item()
     

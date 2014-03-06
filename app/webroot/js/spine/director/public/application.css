@@ -1298,6 +1298,12 @@ label.btn.active {
   -webkit-background-position: 34px 34px, 95px 34px, 34px 95px, 95px 95px;
   background-position: 34px 34px, 95px 34px, 34px 95px, 95px 95px;
 }
+#content .albums .item .thumbnail {
+  background-repeat: no-repeat;
+  -moz-background-position: 23px 23px, 87px 23px, 23px 87px, 87px 87px;
+  -webkit-background-position: 23px 23px, 87px 23px, 23px 87px, 87px 87px;
+  background-position: 23px 23px, 87px 23px, 23px 87px, 87px 87px;
+}
 #content .content .items {
   padding: 0px 10px;
 }
@@ -1608,9 +1614,9 @@ li .thumbnail.image {
   background: rgba(192,152,83,0.70);
 }
 .all .view .thumbnail {
-  border: 10px solid rgba(192,152,83,0.80);
+  outline: 1px solid rgba(192,152,83,0.80);
   background-color: rgba(250,250,250,0.10);
-  transition: border 0.5s linear 0s;
+  transition: outline 0.5s linear 0s;
 }
 .galleries .thumbnail {
   background-position: 0 -160px;

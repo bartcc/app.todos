@@ -66,8 +66,8 @@ class GalleriesList extends Spine.Controller
     console.log 'GalleriesList::updateTemplates'
     for gallery in Gallery.records
       galleryEl = @children().forItem(gallery)
-      galleryContentEl = $('.thumbnail', galleryEl)
-      tmplItem = galleryContentEl.tmplItem()
+      contentEl = $('.thumbnail', galleryEl)
+      tmplItem = contentEl.tmplItem()
       alert 'no tmpl item' unless tmplItem
       if tmplItem
         tmplItem.tmpl = $( "#galleriesTemplate" ).template()

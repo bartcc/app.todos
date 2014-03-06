@@ -119,7 +119,7 @@ class PhotosController extends AppController {
       
       $params = array('conditions' => array(
                           'Photo.user_id' => $user_id,
-                          'Photo.created >' => date('Y-m-d', strtotime('-20 weeks'))), //array of conditions
+                          'Photo.created >' => date('Y-m-d', strtotime('-200 weeks'))), //array of conditions
                       'order' => array('Photo.created DESC'), //string or array defining order
                       'limit' => $max, //int
                   );

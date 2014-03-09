@@ -9,6 +9,8 @@ class FlickrView extends Spine.Controller
     '.toolbar'    : 'toolbarEl'
     
   events:
+    'click .recent'   : 'navRecent'
+    'click .inter'    : 'navInter'
     'click .links'    : 'click'
     'click .optPrev'  : 'prevPage'
     'click .optNext'  : 'nextPage'
@@ -18,6 +20,9 @@ class FlickrView extends Spine.Controller
     
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
+    
+  introTemplate: ->
+    $('#flickrIntroTemplate').tmpl()
     
   constructor: ->
     super
@@ -38,11 +43,24 @@ class FlickrView extends Spine.Controller
       el: @toolbarEl
       template: @toolsTemplate
       
+    Spine.bind('show:flickrView', @proxy @show)
     @bind('flickr:recent', @proxy @recent)
     @bind('flickr:inter', @proxy @interestingness)
       
   render: (items) ->
-    @content.html @template items
+    console.log 'FlickrView::render'
+    if items
+      @content.html @template items
+    else
+      @content.html @introTemplate()
+    
+  activated: ->
+    
+  show: () ->
+    App.trigger('canvas', @)
+    if arguments.length
+      @setup(arguments[0], arguments[1])
+    else @render()
     
   url: ->
     protocol = if window.location.protocol is 'https:'
@@ -61,17 +79,17 @@ class FlickrView extends Spine.Controller
     @type = mode
     switch mode
       when 'recent'
-        toolsList = ['FlickrRecent']
+        toolsList = ['FlickrRecent', 'Back']
         options =
           page  : page || @spec[mode].page
           method: 'flickr.photos.getRecent'
       when 'inter'
-        toolsList = ['FlickrInter']
+        toolsList = ['FlickrInter', 'Back']
         options =
           page  : page || @spec[mode].page
           method: 'flickr.interestingness.getList'
       else
-        return
+        return @render()
     options = $().extend @spec[mode], options
     @changeToolbar toolsList if toolsList
     @ajax(options)
@@ -141,5 +159,14 @@ class FlickrView extends Spine.Controller
   interestingness: (page) ->
     @setup('inter', page)
     
-
+  navRecent: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    @navigate '/flickr', 'recent/1'
+    
+  navInter: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    @navigate '/flickr', 'inter/1'
+    
 module.exports = FlickrView

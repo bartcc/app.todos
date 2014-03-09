@@ -13,6 +13,7 @@ Spine.Manager.include
     return unless el
     @el = el
     defaults =
+      manager: @
       initSize: -> 500
       disabled: false
       sleep: false

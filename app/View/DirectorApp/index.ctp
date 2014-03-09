@@ -18,7 +18,7 @@
       <h1 class="" style="line-height: 3em;"><a style="font-size: 3em;" href="/"><span class="chopin">Photo Director</span></a></h1>
       <span style="position: absolute; top: 10px; right: 67px;"><a href="http://glyphicons.com/" target="_blank" class="glyphicon-brand" title="GLYPHICONS is a library of precisely prepared monochromatic icons and symbols, created with an emphasis on simplicity and easy orientation.">GLYPHICONS.com</a></span>
     </div>
-    <div id="login" class="right" style="line-height: 2em; margin: 15px 5px;"></div>
+    <div id="login" class="right" style="margin: 15px 5px;"></div>
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views bg-medium hbox vdraggable">
@@ -52,11 +52,11 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="content" class="views bg-medium vbox flex">
-      <div id="show" class="view canvas vbox flex">
+      <div id="show" class="view canvas vbox flex fade">
         <div id="modal-action" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
-          <li class="splitter disabled flex"></li>
+          <li class="splitter flex"></li>
           <ul class="toolbarTwo hbox nav"></ul>
         </ul>
         <div class="contents views vbox flex" style="height: 0;">
@@ -65,6 +65,7 @@
             <div class="albums view"></div>
             <div class="photos view"></div>
             <div class="photo view"></div>
+            <div class="overview view"></div>
           </div>
           <div class="view galleries content vbox flex data parent autoflow" style="">
             <div class="items fadein">Galleries</div>
@@ -84,11 +85,30 @@
           <div id="slideshow" class="view content flex data parent autoflow">
             <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
           </div>
+          <div id="" class="overview canvas view content vbox flex data parent autoflow hide">
+            <div class="flex vbox">
+              <div class="container canvas bg-medium clearfix">
+                <fieldset>
+                  <label><span class="enlightened">Recently Uploaded:</span></label>
+                  <div class="items"></div>
+                </fieldset>
+                <fieldset>
+                  <label><span class="enlightened">Summary:</span></label>
+                  <div class="info"></div>
+                </fieldset>
+              </div>
+              <div class="container">
+                <fieldset>
+                  <label><span class="enlightened">Informations:</span></label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
           <div class="views canvas content vbox flex hdraggable" style="position: relative">
             <div class="hdivide draghandle">
-              <span class="optClose glyphicon glyphicon-remove glyphicon glyphicon-white right"></span>
+              <span class="opt optCloseDraghandle glyphicon glyphicon-remove glyphicon glyphicon-white right" style="cursor: pointer;"></span>
             </div>
             <div id="ga" class="view container flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
@@ -103,15 +123,15 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fu" class="view flex canvas bg-medium autoflow" style="margin: 0px">
+            <div id="fu" class="view hbox flex bg-dark autoflow" style="margin: 0px">
               <!-- The file upload form used as target for the file upload widget -->
-              <form id="fileupload" action="uploads/image" method="POST" enctype="multipart/form-data">
+              <form id="fileupload" class="vbox flex" action="uploads/image" method="POST" enctype="multipart/form-data">
                   <!-- Redirect browsers with JavaScript disabled to the origin page -->
                   <noscript><input type="hidden" name="redirect" value="http://blueimp.github.io/jQuery-File-Upload/"></noscript>
                   <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-                  <div class="">
+                  <div class="vbox flex">
                     <!-- The table listing the files available for upload/download -->
-                    <div class="canvas bg-medium fileupload-buttonbar" style="position: fixed; width: 100%;">
+                    <div class="footer fileupload-buttonbar" style="">
                       <div class="span6 left" style="margin: 10px;">
                             <!-- The fileinput-button span is used to style the file input field as button -->
                             <span class="btn dark fileinput-button">
@@ -142,7 +162,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="autoflow" style="top: 74px; position: relative; z-index: 1;">
+                    <hr>
+                    <div class="vbox flex autoflow" style="">
                       <table role="presentation" class="table"><tbody class="files"></tbody></table>
                     </div>
                 </div>
@@ -151,36 +172,33 @@
           </div>
         </div>
       </div>
-      <div id="overview" class="canvas view content vbox flex data parent autoflow">
-        <ul class="options">
-          <li class="splitter disabled flex"></li>
-          <li class="optClose right" style="position: relative; top: 8px; right: 8px;"><span class="glyphicon glyphicon-remove glyphicon glyphicon-white"></span></li>
-        </ul>
-        <div class="flex vbox">
-          <div class="container canvas bg-medium clearfix">
-            <fieldset>
-              <label><span class="enlightened">Recently Uploaded:</span></label>
-              <div class="items"></div>
-            </fieldset>
-            <fieldset>
-              <label><span class="enlightened">Summary:</span></label>
-              <div class="info"></div>
-            </fieldset>
-          </div>
-          <div class="container">
-            <fieldset>
-              <label><span class="enlightened">Informations:</span></label>
-            </fieldset>
+      <div id="overview" class="view content vbox flex data parent autoflow fade">
+        <div class="carousel-background bg-dark flex">
+          <div id="overview-carousel" class="carousel slide" data-ride="carousel">
+            
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#overview-carousel" data-slide-to="0" class="active"></li>
+              <li data-target="#overview-carousel" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner jumbotron"></div>
+            <!-- Controls -->
+            <a class="left carousel-control" href="#overview-carousel" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#overview-carousel" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
           </div>
         </div>
       </div>
-      <div id="edit" class="canvas view vbox flex">
+      <div id="missing" class="canvas view vbox flex fade">
         <ul class="options hbox">
           <ul class="toolbar hbox"></ul>
         </ul>
         <div class="content container vbox flex autoflow"></div>
       </div>
-      <div id="flickr" class="canvas view vbox flex">
+      <div id="flickr" class="canvas view vbox flex fade">
         <ul class="options hbox">
           <li class="splitter flex"></li>
           <ul class="toolbar hbox nav"></ul>
@@ -213,6 +231,17 @@
   </a>
 </script>
 
+<script id="flickrIntroTemplate" type="text/x-jquery-tmpl">
+  <div class="dark xxl">
+    <i class="glyphicon glyphicon-picture"></i>
+    <span>Flickr</span>
+    <div class=" btn-primary xs">
+      <a class="label recent ">Flickr Recent</a>
+      <a class="label inter">Flickr Interesting</a>
+    </div>
+  </div>
+</script>
+
 <script id="modalActionTemplate" type="text/x-jquery-tmpl">
   <form>
   <div class="modal-dialog">
@@ -239,10 +268,10 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="optCreateGallery btn btn-default">New Gallery</button>
-        <button type="button" class="optCreateAlbum btn btn-default" {{if type == 'Gallery'}}disabled{{/if}}>New Album</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="copy btn btn-primary">Copy</button>
+        <button type="button" class="optCreateGallery btn-default">New Gallery</button>
+        <button type="button" class="optCreateAlbum btn-default" {{if type == 'Gallery'}}disabled{{/if}}>New Album</button>
+        <button type="button" class="btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="copy btn-default">Copy</button>
         <label class="hide">
         <input type="checkbox" class="remove">remove original items when done</label>
       </div>
@@ -350,12 +379,15 @@
   </li>
 </script>
 
+<script id="overviewHeaderTemplate" type="text/x-jquery-tmpl">
+</script>
+
 <script id="galleryDetailsTemplate" type="text/x-jquery-tmpl">
     <span>${aCount} </span><span style="font-size: 0.6em;"> (${iCount})</span>
 </script>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li class="item container">
+  <li class="item container fade in">
     <div class="ui-symbol ui-symbol-gallery center"></div>
     <div class="thumbnail" draggable="true">
       <div class="inner">
@@ -417,6 +449,16 @@
   </div>
 </script>
 
+<script id="missingViewTemplate" type="text/x-jquery-tmpl">
+  <div class="dark xxl">
+    <i class="glyphicon glyphicon-question-sign"></i>
+    <span>Not found!</span>
+    <div class=" btn-primary xs">
+      <a class="label relocate">Proceed to Overview</a>
+    </div>
+  </div>
+</script>
+
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
   <div style="">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique; ">Images: ${iCount}</div>
@@ -446,7 +488,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item container sortable">
+  <li class="item sortable fade in">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
@@ -508,7 +550,7 @@
   </section>
   <section class="right">
     <span class="fadeelement breadcrumb movefromright">
-      <li class="optAlbumActionCopy">
+      <li class="symbol optAlbumActionCopy">
         <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
       </li>
     </span>
@@ -583,7 +625,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  class="item data container">
+  <li  class="item data fade in">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>
@@ -646,7 +688,7 @@
   </section>
   <section class="right">
     <span class="fadeelement breadcrumb movefromright">
-      <li class="optPhotoActionCopy">
+      <li class="symbol optPhotoActionCopy">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
         </span>
@@ -679,7 +721,7 @@
   </section>
   <section class="right">
     <span class="fadeelement breadcrumb movefromright">
-      <li class="optAction">
+      <li class="symbol optAction">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
         </span>
@@ -713,7 +755,7 @@
     {{tmpl(itemGroup)  "#dropdownTemplate"}}
   {{else}}
   <li class="${klass}"{{if outerstyle}} style="${outerstyle}"{{/if}}{{if id}} id="${id}"{{/if}}>
-    <{{if type}}${type} class="tb-name {{if innerklass}}${innerklass}{{/if}}"{{else}}button class="dark {{if innerklass}}${innerklass}{{/if}}" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
+    <{{if type}}${type} class="{{if icon}}symbol{{/if}} tb-name {{if innerklass}}${innerklass}{{/if}}"{{else}}button class="symbol dark {{if innerklass}}${innerklass}{{/if}}" {{if dataToggle}} data-toggle="${dataToggle}"{{/if}}{{/if}}
     {{if innerstyle}} style="${innerstyle}"{{/if}}
     {{if disabled}}disabled{{/if}}>
     {{if icon}}<i class="glyphicon glyphicon-${icon}  {{if iconcolor}}glyphicon glyphicon-${iconcolor}{{/if}}"></i>{{/if}}{{html name}}
@@ -758,9 +800,48 @@
 </script>
 
 <script id="overviewTemplate" type="text/x-jquery-tmpl">
+  <div class="item active">
+    <img src="img/overview-background.png" style="width: 800px; height: 300px;">
+    <div class="recents carousel-item">
+      {{tmpl($item.data.photos) "#overviewPhotosTemplate"}}
+    </div>
+    <div class="carousel-caption">
+      <h3>Recents</h3>
+      <p>Last uploaded images</p>
+    </div>  
+  </div>
+  <div class="item summary">
+    <img src="img/overview-background.png" style="width: 800px; height: 300px;">
+    <div class="carousel-item">
+      {{tmpl($item.data.summary) "#overviewSummaryTemplate"}}
+    </div>
+    <div class="carousel-caption">
+      <h3>Summary</h3>
+    </div> 
+  </div>
+</script>
+
+<script id="overviewPhotosTemplate" type="text/x-jquery-tmpl">
   <div class="item">
     {{tmpl "#photoThumbnailSimpleTemplate"}}
   </div>
+</script>
+
+<script id="overviewSummaryTemplate" type="text/x-jquery-tmpl">
+  <table class="table center">
+    <tbody>
+      <tr>
+        <td>Galleries</td>
+        <td>Albums</td>
+        <td>Photos</td>
+      </tr>
+      <tr>
+        <td><h1>${Gallery.records.length}</h1></td>
+        <td><h1>${Album.records.length}</h1></td>
+        <td><h1>${Photo.records.length}</h1></td>
+      </tr>
+    </tbody>
+  </table>
 </script>
 
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
@@ -774,7 +855,7 @@
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
 {% for (var i=0, file; file=o.files[i]; i++) { %}
-    <tr class="template-upload fade dark">
+    <tr class="template-upload fade">
         <td>
             <span class="preview"></span>
         </td>

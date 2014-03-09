@@ -16,6 +16,8 @@ GalleriesView   = require('controllers/galleries_view')
 GalleriesHeader = require('controllers/galleries_header')
 SlideshowView   = require('controllers/slideshow_view')
 SlideshowHeader = require('controllers/slideshow_header')
+OverviewHeader  = require('controllers/overview_header')
+OverviewView    = require('controllers/overview_view')
 ActionWindow    = require("controllers/action_window")
 Extender        = require('plugins/controller_extender')
 require('spine/lib/manager')
@@ -32,6 +34,7 @@ class ShowView extends Spine.Controller
     '.header .albums'         : 'albumsHeaderEl'
     '.header .photos'         : 'photosHeaderEl'
     '.header .photo'          : 'photoHeaderEl'
+    '.header .overview'       : 'overviewHeaderEl'
     '.header .slideshow'      : 'slideshowHeaderEl'
     '.optOverview'            : 'btnOverview'
     '.optEditGallery'         : 'btnEditGallery'
@@ -50,6 +53,7 @@ class ShowView extends Spine.Controller
     '.content.photo'          : 'photoEl'
     '#slideshow'              : 'slideshowEl'
     '#modal-action'           : 'modalActionEl'
+    '.overview'               : 'overviewEl'
     
     '.slider'                 : 'slider'
     '.optAlbum'               : 'btnAlbum'
@@ -60,7 +64,7 @@ class ShowView extends Spine.Controller
   events:
     'click .optQuickUpload:not(.disabled)'           : 'toggleQuickUpload'
     'click .optOverview:not(.disabled)'              : 'showOverview'
-    'click .optPrevious:not(.disabled)'              : 'showPrevious'
+    'click .optPrevious:not(.disabled)'              : 'back'
     'click .optShowModal:not(.disabled)'             : 'showModal'
     'click .optSidebar:not(.disabled)'               : 'toggleSidebar'
     'click .optFullScreen:not(.disabled)'            : 'toggleFullScreen'
@@ -90,10 +94,9 @@ class ShowView extends Spine.Controller
     'click .optShowPhotoMasters:not(.disabled)'      : 'showPhotoMasters'
     'click .optShowPhotoSelection:not(.disabled)'    : 'showPhotoSelection'
     'click .optShowAlbumSelection:not(.disabled)'    : 'showAlbumSelection'
-    'click .optClose:not(.disabled)'                 : 'toggleDraghandle'
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
     'dblclick .draghandle'                           : 'toggleDraghandle'
-    'click .draghandle.optClose'                     : 'toggleDraghandle'
+    'click .optCloseDraghandle'                      : 'toggleDraghandle'
     'click .items'                                   : 'deselect'
     'slidestop .slider'                              : 'sliderStop'
     'slidestart .slider'                             : 'sliderStart'
@@ -180,14 +183,14 @@ class ShowView extends Spine.Controller
     @canvasManager.bind('change', @proxy @changeCanvas)
     @headerManager.bind('change', @proxy @changeHeader)
     # setup visibility of view stack
-    # switch to assigned start view
-    @canvasManager.trigger('active', @galleriesView)
-    @headerManager.trigger('active', @galleriesHeader)
+#    @canvasManager.trigger('active', @galleriesView)
+#    @headerManager.trigger('active', @galleriesHeader)
     @trigger('change:toolbarOne')
+    
+  activated: ->
     
   changeCanvas: (controller) ->
     controller.activated()
-#    @contents.removeClass('all')
     $('.items', @el).removeClass('in')
     t = switch controller.type
       when "Gallery"
@@ -211,7 +214,8 @@ class ShowView extends Spine.Controller
       _2()
         
     _2 = =>
-      controller.viewport.addClass('in')
+      viewport = controller.viewport or controller.el
+      viewport.addClass('in')
       
       
     window.setTimeout( =>
@@ -220,16 +224,6 @@ class ShowView extends Spine.Controller
     
   changeHeader: (controller) ->
     controller.activated()
-    
-  previousLocation: (sameAllowed) ->
-    console.log 'ShowView::previousLocation'
-#    return @prevLocation
-    return @prevLocation
-    if @prevLocation is location.hash
-      console.log location.hash
-      return '/galleries/'
-    else
-      @prevLocation
     
   canvas: (controller) ->
     console.log 'ShowView::canvas'
@@ -595,9 +589,6 @@ class ShowView extends Spine.Controller
     @slideshowMode = App.SILENTMODE
     @navigate '/slideshow/'
     
-  showPrevious: =>
-    @navigate @previousLocation()
-  
   showModal: (options) ->
     opts =
       header: 'New Header'
@@ -627,5 +618,12 @@ class ShowView extends Spine.Controller
     
   showAlbumSelection: ->
     @navigate '/gallery', Gallery.record.id or ''
+
+  back: ->
+    if localStorage.previousHash
+      location.hash = localStorage.previousHash
+      delete localStorage.previousHash
+    else
+      @navigate '/galleries/'
 
 module?.exports = ShowView

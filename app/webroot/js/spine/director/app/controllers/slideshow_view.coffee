@@ -19,8 +19,8 @@ class SlideshowView extends Spine.Controller
     '.thumbnail'       : 'thumb'
     
   events:
-    'click .items'    : 'click'
-    'hidden.bs.modal'    : 'hiddenmodal'
+    'click .items'     : 'click'
+    'hidden.bs.modal'  : 'hiddenmodal'
     
   template: (items) ->
     $("#photosSlideshowTemplate").tmpl items
@@ -65,15 +65,6 @@ class SlideshowView extends Spine.Controller
     
     @el
     
-  activated_: ->
-    albums = GalleriesAlbum.albums(Gallery.record.id)
-    for alb in albums
-      if alb.invalid
-        alb.invalid = false
-        alb.save(ajax:false)
-    
-    @change()
-       
   loadingDone: ->
     return unless @isActive()
     @show()
@@ -172,7 +163,7 @@ class SlideshowView extends Spine.Controller
         
   show: ->
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
-    App.showView.trigger('change:toolbarTwo', ['Back', 'Play'])
+    App.showView.trigger('change:toolbarTwo', ['Close'])
     App.showView.trigger('canvas', @)
     
   activated: ->
@@ -208,7 +199,7 @@ class SlideshowView extends Spine.Controller
     @fullScreenEnabled()
       
   fullScreenEnabled: ->
-    !!(window.fullScreen)# or $('#modal-gallery').hasClass('modal-fullscreen')
+    !!(window.fullScreen)
     
   slideshowable: ->
     @photos().length
@@ -219,7 +210,7 @@ class SlideshowView extends Spine.Controller
   hidemodal: (e) ->
     
   hiddenmodal: (e) ->
-    @parent.showPrevious()
+    @parent.back()
     
   showmodal: (e) ->
     @items.empty()
@@ -253,6 +244,6 @@ class SlideshowView extends Spine.Controller
   close: (e) ->
     if @isActive()
       @gallery = null
-      @parent.showPrevious()
+      @parent.back()
   
 module?.exports = SlideshowView

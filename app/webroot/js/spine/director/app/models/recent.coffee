@@ -36,8 +36,7 @@ class Recent extends Spine.Model
   @success: (json) ->
 
   @error: (xhr) ->
-    console.log 'Ajax::error'
     @logout()
     @redirect 'users/login'
       
-module?.exports = Recent
+module?.exports = Model.Recent = Recent

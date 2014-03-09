@@ -40,9 +40,9 @@ class SidebarFlickr extends Spine.Controller
     @html @template(items)
 
   expand: (e) ->
-    console.log 'main clicked'
     parent = $(e.target).parents('li')
     parent.toggleClass('open')
+    @navigate '/flickr/' if parent.hasClass('open')
 
     e.stopPropagation()
     e.preventDefault()

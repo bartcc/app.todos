@@ -36,7 +36,6 @@ class ToolbarView extends Spine.Controller
       # check for callback
       lastItem = list.last()
       @current.cb = lastItem if typeof lastItem is 'function'
-          
       
     @render()
     

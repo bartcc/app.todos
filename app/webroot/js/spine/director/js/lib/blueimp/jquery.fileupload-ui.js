@@ -306,6 +306,7 @@
             },
             // Callback for file deletion:
             destroy: function (e, data) {
+                console.log(data)
                 var that = $(this).data('blueimp-fileupload') ||
                         $(this).data('fileupload'),
                     removeNode = function () {

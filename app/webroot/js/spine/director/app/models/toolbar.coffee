@@ -232,6 +232,9 @@ class Toolbar extends Spine.Model
         ]
       
   @data:
+    package_00:
+      name: 'Empty'
+      content: []
     package_01:
       name: 'Default'
       content:
@@ -250,82 +253,6 @@ class Toolbar extends Spine.Model
         ,
           dropdown: true
           itemGroup: @dropdownGroups.group4
-        ]
-    package_03:
-      name: 'Gallery'
-      content:
-        [
-          name: 'Edit'
-          icon: 'pencil'
-          klass: 'optEditGallery'
-          disabled: -> !Gallery.record
-        ,
-          name: 'New'
-          icon: 'asterisk'
-          klass: 'optCreateGallery'
-        ,
-          name: 'Destroy'
-          icon: 'trash'
-          klass: 'optDestroyGallery'
-          disabled: -> !Gallery.record
-        ,
-          dropdown: true
-          itemGroup: @dropdownGroups.group0
-        ]
-    package_04:
-      name: 'GalleryEdit'
-      content:
-        [
-          name: 'Close'
-          klass: 'optClose default'
-          disabled: -> !Gallery.record
-        ]
-    package_05:
-      name: 'Album'
-      content:
-        [
-          name: 'New'
-          icon: 'asterisk'
-          klass: 'optCreateAlbum'
-        ,
-          name: ->
-            len = '('+Gallery.selectionList().length+')'
-            type = if Gallery.record then 'Remove' else 'Destroy'
-            return type+' '+len
-          icon: 'trash'
-          klass: 'optDestroyAlbum '
-          disabled: -> !Gallery.selectionList().length
-        ]
-    package_06:
-      name: 'Photos'
-      content:
-        [
-          name: ->
-            len = '('+Album.selectionList().length+')'
-            type = if Album.record then 'Remove' else 'Destroy'
-            return type+' '+len
-          klass: 'optDestroyPhoto'
-          outerstyle: 'float: right;'
-          disabled: -> !Album.selectionList().length
-        ]
-    package_07:
-      name: 'Photo'
-      content:
-        [
-          name: ->
-            len = '('+Album.selectionList().length+')'
-            type = if Album.record then 'Remove' else 'Destroy'
-            return type+' '+len
-          klass: 'optDestroyPhoto '
-          disabled: -> !Album.selectionList().length
-        ]
-    package_08:
-      name: 'Upload'
-      content:
-        [
-          name: 'Show Upload'
-          icon: 'upload'
-          klass: ''
         ]
     package_09:
       name: 'Slideshow'
@@ -346,9 +273,8 @@ class Toolbar extends Spine.Model
           name: ''
           klass: 'optPrevious'
           type: 'span'
-          innerklass: 'glyphicon glyphicon-white glyphicon-remove'
+          icon: 'remove'
           outerstyle: 'float: right;'
-          innerstyle: 'left: -8px; top: 8px; position:relative;'
         ]
     package_11:
       name: 'Chromeless'
@@ -385,7 +311,7 @@ class Toolbar extends Spine.Model
           type: 'div'
           innerstyle: 'width: 190px; position: relative;'
         ,
-          name: ''
+          name: 'Fullscreen'
           klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
           icon: 'fullscreen'
           dataToggle: 'button'
@@ -440,6 +366,14 @@ class Toolbar extends Spine.Model
           klass: 'optNext'
           icon: 'chevron-right'
           disabled: -> 
+        ]
+    package_16:
+      name: 'Close'
+      content:
+        [
+          icon: 'remove'
+          klass: 'opt optPrevious'
+          type: 'span'
         ]
         
   init: (ins) ->

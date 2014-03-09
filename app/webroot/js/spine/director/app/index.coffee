@@ -17,13 +17,13 @@ Modal2ButtonView        = require("controllers/modal_2_button_view")
 ModalActionView         = require("controllers/modal_action_view")
 ToolbarView             = require("controllers/toolbar_view")
 LoginView               = require("controllers/login_view")
-OverviewView            = require("controllers/overview_view")
 SidebarFlickr           = require("controllers/sidebar_flickr")
 AlbumEditView           = require("controllers/album_edit_view")
 PhotoEditView           = require("controllers/photo_edit_view")
 UploadEditView          = require("controllers/upload_edit_view")
 GalleryEditView         = require("controllers/gallery_edit_view")
-GalleryEditorView       = require("controllers/gallery_editor_view")
+OverviewView            = require('controllers/overview_view')
+MissingView             = require("controllers/missing_view")
 FlickrView              = require("controllers/flickr_view")
 Extender                = require('plugins/controller_extender')
 
@@ -46,9 +46,9 @@ class Main extends Spine.Controller
     '#main'               : 'mainEl'
     '#sidebar'            : 'sidebarEl'
     '#show'               : 'showEl'
-    '#sidebar .flickr'    : 'sidebarFlickrEl'
     '#overview'           : 'overviewEl'
-    '#edit'               : 'galleryEditEl'
+    '#sidebar .flickr'    : 'sidebarFlickrEl'
+    '#missing'            : 'missingEl'
     '#ga'                 : 'galleryEl'
     '#al'                 : 'albumEl'
     '#ph'                 : 'photoEl'
@@ -89,8 +89,8 @@ class Main extends Spine.Controller
       el: @modalEl
     @modal2ButtonView = new Modal2ButtonView
       el: @modalEl
-    @galleryEditView = new GalleryEditorView
-      el: @galleryEditEl
+    @missingView = new MissingView
+      el: @missingEl
     @gallery = new GalleryEditView
       el: @galleryEl
       externalUI: '.optGallery'
@@ -110,8 +110,6 @@ class Main extends Spine.Controller
     @flickrView = new FlickrView
       el: @flickrEl
     @slideshowView = @showView.slideshowView
-    @overviewView = new OverviewView
-      el: @overviewEl
     @sidebar = new Sidebar
       el: @sidebarEl
       externalUI: '.optSidebar'
@@ -119,6 +117,8 @@ class Main extends Spine.Controller
       el: @sidebarFlickrEl
     @loginView = new LoginView
       el: @loginEl
+    @overviewView = new OverviewView
+      el: @overviewEl
     @mainView = new MainView
       el: @mainEl
     @loaderView = new LoaderView
@@ -146,55 +146,66 @@ class Main extends Spine.Controller
       min: -> 30
       sleep: true
       max: => @el.height()/2
-      goSleep: =>
-        @showView.closeView()
-      awake: => 
-        @showView.openView()
+      goSleep: ->
+        @manager.active().el.hide()
+#        @showView.closeView()
+      awake: -> 
+        @manager.active().el.show()
+#        @showView.openView()
         
     @hmanager.change @upload
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
-    @appManager.change @loaderView
+#    @appManager.change @loaderView
+    @loaderView.trigger('active')
     
-    @contentManager = new Spine.Manager(@galleryEditView, @overviewView, @showView, @flickrView)
-    @contentManager.change @showView
+    @contentManager = new Spine.Manager(@overviewView, @missingView, @showView, @flickrView)
+    @contentManager.bind('change', @proxy @changeCanvas)
+    @bind('canvas', @proxy @canvas)
+#    @contentManager.change @missingView
 
     @initializeFileupload()
     
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
-        @contentManager.change(@showView)
+        @showView.trigger('active')
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)
         Photo.trigger('activate', params.pid)
         Spine.trigger('show:photo')
       '/gallery/:gid/:aid': (params) ->
-        @contentManager.change(@showView)
+        @showView.trigger('active')
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)
         Spine.trigger('show:photos')
       '/gallery/:gid': (params) ->
-        @contentManager.change(@showView)
+        @showView.trigger('active')
         Gallery.trigger('activate', params.gid)
         Spine.trigger('show:albums')
       '/galleries/*': ->
-        @contentManager.change(@showView)
+        @showView.trigger('active')
         Spine.trigger('show:galleries')
       '/overview/*': ->
+        @overviewView.trigger('active')
         Spine.trigger('show:overview')
       '/slideshow/:id/:autostart': (params) ->
-        @contentManager.change(@showView)
+        @showView.trigger('active')
         Spine.trigger('show:slideshow', params.autostart)
       '/slideshow/*': ->
-        @contentManager.change(@showView)
+        @showView.trigger('active')
         Spine.trigger('show:slideshow')
       '/flickr/:type/:page': (params) ->
-        @contentManager.change(@flickrView)
+        Spine.trigger('show:flickrView', params.type, params.page)
 #        location.href = location.href + '1' unless params.page
-        @flickrView.trigger('flickr:'+params.type, params.page)
-      '/*': (params) ->
-        location.hash = '#/overview/' # does not work
-        @navigate '/overview/'
+#        @flickrView.trigger('flickr:'+params.type, params.page)
+      '/flickr/': (params) ->
+        Spine.trigger('show:flickrView')
+#        @contentManager.change(@flickrView)
+#        location.href = location.href + '1' unless params.page
+#        @flickrView.trigger('flickr:'+params.type, params.page)
+      '/*glob': (params) ->
+        @missingView.trigger('active')
+        Spine.trigger('show:missingView')
 
     @defaultSettings =
       welcomeScreen: false,
@@ -239,6 +250,16 @@ class Main extends Spine.Controller
   finalizeView: ->
     @loginView.render User.first()
     @mainView.el.fadeIn(1500)
+      
+  canvas: (controller) ->
+    controller.trigger 'active'
+    
+  changeCanvas: (controller) ->
+    try
+      controller.el.addClass('in')
+      controller.activated()
+    catch e
+      console.log e
       
   initializeFileupload: ->
     @uploader.fileupload

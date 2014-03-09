@@ -8,20 +8,35 @@ require("plugins/tmpl")
 class OverviewView extends Spine.Controller
 
   elements:
-    '.items'              : 'items'
+    '#overview-carousel'         : 'carousel'
+    '.carousel-inner'            : 'content'
+    '.carousel-inner .recents'   : 'items'
+    '.carousel-inner .summary'   : 'summary'
     
   events:
-    'click .optClose'     : 'close'
     'click .item'         : 'navi'
+    'keyup'               : 'pause'
 
-  template: (items) ->
-    $("#overviewTemplate").tmpl items
+  template: (photos) ->
+    $("#overviewTemplate").tmpl
+      photos: photos
+      summary:
+        galleries: Gallery.all()
+        albums: Album.all()
+        photos: Photo.all()
 
   toolsTemplate: (items) ->
     $("#toolsTemplate").tmpl items
     
   constructor: ->
     super
+#    @carousel.carousel
+#      interval: 1000000
+#      pause: 'click'
+    @carouselWidth = 450
+    @carouselHeight = 350
+    @img = new Image
+    @img.width = @carouselWidth
     @el.data current: Recent
     @max = 16
     @bind('render:toolbar', @proxy @renderToolbar)
@@ -38,9 +53,10 @@ class OverviewView extends Spine.Controller
     #validate fresh records against existing model collection
     items = []
     for test in tests
-      items.push test if Photo.exists(test.id)
+      items.push photo if photo = Photo.exists(test.id)
       
-    @items.html @template items
+    @content.html @template items
+    @refreshElements()
     @uri items
     
   thumbSize: (width = 70, height = 70) ->
@@ -53,12 +69,12 @@ class OverviewView extends Spine.Controller
         (xhr, records) => @callback(xhr, items),
         items
     catch e
+      console.log e
       alert "New photos found. \n\nRestarting Application!"
       User.redirect 'director_app'
   
   callback: (json, items) =>
     console.log 'PhotoList::callback'
-      
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -66,9 +82,10 @@ class OverviewView extends Spine.Controller
     for item in items
       photo = item
       jsn = searchJSON photo.id
-      ele = @items.children().forItem(photo)
+      photoEl = @items.children().forItem(photo)
+      console.log 
       img = new Image
-      img.element = ele
+      img.element = photoEl
       if jsn
         img.src = jsn.src
       else
@@ -84,17 +101,15 @@ class OverviewView extends Spine.Controller
   loadRecent: ->
     Recent.loadRecent(@max, @proxy @parse)
     
-  show: ->
-    for controller in App.contentManager.controllers
-      @previous = controller if controller.isActive()
-      
-    App.contentManager.change @
+  activated: ->
     @loadRecent()
     
-  
+  show: ->
+    App.trigger('canvas', @)
     
   navi: (e) ->
     item = $(e.currentTarget).item()
+    return unless item
     photo = Photo.exists(item.id)
     
     if photo
@@ -102,13 +117,9 @@ class OverviewView extends Spine.Controller
       @navigate '/gallery', '/', photo.id
       
     false
-    
-  close: ->
-    if localStorage.previousHash
-      location.hash = localStorage.previousHash
-      delete localStorage.previousHash
-    else
-      @navigate '/galleries/'
+  
+  pause: ->
+    @carousel.carousel('pause')
     
   error: (xhr, statusText, error) ->
     console.log xhr

@@ -5,6 +5,7 @@ $      = Spine.$
 class UploadEditView extends Spine.Controller
 
   elements:
+    '.delete:not(.files .delete)' : 'clearEl'
     '.files'                      : 'filesEl'
     '.uploadinfo'                 : 'uploadinfoEl'
 
@@ -18,6 +19,7 @@ class UploadEditView extends Spine.Controller
     'fileuploadsend'              : 'send'
     'fileuploadprogressall'       : 'alldone'
     'fileuploadprogress'          : 'progress'
+    'fileuploaddestroyed'         : 'destroyed'
     
   template: (item) ->
     $('#template-upload').tmpl item
@@ -25,8 +27,7 @@ class UploadEditView extends Spine.Controller
   constructor: ->
     super
     Spine.bind('change:selectedAlbum', @proxy @changedSelected)
-    @fileslist = []
-    @data = fileslist: @fileslist
+    @data = fileslist: []
     @queue = []
     
   change: (item) ->
@@ -44,12 +45,14 @@ class UploadEditView extends Spine.Controller
     @refreshElements()
     @el
     
+  destroyed: ->
+    
   fail: (e, data) ->
       
   drop: (e, data) ->
 
   add: (e, data) ->
-    @fileslist.push data for file in data.files
+    @data.fileslist.push data.files for file in data.files
     @data.link = Album.record.id
     @c = App.hmanager.hasActive()
     App.hmanager.change @
@@ -69,7 +72,6 @@ class UploadEditView extends Spine.Controller
     Spine.trigger('loading:start', album) if album
     
   alldone: (e, data) ->
-    @fileslist = []
     
   done: (e, data) ->
     album = Album.exists(@data.link)
@@ -90,6 +92,9 @@ class UploadEditView extends Spine.Controller
         Photo.trigger('created', photo)
         @navigate '/gallery//'
       
+    if data.autoUpload
+      @clearEl.click()
+      
     e.preventDefault()
     
   progress: (e, data) ->
@@ -101,7 +106,7 @@ class UploadEditView extends Spine.Controller
     
   changedSelected: (album, changed) ->
     album = Album.exists(album.id)
-    if @fileslist.length
+    if @data.fileslist.length
       $.extend @data, link: Album.record?.id
         
 module?.exports = UploadEditView

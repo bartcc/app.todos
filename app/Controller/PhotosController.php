@@ -131,7 +131,7 @@ class PhotosController extends AppController {
       $this->response->header("WWW-Authenticate: Negotiate");
     }
 //    $this->log($recent, LOG_DEBUG);
-    $json = $this->set('_serialize', $recent);
+    $this->set('_serialize', $recent);
     $this->render(SIMPLE_JSON);
   }
 

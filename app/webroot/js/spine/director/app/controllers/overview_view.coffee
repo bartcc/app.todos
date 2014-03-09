@@ -31,7 +31,7 @@ class OverviewView extends Spine.Controller
     super
     # carousel options
     @options =
-      interval: 1000
+      interval: 2000
     @el.data current: Recent
     @max = 18
     @bind('render:toolbar', @proxy @renderToolbar)
@@ -53,6 +53,7 @@ class OverviewView extends Spine.Controller
     @content.html @template items
     @refreshElements()
     @carousel.carousel @options
+    @carousel.carousel 0
     @uri items
     
   thumbSize: (width = 70, height = 70) ->

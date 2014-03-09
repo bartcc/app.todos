@@ -33,7 +33,7 @@
             <li id="" class="splitter flickr disabled"></li>
           </ul>
         </div>
-        <ul class="container items vbox flex autoflow"></ul>
+        <ul class="items vbox flex autoflow"></ul>
         <footer class="footer">
           <button class="optRefresh dark left">
             <i class="glyphicon glyphicon-repeat" style="line-height: 1.5em;"></i>
@@ -56,7 +56,7 @@
         <div id="modal-action" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
-          <li class="splitter flex"></li>
+          <li class="splitter disabled flex"></li>
           <ul class="toolbarTwo hbox nav"></ul>
         </ul>
         <div class="contents views vbox flex" style="height: 0;">
@@ -72,22 +72,22 @@
           </div>
           <div class="view albums content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex fadein">Albums</div>
+            <div class="items flex fadein">Albums</div>
           </div>
           <div class="view photos content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
+            <div class="items flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
           <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
             <div class="hoverinfo in"></div>
-            <div class="container items flex fadein">Photo</div>
+            <div class="items flex fadein">Photo</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">
             <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
           </div>
           <div id="" class="overview canvas view content vbox flex data parent autoflow hide">
             <div class="flex vbox">
-              <div class="container canvas bg-medium clearfix">
+              <div class="canvas bg-medium clearfix">
                 <fieldset>
                   <label><span class="enlightened">Recently Uploaded:</span></label>
                   <div class="items"></div>
@@ -97,7 +97,7 @@
                   <div class="info"></div>
                 </fieldset>
               </div>
-              <div class="container">
+              <div class="">
                 <fieldset>
                   <label><span class="enlightened">Informations:</span></label>
                 </fieldset>
@@ -110,15 +110,15 @@
             <div class="hdivide draghandle">
               <span class="opt optCloseDraghandle glyphicon glyphicon-remove glyphicon glyphicon-white right" style="cursor: pointer;"></span>
             </div>
-            <div id="ga" class="view container flex autoflow" style="">
+            <div id="ga" class="view flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
             </div>
-            <div id="al" class="view container flex autoflow" style="">
+            <div id="al" class="view flex autoflow" style="">
               <div class="editAlbum">
                 <div class="content">No Albums found!</div>
               </div>
             </div>
-            <div id="ph" class="view container flex autoflow" style="">
+            <div id="ph" class="view flex autoflow" style="">
               <div class="editPhoto">
                 <div class="content">No Photo found!</div>
               </div>
@@ -172,7 +172,7 @@
           </div>
         </div>
       </div>
-      <div id="overview" class="view content vbox flex data parent autoflow fade">
+      <div id="overview" class="view content vbox flex data parent fade">
         <div class="carousel-background bg-medium flex">
 <!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
 <!--          We can't use it here, since it must be triggered via the controller-->
@@ -199,7 +199,7 @@
         <ul class="options hbox">
           <ul class="toolbar hbox"></ul>
         </ul>
-        <div class="content container vbox flex autoflow"></div>
+        <div class="content vbox flex autoflow"></div>
       </div>
       <div id="flickr" class="canvas view vbox flex fade">
         <ul class="options hbox">
@@ -237,10 +237,10 @@
 <script id="flickrIntroTemplate" type="text/x-jquery-tmpl">
   <div class="dark xxl">
     <i class="glyphicon glyphicon-picture"></i>
-    <span>Flickr</span>
+    <span class="cover-header">flickr</span>
     <div class=" btn-primary xs">
-      <a class="label recent ">Flickr Recent</a>
-      <a class="label inter">Flickr Interesting</a>
+      <a class="label recent ">flickr recent</a>
+      <a class="label inter">flickr interesting</a>
     </div>
   </div>
 </script>
@@ -365,7 +365,7 @@
     <div class="item-header">
       <div class="expander"></div>
         <div class="item-content">
-          <span class="name">${name}</span>
+          <span class="" style="color: rgba(255,255,255, 1); text-shadow: 0 -1px 0 rgba(0,0,0,0.9); font-size: 1.5em;">${name}</span>
         </div>
     </div>
     <hr>
@@ -455,9 +455,9 @@
 <script id="missingViewTemplate" type="text/x-jquery-tmpl">
   <div class="dark xxl">
     <i class="glyphicon glyphicon-question-sign"></i>
-    <span>Not found!</span>
+    <span>404 Not Found Error</span>
     <div class=" btn-primary xs">
-      <a class="label relocate">Proceed to Overview</a>
+      <a class="label relocate">Proceed to Overview (or use TAB for sidebar)</a>
     </div>
   </div>
 </script>

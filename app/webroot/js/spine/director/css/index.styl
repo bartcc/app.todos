@@ -537,7 +537,7 @@ textarea {
 .xxl {
   font-size: 3em;
   height: 5000px;
-  padding: 50px;
+  padding: 100 0 0 100px;
   position: fixed;
   width: 100%;
 }
@@ -632,6 +632,11 @@ textarea {
 }
 #sidebar .sublist-item span.title {
   padding-left: 10px
+}
+.cover-header {
+  color: rgba(255,255,255, 0.8);
+  font-size: 3em;
+  padding: 100px;
 }
 .footer {
   padding: 6px;
@@ -841,11 +846,6 @@ textarea {
 .all .item {
   padding: 10px;
   width: auto;
-}
-#overview .container:not(.item) {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
 }
 #main #content .photos.content .container {
 }
@@ -1110,8 +1110,8 @@ li .thumbnail.image {
 .hoverinfo {
   min-width: 120px;
   border-radius: 0px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   background: $medium-blue-semi-80;
@@ -1121,8 +1121,8 @@ li .thumbnail.image {
 }
 .viewheader {
   min-width: 120px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(200, 200, 200, 1)), to(rgba(140, 140, 140, 1)));
   background: -moz-linear-gradient(center top , rgba(200, 200, 200, 1), rgba(140, 140, 140, 1));

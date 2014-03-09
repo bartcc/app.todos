@@ -26,7 +26,7 @@ class SidebarFlickr extends Spine.Controller
   render: ->
     console.log 'SidebarFlickr::render'
     items = 
-      name: 'Flickr'
+      name: 'flickr'
       sub: [
         name: 'Recent Photos'
         klass: 'optFlickrRecent'
@@ -40,7 +40,7 @@ class SidebarFlickr extends Spine.Controller
     @html @template(items)
 
   expand: (e) ->
-    parent = $(e.target).parents('li')
+    parent = $(e.target).closest('li')
     parent.toggleClass('open')
     @navigate '/flickr/' if parent.hasClass('open')
 

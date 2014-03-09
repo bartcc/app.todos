@@ -455,7 +455,7 @@
 <script id="missingViewTemplate" type="text/x-jquery-tmpl">
   <div class="dark xxl">
     <i class="glyphicon glyphicon-question-sign"></i>
-    <span>404 Not Found Error</span>
+    <span class="cover-header">404</span><span>Not Found Error</span>
     <div class=" btn-primary xs">
       <a class="label relocate">Proceed to Overview (or use TAB for sidebar)</a>
     </div>

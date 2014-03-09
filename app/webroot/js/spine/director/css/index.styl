@@ -4,8 +4,11 @@
 
 $light-grey = #868686
 $dark-grey = #565656
-$medium-blue = rgb(51, 153, 255)
-$light-blue = rgb(159, 222, 255)
+$medium-blue = rgba(51, 153, 255, 1)
+$medium-blue-semi = rgba(51, 153, 255, .5)
+$medium-blue-semi-80 = rgba(51, 153, 255, .8)
+$light-blue = rgba(159, 222, 255, 1)
+$light-blue-semi = rgba(159, 222, 255, .5)
 
 * {
   user-select: none;
@@ -65,12 +68,10 @@ table.table > th, table.table tbody > tr > td {
   color: rgb(154, 154, 154);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
 }
-#overview-carousel .table.table > th, table.table tbody > tr > td {
-  color: rgba(120, 120, 120, 0.6);
-  text-shadow: 0 0 0 rgba(0, 0, 0, 0);
-}
-#fileupload.table > tbody > tr {
+#fileupload .table > tbody > tr > td {
   background: rgb(63, 63, 63);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  color: inherit;
 }
 .td {
   display: table-cell;
@@ -470,7 +471,7 @@ textarea {
   width: 300px;
 }
 .sidebar li.gal:not(.open) {
-  height: 60px;
+  height: 61px;
 }
 #sidebar ul {
   margin: 0;
@@ -482,12 +483,15 @@ textarea {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  margin-top: 2px;
+  margin-top: 1px;
   padding: 19px 0 15px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 #sidebar .item.active {
   color: rgba(0, 0, 0, 0.6);
+}
+.contents.views {
+  background: url("img/gradient-normal-xxl.png") repeat scroll 0 0 rgba(75, 75, 75, 0.15);
 }
 #sidebar .gal.item {
   background: url("img/gradient-normal.png") repeat  0 0;
@@ -518,7 +522,7 @@ textarea {
   position: absolute;
 }
 #sidebar .item .gal.cta {
-  border: 1px solid #575757;
+  border: 1px solid rgb(65, 65, 65);
   border-radius: 30px 30px 30px 30px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) inset;
   font-size: 1.1em;
@@ -584,7 +588,7 @@ textarea {
 #sidebar .item span {
   color: rgba(0, 0, 0, 0.7);
   margin: 0;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 0 rgba(200, 200, 200, 0.3);
 }
 #sidebar .item span:not(.info) {
   font-weight: bold;
@@ -604,11 +608,11 @@ textarea {
     outline: 0px solid;
 }
 #sidebar .gal.active .sublist-item.selected.active {
-    background-color: $medium-blue;
+    background-color: $medium-blue-semi;
     outline: 0px solid;
 }
 #sidebar .gal.active .sublist-item.selected {
-    background-color: $light-blue;
+    background-color: $light-blue-semi;
     outline: 0px solid;
 }
 #sidebar .item span.author {
@@ -622,23 +626,12 @@ textarea {
   color: rgba(255, 255, 255, 0.2);
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
 }
-#sidebar .item.active .sublist-item span {
-}
 #sidebar .sublist-item span {
   display: inline-block;
   font-size: 0.85em;
 }
 #sidebar .sublist-item span.title {
   padding-left: 10px
-}
-.carousel-background {
-  padding: 10px;
-}
-.carousel .jumbotron {
-  background-color: rgb(51, 51, 51);
-}
-.carousel.slide {
-  outline: 1px solid rgb(150, 150, 150);
 }
 .footer {
   padding: 6px;
@@ -872,15 +865,35 @@ textarea {
 #overview div.recents {
   margin: 0 auto;
   padding: 0;
-  width: 560px;
+  width: 420px;
 }
 .carousel .carousel-item {
   left: 0%;
   right: 0%;
   position: absolute;
-  color: rgba(200, 200, 200, 0.3);
+  color: rgba(200, 200, 200, 0.9);
   text-align: center;
-  top: -12px;
+  top: 35px;
+}
+.carousel-background {
+  padding: 10px;
+}
+.carousel .jumbotron {
+  background-color: rgb(51, 51, 51);
+}
+.carousel.slide {
+  outline: 1px solid rgb(150, 150, 150);
+}
+.carousel table.table > th, .carousel table.table tbody > tr.h1 > td {
+  font-size: 2em;
+  color: rgba(130, 130, 130, 0.9);
+  text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+.carousel table.table tbody > th, .carousel table.table tbody > tr > td {
+  border: 0 none;
+  color: rgba(130, 130, 130, 0.99);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 #content .albums.content .item {
 }
@@ -961,10 +974,10 @@ li .thumbnail.image {
   right: -14px;
 }
 #content .content .item.active .thumbnail {
-  border-color: rgba(159, 222, 255, 0.9);
+  border-color: $light-blue;
 }
 #content .content .item.hot .thumbnail {
-  border-color: rgba(51, 153, 255, 0.9);
+  border-color: $medium-blue;
 }
 #content .content .item ul {
   float: left;
@@ -1101,7 +1114,7 @@ li .thumbnail.image {
   -webkit-border-radius: 5px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  background: $medium-blue;
+  background: $medium-blue-semi-80;
   padding: 10px 15px;
   position: absolute;
   z-index: 1
@@ -1133,13 +1146,13 @@ li .thumbnail.image {
   background: none repeat scroll 0 0 rgba(192, 152, 83, 0.5);
 }
 .all .header .fadeelement {
-  background: rgba(192, 152, 83, .7)
+  background: rgba(192, 152, 83, .95)
 }
 .all .fadeelement {
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(192, 152, 83, 1)), to(rgba(192, 152, 83, 1)));
   background: -moz-linear-gradient(center top , rgba(192, 152, 83, 1), rgba(192, 152, 83, 1));
   background: linear-gradient(center top , rgba(192, 152, 83, 1), rgba(192, 152, 83, 1));
-  background: rgba(192, 152, 83, .7)
+  background: rgba(192, 152, 83, .95)
 }
 .all .view .thumbnail {
   outline: 1px solid rgba(192, 152, 83, 0.8);
@@ -1154,11 +1167,12 @@ li .thumbnail.image {
   font-family: monospace;
 }
 #content .hoverinfo .cta {
-  background-color: #898989;
-  border: 1px solid #575757;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 30px 30px 30px 30px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) inset;
   margin-left: 10px;
+  padding: 3px 15px;
   font-size: 1.1em;
 }
 .slider {

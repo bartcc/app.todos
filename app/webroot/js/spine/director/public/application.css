@@ -63,7 +63,7 @@ textarea {
 .breadcrumb li,
 .breadcrumb > li + li:before,
 .header {
-  text-shadow: 0 1px 0 #ddd;
+  text-shadow: 0 1px 0 rgba(221,221,221,0.50);
   color: #0a0a0a;
 }
 .header .label {
@@ -143,10 +143,6 @@ body {
 }
 body {
   font: 14px/22px 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans Regular', Verdana, sans-serif;
-}
-#messenger h1,
-h2 {
-  text-shadow: 0 1px 1px #fff;
 }
 #messenger h1 {
   font-size: 21pt;
@@ -532,13 +528,10 @@ table.table tbody > tr > td {
   color: #9a9a9a;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.80);
 }
-#overview-carousel .table.table > th,
-table.table tbody > tr > td {
-  color: rgba(120,120,120,0.60);
-  text-shadow: 0 0 0 rgba(0,0,0,0.00);
-}
-#fileupload.table > tbody > tr {
+#fileupload .table > tbody > tr > td {
   background: #3f3f3f;
+  box-shadow: 0 0 0 rgba(0,0,0,0.00);
+  color: inherit;
 }
 .td {
   display: table-cell;
@@ -942,7 +935,7 @@ textarea {
   width: 300px;
 }
 .sidebar li.gal:not(.open) {
-  height: 60px;
+  height: 61px;
 }
 #sidebar ul {
   margin: 0;
@@ -954,12 +947,15 @@ textarea {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  margin-top: 2px;
+  margin-top: 1px;
   padding: 19px 0 15px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.50);
 }
 #sidebar .item.active {
   color: rgba(0,0,0,0.60);
+}
+.contents.views {
+  background: url("img/gradient-normal-xxl.png") repeat scroll 0 0 rgba(75,75,75,0.15);
 }
 #sidebar .gal.item {
   background: url("img/gradient-normal.png") repeat 0 0;
@@ -990,7 +986,7 @@ textarea {
   position: absolute;
 }
 #sidebar .item .gal.cta {
-  border: 1px solid #575757;
+  border: 1px solid #414141;
   border-radius: 30px 30px 30px 30px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.20) inset;
   font-size: 1.1em;
@@ -1053,7 +1049,7 @@ textarea {
 #sidebar .item span {
   color: rgba(0,0,0,0.70);
   margin: 0;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.30);
+  text-shadow: 0 1px 0 rgba(200,200,200,0.30);
 }
 #sidebar .item span:not(.info) {
   font-weight: bold;
@@ -1071,11 +1067,11 @@ textarea {
   outline: 0px solid;
 }
 #sidebar .gal.active .sublist-item.selected.active {
-  background-color: #39f;
+  background-color: rgba(51,153,255,0.50);
   outline: 0px solid;
 }
 #sidebar .gal.active .sublist-item.selected {
-  background-color: #9fdeff;
+  background-color: rgba(159,222,255,0.50);
   outline: 0px solid;
 }
 #sidebar .item span.author {
@@ -1095,15 +1091,6 @@ textarea {
 }
 #sidebar .sublist-item span.title {
   padding-left: 10px;
-}
-.carousel-background {
-  padding: 10px;
-}
-.carousel .jumbotron {
-  background-color: #333;
-}
-.carousel.slide {
-  outline: 1px solid #969696;
 }
 .footer {
   padding: 6px;
@@ -1330,15 +1317,37 @@ label.btn.active {
 #overview div.recents {
   margin: 0 auto;
   padding: 0;
-  width: 560px;
+  width: 420px;
 }
 .carousel .carousel-item {
   left: 0%;
   right: 0%;
   position: absolute;
-  color: rgba(200,200,200,0.30);
+  color: rgba(200,200,200,0.90);
   text-align: center;
-  top: -12px;
+  top: 35px;
+}
+.carousel-background {
+  padding: 10px;
+}
+.carousel .jumbotron {
+  background-color: #333;
+}
+.carousel.slide {
+  outline: 1px solid #969696;
+}
+.carousel table.table > th,
+.carousel table.table tbody > tr.h1 > td {
+  font-size: 2em;
+  color: rgba(130,130,130,0.90);
+  text-shadow: 0 0 0 rgba(0,0,0,0.00);
+}
+.carousel table.table tbody > th,
+.carousel table.table tbody > tr > td {
+  border: 0 none;
+  color: rgba(130,130,130,0.99);
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.15);
+  box-shadow: 0 0 0 rgba(0,0,0,0.00);
 }
 #content .content .item {
   outline: #121212;
@@ -1413,10 +1422,10 @@ li .thumbnail.image {
   right: -14px;
 }
 #content .content .item.active .thumbnail {
-  border-color: rgba(159,222,255,0.90);
+  border-color: #9fdeff;
 }
 #content .content .item.hot .thumbnail {
-  border-color: rgba(51,153,255,0.90);
+  border-color: #39f;
 }
 #content .content .item ul {
   float: left;
@@ -1545,7 +1554,7 @@ li .thumbnail.image {
   -webkit-border-radius: 5px;
   text-shadow: 0 1px 1px rgba(0,0,0,0.30);
   box-shadow: 1px 1px 2px rgba(0,0,0,0.80);
-  background: #39f;
+  background: rgba(51,153,255,0.80);
   padding: 10px 15px;
   position: absolute;
   z-index: 1;
@@ -1577,13 +1586,13 @@ li .thumbnail.image {
   background: none repeat scroll 0 0 rgba(192,152,83,0.50);
 }
 .all .header .fadeelement {
-  background: rgba(192,152,83,0.70);
+  background: rgba(192,152,83,0.95);
 }
 .all .fadeelement {
   background: -webkit-gradient(linear, left top, left bottom, from(#c09853), to(#c09853));
   background: -moz-linear-gradient(center top, #c09853, #c09853);
   background: linear-gradient(center top, #c09853, #c09853);
-  background: rgba(192,152,83,0.70);
+  background: rgba(192,152,83,0.95);
 }
 .all .view .thumbnail {
   outline: 1px solid rgba(192,152,83,0.80);
@@ -1598,11 +1607,12 @@ li .thumbnail.image {
   font-family: monospace;
 }
 #content .hoverinfo .cta {
-  background-color: #898989;
-  border: 1px solid #575757;
+  background-color: rgba(0,0,0,0.10);
+  border: 1px solid rgba(255,255,255,0.30);
   border-radius: 30px 30px 30px 30px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.50) inset;
   margin-left: 10px;
+  padding: 3px 15px;
   font-size: 1.1em;
 }
 .slider {

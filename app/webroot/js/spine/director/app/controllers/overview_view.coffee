@@ -14,8 +14,7 @@ class OverviewView extends Spine.Controller
     '.carousel-inner .summary'   : 'summary'
     
   events:
-    'click .item'         : 'navi'
-    'keyup'               : 'pause'
+    'click .item'         : 'showPhoto'
 
   template: (photos) ->
     $("#overviewTemplate").tmpl
@@ -30,15 +29,11 @@ class OverviewView extends Spine.Controller
     
   constructor: ->
     super
-#    @carousel.carousel
-#      interval: 1000000
-#      pause: 'click'
-    @carouselWidth = 450
-    @carouselHeight = 350
-    @img = new Image
-    @img.width = @carouselWidth
+    # carousel options
+    @options =
+      interval: 1000
     @el.data current: Recent
-    @max = 16
+    @max = 18
     @bind('render:toolbar', @proxy @renderToolbar)
     Spine.bind('show:overview', @proxy @show)
     
@@ -57,6 +52,7 @@ class OverviewView extends Spine.Controller
       
     @content.html @template items
     @refreshElements()
+    @carousel.carousel @options
     @uri items
     
   thumbSize: (width = 70, height = 70) ->
@@ -107,7 +103,7 @@ class OverviewView extends Spine.Controller
   show: ->
     App.trigger('canvas', @)
     
-  navi: (e) ->
+  showPhoto: (e) ->
     item = $(e.currentTarget).item()
     return unless item
     photo = Photo.exists(item.id)
@@ -118,9 +114,6 @@ class OverviewView extends Spine.Controller
       
     false
   
-  pause: ->
-    @carousel.carousel('pause')
-    
   error: (xhr, statusText, error) ->
     console.log xhr
     @record.trigger('ajaxError', xhr, statusText, error)

@@ -22,7 +22,7 @@
   </header>
   <div id="wrapper" class="hbox flex">
     <div id="sidebar" class="views bg-medium hbox vdraggable">
-      <div class="vbox sidebar canvas flex inner" style="display: none">
+      <div class="vbox sidebar canvas bg-dark flex inner" style="display: none">
         <div class="search">
           <form class="form-search">
             <input class="search-query" type="search" placeholder="Search" results="0" incremental="true">
@@ -52,7 +52,7 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="content" class="views bg-medium vbox flex">
-      <div id="show" class="view canvas vbox flex fade">
+      <div id="show" class="view canvas bg-dark vbox flex fade">
         <div id="modal-action" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
@@ -173,15 +173,17 @@
         </div>
       </div>
       <div id="overview" class="view content vbox flex data parent autoflow fade">
-        <div class="carousel-background bg-dark flex">
-          <div id="overview-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-background bg-medium flex">
+<!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
+<!--          We can't use it here, since it must be triggered via the controller-->
+          <div id="overview-carousel" class="carousel slide" data-ride="">
             
             <!-- Indicators -->
             <ol class="carousel-indicators">
-              <li data-target="#overview-carousel" data-slide-to="0" class="active"></li>
+              <li data-target="#overview-carousel" data-slide-to="0"></li>
               <li data-target="#overview-carousel" data-slide-to="1"></li>
             </ol>
-            <div class="carousel-inner jumbotron"></div>
+            <div class="carousel-inner"></div>
             <!-- Controls -->
             <a class="left carousel-control" href="#overview-carousel" data-slide="prev">
               <span class="glyphicon glyphicon-chevron-left"></span>
@@ -190,6 +192,7 @@
               <span class="glyphicon glyphicon-chevron-right"></span>
             </a>
           </div>
+          <div class="xxl" style="color: rgba(156, 156, 156, 0.99);">Overview</div>
         </div>
       </div>
       <div id="missing" class="canvas view vbox flex fade">
@@ -801,7 +804,7 @@
 
 <script id="overviewTemplate" type="text/x-jquery-tmpl">
   <div class="item active">
-    <img src="img/overview-background.png" style="width: 800px; height: 300px;">
+    <img src="img/overview-background.png" style="width: 800px; height: 370px;">
     <div class="recents carousel-item">
       {{tmpl($item.data.photos) "#overviewPhotosTemplate"}}
     </div>
@@ -811,7 +814,7 @@
     </div>  
   </div>
   <div class="item summary">
-    <img src="img/overview-background.png" style="width: 800px; height: 300px;">
+    <img src="img/overview-background.png" style="width: 800px; height: 370px;">
     <div class="carousel-item">
       {{tmpl($item.data.summary) "#overviewSummaryTemplate"}}
     </div>
@@ -828,17 +831,17 @@
 </script>
 
 <script id="overviewSummaryTemplate" type="text/x-jquery-tmpl">
-  <table class="table center">
+  <table class="carousel table center">
     <tbody>
       <tr>
         <td>Galleries</td>
         <td>Albums</td>
         <td>Photos</td>
       </tr>
-      <tr>
-        <td><h1>${Gallery.records.length}</h1></td>
-        <td><h1>${Album.records.length}</h1></td>
-        <td><h1>${Photo.records.length}</h1></td>
+      <tr class="h1">
+        <td>${Gallery.records.length}</td>
+        <td>${Album.records.length}</td>
+        <td>${Photo.records.length}</td>
       </tr>
     </tbody>
   </table>

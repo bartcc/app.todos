@@ -46,7 +46,7 @@ class GalleriesAlbum extends Spine.Model
     return true if @[options.key] is id and @constructor.irecords[@id]
     return false
     
-  selectAlbum: (id) ->
+  selectAlbum: (id, gid) ->
     return true if @album_id is id and @gallery_id is Gallery.record.id
     
 module.exports = Model.GalleriesAlbum = GalleriesAlbum

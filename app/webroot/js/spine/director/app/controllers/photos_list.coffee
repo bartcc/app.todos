@@ -314,7 +314,6 @@ class PhotosList extends Spine.Controller
       'backgroundSize'  : bg
     
   dragStart: (e, o) ->
-    console.log Spine.dragItem.source
     if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
       @activate Spine.dragItem.source.id
     

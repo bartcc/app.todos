@@ -71,15 +71,15 @@
             <div class="items fadein">Galleries</div>
           </div>
           <div class="view albums content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
-            <div class="hoverinfo in"></div>
+            <div class="hoverinfo fade"></div>
             <div class="items flex fadein">Albums</div>
           </div>
           <div class="view photos content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
-            <div class="hoverinfo in"></div>
+            <div class="hoverinfo fade"></div>
             <div class="items flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
           <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
-            <div class="hoverinfo in"></div>
+            <div class="hoverinfo fade"></div>
             <div class="items flex fadein">Photo</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">
@@ -394,7 +394,7 @@
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
   <li class="item container fade in">
     <div class="ui-symbol ui-symbol-gallery center"></div>
-    <div class="thumbnail" draggable="true">
+    <div class="thumbnail">
       <div class="inner">
         {{tmpl($item.data.details()) "#galDetailsTemplate"}}
       </div>
@@ -493,7 +493,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item sortable fade in">
+  <li class="item sortable fade in"  draggable="true">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
@@ -630,7 +630,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  class="item data fade in">
+  <li  class="item data fade in" draggable="true">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>

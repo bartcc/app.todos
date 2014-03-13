@@ -25,10 +25,9 @@ class AlbumsView extends Spine.Controller
     '.items'                          : 'items'
     
   events:
-    'dragstart  .items .thumbnail'    : 'dragstart'
+    'dragstart  .items'               : 'dragstart'
     'dragover   .items'               : 'dragover'
     'sortupdate .items'               : 'sortupdate'
-#    'dragenter'                       : 'dragenter'
     
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
@@ -65,15 +64,14 @@ class AlbumsView extends Spine.Controller
     Album.bind('create:join', @proxy @createJoin)
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     GalleriesAlbum.bind('destroy:join', @proxy @destroyJoin)
+    GalleriesAlbum.bind('destroy', @proxy @sortupdate)
+    Spine.bind('reorder', @proxy @reorder)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @createAlbum)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
     Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
-    
-    Album.bind('sortupdate', @proxy @sortupdate)
-    GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     
 #    @bind('drag:enter', @proxy @parent.sidebar.dragEnter)
     
@@ -96,14 +94,13 @@ class AlbumsView extends Spine.Controller
     @buffer = items
     
   change: ->
-    console.log 'AlbumsView::change'
     @render()
     
   render: ->
     return unless @isActive()
     console.log 'AlbumsView::render'
     list = @list.render @updateBuffer()
-    list.sortable('album') if Gallery.record
+    list.sortable() if Gallery.record
     @el
       
   show: ->
@@ -215,7 +212,7 @@ class AlbumsView extends Spine.Controller
     $('.downloading', el).removeClass('in').addClass('hide')
 #    el.removeClass('loading') unless el.data().queue?.length
     
-  sortupdate: ->
+  sortupdate: (e, o) ->
     @list.children().each (index) ->
       item = $(@).item()
       if item and Gallery.record
@@ -223,11 +220,9 @@ class AlbumsView extends Spine.Controller
         if ga and ga.order isnt index
           ga.order = index
           ga.save()
-      else if item
-        album = (Album.filter(item.id, func: 'selectAlbum'))[0]
-        album.order = index
-        album.save()
         
-#    Gallery.updateSelection Gallery.sortSelectionListByOrder()
+  reorder: (gallery) ->
+    if gallery.id is Gallery.record.id
+      @render()
         
 module?.exports = AlbumsView

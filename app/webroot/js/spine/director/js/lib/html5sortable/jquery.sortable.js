@@ -38,7 +38,11 @@
           return false;
         }
         isHandle = false;
+        var w = $(this).css('width');
+        var h = $(this).css('height');
         var dt = e.originalEvent.dataTransfer;
+        placeholder.css('width', w);
+        placeholder.css('height', h);
         dt.effectAllowed = 'move';
         dt.setData('Text', 'dummy');
         index = (dragging = $(this)).addClass('sortable-dragging').index();

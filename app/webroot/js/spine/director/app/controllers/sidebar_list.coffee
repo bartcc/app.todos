@@ -135,6 +135,7 @@ class SidebarList extends Spine.Controller
     galleryEl = @children().forItem(gallery)
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
+    gallerySublist.sortable('album')
     
     @exposeSublistSelection gallery
   
@@ -151,8 +152,9 @@ class SidebarList extends Spine.Controller
     
   renderItemFromGalleriesAlbum: (ga, mode) ->
     gallery = Gallery.exists(ga.gallery_id)
-    @updateTemplate gallery
-    @renderOneSublist gallery if gallery
+    if gallery
+      @updateTemplate gallery
+      @renderOneSublist gallery
     
   renderItemFromAlbumsPhoto: (ap, mode) ->
     console.log 'SidebarList::renderItemFromAlbumsPhoto'
@@ -258,21 +260,11 @@ class SidebarList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
-  
-  
     
   galleryFromItem: (item) ->
     @children().forItem(item)
-    
-    
-  
-      
-  
 
   close: () ->
-    
-  
-        
     
   show: (e) ->
     App.contentManager.change App.showView

@@ -39,14 +39,6 @@ class AlbumsList extends Spine.Controller
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     
-  destroyRelatedAlbum: (item) ->
-    album = Album.exists(item['album_id'])
-    albumEl = @children().forItem(album)
-    if gallery = Gallery.record
-      if gallery.count()
-        albumEl.remove()
-      else @parent.render() 
-    
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
     # if we change a different gallery from within the sidebar, it should not be reflected here
@@ -61,18 +53,16 @@ class AlbumsList extends Spine.Controller
         @el.empty() if wipe
         @append @template album
         @renderBackgrounds [album]
-        @el.sortable('destroy').sortable('album')
-#        Album.trigger('activate', Gallery.selectionList())
+        @el.sortable('destroy').sortable()
         
       when 'destroy'
         albumEl = @children().forItem(album, true)
-        console.log albumEl
         albumEl.detach()
         if gallery = Gallery.record
           @parent.render() unless gallery.count()
           
       when 'update'
-        @el.sortable('destroy').sortable('album')
+        @el.sortable('destroy').sortable()
     
     @refreshElements()
     @el
@@ -101,7 +91,6 @@ class AlbumsList extends Spine.Controller
     style = contentEl.attr('style')
     tmplItem = contentEl.tmplItem()
     alert 'no tmpl item' unless tmplItem
-    console.log tmplItem
     if tmplItem
       tmplItem.tmpl = $( "#albumsTemplate" ).template()
       tmplItem.update?()
@@ -125,7 +114,6 @@ class AlbumsList extends Spine.Controller
     Spine.trigger('expose:sublistSelection', Gallery.record)
   
   activate: (items=Gallery.selectionList()) ->
-    console.log 'activate ' + items.title
     id = null
     unless Album.isArray items
       unique = true

@@ -22,7 +22,7 @@ class Sidebar extends Spine.Controller
     '.droppable'            : 'droppable'
     '.optAllAlbums'         : 'albums'
     '.optAllPhotos'         : 'photos'
-    '.expander'               : 'expander'
+    '.expander'             : 'expander'
 
 
   events:
@@ -30,12 +30,9 @@ class Sidebar extends Spine.Controller
     'click .optCreateAlbum'     : 'createAlbum'
     'click .optCreateGallery'   : 'createGallery'
     'click .optRefresh'         : 'refreshAll'
-    
     'dblclick .draghandle'      : 'toggleDraghandle'
 
-#    'dragenter  .items .item'        : 'dragenter'
-#    'drop       .items .item'        : 'drop'
-
+    'sortupdate .sublist'         : 'sortupdate'
     'dragstart  .alb.item'        : 'dragstart'
     'dragover   .gal.item'        : 'dragover' # Chrome only dispatches the drop event if this event is cancelled
     'dragenter  .gal.item'        : 'dragenter'
@@ -65,6 +62,7 @@ class Sidebar extends Spine.Controller
     Spine.bind('create:gallery', @proxy @createGallery)
     Spine.bind('edit:gallery', @proxy @edit)
     Spine.bind('destroy:gallery', @proxy @destroy)
+    
     @bind('drag:timeout', @proxy @expandAfterTimeout)
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:enter', @proxy @dragEnter)
@@ -88,7 +86,6 @@ class Sidebar extends Spine.Controller
       
   refreshAll: (e) ->
     App.showView.refreshElements()
-    return
     Gallery.one('refresh', @proxy @refresh)
     Photo.fetch(null, clear:true)
     Album.fetch(null, clear:true)
@@ -97,7 +94,6 @@ class Sidebar extends Spine.Controller
     e.stopPropagation()
   
   dragStart: (e, controller) ->
-    console.log 'Sidebar::dragStart'
     el = $(e.currentTarget)
     event = e.originalEvent
     Spine.dragItem.targetEl = null
@@ -133,7 +129,8 @@ class Sidebar extends Spine.Controller
     if @validateDrop target, source, origin
       Spine.dragItem.closest.addClass('over')
     else
-      Spine.dragItem.closest.addClass('nodrop')
+      if target?.id isnt origin?.id
+        Spine.dragItem.closest.addClass('nodrop')
         
 
 #    id = el.attr('id')
@@ -146,7 +143,6 @@ class Sidebar extends Spine.Controller
   dragLeave: (e) =>
 
   dropComplete: (e, record) ->
-    console.log 'Sidebar::dropComplete'
     Spine.dragItem.closest?.removeClass('over nodrop')
     target = Spine.dragItem.closest?.data()?.current?.record or Spine.dragItem.closest?.item()
     source = Spine.dragItem.source
@@ -247,5 +243,20 @@ class Sidebar extends Spine.Controller
     item = galleryEl.item()
     return unless item and item.id isnt Spine.dragItem.origin.id
     @list.expand(item, true)
+    
+  sortupdate: (e, o) ->
+    list = o.item.parent()
+    gallery = list.parent().item()
+    gas = GalleriesAlbum.filter(gallery.id, key: 'gallery_id')
+    result = []
+    list.children().each (index) ->
+      album = $(@).item()
+      for ga in gas
+        if ga.album_id is album.id and parseInt(ga.order) isnt index
+          ga.order = index
+          result.push ga
+          
+    res.save() for res in result
+    Spine.trigger('reorder', gallery)
     
 module?.exports = Sidebar

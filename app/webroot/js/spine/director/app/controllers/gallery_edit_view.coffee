@@ -13,7 +13,6 @@ class GalleryEditView extends Spine.Controller
     '.galleryEditor input.name' : 'input'
 
   events:
-#    'keyup .galleryEditor'  : 'showTooltip'
     'keyup'                 : 'saveOnKeyup'
     'click .optCreate'      : 'createGallery'
     

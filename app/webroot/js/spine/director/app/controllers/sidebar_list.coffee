@@ -5,29 +5,28 @@ Gallery         = require('models/gallery')
 AlbumsPhoto     = require('models/albums_photo')
 GalleriesAlbum  = require('models/galleries_album')
 Drag            = require("plugins/drag")
-KeyEnhancer     = require("plugins/key_enhancer")
 Extender        = require('plugins/controller_extender')
 require("plugins/tmpl")
 
 class SidebarList extends Spine.Controller
 
   @extend Drag
-  @extend KeyEnhancer
   @extend Extender
   
   elements:
     '.gal.item'               : 'item'
-    '.expander'               : 'expander'
 
   events:
     "click      .gal.item"            : 'clickGallery'
     "click      .alb.item"            : 'clickAlbum'
     "click      .expander"            : 'clickExpander'
-    'dragstart  .sublist-item'        : 'dragstart'
-    'dragenter  .sublist-item'        : 'dragenter'
-    'dragleave  .sublist-item'        : 'dragleave'
-    'drop       .sublist-item'        : 'drop'
-    'dragend    .sublist-item'        : 'dragend'
+#    'dragstart  .sublist-item'        : 'dragstart'
+#    'dragenter  .gal.item'            : 'dragenter'
+#    'dragenter  .sublist-item'        : 'dragenter'
+#    'dragleave  .sublist-item'        : 'dragleave'
+#    'drop       .sublist-item'        : 'drop'
+#    'dragend    .sublist-item'        : 'dragend'
+#    'drop       .item'        : 'drop'
 
   selectFirst: true
     
@@ -42,13 +41,13 @@ class SidebarList extends Spine.Controller
     
   constructor: ->
     super
+    
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
 #    Album.bind('refresh destroy create update', @proxy @renderAllSublist)
 #    Album.one('refresh', @proxy @renderAllSublist)
     Album.bind('update destroy', @proxy @renderSublists)
-    Spine.bind('drag:timeout', @proxy @expandAfterTimeout)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
     Gallery.bind('activate', @proxy @activate)
@@ -201,13 +200,14 @@ class SidebarList extends Spine.Controller
 
   clickGallery: (e) ->
     console.log 'SidebarList::clickGallery'
-    e.stopPropagation()
-    e.preventDefault()
     galleryEl = $(e.target).closest('li.gal')
     item = galleryEl.item()
     if item
       @expand(item) 
       @navigate '/gallery', item.id
+      
+    e.stopPropagation()
+    e.preventDefault()
     
   clickAlbum: (e) ->
     galleryEl = $(e.target).parents('.gal').addClass('active')
@@ -221,15 +221,6 @@ class SidebarList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
-    
-  clickExpander: (e) ->
-    galleryEl = $(e.target).closest('li.gal')
-    item = galleryEl.item()
-    @expand(item, false, e) if item
-    
-    e.stopPropagation()
-    e.preventDefault()
-    
     
   expand: (item, force, e) ->
     galleryEl = @galleryFromItem(item)
@@ -253,24 +244,34 @@ class SidebarList extends Spine.Controller
     
   closeSublist: (el) ->
     el.removeClass('open')
-      
-  galleryFromItem: (item) ->
-    @children().forItem(item)
-    
-  expandAfterTimeout: (e, timer) ->
-    clearTimeout timer
-    galleryEl = $(e.target).closest('.gal.item')
-    item = galleryEl.item()
-    return unless item and item.id isnt Spine.dragItem.origin.id
-    @expand(item, true)
-
-  close: () ->
     
   closeAllSublists: (item) ->
     for gallery in Gallery.all()
       parentEl = @galleryFromItem gallery
       unless parentEl.hasClass('manual')
         @expand gallery, item?.id is gallery.id
+  
+  clickExpander: (e) ->
+    galleryEl = $(e.target).closest('li.gal')
+    item = galleryEl.item()
+    @expand(item, false, e) if item
+    
+    e.stopPropagation()
+    e.preventDefault()
+  
+  
+    
+  galleryFromItem: (item) ->
+    @children().forItem(item)
+    
+    
+  
+      
+  
+
+  close: () ->
+    
+  
         
     
   show: (e) ->

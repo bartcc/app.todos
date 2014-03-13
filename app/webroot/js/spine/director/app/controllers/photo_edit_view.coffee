@@ -13,7 +13,7 @@ class PhotoEditView extends Spine.Controller
     
   events:
     'click'           : 'click'
-    'keyup'           : 'saveOnKeyup'
+#    'keyup'           : 'saveOnKeyup'
     
   template: (item) ->
     $('#editPhotoTemplate').tmpl(item)

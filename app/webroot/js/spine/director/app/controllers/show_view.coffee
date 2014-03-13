@@ -20,11 +20,13 @@ OverviewHeader  = require('controllers/overview_header')
 OverviewView    = require('controllers/overview_view')
 ActionWindow    = require("controllers/action_window")
 Extender        = require('plugins/controller_extender')
+Drag            = require("plugins/drag")
 require('spine/lib/manager')
 
 class ShowView extends Spine.Controller
 
   @extend Extender
+  @extend Drag
 
   elements:
     '#views .views'           : 'views'
@@ -95,11 +97,15 @@ class ShowView extends Spine.Controller
     'click .optShowPhotoSelection:not(.disabled)'    : 'showPhotoSelection'
     'click .optShowAlbumSelection:not(.disabled)'    : 'showAlbumSelection'
     'click .optSelectAll:not(.disabled)'             : 'selectAll'
-    'dblclick .draghandle'                           : 'toggleDraghandle'
     'click .optCloseDraghandle'                      : 'toggleDraghandle'
     'click .items'                                   : 'deselect'
+    'dblclick .draghandle'                           : 'toggleDraghandle'
     'slidestop .slider'                              : 'sliderStop'
     'slidestart .slider'                             : 'sliderStart'
+    'keyup'                                          : 'keyup'
+    'dragstart'                                      : 'dragstart'
+    'dragenter'                                      : 'dragenter'
+    'drop'                                           : 'drop'
 
   constructor: ->
     super
@@ -160,6 +166,9 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
+    @bind('drag:start', @proxy @sidebar.dragStart)
+    @bind('drag:enter', @proxy @sidebar.dragEnter)
+    @bind('drag:drop', @proxy @sidebar.dropComplete)
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
@@ -188,6 +197,7 @@ class ShowView extends Spine.Controller
     @trigger('change:toolbarOne')
     
   activated: ->
+    @el.focus()
     
   changeCanvas: (controller) ->
     controller.activated()
@@ -625,5 +635,20 @@ class ShowView extends Spine.Controller
       delete localStorage.previousHash
     else
       @navigate '/galleries/'
+      
+  keyup: (e) ->
+    code = e.charCode or e.keyCode
+    
+    console.log 'ShowView:keyupCode: ' + code
+    
+    switch code
+      when 32 #Space
+        @slideshowView.toggle()
+        e.preventDefault()
+        e.stopPropagation()
+      when 27 #Esc
+        @slideshowView.close()
+        e.stopPropagation()
+        e.preventDefault()
 
 module?.exports = ShowView

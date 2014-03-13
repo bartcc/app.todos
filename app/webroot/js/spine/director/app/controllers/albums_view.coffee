@@ -28,6 +28,7 @@ class AlbumsView extends Spine.Controller
     'dragstart  .items .thumbnail'    : 'dragstart'
     'dragover   .items'               : 'dragover'
     'sortupdate .items'               : 'sortupdate'
+#    'dragenter'                       : 'dragenter'
     
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
@@ -74,6 +75,8 @@ class AlbumsView extends Spine.Controller
     Album.bind('sortupdate', @proxy @sortupdate)
     GalleriesAlbum.bind('destroy', @proxy @sortupdate)
     
+#    @bind('drag:enter', @proxy @parent.sidebar.dragEnter)
+    
     $(@views).queue('fx')
     
   refresh: (records) ->
@@ -94,16 +97,13 @@ class AlbumsView extends Spine.Controller
     
   change: ->
     console.log 'AlbumsView::change'
-    
-    @updateBuffer()
     @render()
     
   render: ->
     return unless @isActive()
     console.log 'AlbumsView::render'
-    list = @list.render @buffer
-    list.sortable('album')
-    delete @buffer
+    list = @list.render @updateBuffer()
+    list.sortable('album') if Gallery.record
     @el
       
   show: ->

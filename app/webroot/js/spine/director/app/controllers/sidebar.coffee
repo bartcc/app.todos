@@ -22,20 +22,30 @@ class Sidebar extends Spine.Controller
     '.droppable'            : 'droppable'
     '.optAllAlbums'         : 'albums'
     '.optAllPhotos'         : 'photos'
+    '.expander'               : 'expander'
+
 
   events:
     'keyup input'               : 'filter'
     'click .optCreateAlbum'     : 'createAlbum'
     'click .optCreateGallery'   : 'createGallery'
     'click .optRefresh'         : 'refreshAll'
+    
     'dblclick .draghandle'      : 'toggleDraghandle'
 
-    'dragstart  .items .item'        : 'dragstart'
-    'dragenter  .items .item'        : 'dragenter'
-    'dragleave  .items .item'        : 'dragleave'
-    'dragover   .items .item'        : 'dragover' # Chrome only dispatches the drop event if this event is cancelled
-    'dragend    .items .item'        : 'dragend'
-    'drop       .items .item'        : 'drop'
+#    'dragenter  .items .item'        : 'dragenter'
+#    'drop       .items .item'        : 'drop'
+
+    'dragstart  .alb.item'        : 'dragstart'
+    'dragover   .gal.item'        : 'dragover' # Chrome only dispatches the drop event if this event is cancelled
+    'dragenter  .gal.item'        : 'dragenter'
+    'dragenter  .alb.item'        : 'dragenter'
+    'dragleave  .gal.item'        : 'dragleave'
+    'dragleave  .alb.item'        : 'dragleave'
+    'dragend    .gal.item'        : 'dragend'
+    'dragend    .alb.item'        : 'dragend'
+    'drop       .gal.item'        : 'drop'
+    'drop       .alb.item'        : 'drop'
 
   template: (items) ->
     $("#sidebarTemplate").tmpl(items)
@@ -46,6 +56,7 @@ class Sidebar extends Spine.Controller
     @list = new SidebarList
       el: @items,
       template: @template
+      parent: @
       
     Gallery.one('refresh', @proxy @refresh)
     Gallery.bind("ajaxError", Gallery.errorHandler)
@@ -54,11 +65,12 @@ class Sidebar extends Spine.Controller
     Spine.bind('create:gallery', @proxy @createGallery)
     Spine.bind('edit:gallery', @proxy @edit)
     Spine.bind('destroy:gallery', @proxy @destroy)
-    Spine.bind('drag:start', @proxy @dragStart)
-    Spine.bind('drag:enter', @proxy @dragEnter)
-    Spine.bind('drag:over', @proxy @dragOver)
-    Spine.bind('drag:leave', @proxy @dragLeave)
-    Spine.bind('drag:drop', @proxy @dropComplete)
+    @bind('drag:timeout', @proxy @expandAfterTimeout)
+    @bind('drag:start', @proxy @dragStart)
+    @bind('drag:enter', @proxy @dragEnter)
+    @bind('drag:over', @proxy @dragOver)
+    @bind('drag:leave', @proxy @dragLeave)
+    @bind('drag:drop', @proxy @dropComplete)
     
   filter: ->
     @query = @input.val();
@@ -75,6 +87,8 @@ class Sidebar extends Spine.Controller
     @list.render items
       
   refreshAll: (e) ->
+    App.showView.refreshElements()
+    return
     Gallery.one('refresh', @proxy @refresh)
     Photo.fetch(null, clear:true)
     Album.fetch(null, clear:true)
@@ -84,7 +98,6 @@ class Sidebar extends Spine.Controller
   
   dragStart: (e, controller) ->
     console.log 'Sidebar::dragStart'
-    return unless Spine.dragItem
     el = $(e.currentTarget)
     event = e.originalEvent
     Spine.dragItem.targetEl = null
@@ -107,10 +120,9 @@ class Sidebar extends Spine.Controller
     if !(source.id in selection)# and !(selection.length)
       list = source.emptySelection().push source.id
       
-    @clonedSelection = selection.slice(0)
+    Spine.clonedSelection = selection.slice(0)
 
-  dragEnter: (e) =>
-    return unless Spine.dragItem
+  dragEnter: (e) ->
     el = $(e.target).closest('.data')
     data = el.tmplItem?.data or el.data()
     target = el.data()?.current?.record or el.item()
@@ -124,18 +136,17 @@ class Sidebar extends Spine.Controller
       Spine.dragItem.closest.addClass('nodrop')
         
 
-    id = el.attr('id')
-    if id and @_id != id
-      @_id = id
-      Spine.dragItem.closest?.removeClass('over nodrop')
+#    id = el.attr('id')
+#    if id and @_id != id
+#      @_id = id
+#      Spine.dragItem.closest?.removeClass('over nodrop')
 
   dragOver: (e) =>
 
   dragLeave: (e) =>
 
-  dropComplete: (e, record) =>
+  dropComplete: (e, record) ->
     console.log 'Sidebar::dropComplete'
-    return unless Spine.dragItem
     Spine.dragItem.closest?.removeClass('over nodrop')
     target = Spine.dragItem.closest?.data()?.current?.record or Spine.dragItem.closest?.item()
     source = Spine.dragItem.source
@@ -145,7 +156,7 @@ class Sidebar extends Spine.Controller
     
     switch source.constructor.className
       when 'Album'
-        albums = Album.toRecords(@clonedSelection)
+        albums = Album.toRecords(Spine.clonedSelection)
         for album in albums
           album.createJoin(target) if target
           album.destroyJoin(origin) if origin  unless @isCtrlClick(e)
@@ -153,40 +164,11 @@ class Sidebar extends Spine.Controller
       when 'Photo'
         photos = []
         Photo.each (record) =>
-          photos.push record unless @clonedSelection.indexOf(record.id) is -1
+          photos.push record unless Spine.clonedSelection.indexOf(record.id) is -1
         
         Photo.trigger('create:join', photos.toID(), target)
         Photo.trigger('destroy:join', photos.toID(), origin) unless @isCtrlClick(e)
         
-        
-  validateDrop: (target, source, origin) =>
-    return unless target
-    switch source.constructor.className
-      when 'Album'
-        unless target.constructor.className is 'Gallery'
-          return false
-        unless (origin.id != target.id)
-          return false
-          
-        items = GalleriesAlbum.filter(target.id, key: 'gallery_id')
-        for item in items
-          if item.album_id is source.id
-            return false
-        return true
-      when 'Photo'
-        unless target.constructor.className is 'Album'
-          return false
-        unless (origin.id != target.id)
-          return false
-          
-        items = AlbumsPhoto.filter(target.id, key: 'album_id')
-        for item in items
-          if item.photo_id is source.id
-            return false
-        return true
-        
-      else return false
-  
   newAttributes: ->
     if User.first()
       name    : @galleryName()
@@ -257,5 +239,13 @@ class Sidebar extends Spine.Controller
       width: w
       speed
       => @clb()
-
+    
+  expandAfterTimeout: (e, timer) ->
+    console.log 'expandAfterTimeout'
+    clearTimeout timer
+    galleryEl = $(e.target).closest('.gal.item')
+    item = galleryEl.item()
+    return unless item and item.id isnt Spine.dragItem.origin.id
+    @list.expand(item, true)
+    
 module?.exports = Sidebar

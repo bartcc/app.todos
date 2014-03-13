@@ -26,6 +26,7 @@ OverviewView            = require('controllers/overview_view')
 MissingView             = require("controllers/missing_view")
 FlickrView              = require("controllers/flickr_view")
 Extender                = require('plugins/controller_extender')
+KeyEnhancer = require("plugins/key_enhancer")
 
 require("plugins/manager")
 require('spine/lib/route')
@@ -35,6 +36,7 @@ class Main extends Spine.Controller
   
   @extend Drag
   @extend Extender
+  @extend KeyEnhancer
   
   # Note:
   # this is how to change a toolbar:
@@ -65,9 +67,9 @@ class Main extends Spine.Controller
     '.status-symbol'      : 'statusSymbol'
     
   events:
-    'keyup'               : 'keyup'
+#    'keyup'               : 'keyup'
     'keypress'            : 'keypress'
-    'dragenter'           : 'dragenter'
+#    'dragenter'           : 'dragenter'
     'drop'                : 'drop'
 
   constructor: ->
@@ -103,18 +105,19 @@ class Main extends Spine.Controller
     @upload = new UploadEditView
       el: @uploadEl
       externalUI: '.optUpload'
-    @showView = new ShowView
-      el: @showEl
-      activeControl: 'btnGallery'
-      uploader: @upload
-    @flickrView = new FlickrView
-      el: @flickrEl
-    @slideshowView = @showView.slideshowView
     @sidebar = new Sidebar
       el: @sidebarEl
       externalUI: '.optSidebar'
     @sidebarFlickr = new SidebarFlickr
       el: @sidebarFlickrEl
+    @showView = new ShowView
+      el: @showEl
+      activeControl: 'btnGallery'
+      uploader: @upload
+      sidebar: @sidebar
+    @flickrView = new FlickrView
+      el: @flickrEl
+    @slideshowView = @showView.slideshowView
     @loginView = new LoginView
       el: @loginEl
     @overviewView = new OverviewView
@@ -281,7 +284,7 @@ class Main extends Spine.Controller
   keypress: (e) ->
     code = e.charCode or e.keyCode
     
-#    console.log 'Main:keypressCode: ' + code
+    console.log 'Main:keypressCode: ' + code
     
     switch code
       when 97 #CTRL A
@@ -294,19 +297,14 @@ class Main extends Spine.Controller
   keyup: (e) ->
     code = e.charCode or e.keyCode
     
-#    console.log 'Main:keyupCode: ' + code
+    console.log 'Main:keyupCode: ' + code
     
     switch code
-      when 32 #Space
-        @slideshowView.toggle()
-        e.preventDefault()
       when 9 #Tab
         @sidebar.toggleDraghandle()
         e.preventDefault()
+        e.stopPropagation()
       when 13 #Return
-        e.preventDefault()
-      when 27 #Esc
-        @slideshowView.close()
         e.preventDefault()
         
 module?.exports = Main

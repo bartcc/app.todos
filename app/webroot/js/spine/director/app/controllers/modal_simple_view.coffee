@@ -10,7 +10,7 @@ class ModalSimpleView extends Spine.Controller
   
   events:
     'click .btnClose'     : 'close'
-    'keyup'               : 'keyup'
+#    'keyup'               : 'keyup'
     'hidden.bs.modal'     : 'hiddenmodal'
     'show.bs.modal'       : 'showmodal'
   

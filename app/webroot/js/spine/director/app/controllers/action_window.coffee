@@ -96,12 +96,12 @@ class ActionWindow extends Spine.Controller
     switch type
       when 'Gallery'
         items = Gallery.albums(item.id).sort Album.nameSort
-        Gallery.trigger('activate', item)
+        Gallery.trigger('activate', item.id)
         @renderAlbums items
         if @renderType is 'Gallery'
           @albumsEl.children().addClass('disabled')
       when 'Album'
-        Album.trigger('activate', item)
+        Album.trigger('activate', item.id)
     
   prevClick: (e) ->
     e.stopPropagation()
@@ -150,6 +150,7 @@ class ActionWindow extends Spine.Controller
     remove = checkbox[0].checked
     gallery = $('.galleries .active', @form).item()
     
+#    if @validateDrop gallery, 
     if gallery
       Spine.trigger('albums:copy', @clipBoard, gallery)
       # open edit-panel

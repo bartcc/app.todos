@@ -9,13 +9,13 @@ GalleriesAlbum  = require('models/galleries_album')
 Info            = require('controllers/info')
 PhotosList      = require('controllers/photos_list')
 Extender        = require("plugins/controller_extender")
-#Drag            = require("plugins/drag")
+Drag            = require("plugins/drag")
 
 require("plugins/tmpl")
 
 class PhotosView extends Spine.Controller
   
-#  @extend Drag
+  @extend Drag
   @extend Extender
   
   elements:
@@ -23,7 +23,7 @@ class PhotosView extends Spine.Controller
     '.items'          : 'items'
   
   events:
-#    'dragstart  .items .thumbnail'    : 'dragstart'
+    'dragstart  .items .thumbnail'    : 'dragstart'
 #    'dragover   .items .thumbnail'    : 'dragover'
     'sortupdate .items'               : 'sortupdate'
     
@@ -94,7 +94,7 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::render'
     # if view is dirty but inactive we'll use the buffer next time
     list = @list.render(items || @updateBuffer(), mode)
-    list.sortable('photo')
+    list.sortable('photo') if Album.record
     delete @buffer
   
   renderHeader: ->

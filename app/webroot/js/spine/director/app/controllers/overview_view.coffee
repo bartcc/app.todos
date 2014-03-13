@@ -2,10 +2,13 @@ Spine   = require("spine")
 $       = Spine.$
 Recent  = require('models/recent')
 Photo   = require('models/photo')
+KeyEnhancer = require("plugins/key_enhancer")
 
 require("plugins/tmpl")
 
 class OverviewView extends Spine.Controller
+
+  @extend KeyEnhancer
 
   elements:
     '#overview-carousel'         : 'carousel'
@@ -15,6 +18,7 @@ class OverviewView extends Spine.Controller
     
   events:
     'click .item'         : 'showPhoto'
+    'keyup'               : 'keyup'
 
   template: (photos) ->
     $("#overviewTemplate").tmpl
@@ -100,6 +104,7 @@ class OverviewView extends Spine.Controller
     
   activated: ->
     @loadRecent()
+    @el.focus()
     
   show: ->
     App.trigger('canvas', @)
@@ -118,5 +123,16 @@ class OverviewView extends Spine.Controller
   error: (xhr, statusText, error) ->
     console.log xhr
     @record.trigger('ajaxError', xhr, statusText, error)
+    
+  keyup: (e) ->
+    code = e.charCode or e.keyCode
+    
+    console.log 'OverviewView:keyupCode: ' + code
+    
+    switch code
+      when 32 #Space
+        console.log 'Code: ' + code
+        @carousel.carousel 'pause'
+        e.preventDefault()
 
 module?.exports = OverviewView

@@ -173,6 +173,8 @@ class SlideshowView extends Spine.Controller
       @render list
     else
       @notify(@parent.showPrevious)
+      
+    @el.focus()
     
   sliderStart: =>
     @refreshElements()

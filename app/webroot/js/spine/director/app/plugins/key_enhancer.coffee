@@ -6,6 +6,12 @@ Controller.KeyEnhancer =
   
   extended: ->
     
+    Extend =
+      events:
+        'keyup'              : 'keyup'
+        'keypress input'     : 'stopPropagation'
+        'keypress textarea'  : 'stopPropagation'
+        
     Include =
         
       init: ->
@@ -14,10 +20,9 @@ Controller.KeyEnhancer =
       stopPropagation: (e) ->
         e.stopPropagation()
         
-    Extend =
-      events:
-        'keypress input'     : 'stopPropagation'
-        'keypress textarea'  : 'stopPropagation'
+      keyup: (e) ->
+        console.log e
+        console.log @
         
     @include Include
     @extend Extend

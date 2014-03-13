@@ -29,8 +29,8 @@ class PhotosList extends Spine.Controller
     
     'mousemove .item'              : 'infoUp'
     'mouseleave  .item'            : 'infoBye'
-    'dragstart'                    : 'dragstart'
     'dragstart .item'              : 'stopInfo'
+    'dragstart'                    : 'dragstart'
     'dragover .item'               : 'dragover'
     
   selectFirst: true
@@ -41,6 +41,7 @@ class PhotosList extends Spine.Controller
     @toolbar = new ToolbarView
       el: @toolbarEl
       
+    @bind('drag:start', @proxy @dragStart)
     Photo.bind('activate', @proxy @activate)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
@@ -48,7 +49,6 @@ class PhotosList extends Spine.Controller
 #    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
     AlbumsPhoto.bind('destroy', @proxy @remove)
-    
     
   change: ->
     console.log 'PhotosList::change'
@@ -246,7 +246,7 @@ class PhotosList extends Spine.Controller
   
   remove: (ap) ->
     item = Photo.exists ap.photo_id
-    @findModelElement(item).remove() if item
+    @findModelElement(item).detach() if item
     
   deletePhoto: (e) ->
     console.log 'PhotosList::deletePhoto'
@@ -286,12 +286,12 @@ class PhotosList extends Spine.Controller
       helper: 'clone'
     @el.selectable()
     
-  infoUp: (e) =>
+  infoUp: (e) ->
     @info.up(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     e.preventDefault()
     
-  infoBye: (e) =>
+  infoBye: (e) ->
     @info.bye(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
@@ -312,5 +312,10 @@ class PhotosList extends Spine.Controller
       'height'          : val+'px'
       'width'           : val+'px'
       'backgroundSize'  : bg
+    
+  dragStart: (e, o) ->
+    console.log Spine.dragItem.source
+    if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
+      @activate Spine.dragItem.source.id
     
 module?.exports = PhotosList

@@ -52,7 +52,7 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="content" class="views bg-medium vbox flex">
-      <div id="show" class="view canvas bg-dark vbox flex fade">
+      <div tabindex="1" id="show" class="view canvas bg-dark vbox flex fade">
         <div id="modal-action" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
@@ -172,7 +172,7 @@
           </div>
         </div>
       </div>
-      <div id="overview" class="view content vbox flex data parent fade">
+      <div tabindex="1" id="overview" class="view content vbox flex data parent fade">
         <div class="carousel-background bg-medium flex">
 <!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
 <!--          We can't use it here, since it must be triggered via the controller-->
@@ -192,7 +192,9 @@
               <span class="glyphicon glyphicon-chevron-right"></span>
             </a>
           </div>
-          <div class="xxl" style="color: rgba(156, 156, 156, 0.99);">Overview</div>
+          <div class="xxl" style="color: rgba(156, 156, 156, 0.99);">
+            Overview
+          </div>
         </div>
       </div>
       <div id="missing" class="canvas view vbox flex fade">

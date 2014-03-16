@@ -493,7 +493,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item fade in">
+  <li class="item fade in" draggable="true">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">

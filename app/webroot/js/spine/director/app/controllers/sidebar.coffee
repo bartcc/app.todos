@@ -33,6 +33,7 @@ class Sidebar extends Spine.Controller
     'dblclick .draghandle'      : 'toggleDraghandle'
 
     'sortupdate .sublist'         : 'sortupdate'
+    
     'dragstart  .alb.item'        : 'dragstart'
     'dragover   .gal.item'        : 'dragover' # Chrome only dispatches the drop event if this event is cancelled
     'dragenter  .gal.item'        : 'dragenter'
@@ -180,7 +181,7 @@ class Sidebar extends Spine.Controller
     return proposal
 
   createGallery: ->
-    console.log 'Sidebar::create'
+    console.log 'Sidebar::createGallery'
     
     cb = -> @updateSelectionID()
       

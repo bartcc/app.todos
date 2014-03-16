@@ -24,9 +24,6 @@ class PhotosList extends Spine.Controller
     'click .glyphicon-set .zoom'   : 'zoom'
     'click .glyphicon-set .delete' : 'deletePhoto'
     
-    'mouseenter .item'             : 'infoEnter'
-    'mousemove'                    : 'infoMove'
-    
     'mousemove .item'              : 'infoUp'
     'mouseleave  .item'            : 'infoBye'
     'dragstart .item'              : 'stopInfo'
@@ -289,19 +286,13 @@ class PhotosList extends Spine.Controller
   infoUp: (e) ->
     @info.up(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
-    e.preventDefault()
     
   infoBye: (e) ->
     @info.bye(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
-    e.preventDefault()
     
   stopInfo: (e) =>
     @info.bye(e)
-    
-  infoEnter: (e) ->
-    
-  infoMove: (e) ->
     
   sliderStart: =>
     @refreshElements()

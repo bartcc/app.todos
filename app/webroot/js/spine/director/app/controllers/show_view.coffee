@@ -376,9 +376,6 @@ class ShowView extends Spine.Controller
 
   destroyGallery: (e) ->
     Spine.trigger('destroy:gallery')
-    
-    @navigate '/galleries/'
-    
     @deselect()
   
   destroyAlbum: (e) ->

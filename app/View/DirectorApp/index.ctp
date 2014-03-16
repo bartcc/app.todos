@@ -341,7 +341,7 @@
 </script>
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item data parent" title="" draggable="true">
+  <li class="gal item data parent">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#sidebarContentTemplate"}}
@@ -493,7 +493,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item sortable fade in"  draggable="true">
+  <li class="item fade in">
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
@@ -570,7 +570,7 @@
   {{if flash}}
   <span class="author">${flash}</span>
   {{else}}
-  <li class="sublist-item alb item data" draggable="true" title="move (Hold Cmd-Key to Copy)">
+  <li class="sublist-item alb item data" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close ui-symbol-album"></span>
     <span class="title center">{{if title}}{{html title.substring(0, 45)}}{{else}}no title{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>

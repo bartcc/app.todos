@@ -31,7 +31,7 @@ class GalleriesList extends Spine.Controller
     Album.bind('destroy', @proxy @renderRelated)
 
   renderRelated: (item, mode) ->
-#    return unless @parent.isActive()
+    return unless @parent.isActive()
     console.log 'GalleriesList::renderRelated'
     @updateTemplates()
     

@@ -20,13 +20,6 @@ class SidebarList extends Spine.Controller
     "click      .gal.item"            : 'clickGallery'
     "click      .alb.item"            : 'clickAlbum'
     "click      .expander"            : 'clickExpander'
-#    'dragstart  .sublist-item'        : 'dragstart'
-#    'dragenter  .gal.item'            : 'dragenter'
-#    'dragenter  .sublist-item'        : 'dragenter'
-#    'dragleave  .sublist-item'        : 'dragleave'
-#    'drop       .sublist-item'        : 'drop'
-#    'dragend    .sublist-item'        : 'dragend'
-#    'drop       .item'        : 'drop'
 
   selectFirst: true
     
@@ -45,8 +38,6 @@ class SidebarList extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
-#    Album.bind('refresh destroy create update', @proxy @renderAllSublist)
-#    Album.one('refresh', @proxy @renderAllSublist)
     Album.bind('update destroy', @proxy @renderSublists)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
@@ -68,7 +59,10 @@ class SidebarList extends Spine.Controller
         @current = false
         @destroy item
           
-    @activate(@current)
+    if @current
+      @navigate '/gallery', @current.id
+    else
+      @navigate '/galleries'
         
   create: (item) ->
     @append @template item

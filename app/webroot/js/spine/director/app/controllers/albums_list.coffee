@@ -25,8 +25,6 @@ class AlbumsList extends Spine.Controller
     'dragstart'                    : 'dragstart'
     'mousemove .item'              : 'infoUp'
     'mouseleave .item'             : 'infoBye'
-#    'mouseenter .item'        : 'infoEnter'
-#    'mousemove'                    : 'infoMove'
     
   constructor: ->
     super
@@ -248,20 +246,14 @@ class AlbumsList extends Spine.Controller
   infoUp: (e) =>
     @info.up(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
-    e.preventDefault()
     
   infoBye: (e) =>
     @info.bye(e)
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
-    e.preventDefault()
     
   stopInfo: (e) =>
     @info.bye(e)
     
-  infoEnter: (e) ->
-    
-  infoMove: (e) ->
-
   dragStart: (e, o) ->
     if Gallery.selectionList().indexOf(Spine.dragItem.source.id) is -1
       @activate Spine.dragItem.source.id

@@ -15,7 +15,6 @@ require("plugins/tmpl")
 
 class PhotosView extends Spine.Controller
   
-  @extend Drag
   @extend Extender
   
   elements:
@@ -23,8 +22,6 @@ class PhotosView extends Spine.Controller
     '.items'          : 'items'
   
   events:
-    'dragstart  .items .thumbnail'    : 'dragstart'
-#    'dragover   .items .thumbnail'    : 'dragover'
     'sortupdate .items'               : 'sortupdate'
     
   template: (items) ->
@@ -139,6 +136,7 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('canvas', @)
   
   activated: ->
+    console.log '********************************'
     @change()
     
   save: (item) ->

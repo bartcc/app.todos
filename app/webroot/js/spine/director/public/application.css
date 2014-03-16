@@ -512,6 +512,9 @@ body {
 *:-khtml-drag {
   background-color: rgba(255,255,0,0.50) !important;
 }
+*[tabindex] {
+  outline: none !important;
+}
 #fu .vbox.flex > hr {
   border-color: #000;
 }

@@ -136,7 +136,6 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('canvas', @)
   
   activated: ->
-    console.log '********************************'
     @change()
     
   save: (item) ->

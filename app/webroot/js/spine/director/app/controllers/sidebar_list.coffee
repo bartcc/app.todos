@@ -191,6 +191,9 @@ class SidebarList extends Spine.Controller
     
   activate: (idOrRecord) ->
     Gallery.current(idOrRecord)
+#    unless Gallery.state
+#      @navigate '/gallery_notfound'
+#      return
     Album.trigger('activate', Gallery.selectionList())
     @exposeSelection()
 
@@ -198,9 +201,9 @@ class SidebarList extends Spine.Controller
     console.log 'SidebarList::clickGallery'
     galleryEl = $(e.target).closest('li.gal')
     item = galleryEl.item()
-    if item
-      @expand(item) 
-      @navigate '/gallery', item.id
+    
+    @expand(item) 
+    @navigate '/gallery', item.id
       
     e.stopPropagation()
     e.preventDefault()

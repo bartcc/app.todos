@@ -19,9 +19,8 @@ Model.Extender =
       selection: [global:[]]
 
       current: (recordOrID) ->
-        rec = false
         id = recordOrID?.id or recordOrID
-        rec = @find(id) if @exists(id)
+        rec = (@state = @exists(id)) or false
         prev = @record
         @record = rec
         same = !!(@record?.eql?(prev) and !!prev)

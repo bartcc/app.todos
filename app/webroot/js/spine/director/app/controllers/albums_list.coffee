@@ -70,7 +70,7 @@ class AlbumsList extends Spine.Controller
     if items.length
       @html @template items
       @renderBackgrounds items, mode
-      @activate()
+#      @activate()
     else
       if Gallery.record
         if Album.count()
@@ -126,6 +126,9 @@ class AlbumsList extends Spine.Controller
       App.sidebar.list.expand(Gallery.record, true)
       
     Album.current(id)
+#    unless Album.state
+#      @navigate '/album_notfound'
+#      return
     @exposeSelection()
   
   click: (e) ->

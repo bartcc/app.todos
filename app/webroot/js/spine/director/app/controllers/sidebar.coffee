@@ -99,6 +99,7 @@ class Sidebar extends Spine.Controller
     event = e.originalEvent
     Spine.dragItem.targetEl = null
     source = Spine.dragItem.source
+    return unless source
     # check for drags from sublist and set its origin
     if el.parents('ul.sublist').length
       fromSidebar = true

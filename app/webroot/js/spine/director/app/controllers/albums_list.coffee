@@ -70,7 +70,7 @@ class AlbumsList extends Spine.Controller
     if items.length
       @html @template items
       @renderBackgrounds items, mode
-#      @activate()
+      @activate()
     else
       if Gallery.record
         if Album.count()
@@ -139,7 +139,6 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
     
   select: (items = [], exclusive) ->
-    console.log item
     unless Spine.isArray items
       items = [items]
       

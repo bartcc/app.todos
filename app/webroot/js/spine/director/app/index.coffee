@@ -146,26 +146,25 @@ class Main extends Spine.Controller
       initSize: => @el.height()/4
       disabled: false
       axis: 'y'
-      min: -> 30
+      min: -> 10
+      tol: -> 40
       sleep: true
       max: => @el.height()/2
       goSleep: ->
         @manager.active().el.hide()
-#        @showView.closeView()
+        App.showView.closeView()
       awake: -> 
         @manager.active().el.show()
-#        @showView.openView()
+        App.showView.openView()
         
     @hmanager.change @upload
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
-#    @appManager.change @loaderView
     @loaderView.trigger('active')
     
     @contentManager = new Spine.Manager(@overviewView, @missingView, @showView, @flickrView)
     @contentManager.bind('change', @proxy @changeCanvas)
     @bind('canvas', @proxy @canvas)
-#    @contentManager.change @missingView
 
     @initializeFileupload()
     
@@ -192,8 +191,8 @@ class Main extends Spine.Controller
         @overviewView.trigger('active')
         Spine.trigger('show:overview')
       '/slideshow/:id/:autostart': (params) ->
-        @showView.trigger('active')
         Spine.trigger('show:slideshow', params.autostart)
+        @showView.trigger('active')
       '/slideshow/*': ->
         @showView.trigger('active')
         Spine.trigger('show:slideshow')

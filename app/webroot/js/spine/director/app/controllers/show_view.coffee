@@ -181,7 +181,7 @@ class ShowView extends Spine.Controller
     Spine.bind('albums:copy', @proxy @copyAlbums)
     Spine.bind('photos:copy', @proxy @copyPhotos)
     
-    @sOutValue = 160 # size thumbs initially are shown (slider setting)
+    @sOutValue = 160 # initial thumb size (slider setting)
     @sliderRatio = 50
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @current = @galleriesView
@@ -191,9 +191,6 @@ class ShowView extends Spine.Controller
     
     @canvasManager.bind('change', @proxy @changeCanvas)
     @headerManager.bind('change', @proxy @changeHeader)
-    # setup visibility of view stack
-#    @canvasManager.trigger('active', @galleriesView)
-#    @headerManager.trigger('active', @galleriesHeader)
     @trigger('change:toolbarOne')
     
   activated: ->
@@ -495,7 +492,7 @@ class ShowView extends Spine.Controller
       h = unless isOpen()
         parseInt(App.hmanager.currentDim)+'px'
       else
-        '25px'
+        '20px'
       h
     
     @views.animate

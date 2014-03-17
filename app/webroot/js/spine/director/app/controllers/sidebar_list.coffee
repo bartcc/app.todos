@@ -194,7 +194,7 @@ class SidebarList extends Spine.Controller
 #    unless Gallery.state
 #      @navigate '/gallery_notfound'
 #      return
-    Album.trigger('activate', Gallery.selectionList())
+#    Album.trigger('activate', Gallery.selectionList())
     @exposeSelection()
 
   clickGallery: (e) ->

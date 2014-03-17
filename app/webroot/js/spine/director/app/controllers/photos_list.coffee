@@ -70,7 +70,7 @@ class PhotosList extends Spine.Controller
       else
         html = '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
         @html html
-#    @activate()
+    @activate()
     @el
   
   renderAll: ->
@@ -78,7 +78,7 @@ class PhotosList extends Spine.Controller
     items = Photo.all()
     if items.length
       @html @template items
-      @exposeSelection()
+      @activate()
       @uri items, 'html'
     @el
   

@@ -27,6 +27,10 @@
     </title>
     <?php
     echo $this->Html->meta('icon');
+    echo $this->Html->meta("keywords", "spine, spinejs, javascript, application", array("inline" => false));
+    echo $this->Html->meta("description", "Webapplication made with Spine", array("inline" => false));
+    echo $this->Html->meta("description", "Photo Director", array("inline" => false));
+    echo $this->Html->meta("description", "Photo Library Tool", array("inline" => false));
     echo $this->Html->css('spine/director/application_boxmodel');
     echo $this->Html->css('twitter/bootstrap/css/bootstrap');
 
@@ -45,11 +49,12 @@
     
     <?php
     echo $this->Html->scriptEnd();
+    echo $this->fetch('meta');
     echo $scripts_for_layout;
     ?>
   </head>
   <body class="body">
-    <?php echo $content_for_layout; ?>
+    <?php echo $this->fetch('content'); ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>
 </html>

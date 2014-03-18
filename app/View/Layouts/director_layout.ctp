@@ -27,6 +27,10 @@
     </title>
     <?php
     echo $this->Html->meta('icon');
+    echo $this->Html->meta("keywords", "spine, spinejs, javascript, application, sample, example", array("inline" => false));
+    echo $this->Html->meta("description", "Webapplication made with Spine", array("inline" => false));
+    echo $this->Html->meta("description", "Photo Director", array("inline" => false));
+    echo $this->Html->meta("description", "Photo Library Tool", array("inline" => false));
     
     echo $this->Html->css('themes/jquery-ui/ui-darkness/jquery-ui-1.8.16.custom');
     echo $this->Html->css('twitter/bootstrap/css/bootstrap');
@@ -87,7 +91,7 @@
     <?php
     
     echo $this->Html->scriptEnd();
-
+    echo $this->fetch('meta');
     echo $scripts_for_layout;
     ?>
   </head>

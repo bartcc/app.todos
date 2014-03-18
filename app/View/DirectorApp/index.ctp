@@ -204,7 +204,7 @@
         <div class="content vbox flex autoflow"></div>
       </div>
       <div id="flickr" class="canvas view vbox flex fade">
-        <ul class="opt-ions hbox">
+        <ul class="options hbox">
           <li class="splitter flex"></li>
           <ul class="toolbar hbox nav"></ul>
           <li class="splitter flex"></li>

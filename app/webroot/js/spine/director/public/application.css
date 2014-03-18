@@ -808,6 +808,11 @@ button.large {
 label input[type="checkbox"] + span {
   display: inline;
 }
+.enlightened {
+  color: #323228;
+  text-shadow: 0 1px 0 rgba(200,200,200,0.80);
+  font-weight: normal;
+}
 .all .view .enlightened {
   color: #323228;
   text-shadow: 0 1px 0 rgba(200,200,200,0.80);
@@ -1545,9 +1550,12 @@ li .thumbnail.image {
 }
 .breadcrumb li a {
   color: rgba(0,0,0,0.70);
+  text-decoration: underline;
 }
 .breadcrumb li {
   text-shadow: 0 1px 0 rgba(255,255,255,0.30);
+  font-style: initial;
+  font-family: sans-serif;
   font-weight: bold;
 }
 .breadcrumb li.active,

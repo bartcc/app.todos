@@ -99,8 +99,7 @@ class AlbumsView extends Spine.Controller
   render: ->
     return unless @isActive()
     console.log 'AlbumsView::render'
-    list = @list.render @updateBuffer()
-    list.sortable('gallery') if Gallery.record
+    @list.render @updateBuffer()
     @el
       
   show: ->

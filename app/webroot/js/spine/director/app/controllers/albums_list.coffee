@@ -71,6 +71,7 @@ class AlbumsList extends Spine.Controller
     if items.length
       @html @template items
       @renderBackgrounds items, mode
+      @el.sortable('gallery') if Gallery.record
       @activate()
     else
       if Gallery.record

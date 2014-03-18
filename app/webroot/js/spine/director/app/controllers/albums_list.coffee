@@ -51,6 +51,7 @@ class AlbumsList extends Spine.Controller
         @el.empty() if wipe
         @append @template album
         @renderBackgrounds [album]
+        @activate album.id
         @el.sortable('destroy').sortable()
         
       when 'destroy'

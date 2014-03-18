@@ -43,7 +43,7 @@ class GalleriesView extends Spine.Controller
       items = Gallery.records.sort Gallery.nameSort
       @list.render items
     else  
-      @list.el.html '<label class="invite"><span class="enlightened">This Application has no galleries. &nbsp;<button class="optCreateGallery dark large">New Gallery</button>'
+      @list.el.html '<label class="invite"><span class="enlightened">This Application has no galleries. &nbsp;<button class="opt-CreateGallery dark large">New Gallery</button>'
           
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default'])
@@ -69,6 +69,5 @@ class GalleriesView extends Spine.Controller
   destroy: (e) ->
     console.log 'GalleriesView::destroy'
     Spine.trigger('destroy:gallery')
-
-
+    
 module?.exports = GalleriesView

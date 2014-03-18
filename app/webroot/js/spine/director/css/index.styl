@@ -208,6 +208,9 @@ div.content label.label span {
   font-family: serif;
   font-style: italic
 }
+#show .galleries .item:not(.active) .inner > div:nth-child(4) {
+  visibility: hidden;
+}
 button, .btn {
   border: 1px solid;
   border-radius: 3px;
@@ -286,7 +289,7 @@ button.jumbo, .btn.jumbo {
   font-style: inherit;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
 }
-.options button, .options li.opt {
+.options button, .options li.opt, [class^="opt-"] {
   cursor: pointer;
 }
 .options button, .options li.opt, .options li.dropdown > a {

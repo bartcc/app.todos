@@ -7,7 +7,7 @@ class AlbumsHeader extends Spine.Controller
   
   events:
     'click .gal'                     : 'backToGalleries'
-    'click .optAlbumActionCopy'      : 'toggleActionWindow'
+    'click .opt-AlbumActionCopy'      : 'toggleActionWindow'
   
   elements:
     '.movefromright'          : 'actionMenu'

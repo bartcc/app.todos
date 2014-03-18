@@ -14,6 +14,7 @@ class GalleriesList extends Spine.Controller
   @extend Extender
   
   events:
+    'click .opt-SlideshowPlay'       : 'slideshowPlay'
     'click .item'                   : 'click'
     'click .glyphicon-set .back'    : 'back'
     'click .glyphicon-set .delete'  : 'deleteGallery'
@@ -149,5 +150,8 @@ class GalleriesList extends Spine.Controller
   infoBye: (e) =>
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
     e.preventDefault()
+    
+  slideshowPlay: ->
+    App.slideshowView.trigger('play')
 
 module?.exports = GalleriesList

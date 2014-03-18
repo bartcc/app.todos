@@ -12,7 +12,7 @@ class PhotosHeader extends Spine.Controller
   events:
     'click .gal'                      : 'backToGalleries'
     'click .alb'                      : 'backToAlbums'
-    'click .optPhotoActionCopy'       : 'toggleActionWindow' 
+    'click .opt-PhotoActionCopy'       : 'toggleActionWindow' 
     
   elements:
     '.movefromright'          : 'actionMenu'

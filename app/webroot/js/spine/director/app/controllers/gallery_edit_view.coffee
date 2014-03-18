@@ -9,12 +9,12 @@ class GalleryEditView extends Spine.Controller
   
   elements:
     '.editGallery'              : 'editEl'
-    '.optCreate'                : 'createGalleryEl'
+    '.opt-Create'                : 'createGalleryEl'
     '.galleryEditor input.name' : 'input'
 
   events:
     'keyup'                 : 'saveOnKeyup'
-    'click .optCreate'      : 'createGallery'
+    'click .opt-Create'      : 'createGallery'
     
   template: (item) ->
     $('#editGalleryTemplate').tmpl item
@@ -40,7 +40,7 @@ class GalleryEditView extends Spine.Controller
       @editEl.html @template Gallery.record
     else
       unless Gallery.count()
-        @editEl.html $("#noSelectionTemplate").tmpl({type: '<label class="invite"><span class="enlightened">Director has no gallery yet &nbsp;<button class="optCreate dark large">New Gallery</button></span></label>'})
+        @editEl.html $("#noSelectionTemplate").tmpl({type: '<label class="invite"><span class="enlightened">Director has no gallery yet &nbsp;<button class="opt-Create dark large">New Gallery</button></span></label>'})
       else
         @editEl.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select a gallery!</span></label>'})
     @editEl

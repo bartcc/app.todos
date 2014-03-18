@@ -20,16 +20,16 @@ class Sidebar extends Spine.Controller
     '.items'                : 'items'
     '.inner'                : 'inner'
     '.droppable'            : 'droppable'
-    '.optAllAlbums'         : 'albums'
-    '.optAllPhotos'         : 'photos'
+    '.opt-AllAlbums'         : 'albums'
+    '.opt-AllPhotos'         : 'photos'
     '.expander'             : 'expander'
 
 
   events:
     'keyup input'               : 'filter'
-    'click .optCreateAlbum'     : 'createAlbum'
-    'click .optCreateGallery'   : 'createGallery'
-    'click .optRefresh'         : 'refreshAll'
+    'click .opt-CreateAlbum'     : 'createAlbum'
+    'click .opt-CreateGallery'   : 'createGallery'
+    'click .opt-Refresh'         : 'refreshAll'
     'dblclick .draghandle'      : 'toggleDraghandle'
 
     'sortupdate .sublist'         : 'sortupdate'

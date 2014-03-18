@@ -24,36 +24,36 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'Overview'
-          klass: 'optOverview '
+          klass: 'opt-Overview '
         ,
           name: 'Preview'
-          klass: 'optShowSlideshow '
+          klass: 'opt-ShowSlideshow '
           disabled: -> !Gallery.activePhotos().length
         ,
           devider: true
         ,
-          name: 'Invert Selection     Cmd + A'
-          klass: 'optSelectAll'
+          name: 'Invert Selection     ctrl+A'
+          klass: 'opt-SelectAll'
         ,
           devider: true
         ,
           name: 'Toggle Fullscreen'
-          klass: 'optFullScreen'
+          klass: 'opt-FullScreen'
           icon: 'fullscreen'
           iconcolor: 'black'
         ,
           name: 'Toggle Sidebar       Tab'
-          klass: 'optSidebar'
+          klass: 'opt-Sidebar'
         ,
           devider: true
         ,
           name: -> 'Albummasters'
-          klass: 'optShowAlbumMasters'
+          klass: 'opt-ShowAlbumMasters'
           icon: 'book'
           disabled: -> false
         ,
           name: -> 'Photomasters'
-          klass: 'optShowPhotoMasters'
+          klass: 'opt-ShowPhotoMasters'
           icon: 'book'
           disabled: -> false
         ]
@@ -63,18 +63,18 @@ class Toolbar extends Spine.Model
         [
           name: 'New'
           icon: 'asterisk'
-          klass: 'optCreateGallery'
+          klass: 'opt-CreateGallery'
         ,
           devider: true
         ,
           name: 'Edit'
           icon: 'pencil'
-          klass: 'optGallery'
+          klass: 'opt-Gallery'
           disabled: ->
         ,
           name: 'Destroy'
           icon: 'trash'
-          klass: 'optDestroyGallery'
+          klass: 'opt-DestroyGallery'
           disabled: -> !Gallery.record
         ]
     group2:
@@ -83,13 +83,13 @@ class Toolbar extends Spine.Model
         [
           name: 'New'
           icon: 'asterisk'
-          klass: 'optCreateAlbum'
+          klass: 'opt-CreateAlbum'
         ,
           devider: true
         ,
           name: 'Edit'
           icon: 'pencil'
-          klass: 'optAlbum'
+          klass: 'opt-Album'
           disabled: ->
         ,
           name: ->
@@ -97,7 +97,7 @@ class Toolbar extends Spine.Model
             type = if Gallery.record then 'Remove' else 'Destroy'
             return type+' '+len
           icon: 'trash'
-          klass: 'optDestroyAlbum'
+          klass: 'opt-DestroyAlbum'
           disabled: -> !Gallery.selectionList().length
         ,
           devider: true
@@ -105,13 +105,13 @@ class Toolbar extends Spine.Model
           name: ->
             'Show Selection'
           icon: 'hand-right'
-          klass: 'optShowAlbumSelection '
+          klass: 'opt-ShowAlbumSelection '
           disabled: -> !Gallery.selectionList().length
         ,
           devider: true
         ,
           name: -> 'Albummasters'
-          klass: 'optShowAlbumMasters'
+          klass: 'opt-ShowAlbumMasters'
           icon: 'book'
           disabled: -> false
         ]
@@ -121,7 +121,7 @@ class Toolbar extends Spine.Model
         [
           name: 'Upload'
           icon: 'upload'
-          klass: 'optUpload'
+          klass: 'opt-Upload'
         ,
           devider: true
         ,
@@ -133,7 +133,7 @@ class Toolbar extends Spine.Model
             s = if len>1 then 's' else ''
             'Copy ' + (len or '') + ' Photo' + s + ' to New Album'
           icon: ''
-          klass: 'optCreatePhotoFromSel'
+          klass: 'opt-CreatePhotoFromSel'
           disabled: ->
             if Gallery.record
               len = Album.gallerySelectionList().length
@@ -149,7 +149,7 @@ class Toolbar extends Spine.Model
             s = if len>1 then 's' else ''
             'Move ' + (len or '') + ' Photo' + s + ' to New Album'
           icon: ''
-          klass: 'optCreatePhotoFromSelCut'
+          klass: 'opt-CreatePhotoFromSelCut'
           disabled: ->
             if Gallery.record
               len = Album.gallerySelectionList().length
@@ -161,7 +161,7 @@ class Toolbar extends Spine.Model
         ,
           name: 'Edit'
           icon: 'pencil'
-          klass: 'optPhoto'
+          klass: 'opt-Photo'
           disabled: ->
         ,
           name: ->
@@ -176,7 +176,7 @@ class Toolbar extends Spine.Model
               type = 'Remove'
             return type+' ('+len+')'
           icon: 'trash'
-          klass: 'optDestroyPhoto '
+          klass: 'opt-DestroyPhoto '
           disabled: ->
             if Gallery.record
               len = Album.gallerySelectionList().length
@@ -189,7 +189,7 @@ class Toolbar extends Spine.Model
           name: ->
             'Show Selection'
           icon: 'hand-right'
-          klass: 'optShowPhotoSelection '
+          klass: 'opt-ShowPhotoSelection '
           disabled: ->
             len = 0
             if Gallery.record
@@ -199,7 +199,7 @@ class Toolbar extends Spine.Model
             return !len
         ,
           name: -> 'Photomasters'
-          klass: 'optShowPhotoMasters'
+          klass: 'opt-ShowPhotoMasters'
           icon: 'book'
           disabled: -> false
         ,
@@ -207,7 +207,7 @@ class Toolbar extends Spine.Model
         ,
           name: 'Auto Upload'
           icon: -> if App.showView.isQuickUpload() then 'ok' else ''
-          klass: 'optQuickUpload'
+          klass: 'opt-QuickUpload'
           disabled: -> false
         ]
     group4:
@@ -218,7 +218,7 @@ class Toolbar extends Spine.Model
         [
           name: ->
             'Preview'#(if len==1 then " Image" else " Images") 
-          klass: 'optOpenSlideshow'
+          klass: 'opt-OpenSlideshow'
           icon: 'picture'
           disabled: -> !Gallery.activePhotos().length
         ,
@@ -226,7 +226,7 @@ class Toolbar extends Spine.Model
             len=Gallery.activePhotos().length
             'Start'
           icon: 'play'
-          klass: 'optSlideshowPlay'
+          klass: 'opt-SlideshowPlay'
           dataToggle: 'modal-gallery'
           disabled: -> !Gallery.activePhotos?().length
         ]
@@ -260,7 +260,7 @@ class Toolbar extends Spine.Model
         [
           name: -> 'Start'
           icon: 'play'
-          klass: 'optSlideshowPlay'
+          klass: 'opt-SlideshowPlay'
           innerklass: 'symbol'
           dataToggle: 'modal-gallery'
           disabled: -> !Gallery.activePhotos().length
@@ -271,7 +271,7 @@ class Toolbar extends Spine.Model
       content:
         [
           name: ''
-          klass: 'optPrevious'
+          klass: 'opt-Previous'
           type: 'span'
           icon: 'remove'
           outerstyle: 'float: right;'
@@ -282,13 +282,13 @@ class Toolbar extends Spine.Model
       content:
         [
           name: 'Chromeless'
-          klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
+          klass: -> 'opt-FullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
           icon: ''
           dataToggle: 'button'
           outerstyle: ''
         ,
           name: -> ''
-          klass: 'optSlideshowPlay'
+          klass: 'opt-SlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
           disabled: -> !Gallery.activePhotos().length
@@ -298,7 +298,7 @@ class Toolbar extends Spine.Model
       content:
         [
           name: '<span class="slider" style=""></span>'
-          klass: 'optThumbsize '
+          klass: 'opt-Thumbsize '
           type: 'div'
           innerstyle: 'width: 190px; position: relative;'
         ]
@@ -307,18 +307,18 @@ class Toolbar extends Spine.Model
       content:
         [
           name: '<span class="slider" style=""></span>'
-          klass: 'optThumbsize '
+          klass: 'opt-Thumbsize '
           type: 'div'
           innerstyle: 'width: 190px; position: relative;'
         ,
           name: 'Fullscreen'
-          klass: -> 'optFullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
+          klass: -> 'opt-FullScreen' + if App.showView.slideshowView.fullScreenEnabled() then ' active' else ''
           icon: 'fullscreen'
           dataToggle: 'button'
           outerstyle: ''
         ,
           name: 'Start'
-          klass: 'optSlideshowPlay'
+          klass: 'opt-SlideshowPlay'
           innerklass: 'symbol'
           icon: 'play'
           iconcolor: ''
@@ -337,12 +337,12 @@ class Toolbar extends Spine.Model
           type: 'span'
         ,
           name: ''
-          klass: 'optPrev'
+          klass: 'opt-Prev'
           icon: 'chevron-left'
           disabled: -> 
         ,
           name: ''
-          klass: 'optNext'
+          klass: 'opt-Next'
           icon: 'chevron-right'
           disabled: -> 
         ]
@@ -358,12 +358,12 @@ class Toolbar extends Spine.Model
           type: 'span'
         ,
           name: ''
-          klass: 'optPrev'
+          klass: 'opt-Prev'
           icon: 'chevron-left'
           disabled: -> 
         ,
           name: ''
-          klass: 'optNext'
+          klass: 'opt-Next'
           icon: 'chevron-right'
           disabled: -> 
         ]
@@ -372,7 +372,7 @@ class Toolbar extends Spine.Model
       content:
         [
           icon: 'remove'
-          klass: 'opt optPrevious'
+          klass: 'opt opt-Previous'
           type: 'span'
         ]
         

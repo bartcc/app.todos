@@ -75,11 +75,11 @@ class AlbumsList extends Spine.Controller
     else
       if Gallery.record
         if Album.count()
-          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<div><span><button class="optCreateAlbum dark large">New Album</button></span><span><button class="optShowAllAlbums dark large">Show existing Albums</button></span></div></span></label>'
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<div><span><button class="opt-CreateAlbum dark large">New Album</button></span><span><button class="opt-ShowAllAlbums dark large">Show existing Albums</button></span></div></span></label>'
         else
-          @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<div><button class="optCreateAlbum dark large">New Album</button></div></span></label>'
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<div><button class="opt-CreateAlbum dark large">New Album</button></div></span></label>'
       else
-        @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet<div><button class="optCreateAlbum dark large">New Album</button></div></span></label>'
+        @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet<div><button class="opt-CreateAlbum dark large">New Album</button></div></span></label>'
     @el
   
   updateTemplate: (album) ->

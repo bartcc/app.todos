@@ -286,10 +286,6 @@ class Main extends Spine.Controller
     console.log 'Main:keypressCode: ' + code
     
     switch code
-      when 97 #CTRL A
-        if e.metaKey or e.ctrlKey
-          @showView.selectAll()
-          e.preventDefault()
       when 13 #RETURN
         e.preventDefault()
     
@@ -305,5 +301,9 @@ class Main extends Spine.Controller
         e.stopPropagation()
       when 13 #Return
         e.preventDefault()
+      when 65 #CTRL A
+        if e.metaKey or e.ctrlKey
+          @showView.selectAll()
+          e.preventDefault()
         
 module?.exports = Main

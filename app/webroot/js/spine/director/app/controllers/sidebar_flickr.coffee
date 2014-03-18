@@ -13,8 +13,8 @@ class SidebarFlickr extends Spine.Controller
   events:
     'click      .expander'        : 'expand'
     'click'                       : 'expand'
-    'click      .optFlickrRecent' : 'navRecent'
-    'click      .optFlickrInter'  : 'navInter'
+    'click      .opt-FlickrRecent' : 'navRecent'
+    'click      .opt-FlickrInter'  : 'navInter'
 
   template: (items) ->
     $("#sidebarFlickrTemplate").tmpl(items)
@@ -29,11 +29,11 @@ class SidebarFlickr extends Spine.Controller
       name: 'flickr'
       sub: [
         name: 'Recent Photos'
-        klass: 'optFlickrRecent'
+        klass: 'opt-FlickrRecent'
         icon: 'picture'
       ,
         name: 'Interesting Stuff'
-        klass: 'optFlickrInter'
+        klass: 'opt-FlickrInter'
         icon: 'picture'
       ]
       

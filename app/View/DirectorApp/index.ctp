@@ -29,21 +29,21 @@
           </form>
         </div>
         <div class="originals hbox">
-          <ul class="options flex">
+          <ul class="opt-ions flex">
             <li id="" class="splitter flickr disabled"></li>
           </ul>
         </div>
         <ul class="items vbox flex autoflow"></ul>
         <footer class="footer">
-          <button class="optRefresh dark left">
+          <button class="opt-Refresh dark left">
             <i class="glyphicon glyphicon-repeat" style="line-height: 1.5em;"></i>
             <span></span>
           </button>
-          <button class="optCreateGallery dark">
+          <button class="opt-CreateGallery dark">
             <i class="glyphicon glyphicon-plus"></i>
             <span>Gallery</span>
           </button>
-          <button class="optCreateAlbum dark">
+          <button class="opt-CreateAlbum dark">
             <i class="glyphicon glyphicon-plus"></i>
             <span>Album</span>
           </button>
@@ -108,7 +108,7 @@
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
           <div class="views canvas content vbox flex hdraggable" style="position: relative">
             <div class="hdivide draghandle">
-              <span class="opt optCloseDraghandle glyphicon glyphicon-remove glyphicon glyphicon-white right" style="cursor: pointer;"></span>
+              <span class="opt opt-CloseDraghandle glyphicon glyphicon-remove glyphicon glyphicon-white right" style="cursor: pointer;"></span>
             </div>
             <div id="ga" class="view flex autoflow" style="">
               <div class="editGallery">You have no Galleries!</div>
@@ -204,7 +204,7 @@
         <div class="content vbox flex autoflow"></div>
       </div>
       <div id="flickr" class="canvas view vbox flex fade">
-        <ul class="options hbox">
+        <ul class="opt-ions hbox">
           <li class="splitter flex"></li>
           <ul class="toolbar hbox nav"></ul>
           <li class="splitter flex"></li>
@@ -273,8 +273,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="optCreateGallery btn-default">New Gallery</button>
-        <button type="button" class="optCreateAlbum btn-default" {{if type == 'Gallery'}}disabled{{/if}}>New Album</button>
+        <button type="button" class="opt-CreateGallery btn-default">New Gallery</button>
+        <button type="button" class="opt-CreateAlbum btn-default" {{if type == 'Gallery'}}disabled{{/if}}>New Album</button>
         <button type="button" class="btn-default" data-dismiss="modal">Close</button>
         <button type="submit" class="copy btn-default">Copy</button>
         <label class="hide">
@@ -468,7 +468,12 @@
   <div style="">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique; ">Images: ${iCount}</div>
   {{if sCount}}
-  <div style=""><span class="label label-default">Slideshow Images: ${sCount}</span></div>
+  <div class="opt-SlideshowPlay" style="">
+    <span class="label label-default">
+    <i class="glyphicon glyphicon-picture"></i><i class="glyphicon glyphicon-play"></i>
+    ${sCount}
+    </span>
+  </div>
   <div style="font-size: 0.8em; font-style: oblique; ">(press space to play)</div>
   {{/if}}
 </script>
@@ -555,7 +560,7 @@
   </section>
   <section class="right">
     <span class="fadeelement breadcrumb movefromright">
-      <li class="symbol optAlbumActionCopy">
+      <li class="symbol opt-AlbumActionCopy">
         <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
       </li>
     </span>
@@ -667,7 +672,7 @@
 </script>
 
 <script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left"></div>
+  <div class="opt- thumbnail image left"></div>
 </script>
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
@@ -693,7 +698,7 @@
   </section>
   <section class="right">
     <span class="fadeelement breadcrumb movefromright">
-      <li class="symbol optPhotoActionCopy">
+      <li class="symbol opt-PhotoActionCopy">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
         </span>
@@ -726,7 +731,7 @@
   </section>
   <section class="right">
     <span class="fadeelement breadcrumb movefromright">
-      <li class="symbol optAction">
+      <li class="symbol opt-Action">
         <span class="">
           <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
         </span>

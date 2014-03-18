@@ -12,8 +12,8 @@ class FlickrView extends Spine.Controller
     'click .recent'   : 'navRecent'
     'click .inter'    : 'navInter'
     'click .links'    : 'click'
-    'click .optPrev'  : 'prevPage'
-    'click .optNext'  : 'nextPage'
+    'click .opt-Prev'  : 'prevPage'
+    'click .opt-Next'  : 'nextPage'
     
   template: (items) ->
     $('#flickrTemplate').tmpl items

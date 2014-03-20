@@ -69,12 +69,12 @@ class PhotoView extends Spine.Controller
     @parent.updateBuffer()
     Album.updateSelection()
     
-    @navigate '/gallery', Gallery.record.id, Album.record?.id or ''
+#    @navigate '/gallery', Gallery.record.id, Album.record?.id or ''
   
   destroy: (item) ->
     @parent.updateBuffer()
     
-    @navigate '/gallery', Gallery.record.id, Album.record?.id or ''
+#    @navigate '/gallery', Gallery.record.id, Album.record?.id or ''
     
   destroyAlbumsPhoto: (ap) ->
     return unless @isActive()

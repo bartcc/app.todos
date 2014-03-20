@@ -73,8 +73,6 @@ class AlbumsView extends Spine.Controller
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
     
-#    @bind('drag:enter', @proxy @parent.sidebar.dragEnter)
-    
     $(@views).queue('fx')
     
   refresh: (records) ->
@@ -184,12 +182,12 @@ class AlbumsView extends Spine.Controller
       album.createJoin target if album = Album.exists aid
       
   destroyJoin: (albums, gallery) ->
+    console.log 'AlbumsView::destroyJoin'
     return unless gallery and gallery.constructor.className is 'Gallery'
     albums = [albums] unless Album.isArray(albums)
     for aid in albums
-      ga = GalleriesAlbum.galleryAlbumExists(aid, gallery.id)
-      @list.findModelElement(album).remove() if album = Album.exists(aid)
-      ga.destroy()
+      if ga = GalleriesAlbum.galleryAlbumExists(aid, gallery.id)
+        ga.destroy()
       
   loadingStart: (album) ->
     return unless @isActive()

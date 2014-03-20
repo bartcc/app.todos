@@ -1,11 +1,11 @@
-Spine       = require("spine")
-$           = Spine.$
-Photo       = require('models/photo')
-Album       = require('models/album')
-AlbumsPhoto = require('models/albums_photo')
-ToolbarView = require("controllers/toolbar_view")
-Extender    = require('plugins/controller_extender')
-Drag        = require("plugins/drag")
+Spine           = require("spine")
+$               = Spine.$
+Photo           = require('models/photo')
+Album           = require('models/album')
+AlbumsPhoto     = require('models/albums_photo')
+ToolbarView     = require("controllers/toolbar_view")
+Extender        = require('plugins/controller_extender')
+Drag            = require("plugins/drag")
 
 require("plugins/tmpl")
 
@@ -270,7 +270,7 @@ class PhotosList extends Spine.Controller
     item = $(e?.currentTarget).item() || @current
     @select item, true
     @stopInfo(e)
-    @navigate '/gallery', (Gallery.record?.id or 'nope'), (Album.record?.id or 'nope'), item.id
+    @navigate '/gallery', (Gallery.record?.id or ''), (Album.record?.id or ''), item.id
     
     e.stopPropagation()
     e.preventDefault()

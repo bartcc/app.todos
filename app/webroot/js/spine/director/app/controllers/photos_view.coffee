@@ -51,6 +51,7 @@ class PhotosView extends Spine.Controller
     @header.template = @headerTemplate
     @viewport = @list.el
 #    AlbumsPhoto.bind('destroy', @proxy @remove)
+    GalleriesAlbum.bind('destroy', @proxy @backToAlbumView)
     Gallery.bind('create update destroy', @proxy @renderHeader)
     Album.bind('change', @proxy @renderHeader)
     Photo.bind('refresh', @proxy @change)
@@ -176,8 +177,8 @@ class PhotosView extends Spine.Controller
     return unless album and album.constructor.className is 'Album'
     photos = [photos] unless Photo.isArray(photos)
     for pid in photos
-      ap = AlbumsPhoto.albumPhotoExists(pid, album.id)
-      ap.destroy()
+      if ap = AlbumsPhoto.albumPhotoExists(pid, album.id)
+        ap.destroy()
 
   sortupdate: ->
     @list.children().each (index) ->
@@ -192,5 +193,10 @@ class PhotosView extends Spine.Controller
         Album.record.invalid = true
         
     @list.exposeSelection()
+    
+  backToAlbumView: (ga) ->
+    return unless @isActive()
+    if gallery = Gallery.exists ga.gallery_id
+      @navigate '/gallery', gallery.id
     
 module?.exports = PhotosView

@@ -28,9 +28,7 @@
       }).mouseup(function() {
         isHandle = false;
       });
-      console.log($(this).data());
       $(this).data('items', options.items)
-      console.log($(this).data());
       placeholders = placeholders.add(placeholder);
       if (options.connectWith) {
         $(options.connectWith).add(this).data('connectWith', options.connectWith);

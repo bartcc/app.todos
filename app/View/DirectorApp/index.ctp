@@ -123,7 +123,7 @@
                 <div class="content">No Photo found!</div>
               </div>
             </div>
-            <div id="fu" class="view hbox flex bg-dark autoflow" style="margin: 0px">
+            <div id="fu" class="view hbox flex bg-dark" style="margin: 0px">
               <!-- The file upload form used as target for the file upload widget -->
               <form id="fileupload" class="vbox flex" action="uploads/image" method="POST" enctype="multipart/form-data">
                   <!-- Redirect browsers with JavaScript disabled to the origin page -->

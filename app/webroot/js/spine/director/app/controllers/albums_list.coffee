@@ -71,7 +71,7 @@ class AlbumsList extends Spine.Controller
     if items.length
       @html @template items
       @renderBackgrounds items, mode
-      @el.sortable('gallery') if Gallery.record
+      @el.sortable() if Gallery.record
       @activate()
     else
       if Gallery.record
@@ -99,7 +99,7 @@ class AlbumsList extends Spine.Controller
       albumEl.toggleClass('active', active)
       albumEl.toggleClass('hot', hot)
       contentEl.attr('style', style)
-    @el.sortable('album')
+    @el.sortable()
     
   exposeSelection: ->
     @deselect()

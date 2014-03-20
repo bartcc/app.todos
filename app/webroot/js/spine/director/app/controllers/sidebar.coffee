@@ -95,6 +95,7 @@ class Sidebar extends Spine.Controller
     e.stopPropagation()
   
   dragStart: (e, controller) ->
+    return unless Spine.dragItem
     el = $(e.currentTarget)
     event = e.originalEvent
     Spine.dragItem.targetEl = null
@@ -121,11 +122,12 @@ class Sidebar extends Spine.Controller
     Spine.clonedSelection = selection.slice(0)
 
   dragEnter: (e) ->
+    return unless Spine.dragItem
     el = $(e.target).closest('.data')
     data = el.tmplItem?.data or el.data()
     target = el.data()?.current?.record or el.item()
-    source = Spine.dragItem?.source
-    origin = Spine.dragItem?.origin or Gallery.record
+    source = Spine.dragItem.source
+    origin = Spine.dragItem.origin or Gallery.record
     Spine.dragItem.closest?.removeClass('over nodrop')
     Spine.dragItem.closest = el
     if @validateDrop target, source, origin
@@ -145,6 +147,7 @@ class Sidebar extends Spine.Controller
   dragLeave: (e) =>
 
   dropComplete: (e, record) ->
+    return unless Spine.dragItem
     Spine.dragItem.closest?.removeClass('over nodrop')
     target = Spine.dragItem.closest?.data()?.current?.record or Spine.dragItem.closest?.item()
     source = Spine.dragItem.source

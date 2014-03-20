@@ -576,7 +576,7 @@
   {{else}}
   <li class="sublist-item alb item data" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close ui-symbol-album"></span>
-    <span class="title center">{{if title}}{{html title.substring(0, 45)}}{{else}}no title{{/if}}</span>
+    <span class="title center">{{if title}}{{html title.substring(0, 45)}}{{else}}...{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
   {{/if}}
@@ -749,7 +749,7 @@
 
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class=""><span class="">{{if title}}{{html title}}{{else}}${src}</span>{{/if}}</li>
+    <li class=""><span class="">{{if title}}{{html title}}{{else}}${src}{{/if}}</span></li>
     <li class="tr">{{if model}}<span class="td">Model</span><span class="td">:</span><span class="td">${model}</span>{{/if}}</li>
     <li class="tr">{{if software}}<span class="td">Software</span><span class="td">:</span><span class="td">${software}</span>{{/if}}</li>
     <li class="tr">{{if exposure}}<span class="td">Exposure</span><span class="td">:</span><span class="td">${exposure}</span>{{/if}}</li>
@@ -856,7 +856,7 @@
 <script id="fileuploadTemplate" type="text/x-jquery-tmpl">
   <span style="font-size: 0.6em;" class=" alert alert-success">
     <span style="font-size: 2.9em; font-family: cursive; margin-right: 20px;" class="alert alert-error">"</span>
-    {{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}all photos{{/if}}
+    {{if album}}{{if album.title}}${album.title}{{else}}...{{/if}}{{else}}all photos{{/if}}
     <span style="font-size: 5em; font-family: cursive;  margin-left: 20px;" class="alert alert-block uploadinfo"></span>
   </span>
 </script>

@@ -25,6 +25,9 @@ class AlbumsPhoto extends Spine.Model
       return ap if ap.photo_id == pid
     false
     
+  @albumsPhotos: (aid) ->
+    aps = @filter aid, key: 'album_id'
+    
   @albumPhotos: (aid) ->
     ret = []
     @each (item) ->

@@ -5,6 +5,7 @@ Controller      = Spine.Controller
 Gallery         = require('models/gallery')
 Album           = require('models/album')
 Photo           = require('models/photo')
+AlbumsPhoto     = require('models/albums_photo')
 ToolbarView     = require("controllers/toolbar_view")
 AlbumsView      = require("controllers/albums_view")
 PhotoHeader     = require('controllers/photo_header')
@@ -76,6 +77,7 @@ class ShowView extends Spine.Controller
     'click .opt-CreatePhotoFromSelCut:not(.disabled)' : 'createPhotoFromSelCut'
     'click .opt-CreateAlbumFromSel:not(.disabled)'    : 'createAlbumFromSel'
     'click .opt-CopyAlbums'                           : 'copyAlbums'
+    'click .opt-EmptyAlbum'                           : 'emptyAlbum'
     'click .opt-CreateAlbumFromSelCut:not(.disabled)' : 'createAlbumFromSelCut'
     'click .opt-CreatePhoto:not(.disabled)'           : 'createPhoto'
     'click .opt-DestroyGallery:not(.disabled)'        : 'destroyGallery'
@@ -365,6 +367,14 @@ class ShowView extends Spine.Controller
     else
       @showAlbumMasters()
   
+  emptyAlbum: (e) ->
+    albums = Gallery.selectionList()
+    for aid in albums
+      album = Album.exists aid
+      aps = AlbumsPhoto.albumsPhotos(album.id)
+      for ap in aps
+        ap.destroy()
+    
   editGallery: (e) ->
     Spine.trigger('edit:gallery')
 

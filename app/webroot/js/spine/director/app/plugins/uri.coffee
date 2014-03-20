@@ -75,6 +75,8 @@ class URI extends Base
     @get() unless @cache()
     
   cache: ->
+    unless @data.length
+      return false #force ajax call for empty data
     res = []
     for data, idx in @data
       raw = (@model.cache @url, data.id)

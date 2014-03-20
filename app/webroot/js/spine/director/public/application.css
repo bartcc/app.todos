@@ -1112,6 +1112,7 @@ textarea {
 .footer {
   padding: 6px;
   border-top: 1px solid #666;
+  border-bottom: 1px solid #222;
   background: #494949;
   background: linear-gradient(top, #494949, #333);
   background: -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333));

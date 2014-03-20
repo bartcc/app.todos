@@ -146,16 +146,15 @@ class Main extends Spine.Controller
       initSize: => @el.height()/4
       disabled: false
       axis: 'y'
-      min: -> 10
-      tol: -> 40
+      min: -> 50
       sleep: true
       max: => @el.height()/2
       goSleep: ->
-        @manager.active().el.hide()
-        App.showView.closeView()
+#        @manager.active().el.hide()
+#        App.showView.closeView()
       awake: -> 
-        @manager.active().el.show()
-        App.showView.openView()
+#        @manager.active().el.show()
+#        App.showView.openView()
         
     @hmanager.change @upload
     

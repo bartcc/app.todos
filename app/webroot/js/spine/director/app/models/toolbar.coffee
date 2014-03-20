@@ -92,6 +92,13 @@ class Toolbar extends Spine.Model
           klass: 'opt-Album'
           disabled: ->
         ,
+          devider: true
+        ,
+          name: 'Empty Albums'
+          icon: 'fire'
+          klass: 'opt-EmptyAlbum'
+          disabled: -> !Gallery.selectionList().length
+        ,
           name: ->
             len = '('+Gallery.selectionList().length+')'
             type = if Gallery.record then 'Remove' else 'Destroy'

@@ -28,6 +28,7 @@ class AlbumsList extends Spine.Controller
     
   constructor: ->
     super
+    @widows = []
     @bind('drag:start', @proxy @dragStart)
     Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
@@ -164,23 +165,26 @@ class AlbumsList extends Spine.Controller
     album = App.upload.album
     @renderBackgrounds [album] if album
   
-  # remember the AlbumPhoto before it gets deleted (to remove widowed photo thumbnails)
+  # remember the Album since
+  # after AlbumPhoto is destroyed the Album container cannot be retrieved anymore
   widowedAlbumsPhoto: (ap) ->
-    @widows = ap.albums()
+    list = ap.albums()
+    @widows.push item for item in list
+    @widows
   
   renderBackgrounds: (albums) ->
     console.log 'AlbumsList::renderBackgrounds'
-#    return unless App.ready
-    if albums.length
+    if @widows.length
+      for album in @widows
+        @processAlbum album
+      @widows = []
+    else if albums.length
       for album in albums
         @processAlbum album
-    else if @widows?.length
-      @processAlbum album for album in @widows
-      @widows = []
   
   processAlbum: (album) ->
     data = album.photos(4)
-      
+    
     Photo.uri
       width: 50
       height: 50,
@@ -199,8 +203,9 @@ class AlbumsList extends Spine.Controller
     for jsn in json
       res.push search(jsn)
       
-    css = for itm in res
+    css = for itm, index in res
       'url(' + itm + ')'
+      
     check_css =  ->
       (['url(img/drag_info.png)'] unless css.length) or css
       

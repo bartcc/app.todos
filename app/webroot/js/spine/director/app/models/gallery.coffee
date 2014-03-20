@@ -41,7 +41,7 @@ class Gallery extends Spine.Model
   @contains: (id) ->
     GalleriesAlbum.filter(id, key: 'gallery_id').length
     
-  @albums: (id=Gallery.record.id) ->
+  @albums: (id) ->
     filterOptions =
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
@@ -84,6 +84,9 @@ class Gallery extends Spine.Model
       key:'gallery_id'
       joinTable: 'GalleriesAlbum'
     Album.filterRelated(@id, filterOptions).length + inc
+    
+  albums: ->
+    @constructor.albums @id
     
   updateAttributes: (atts, options={}) ->
     @load(atts)

@@ -106,7 +106,7 @@
           </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
-          <div class="views canvas content vbox flex hdraggable" style="position: relative">
+          <div class="views canvas content vbox flex autoflow hdraggable" style="position: relative">
             <div class="hdivide draghandle">
               <span class="opt opt-CloseDraghandle glyphicon glyphicon-remove glyphicon glyphicon-white right" style="cursor: pointer;"></span>
             </div>
@@ -162,7 +162,6 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
                     <div class="vbox flex autoflow" style="">
                       <table role="presentation" class="table"><tbody class="files"></tbody></table>
                     </div>

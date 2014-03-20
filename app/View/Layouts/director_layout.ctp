@@ -27,10 +27,11 @@
     </title>
     <?php
     echo $this->Html->meta('icon');
-    echo $this->Html->meta("keywords", "spine, spinejs, javascript, application, sample, example", array("inline" => false));
-    echo $this->Html->meta("description", "Webapplication made with Spine", array("inline" => false));
-    echo $this->Html->meta("description", "Photo Director", array("inline" => false));
-    echo $this->Html->meta("description", "Photo Library Tool", array("inline" => false));
+    echo $this->Html->meta("keywords", "spine, spinejs, javascript, application, sample, example");
+    echo $this->Html->meta("description", "Webapplication made with Spine");
+    echo $this->Html->meta("description", "Photo Director");
+    echo $this->Html->meta("description", "Photo Library Tool");
+    echo $this->Html->meta(array('name' => 'robots', 'content' => 'index, follow'));
     
     echo $this->Html->css('themes/jquery-ui/ui-darkness/jquery-ui-1.8.16.custom');
     echo $this->Html->css('twitter/bootstrap/css/bootstrap');

@@ -12,6 +12,7 @@ GalleriesAlbum = require('models/galleries_album')
 Ajax =
 
   enabled:  true
+  cache: true
   pending:  false
   requests: []
   
@@ -75,8 +76,7 @@ class URI extends Base
     @get() unless @cache()
     
   cache: ->
-    unless @data.length
-      return false #force ajax call for empty data
+    return unless Ajax.cache #force ajax call for empty data
     res = []
     for data, idx in @data
       raw = (@model.cache @url, data.id)
@@ -141,7 +141,7 @@ class URICollection extends Base
   failResponse: (xhr, statusText, error) =>
     @record.trigger('ajaxError', xhr, statusText, error)
   
-Model.Uri =
+Uri =
   
   extended: ->
     
@@ -154,4 +154,5 @@ Model.Uri =
     @include Include
     @extend Extend
 
-module?.exports = Model.Uri
+Uri.Ajax = Ajax
+module?.exports = Model.Uri = Uri

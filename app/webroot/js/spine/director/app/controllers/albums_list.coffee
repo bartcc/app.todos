@@ -175,9 +175,11 @@ class AlbumsList extends Spine.Controller
   renderBackgrounds: (albums) ->
     console.log 'AlbumsList::renderBackgrounds'
     if @widows.length
+      Model.Uri.Ajax.cache = false
       for album in @widows
         @processAlbum album
       @widows = []
+      Model.Uri.Ajax.cache = true
     else if albums.length
       for album in albums
         @processAlbum album

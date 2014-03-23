@@ -17,7 +17,7 @@ class AlbumsList extends Spine.Controller
   @extend Drag
   
   events:
-    'click .item'                  : 'click'
+    'click .opt-AddAlbums'         : 'add'
     'click .glyphicon-set .delete' : 'deleteAlbum'
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
@@ -40,8 +40,7 @@ class AlbumsList extends Spine.Controller
     
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
-    # if we change a different gallery from within the sidebar, it should not be reflected here
-    return unless @parent.isActive()
+    return unless @parent and @parent.isActive()
     return unless Gallery.record
     return unless Gallery.record.id is item['gallery_id']
     return unless album = Album.exists(item['album_id'])
@@ -74,14 +73,17 @@ class AlbumsList extends Spine.Controller
       @renderBackgrounds items, mode
       @el.sortable() if Gallery.record
       @activate()
+    else if mode is 'add'
+      @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
     else
       if Gallery.record
         if Album.count()
-          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<div><span><button class="opt-CreateAlbum dark large">New Album</button></span><span><button class="opt-ShowAllAlbums dark large">Show existing Albums</button></span></div></span></label>'
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<div><span><button class="opt-CreateAlbum dark large">New Album</button></span><span><button class="opt-AddAlbums dark large">Add existing Albums</button></span></div></span></label>'
         else
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<div><button class="opt-CreateAlbum dark large">New Album</button></div></span></label>'
       else
         @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet<div><button class="opt-CreateAlbum dark large">New Album</button></div></span></label>'
+    
     @el
   
   updateTemplate: (album) ->
@@ -129,31 +131,7 @@ class AlbumsList extends Spine.Controller
       App.sidebar.list.expand(Gallery.record, true)
       
     Album.current(id)
-#    unless Album.state
-#      @navigate '/album_notfound'
-#      return
     @exposeSelection()
-  
-  click: (e) ->
-    item = $(e.currentTarget).item()
-    @select(item, @isCtrlClick(e))
-    
-    e.stopPropagation()
-    e.preventDefault()
-    
-  select: (items = [], exclusive) ->
-    unless Spine.isArray items
-      items = [items]
-      
-    list = []
-    for item in items
-      exists = Gallery.selectionList().indexOf(item.id) isnt -1
-      if !Album.record and Gallery.selectionList().length and exists
-        list = item.shiftSelection() if exists
-      else
-        list = item.addRemoveSelection(exclusive)
-      
-    Album.trigger('activate', list, true)
     
   updateBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::updateBackgrounds'
@@ -193,10 +171,10 @@ class AlbumsList extends Spine.Controller
       (xhr, rec) => @callback(xhr, album)
       data
       
-  callback: (json, album) =>
+  callback: (json, album) ->
     console.log 'AlbumsList::callback'
     el = @children().forItem(album)
-    el = $('.thumbnail', el)
+    thumb = $('.thumbnail', el)
     search = (o) ->
       for key, val of o
         return o[key].src
@@ -211,7 +189,7 @@ class AlbumsList extends Spine.Controller
     check_css =  ->
       (['url(img/drag_info.png)'] unless css.length) or css
       
-    el.css('backgroundImage', check_css())
+    thumb.css('backgroundImage', check_css())
 
   loadtest: (t) ->
     test = $('.item', @el).each ->
@@ -224,7 +202,7 @@ class AlbumsList extends Spine.Controller
   zoom: (e) ->
     item = $(e.currentTarget).item()
     
-    @select(item, true)
+    @parent.select(item, true)
     @stopInfo()
     @navigate '/gallery', (Gallery.record?.id or ''), item.id
     
@@ -253,6 +231,12 @@ class AlbumsList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
+    
+  add: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    
+    Spine.trigger('albums:add')
     
   infoUp: (e) =>
     @info.up(e)

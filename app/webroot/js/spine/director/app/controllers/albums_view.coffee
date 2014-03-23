@@ -25,6 +25,7 @@ class AlbumsView extends Spine.Controller
     '.items'                          : 'items'
     
   events:
+    'click      .item'                : 'click'
     'dragstart  .items'               : 'dragstart'
     'dragover   .items'               : 'dragover'
     'sortupdate .items'               : 'sortupdate'
@@ -179,7 +180,8 @@ class AlbumsView extends Spine.Controller
       
   createJoin: (albums, target) ->
     for aid in albums
-      album.createJoin target if album = Album.exists aid
+      album = Album.exists aid
+      album.createJoin target if album
       
   destroyJoin: (albums, gallery) ->
     console.log 'AlbumsView::destroyJoin'
@@ -221,5 +223,26 @@ class AlbumsView extends Spine.Controller
   reorder: (gallery) ->
     if gallery.id is Gallery.record.id
       @render()
+      
+  click: (e) ->
+    item = $(e.currentTarget).item()
+    @select(item, @isCtrlClick(e))
+    
+    e.stopPropagation()
+    e.preventDefault()
+    
+  select: (items = [], exclusive) ->
+    unless Spine.isArray items
+      items = [items]
+      
+    list = []
+    for item in items
+      exists = Gallery.selectionList().indexOf(item.id) isnt -1
+      if !Album.record and Gallery.selectionList().length and exists
+        list = item.shiftSelection() if exists
+      else
+        list = item.addRemoveSelection(exclusive)
+      
+    Album.trigger('activate', list, true)
         
 module?.exports = AlbumsView

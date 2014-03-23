@@ -45,15 +45,19 @@ class Sidebar extends Spine.Controller
     'drop       .gal.item'        : 'drop'
     'drop       .alb.item'        : 'drop'
 
-  template: (items) ->
+  galleryTemplate: (items) ->
     $("#sidebarTemplate").tmpl(items)
+    
+  albumTemplate: (items) ->
+    $("#albumsSublistTemplate").tmpl(items)
     
   constructor: ->
     super
     @el.width(8)
+    @defaultTemplate = @galleryTemplate
     @list = new SidebarList
       el: @items,
-      template: @template
+      template: @galleryTemplate
       parent: @
       
     Gallery.one('refresh', @proxy @refresh)
@@ -71,18 +75,33 @@ class Sidebar extends Spine.Controller
     @bind('drag:leave', @proxy @dragLeave)
     @bind('drag:drop', @proxy @dropComplete)
     
+    @model = @defaultModel = 'Gallery'
+    
   filter: ->
-    @query = @input.val();
-    @render();
+    @query = @input.val()
+    @render()
+    
+  filterById: (id, model) ->
+    @filter() unless model and /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(id or '')
+    @query = id
+    @model = model
+    switch model
+      when 'Album'
+        @list.template = @albumTemplate
+      when 'Gallery'
+        @list.template = @galleryTemplate
+    @render('idSelect')
+    @model = @defaultModel
+    @list.template = @defaultTemplate
   
   refresh: (items) ->
     console.log 'Sidebar::refresh'
     @render()
     
-  render: ->
-    console.log 'Sidebar::render'
-    items = Gallery.filter(@query, func: 'searchSelect')
-    items = items.sort Gallery.nameSort
+  render: (selectType='searchSelect') ->
+    model = Model[@model] or Model[@defaultModel]
+    items = model.filter(@query, func: selectType)
+    items = items.sort model.nameSort
     @list.render items
       
   refreshAll: (e) ->

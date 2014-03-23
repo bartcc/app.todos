@@ -53,7 +53,9 @@
     </div>
     <div id="content" class="views bg-medium vbox flex">
       <div tabindex="1" id="show" class="view canvas bg-dark vbox flex fade">
-        <div id="modal-action" class="modal fade"></div>
+        <div id="modal-action " class="modal fade"></div>
+        <div id="modal-addAlbum" class="modal fade"></div>
+        <div id="modal-addPhoto" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
           <li class="splitter disabled flex"></li>
@@ -246,6 +248,23 @@
   </div>
 </script>
 
+<script id="addTemplate" type="text/x-jquery-tmpl">
+  <div class="modal-dialog ${type}" style="width: 55%;">
+    <div class="bg-dark content modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">${title}</h4>
+      </div>
+      <div class="modal-body autoflow">
+        <div class="items flex fadein in"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="opt-AddExecute dark">Add</button>
+        <button type="button" class="opt- dark" data-dismiss="modal">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</script>
+
 <script id="modalActionTemplate" type="text/x-jquery-tmpl">
   <form>
   <div class="modal-dialog">
@@ -352,11 +371,7 @@
 
 <script id="sidebarContentTemplate" type="text/x-jquery-tmpl">
   <div class="item-content">
-    {{if name}}
-    <span class="name">${name}</span>
-    {{else}}
-    <span class="name empty">no name</span>
-    {{/if}}
+    <span class="name">{{if name}}${name}{{else}}${title}{{/if}}</span>
     <span class="gal cta">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
   </div>
 </script>
@@ -557,13 +572,20 @@
       <li class="alb active">Albums</li>
     </span>
   </section>
-  <section class="right">
-    <span class="fadeelement breadcrumb movefromright">
-      <li class="symbol opt-AlbumActionCopy">
-        <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
-      </li>
-    </span>
-  </section>
+  <section class="addAction">
+    <div class="main fadeelement breadcrumb movefromright">
+      <label class="label info">
+        <i class="glyphicon glyphicon-info-sign"></i>
+          select items to add
+      </label>
+      <hr>
+      <span class="symbol opt-PhotoActionCopy action right">
+        <a href="#"><i class="glyphicon glyphicon-share-alt"></i>copy items</a>
+      </span>
+      <span class="symbol opt-ActionCancel">
+        <a href="#"><i class="glyphicon glyphicon-remove"></i>cancel</a>
+      </span>
+    </div>
 </script>
 
 <script id="albumDetailsTemplate" type="text/x-jquery-tmpl">
@@ -695,14 +717,20 @@
       <li class="pho active">Photos</li>
     </span>
   </section>
-  <section class="right">
-    <span class="fadeelement breadcrumb movefromright">
-      <li class="symbol opt-PhotoActionCopy">
-        <span class="">
-          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
-        </span>
-      </li>
-    </span>
+  <section class="addAction">
+    <div class="main fadeelement breadcrumb movefromright">
+      <label class="label info">
+        <i class="glyphicon glyphicon-info-sign"></i>
+          select items to add
+      </label>
+      <hr>
+      <span class="symbol opt-PhotoActionCopy action right">
+        <a href="#"><i class="glyphicon glyphicon-share-alt"></i>copy items</a>
+      </span>
+      <span class="symbol opt-ActionCancel">
+        <a href="#"><i class="glyphicon glyphicon-remove"></i>cancel</a>
+      </span>
+    </div>
   </section>
 </script>
 

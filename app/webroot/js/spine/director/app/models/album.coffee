@@ -107,16 +107,18 @@ class Album extends Spine.Model
         target.removeSelection(ga.album_id)
         ga.destroy()
   
-  count: (inc = 0) -> @constructor.contains(@id) + inc
+  count: (inc = 0) =>
+    @constructor.contains(@id) + inc
   
   photos: (max) ->
     @constructor.photos @id, max || @count()
   
   details: =>
-    iCount : @constructor.contains @id
-    album  : Album.record
-    gallery: Gallery.record
-    author: User.first().name
+    $().extend @defaultDetails,
+      iCount : @constructor.contains @id
+      album  : Album.record
+      gallery: Gallery.record
+      author: User.first().name
     
   selectAttributes: ->
     result = {}

@@ -22,7 +22,8 @@ class PhotosView extends Spine.Controller
     '.items'          : 'items'
   
   events:
-    'sortupdate .items'               : 'sortupdate'
+    'click .item'                  : 'click'
+    'sortupdate .items'            : 'sortupdate'
     
   template: (items) ->
     $('#photosTemplate').tmpl(items)
@@ -62,8 +63,6 @@ class PhotosView extends Spine.Controller
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
-    AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
-    AlbumsPhoto.bind('create', @proxy @addAlbumsPhoto)
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)
@@ -99,6 +98,30 @@ class PhotosView extends Spine.Controller
     console.log 'PhotosView::renderHeader'
     @header.change()
   
+  click: (e) ->
+    console.log 'PhotosList::click'
+    item = $(e.currentTarget).item()
+    
+    @select item, @isCtrlClick(e)
+    App.showView.trigger('change:toolbarOne')
+    
+    e.stopPropagation()
+    e.preventDefault()
+  
+  select: (items = [], exclusive) ->
+    unless Spine.isArray items
+      items = [items]
+    
+    list = []
+    for item in items
+      exists = Album.selectionList().indexOf(item.id) isnt -1
+      if !Photo.record and Album.selectionList().length and exists
+        list = item.shiftSelection() if exists
+      else
+        list = item.addRemoveSelection(exclusive)
+      
+    Photo.trigger('activate', list, true)
+  
   clearPhotoCache: ->
     Photo.clearCache()
   
@@ -127,10 +150,6 @@ class PhotosView extends Spine.Controller
   destroy: (album) ->
     @render() unless Photo.count()
       
-  destroyAlbumsPhoto: (ap) ->
-    photos = AlbumsPhoto.photos  ap.album_id
-    @render() unless photos.length
-      
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
@@ -155,6 +174,10 @@ class PhotosView extends Spine.Controller
       if Photo.exists(photo.id)
         @render([photo], 'append')
         @list.el.sortable('destroy').sortable('photos')
+      
+  destroyAlbumsPhoto: (ap) ->
+    photos = AlbumsPhoto.photos  ap.album_id
+    @render() unless photos.length
       
   createJoin: (photos, album, options={}) ->
     # photos must be an array of photos

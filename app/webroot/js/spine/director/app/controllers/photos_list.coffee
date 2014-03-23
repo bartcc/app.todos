@@ -19,7 +19,7 @@ class PhotosList extends Spine.Controller
     '.toolbar'                : 'toolbarEl'
     
   events:
-    'click .item'                  : 'click'
+    'click .opt-AddPhotos'         : 'add_'
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
     'click .glyphicon-set .delete' : 'deletePhoto'
@@ -46,30 +46,55 @@ class PhotosList extends Spine.Controller
 #    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
     AlbumsPhoto.bind('destroy', @proxy @remove)
+    AlbumsPhoto.bind('change', @proxy @changeRelated)
     
   change: ->
     console.log 'PhotosList::change'
     
-  render: (items=[], mode='html') ->
+  changeRelated: (item, mode) ->
+    console.log 'AlbumsList::changeRelatedAlbum'
+    return unless @parent and @parent.isActive()
+    return unless Album.record
+    return unless Album.record.id is item['album_id']
+    return unless photo = Photo.exists(item['photo_id'])
+    
+    switch mode
+      when 'create'
+        wipe = Album.record and Album.record.count() is 1
+        @el.empty() if wipe
+        @append @template photo
+        @uri [photo]
+        @activate photo.id
+        @el.sortable('destroy').sortable()
+        
+      when 'destroy'
+        photoEl = @children().forItem(photo, true)
+        photoEl.detach()
+        if album = Album.record
+          @parent.render() unless album.count()
+          
+      when 'update'
+        @el.sortable('destroy').sortable()
+    
+    @refreshElements()
+    @el
+    
+  render: (items=[], mode) ->
     console.log 'PhotosList::render'
     
-    if Album.record
-      if items.length
-        @wipe()
-        @[mode] @template items
-        @uri items, mode
-      else
-        html = '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
+    if items.length
+      @wipe()
+      @html @template items
+      @uri items, mode
+    else if mode is 'add'
+      @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
+    else 
+      if Album.record
         if Photo.count()
-          html += '<button class="opt-ShowAllPhotos dark large">Show existing photos</button></span>'
-        html += '</label>'
-        @html html
-    else
-      if Photo.count()
-        @renderAll()
-      else
-        html = '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p>'
-        @html html
+          @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p><button class="opt-AddPhotos dark large">Add existing photos</button></span></label>'
+        else
+          @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p>'
+      
     @activate()
     @el
   
@@ -79,7 +104,7 @@ class PhotosList extends Spine.Controller
     if items.length
       @html @template items
       @activate()
-      @uri items, 'html'
+      @uri items
     @el
   
   wipe: ->
@@ -124,9 +149,10 @@ class PhotosList extends Spine.Controller
     
     Photo.uri @thumbSize(),
       (xhr, record) => @callback(xhr, items),
-      @photos()
+      @photos(mode)
   
   callback: (json = [], items) =>
+    console.log 'PhotosList::callback'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -141,13 +167,13 @@ class PhotosList extends Spine.Controller
         img.onload = @imageLoad
         img.src = src
         
-  photos: (id) ->
-    if Album.record
-      Album.record.photos()
-    else if id
-      Album.photos(id)
-    else
+  photos: (mode) ->
+    if mode is 'add'
       Photo.all()
+    else if album = Album.exists mode
+      album.photos()
+    else if Album.record
+      Album.record.photos()
     
   imageLoad: ->
     css = 'url(' + @src + ')'
@@ -201,8 +227,6 @@ class PhotosList extends Spine.Controller
         if Photo.record.id is photo.id
           el.addClass("hot")
         
-#    Spine.trigger('expose:sublistSelection', Gallery.record)
-  
   activate: (items=Album.selectionList()) ->
     id = null
     unless Photo.isArray items
@@ -215,35 +239,8 @@ class PhotosList extends Spine.Controller
         photo.addToSelection(unique)
       
     Photo.current(id)
-#    unless Photo.state
-#      @navigate '/photo_notfound'
-#      return
     @exposeSelection()
       
-  click: (e) ->
-    console.log 'PhotosList::click'
-    item = $(e.currentTarget).item()
-    
-    @select item, @isCtrlClick(e)
-    App.showView.trigger('change:toolbarOne')
-    
-    e.stopPropagation()
-    e.preventDefault()
-  
-  select: (items = [], exclusive) ->
-    unless Spine.isArray items
-      items = [items]
-    
-    list = []
-    for item in items
-      exists = Album.selectionList().indexOf(item.id) isnt -1
-      if !Photo.record and Album.selectionList().length and exists
-        list = item.shiftSelection() if exists
-      else
-        list = item.addRemoveSelection(exclusive)
-      
-    Photo.trigger('activate', list, true)
-  
   remove: (ap) ->
     item = Photo.exists ap.photo_id
     @findModelElement(item).detach() if item
@@ -285,6 +282,12 @@ class PhotosList extends Spine.Controller
     options =
       helper: 'clone'
     @el.selectable()
+    
+  add_: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+    
+    Spine.trigger('photos:add')
     
   infoUp: (e) ->
     @info.up(e)

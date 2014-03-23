@@ -14,6 +14,8 @@ Model.Extender =
 
     Extend =
       
+      selectAttributes: []
+      
       record: false
 
       selection: [global:[]]
@@ -23,6 +25,7 @@ Model.Extender =
         rec = (@state = @exists(id)) or false
         prev = @record
         @record = rec
+        @lastGallery = @record if @record
         same = !!(@record?.eql?(prev) and !!prev)
         if !same
           Spine.trigger('change:selected'+@className, @record, !same, @className) 
@@ -149,13 +152,18 @@ Model.Extender =
         else
           return @filter joinTableItems
           
+      nameSort: (a, b) ->
+        aa = (a or '').name?.toLowerCase()
+        bb = (b or '').name?.toLowerCase()
+        return if aa == bb then 0 else if aa < bb then -1 else 1
+          
       sortSelectionListByOrder: ->
         list = @selectionList()
         list.sort (a, b) ->
           aInt = parseInt(Album.exists(a).order)
           bInt = parseInt(Album.exists(b).order)
           if aInt < bInt then -1 else if aInt > bInt then 1 else 0
-          
+      
     Include =
       
       updateSelectionID: ->
@@ -261,6 +269,34 @@ Model.Extender =
         for ap in aps
           photos.push Photo.find(ap.album_id) if Photo.exists(ap.album_id)
         photos
+        
+      searchSelect: (query) ->
+        query = query.toLowerCase()
+        atts = @selectAttributes.apply @
+        for key, value of atts
+          value = value.toLowerCase()
+          unless (value?.indexOf(query) is -1)
+            return true
+        false
+        
+      idSelect: (query) ->
+        query = query.toLowerCase()
+        value = @id.toLowerCase()
+        unless (value?.indexOf(query) is -1)
+          return true
+        false
+        
+      idExcludeSelect: (query) ->
+        if (query.indexOf(@id) is -1)
+          return true
+        false
+        
+      defaultDetails:
+        iCount: 0
+        aCount: 0
+        sCount: 0
+        author: ''
+        
         
     @extend Extend
     @include Include

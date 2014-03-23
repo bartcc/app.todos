@@ -663,9 +663,6 @@ li hr {
 .symbol i {
   margin: 0 10px;
 }
-.items {
-  height: 0;
-}
 div.content label.label span {
   font-weight: normal;
   font-family: serif;
@@ -1035,6 +1032,10 @@ textarea {
   position: relative;
   top: 7px;
   z-index: 1;
+}
+.breadcrumb hr {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 .disabled {
   cursor: not-allowed;
@@ -1499,12 +1500,11 @@ li .thumbnail.image {
   transform: scale(1);
   transform-origin: 0% 0%;
 }
-#content .header label,
-#content .header h3 {
+/*#content .header label, #content .header h3 {
   display: inline;
   font-size: 1.6em;
   font-weight: normal;
-}
+}*/
 #content .header label.h2 {
   font-size: 2.7em;
 }
@@ -1747,8 +1747,12 @@ li.item.active .glyphicon-set {
   font-weight: normal;
   font-family: "ChopinScript", serif;
 }
-.breadcrumb.move {
-  padding-right: 100px;
+.add .breadcrumb.main {
+  padding-right: 260px;
+  padding-left: 10px;
+}
+.add .breadcrumb:not(.move) .action {
+  display: none;
 }
 .move {
   -webkit-transition: top 0.3s ease-out 0.3s;
@@ -1758,14 +1762,7 @@ li.item.active .glyphicon-set {
 }
 .movefromright {
   padding-right: 0;
-  right: -70px;
   transition: padding-right 0.3s ease-out 0.3s;
-}
-.down {
-  padding-right: 129px;
-}
-.move {
-  top: -35px;
 }
 .up {
   top: -50px;
@@ -1803,4 +1800,15 @@ a.glyphicon-brand {
   color: rgba(129,126,126,0.70);
   text-decoration: underline;
   font-size: 1em;
+}
+section.addAction {
+  position: absolute;
+  bottom: 50px;
+  right: -250px;
+}
+.modal-dialog .glyphicon-set {
+  display: none;
+}
+[class^="bg-"] {
+  color: #ddd;
 }

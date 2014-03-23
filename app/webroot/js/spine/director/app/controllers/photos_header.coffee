@@ -62,7 +62,7 @@ class PhotosHeader extends Spine.Controller
       Photo.count()
     
   moveMenu: (list = Album.selectionList()) ->
-    @actionMenu.toggleClass('down', !!list.length)
+    @actionMenu.toggleClass('move', !!list.length)
     
   toggleActionWindow: (e) ->
     e.stopPropagation()

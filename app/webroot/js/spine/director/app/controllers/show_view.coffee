@@ -13,6 +13,8 @@ PhotosHeader    = require('controllers/photos_header')
 PhotoView       = require('controllers/photo_view')
 PhotosView      = require('controllers/photos_view')
 AlbumsHeader    = require('controllers/albums_header')
+AlbumsAddView   = require('controllers/albums_add_view')
+PhotosAddView   = require('controllers/photos_add_view')
 GalleriesView   = require('controllers/galleries_view')
 GalleriesHeader = require('controllers/galleries_header')
 SlideshowView   = require('controllers/slideshow_view')
@@ -56,6 +58,8 @@ class ShowView extends Spine.Controller
     '.content.photo'          : 'photoEl'
     '#slideshow'              : 'slideshowEl'
     '#modal-action'           : 'modalActionEl'
+    '#modal-addAlbum'         : 'modalAddAlbumEl'
+    '#modal-addPhoto'         : 'modalAddPhotoEl'
     '.overview'               : 'overviewEl'
     
     '.slider'                 : 'slider'
@@ -89,31 +93,36 @@ class ShowView extends Spine.Controller
     'click .opt-Photo:not(.disabled)'                 : 'togglePhotoShow'
     'click .opt-Upload:not(.disabled)'                : 'toggleUploadShow'
     'click .opt-ShowAllAlbums:not(.disabled)'         : 'showAlbumMasters'
+    'click .opt-AddAlbums:not(.disabled)'             : 'showAlbumMastersAdd'
     'click .opt-ShowAllPhotos:not(.disabled)'         : 'showPhotoMasters'
+    'click .opt-AddPhotos:not(.disabled)'             : 'showPhotoMastersAdd'
+    'click .opt-ActionCancel:not(.disabled)'          : 'cancelAdd'
     'click .opt-SlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
     'click .opt-ShowSlideshow:not(.disabled)'         : 'showSlideshow'
     'click .opt-SlideshowPlay:not(.disabled)'         : 'slideshowPlay'
     'click .opt-OpenSlideshow:not(.disabled)'         : 'slideshowOpen'
-    'click .opt-ShowAlbumMasters:not(.disabled)'      : 'showAlbumMasters'
-    'click .opt-ShowPhotoMasters:not(.disabled)'      : 'showPhotoMasters'
     'click .opt-ShowPhotoSelection:not(.disabled)'    : 'showPhotoSelection'
     'click .opt-ShowAlbumSelection:not(.disabled)'    : 'showAlbumSelection'
     'click .opt-SelectAll:not(.disabled)'             : 'selectAll'
     'click .opt-CloseDraghandle'                      : 'toggleDraghandle'
-    'click .items'                                   : 'deselect'
-    'dblclick .draghandle'                           : 'toggleDraghandle'
-    'slidestop .slider'                              : 'sliderStop'
-    'slidestart .slider'                             : 'sliderStart'
-    'keyup'                                          : 'keyup'
-    'dragstart'                                      : 'dragstart'
-    'dragenter'                                      : 'dragenter'
-    'drop'                                           : 'drop'
+    'click .items'                                    : 'deselect'
+    'dblclick .draghandle'                            : 'toggleDraghandle'
+    'slidestop .slider'                               : 'sliderStop'
+    'slidestart .slider'                              : 'sliderStart'
+    'keyup'                                           : 'keyup'
+    'dragstart'                                       : 'dragstart'
+    'dragenter'                                       : 'dragenter'
+    'drop'                                            : 'drop'
 
   constructor: ->
     super
     @silent = true
     @actionWindow = new ActionWindow
       el: @modalActionEl
+    @albumAddView = new AlbumsAddView
+      el: @modalAddAlbumEl
+    @photoAddView = new PhotosAddView
+      el: @modalAddPhotoEl
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
     @toolbarTwo = new ToolbarView
@@ -175,6 +184,7 @@ class ShowView extends Spine.Controller
     
     Gallery.bind('change', @proxy @changeToolbarOne)
     Gallery.bind('change:selection', @proxy @refreshToolbars)
+    AlbumsPhoto.bind('create destroy', @proxy @refreshToolbars)
     Album.bind('change', @proxy @changeToolbarOne)
     Photo.bind('change', @proxy @changeToolbarOne)
     Photo.bind('refresh', @proxy @refreshToolbars)
@@ -307,18 +317,11 @@ class ShowView extends Spine.Controller
       @showAlbumMasters()
       
   copyAlbums: (albums, gallery) ->
-    console.log albums
-    console.log gallery
     Album.trigger('create:join', albums, gallery)
     @navigate '/gallery', gallery.id
       
-  copyPhotos: (photos, gallery, album) ->
-    if gallery
-      @navigate '/gallery', gallery.id, album.id
-    else
-      @navigate '/gallery', '', album.id
+  copyPhotos: (photos, album) ->
     Photo.trigger('create:join', photos, album)
-#    Album.trigger('activate', Gallery.updateSelection @id)
       
   copyPhotosToAlbum: ->
     @photosToAlbum Album.selectionList()
@@ -371,7 +374,7 @@ class ShowView extends Spine.Controller
     albums = Gallery.selectionList()
     for aid in albums
       album = Album.exists aid
-      aps = AlbumsPhoto.albumsPhotos(album.id)
+      aps = AlbumsPhoto.filter(album.id, key: 'album_id')
       for ap in aps
         ap.destroy()
     
@@ -540,14 +543,13 @@ class ShowView extends Spine.Controller
     @current.items.deselect()
     
   selectAll: (e) ->
-    root = @current.el.children('.items')
-    return unless root.children('.item').length
+    root = @current.items
+    return unless root and root.children('.item').length
     list = []
-    root.children().each (index, el) ->
+    root.children('.item').each (index, el) ->
       item = $(@).item()
       list.unshift item
-#      item?.addRemoveSelection()
-    @current.list?.select(list)
+    @current.select(list)
     @changeToolbarOne()
     
   uploadProgress: (e, coll) ->
@@ -623,6 +625,22 @@ class ShowView extends Spine.Controller
     
   showPhotoMasters: ->
     @navigate '/gallery//'
+    
+  showAlbumMastersAdd: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    Spine.trigger('albums:add')
+    
+  showPhotoMastersAdd: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    Spine.trigger('photos:add')
+    
+  cancelAdd: (e) ->
+    @back()
+    App.sidebar.filter()
+    @el.removeClass('add')
+    e.preventDefault()
     
   showPhotoSelection: ->
     if Gallery.record

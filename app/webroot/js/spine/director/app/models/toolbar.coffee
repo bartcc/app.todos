@@ -48,12 +48,12 @@ class Toolbar extends Spine.Model
           devider: true
         ,
           name: -> 'Albummasters'
-          klass: 'opt-ShowAlbumMasters'
+          klass: 'opt-ShowAllAlbums'
           icon: 'book'
           disabled: -> false
         ,
           name: -> 'Photomasters'
-          klass: 'opt-ShowPhotoMasters'
+          klass: 'opt-ShowAllPhotos'
           icon: 'book'
           disabled: -> false
         ]
@@ -84,6 +84,10 @@ class Toolbar extends Spine.Model
           name: 'New'
           icon: 'asterisk'
           klass: 'opt-CreateAlbum'
+        ,
+          name: 'Add from Masters'
+          icon: 'plus'
+          klass: 'opt-AddAlbums'
         ,
           devider: true
         ,
@@ -118,7 +122,7 @@ class Toolbar extends Spine.Model
           devider: true
         ,
           name: -> 'Albummasters'
-          klass: 'opt-ShowAlbumMasters'
+          klass: 'opt-ShowAllAlbums'
           icon: 'book'
           disabled: -> false
         ]
@@ -129,6 +133,10 @@ class Toolbar extends Spine.Model
           name: 'Upload'
           icon: 'upload'
           klass: 'opt-Upload'
+        ,
+          name: 'Add from Masters'
+          icon: 'plus'
+          klass: 'opt-AddPhotos'
         ,
           devider: true
         ,
@@ -206,7 +214,7 @@ class Toolbar extends Spine.Model
             return !len
         ,
           name: -> 'Photomasters'
-          klass: 'opt-ShowPhotoMasters'
+          klass: 'opt-ShowAllPhotos'
           icon: 'book'
           disabled: -> false
         ,

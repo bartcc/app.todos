@@ -31,7 +31,7 @@ class AlbumsPhoto extends Spine.Model
   @albumPhotos: (aid) ->
     ret = []
     @each (item) ->
-      ret.push Photo.exists(item['photo_id']) if item['album_id'] is aid
+      ret.push photo if item['album_id'] is aid and photo = Photo.exists(item['photo_id'])
     ret
     
   @photos: (aid, max) ->

@@ -17,8 +17,9 @@ class SidebarList extends Spine.Controller
     '.gal.item'               : 'item'
 
   events:
-    "click      .gal.item"            : 'clickGallery'
-    "click      .alb.item"            : 'clickAlbum'
+#    "click      .gal.item"            : 'clickGallery'
+#    "click      .alb.item"            : 'clickAlbum'
+    "click      .item"            : 'click'
     "click      .expander"            : 'clickExpander'
 
   selectFirst: true
@@ -190,37 +191,30 @@ class SidebarList extends Spine.Controller
     @refreshElements()
     
   activate: (idOrRecord) ->
-    Gallery.current(idOrRecord)
+    @lastGallery = Gallery.current(idOrRecord)
 #    unless Gallery.state
 #      @navigate '/gallery_notfound'
 #      return
 #    Album.trigger('activate', Gallery.selectionList())
     @exposeSelection()
 
-  clickGallery: (e) ->
-    console.log 'SidebarList::clickGallery'
-    galleryEl = $(e.target).closest('li.gal')
-    item = galleryEl.item()
+  click: (e) ->
+    el = $(e.target).closest('li')
+    item = el.item()
     
-    @expand(item) 
-    @navigate '/gallery', item.id
-      
-    e.stopPropagation()
-    e.preventDefault()
-    
-  clickAlbum: (e) ->
-    galleryEl = $(e.target).parents('.gal').addClass('active')
-    albumEl = $(e.currentTarget)
-    galleryEl = $(e.currentTarget).closest('.gal')
-    
-    album = albumEl.item()
-    gallery = galleryEl.item()
-    
-    @navigate '/gallery', gallery.id + '/' + album.id
+    switch item.constructor.className
+      when 'Gallery'
+        @expand(item) 
+        @navigate '/gallery', item.id
+      when 'Album'
+        tryGallery = $(e.target).closest('li.gal').item()
+        gallery = tryGallery or Gallery.lastGallery
+        App.sidebar.filter() unless tryGallery
+        @navigate '/gallery', gallery.id + '/' + item.id
     
     e.stopPropagation()
     e.preventDefault()
-    
+
   expand: (item, force, e) ->
     galleryEl = @galleryFromItem(item)
     expander = $('.expander', galleryEl)

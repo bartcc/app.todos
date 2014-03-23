@@ -26,14 +26,13 @@ class ActionWindow extends Spine.Controller
     @visible = false
     @maxItemsInPage = 5
     @curPage = 0
-    @modal = $('#modal-action').modal
+    @modal = @el.modal
       show: @visible
       backdrop: true
     @modal.bind('shown.bs.modal', @proxy @setStatus)
     @modal.bind('hide.bs.modal', @proxy @setStatus)
     @renderTypeList = ['Gallery', 'Album']
     @renderType = @renderTypeList[0]
-    @render()
     Gallery.bind('update', @proxy @galleryCreated)
     GalleriesAlbum.bind('update', @proxy @albumCreated)
   
@@ -100,8 +99,8 @@ class ActionWindow extends Spine.Controller
         @renderAlbums items
         if @renderType is 'Gallery'
           @albumsEl.children().addClass('disabled')
-      when 'Album'
-        Album.trigger('activate', item.id)
+#      when 'Album'
+#        Album.trigger('activate', item.id)
     
   prevClick: (e) ->
     e.stopPropagation()
@@ -176,6 +175,9 @@ class ActionWindow extends Spine.Controller
     @render()
     
   galleryCreated: (gal) ->
+    @render()
+    
+  show: ->
     @render()
     
 module.exports = ActionWindow

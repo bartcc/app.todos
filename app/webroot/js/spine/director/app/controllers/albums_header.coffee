@@ -45,7 +45,7 @@ class AlbumsHeader extends Spine.Controller
     e.preventDefault()
     
   moveMenu: (list = Gallery.selectionList()) ->
-    @actionMenu.toggleClass('down', !!list.length)
+    @actionMenu.toggleClass('move', !!list.length)
     
   toggleActionWindow: (e) ->
     e.stopPropagation()

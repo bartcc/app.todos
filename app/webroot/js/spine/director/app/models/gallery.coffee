@@ -26,11 +26,6 @@ class Gallery extends Spine.Model
   
   @url: '' + base_url + 'galleries'
 
-  @nameSort: (a, b) ->
-    aa = (a or '').name?.toLowerCase()
-    bb = (b or '').name?.toLowerCase()
-    return if aa == bb then 0 else if aa < bb then -1 else 1
-
   @foreignModels: ->
     'Album':
       className             : 'Album'
@@ -74,10 +69,11 @@ class Gallery extends Spine.Model
     for album in albums
       imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
     
-    iCount: imagesCount
-    aCount: albums.length
-    sCount: @activePhotos().length
-    author: User.first().name
+    $().extend @defaultDetails,
+      iCount: imagesCount
+      aCount: albums.length
+      sCount: @activePhotos().length
+      author: User.first().name
     
   count: (inc = 0) ->
     filterOptions =
@@ -108,14 +104,5 @@ class Gallery extends Spine.Model
   select: (joinTableItems) ->
     for record in joinTableItems
       return true if record.gallery_id is @id
-
-  searchSelect: (query) ->
-    query = query.toLowerCase()
-    atts = @selectAttributes.apply @
-    for key, value of atts
-      value = value.toLowerCase()
-      unless (value?.indexOf(query) is -1)
-        return true
-    false
     
 module?.exports = Model.Gallery = Gallery

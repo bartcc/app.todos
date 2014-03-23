@@ -66,7 +66,8 @@ class AlbumsAddView extends Spine.Controller
     type = e.type
     switch type
       when 'shown'
-        @preservedList = Gallery.selectionList()
+        @preservedList = Gallery.selectionList().slice(0)
+        Gallery.emptySelection()
       when 'hide'
         Gallery.updateSelection @preservedList
     

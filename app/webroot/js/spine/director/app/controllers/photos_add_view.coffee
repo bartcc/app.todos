@@ -66,7 +66,8 @@ class PhotosAddView extends Spine.Controller
     type = e.type
     switch type
       when 'shown'
-        @preservedList = Album.selectionList()
+        @preservedList = Album.selectionList().slice(0)
+        Album.emptySelection()
       when 'hide'
         Album.updateSelection @preservedList
     

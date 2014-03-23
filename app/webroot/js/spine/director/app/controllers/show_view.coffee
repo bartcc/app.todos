@@ -318,7 +318,7 @@ class ShowView extends Spine.Controller
       
   copyAlbums: (albums, gallery) ->
     Album.trigger('create:join', albums, gallery)
-    @navigate '/gallery', gallery.id
+#    @navigate '/gallery', gallery.id
       
   copyPhotos: (photos, album) ->
     Photo.trigger('create:join', photos, album)

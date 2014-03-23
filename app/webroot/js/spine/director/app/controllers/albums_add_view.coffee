@@ -68,8 +68,6 @@ class AlbumsAddView extends Spine.Controller
       when 'shown'
         @preservedList = Gallery.selectionList().slice(0)
         Gallery.emptySelection()
-      when 'hide'
-        Gallery.updateSelection @preservedList
     
   click: (e) ->
     e.stopPropagation()

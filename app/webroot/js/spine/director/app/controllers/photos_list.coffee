@@ -216,10 +216,10 @@ class PhotosList extends Spine.Controller
     
   #  ****** END ***** 
   
-  exposeSelection: ->
+  exposeSelection: (selection) ->
     console.log 'PhotosList::exposeSelection'
     @deselect()
-    list = Album.selectionList()
+    list = selection or Album.selectionList()
     for id in list
       if photo = Photo.exists(id)
         el = @children().forItem(photo, true)

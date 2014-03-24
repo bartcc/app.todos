@@ -22,8 +22,9 @@ class AlbumsAddView extends Spine.Controller
     '.items'        : '_items'
 
   events:
-    'click .item'                   : 'click'
-    'click .opt-AddExecute'    : 'add'
+    'click .item'             : 'click'
+    'click .opt-AddExecute'   : 'add'
+    'click .opt-Selection'    : 'revertSelection'
 
   template: (items) ->
     $('#addTemplate').tmpl
@@ -39,7 +40,7 @@ class AlbumsAddView extends Spine.Controller
     @modal = @el.modal
       show: @visible
       backdrop: true
-    @modal.bind('shown.bs.modal', @proxy @setStatus)
+    @modal.bind('show.bs.modal', @proxy @setStatus)
     @modal.bind('hide.bs.modal', @proxy @setStatus)
     
     @list = new AlbumsList
@@ -65,28 +66,56 @@ class AlbumsAddView extends Spine.Controller
   setStatus: (e) ->
     type = e.type
     switch type
-      when 'shown'
+      when 'show'
         @preservedList = Gallery.selectionList().slice(0)
-        Gallery.emptySelection()
+        @selectionList = []
+      when 'hide'
+        Album.trigger('activate', @selectionList)
     
   click: (e) ->
     e.stopPropagation()
     e.preventDefault()
     
     item = $(e.currentTarget).item()
-    @select(item, @isCtrlClick(e))
+    @select(item.id, @isCtrlClick(e))
     
   select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]
       
     for item in items
-      list = item.addRemoveSelection()
-        
-    @list.exposeSelection()
+      list = @selectionList.addRemoveSelection(item)
+      
+    @list.exposeSelection(list)
+    
+  selectAll: ->
+    root = @items
+    return unless root and root.children('.item').length
+    list = []
+    root.children('.item').each (index, el) ->
+      item = $(@).item()
+      list.unshift item.id
+    @select(list)
+    
+  revertSelection: (e)->
+    @selectAll()
+    e.stopPropagation()
+    e.preventDefault()
     
   add: ->
-    Spine.trigger('albums:copy', Gallery.selectionList().slice(0), Gallery.record)
+    Spine.trigger('albums:copy', @selectionList, Gallery.record)
     @hide()
+    
+  keyup: (e) ->
+    code = e.charCode or e.keyCode
+    
+    console.log 'PhotosAddView:keyupCode: ' + code
+    
+    switch code
+      when 65 #CTRL A
+        if e.metaKey or e.ctrlKey
+          @selectAll()
+          e.stopPropagation()
+          e.preventDefault()
     
 module.exports = AlbumsAddView

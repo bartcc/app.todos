@@ -6,6 +6,7 @@ Gallery         = require('models/gallery')
 Album           = require('models/album')
 Photo           = require('models/photo')
 AlbumsPhoto     = require('models/albums_photo')
+GalleriesAlbum  = require('models/galleries_album')
 ToolbarView     = require("controllers/toolbar_view")
 AlbumsView      = require("controllers/albums_view")
 PhotoHeader     = require('controllers/photo_header')
@@ -317,8 +318,8 @@ class ShowView extends Spine.Controller
       @showAlbumMasters()
       
   copyAlbums: (albums, gallery) ->
+    @navigate '/gallery', gallery.id
     Album.trigger('create:join', albums, gallery)
-#    @navigate '/gallery', gallery.id
       
   copyPhotos: (photos, album) ->
     Photo.trigger('create:join', photos, album)
@@ -672,5 +673,9 @@ class ShowView extends Spine.Controller
         @slideshowView.close()
         e.stopPropagation()
         e.preventDefault()
+      when 65 #CTRL A
+        if e.metaKey or e.ctrlKey
+          @selectAll()
+          e.preventDefault()
 
 module?.exports = ShowView

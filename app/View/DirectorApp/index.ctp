@@ -54,8 +54,8 @@
     <div id="content" class="views bg-medium vbox flex">
       <div tabindex="1" id="show" class="view canvas bg-dark vbox flex fade">
         <div id="modal-action " class="modal fade"></div>
-        <div id="modal-addAlbum" class="modal fade"></div>
-        <div id="modal-addPhoto" class="modal fade"></div>
+        <div  tabindex="3" id="modal-addAlbum" class="modal fade"></div>
+        <div  tabindex="3" id="modal-addPhoto" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
           <li class="splitter disabled flex"></li>
@@ -173,7 +173,7 @@
           </div>
         </div>
       </div>
-      <div tabindex="1" id="overview" class="view content vbox flex data parent fade">
+      <div tabindex="3" id="overview" class="view content vbox flex data parent fade">
         <div class="carousel-background bg-medium flex">
 <!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
 <!--          We can't use it here, since it must be triggered via the controller-->
@@ -258,6 +258,7 @@
         <div class="items flex fadein in"></div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="opt-Selection dark left">Revert Selection</button>
         <button type="button" class="opt-AddExecute dark">Add</button>
         <button type="button" class="opt- dark" data-dismiss="modal">Cancel</button>
       </div>

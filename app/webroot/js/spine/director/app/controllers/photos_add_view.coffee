@@ -24,7 +24,9 @@ class PhotosAddView extends Spine.Controller
   events:
     'click .item'             : 'click'
     'click .opt-AddExecute'   : 'add'
-
+    'click .opt-Selection'    : 'revertSelection'
+    'keyup'                   : 'keyup'
+    
   template: (items) ->
     $('#addTemplate').tmpl
       title: 'Select Photos'
@@ -39,7 +41,7 @@ class PhotosAddView extends Spine.Controller
     @modal = @el.modal
       show: @visible
       backdrop: true
-    @modal.bind('shown.bs.modal', @proxy @setStatus)
+    @modal.bind('show.bs.modal', @proxy @setStatus)
     @modal.bind('hide.bs.modal', @proxy @setStatus)
     
     @list = new PhotosList
@@ -65,28 +67,56 @@ class PhotosAddView extends Spine.Controller
   setStatus: (e) ->
     type = e.type
     switch type
-      when 'shown'
+      when 'show'
         @preservedList = Album.selectionList().slice(0)
-        Album.emptySelection()
+        @selectionList = []
+      when 'hide'
+        Photo.trigger('activate', @selectionList)
     
   click: (e) ->
     e.stopPropagation()
     e.preventDefault()
     
     item = $(e.currentTarget).item()
-    @select(item, @isCtrlClick(e))
+    @select(item.id, @isCtrlClick(e))
     
   select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]
       
     for item in items
-      list = item.addRemoveSelection()
+      list = @selectionList.addRemoveSelection(item)
         
-    @list.exposeSelection()
+    @list.exposeSelection(list)
+    
+  selectAll: ->
+    root = @items
+    return unless root and root.children('.item').length
+    list = []
+    root.children('.item').each (index, el) ->
+      item = $(@).item()
+      list.unshift item.id
+    @select(list)
+    
+  revertSelection: (e)->
+    @selectAll()
+    e.stopPropagation()
+    e.preventDefault()
     
   add: ->
-    Spine.trigger('photos:copy', Album.selectionList().slice(0), Album.record)
+    Spine.trigger('photos:copy', @selectionList, Album.record)
     @hide()
+    
+  keyup: (e) ->
+    code = e.charCode or e.keyCode
+    
+    console.log 'PhotosAddView:keyupCode: ' + code
+    
+    switch code
+      when 65 #CTRL A
+        if e.metaKey or e.ctrlKey
+          @selectAll()
+          e.stopPropagation()
+          e.preventDefault()
     
 module.exports = PhotosAddView

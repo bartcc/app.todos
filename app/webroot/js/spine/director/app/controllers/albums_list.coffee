@@ -104,9 +104,9 @@ class AlbumsList extends Spine.Controller
       contentEl.attr('style', style)
     @el.sortable()
     
-  exposeSelection: ->
+  exposeSelection: (selection) ->
     @deselect()
-    list = Gallery.selectionList()
+    list = selection or Gallery.selectionList()
     for id in list
       if album = Album.exists(id)
         el = @children().forItem(album, true)

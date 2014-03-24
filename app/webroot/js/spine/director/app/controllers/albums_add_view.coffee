@@ -25,7 +25,7 @@ class AlbumsAddView extends Spine.Controller
 
   template: (items) ->
     $('#addTemplate').tmpl
-      title: 'Select Albums'
+      title: 'Add albums to your gallery'
       type: 'albums'
       disabled: true
       contains: !!items.length

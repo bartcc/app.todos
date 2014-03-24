@@ -29,7 +29,7 @@ class PhotosAddView extends Spine.Controller
     
   template: (items) ->
     $('#addTemplate').tmpl
-      title: 'Select Photos'
+      title: 'Add photos to your album'
       type: 'photos'
       disabled: true
       contains: !!@items.length

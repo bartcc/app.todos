@@ -140,40 +140,6 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: ->
-            if Gallery.record
-              len = Album.gallerySelectionList().length
-            else
-              len = Album.selectionList().length
-            s = if len>1 then 's' else ''
-            'Copy ' + (len or '') + ' Photo' + s + ' to New Album'
-          icon: ''
-          klass: 'opt-CreatePhotoFromSel'
-          disabled: ->
-            if Gallery.record
-              len = Album.gallerySelectionList().length
-            else
-              len = Album.selectionList().length
-            return !len
-        ,
-          name: ->
-            if Gallery.record
-              len = Album.gallerySelectionList().length
-            else
-              len = Album.selectionList().length
-            s = if len>1 then 's' else ''
-            'Move ' + (len or '') + ' Photo' + s + ' to New Album'
-          icon: ''
-          klass: 'opt-CreatePhotoFromSelCut'
-          disabled: ->
-            if Gallery.record
-              len = Album.gallerySelectionList().length
-            else
-              len = Album.selectionList().length
-            return !len
-        ,
-          devider: true
-        ,
           name: 'Edit'
           icon: 'pencil'
           klass: 'opt-Photo'

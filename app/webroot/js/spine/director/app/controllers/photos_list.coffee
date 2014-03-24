@@ -168,7 +168,7 @@ class PhotosList extends Spine.Controller
         img.src = src
         
   photos: (mode) ->
-    if mode is 'add'
+    if mode is 'add' or !Album.record
       Photo.all()
     else if album = Album.exists mode
       album.photos()
@@ -265,7 +265,7 @@ class PhotosList extends Spine.Controller
     
   zoom: (e) ->
     item = $(e?.currentTarget).item() || @current
-    @select item, true
+    @parent.select item, true
     @stopInfo(e)
     @navigate '/gallery', (Gallery.record?.id or ''), (Album.record?.id or ''), item.id
     

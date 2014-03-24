@@ -75,6 +75,7 @@ class AlbumsList extends Spine.Controller
       @activate()
     else if mode is 'add'
       @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
+      @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more albums can be added or there is no gallery selected.</span></label></h3>'
     else
       if Gallery.record
         if Album.count()

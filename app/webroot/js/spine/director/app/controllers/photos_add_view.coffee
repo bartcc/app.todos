@@ -22,18 +22,25 @@ class PhotosAddView extends Spine.Controller
     '.items'        : '_items'
 
   events:
-    'click .item'             : 'click'
-    'click .opt-AddExecute'   : 'add'
-    'click .opt-Selection'    : 'revertSelection'
-    'keyup'                   : 'keyup'
+    'click .item'                            : 'click'
+    'click .opt-AddExecute:not(.disabled)'   : 'add'
+    'click .opt-Selection:not(.disabled)'    : 'revertSelection'
+    'keyup'                                  : 'keyup'
     
   template: (items) ->
     $('#addTemplate').tmpl
       title: 'Select Photos'
       type: 'photos'
+      disabled: true
+      contains: !!@items.length
       
   subTemplate: (items, options) ->
     $("#photosTemplate").tmpl items, options
+    
+  footerTemplate: (selection) ->
+    $('#footerTemplate').tmpl
+      disabled: !selection.length
+      contains: !!@items.length
     
   constructor: ->
     super
@@ -50,11 +57,16 @@ class PhotosAddView extends Spine.Controller
     Spine.bind('photos:add', @proxy @show)
       
   render: (items) ->
-    @html @template items
-    @items = $('.items', @el)
-    @list.el = @items
+    @html @template @items = items
+    @itemsEl = $('.items', @el)
+    @list.el = @itemsEl
     @list.render items, 'add'
+#    @renderFooter items.length
   
+  renderFooter: (list) ->
+    @footer = $('.modal-footer', @el)
+    @footer.html @footerTemplate list
+    
   show: ->
     @el.modal('show')
     list = AlbumsPhoto.photos(Album.record.id).toID()
@@ -84,13 +96,15 @@ class PhotosAddView extends Spine.Controller
     unless Spine.isArray items
       items = [items]
       
+    list = []
     for item in items
       list = @selectionList.addRemoveSelection(item)
         
+    @renderFooter list
     @list.exposeSelection(list)
     
   selectAll: ->
-    root = @items
+    root = @itemsEl
     return unless root and root.children('.item').length
     list = []
     root.children('.item').each (index, el) ->

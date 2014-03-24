@@ -87,7 +87,8 @@ class PhotosList extends Spine.Controller
       @html @template items
       @uri items, mode
     else if mode is 'add'
-      @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
+      @html '<h3 class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></h3>'
+      @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more photos can be added or there is no album selected.</span></label></h3>'
     else 
       if Album.record
         if Photo.count()

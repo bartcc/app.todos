@@ -18,21 +18,25 @@ class AlbumsAddView extends Spine.Controller
 
   @extend Extender
 
-  elements:
-    '.items'        : '_items'
-
   events:
-    'click .item'             : 'click'
-    'click .opt-AddExecute'   : 'add'
-    'click .opt-Selection'    : 'revertSelection'
+    'click .item'                            : 'click'
+    'click .opt-AddExecute:not(.disabled)'   : 'add'
+    'click .opt-Selection:not(.disabled)'    : 'revertSelection'
 
   template: (items) ->
     $('#addTemplate').tmpl
       title: 'Select Albums'
       type: 'albums'
+      disabled: true
+      contains: !!items.length
     
   subTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
+    
+  footerTemplate: (selection) ->
+    $('#footerTemplate').tmpl
+      disabled: !selection.length
+      contains: !!@items.length
     
   constructor: ->
     super
@@ -49,10 +53,14 @@ class AlbumsAddView extends Spine.Controller
     Spine.bind('albums:add', @proxy @show)
       
   render: (items) ->
-    @html @template items
-    @items = $('.items', @el)
-    @list.el = @items
+    @html @template @items = items
+    @itemsEl = $('.items', @el)
+    @list.el = @itemsEl
     @list.render items, 'add'
+  
+  renderFooter: (selection) ->
+    @footer = $('.modal-footer', @el)
+    @footer.html @footerTemplate selection
   
   show: ->
     @el.modal('show')
@@ -83,13 +91,15 @@ class AlbumsAddView extends Spine.Controller
     unless Spine.isArray items
       items = [items]
       
+    list = []
     for item in items
       list = @selectionList.addRemoveSelection(item)
       
+    @renderFooter list
     @list.exposeSelection(list)
     
   selectAll: ->
-    root = @items
+    root = @itemsEl
     return unless root and root.children('.item').length
     list = []
     root.children('.item').each (index, el) ->

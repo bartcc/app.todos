@@ -258,12 +258,17 @@
         <div class="items flex fadein in"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="opt-Selection dark left">Revert Selection</button>
-        <button type="button" class="opt-AddExecute dark">Add</button>
-        <button type="button" class="opt- dark" data-dismiss="modal">Cancel</button>
+        {{tmpl() "#footerTemplate"}}
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
+</script>
+
+
+<script id="footerTemplate" type="text/x-jquery-tmpl">
+  <button type="button" class="opt-Selection dark left {{if !contains}}disabled{{/if}}">Revert Selection</button>
+  <button type="button" class="opt-AddExecute dark {{if disabled}}disabled{{/if}}">Add</button>
+  <button type="button" class="opt- dark" data-dismiss="modal">Cancel</button>
 </script>
 
 <script id="modalActionTemplate" type="text/x-jquery-tmpl">

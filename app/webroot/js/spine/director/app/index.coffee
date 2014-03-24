@@ -287,6 +287,10 @@ class Main extends Spine.Controller
     switch code
       when 13 #RETURN
         e.preventDefault()
+      when 97
+        if e.metaKey or e.ctrlKey
+          e.preventDefault()
+          e.stopPropagation()
     
   keyup: (e) ->
     code = e.charCode or e.keyCode
@@ -300,6 +304,5 @@ class Main extends Spine.Controller
         e.stopPropagation()
       when 13 #Return
         e.preventDefault()
-      
         
 module?.exports = Main

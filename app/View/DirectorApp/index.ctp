@@ -266,7 +266,7 @@
 
 
 <script id="footerTemplate" type="text/x-jquery-tmpl">
-  <button type="button" class="opt-Selection dark left {{if !contains}}disabled{{/if}}">Revert Selection</button>
+  <button type="button" class="opt-Selection dark left {{if !contains}}disabled{{/if}}">Invert Selection</button>
   <button type="button" class="opt-AddExecute dark {{if disabled}}disabled{{/if}}">Add</button>
   <button type="button" class="opt- dark" data-dismiss="modal">Cancel</button>
 </script>

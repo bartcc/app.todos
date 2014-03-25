@@ -61,7 +61,6 @@ class PhotosAddView extends Spine.Controller
     @itemsEl = $('.items', @el)
     @list.el = @itemsEl
     @list.render items, 'add'
-#    @renderFooter items.length
   
   renderFooter: (list) ->
     @footer = $('.modal-footer', @el)

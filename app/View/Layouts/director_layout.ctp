@@ -85,7 +85,7 @@
       Gallery.refresh(galleries, {clear: true});
       
       Spine.Route.setup()
-      App.navigate(route);
+      App.navigate(route || '/overview');
       startScript()
       
     });

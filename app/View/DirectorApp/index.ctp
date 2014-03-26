@@ -578,20 +578,6 @@
       <li class="alb active">Albums</li>
     </span>
   </section>
-  <section class="addAction">
-    <div class="main fadeelement breadcrumb movefromright">
-      <label class="label info">
-        <i class="glyphicon glyphicon-info-sign"></i>
-          select items to add
-      </label>
-      <hr>
-      <span class="symbol opt-PhotoActionCopy action right">
-        <a href="#"><i class="glyphicon glyphicon-share-alt"></i>copy items</a>
-      </span>
-      <span class="symbol opt-ActionCancel">
-        <a href="#"><i class="glyphicon glyphicon-remove"></i>cancel</a>
-      </span>
-    </div>
 </script>
 
 <script id="albumDetailsTemplate" type="text/x-jquery-tmpl">
@@ -723,21 +709,6 @@
       <li class="pho active">Photos</li>
     </span>
   </section>
-  <section class="addAction">
-    <div class="main fadeelement breadcrumb movefromright">
-      <label class="label info">
-        <i class="glyphicon glyphicon-info-sign"></i>
-          select items to add
-      </label>
-      <hr>
-      <span class="symbol opt-PhotoActionCopy action right">
-        <a href="#"><i class="glyphicon glyphicon-share-alt"></i>copy items</a>
-      </span>
-      <span class="symbol opt-ActionCancel">
-        <a href="#"><i class="glyphicon glyphicon-remove"></i>cancel</a>
-      </span>
-    </div>
-  </section>
 </script>
 
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
@@ -760,15 +731,6 @@
         <a href="#">Photos</a>
       </li>
       <li class="active">{{if $item.data.item.src}}${$item.data.item.src}{{else}}deleted{{/if}}</li>
-    </span>
-  </section>
-  <section class="right">
-    <span class="fadeelement breadcrumb movefromright">
-      <li class="symbol opt-Action">
-        <span class="">
-          <a href="#"><i class="glyphicon glyphicon-share-alt"></i>Copy</a>
-        </span>
-      </li>
     </span>
   </section>
 </script>

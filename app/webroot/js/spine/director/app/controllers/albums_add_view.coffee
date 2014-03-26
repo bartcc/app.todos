@@ -44,8 +44,8 @@ class AlbumsAddView extends Spine.Controller
     @modal = @el.modal
       show: @visible
       backdrop: true
-    @modal.bind('show.bs.modal', @proxy @setStatus)
-    @modal.bind('hide.bs.modal', @proxy @setStatus)
+    @modal.bind('show.bs.modal', @proxy @modalShow)
+    @modal.bind('hide.bs.modal', @proxy @modalHide)
     
     @list = new AlbumsList
       template: @subTemplate
@@ -71,14 +71,11 @@ class AlbumsAddView extends Spine.Controller
   hide: ->
     @el.modal('hide')
   
-  setStatus: (e) ->
-    type = e.type
-    switch type
-      when 'show'
-        @preservedList = Gallery.selectionList().slice(0)
-        @selectionList = []
-      when 'hide'
-        Album.trigger('activate', @selectionList)
+  modalShow: (e) ->
+    @preservedList = Gallery.selectionList().slice(0)
+    @selectionList = []
+  
+  modalHide: (e) ->
     
   click: (e) ->
     e.stopPropagation()
@@ -114,6 +111,8 @@ class AlbumsAddView extends Spine.Controller
     
   add: ->
     Spine.trigger('albums:copy', @selectionList, Gallery.record)
+    if @selectionList.length
+      Album.trigger('activate', @selectionList)
     @hide()
     
   keyup: (e) ->

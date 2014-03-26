@@ -48,8 +48,9 @@ class PhotosAddView extends Spine.Controller
     @modal = @el.modal
       show: @visible
       backdrop: true
-    @modal.bind('show.bs.modal', @proxy @setStatus)
-    @modal.bind('hide.bs.modal', @proxy @setStatus)
+    @modal.bind('show.bs.modal', @proxy @modalShow)
+    @modal.bind('shown.bs.modal', @proxy @modalShown)
+    @modal.bind('hide.bs.modal', @proxy @modalHide)
     
     @list = new PhotosList
       template: @subTemplate
@@ -67,22 +68,22 @@ class PhotosAddView extends Spine.Controller
     @footer.html @footerTemplate list
     
   show: ->
-    @el.modal('show')
     list = AlbumsPhoto.photos(Album.record.id).toID()
+    console.log list
     records = Photo.filter list, func: 'idExcludeSelect'
     @render records
+    @el.modal('show')
     
   hide: ->
     @el.modal('hide')
   
-  setStatus: (e) ->
-    type = e.type
-    switch type
-      when 'show'
-        @preservedList = Album.selectionList().slice(0)
-        @selectionList = []
-      when 'hide'
-        Photo.trigger('activate', @selectionList)
+  modalShow: (e) ->
+    @preservedList = Album.selectionList().slice(0)
+    @selectionList = []
+  
+  modalShown: (e) ->
+  
+  modalHide: (e) ->
     
   click: (e) ->
     e.stopPropagation()
@@ -118,6 +119,8 @@ class PhotosAddView extends Spine.Controller
     
   add: ->
     Spine.trigger('photos:copy', @selectionList, Album.record)
+    if @selectionList.length
+      Photo.trigger('activate', @selectionList)
     @hide()
     
   keyup: (e) ->

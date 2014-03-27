@@ -87,25 +87,6 @@
           <div id="slideshow" class="view content flex data parent autoflow">
             <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
           </div>
-          <div id="" class="overview canvas view content vbox flex data parent autoflow hide">
-            <div class="flex vbox">
-              <div class="canvas bg-medium clearfix">
-                <fieldset>
-                  <label><span class="enlightened">Recently Uploaded:</span></label>
-                  <div class="items"></div>
-                </fieldset>
-                <fieldset>
-                  <label><span class="enlightened">Summary:</span></label>
-                  <div class="info"></div>
-                </fieldset>
-              </div>
-              <div class="">
-                <fieldset>
-                  <label><span class="enlightened">Informations:</span></label>
-                </fieldset>
-              </div>
-            </div>
-          </div>
         </div>
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
           <div class="views canvas content vbox flex autoflow hdraggable" style="position: relative">

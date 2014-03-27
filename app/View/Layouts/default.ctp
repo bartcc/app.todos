@@ -27,6 +27,12 @@
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
+  echo $this->Html->meta("keywords", "spine, spinejs, javascript, application, sample, example, photo, album, gallery");
+  echo $this->Html->meta("keywords", "twitter, bootstrap, html5");
+  echo $this->Html->meta("description", "Sample application made with SpineJs");
+  echo $this->Html->meta("description", "Photo Director");
+  echo $this->Html->meta("description", "Photo Library");
+  echo $this->Html->meta(array('name' => 'robots', 'content' => 'index, follow'));
   
   echo $this->Html->css('twitter/bootstrap/css/bootstrap');
   echo $this->Html->css('app');

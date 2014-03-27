@@ -8,7 +8,7 @@ require("plugins/tmpl")
 
 class OverviewView extends Spine.Controller
 
-  @extend KeyEnhancer
+#  @extend KeyEnhancer
 
   elements:
     '#overview-carousel'         : 'carousel'
@@ -131,8 +131,18 @@ class OverviewView extends Spine.Controller
     
     switch code
       when 32 #Space
-        console.log 'Code: ' + code
-        @carousel.carousel 'pause'
+        paused = @carousel.data('bs.carousel').paused
+        if paused
+          @carousel.carousel('next')
+          @carousel.carousel('cycle')
+        else
+          @carousel.carousel('pause')
+        e.preventDefault()
+      when 39 #Right
+        @carousel.carousel('next')
+        e.preventDefault()
+      when 37 #Left
+        @carousel.carousel('prev')
         e.preventDefault()
 
 module?.exports = OverviewView

@@ -173,7 +173,7 @@
           </div>
         </div>
       </div>
-      <div tabindex="3" id="overview" class="view content vbox flex data parent fade">
+      <div tabindex="1" id="overview" class="view content vbox flex data parent fade">
         <div class="carousel-background bg-medium flex">
 <!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
 <!--          We can't use it here, since it must be triggered via the controller-->

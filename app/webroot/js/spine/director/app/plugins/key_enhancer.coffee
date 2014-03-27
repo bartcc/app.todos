@@ -23,6 +23,7 @@ Controller.KeyEnhancer =
       keyup: (e) ->
         console.log e
         console.log @
+        e.stopPropagation()
         
     @include Include
     @extend Extend

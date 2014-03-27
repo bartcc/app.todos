@@ -287,6 +287,8 @@ class Main extends Spine.Controller
     switch code
       when 13 #RETURN
         e.preventDefault()
+      when 97 #A
+        e.preventDefault()
     
   keyup: (e) ->
     code = e.charCode or e.keyCode

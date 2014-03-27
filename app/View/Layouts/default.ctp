@@ -28,8 +28,8 @@
 	<?php
 		echo $this->Html->meta('icon');
   echo $this->Html->meta("keywords", "spine, spinejs, javascript, application, sample, example, photo, album, gallery");
-  echo $this->Html->meta("keywords", "twitter, bootstrap, html5, web, app, apps");
-  echo $this->Html->meta("description", "Sample application made with SpineJs");
+  echo $this->Html->meta("keywords", "twitter, bootstrap, html5, web, app, apps, image, upload, drag and drop");
+  echo $this->Html->meta("description", "Sample Application made with SpineJs");
   echo $this->Html->meta("description", "Web App");
   echo $this->Html->meta("description", "Photo Director");
   echo $this->Html->meta("description", "Photo Library");

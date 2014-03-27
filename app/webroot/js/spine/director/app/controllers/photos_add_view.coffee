@@ -69,7 +69,6 @@ class PhotosAddView extends Spine.Controller
     
   show: ->
     list = AlbumsPhoto.photos(Album.record.id).toID()
-    console.log list
     records = Photo.filter list, func: 'idExcludeSelect'
     @render records
     @el.modal('show')

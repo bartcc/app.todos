@@ -90,11 +90,10 @@ class PhotosList extends Spine.Controller
       @html '<h3 class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></h3>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more photos can be added or there is no album selected.</span></label></h3>'
     else 
-      if Album.record
-        if Photo.count()
-          @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p><button class="opt-AddPhotos dark large">Add existing photos</button></span></label>'
-        else
-          @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p>'
+      if Photo.count()
+        @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p><button class="opt-AddPhotos dark large">Add existing photos</button></span></label>'
+      else
+        @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p>'
       
     @activate()
     @el

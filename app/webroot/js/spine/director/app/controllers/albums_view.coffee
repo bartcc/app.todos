@@ -209,7 +209,6 @@ class AlbumsView extends Spine.Controller
     $('.glyphicon-set', el).removeClass('in')
     el.data().queue?.splice(0, 1)
     $('.downloading', el).removeClass('in').addClass('hide')
-#    el.removeClass('loading') unless el.data().queue?.length
     
   sortupdate: (e, o) ->
     @list.children().each (index) ->

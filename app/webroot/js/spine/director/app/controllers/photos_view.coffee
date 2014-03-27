@@ -66,7 +66,7 @@ class PhotosView extends Spine.Controller
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('change:selectedAlbum', @proxy @change)
-    Spine.bind('done:upload', @proxy @updateBuffer)
+    Spine.bind('loading:done', @proxy @updateBuffer)
     
   updateBuffer: (album=Album.record) ->
     filterOptions =
@@ -147,7 +147,7 @@ class PhotosView extends Spine.Controller
           @destroyJoin id, album
         photo.destroy() if photo = Photo.exists(id)
   
-  destroy: (album) ->
+  destroy: ->
     @render() unless Photo.count()
       
   show: ->
@@ -170,10 +170,8 @@ class PhotosView extends Spine.Controller
   add: (photos) ->
     unless Photo.isArray photos
       photos = [photos]
-    for photo in photos
-      if Photo.exists(photo.id)
-        @render([photo], 'append')
-        @list.el.sortable('destroy').sortable('photos')
+    @render(photos, 'append')
+    @list.el.sortable('destroy').sortable('photos')
       
   destroyAlbumsPhoto: (ap) ->
     photos = AlbumsPhoto.photos  ap.album_id

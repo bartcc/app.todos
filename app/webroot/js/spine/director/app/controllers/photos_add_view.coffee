@@ -44,6 +44,7 @@ class PhotosAddView extends Spine.Controller
     
   constructor: ->
     super
+    @thumbSize = 100
     @visible = false
     @modal = @el.modal
       show: @visible
@@ -77,12 +78,14 @@ class PhotosAddView extends Spine.Controller
     @el.modal('hide')
   
   modalShow: (e) ->
+    Spine.trigger('slider:change', @thumbSize)
     @preservedList = Album.selectionList().slice(0)
     @selectionList = []
   
   modalShown: (e) ->
   
   modalHide: (e) ->
+    Spine.trigger('slider:change', App.showView.sOutValue)
     
   click: (e) ->
     e.stopPropagation()

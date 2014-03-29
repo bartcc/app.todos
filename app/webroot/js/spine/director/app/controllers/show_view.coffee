@@ -99,17 +99,14 @@ class ShowView extends Spine.Controller
     'click .opt-AddPhotos:not(.disabled)'             : 'showPhotoMastersAdd'
     'click .opt-ActionCancel:not(.disabled)'          : 'cancelAdd'
     'click .opt-SlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
-    'click .opt-ShowSlideshow:not(.disabled)'         : 'showSlideshow'
+    'click .opt-SlideshowPreview:not(.disabled)'      : 'slideshowPreview'
     'click .opt-SlideshowPlay:not(.disabled)'         : 'slideshowPlay'
-    'click .opt-OpenSlideshow:not(.disabled)'         : 'slideshowOpen'
     'click .opt-ShowPhotoSelection:not(.disabled)'    : 'showPhotoSelection'
     'click .opt-ShowAlbumSelection:not(.disabled)'    : 'showAlbumSelection'
     'click .opt-SelectAll:not(.disabled)'             : 'selectAll'
     'click .opt-CloseDraghandle'                      : 'toggleDraghandle'
     'click .items'                                    : 'deselect'
     'dblclick .draghandle'                            : 'toggleDraghandle'
-    'slidestop .slider'                               : 'sliderStop'
-    'slidestart .slider'                              : 'sliderStart'
     'keyup'                                           : 'keyup'
     'dragstart'                                       : 'dragstart'
     'dragenter'                                       : 'dragenter'
@@ -575,37 +572,20 @@ class ShowView extends Spine.Controller
       slide: (e, ui) =>
         @sliderSlide ui.value
     
-  showSlider: ->
-    @initSlider()
-    @sliderOutValue()
-    @sliderInValue()
-      
-  sliderStart: =>
-    Spine.trigger('slider:start')
-#    @photosView.list.sliderStart()
-    
   sliderSlide: (val) =>
     newVal = @sliderOutValue val  
     Spine.trigger('slider:change', newVal)
     newVal
     
-  sliderStop: =>
-    # rerender thumbnails on the server to its final size
-#    @slider.toggle()
-
-  slideshowOpen: (e) =>
-    @navigate '/slideshow', (Math.random() * 16 | 0), 1
-    
   slideshowPlay: (e) =>
     @slideshowView.trigger('play')
+    
+  slideshowPreview: (e) ->
+    @navigate '/slideshow/'
     
   showOverview: (e) ->
     @navigate '/overview/'
 
-  showSlideshow: (e) ->
-    @slideshowMode = App.SILENTMODE
-    @navigate '/slideshow/'
-    
   showModal: (options) ->
     opts =
       header: 'New Header'
@@ -666,7 +646,7 @@ class ShowView extends Spine.Controller
     
     switch code
       when 32 #Space
-        @slideshowView.toggle()
+        @slideshowView.play()
         e.preventDefault()
         e.stopPropagation()
       when 27 #Esc

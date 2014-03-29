@@ -300,7 +300,7 @@ class PhotosList extends Spine.Controller
   stopInfo: (e) =>
     @info.bye(e)
     
-  sliderStart: =>
+  sliderStart: ->
     @refreshElements()
     
   size: (val, bg='none') ->

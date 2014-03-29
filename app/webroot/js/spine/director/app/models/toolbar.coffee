@@ -27,7 +27,7 @@ class Toolbar extends Spine.Model
           klass: 'opt-Overview '
         ,
           name: 'Preview'
-          klass: 'opt-ShowSlideshow '
+          klass: 'opt-SlideshowPreview '
           disabled: -> !Gallery.activePhotos().length
         ,
           devider: true
@@ -199,7 +199,7 @@ class Toolbar extends Spine.Model
         [
           name: ->
             'Preview'#(if len==1 then " Image" else " Images") 
-          klass: 'opt-OpenSlideshow'
+          klass: 'opt-SlideshowPreview'
           icon: 'picture'
           disabled: -> !Gallery.activePhotos().length
         ,

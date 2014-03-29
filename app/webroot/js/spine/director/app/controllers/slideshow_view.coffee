@@ -47,11 +47,10 @@ class SlideshowView extends Spine.Controller
       startSlideshow    : true
       slideshowInterval : 2000
       onclose: =>
-      onclosed: => @close()
+      onclosed: => @closed()
     
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
-    Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('chromeless', @proxy @chromeless)
     Spine.bind('loading:done', @proxy @loadingDone)
     
@@ -176,9 +175,6 @@ class SlideshowView extends Spine.Controller
       
     @el.focus()
     
-  sliderStart: =>
-    @refreshElements()
-    
   size: (val=@thumbSize, bg='none') ->
     # 2*10 = border radius
     @thumb.css
@@ -228,24 +224,24 @@ class SlideshowView extends Spine.Controller
     options = index: @thumb.index($(e.target))
     @play(options)
     
-  play: (options={}) ->
-    if @isActive()
-      options = $().extend(@defaults, options)
-      @gallery = blueimp.Gallery(@thumb, options)
+  play: (options={index:0}) ->
+    unless @isActive()
+      @one('slideshow:ready', @proxy @playSlideshow)
+      @previousHash = location.hash
+      @navigate '/slideshow/'
     else
-      @toggle()
-    
-  toggle: ->
-    if @isActive()
-      @play(index:0) unless @gallery
-      return
-    
-    @one('slideshow:ready', @proxy @play)
-    @navigate '/slideshow', (Math.random() * 16 | 0), 1
+      options.startSlideshow = false
+      @previousHash = location.hash
+      @playSlideshow(options)
       
-  close: (e) ->
+  playSlideshow: (options) ->
+    options = $().extend({}, @defaults, options)
+    console.log options
+    @gallery = blueimp.Gallery(@thumb, options)
+    
+  closed: (e) ->
     if @isActive()
       @gallery = null
-      @parent.back()
+      location.hash = @previousHash
   
 module?.exports = SlideshowView

@@ -1,21 +1,16 @@
 Spine       = require("spine")
 $           = Spine.$
 Gallery     = require('models/gallery')
+Gallery     = require('models/gallery')
+Album       = require('models/album')
+Photo       = require('models/photo')
 AlbumsPhoto = require('models/albums_photo')
-
-Gallery         = require('models/gallery')
-require('models/album')
-Photo           = require('models/photo')
 
 class PhotosHeader extends Spine.Controller
   
   events:
     'click .gal'                      : 'backToGalleries'
     'click .alb'                      : 'backToAlbums'
-    'click .opt-PhotoActionCopy'       : 'toggleActionWindow' 
-    
-  elements:
-    '.movefromright'          : 'actionMenu'
 
   template: (item) ->
     $("#headerPhotosTemplate").tmpl item
@@ -24,7 +19,6 @@ class PhotosHeader extends Spine.Controller
     super
     Gallery.bind('create update destroy', @proxy @render)
     Album.bind('change', @proxy @render)
-    Album.bind('change:selection', @proxy @moveMenu)
     Photo.bind('change', @proxy @render)
     Photo.bind('refresh', @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @render)
@@ -53,22 +47,12 @@ class PhotosHeader extends Spine.Controller
       album: Album.record
       photo: Photo.record
       count:  @count()
-    @delay(@moveMenu, 500)
     
   count: ->
     if Album.record
       AlbumsPhoto.filter(Album.record.id, key: 'album_id').length
     else
       Photo.count()
-    
-  moveMenu: (list = Album.selectionList()) ->
-    @actionMenu.toggleClass('move', !!list.length)
-    
-  toggleActionWindow: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
-    list = Album.selectionList().slice(0)
-    @parent.actionWindow.open('Album', list)
     
   activated: ->
     @render()

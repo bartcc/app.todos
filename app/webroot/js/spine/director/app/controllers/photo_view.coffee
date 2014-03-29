@@ -60,21 +60,18 @@ class PhotoView extends Spine.Controller
     
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default'])
+    App.showView.trigger('change:toolbarTwo', ['Empty'])
     App.showView.trigger('canvas', @)
     
   activated: ->
-    @render() #unless photo.id is @current?.id
+    @render()
     
   remove: (ap) ->
     @parent.updateBuffer()
     Album.updateSelection()
     
-#    @navigate '/gallery', Gallery.record.id, Album.record?.id or ''
-  
   destroy: (item) ->
     @parent.updateBuffer()
-    
-#    @navigate '/gallery', Gallery.record.id, Album.record?.id or ''
     
   destroyAlbumsPhoto: (ap) ->
     return unless @isActive()

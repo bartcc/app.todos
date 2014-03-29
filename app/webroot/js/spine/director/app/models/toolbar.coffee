@@ -254,7 +254,7 @@ class Toolbar extends Spine.Model
           name: ''
           klass: 'opt-Previous'
           type: 'span'
-          icon: 'remove'
+          icon: 'arrow-left'
           outerstyle: 'float: right;'
         ]
     package_11:
@@ -352,7 +352,7 @@ class Toolbar extends Spine.Model
       name: 'Close'
       content:
         [
-          icon: 'remove'
+          icon: 'arrow-left'
           klass: 'opt opt-Previous'
           type: 'span'
         ]

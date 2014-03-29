@@ -19,7 +19,8 @@ class SlideshowView extends Spine.Controller
     '.thumbnail'       : 'thumb'
     
   events:
-    'click .items'     : 'click'
+    'click'            : 'close'
+    'click .item'      : 'click'
     'hidden.bs.modal'  : 'hiddenmodal'
     
   template: (items) ->
@@ -46,8 +47,9 @@ class SlideshowView extends Spine.Controller
       index             : 0
       startSlideshow    : true
       slideshowInterval : 2000
-      onclose: =>
-      onclosed: => @closed()
+      onopened: (e) => @opened(e)
+      onclose: (e) => @close(e)
+      onclosed: (e) => @closed(e)
     
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
@@ -116,7 +118,6 @@ class SlideshowView extends Spine.Controller
     if @index is @items.length-1
       @that.loadModal @items
       
-    
   modalParams: ->
     width: 600
     height: 451
@@ -160,7 +161,13 @@ class SlideshowView extends Spine.Controller
         list.push photo for photo in photos
     list
         
-  show: ->
+  show: (params) ->
+#    @list = []
+#    if params
+#      photo = Photo.exists params
+#      if photo
+#        @list.push photo
+#        @one('slideshow:ready', @proxy @play)
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Close'])
     App.showView.trigger('canvas', @)
@@ -202,13 +209,9 @@ class SlideshowView extends Spine.Controller
   slideshowable: ->
     @photos().length
     
-  opened: ->
-    alert 'opened'
-    
   hidemodal: (e) ->
     
   hiddenmodal: (e) ->
-    @parent.back()
     
   showmodal: (e) ->
     @items.empty()
@@ -221,7 +224,9 @@ class SlideshowView extends Spine.Controller
   click: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    options = index: @thumb.index($(e.target))
+    options =
+      index         : @thumb.index($(e.target))
+      startSlideshow: false
     @play(options)
     
   play: (options={index:0}) ->
@@ -230,18 +235,25 @@ class SlideshowView extends Spine.Controller
       @previousHash = location.hash
       @navigate '/slideshow/'
     else
-      options.startSlideshow = false
       @previousHash = location.hash
       @playSlideshow(options)
       
   playSlideshow: (options) ->
     options = $().extend({}, @defaults, options)
-    console.log options
     @gallery = blueimp.Gallery(@thumb, options)
     
+  opened: (e) ->
+    
+  close: (e) ->
+    if @previousHash
+      location.hash = @previousHash
+      delete @previousHash
+    else
+      @parent.back()
+    
   closed: (e) ->
+    console.log 'closed'
     if @isActive()
       @gallery = null
-      location.hash = @previousHash
   
 module?.exports = SlideshowView

@@ -267,6 +267,7 @@ class PhotosList extends Spine.Controller
     item = $(e?.currentTarget).item() || @current
     @parent.select item, true
     @stopInfo(e)
+#    @navigate '/slideshow', item.id
     @navigate '/gallery', (Gallery.record?.id or ''), (Album.record?.id or ''), item.id
     
     e.stopPropagation()

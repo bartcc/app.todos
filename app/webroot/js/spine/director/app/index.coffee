@@ -192,9 +192,9 @@ class Main extends Spine.Controller
       '/slideshow/:id/:autostart': (params) ->
         Spine.trigger('show:slideshow', params.autostart)
         @showView.trigger('active')
-      '/slideshow/*': ->
+      '/slideshow/*glob': (params) ->
         @showView.trigger('active')
-        Spine.trigger('show:slideshow')
+        Spine.trigger('show:slideshow', params.glob)
       '/flickr/:type/:page': (params) ->
         Spine.trigger('show:flickrView', params.type, params.page)
 #        location.href = location.href + '1' unless params.page

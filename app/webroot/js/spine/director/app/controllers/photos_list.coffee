@@ -45,7 +45,7 @@ class PhotosList extends Spine.Controller
     Photo.bind('update', @proxy @update)
 #    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
-    AlbumsPhoto.bind('destroy', @proxy @remove)
+#    AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('change', @proxy @changeRelated)
     
   change: ->
@@ -70,6 +70,7 @@ class PhotosList extends Spine.Controller
       when 'destroy'
         photoEl = @children().forItem(photo, true)
         photoEl.detach()
+        Album.removeFromSelection photo.id
         if album = Album.record
           @parent.render() unless album.count()
           

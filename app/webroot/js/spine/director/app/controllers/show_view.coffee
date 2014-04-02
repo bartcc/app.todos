@@ -183,12 +183,12 @@ class ShowView extends Spine.Controller
     
     Gallery.bind('change', @proxy @changeToolbarOne)
     Gallery.bind('change:selection', @proxy @refreshToolbars)
+    Album.bind('change:selection', @proxy @refreshToolbars)
     AlbumsPhoto.bind('create destroy', @proxy @refreshToolbars)
     Album.bind('change', @proxy @changeToolbarOne)
     Photo.bind('change', @proxy @changeToolbarOne)
     Photo.bind('refresh', @proxy @refreshToolbars)
     Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
-    Spine.bind('loading:done', @proxy @refreshToolbars)
     Spine.bind('albums:copy', @proxy @copyAlbums)
     Spine.bind('photos:copy', @proxy @copyPhotos)
     

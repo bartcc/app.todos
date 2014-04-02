@@ -80,19 +80,12 @@ class UploadEditView extends Spine.Controller
     photos.push new Photo(raw['Photo']).save(ajax: false) for raw in raws
     if album
       for photo in photos
-#        photo = new Photo(raw['Photo'])
         photo.addToSelection()
-#        photo.save(ajax: false)
-
-#        photo = Photo.exists(raw['Photo'].id)
-#        if photo
         Photo.trigger('create:join', photo.id, album)
 
       Spine.trigger('loading:done', album)
-#      Spine.trigger('done:upload', album)
     else
       Photo.trigger('created', photos)
-#        Photo.trigger('created', photo)
       @navigate '/gallery//'
       
     if data.autoUpload

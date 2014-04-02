@@ -60,7 +60,7 @@ class PhotoView extends Spine.Controller
     
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default'])
-    App.showView.trigger('change:toolbarTwo', ['Empty'])
+    App.showView.trigger('change:toolbarTwo', ['Test'])
     App.showView.trigger('canvas', @)
     
   activated: ->

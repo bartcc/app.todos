@@ -22,7 +22,7 @@ Controller.Extender =
         img.src = url
         img
   
-      focusFirstInput: (el) ->
+      focusFirstInput: (el=@el) ->
         return unless el
         $('input', el).first().focus().select() if el.is(':visible')
         el

@@ -1,11 +1,13 @@
 Spine           = require("spine")
 $               = Spine.$
 KeyEnhancer     = require("plugins/key_enhancer")
+Extender        = require('plugins/controller_extender')
 GalleriesAlbum  = require('models/galleries_album')
 
 class AlbumEditView extends Spine.Controller
   
   @extend KeyEnhancer
+  @extend Extender
   
   elements:
     '.content'    : 'item'
@@ -46,6 +48,7 @@ class AlbumEditView extends Spine.Controller
     console.log 'AlbumEditView::render'
     if item and !item.destroyed 
       @item.html @template item
+      @focusFirstInput()
     else
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select or create an album</span></label>'})
     

@@ -1,11 +1,13 @@
 Spine       = require("spine")
 $           = Spine.$
 KeyEnhancer = require("plugins/key_enhancer")
-AlbumsPhoto  = require('models/albums_photo')
+Extender    = require('plugins/controller_extender')
+AlbumsPhoto = require('models/albums_photo')
 
 class PhotoEditView extends Spine.Controller
 
   @extend KeyEnhancer
+  @extend Extender
   
   elements:
     '.content'        : 'item'
@@ -46,6 +48,7 @@ class PhotoEditView extends Spine.Controller
   render: (item=@current) ->
     if item and !item.destroyed 
       @item.html @template item
+      @focusFirstInput()
     else
       info = ''
       info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()

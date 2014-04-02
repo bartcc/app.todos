@@ -31,6 +31,7 @@ class SlideshowView extends Spine.Controller
     @el.data
       current:
         className: 'Slideshow'
+    @list = []
     @viewport = @el
     @thumbSize = 240
     @modalSimpleView = new ModalSimpleView
@@ -173,7 +174,10 @@ class SlideshowView extends Spine.Controller
     App.showView.trigger('canvas', @)
     
   activated: ->
-    list = @slideshowPhotos()
+    if @list.length
+      list = @list
+    else
+      list = @slideshowPhotos()
 
     if list.length
       @render list
@@ -252,8 +256,6 @@ class SlideshowView extends Spine.Controller
       @parent.back()
     
   closed: (e) ->
-    console.log 'closed'
-    if @isActive()
-      @gallery = null
+    @list = []
   
 module?.exports = SlideshowView

@@ -1,11 +1,13 @@
 Spine       = require("spine")
 KeyEnhancer = require("plugins/key_enhancer")
+Extender    = require('plugins/controller_extender')
 Gallery     = require("models/gallery")
 $           = Spine.$
 
 class GalleryEditView extends Spine.Controller
   
   @extend KeyEnhancer
+  @extend Extender
   
   elements:
     '.editGallery'              : 'editEl'
@@ -38,6 +40,7 @@ class GalleryEditView extends Spine.Controller
 #    return unless @isActive()
     if Gallery.record
       @editEl.html @template Gallery.record
+      @focusFirstInput()
     else
       unless Gallery.count()
         @editEl.html $("#noSelectionTemplate").tmpl({type: '<label class="invite"><span class="enlightened">Director has no gallery yet &nbsp;<button class="opt-Create dark large">New Gallery</button></span></label>'})

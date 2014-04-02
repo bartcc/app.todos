@@ -100,6 +100,7 @@ class ShowView extends Spine.Controller
     'click .opt-ActionCancel:not(.disabled)'          : 'cancelAdd'
     'click .opt-SlideshowAutoStart:not(.disabled)'    : 'toggleSlideshowAutoStart'
     'click .opt-SlideshowPreview:not(.disabled)'      : 'slideshowPreview'
+    'click .opt-SlideshowPhoto:not(.disabled)'        : 'slideshowPhoto'
     'click .opt-SlideshowPlay:not(.disabled)'         : 'slideshowPlay'
     'click .opt-ShowPhotoSelection:not(.disabled)'    : 'showPhotoSelection'
     'click .opt-ShowAlbumSelection:not(.disabled)'    : 'showAlbumSelection'
@@ -582,6 +583,11 @@ class ShowView extends Spine.Controller
     
   slideshowPreview: (e) ->
     @navigate '/slideshow/'
+    
+  slideshowPhoto: (e) ->
+    if Photo.record
+      @slideshowView.list.push Photo.record
+      @slideshowView.trigger('play')
     
   showOverview: (e) ->
     @navigate '/overview/'

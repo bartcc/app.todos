@@ -235,6 +235,14 @@ class Toolbar extends Spine.Model
           dropdown: true
           itemGroup: @dropdownGroups.group4
         ]
+    package_02:
+      name: 'Test'
+      content:
+        [
+          name: ''
+          icon: 'resize-full'
+          klass: 'opt-SlideshowPhoto'
+        ]
     package_09:
       name: 'Slideshow'
       content:

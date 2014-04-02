@@ -24,6 +24,7 @@ class PhotoView extends Spine.Controller
     'dragstart  .item'                : 'stopInfo'
     'dragstart'                       : 'dragstart'
     'drop       .item'                : 'drop'
+    'click'                           :'click'
     'click .glyphicon-set .back'      : 'back'
     'click .glyphicon-set .delete'    : 'deletePhoto'
     'click .glyphicon-set .resize'    : 'resize'
@@ -110,6 +111,10 @@ class PhotoView extends Spine.Controller
       parentEl.css
         'borderStyle'       : 'solid'
         'backgroundColor'   : 'rgb(117, 117, 117)'
+  
+  click: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
   
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()

@@ -51,6 +51,7 @@ class SlideshowView extends Spine.Controller
       onopened: (e) => @opened(e)
       onclose: (e) => @close(e)
       onclosed: (e) => @closed(e)
+      list: []
     
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
@@ -59,7 +60,6 @@ class SlideshowView extends Spine.Controller
     
   render: (items) ->
     console.log 'SlideshowView::render'
-    
     @items.html @template items
     @uri items
     @refreshElements()
@@ -88,7 +88,7 @@ class SlideshowView extends Spine.Controller
     console.log 'SlideshowView::uri'
     Photo.uri @params(),
       (xhr, record) => @callback(items, xhr),
-      @photos()
+      items
     
   # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
@@ -129,7 +129,7 @@ class SlideshowView extends Spine.Controller
   loadModal: (items, mode='html') ->
     Photo.uri @modalParams(),
       (xhr, record) => @callbackModal(xhr, items),
-      @photos()
+      items
   
   callbackModal: (json, items) ->
     console.log 'Slideshow::callbackModal'
@@ -149,26 +149,7 @@ class SlideshowView extends Spine.Controller
           'data-gallery': 'gallery'
     @trigger('slideshow:ready')
         
-  slideshowPhotos: ->
-    filterOptions =
-      key: 'album_id'
-      joinTable: 'AlbumsPhoto'
-      sorted: true
-      
-    list = []
-    if @photos().length
-      for aid in Gallery.selectionList()
-        photos = Photo.filterRelated(aid, filterOptions)
-        list.push photo for photo in photos
-    list
-        
   show: (params) ->
-#    @list = []
-#    if params
-#      photo = Photo.exists params
-#      if photo
-#        @list.push photo
-#        @one('slideshow:ready', @proxy @play)
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Close'])
     App.showView.trigger('canvas', @)
@@ -177,7 +158,7 @@ class SlideshowView extends Spine.Controller
     if @list.length
       list = @list
     else
-      list = @slideshowPhotos()
+      list = Gallery.activePhotos()
 
     if list.length
       @render list
@@ -233,8 +214,9 @@ class SlideshowView extends Spine.Controller
       startSlideshow: false
     @play(options)
     
-  play: (options={index:0}) ->
+  play: (options={index:0}, list=[]) ->
     unless @isActive()
+      @list.push item for item in list
       @one('slideshow:ready', @proxy @playSlideshow)
       @previousHash = location.hash
       @navigate '/slideshow/'

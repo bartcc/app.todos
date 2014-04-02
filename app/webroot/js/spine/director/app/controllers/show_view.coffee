@@ -170,7 +170,6 @@ class ShowView extends Spine.Controller
       parent: @
       parentModel: 'Photo'
       subview: true
-      photos: Gallery.activePhotos
     
     @bind('canvas', @proxy @canvas)
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
@@ -586,8 +585,7 @@ class ShowView extends Spine.Controller
     
   slideshowPhoto: (e) ->
     if Photo.record
-      @slideshowView.list.push Photo.record
-      @slideshowView.trigger('play')
+      @slideshowView.trigger('play', {}, [Photo.record])
     
   showOverview: (e) ->
     @navigate '/overview/'

@@ -109,7 +109,7 @@ class PhotoView extends Spine.Controller
       .fadeIn()
       parentEl.css
         'borderStyle'       : 'solid'
-        'backgroundColor'   : 'rgba(255, 255, 255, 0.5)'
+        'backgroundColor'   : 'rgb(117, 117, 117)'
   
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()

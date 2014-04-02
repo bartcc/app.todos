@@ -110,7 +110,6 @@ class PhotoView extends Spine.Controller
       parentEl.css
         'borderStyle'       : 'solid'
         'backgroundColor'   : 'rgba(255, 255, 255, 0.5)'
-        'backgroundImage'   : 'none'
   
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()

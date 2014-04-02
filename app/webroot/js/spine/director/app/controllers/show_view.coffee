@@ -161,7 +161,8 @@ class ShowView extends Spine.Controller
       el: @photoEl
       className: 'items'
       header: @photoHeader
-      parent: @photosView
+      photosView: @photosView
+      parent: @
       parentModel: Photo
     @slideshowView = new SlideshowView
       el: @slideshowEl

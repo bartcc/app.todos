@@ -29,6 +29,7 @@ class PhotoHeader extends Spine.Controller
     
   activated: ->
     @render()
+    
   backToGalleries: (e) ->
     @navigate '/galleries/'
     

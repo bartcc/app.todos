@@ -659,6 +659,7 @@
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
+    <span class="resize glyphicon glyphicon-resize-full glyphicon-white right"></span>
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
   </div>

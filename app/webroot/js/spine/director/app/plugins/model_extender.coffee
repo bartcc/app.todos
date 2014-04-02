@@ -92,6 +92,7 @@ Model.Extender =
         originalList = @selectionList(id)
         originalList[0...originalList.length] = list
         @trigger('change:selection', originalList)
+        console.log 'change:selection1'
         originalList
 
       removeFromSelection: (idOrList) ->
@@ -101,6 +102,7 @@ Model.Extender =
         for id, index in idOrList
           list.splice(index, 1) unless index is -1
         @trigger('change:selection', list)
+        console.log 'change:selection2'
         list
 
       isArray: (value) ->
@@ -144,25 +146,6 @@ Model.Extender =
 
           error.save()
           User.redirect 'users/login'
-          
-      filterRelated: (id, options) ->
-        joinTableItems = Model[options.joinTable].filter(id, options)
-        if options.sorted
-          return @sortByOrder @filter joinTableItems
-        else
-          return @filter joinTableItems
-          
-      nameSort: (a, b) ->
-        aa = (a or '').name?.toLowerCase()
-        bb = (b or '').name?.toLowerCase()
-        return if aa == bb then 0 else if aa < bb then -1 else 1
-          
-      sortSelectionListByOrder: ->
-        list = @selectionList()
-        list.sort (a, b) ->
-          aInt = parseInt(Album.exists(a).order)
-          bInt = parseInt(Album.exists(b).order)
-          if aInt < bInt then -1 else if aInt > bInt then 1 else 0
       
     Include =
       

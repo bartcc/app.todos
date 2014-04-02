@@ -178,7 +178,8 @@ class PhotosList extends Spine.Controller
   imageLoad: ->
     css = 'url(' + @src + ')'
     $('.thumbnail', @element).css
-      'backgroundImage': css  
+      'backgroundImage': css
+      'backgroundSize': '100% auto'
     
     
   #  ****** START SLIDESHOW SPECIFICS *****

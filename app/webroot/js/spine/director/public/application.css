@@ -1374,7 +1374,7 @@ label.btn.active {
 li .thumbnail.image {
   position: relative;
   background-position: center center;
-  background-size: 100% auto;
+  background-size: inherit;
 }
 .thumbnail {
   background-position: 0 0;
@@ -1407,6 +1407,7 @@ li .thumbnail.image {
 }
 .albums .thumbnail {
   background-color: rgba(255,255,255,0.15);
+  background-image: none;
   width: 160px;
   height: 160px;
 }
@@ -1414,7 +1415,7 @@ li .thumbnail.image {
   width: 70px;
   height: 70px;
 }
-.items .thumbnail {
+.thumbnail {
   background: url("img/photo-loader.gif") no-repeat center center;
   border: 9px solid #575757;
 }

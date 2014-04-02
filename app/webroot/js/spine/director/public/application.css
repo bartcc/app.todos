@@ -1416,7 +1416,7 @@ li .thumbnail.image {
   height: 70px;
 }
 .thumbnail {
-  background: url("img/photo-loader.gif") no-repeat center center;
+  background-image: url("img/photo-loader.gif");
   border: 9px solid #575757;
 }
 .photo .thumbnail.image {

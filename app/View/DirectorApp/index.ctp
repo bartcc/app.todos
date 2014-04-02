@@ -403,7 +403,7 @@
     <div class="glyphicon-set fade out" style="">
       <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
-      <span class="zoom glyphicon glyphicon-eye-open glyphicon-white right"></span>
+      <span class="zoom glyphicon glyphicon-folder-close glyphicon-white right"></span>
     </div>
     <div class="title">{{if name}}{{html name.substring(0, 15)}}{{else}}...{{/if}}</div>
   </li>
@@ -504,7 +504,7 @@
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
       <span class="downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade"></span>
-      <span class="zoom glyphicon glyphicon-eye-open glyphicon-white left"></span>
+      <span class="zoom glyphicon glyphicon-folder-close glyphicon-white left"></span>
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
       <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right"></span>
     </div>
@@ -642,7 +642,7 @@
 </script>
 
 <script id="photoTemplate" type="text/x-jquery-tmpl">
-  <li class="item container">
+  <li class="item">
     {{tmpl "#photoThumbnailTemplate"}}
   </li>
 </script>
@@ -652,16 +652,16 @@
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
-    <span class="zoom glyphicon glyphicon-eye-open glyphicon-white right"></span>
+    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right"></span>
   </div>
 </script>
 
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
-    <span class="resize glyphicon glyphicon-resize-full glyphicon-white right"></span>
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
+    <span class="resize glyphicon glyphicon-resize-full glyphicon-white"></span>
   </div>
   <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
 </script>

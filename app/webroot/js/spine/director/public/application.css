@@ -1732,6 +1732,9 @@ li.item.active .glyphicon-set {
   cursor: pointer;
   margin: 2px 0 4px 10px;
 }
+.glyphicon-folder-close:hover:before {
+  content: "\e118";
+}
 .loading .glyphicon-loading {
   background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;
 }

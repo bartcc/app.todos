@@ -259,6 +259,7 @@ class AlbumsView extends Spine.Controller
       list.addRemoveSelection(id)
     
     Gallery.updateSelection(list)
+<<<<<<< Updated upstream
 #    Album.trigger('activateRecord', list.first())
     
   infoUp: (e) =>
@@ -271,5 +272,8 @@ class AlbumsView extends Spine.Controller
     
   stopInfo: (e) =>
     @info.bye(e)
+=======
+    Album.trigger('activate', list, true)
+>>>>>>> Stashed changes
         
 module?.exports = AlbumsView

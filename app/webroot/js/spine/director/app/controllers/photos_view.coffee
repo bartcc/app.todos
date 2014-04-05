@@ -117,15 +117,26 @@ class PhotosView extends Spine.Controller
     
     Album.emptySelection() if exclusive
     
+<<<<<<< Updated upstream
+=======
+    items = items.toID()
+    
+    Album.emptySelection() if exclusive
+    
+>>>>>>> Stashed changes
     list = Album.selectionList()
     for id in items
       list.addRemoveSelection(id)
       
     Album.updateSelection(list)
+<<<<<<< Updated upstream
     Photo.trigger('activateRecord', list.first())
   
   activateRecord: (id) ->
     Photo.current(id)
+=======
+    Photo.trigger('activate', list, true)
+>>>>>>> Stashed changes
   
   clearPhotoCache: ->
     Photo.clearCache()

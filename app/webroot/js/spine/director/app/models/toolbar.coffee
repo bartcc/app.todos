@@ -89,6 +89,11 @@ class Toolbar extends Spine.Model
           icon: 'plus'
           klass: 'opt-AddAlbums'
         ,
+          name: 'New Album from Selection'
+          icon: 'asterisk'
+          klass: 'opt-CopyPhotosToAlbum'
+          disabled: -> !Album.selectionList().length
+        ,
           devider: true
         ,
           name: 'Edit'

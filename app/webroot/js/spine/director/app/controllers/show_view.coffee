@@ -78,12 +78,9 @@ class ShowView extends Spine.Controller
     'click .opt-FullScreen:not(.disabled)'            : 'toggleFullScreen'
     'click .opt-CreateGallery:not(.disabled)'         : 'createGallery'
     'click .opt-CreateAlbum:not(.disabled)'           : 'createAlbum'
-    'click .opt-CreatePhotoFromSel:not(.disabled)'    : 'createPhotoFromSel'
-    'click .opt-CreatePhotoFromSelCut:not(.disabled)' : 'createPhotoFromSelCut'
-    'click .opt-CreateAlbumFromSel:not(.disabled)'    : 'createAlbumFromSel'
+    'click .opt-CopyPhotosToAlbum:not(.disabled)'     : 'copyPhotosToAlbum'
     'click .opt-CopyAlbums'                           : 'copyAlbums'
     'click .opt-EmptyAlbum'                           : 'emptyAlbum'
-    'click .opt-CreateAlbumFromSelCut:not(.disabled)' : 'createAlbumFromSelCut'
     'click .opt-CreatePhoto:not(.disabled)'           : 'createPhoto'
     'click .opt-DestroyGallery:not(.disabled)'        : 'destroyGallery'
     'click .opt-DestroyAlbum:not(.disabled)'          : 'destroyAlbum'
@@ -177,10 +174,17 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
+<<<<<<< Updated upstream
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:enter', @proxy @dragEnter)
     @bind('drag:end', @proxy @dragEnd)
     @bind('drag:drop', @proxy @dropComplete)
+=======
+    @bind('drag:start', @proxy @sidebar.dragStart)
+    @bind('drag:enter', @proxy @sidebar.dragEnter)
+    @bind('drag:end', @proxy @sidebar.dragEnd)
+    @bind('drag:drop', @proxy @sidebar.dropComplete)
+>>>>>>> Stashed changes
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
@@ -309,7 +313,6 @@ class ShowView extends Spine.Controller
     e.preventDefault()
   
   copyPhotosToNewAlbum: (photos, gallery=Gallery.record) ->
-    return
     Spine.trigger('create:album', gallery, photos: photos)
     
     if gallery?.id
@@ -550,6 +553,7 @@ class ShowView extends Spine.Controller
     return unless model
     list = model.contains()
     @current.select(list)
+<<<<<<< Updated upstream
   
   
 #    root = @current.items
@@ -560,6 +564,8 @@ class ShowView extends Spine.Controller
 #      list.unshift item
 #    @current.select(list)
 #    @changeToolbarOne()
+=======
+>>>>>>> Stashed changes
     
   uploadProgress: (e, coll) ->
     

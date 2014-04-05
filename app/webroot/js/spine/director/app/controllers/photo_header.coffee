@@ -2,6 +2,7 @@ Spine       = require("spine")
 $           = Spine.$
 Album       = require('models/album')
 Gallery     = require('models/gallery')
+AlbumsPhoto = require('models/albums_photo')
 
 class PhotoHeader extends Spine.Controller
   
@@ -26,6 +27,13 @@ class PhotoHeader extends Spine.Controller
       gallery: Gallery.record
       album: Album.record
       item: Photo.record
+      count: @count()
+    
+  count: ->
+    if Album.record
+      AlbumsPhoto.filter(Album.record.id, key: 'album_id').length
+    else
+      Photo.count()
     
   activated: ->
     @render()

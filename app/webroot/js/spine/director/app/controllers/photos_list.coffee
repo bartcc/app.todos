@@ -151,7 +151,7 @@ class PhotosList extends Spine.Controller
     
     Photo.uri @thumbSize(),
       (xhr, record) => @callback(xhr, items),
-      @photos(mode)
+      items
   
   callback: (json = [], items) =>
     console.log 'PhotosList::callback'

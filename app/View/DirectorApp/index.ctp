@@ -593,7 +593,7 @@
   <h2>Photos in Album: </h2>
   <label class="h2 chopin">{{if album.title}}${album.title}{{else}}no title{{/if}}</label>
   <span class="active cta right">
-    <h2>Total: {{if iCount}}${iCount}{{else}}0{{/if}}</h2>
+    <h2>Total: ${count}</h2>
   </span>
   
 </script>
@@ -673,10 +673,10 @@
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
   <section class="top viewheader fadeelement">
     {{if album}}
-      {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
+      {{tmpl() "#photosDetailsTemplate"}}
     {{else}}
     <h2>Master Photos
-      <span class="active cta right"><h2>Total: {{if count}}${count}{{else}}0{{/if}}</h2></span>
+      <span class="active cta right"><h2>Total: ${count()}</h2></span>
     </h2>
     {{/if}}
   </section>
@@ -696,7 +696,7 @@
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
   <section class="fadeelement top viewheader">
     {{if album}}
-      {{tmpl($item.data.album.details()) "#photosDetailsTemplate"}}
+      {{tmpl() "#photosDetailsTemplate"}}
     {{else}}
       <h2>Master Photo</h2>
     {{/if}}

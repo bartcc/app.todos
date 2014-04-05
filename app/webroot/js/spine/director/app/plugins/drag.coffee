@@ -17,9 +17,14 @@ Controller.Drag =
         Spine.dragItem.el = el
         Spine.dragItem.els = []
         Spine.dragItem.source = el.item()
+<<<<<<< Updated upstream
         parentDataElement = $(e.target).closest('.parent.data')
         Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data('current')?.model.record
         return unless Spine.dragItem.source #ignore other draggable nondata elements
+=======
+        parentDataElement = $(e.target).parents('.parent.data')
+        Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data('current')?.model.record
+>>>>>>> Stashed changes
         event = e.originalEvent
         event.dataTransfer?.effectAllowed = 'move'
         event.dataTransfer?.setData('text/html', Spine.dragItem);

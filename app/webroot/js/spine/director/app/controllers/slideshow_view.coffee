@@ -76,8 +76,7 @@ class SlideshowView extends Spine.Controller
     @deselect()
     list = Album.selectionList()
     for id in list
-      if Photo.exists(id)
-        item = Photo.find(id) if Photo.exists(id)
+      if item = Photo.exists(id)
         @items.children().forItem(item, true).addClass("active")
        
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->

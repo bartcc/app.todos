@@ -49,8 +49,9 @@ class Album extends Spine.Model
       foreignKey            : 'album_id'
       associationForeignKey : 'photo_id'
     
-  @contains: (id) ->
-    AlbumsPhoto.filter(id, key: 'album_id').length
+  @contains: (id=@record.id) ->
+    return Photo.all() unless id
+    @photos id
     
   @photos: (id, max = Album.count()) ->
     filterOptions =
@@ -108,14 +109,14 @@ class Album extends Spine.Model
         ga.destroy()
   
   count: (inc = 0) =>
-    @constructor.contains(@id) + inc
+    @constructor.contains(@id).length + inc
   
   photos: (max) ->
     @constructor.photos @id, max || @count()
   
   details: =>
     $().extend @defaultDetails,
-      iCount : @constructor.contains @id
+      iCount : @constructor.contains(@id).length
       album  : Album.record
       gallery: Gallery.record
       author: User.first().name

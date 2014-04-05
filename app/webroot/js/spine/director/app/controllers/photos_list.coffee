@@ -29,6 +29,7 @@ class PhotosList extends Spine.Controller
     'dragstart .item'              : 'stopInfo'
     'dragstart'                    : 'dragstart'
     'dragover .item'               : 'dragover'
+    'drop'                         : 'drop'
     
   selectFirst: true
     
@@ -39,12 +40,13 @@ class PhotosList extends Spine.Controller
       el: @toolbarEl
       
     @bind('drag:start', @proxy @dragStart)
-    Photo.bind('activate', @proxy @activate)
+    @bind('drag:drop', @proxy @dragDrop)
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
 #    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
+    Album.bind("change:selection", @proxy @exposeSelection)
 #    AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('change', @proxy @changeRelated)
     
@@ -64,7 +66,6 @@ class PhotosList extends Spine.Controller
         @el.empty() if wipe
         @append @template photo
         @uri [photo]
-        @activate photo.id
         @el.sortable('destroy').sortable()
         
       when 'destroy'
@@ -87,6 +88,7 @@ class PhotosList extends Spine.Controller
       @wipe()
       @html @template items
       @uri items, mode
+      @exposeSelection()
     else if mode is 'add'
       @html '<h3 class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></h3>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more photos can be added or there is no album selected.</span></label></h3>'
@@ -96,7 +98,6 @@ class PhotosList extends Spine.Controller
       else
         @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p>'
       
-    @activate()
     @el
   
   renderAll: ->
@@ -104,7 +105,7 @@ class PhotosList extends Spine.Controller
     items = Photo.all()
     if items.length
       @html @template items
-      @activate()
+      @activateRecord()
       @uri items
     @el
   
@@ -226,22 +227,9 @@ class PhotosList extends Spine.Controller
       if photo = Photo.exists(id)
         el = @children().forItem(photo, true)
         el.addClass("active")
-        if Photo.record.id is photo.id
-          el.addClass("hot")
-        
-  activate: (items=Album.selectionList()) ->
-    id = null
-    unless Photo.isArray items
-      unique = true
-      items = [items]
-    
-    id = items[0]
-    for item in items
-      if photo = Photo.exists item
-        photo.addToSelection(unique)
-      
-    Photo.current(id)
-    @exposeSelection()
+    if photo = Photo.exists(list.first())
+      el = @children().forItem(photo, true)
+      el.addClass("hot")
       
   remove: (ap) ->
     item = Photo.exists ap.photo_id
@@ -315,6 +303,9 @@ class PhotosList extends Spine.Controller
     
   dragStart: (e, o) ->
     if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
-      @activate Spine.dragItem.source.id
+      Photo.trigger('activateRecord', Spine.dragItem.source.id)
+      
+  dragDrop: ->
+    @exposeSelection()
     
 module?.exports = PhotosList

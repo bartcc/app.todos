@@ -37,8 +37,7 @@ class UploadEditView extends Spine.Controller
     console.log 'UploadView::render'
     selection = Gallery.selectionList()
     gallery = Gallery.record
-#    @album = Album.record
-    @album = (Album.find(selection[0]) if Album.exists(selection[0])) || false
+    @album = Album.exists(selection[0]) || false
     @uploadinfoEl.html @template
       gallery: gallery
       album: @album

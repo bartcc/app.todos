@@ -21,22 +21,24 @@ class AlbumsList extends Spine.Controller
     'click .glyphicon-set .delete' : 'deleteAlbum'
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
-    'dragstart .item'              : 'stopInfo'
+    
     'dragstart'                    : 'dragstart'
-    'mousemove .item'              : 'infoUp'
-    'mouseleave .item'             : 'infoBye'
+    'drop'                         : 'drop'
+    
     
   constructor: ->
     super
     @widows = []
     @bind('drag:start', @proxy @dragStart)
+    @bind('drag:drop', @proxy @dragDrop)
+    
     Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
-    Album.bind('activate', @proxy @activate)
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
+    Gallery.bind('change:selection', @proxy @exposeSelection)
     
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
@@ -51,7 +53,6 @@ class AlbumsList extends Spine.Controller
         @el.empty() if wipe
         @append @template album
         @renderBackgrounds [album]
-        @activate album.id
         @el.sortable('destroy').sortable()
         
       when 'destroy'
@@ -72,7 +73,7 @@ class AlbumsList extends Spine.Controller
       @html @template items
       @renderBackgrounds items, mode
       @el.sortable() if Gallery.record
-      @activate()
+      @exposeSelection()
     else if mode is 'add'
       @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more albums can be added or there is no gallery selected.</span></label></h3>'
@@ -86,7 +87,7 @@ class AlbumsList extends Spine.Controller
         @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet<div><button class="opt-CreateAlbum dark large">New Album</button></div></span></label>'
     
     @el
-  
+    
   updateTemplate: (album) ->
     albumEl = @children().forItem(album)
     contentEl = $('.thumbnail', albumEl)
@@ -104,7 +105,7 @@ class AlbumsList extends Spine.Controller
       albumEl.toggleClass('hot', hot)
       contentEl.attr('style', style)
     @el.sortable()
-    
+  
   exposeSelection: (selection) ->
     @deselect()
     list = selection or Gallery.selectionList()
@@ -112,28 +113,10 @@ class AlbumsList extends Spine.Controller
       if album = Album.exists(id)
         el = @children().forItem(album, true)
         el.addClass("active")
-        if Album.record.id is album.id
-          el.addClass("hot")
-        
-    Spine.trigger('expose:sublistSelection', Gallery.record)
-  
-  activate: (items=Gallery.selectionList()) ->
-    id = null
-    unless Album.isArray items
-      unique = true
-      items = [items]
-    
-    id = items[0]
-    for item in items
-      if album = Album.exists item
-        album.addToSelection(unique)
-        
-    if id
-      App.sidebar.list.expand(Gallery.record, true)
+    if album = Album.exists(list.first())
+      el = @children().forItem(album, true)
+      el.addClass("hot")
       
-    Album.current(id)
-    @exposeSelection()
-    
   updateBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::updateBackgrounds'
     albums = ap.albums()
@@ -192,19 +175,11 @@ class AlbumsList extends Spine.Controller
       
     thumb.css('backgroundImage', check_css())
 
-  loadtest: (t) ->
-    test = $('.item', @el).each ->
-      len = $(@).data('queue')
-      if len and len.length
-        return true
-      else
-        return false 
-
   zoom: (e) ->
     item = $(e.currentTarget).item()
     
-    @parent.select(item, true)
-    @stopInfo()
+#    @parent.select(item, true)
+    @parent.stopInfo()
     @navigate '/gallery', (Gallery.record?.id or ''), item.id
     
     e.stopPropagation()
@@ -227,7 +202,7 @@ class AlbumsList extends Spine.Controller
     window.setTimeout( =>
       Spine.trigger('destroy:album', [item.id])
       Gallery.removeFromSelection item.id
-      @stopInfo()
+#      @stopInfo()
     , 200)
     
     e.stopPropagation()
@@ -239,19 +214,13 @@ class AlbumsList extends Spine.Controller
     
     Spine.trigger('albums:add')
     
-  infoUp: (e) =>
-    @info.up(e)
-    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
-    
-  infoBye: (e) =>
-    @info.bye(e)
-    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
-    
-  stopInfo: (e) =>
-    @info.bye(e)
-    
   dragStart: (e, o) ->
     if Gallery.selectionList().indexOf(Spine.dragItem.source.id) is -1
-      @activate Spine.dragItem.source.id
+      Album.trigger('activateRecord', Spine.dragItem.source.id)
+      
+  dragDrop: (e) ->
+    @exposeSelection()
+#    Gallery.trigger('change:current', Gallery.record)
+    
     
 module?.exports = AlbumsList

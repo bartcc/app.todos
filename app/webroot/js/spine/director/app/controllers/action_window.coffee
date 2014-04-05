@@ -95,12 +95,12 @@ class ActionWindow extends Spine.Controller
     switch type
       when 'Gallery'
         items = Gallery.albums(item.id).sort Album.nameSort
-        Gallery.trigger('activate', item.id)
+        Gallery.trigger('activateRecord', item.id)
         @renderAlbums items
         if @renderType is 'Gallery'
           @albumsEl.children().addClass('disabled')
 #      when 'Album'
-#        Album.trigger('activate', item.id)
+#        Album.trigger('activateRecord', item.id)
     
   prevClick: (e) ->
     e.stopPropagation()

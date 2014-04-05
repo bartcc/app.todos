@@ -170,18 +170,18 @@ class Main extends Spine.Controller
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
         @showView.trigger('active')
-        Gallery.trigger('activate', params.gid)
-        Album.trigger('activate', params.aid)
-        Photo.trigger('activate', params.pid)
+        Gallery.trigger('activateRecord', params.gid)
+        Album.trigger('activateRecord', params.aid)
+        Photo.trigger('activateRecord', params.pid)
         Spine.trigger('show:photo')
       '/gallery/:gid/:aid': (params) ->
         @showView.trigger('active')
-        Gallery.trigger('activate', params.gid)
-        Album.trigger('activate', params.aid)
+        Gallery.trigger('activateRecord', params.gid)
+        Album.trigger('activateRecord', params.aid)
         Spine.trigger('show:photos')
       '/gallery/:gid': (params) ->
         @showView.trigger('active')
-        Gallery.trigger('activate', params.gid)
+        Gallery.trigger('activateRecord', params.gid)
         Spine.trigger('show:albums')
       '/galleries/*': ->
         @showView.trigger('active')

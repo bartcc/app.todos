@@ -82,7 +82,80 @@ Controller.Extender =
             return true
 
           else return false
-        
+      
+      dragStart: (e, controller) ->
+        return unless Spine.dragItem
+        el = $(e.currentTarget)
+        event = e.originalEvent
+        Spine.dragItem.targetEl = null
+        source = Spine.dragItem.source
+        return unless source
+        # check for drags from sublist and set its origin
+        if el.parents('ul.sublist').length
+          fromSidebar = true
+          selection = [source.id]
+          id = el.parents('li.item')[0].id
+          Spine.dragItem.origin = Gallery.find(id) if (id and Gallery.exists(id))
+        else
+          switch source.constructor.className
+            when 'Album'
+              selection = Gallery.selectionList()
+            when 'Photo'
+              selection = Album.selectionList()
+
+        # make an unselected item part of selection only if there is nothing selected yet
+        return unless Album.isArray(selection)
+        if !(source.id in selection)# and !(selection.length)
+          list = source.emptySelection().push source.id
+
+        Spine.clonedSelection = selection.slice(0)
+
+      dragEnter: (e) ->
+        return unless Spine.dragItem
+        el = $(e.target).closest('.data')
+        return unless el.length
+        target = el.item() or el.data('current').model.record
+        source = Spine.dragItem.source
+        origin = Spine.dragItem.origin or Gallery.record
+        Spine.dragItem.closest?.removeClass('over nodrop')
+        Spine.dragItem.closest = el
+        return if target.id is origin.id
+        if res = @validateDrop target, source, origin
+          Spine.dragItem.closest.addClass('over')
+        else
+          Spine.dragItem.closest.addClass('nodrop')
+
+      dragOver: (e) =>
+
+      dragLeave: (e) =>
+
+      dragEnd: (e) ->
+        Spine.dragItem.closest?.removeClass('over nodrop')
+      
+      dropComplete: (e, record) ->
+        return unless Spine.dragItem
+        Spine.dragItem.closest?.removeClass('over nodrop')
+        target = Spine.dragItem.closest?.data()?.current?.record or Spine.dragItem.closest?.item()
+        source = Spine.dragItem.source
+        origin = Spine.dragItem.origin
+
+        return unless @validateDrop target, source, origin
+
+        switch source.constructor.className
+          when 'Album'
+            albums = Album.toRecords(Spine.clonedSelection)
+            for album in albums
+              album.createJoin(target) if target
+              album.destroyJoin(origin) if origin  unless @isCtrlClick(e)
+
+          when 'Photo'
+            photos = []
+            Photo.each (record) =>
+              photos.push record unless Spine.clonedSelection.indexOf(record.id) is -1
+
+            Photo.trigger('create:join', photos.toID(), target)
+            Photo.trigger('destroy:join', photos.toID(), origin) unless @isCtrlClick(e)
+      
     @extend Extend
     @include Include
 

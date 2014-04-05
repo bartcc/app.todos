@@ -22,8 +22,8 @@ class AlbumEditView extends Spine.Controller
 
   constructor: ->
     super
-    Spine.bind('change:selectedAlbum', @proxy @changeSelection)
-    Spine.bind('change:selectedGallery', @proxy @changeSelection)
+    Album.bind('change:current', @proxy @changeSelection)
+#    Gallery.bind('change:current', @proxy @changeSelection)
     Album.bind('change', @proxy @change)
     GalleriesAlbum.bind('change', @proxy @changeFromGalleriesAlbum)
 
@@ -41,14 +41,14 @@ class AlbumEditView extends Spine.Controller
   
   changeSelection: (item, changed) ->
     return unless changed
-    @current = Album.record
-    @render()
+    @current = item
+    @render item
 
   render: (item=@current) ->
     console.log 'AlbumEditView::render'
     if item and !item.destroyed 
       @item.html @template item
-      @focusFirstInput()
+#      @focusFirstInput()
     else
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select or create an album</span></label>'})
     
@@ -58,7 +58,7 @@ class AlbumEditView extends Spine.Controller
     console.log 'AlbumEditView::save'
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
-      @current.updateAttributes(atts)
+      @current.updateChangedAttributes(atts)
 
   saveOnKeyup: (e) =>
     code = e.charCode or e.keyCode

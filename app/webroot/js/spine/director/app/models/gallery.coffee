@@ -33,8 +33,9 @@ class Gallery extends Spine.Model
       foreignKey            : 'gallery_id'
       associationForeignKey : 'album_id'
     
-  @contains: (id) ->
-    GalleriesAlbum.filter(id, key: 'gallery_id').length
+  @contains: (id=@record.id) ->
+    return Album.all() unless id
+    @albums id
     
   @albums: (id) ->
     filterOptions =

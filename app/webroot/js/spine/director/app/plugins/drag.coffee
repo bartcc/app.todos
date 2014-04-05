@@ -17,8 +17,9 @@ Controller.Drag =
         Spine.dragItem.el = el
         Spine.dragItem.els = []
         Spine.dragItem.source = el.item()
-        parentDataElement = $(e.target).parents('.parent.data')
-        Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data()?.current.record
+        parentDataElement = $(e.target).closest('.parent.data')
+        Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data('current')?.model.record
+        return unless Spine.dragItem.source #ignore other draggable nondata elements
         event = e.originalEvent
         event.dataTransfer?.effectAllowed = 'move'
         event.dataTransfer?.setData('text/html', Spine.dragItem);
@@ -42,6 +43,7 @@ Controller.Drag =
 
       dragend: (e, data) ->
         $(e.target).removeClass('dragged')
+        @trigger('drag:end', e, @)
 
       drop: (e, data) ->
         clearTimeout Spine.timer

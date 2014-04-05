@@ -29,6 +29,7 @@ class AlbumsAddView extends Spine.Controller
       type: 'albums'
       disabled: true
       contains: !!items.length
+      container: Gallery.record
     
   subTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
@@ -44,12 +45,10 @@ class AlbumsAddView extends Spine.Controller
     @modal = @el.modal
       show: @visible
       backdrop: true
-    @modal.bind('show.bs.modal', @proxy @modalShow)
-    @modal.bind('hide.bs.modal', @proxy @modalHide)
-    
     @list = new AlbumsList
       template: @subTemplate
-      
+    @modal.bind('show.bs.modal', @proxy @modalShow)
+    @modal.bind('hide.bs.modal', @proxy @modalHide)
     Spine.bind('albums:add', @proxy @show)
       
   render: (items) ->
@@ -63,10 +62,10 @@ class AlbumsAddView extends Spine.Controller
     @footer.html @footerTemplate selection
   
   show: ->
-    @el.modal('show')
     list = GalleriesAlbum.albums(Gallery.record.id).toID()
     records = Album.filter list, func: 'idExcludeSelect'
     @render records
+    @el.modal('show')
     
   hide: ->
     @el.modal('hide')
@@ -112,7 +111,7 @@ class AlbumsAddView extends Spine.Controller
   add: ->
     Spine.trigger('albums:copy', @selectionList, Gallery.record)
     if @selectionList.length
-      Album.trigger('activate', @selectionList)
+      Album.trigger('activateRecord', @selectionList.first())
     @hide()
     
   keyup: (e) ->

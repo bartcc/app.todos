@@ -25,9 +25,10 @@ Model.Extender =
         rec = (@state = @exists(id)) or false
         prev = @record
         @record = rec
-        @lastGallery = @record if @record
+#        @lastGallery = @record if @record
         same = !!(@record?.eql?(prev) and !!prev)
         if !same
+          Model[@className].trigger('change:current', @record, !same) 
           Spine.trigger('change:selected'+@className, @record, !same, @className) 
         @record
 
@@ -147,6 +148,9 @@ Model.Extender =
       
     Include =
       
+      selectionList: ->
+        @constructor.selectionList()
+      
       updateSelectionID: ->
         for item, idx in @constructor.selection
           index = idx if item[@cid]
@@ -182,7 +186,6 @@ Model.Extender =
           @addUnique(list)
         else
           @toggleSelected(list)
-        Model[modelName].trigger('change:selection', list)
         list
         
       addToSelection: (isMetaKey) ->
@@ -194,7 +197,6 @@ Model.Extender =
         else
           unless @id in list
             list.push @id
-        Model[modelName].trigger('change:selection', list)
         list
 
       shiftSelection: ->
@@ -213,11 +215,14 @@ Model.Extender =
       updateChangedAttributes: (atts) ->
         origAtts = @attributes()
         for key, value of atts
+          console.log key
+          console.log value
           unless origAtts[key] is value
+            console.log origAtts[key]
             invalid = yes
             @[key] = value
 
-          @save() if invalid
+        @save() if invalid
         
       #private
       

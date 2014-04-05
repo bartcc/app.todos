@@ -33,6 +33,7 @@ class PhotosAddView extends Spine.Controller
       type: 'photos'
       disabled: true
       contains: !!@items.length
+      container: Album.record
       
   subTemplate: (items, options) ->
     $("#photosTemplate").tmpl items, options
@@ -69,9 +70,10 @@ class PhotosAddView extends Spine.Controller
     @footer.html @footerTemplate list
     
   show: ->
-    list = AlbumsPhoto.photos(Album.record.id).toID()
+    album = Album.record
+    list = AlbumsPhoto.photos(album.id).toID()
     records = Photo.filter list, func: 'idExcludeSelect'
-    @render records
+    @render records, album
     @el.modal('show')
     
   hide: ->
@@ -122,7 +124,7 @@ class PhotosAddView extends Spine.Controller
   add: ->
     Spine.trigger('photos:copy', @selectionList, Album.record)
     if @selectionList.length
-      Photo.trigger('activate', @selectionList)
+      Photo.trigger('activateRecord', @selectionList.first())
     @hide()
     
   keyup: (e) ->

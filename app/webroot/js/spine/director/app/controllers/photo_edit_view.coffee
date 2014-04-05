@@ -22,9 +22,9 @@ class PhotoEditView extends Spine.Controller
   
   constructor: ->
     super
-    Spine.bind('change:selectedPhoto', @proxy @changeSelection)
-    Spine.bind('change:selectedAlbum', @proxy @changeSelection)
-    Spine.bind('change:selectedGallery', @proxy @changeSelection)
+    Photo.bind('change:current', @proxy @changeSelection)
+    Album.bind('change:current', @proxy @changeSelection)
+    Gallery.bind('change:current', @proxy @changeSelection)
     Photo.bind('change', @proxy @change)
     AlbumsPhoto.bind('change', @proxy @changeFromAlbumsPhoto)
   
@@ -46,9 +46,10 @@ class PhotoEditView extends Spine.Controller
     @render()
   
   render: (item=@current) ->
+    console.log 'PhotoEditView::render'
     if item and !item.destroyed 
       @item.html @template item
-      @focusFirstInput()
+#      @focusFirstInput()
     else
       info = ''
       info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()
@@ -60,7 +61,7 @@ class PhotoEditView extends Spine.Controller
     console.log 'PhotoEditView::save'
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
-      @current.updateAttributes(atts)
+      @current.updateChangedAttributes(atts)
  
   saveOnKeyup: (e) =>
     code = e.charCode or e.keyCode

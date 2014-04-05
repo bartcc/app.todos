@@ -111,6 +111,7 @@ class ShowView extends Spine.Controller
     'keyup'                                           : 'keyup'
     'dragstart'                                       : 'dragstart'
     'dragenter'                                       : 'dragenter'
+    'dragend'                                         : 'dragend'
     'drop'                                            : 'drop'
 
   constructor: ->
@@ -176,9 +177,10 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
-    @bind('drag:start', @proxy @sidebar.dragStart)
-    @bind('drag:enter', @proxy @sidebar.dragEnter)
-    @bind('drag:drop', @proxy @sidebar.dropComplete)
+    @bind('drag:start', @proxy @dragStart)
+    @bind('drag:enter', @proxy @dragEnter)
+    @bind('drag:end', @proxy @dragEnd)
+    @bind('drag:drop', @proxy @dropComplete)
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
@@ -249,9 +251,9 @@ class ShowView extends Spine.Controller
     @current = controller
     @currentHeader = controller.header
     @prevLocation = location.hash
-    @el.data
-      current: controller.el.data().current.record
-      className: controller.el.data().current.className
+    @el.data('current',
+      model: controller.el.data('current').model
+    )
     controller.trigger 'active'
     controller.header.trigger 'active'
     
@@ -372,10 +374,10 @@ class ShowView extends Spine.Controller
   emptyAlbum: (e) ->
     albums = Gallery.selectionList()
     for aid in albums
-      album = Album.exists aid
-      aps = AlbumsPhoto.filter(album.id, key: 'album_id')
-      for ap in aps
-        ap.destroy()
+      if album = Album.exists aid
+        aps = AlbumsPhoto.filter(album.id, key: 'album_id')
+        for ap in aps
+          ap.destroy()
     
   editGallery: (e) ->
     Spine.trigger('edit:gallery')
@@ -524,32 +526,40 @@ class ShowView extends Spine.Controller
     target.click()
     
   deselect: (e) =>
-    item = @el.data().current
-    className = @el.data().className
-    switch className
-      when 'Gallery'
-        Album.trigger('activate', Gallery.emptySelection())
-      when 'Album'
-        Photo.trigger('activate', Album.emptySelection())
-      when 'Poto'
-        ->
-      when 'Slideshow'
-        ->
-      else
-        Gallery.trigger('activate')
+    if model = @el.data('current').model
+      switch model.className
+        when 'Gallery'
+          Gallery.emptySelection()
+          Album.trigger('activateRecord')
+        when 'Album'
+          Album.emptySelection()
+          Photo.trigger('activateRecord')
+        when 'Poto'
+          ->
+        when 'Slideshow'
+          ->
+        else
+          Gallery.trigger('activateRecord')
         
     @changeToolbarOne()
     @current.items.deselect()
     
   selectAll: (e) ->
     root = @current.items
-    return unless root and root.children('.item').length
-    list = []
-    root.children('.item').each (index, el) ->
-      item = $(@).item()
-      list.unshift item
+    model = @current.el.data('current').model
+    return unless model
+    list = model.contains()
     @current.select(list)
-    @changeToolbarOne()
+  
+  
+#    root = @current.items
+#    return unless root and root.children('.item').length
+#    list = []
+#    root.children('.item').each (index, el) ->
+#      item = $(@).item()
+#      list.unshift item
+#    @current.select(list)
+#    @changeToolbarOne()
     
   uploadProgress: (e, coll) ->
     

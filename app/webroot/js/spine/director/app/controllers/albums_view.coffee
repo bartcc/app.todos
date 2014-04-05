@@ -27,8 +27,11 @@ class AlbumsView extends Spine.Controller
   events:
     'click      .item'                : 'click'
     'dragstart  .items'               : 'dragstart'
+    'dragstart .item'                 : 'stopInfo'
     'dragover   .items'               : 'dragover'
     'sortupdate .items'               : 'sortupdate'
+    'mousemove .item'                 : 'infoUp'
+    'mouseleave .item'                : 'infoBye'
     
   albumsTemplate: (items, options) ->
     $("#albumsTemplate").tmpl items, options
@@ -44,7 +47,7 @@ class AlbumsView extends Spine.Controller
  
   constructor: ->
     super
-    @el.data current: Gallery
+    @el.data('current', model: Gallery)
     @type = 'Album'
     @info = new Info
       el: @infoEl
@@ -69,15 +72,16 @@ class AlbumsView extends Spine.Controller
     Spine.bind('reorder', @proxy @reorder)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @createAlbum)
-    Spine.bind('destroy:album', @proxy @destroyAlbum)
-    Spine.bind('change:selectedGallery', @proxy @change)
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
+    Spine.bind('destroy:album', @proxy @destroyAlbum)
+    Gallery.bind('change:current', @proxy @render)
+    Album.bind('activateRecord', @proxy @activateRecord)
     
     $(@views).queue('fx')
     
   refresh: (records) ->
-    @change()
+    @render()
     
   updateBuffer: (gallery=Gallery.record) ->
     filterOptions =
@@ -92,13 +96,12 @@ class AlbumsView extends Spine.Controller
     
     @buffer = items
     
-  change: ->
-    @render()
-    
   render: ->
     return unless @isActive()
     console.log 'AlbumsView::render'
     @list.render @updateBuffer()
+#    @activateRecord album.id
+#    Album.trigger('activateRecord', Gallery.selectionList().first())
     @el
       
   show: ->
@@ -113,7 +116,18 @@ class AlbumsView extends Spine.Controller
         alb.invalid = false
         alb.save(ajax:false)
     
-    @change()
+    @render()
+    
+  activateRecord: (id) ->
+    console.log 'activateModel'
+        
+    if id
+      App.sidebar.list.expand(Gallery.record, true)
+      
+    Gallery.updateSelection([id])
+    Album.current(id)
+    
+  
     
   newAttributes: ->
     if User.first()
@@ -141,7 +155,7 @@ class AlbumsView extends Spine.Controller
         Photo.trigger('create:join', options.photos, @)
         # optionally remove photos from original album
         Photo.trigger('destroy:join', options.photos, options.from) if options.from
-      Album.trigger('activate', Gallery.updateSelection @id)
+      Album.trigger('activateRecord', @id)
       
     album = new Album @newAttributes()
     album.save(done: cb)
@@ -159,8 +173,8 @@ class AlbumsView extends Spine.Controller
           @destroyJoin id, gallery
         album.destroy() if album = Album.exists(id)
   
-  create: ->
-    @change()
+  create: (album) ->
+    @render()
    
   beforeDestroy: (album) ->
     photos = AlbumsPhoto.photos(album.id).toID()
@@ -224,6 +238,7 @@ class AlbumsView extends Spine.Controller
       @render()
       
   click: (e) ->
+    console.log 'click'
     item = $(e.currentTarget).item()
     @select(item, @isCtrlClick(e))
     
@@ -231,17 +246,30 @@ class AlbumsView extends Spine.Controller
     e.preventDefault()
     
   select: (items = [], exclusive) ->
+    console.log 'select'
     unless Spine.isArray items
       items = [items]
       
-    list = []
-    for item in items
-      exists = Gallery.selectionList().indexOf(item.id) isnt -1
-      if !Album.record and Gallery.selectionList().length and exists
-        list = item.shiftSelection() if exists
-      else
-        list = item.addRemoveSelection(exclusive)
+    items = items.toID()
+    
+    Album.emptySelection() if exclusive
       
-    Album.trigger('activate', list, true)
+    list = Gallery.selectionList()
+    for id in items
+      list.addRemoveSelection(id)
+    
+    Gallery.updateSelection(list)
+#    Album.trigger('activateRecord', list.first())
+    
+  infoUp: (e) =>
+    @info.up(e)
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    
+  infoBye: (e) =>
+    @info.bye(e)
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
+    
+  stopInfo: (e) =>
+    @info.bye(e)
         
 module?.exports = AlbumsView

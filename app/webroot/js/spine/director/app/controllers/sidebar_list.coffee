@@ -17,10 +17,8 @@ class SidebarList extends Spine.Controller
     '.gal.item'               : 'item'
 
   events:
-#    "click      .gal.item"            : 'clickGallery'
-#    "click      .alb.item"            : 'clickAlbum'
     "click      .item"            : 'click'
-    "click      .expander"            : 'clickExpander'
+    "click      .expander"        : 'clickExpander'
 
   selectFirst: true
     
@@ -37,14 +35,21 @@ class SidebarList extends Spine.Controller
     super
     
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
-    GalleriesAlbum.bind('change', @proxy @renderItemFromGalleriesAlbum)
+    GalleriesAlbum.bind('create destroy update', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
-    Album.bind('update destroy', @proxy @renderSublists)
+    Album.bind('update destroy update', @proxy @renderSublists)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
-    Spine.bind('gallery:exposeSelection', @proxy @exposeSelection)
-    Gallery.bind('activate', @proxy @activate)
+    Gallery.bind('change:current', @proxy @currentChanged)
+    Gallery.bind('change:selection', @proxy @exposeSublistSelection)
+    Gallery.bind('activateRecord', @proxy @activateRecord)
     
   template: -> arguments[0]
+  
+  currentChanged: (rec, changed) ->
+    if rec
+      list = rec.selectionList()
+      @exposeSelection rec
+#      @exposeSublistSelection list
   
   change: (item, mode, e) =>
     console.log 'SidebarList::change'
@@ -90,6 +95,7 @@ class SidebarList extends Spine.Controller
     @children('.invalid').remove()
     
   reorder: (item) ->
+    console.log 'SidebarList::reorder'
     id = item.id
     index = (id, list) ->
       for itm, i in list
@@ -105,6 +111,10 @@ class SidebarList extends Spine.Controller
       newEl.after oldEl
     else if idxBeforeSort > idxAfterSort
       newEl.before oldEl
+    
+  updateSublist: (ga) ->
+    gallery = Gallery.exists ga.gallery_id
+    @renderOneSublist gallery
     
   renderAllSublist: ->
     console.log 'SidebarList::renderAllSublist'
@@ -131,9 +141,8 @@ class SidebarList extends Spine.Controller
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
     gallerySublist.sortable('album')
+    @exposeSublistSelection Gallery.selectionList()
     
-    @exposeSublistSelection gallery
-  
   updateTemplate: (item) ->
     console.log 'SidebarList::updateTemplate'
     galleryEl = @children().forItem(item)
@@ -157,46 +166,38 @@ class SidebarList extends Spine.Controller
     for ga in gas
       @renderItemFromGalleriesAlbum ga
   
-  exposeSelection: (item = Gallery.record) ->
+  exposeSelection: (item) ->
     @children().removeClass('active')
     @children().forItem(item).addClass("active") if item.id is Gallery.record.id
-    @exposeSublistSelection(item)
+#    @exposeSublistSelection(selection)
     
-  exposeSublistSelection: (gallery = Gallery.record) ->
+  exposeSublistSelection: (selection) ->
     console.log 'SidebarList::exposeSublistSelection'
     removeAlbumSelection = =>
-      galleries = []
-      galleries.push gal for gal in Gallery.records
-      for item in galleries
+      if item = Gallery.record
         galleryEl = @children().forItem(item)
         albumsEl = galleryEl.find('li')
-        $('.glyphicon', albumsEl).removeClass('glyphicon-folder-open')
+        $('.glyphicon', galleryEl).removeClass('glyphicon-folder-open')
         
-        
-    if gallery
+    if gallery = Gallery.record
       removeAlbumSelection()
       galleryEl = @children().forItem(gallery)
       albumsEl = galleryEl.find('li')
       albumsEl.removeClass('selected').removeClass('active')
       
-      albums = Gallery.selectionList()
-      for album in albums
+      for album in selection
         if alb = Album.exists(album)
           albumsEl.forItem(alb).addClass('selected') 
         
-      if activeAlbum = Album.exists(albums.first())
+      if activeAlbum = Album.exists(first = selection.first())
+        Album.current first
         activeEl = albumsEl.forItem(activeAlbum).addClass('active')
         $('.glyphicon', activeEl).addClass('glyphicon-folder-open')
         
     @refreshElements()
     
-  activate: (idOrRecord) ->
-    @lastGallery = Gallery.current(idOrRecord)
-#    unless Gallery.state
-#      @navigate '/gallery_notfound'
-#      return
-#    Album.trigger('activate', Gallery.selectionList())
-    @exposeSelection()
+  activateRecord: (idOrRecord) ->
+    Gallery.current idOrRecord
 
   click: (e) ->
     el = $(e.target).closest('li')
@@ -207,10 +208,9 @@ class SidebarList extends Spine.Controller
         @expand(item) 
         @navigate '/gallery', item.id
       when 'Album'
-        tryGallery = $(e.target).closest('li.gal').item()
-        gallery = tryGallery or Gallery.lastGallery
-        App.sidebar.filter() unless tryGallery
-        @navigate '/gallery', gallery.id + '/' + item.id
+        gallery = $(e.target).closest('li.gal').item()
+        Gallery.updateSelection([item.id])
+        @navigate '/gallery', gallery.id, item.id
     
     e.stopPropagation()
     e.preventDefault()

@@ -26,7 +26,9 @@ class GalleriesList extends Spine.Controller
     super
     Gallery.bind('change', @proxy @renderOne)
     Gallery.bind('change:selection', @proxy @renderRelated)
-    GalleriesAlbum.bind('destroy create update', @proxy @renderRelated)
+    Gallery.bind('change:selected', @proxy @select)
+    GalleriesAlbum.bind('destroy create', @proxy @renderRelated)
+    
     AlbumsPhoto.bind('destroy create update', @proxy @renderRelated)
     Photo.bind('destroy', @proxy @renderRelated)
     Album.bind('destroy', @proxy @renderRelated)
@@ -58,7 +60,6 @@ class GalleriesList extends Spine.Controller
 
   render: (items, mode) ->
     console.log 'GalleriesList::render'
-    @activate()
     @html @template items
     @exposeSelection()
     @el
@@ -103,15 +104,15 @@ class GalleriesList extends Spine.Controller
     App.showView.trigger('change:toolbarOne')
         
   select: (item) =>
-    Gallery.trigger('activate', item.id)
-    App.showView.trigger('change:toolbarOne', ['Default'])
+    @exposeSelection item
+    Gallery.trigger('activateRecord', item.id)
+#    Gallery.trigger('activateRecord', item.id)
     
   click: (e) ->
     console.log 'GalleriesList::click'
+    App.showView.trigger('change:toolbarOne', ['Default'])
     item = $(e.currentTarget).item()
     @select item
-    App.showView.trigger('change:toolbarOne', ['Default'])
-    @exposeSelection item
     
     e.stopPropagation()
     e.preventDefault()
@@ -155,7 +156,7 @@ class GalleriesList extends Spine.Controller
     e.preventDefault()
     e.stopPropagation()
     gallery = $(e.currentTarget).closest('.item').item()
-    Gallery.trigger('activate', gallery.id)
+    Gallery.trigger('activateRecord', gallery.id)
     App.slideshowView.trigger('play')
 
 module?.exports = GalleriesList

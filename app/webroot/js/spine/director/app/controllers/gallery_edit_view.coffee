@@ -52,7 +52,7 @@ class GalleryEditView extends Spine.Controller
     console.log 'GalleryEditView::save'
     if gallery = Gallery.record
       atts = el.serializeForm?() or @editEl.serializeForm()
-      gallery.updateAttributes(atts)
+      gallery.updateChangedAttributes(atts)
 
   saveOnKeyup: (e) ->
     console.log 'GalleryEditView::saveOnEnter'

@@ -22,9 +22,7 @@ class GalleriesView extends Spine.Controller
 
   constructor: ->
     super
-    @el.data current:
-      className: null
-      record: null
+    @el.data('current', model: null)
     @type = 'Gallery'
     @list = new GalleriesList
       el: @items
@@ -52,7 +50,7 @@ class GalleriesView extends Spine.Controller
     
   activated: ->
     @render()
-    @list.exposeSelection()
+#    @list.exposeSelection()
     
   newAttributes: ->
     if User.first()

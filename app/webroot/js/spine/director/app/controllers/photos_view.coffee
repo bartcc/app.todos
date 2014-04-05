@@ -39,7 +39,7 @@ class PhotosView extends Spine.Controller
     
   constructor: ->
     super
-    @el.data current: Album
+    @el.data('current', model: Album)
     @type = 'Photo'
     @info = new Info
       el: @infoEl
@@ -62,10 +62,11 @@ class PhotosView extends Spine.Controller
     Photo.bind('create:join', @proxy @createJoin)
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
+    Photo.bind('activateRecord', @proxy @activateRecord)
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
-    Spine.bind('change:selectedAlbum', @proxy @change)
+    Album.bind('change:current', @proxy @change)
     Spine.bind('loading:done', @proxy @updateBuffer)
     
   updateBuffer: (album=Album.record) ->
@@ -111,16 +112,20 @@ class PhotosView extends Spine.Controller
   select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]
-    
-    list = []
-    for item in items
-      exists = Album.selectionList().indexOf(item.id) isnt -1
-      if !Photo.record and Album.selectionList().length and exists
-        list = item.shiftSelection() if exists
-      else
-        list = item.addRemoveSelection(exclusive)
       
-    Photo.trigger('activate', list, true)
+    items = items.toID()
+    
+    Album.emptySelection() if exclusive
+    
+    list = Album.selectionList()
+    for id in items
+      list.addRemoveSelection(id)
+      
+    Album.updateSelection(list)
+    Photo.trigger('activateRecord', list.first())
+  
+  activateRecord: (id) ->
+    Photo.current(id)
   
   clearPhotoCache: ->
     Photo.clearCache()

@@ -37,11 +37,10 @@ class SidebarList extends Spine.Controller
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
     GalleriesAlbum.bind('create destroy update', @proxy @renderItemFromGalleriesAlbum)
     Gallery.bind('change', @proxy @change)
-    Album.bind('update destroy update', @proxy @renderSublists)
+    Album.bind('create destroy update', @proxy @renderSublists)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Gallery.bind('change:current', @proxy @currentChanged)
     Gallery.bind('change:selection', @proxy @exposeSublistSelection)
-    Gallery.bind('activateRecord', @proxy @activateRecord)
     
   template: -> arguments[0]
   
@@ -195,9 +194,6 @@ class SidebarList extends Spine.Controller
         $('.glyphicon', activeEl).addClass('glyphicon-folder-open')
         
     @refreshElements()
-    
-  activateRecord: (idOrRecord) ->
-    Gallery.current idOrRecord
 
   click: (e) ->
     el = $(e.target).closest('li')

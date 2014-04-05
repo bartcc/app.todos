@@ -1,10 +1,11 @@
-Spine       = require("spine")
-$           = Spine.$
-Gallery     = require('models/gallery')
-Gallery     = require('models/gallery')
-Album       = require('models/album')
-Photo       = require('models/photo')
-AlbumsPhoto = require('models/albums_photo')
+Spine           = require("spine")
+$               = Spine.$
+Gallery         = require('models/gallery')
+Album           = require('models/album')
+Photo           = require('models/photo')
+User            = require('models/user')
+GalleriesAlbum  = require('models/galleries_album')
+AlbumsPhoto     = require('models/albums_photo')
 
 class PhotosHeader extends Spine.Controller
   
@@ -19,6 +20,7 @@ class PhotosHeader extends Spine.Controller
     super
     Gallery.bind('create update destroy', @proxy @render)
     Album.bind('change', @proxy @render)
+    Album.bind('change:selection', @proxy @render)
     Photo.bind('change', @proxy @render)
     Photo.bind('refresh', @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @render)
@@ -43,10 +45,16 @@ class PhotosHeader extends Spine.Controller
   render: ->
     return unless @isActive()
     @html @template
-      gallery: Gallery.record
-      album: Album.record
-      photo: Photo.record
-      count:  @count()
+      model       : Album
+      gallery     : Gallery.record
+      album       : Album.record
+      photo       : Photo.record
+      modelAlbum  : Album
+      modelPhoto  : Photo
+      modelGas    : GalleriesAlbum
+      modelAps    : AlbumsPhoto
+      count       : @count()
+      author      : User.first().name
     
   count: ->
     if Album.record

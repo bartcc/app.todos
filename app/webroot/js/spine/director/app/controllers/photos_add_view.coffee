@@ -124,7 +124,7 @@ class PhotosAddView extends Spine.Controller
   add: ->
     Spine.trigger('photos:copy', @selectionList, Album.record)
     if @selectionList.length
-      Photo.trigger('activateRecord', @selectionList.first())
+      Photo.trigger('activate', @selectionList)
     @hide()
     
   keyup: (e) ->

@@ -72,15 +72,15 @@
           <div class="view galleries content vbox flex data parent autoflow" style="">
             <div class="items fadein">Galleries</div>
           </div>
-          <div class="view albums content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
+          <div class="view albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fade"></div>
             <div class="items flex fadein">Albums</div>
           </div>
-          <div class="view photos content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
+          <div class="view photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fade"></div>
             <div class="items flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
-          <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -24px;">
+          <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fade"></div>
             <div class="items flex fadein">Photo</div>
           </div>
@@ -468,11 +468,11 @@
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
   <div style="">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique; ">Images: ${iCount}</div>
-  {{if sCount}}
+  {{if pCount}}
   <div class="opt-SlideshowPlay" style="">
     <span class="label label-default">
     <i class="glyphicon glyphicon-picture"></i><i class="glyphicon glyphicon-play"></i>
-    ${sCount}
+    ${pCount}
     </span>
   </div>
   <div style="font-size: 0.8em; font-style: oblique; ">(press space to play)</div>
@@ -533,23 +533,22 @@
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
   <section class="top viewheader fadeelement">
-    <h2>Gallery Overview</h2><span class="active cta right"><h2>Total: ${count}</h2></span>
+    Author:   <span class="label label-default">${author}</span>
+    {{tmpl() "#gallerySpecsTemplate"}}
+    <br><br>
+    <h2>Galleries Overview</h2>
+    <span class="active cta {{if gallery}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
   </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
   <section class="top viewheader fadeelement">
-    {{if record}}
     Author:   <span class="label label-default">${author}</span>
+    {{tmpl() "#albumSpecsTemplate"}}
     <br><br>
-    <h2>Albums in Gallery: </h2>
-    <label class="h2 chopin">{{if record.name}}${record.name}{{else}}no name{{/if}}</label>
-      <span class="active cta {{if record}}active{{/if}} right"><h2>Total: {{if count}}${count}{{else}}0{{/if}}</h2></span>
-    {{else}}
-    <h2 class="">Master Albums
-      <span class="active cta {{if record}}active{{/if}} right"><h2>Total: {{if count}}${count}{{else}}0{{/if}}</h2></span>
-    </h2>
-    {{/if}}
+    <h2>{{if gallery}}Albums in Gallery:&nbsp;{{else}}Master Albums{{/if}}</h2>
+    {{if gallery}}<label class="h2 chopin">{{if gallery.name}}${gallery.name}{{else}}...{{/if}}</label>{{/if}}
+    <span class="active cta {{if gallery}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
   </section>
   <section class="left">
     <span class="fadeelement breadcrumb">
@@ -561,7 +560,46 @@
   </section>
 </script>
 
-<script id="albumDetailsTemplate" type="text/x-jquery-tmpl">
+<script id="gallerySpecsTemplate" type="text/x-jquery-tmpl">
+  <div class="right">
+    <span class="">
+    <div class="btn btn-sm"><b>Galleries<h5>${model.count()}</h5></b></div>
+    </span> 
+    <span class="">
+    <div class="btn btn-sm"><b>Connected Albums<h5>${modelGas.count()} (${modelAlbum.count()} Masters)</h5></b></div>
+    </span> 
+    <span class="">
+    <div class="btn btn-sm"><b>Connected Images<h5>${modelAps.count()} (${modelPhoto.count()} Masters)</h5></b></div>
+    </span>
+  </div>
+</script>
+
+<script id="albumSpecsTemplate" type="text/x-jquery-tmpl">
+  <div class="right">
+    <span class="">
+    <div class="btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b>Selected <h5>${model.details().sCount}</h5></b></div>
+    </span> 
+    <span class="">
+    <div class="btn btn-sm"><b>Albums<h5>${model.details().aCount} (${modelAlbum.count()} Masters)</h5></b></div>
+    </span> 
+    <span class="">
+    <div class="btn btn-sm"><b>Connected Images<h5>${model.details().iCount} (${modelPhoto.count()} Masters)</h5></b></div>
+    </span>
+  </div>
+</script>
+
+<script id="photoSpecsTemplate" type="text/x-jquery-tmpl">
+  <div class="right">
+    <span class="">
+    <div class="btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b>Selected <h5>${model.details().sCount}</h5></b></div>
+    </span> 
+    <span class="">
+    <div class="btn btn-sm"><b>Images<h5>${model.details().iCount} (${modelPhoto.count()} Masters)</h5></b></div>
+    </span> 
+  </div>
+</script>
+
+<script id="albumCountTemplate" type="text/x-jquery-tmpl">
   <span class="cta">${iCount}</span>
 </script>
 
@@ -581,7 +619,7 @@
   <ul>
     <li class="name">
       <span class="left">#${order} {{if title}}${title}{{else}}no title{{/if}} </span>
-      <span class="right"> {{tmpl($item.data.details()) "#albumDetailsTemplate"}}</span>
+      <span class="right"> {{tmpl($item.data.details()) "#albumCountTemplate"}}</span>
     </li>
   </ul>
 </script>
@@ -595,15 +633,14 @@
   <span class="active cta right">
     <h2>Total: ${count}</h2>
   </span>
-  
 </script>
 
 <script id="photoDetailsTemplate" type="text/x-jquery-tmpl">
-  Author:  <span class="label label-default">{{if author}}${author}{{/if}}</span>
-  Gallery:  <span class="label label-{{if gallery}}default{{else}}warning{{/if}}">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}not found{{/if}}</span>
-  Album:  <span class="label label-{{if album}}default{{else}}warning{{/if}}">{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}not found{{/if}}</span>
+  Author:&nbsp;<span class="label label-default">{{if author}}${author}{{/if}}</span>
+  Gallery:&nbsp;<span class="label label-{{if gallery}}default{{else}}warning{{/if}}">{{if gallery}}{{if gallery.name}}${gallery.name}{{else}}no name{{/if}}{{else}}not found{{/if}}</span>
+  Album:&nbsp;<span class="label label-{{if album}}default{{else}}warning{{/if}}">{{if album}}{{if album.title}}${album.title}{{else}}no title{{/if}}{{else}}not found{{/if}}</span>
   <br><br>
-  <h2>Photo:  </h2>
+  <h2>Photo:</h2>
   <label class="h2 chopin">
     {{if photo}}
     {{if photo.title}}${photo.title}{{else}}{{if photo.src}}${photo.src}{{else}}no title{{/if}}{{/if}}
@@ -672,13 +709,12 @@
 
 <script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
   <section class="top viewheader fadeelement">
-    {{if album}}
-      {{tmpl() "#photosDetailsTemplate"}}
-    {{else}}
-    <h2>Master Photos
-      <span class="active cta right"><h2>Total: ${count()}</h2></span>
-    </h2>
-    {{/if}}
+    Author:&nbsp;<span class="label label-default">${author}</span>
+    {{tmpl() "#photoSpecsTemplate"}}
+    <br><br>
+    <h2>{{if album}}Photos in Album:&nbsp;{{else}}Master Photos{{/if}}</h2>
+    {{if album}}<label class="h2 chopin">{{if album.title}}${album.title}{{else}}...{{/if}}</label>{{/if}}
+    <span class="active cta {{if album}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
   </section>
   <section class="left">
     <span class="fadeelement breadcrumb">
@@ -694,12 +730,13 @@
 </script>
 
 <script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
-  <section class="fadeelement top viewheader">
-    {{if album}}
-      {{tmpl() "#photosDetailsTemplate"}}
-    {{else}}
-      <h2>Master Photo</h2>
-    {{/if}}
+  <section class="top viewheader fadeelement">
+    Author:&nbsp;<span class="label label-default">${author}</span>
+    {{tmpl() "#photoSpecsTemplate"}}
+    <br><br>
+    <h2>{{if album}}Photos in Album:&nbsp;{{else}}Master Photos{{/if}}</h2>
+    {{if album}}<label class="h2 chopin">{{if album.title}}${album.title}{{else}}...{{/if}}</label>{{/if}}
+    <span class="active cta {{if album}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
   </section>
   <section class="left">
     <span class="fadeelement breadcrumb">
@@ -712,7 +749,7 @@
       <li class="pho">
         <a href="#">Photos</a>
       </li>
-      <li class="active">{{if $item.data.item.src}}${$item.data.item.src}{{else}}deleted{{/if}}</li>
+      <li class="active">{{if photo.src}}${photo.src}{{else}}deleted{{/if}}</li>
     </span>
   </section>
 </script>

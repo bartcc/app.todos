@@ -1,20 +1,28 @@
-Spine = require("spine")
-$      = Spine.$
+Spine                 = require("spine")
+$                     = Spine.$
+GalleriesAlbum        = require('models/galleries_album')
+AlbumsPhoto           = require('models/albums_photo')
 
 class GalleriesHeader extends Spine.Controller
   
   constructor: ->
     super
     Gallery.bind('change', @proxy @render)
+    Gallery.bind('change:selected', @proxy @render)
 
   render: ->
     return unless @isActive()
     console.log 'GalleryHeader::render'
     @html @template
-      count: @count()
+      model       : Gallery
+      modelAlbum  : Album
+      modelPhoto  : Photo
+      modelGas    : GalleriesAlbum
+      modelAps    : AlbumsPhoto
+      author  : User.first().name
     
   count: ->
-    Gallery.all().length
+    Gallery.count()
     
   activated: ->
     @render()

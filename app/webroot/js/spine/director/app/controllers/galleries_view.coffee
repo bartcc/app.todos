@@ -32,6 +32,7 @@ class GalleriesView extends Spine.Controller
     @viewport = @list.el
     Gallery.bind('refresh', @proxy @render)
     Gallery.bind('refreshOnEmpty', @proxy @render)
+    Gallery.bind('activate', @proxy @activateRecord)
     Spine.bind('show:galleries', @proxy @show)
 
   render: ->
@@ -50,7 +51,9 @@ class GalleriesView extends Spine.Controller
     
   activated: ->
     @render()
-#    @list.exposeSelection()
+    
+  activateRecord: (idOrRecord) ->
+    Gallery.current idOrRecord
     
   newAttributes: ->
     if User.first()

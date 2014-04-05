@@ -111,7 +111,7 @@ class AlbumsAddView extends Spine.Controller
   add: ->
     Spine.trigger('albums:copy', @selectionList, Gallery.record)
     if @selectionList.length
-      Album.trigger('activateRecord', @selectionList.first())
+      Album.trigger('activate', @selectionList)
     @hide()
     
   keyup: (e) ->

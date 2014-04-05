@@ -101,7 +101,7 @@ Model.Extender =
         unless @isArray idOrList
           ids = [idOrList]
         for id, index in ids
-          list.splice(index, 1) unless index is -1
+          list.splice(index, 1) unless list.indexOf(id) is -1
         list
 
       isArray: (value) ->

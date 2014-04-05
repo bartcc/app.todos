@@ -303,7 +303,7 @@ class PhotosList extends Spine.Controller
     
   dragStart: (e, o) ->
     if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
-      Photo.trigger('activateRecord', Spine.dragItem.source.id)
+      Photo.trigger('activate', Spine.dragItem.source.id)
       
   dragDrop: ->
     @exposeSelection()

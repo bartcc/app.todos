@@ -105,8 +105,7 @@ class GalleriesList extends Spine.Controller
         
   select: (item) =>
     @exposeSelection item
-    Gallery.trigger('activateRecord', item.id)
-#    Gallery.trigger('activateRecord', item.id)
+    Gallery.trigger('activate', item.id)
     
   click: (e) ->
     console.log 'GalleriesList::click'
@@ -156,7 +155,7 @@ class GalleriesList extends Spine.Controller
     e.preventDefault()
     e.stopPropagation()
     gallery = $(e.currentTarget).closest('.item').item()
-    Gallery.trigger('activateRecord', gallery.id)
+    Gallery.trigger('activate', gallery.id)
     App.slideshowView.trigger('play')
 
 module?.exports = GalleriesList

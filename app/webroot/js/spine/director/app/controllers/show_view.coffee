@@ -22,7 +22,6 @@ SlideshowView   = require('controllers/slideshow_view')
 SlideshowHeader = require('controllers/slideshow_header')
 OverviewHeader  = require('controllers/overview_header')
 OverviewView    = require('controllers/overview_view')
-ActionWindow    = require("controllers/action_window")
 Extender        = require('plugins/controller_extender')
 Drag            = require("plugins/drag")
 require('spine/lib/manager')
@@ -114,8 +113,6 @@ class ShowView extends Spine.Controller
   constructor: ->
     super
     @silent = true
-    @actionWindow = new ActionWindow
-      el: @modalActionEl
     @albumAddView = new AlbumsAddView
       el: @modalAddAlbumEl
     @photoAddView = new PhotosAddView
@@ -525,19 +522,16 @@ class ShowView extends Spine.Controller
     if model = @el.data('current').model
       switch model.className
         when 'Gallery'
-          Gallery.emptySelection()
-          Album.trigger('activateRecord')
+          Album.trigger('activate', Gallery.emptySelection())
         when 'Album'
-          Album.emptySelection()
-          Photo.trigger('activateRecord')
-        when 'Poto'
+          Photo.trigger('activate', Album.emptySelection())
+        when 'Photo'
           ->
         when 'Slideshow'
           ->
         else
-          Gallery.trigger('activateRecord')
+          Gallery.trigger('activate')
         
-    @changeToolbarOne()
     @current.items.deselect()
     
   selectAll: (e) ->

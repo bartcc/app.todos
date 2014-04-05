@@ -62,7 +62,7 @@ class PhotosView extends Spine.Controller
     Photo.bind('create:join', @proxy @createJoin)
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
-    Photo.bind('activateRecord', @proxy @activateRecord)
+    Photo.bind('activate', @proxy @activateRecord)
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
@@ -121,8 +121,15 @@ class PhotosView extends Spine.Controller
     for id in items
       list.addRemoveSelection(id)
       
+    Photo.trigger('activate', list)
+  
+    
+  activateRecord: (list) ->
+    unless Spine.isArray(list)
+      list = [list]
+        
     Album.updateSelection(list)
-    Photo.trigger('activate', list, true)
+    Photo.current(list[0])
   
   clearPhotoCache: ->
     Photo.clearCache()

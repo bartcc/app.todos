@@ -76,7 +76,7 @@ class AlbumsView extends Spine.Controller
     Spine.bind('loading:done', @proxy @loadingDone)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
     Gallery.bind('change:current', @proxy @render)
-    Album.bind('activateRecord', @proxy @activateRecord)
+    Album.bind('activate', @proxy @activateRecord)
     
     $(@views).queue('fx')
     
@@ -100,8 +100,6 @@ class AlbumsView extends Spine.Controller
     return unless @isActive()
     console.log 'AlbumsView::render'
     @list.render @updateBuffer()
-#    @activateRecord album.id
-#    Album.trigger('activateRecord', Gallery.selectionList().first())
     @el
       
   show: ->
@@ -118,16 +116,16 @@ class AlbumsView extends Spine.Controller
     
     @render()
     
-  activateRecord: (id) ->
-    console.log 'activateModel'
+  activateRecord: (list) ->
+    unless Spine.isArray(list)
+      list = [list]
         
+    id = list[0]
     if id
       App.sidebar.list.expand(Gallery.record, true)
       
-    Gallery.updateSelection([id])
+    Gallery.updateSelection(list)
     Album.current(id)
-    
-  
     
   newAttributes: ->
     if User.first()
@@ -155,7 +153,7 @@ class AlbumsView extends Spine.Controller
         Photo.trigger('create:join', options.photos, @)
         # optionally remove photos from original album
         Photo.trigger('destroy:join', options.photos, options.from) if options.from
-      Album.trigger('activateRecord', @id)
+      Album.trigger('activate', @id)
       
     album = new Album @newAttributes()
     album.save(done: cb)
@@ -171,7 +169,10 @@ class AlbumsView extends Spine.Controller
         galleries = GalleriesAlbum.galleries(id)
         for gallery in galleries
           @destroyJoin id, gallery
-        album.destroy() if album = Album.exists(id)
+        if album = Album.exists(id)
+          list = Gallery.removeFromSelection album.id
+          Album.trigger('activate', list)
+          album.destroy()
   
   create: (album) ->
     @render()
@@ -180,7 +181,6 @@ class AlbumsView extends Spine.Controller
     photos = AlbumsPhoto.photos(album.id).toID()
     Photo.trigger('destroy:join', photos, album)
     
-    Gallery.removeFromSelection album.id
     album.removeSelectionID()
     
     @list.findModelElement(album).remove()
@@ -203,6 +203,8 @@ class AlbumsView extends Spine.Controller
     albums = [albums] unless Album.isArray(albums)
     for aid in albums
       if ga = GalleriesAlbum.galleryAlbumExists(aid, gallery.id)
+        list = Gallery.removeFromSelection ga.album_id
+        Album.trigger('activate', list)
         ga.destroy()
       
   loadingStart: (album) ->
@@ -259,7 +261,7 @@ class AlbumsView extends Spine.Controller
       list.addRemoveSelection(id)
     
     Gallery.updateSelection(list)
-    Album.trigger('activateRecord', list.first())
+    Album.trigger('activate', list)
     
   infoUp: (e) =>
     @info.up(e)

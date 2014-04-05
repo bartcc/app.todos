@@ -85,6 +85,12 @@ class Album extends Spine.Model
     else# if Gallery.record and Gallery.selectionList().length
       return []
       
+  @details: =>
+    return @record.details() if @record
+    $().extend @defaultDetails,
+      iCount : Photo.count()
+      sCount : Album.selectionList().length
+      
   init: (instance) ->
     return unless id = instance.id
     s = new Object()
@@ -114,14 +120,14 @@ class Album extends Spine.Model
     @constructor.contains(@id).length + inc
   
   photos: (max) ->
-    @constructor.photos @id, max || @count()
+    @constructor.photos @id, max
   
   details: =>
     $().extend @defaultDetails,
       iCount : @photos().length
+      sCount : Album.selectionList().length
       album  : Album.record
       gallery: Gallery.record
-      author: User.first().name
     
   selectAttributes: ->
     result = {}

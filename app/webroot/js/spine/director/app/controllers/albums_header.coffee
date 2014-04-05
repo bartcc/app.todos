@@ -1,7 +1,10 @@
-Spine = require("spine")
-$      = Spine.$
+Spine           = require("spine")
+$               = Spine.$
 Gallery         = require('models/gallery')
+Album           = require('models/album')
+Photo           = require('models/photo')
 GalleriesAlbum  = require('models/galleries_album')
+AlbumsPhoto     = require('models/albums_photo')
 
 class AlbumsHeader extends Spine.Controller
   
@@ -15,7 +18,7 @@ class AlbumsHeader extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change', @proxy @render)
-    Gallery.bind('change:selection', @proxy @moveMenu)
+    Gallery.bind('change:selection', @proxy @render)
     Album.bind('refresh', @proxy @render)
     Album.bind('change', @proxy @render)
     GalleriesAlbum.bind('change', @proxy @render)
@@ -24,10 +27,13 @@ class AlbumsHeader extends Spine.Controller
     return unless @isActive()
     console.log 'AlbumsHeader::render'
     @html @template
-      record: Gallery.record
-      count: @count()
-      author: User.first().name
-    @delay(@moveMenu, 500)
+      model       : Gallery
+      modelAlbum  : Album
+      modelPhoto  : Photo
+      modelGas    : GalleriesAlbum
+      modelAps    : AlbumsPhoto
+      author  : User.first().name
+        
     @refreshElements()
     
   count: ->

@@ -55,6 +55,21 @@ class Gallery extends Spine.Model
         phos.push pho for pho in photos
     phos
   
+  @details: =>
+    return @record.details() if @record
+    albums = Album.all()
+    imagesCount = 0
+    for album in albums
+      imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
+    
+    $().extend @defaultDetails,
+      gCount: Gallery.count()
+      iCount: imagesCount
+      aCount: albums.length
+      sCount: Gallery.selectionList().length
+      author: User.first().name
+    
+  
   activePhotos: ->
     @constructor.activePhotos @id
     
@@ -73,7 +88,8 @@ class Gallery extends Spine.Model
     $().extend @defaultDetails,
       iCount: imagesCount
       aCount: albums.length
-      sCount: @activePhotos().length
+      pCount: @activePhotos().length
+      sCount: Gallery.selectionList().length
       author: User.first().name
     
   count: (inc = 0) ->

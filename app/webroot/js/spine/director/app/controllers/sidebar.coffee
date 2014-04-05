@@ -113,8 +113,6 @@ class Sidebar extends Spine.Controller
     e.preventDefault()
     e.stopPropagation()
   
-<<<<<<< Updated upstream
-=======
   dragStart: (e, controller) ->
     return unless Spine.dragItem
     el = $(e.currentTarget)
@@ -195,7 +193,6 @@ class Sidebar extends Spine.Controller
         Photo.trigger('create:join', photos.toID(), target)
         Photo.trigger('destroy:join', photos.toID(), origin) unless @isCtrlClick(e)
         
->>>>>>> Stashed changes
   newAttributes: ->
     if User.first()
       name    : @galleryName()

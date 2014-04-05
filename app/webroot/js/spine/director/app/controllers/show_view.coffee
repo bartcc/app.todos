@@ -174,17 +174,10 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
-<<<<<<< Updated upstream
-    @bind('drag:start', @proxy @dragStart)
-    @bind('drag:enter', @proxy @dragEnter)
-    @bind('drag:end', @proxy @dragEnd)
-    @bind('drag:drop', @proxy @dropComplete)
-=======
     @bind('drag:start', @proxy @sidebar.dragStart)
     @bind('drag:enter', @proxy @sidebar.dragEnter)
     @bind('drag:end', @proxy @sidebar.dragEnd)
     @bind('drag:drop', @proxy @sidebar.dropComplete)
->>>>>>> Stashed changes
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
@@ -553,19 +546,6 @@ class ShowView extends Spine.Controller
     return unless model
     list = model.contains()
     @current.select(list)
-<<<<<<< Updated upstream
-  
-  
-#    root = @current.items
-#    return unless root and root.children('.item').length
-#    list = []
-#    root.children('.item').each (index, el) ->
-#      item = $(@).item()
-#      list.unshift item
-#    @current.select(list)
-#    @changeToolbarOne()
-=======
->>>>>>> Stashed changes
     
   uploadProgress: (e, coll) ->
     

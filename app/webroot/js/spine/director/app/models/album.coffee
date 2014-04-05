@@ -59,7 +59,7 @@ class Album extends Spine.Model
       joinTable: 'AlbumsPhoto'
       sorted: true
     ret = Photo.filterRelated(id, filterOptions)
-    ret[0...ret.length]
+    ret[0...max || ret.length]
     ret
     
   @inactive: ->
@@ -118,11 +118,7 @@ class Album extends Spine.Model
   
   details: =>
     $().extend @defaultDetails,
-<<<<<<< Updated upstream
-      iCount : @constructor.contains(@id).length
-=======
       iCount : @photos().length
->>>>>>> Stashed changes
       album  : Album.record
       gallery: Gallery.record
       author: User.first().name

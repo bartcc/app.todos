@@ -22,10 +22,9 @@ Model.Extender =
 
       current: (recordOrID) ->
         id = recordOrID?.id or recordOrID
-        rec = (@state = @exists(id)) or false
+        rec = @exists(id) or false
         prev = @record
         @record = rec
-#        @lastGallery = @record if @record
         same = !!(@record?.eql?(prev) and !!prev)
         if !same
           Model[@className].trigger('change:current', @record, !same) 
@@ -159,9 +158,17 @@ Model.Extender =
         
       # removes itself from the list
       removeSelectionID: ->
-        for item, idx in @constructor.selection
-          index = idx if item[@id]
-        @constructor.selection.splice(index, 1) if index
+        for _item, _idx in @constructor.selection
+          _x = _idx if _item[@id]
+        @constructor.selection.splice(_x, 1) if _x #remove selection object container
+        
+        modelName = @constructor['parent']
+        return unless modelName
+        
+        list = Model[modelName].selection
+        for __itm in list
+          for __key, __val of __itm
+             __val.splice(__x, 1) unless __x = __val.indexOf(@id) is -1 #remove all selection entries
       
       removeSelection: (idOrList) ->
         selectionList = @constructor.selectionList(@id)

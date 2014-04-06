@@ -546,9 +546,9 @@
     Author:   <span class="label label-default">${author}</span>
     {{tmpl() "#albumSpecsTemplate"}}
     <br><br>
-    <h2>{{if gallery}}Albums in Gallery:&nbsp;{{else}}Master Albums{{/if}}</h2>
-    {{if gallery}}<label class="h2 chopin">{{if gallery.name}}${gallery.name}{{else}}...{{/if}}</label>{{/if}}
-    <span class="active cta {{if gallery}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
+    <h2>{{if model.record}}Albums in Gallery:&nbsp;{{else}}Master Albums{{/if}}</h2>
+    {{if model.record}}<label class="h2 chopin">{{if model.record.name}}${model.record.name}{{else}}...{{/if}}</label>{{/if}}
+    <span class="active cta {{if model.record}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
   </section>
   <section class="left">
     <span class="fadeelement breadcrumb">

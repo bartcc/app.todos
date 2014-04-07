@@ -651,10 +651,11 @@ class ShowView extends Spine.Controller
     e.preventDefault()
     code = e.charCode or e.keyCode
     
+    el=$(document.activeElement)
+    isFormfield = $().isFormElement(el)
+    
     switch code
       when 8 #Backspace
-        el=$(document.activeElement)
-        isFormfield = $().isFormElement(el)
         unless isFormfield
           @destroySelected()
       when 32 #Space

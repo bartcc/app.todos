@@ -291,6 +291,8 @@ class Main extends Spine.Controller
     unless isFormfield
       e.preventDefault()
       
+    #use this keydown for tabindices to gain focus
+    #tabindex elements will then be able to listen for keyup events subscribed in the controller 
     return unless type is 'keydown'
     
     switch code
@@ -307,7 +309,7 @@ class Main extends Spine.Controller
             @overviewView.focus(e)
           if @showView.isActive()
             @showView.focus(e)
-      when 97 #A
+      when 65 #ctrl A
         unless isFormfield
           if @showView.isActive()
             @showView.focus(e)

@@ -35,7 +35,7 @@ class GalleriesView extends Spine.Controller
     @viewport = @list.el
     Gallery.one('refresh', @proxy @render)
     Gallery.bind('refresh:gallery', @proxy @render)
-    Gallery.bind('activate create', @proxy @activateRecord)
+    Gallery.bind('activate', @proxy @activateRecord)
     Spine.bind('show:galleries', @proxy @show)
 
   render: (items) ->
@@ -57,6 +57,7 @@ class GalleriesView extends Spine.Controller
     
   activateRecord: (idOrRecord) ->
     Gallery.current idOrRecord
+    Album.trigger('activate', Gallery.selectionList().first())
     
   newAttributes: ->
     if User.first()

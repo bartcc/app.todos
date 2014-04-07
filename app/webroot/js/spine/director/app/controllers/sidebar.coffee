@@ -232,9 +232,6 @@ class Sidebar extends Spine.Controller
       Spine.Ajax.disable ->
         ga.destroy()
         
-#    if Gallery.record?.id is item.id
-#      Gallery.current() #unless Gallery.count()
-      
     item.destroy()
     item.removeSelectionID()
     unless Gallery.count()

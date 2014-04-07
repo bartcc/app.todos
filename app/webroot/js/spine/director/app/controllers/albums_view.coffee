@@ -131,6 +131,7 @@ class AlbumsView extends Spine.Controller
       
     Gallery.updateSelection(list)
     Album.current(id)
+    Photo.trigger('activate', Album.selectionList().first())
     
   newAttributes: ->
     if User.first()

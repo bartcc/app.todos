@@ -85,7 +85,7 @@ class PhotosView extends Spine.Controller
       
     @buffer = items
   
-  change: ->
+  change: (item) ->
     @updateBuffer()
     @render @buffer
   

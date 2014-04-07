@@ -1,7 +1,7 @@
 $ = jQuery ? require("jqueryify")
 
 $.fn.deselect = (sel) ->
-  $(@).children(sel).removeClass('active', 'hot')
+  $(@).children(sel).removeClass('active hot')
   
 
 $.extend jQuery.tmpl.tag,
@@ -10,7 +10,11 @@ $.extend jQuery.tmpl.tag,
     open: 'for ($2){',
     close: '};'
   
-
+$.fn.isFormElement = (o=[]) ->
+  str = Object::toString.call(o[0])
+  formElements = ['[object HTMLInputElement]','[object HTMLTextAreaElement]']
+  formElements.indexOf(str) isnt -1
+  
 ############
 # intelligent buttons
 ############
@@ -34,7 +38,7 @@ $.fn.state = (state) ->
       return $this.addClass(d).attr(d,d)
     else
       return $this.removeClass(d).removeAttr(d)
-  
+    
 $.Timer_ = (interval, calls, onend) ->
   count = 0
   payload = @

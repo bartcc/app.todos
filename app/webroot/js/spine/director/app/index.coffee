@@ -282,25 +282,34 @@ class Main extends Spine.Controller
     Toolbar.load()
     
   key: (e) ->
-    e.preventDefault()
     code = e.charCode or e.keyCode
     type = e.type
-#    console.log 'Main:keycode: ' + code
+#    console.log 'Main:code: ' + code
+    
+    el=$(document.activeElement)
+    isFormfield = $().isFormElement(el)
+    unless isFormfield
+      e.preventDefault()
+      
     return unless type is 'keydown'
     
     switch code
       when 8 #Backspace
-        if @showView.isActive()
-          @showView.focus()
+        unless isFormfield
+          if @showView.isActive()
+            @showView.focus()
       when 9 #Tab
-        @sidebar.toggleDraghandle()
+        unless isFormfield
+          @sidebar.toggleDraghandle()
       when 32 #Space
-        if @overviewView.isActive()
-          @overviewView.focus(e)
-        if @showView.isActive()
-          @showView.focus(e)
+        unless isFormfield
+          if @overviewView.isActive()
+            @overviewView.focus(e)
+          if @showView.isActive()
+            @showView.focus(e)
       when 97 #A
-        if @showView.isActive()
-          @showView.focus(e)
+        unless isFormfield
+          if @showView.isActive()
+            @showView.focus(e)
         
 module?.exports = Main

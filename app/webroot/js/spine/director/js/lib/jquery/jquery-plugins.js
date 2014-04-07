@@ -21,6 +21,16 @@
     }
   });
 
+  $.fn.isFormElement = function(o) {
+    var formElements, str;
+    if (o == null) {
+      o = [];
+    }
+    str = Object.prototype.toString.call(o[0]);
+    formElements = ['[object HTMLInputElement]', '[object HTMLTextAreaElement]'];
+    return formElements.indexOf(str) !== -1;
+  };
+
   $.fn.state = function(state) {
     var d;
     d = 'disabled';

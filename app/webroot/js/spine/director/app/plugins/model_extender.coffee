@@ -222,8 +222,6 @@ Model.Extender =
       updateChangedAttributes: (atts) ->
         origAtts = @attributes()
         for key, value of atts
-          console.log key
-          console.log value
           unless origAtts[key] is value
             console.log origAtts[key]
             invalid = yes

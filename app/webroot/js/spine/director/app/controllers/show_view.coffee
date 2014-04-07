@@ -653,13 +653,18 @@ class ShowView extends Spine.Controller
     
     switch code
       when 8 #Backspace
-        @destroySelected()
+        el=$(document.activeElement)
+        isFormfield = $().isFormElement(el)
+        unless isFormfield
+          @destroySelected()
       when 32 #Space
-        @slideshowView.play()
+        unless isFormfield
+          @slideshowView.play()
       when 27 #Esc
         @slideshowView.onclosedGallery()
       when 65 #CTRL A
-        if e.metaKey or e.ctrlKey
-          @selectAll()
+        unless isFormfield
+          if e.metaKey or e.ctrlKey
+            @selectAll()
 
 module?.exports = ShowView

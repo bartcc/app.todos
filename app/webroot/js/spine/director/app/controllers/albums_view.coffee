@@ -121,7 +121,7 @@ class AlbumsView extends Spine.Controller
     
     @render()
     
-  activateRecord: (list) ->
+  activateRecord: (list=[]) ->
     unless Spine.isArray(list)
       list = [list]
         
@@ -131,7 +131,6 @@ class AlbumsView extends Spine.Controller
       
     Gallery.updateSelection(list)
     Album.current(id)
-    Photo.trigger('activate', Album.selectionList().first())
     
   newAttributes: ->
     if User.first()
@@ -150,7 +149,6 @@ class AlbumsView extends Spine.Controller
     return proposal
   
   createAlbum: (target=Gallery.record, options={}) ->
-    console.log 'AlbumsView::create'
     cb = ->
       @createJoin(target) if target
       @updateSelectionID()

@@ -690,7 +690,7 @@
   {{else}}
   <li class="sublist-item alb item data" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close ui-symbol-album"></span>
-    <span class="title center">{{if title}}{{html title.substring(0, 45)}}{{else}}...{{/if}}</span>
+    <span class="title center">{{if title}}${title}{{else}}...{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
   {{/if}}
@@ -838,7 +838,15 @@
   {{if devider}}
   <li class="divider"></li>
   {{else}}
-  <li><a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}}"><i class="glyphicon glyphicon-{{if icon}}${icon} {{if iconcolor}}glyphicon glyphicon-${iconcolor}{{/if}}{{/if}}"></i>${name}</a></li>
+  <li>
+    <a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}}">
+      <i class="glyphicon glyphicon-{{if icon}}${icon} {{if iconcolor}}glyphicon glyphicon-${iconcolor}{{/if}}{{/if}}"></i>
+      {{html name}}
+      {{if shortcut}}
+      <span class="label label-primary">{{html shortcut}}</span>
+      {{/if}}
+    </a>
+  </li>
   {{/if}}
 </script>
 

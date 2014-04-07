@@ -322,7 +322,7 @@ class ShowView extends Spine.Controller
     Photo.trigger('create:join', photos, album)
       
   copyPhotosToAlbum: ->
-    @photosToAlbum Album.selectionList()
+    @photosToAlbum Album.selectionList().slice(0)
       
   movePhotosToAlbum: ->
     @photosToAlbum Album.selectionList(), Album.record

@@ -1845,3 +1845,22 @@ section.addAction {
 [class^="bg-"] {
   color: #ddd;
 }
+.dropdown-menu li a {
+  padding-right: 70px;
+  position: relative;
+}
+.dropdown-menu span.label.label {
+  position: absolute;
+  right: 20px;
+  line-height: 1.4em;
+}
+.viewheader .btn:active,
+.btn.active {
+  background-image: none;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.13) inset;
+  outline: 1px inset rgba(0,0,0,0.50);
+}
+.viewheader .btn {
+  border: 0 none;
+  outline: 1px outset rgba(0,0,0,0.50);
+}

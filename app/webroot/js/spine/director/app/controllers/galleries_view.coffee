@@ -57,7 +57,6 @@ class GalleriesView extends Spine.Controller
     
   activateRecord: (idOrRecord) ->
     Gallery.current idOrRecord
-    Album.trigger('activate', Gallery.selectionList().first())
     
   newAttributes: ->
     if User.first()

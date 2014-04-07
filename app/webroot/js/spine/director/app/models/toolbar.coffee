@@ -32,8 +32,9 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: 'Invert Selection     ctrl+A'
+          name: 'Invert Selection'
           klass: 'opt-SelectAll'
+          shortcut: 'ctrl+A'
         ,
           devider: true
         ,
@@ -42,8 +43,9 @@ class Toolbar extends Spine.Model
           icon: 'fullscreen'
           iconcolor: 'black'
         ,
-          name: 'Toggle Sidebar       Tab'
+          name: 'Toggle Sidebar'
           klass: 'opt-Sidebar'
+          shortcut: '->|'
         ,
           devider: true
         ,
@@ -76,6 +78,7 @@ class Toolbar extends Spine.Model
           icon: 'trash'
           klass: 'opt-DestroyGallery'
           disabled: -> !Gallery.record
+          shortcut: '<-'
         ]
     group2:
       name: 'Album'
@@ -115,6 +118,7 @@ class Toolbar extends Spine.Model
           icon: 'trash'
           klass: 'opt-DestroyAlbum'
           disabled: -> !Gallery.selectionList().length
+          shortcut: '<-'
         ,
           devider: true
         ,
@@ -161,6 +165,7 @@ class Toolbar extends Spine.Model
               len = Album.selectionList().length
               type = 'Remove'
             return type+' ('+len+')'
+          shortcut: '<-'
           icon: 'trash'
           klass: 'opt-DestroyPhoto '
           disabled: ->

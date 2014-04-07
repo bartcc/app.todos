@@ -47,7 +47,10 @@ class AlbumsView extends Spine.Controller
  
   constructor: ->
     super
-    @el.data('current', model: Gallery)
+    @el.data('current',
+      model: Gallery
+      models: Album
+    )
     @type = 'Album'
     @info = new Info
       el: @infoEl
@@ -74,8 +77,9 @@ class AlbumsView extends Spine.Controller
     Spine.bind('create:album', @proxy @createAlbum)
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
+    Spine.bind('loading:fail', @proxy @loadingFail)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
-    Gallery.bind('change:current', @proxy @render)
+    Gallery.bind('current', @proxy @render)
     Album.bind('activate', @proxy @activateRecord)
     
     $(@views).queue('fx')
@@ -100,6 +104,7 @@ class AlbumsView extends Spine.Controller
     return unless @isActive()
     console.log 'AlbumsView::render'
     @list.render @updateBuffer()
+#    $('.tooltips', @el).tooltip(title:'default title')
     @el
       
   show: ->
@@ -209,22 +214,28 @@ class AlbumsView extends Spine.Controller
       
   loadingStart: (album) ->
     return unless @isActive()
+    return unless album
     el = @items.children().forItem(album)
     $('.glyphicon-set', el).addClass('in')
     $('.downloading', el).removeClass('hide').addClass('in')
-    unless el.data()['queue']
-      queue = el.data()['queue'] = []
-      queue.push {}
-    else
-      queue = el.data()['queue']
-      queue.push {}
+#    queue = el.data('queue').queue = []
+#    queue.push {}
     
   loadingDone: (album) ->
     return unless @isActive()
+    return unless album
     el = @items.children().forItem(album)
     $('.glyphicon-set', el).removeClass('in')
-    el.data().queue?.splice(0, 1)
     $('.downloading', el).removeClass('in').addClass('hide')
+#    el.data('queue').queue.splice(0, 1)
+  
+  loadingFail: (album, error) ->
+    return unless @isActive()
+    err = error.errorThrown
+    el = @items.children().forItem(album)
+    $('.glyphicon-set', el).removeClass('in')
+    $('.downloading', el).addClass('error').tooltip('destroy').tooltip(title:err).tooltip('show')
+    
     
   sortupdate: (e, o) ->
     @list.children().each (index) ->
@@ -240,7 +251,6 @@ class AlbumsView extends Spine.Controller
       @render()
       
   click: (e) ->
-    console.log 'click'
     item = $(e.currentTarget).item()
     @select(item, @isCtrlClick(e))
     
@@ -248,7 +258,6 @@ class AlbumsView extends Spine.Controller
     e.preventDefault()
     
   select: (items = [], exclusive) ->
-    console.log 'select'
     unless Spine.isArray items
       items = [items]
       

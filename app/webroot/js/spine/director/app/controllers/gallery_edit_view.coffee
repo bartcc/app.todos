@@ -6,7 +6,7 @@ $           = Spine.$
 
 class GalleryEditView extends Spine.Controller
   
-  @extend KeyEnhancer
+#  @extend KeyEnhancer
   @extend Extender
   
   elements:

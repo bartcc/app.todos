@@ -14,7 +14,7 @@ require("spine/lib/ajax")
 
 class Gallery extends Spine.Model
 
-  @configure 'Gallery', 'id', 'name', "description", 'user_id'
+  @configure 'Gallery', 'id', 'cid', 'name', "description", 'user_id'
 
   @extend Filter
   @extend Model.Ajax

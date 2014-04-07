@@ -27,7 +27,7 @@ Model.Extender =
         @record = rec
         same = !!(@record?.eql?(prev) and !!prev)
         if !same
-          Model[@className].trigger('change:current', @record, !same) 
+          Model[@className].trigger('current', @record, !same) 
           Spine.trigger('change:selected'+@className, @record, !same, @className) 
         @record
 

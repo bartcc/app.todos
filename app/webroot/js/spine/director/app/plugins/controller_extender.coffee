@@ -27,6 +27,9 @@ Controller.Extender =
         $('input', el).first().focus().select() if el.is(':visible')
         el
 
+      focus: ->
+        @el.focus()
+
       panelIsActive: (controller) ->
         App[controller].isActive()
         

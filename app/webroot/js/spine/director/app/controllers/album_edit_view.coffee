@@ -6,7 +6,7 @@ GalleriesAlbum  = require('models/galleries_album')
 
 class AlbumEditView extends Spine.Controller
   
-  @extend KeyEnhancer
+#  @extend KeyEnhancer
   @extend Extender
   
   elements:
@@ -22,8 +22,8 @@ class AlbumEditView extends Spine.Controller
 
   constructor: ->
     super
-    Album.bind('change:current', @proxy @changeSelection)
-#    Gallery.bind('change:current', @proxy @changeSelection)
+    Album.bind('current', @proxy @changeSelection)
+#    Gallery.bind('current', @proxy @changeSelection)
     Album.bind('change', @proxy @change)
     GalleriesAlbum.bind('change', @proxy @changeFromGalleriesAlbum)
 

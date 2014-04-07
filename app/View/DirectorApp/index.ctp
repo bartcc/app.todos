@@ -54,8 +54,8 @@
     <div id="content" class="views bg-medium vbox flex">
       <div tabindex="1" id="show" class="view canvas bg-dark vbox flex fade">
         <div id="modal-action " class="modal fade"></div>
-        <div  tabindex="3" id="modal-addAlbum" class="modal fade"></div>
-        <div  tabindex="3" id="modal-addPhoto" class="modal fade"></div>
+        <div  tabindex="2" id="modal-addAlbum" class="modal fade"></div>
+        <div  tabindex="2" id="modal-addPhoto" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
           <li class="splitter disabled flex"></li>
@@ -154,11 +154,11 @@
           </div>
         </div>
       </div>
-      <div tabindex="1" id="overview" class="view content vbox flex data parent fade">
+      <div id="overview" class="view content vbox flex data parent fade">
         <div class="carousel-background bg-medium flex">
 <!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
 <!--          We can't use it here, since it must be triggered via the controller-->
-          <div id="overview-carousel" class="carousel slide" data-ride="">
+          <div tabindex="1" id="overview-carousel" class="carousel slide" data-ride="">
             
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -198,7 +198,7 @@
   </div>
 </div>
 <!-- blueimp-gallery -->
-<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+<div tabindex="1" id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
   <div class="slides"></div>
     <h3 class="title"></h3>
     <a class="prev">‹</a>
@@ -238,7 +238,7 @@
       <div class="modal-body autoflow">
         <div class="items flex fadein in"></div>
       </div>
-      <div class="modal-footer">
+      <div tabindex="1" class="modal-footer">
         {{tmpl() "#footerTemplate"}}
       </div>
     </div><!-- /.modal-content -->
@@ -247,7 +247,7 @@
 
 
 <script id="footerTemplate" type="text/x-jquery-tmpl">
-  <button type="button" class="opt-Selection dark left {{if !contains}}disabled{{/if}}">Invert Selection</button>
+  <button type="button" class="opt-SelectInv dark left {{if !contains}}disabled{{/if}}">Invert Selection</button>
   <button type="button" class="opt-AddExecute dark {{if disabled}}disabled{{/if}}">Add</button>
   <button type="button" class="opt- dark" data-dismiss="modal">Cancel</button>
 </script>
@@ -503,10 +503,10 @@
     <div class="ui-symbol ui-symbol-album center"></div>
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
-      <span class="downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade"></span>
-      <span class="zoom glyphicon glyphicon-folder-close glyphicon-white left"></span>
-      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left"></span>
-      <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right"></span>
+      <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
+      <span class="tooltips zoom glyphicon glyphicon-folder-close glyphicon-white left" data-toggle="tooltip"></span>
+      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left" data-toggle="tooltip" title="test 3"></span>
+      <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right" data-toggle="tooltip" title="test 4"></span>
     </div>
     <div class="title center">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
   </li>
@@ -533,22 +533,30 @@
 
 <script id="headerGalleryTemplate" type="text/x-jquery-tmpl">
   <section class="top viewheader fadeelement">
-    Author:   <span class="label label-default">${author}</span>
+    <span>
+      Author:&nbsp;<span class="label label-default">${author}</span>
+    </span>
     {{tmpl() "#gallerySpecsTemplate"}}
     <br><br>
     <h2>Galleries Overview</h2>
-    <span class="active cta {{if gallery}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
+    <span class="first right"><h3 class=""><i>Infos</i></h3></span>
   </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
   <section class="top viewheader fadeelement">
-    Author:   <span class="label label-default">${author}</span>
+    <span>
+      {{if model.record}}
+      Gallery:&nbsp;<span class="label label-{{if model.record}}default{{else}}warning{{/if}}">${model.record.name}</span>
+      {{else}}
+      Author:&nbsp;<span class="label label-default">${author}</span>
+      {{/if}}
+    </span>
     {{tmpl() "#albumSpecsTemplate"}}
     <br><br>
-    <h2>{{if model.record}}Albums in Gallery:&nbsp;{{else}}Master Albums{{/if}}</h2>
+    <h2>{{if model.record}}Albums in:&nbsp;{{else}}Master Albums{{/if}}</h2>
     {{if model.record}}<label class="h2 chopin">{{if model.record.name}}${model.record.name}{{else}}...{{/if}}</label>{{/if}}
-    <span class="active cta {{if model.record}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
+    <span class="right"><h3 class=""><i>Infos</i></h3></span>
   </section>
   <section class="left">
     <span class="fadeelement breadcrumb">
@@ -560,16 +568,89 @@
   </section>
 </script>
 
+<script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
+  <section class="top viewheader fadeelement">
+    <span>
+      {{if model.record}}
+      Gallery:&nbsp;<span class="label label-{{if gallery.name}}default{{else}}warning{{/if}}">{{if gallery.name}}${gallery.name}{{else}}none{{/if}}</span>
+      Album:&nbsp;<span class="label label-{{if model.record}}default{{else}}warning{{/if}}">{{if modelAlbum.record}}{{if album.title}}${album.title}{{else}}...{{/if}}{{else}}none{{/if}}</span>
+      {{else}}
+      Author:&nbsp;<span class="label label-default">${author}</span>
+      {{/if}}
+    </span>
+    {{tmpl() "#photoSpecsTemplate"}}
+    <br><br>
+    <h2>{{if album}}Photos in:&nbsp;{{else}}Master Photos{{/if}}</h2>
+    {{if album}}<label class="h2 chopin">{{if album.title}}${album.title}{{else}}...{{/if}}</label>{{/if}}
+    <span class="right"><h3 class=""><i>Infos</i></h3></span>
+  </section>
+  {{if zoomed}}
+  {{tmpl() "#photoBreadcrumbTemplate"}}
+  {{else}}
+  {{tmpl() "#photosBreadcrumbTemplate"}}
+  {{/if}}
+</script>
+
+<script id="photosBreadcrumbTemplate" type="text/x-jquery-tmpl">
+  <section class="left">
+    <span class="fadeelement breadcrumb">
+      <li class="gal">
+        <a href="#">Galleries</a>
+      </li>
+      <li class="alb">
+        <a href="#">Albums</a>
+      </li>
+      <li class="pho active">Photos</li>
+    </span>
+  </section>
+</script>
+
+<script id="photoBreadcrumbTemplate" type="text/x-jquery-tmpl">
+  <section class="left">
+    <span class="fadeelement breadcrumb">
+      <li class="gal">
+        <a href="#">Galleries</a>
+      </li>
+      <li class="alb">
+        <a href="#">Albums</a>
+      </li>
+      <li class="pho">
+        <a href="#">Photos</a>
+      </li>
+      <li class="active">{{if photo.src}}${photo.src}{{else}}deleted{{/if}}</li>
+    </span>
+  </section>
+</script>
+
+<script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
+  <section class="top viewheader fadeelement">
+    <span>
+      {{if model.record}}
+      Gallery:&nbsp;<span class="label label-{{if gallery.name}}default{{else}}warning{{/if}}">{{if gallery.name}}${gallery.name}{{else}}none{{/if}}</span>
+      Album:&nbsp;<span class="label label-{{if model.record}}default{{else}}warning{{/if}}">{{if modelAlbum.record}}{{if album.title}}${album.title}{{else}}...{{/if}}{{else}}none{{/if}}</span>
+      {{else}}
+      Author:&nbsp;<span class="label label-default">${author}</span>
+      {{/if}}
+    </span>
+    {{tmpl() "#photoSpecsTemplate"}}
+    <br><br>
+    <h2>{{if album}}Photos in:&nbsp;{{else}}Master Photos{{/if}}</h2>
+    {{if album}}<label class="h2 chopin">{{if album.title}}${album.title}{{else}}...{{/if}}</label>{{/if}}
+    <span class="right"><h3 class=""><i>Infos</i></h3></span>
+  </section>
+  {{tmpl() "#photoBreadcrumbTemplate"}}
+</script>
+
 <script id="gallerySpecsTemplate" type="text/x-jquery-tmpl">
   <div class="right">
     <span class="">
-    <div class="btn btn-sm"><b>Galleries<h5>${model.count()}</h5></b></div>
+    <div class="btn btn-sm">Galleries<b><h5>${model.count()}</h5></b></div>
     </span> 
     <span class="">
-    <div class="btn btn-sm"><b>Connected Albums<h5>${modelGas.count()} (${modelAlbum.count()} Masters)</h5></b></div>
+    <div class="btn btn-sm">Connected Albums<b><h5>${modelGas.count()} (${modelAlbum.count()} Masters)</h5></b></div>
     </span> 
     <span class="">
-    <div class="btn btn-sm"><b>Connected Images<h5>${modelAps.count()} (${modelPhoto.count()} Masters)</h5></b></div>
+    <div class="btn btn-sm">Connected Images<b><h5>${modelAps.count()} (${modelPhoto.count()} Masters)</h5></b></div>
     </span>
   </div>
 </script>
@@ -577,13 +658,13 @@
 <script id="albumSpecsTemplate" type="text/x-jquery-tmpl">
   <div class="right">
     <span class="">
-    <div class="btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b>Selected <h5>${model.details().sCount}</h5></b></div>
+      <div class="opt-SelectAll select btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b class=""><h5>${model.details().sCount}</h5></b></div>
     </span> 
     <span class="">
-    <div class="btn btn-sm"><b>Albums<h5>${model.details().aCount} (${modelAlbum.count()} Masters)</h5></b></div>
+    <div class="btn btn-sm">Albums<b><h5>${model.details().aCount} (${modelAlbum.count()} Masters)</h5></b></div>
     </span> 
     <span class="">
-    <div class="btn btn-sm"><b>Connected Images<h5>${model.details().iCount} (${modelPhoto.count()} Masters)</h5></b></div>
+    <div class="btn btn-sm">Connected Images<b><h5>${model.details().iCount} (${modelPhoto.count()} Masters)</h5></b></div>
     </span>
   </div>
 </script>
@@ -591,10 +672,10 @@
 <script id="photoSpecsTemplate" type="text/x-jquery-tmpl">
   <div class="right">
     <span class="">
-    <div class="btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b>Selected <h5>${model.details().sCount}</h5></b></div>
+    <div class="opt-SelectAll select btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b><h5>${model.details().sCount}</h5></b></div>
     </span> 
     <span class="">
-    <div class="btn btn-sm"><b>Images<h5>${model.details().iCount} (${modelPhoto.count()} Masters)</h5></b></div>
+    <div class="btn btn-sm">Images<b><h5>${model.details().iCount} (${modelPhoto.count()} Masters)</h5></b></div>
     </span> 
   </div>
 </script>
@@ -705,53 +786,6 @@
 
 <script id="photoThumbnailSimpleTemplate" type="text/x-jquery-tmpl">
   <div class="opt- thumbnail image left"></div>
-</script>
-
-<script id="headerPhotosTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader fadeelement">
-    Author:&nbsp;<span class="label label-default">${author}</span>
-    {{tmpl() "#photoSpecsTemplate"}}
-    <br><br>
-    <h2>{{if album}}Photos in Album:&nbsp;{{else}}Master Photos{{/if}}</h2>
-    {{if album}}<label class="h2 chopin">{{if album.title}}${album.title}{{else}}...{{/if}}</label>{{/if}}
-    <span class="active cta {{if album}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
-  </section>
-  <section class="left">
-    <span class="fadeelement breadcrumb">
-      <li class="gal">
-        <a href="#">Galleries</a>
-      </li>
-      <li class="alb">
-        <a href="#">Albums</a>
-      </li>
-      <li class="pho active">Photos</li>
-    </span>
-  </section>
-</script>
-
-<script id="headerPhotoTemplate" type="text/x-jquery-tmpl">
-  <section class="top viewheader fadeelement">
-    Author:&nbsp;<span class="label label-default">${author}</span>
-    {{tmpl() "#photoSpecsTemplate"}}
-    <br><br>
-    <h2>{{if album}}Photos in Album:&nbsp;{{else}}Master Photos{{/if}}</h2>
-    {{if album}}<label class="h2 chopin">{{if album.title}}${album.title}{{else}}...{{/if}}</label>{{/if}}
-    <span class="active cta {{if album}}active{{/if}} right"><h3 class=""><i>Infos</i></h3></span>
-  </section>
-  <section class="left">
-    <span class="fadeelement breadcrumb">
-      <li class="gal">
-        <a href="#">Galleries</a>
-      </li>
-      <li class="alb">
-        <a href="#">Albums</a>
-      </li>
-      <li class="pho">
-        <a href="#">Photos</a>
-      </li>
-      <li class="active">{{if photo.src}}${photo.src}{{else}}deleted{{/if}}</li>
-    </span>
-  </section>
 </script>
 
 <script id="preloaderTemplate" type="text/x-jquery-tmpl">

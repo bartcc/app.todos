@@ -39,7 +39,10 @@ class PhotosView extends Spine.Controller
     
   constructor: ->
     super
-    @el.data('current', model: Album)
+    @el.data('current',
+      model: Album
+      models: Photo
+    )
     @type = 'Photo'
     @info = new Info
       el: @infoEl
@@ -66,7 +69,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
-    Album.bind('change:current', @proxy @change)
+    Album.bind('current', @proxy @change)
     Spine.bind('loading:done', @proxy @updateBuffer)
     
   updateBuffer: (album=Album.record) ->

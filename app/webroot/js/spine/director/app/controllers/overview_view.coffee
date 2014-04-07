@@ -8,8 +8,6 @@ require("plugins/tmpl")
 
 class OverviewView extends Spine.Controller
 
-#  @extend KeyEnhancer
-
   elements:
     '#overview-carousel'         : 'carousel'
     '.carousel-inner'            : 'content'
@@ -36,10 +34,14 @@ class OverviewView extends Spine.Controller
     # carousel options
     @options =
       interval: 2000
+    @carousel.on('slide.bs.carousel', @proxy @focus)
     @el.data current: Recent
     @max = 18
     @bind('render:toolbar', @proxy @renderToolbar)
     Spine.bind('show:overview', @proxy @show)
+    
+  focus: (e) ->
+    @carousel.focus()
     
   parse: (json) ->
     recents = []
@@ -125,9 +127,10 @@ class OverviewView extends Spine.Controller
     @record.trigger('ajaxError', xhr, statusText, error)
     
   keyup: (e) ->
+    e.preventDefault()
     code = e.charCode or e.keyCode
     
-    console.log 'OverviewView:keyupCode: ' + code
+#    console.log 'OverviewView:keyupCode: ' + code
     
     switch code
       when 32 #Space
@@ -137,12 +140,10 @@ class OverviewView extends Spine.Controller
           @carousel.carousel('cycle')
         else
           @carousel.carousel('pause')
-        e.preventDefault()
       when 39 #Right
         @carousel.carousel('next')
-        e.preventDefault()
+        
       when 37 #Left
         @carousel.carousel('prev')
-        e.preventDefault()
 
 module?.exports = OverviewView

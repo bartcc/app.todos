@@ -39,16 +39,10 @@ class SidebarList extends Spine.Controller
     Gallery.bind('change', @proxy @change)
     Album.bind('create destroy update', @proxy @renderSublists)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
-    Gallery.bind('change:current', @proxy @currentChanged)
     Gallery.bind('change:selection', @proxy @exposeSublistSelection)
+    Gallery.bind('current', @proxy @exposeSelection)
     
   template: -> arguments[0]
-  
-  currentChanged: (rec, changed) ->
-    if rec
-      list = rec.selectionList()
-      @exposeSelection rec
-#      @exposeSublistSelection list
   
   change: (item, mode, e) =>
     console.log 'SidebarList::change'
@@ -57,6 +51,7 @@ class SidebarList extends Spine.Controller
       when 'create'
         @current = item
         @create item
+        @exposeSelection item
       when 'update'
         @current = item
         @update item
@@ -64,9 +59,7 @@ class SidebarList extends Spine.Controller
         @current = false
         @destroy item
           
-    if @current
-      @navigate '/gallery', @current.id
-    else
+    unless @current
       @navigate '/galleries'
         
   create: (item) ->
@@ -167,8 +160,7 @@ class SidebarList extends Spine.Controller
   
   exposeSelection: (item) ->
     @children().removeClass('active')
-    @children().forItem(item).addClass("active") if item.id is Gallery.record.id
-#    @exposeSublistSelection(selection)
+    el = @children().forItem(item).addClass("active")# if item.id is Gallery.record.id
     
   exposeSublistSelection: (selection) ->
     console.log 'SidebarList::exposeSublistSelection'
@@ -201,11 +193,10 @@ class SidebarList extends Spine.Controller
     
     switch item.constructor.className
       when 'Gallery'
-        @expand(item) 
+        @expand(item, App.showView.controller?.el.data('current').models isnt Album)
         @navigate '/gallery', item.id
       when 'Album'
         gallery = $(e.target).closest('li.gal').item()
-        Gallery.updateSelection([item.id])
         @navigate '/gallery', gallery.id, item.id
     
     e.stopPropagation()
@@ -221,10 +212,9 @@ class SidebarList extends Spine.Controller
       @openSublist(galleryEl)
     else
       open = galleryEl.hasClass('open')
-      active = galleryEl.hasClass('active')
-
+      closeif = galleryEl.hasClass('active') or targetIsExpander
       if open
-        @closeSublist(galleryEl) if active or targetIsExpander
+        @closeSublist(galleryEl) if closeif 
       else
         @openSublist(galleryEl)
         

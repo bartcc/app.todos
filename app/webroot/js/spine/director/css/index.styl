@@ -9,6 +9,10 @@ $medium-blue-semi = rgba(51, 153, 255, .5)
 $medium-blue-semi-80 = rgba(51, 153, 255, .8)
 $light-blue = rgba(159, 222, 255, 1)
 $light-blue-semi = rgba(159, 222, 255, .5)
+$btn-info = rgb(91, 192, 222)
+$btn-warning = rgb(240, 173, 78)
+$btn-default = rgb(255, 255, 255)
+$btn-primary = rgb(134, 134, 134)
 
 * {
   user-select: none;
@@ -1303,6 +1307,24 @@ li.item.active .glyphicon-set {
 }
 .glyphicon-folder-close:hover:before {
   content: "\e118";
+}
+.select:before {
+  content: "Selected";
+}
+.select:hover:before {
+  content: "Select All";
+}
+.select:hover {
+  background-color: $btn-info;
+  border-color: inherit;
+  color: inherit;
+}
+.error.glyphicon-download-alt:before {
+  content: "\e101";
+  color: red;
+}
+.select {
+  width: 75px;
 }
 .loading .glyphicon-loading {
   background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;

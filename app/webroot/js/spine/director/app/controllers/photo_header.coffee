@@ -35,6 +35,7 @@ class PhotoHeader extends Spine.Controller
       modelAps    : AlbumsPhoto
       count       : @count()
       author      : User.first().name
+      zoomed      : true
     
   count: ->
     if Album.record

@@ -20,8 +20,8 @@ class Sidebar extends Spine.Controller
     '.items'                : 'items'
     '.inner'                : 'inner'
     '.droppable'            : 'droppable'
-    '.opt-AllAlbums'         : 'albums'
-    '.opt-AllPhotos'         : 'photos'
+    '.opt-AllAlbums'        : 'albums'
+    '.opt-AllPhotos'        : 'photos'
     '.expander'             : 'expander'
 
 
@@ -95,13 +95,13 @@ class Sidebar extends Spine.Controller
     @list.template = @defaultTemplate
   
   refresh: (items) ->
-    console.log 'Sidebar::refresh'
     @render()
     
   render: (selectType='searchSelect') ->
     model = Model[@model] or Model[@defaultModel]
     items = model.filter(@query, func: selectType)
     items = items.sort model.nameSort
+    Gallery.trigger('refresh:gallery') #rerenders GalleryView
     @list.render items
       
   refreshAll: (e) ->
@@ -239,7 +239,7 @@ class Sidebar extends Spine.Controller
     item.removeSelectionID()
     unless Gallery.count()
       Spine.trigger('show:galleries')
-      Gallery.trigger('refreshOnEmpty')
+      Gallery.trigger('refresh:gallery')
 
   edit: ->
     App.galleryEditView.render()

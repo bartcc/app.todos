@@ -24,7 +24,7 @@ class PhotosAddView extends Spine.Controller
   events:
     'click .item'                            : 'click'
     'click .opt-AddExecute:not(.disabled)'   : 'add'
-    'click .opt-Selection:not(.disabled)'    : 'revertSelection'
+    'click .opt-SelectInv:not(.disabled)'    : 'selectInv'
     'keyup'                                  : 'keyup'
     
   template: (items) ->
@@ -116,7 +116,7 @@ class PhotosAddView extends Spine.Controller
       list.unshift item.id
     @select(list)
     
-  revertSelection: (e)->
+  selectInv: (e)->
     @selectAll()
     e.stopPropagation()
     e.preventDefault()

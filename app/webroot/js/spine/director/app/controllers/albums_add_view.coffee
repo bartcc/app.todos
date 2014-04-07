@@ -21,7 +21,8 @@ class AlbumsAddView extends Spine.Controller
   events:
     'click .item'                            : 'click'
     'click .opt-AddExecute:not(.disabled)'   : 'add'
-    'click .opt-Selection:not(.disabled)'    : 'revertSelection'
+    'click .opt-SelectInv:not(.disabled)'    : 'selectInv'
+    'keyup'                                  : 'keyup'
 
   template: (items) ->
     $('#addTemplate').tmpl
@@ -94,7 +95,7 @@ class AlbumsAddView extends Spine.Controller
     @renderFooter list
     @list.exposeSelection(list)
     
-  selectAll: ->
+  selectAll: (e) ->
     root = @itemsEl
     return unless root and root.children('.item').length
     list = []
@@ -103,10 +104,8 @@ class AlbumsAddView extends Spine.Controller
       list.unshift item.id
     @select(list)
     
-  revertSelection: (e)->
+  selectInv: ->
     @selectAll()
-    e.stopPropagation()
-    e.preventDefault()
     
   add: ->
     Spine.trigger('albums:copy', @selectionList, Gallery.record)
@@ -122,7 +121,7 @@ class AlbumsAddView extends Spine.Controller
     switch code
       when 65 #CTRL A
         if e.metaKey or e.ctrlKey
-          @selectAll()
+          @selectInv()
           e.stopPropagation()
           e.preventDefault()
     

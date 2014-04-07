@@ -22,7 +22,10 @@ class GalleriesView extends Spine.Controller
 
   constructor: ->
     super
-    @el.data('current', model: null)
+    @el.data('current',
+      model: null
+      models: Gallery
+    )
     @type = 'Gallery'
     @list = new GalleriesList
       el: @items
@@ -30,14 +33,14 @@ class GalleriesView extends Spine.Controller
       parent: @
     @header.template = @headerTemplate
     @viewport = @list.el
-    Gallery.bind('refresh', @proxy @render)
-    Gallery.bind('refreshOnEmpty', @proxy @render)
-    Gallery.bind('activate', @proxy @activateRecord)
+    Gallery.one('refresh', @proxy @render)
+    Gallery.bind('refresh:gallery', @proxy @render)
+    Gallery.bind('activate create', @proxy @activateRecord)
     Spine.bind('show:galleries', @proxy @show)
 
-  render: ->
+  render: (items) ->
     return unless @isActive()
-    console.log 'GalleriesView::render'
+    console.log items
     if Gallery.count()
       items = Gallery.records.sort Gallery.nameSort
       @list.render items

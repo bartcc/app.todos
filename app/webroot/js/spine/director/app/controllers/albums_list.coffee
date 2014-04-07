@@ -54,6 +54,7 @@ class AlbumsList extends Spine.Controller
         @append @template album
         @renderBackgrounds [album]
         @el.sortable('destroy').sortable()
+        $('.tooltips', @el).tooltip()
         
       when 'destroy'
         albumEl = @children().forItem(album, true)
@@ -219,7 +220,6 @@ class AlbumsList extends Spine.Controller
       
   dragDrop: (e) ->
     @exposeSelection()
-#    Gallery.trigger('change:current', Gallery.record)
     
     
 module?.exports = AlbumsList

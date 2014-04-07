@@ -19,7 +19,6 @@ class SlideshowView extends Spine.Controller
     '.thumbnail'       : 'thumb'
     
   events:
-    'click'            : 'close'
     'click .item'      : 'click'
     'hidden.bs.modal'  : 'hiddenmodal'
     
@@ -43,15 +42,14 @@ class SlideshowView extends Spine.Controller
     
     @links = $('.thumbnail', @items)
     @bind('play', @proxy @play)
-    
     @defaults =
       index             : 0
       startSlideshow    : true
       slideshowInterval : 2000
-      onopened: (e) => @opened(e)
-      onclose: (e) => @close(e)
-      onclosed: (e) => @closed(e)
-      list: []
+      displayClass: 'blueimp-gallery-display'
+      onopened: @proxy @onopenedGallery
+      onclose:  @proxy @oncloseGallery
+      onclosed: @proxy @onclosedGallery
     
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
@@ -164,8 +162,6 @@ class SlideshowView extends Spine.Controller
     else
       @notify(@parent.showPrevious)
       
-    @el.focus()
-    
   size: (val=@thumbSize, bg='none') ->
     # 2*10 = border radius
     @thumb.css
@@ -196,6 +192,7 @@ class SlideshowView extends Spine.Controller
   hidemodal: (e) ->
     
   hiddenmodal: (e) ->
+    @oncloseGallery()
     
   showmodal: (e) ->
     @items.empty()
@@ -224,19 +221,25 @@ class SlideshowView extends Spine.Controller
       @playSlideshow(options)
       
   playSlideshow: (options) ->
+    return if @galleryIsActive()
     options = $().extend({}, @defaults, options)
     @gallery = blueimp.Gallery(@thumb, options)
     
-  opened: (e) ->
+  onopenedGallery: (e) ->
     
-  close: (e) ->
+  onclosedGallery: (e) ->
+    
+  oncloseGallery: (e) ->
     if @previousHash
       location.hash = @previousHash
       delete @previousHash
     else
       @parent.back()
     
-  closed: (e) ->
+  onclosedGallery: (e) ->
     @list = []
+    
+  galleryIsActive: ->
+    $('#blueimp-gallery').hasClass(@defaults.displayClass)
   
 module?.exports = SlideshowView

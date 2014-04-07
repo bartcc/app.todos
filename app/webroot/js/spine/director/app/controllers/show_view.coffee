@@ -101,15 +101,17 @@ class ShowView extends Spine.Controller
     'click .opt-ShowPhotoSelection:not(.disabled)'    : 'showPhotoSelection'
     'click .opt-ShowAlbumSelection:not(.disabled)'    : 'showAlbumSelection'
     'click .opt-SelectAll:not(.disabled)'             : 'selectAll'
+    'click .opt-SelectInv:not(.disabled)'             : 'selectInv'
     'click .opt-CloseDraghandle'                      : 'toggleDraghandle'
     'click .items'                                    : 'deselect'
     'dblclick .draghandle'                            : 'toggleDraghandle'
-    'keyup'                                           : 'keyup'
     'dragstart'                                       : 'dragstart'
     'dragenter'                                       : 'dragenter'
     'dragend'                                         : 'dragend'
     'drop'                                            : 'drop'
 
+    'keyup'               : 'keyup'
+    
   constructor: ->
     super
     @silent = true
@@ -205,6 +207,7 @@ class ShowView extends Spine.Controller
     
   changeCanvas: (controller) ->
     controller.activated()
+    
     $('.items', @el).removeClass('in')
     t = switch controller.type
       when "Gallery"
@@ -242,11 +245,12 @@ class ShowView extends Spine.Controller
   canvas: (controller) ->
     console.log 'ShowView::canvas'
     @previous = @current unless @current.subview
-    @current = controller
+    @current = @controller = controller
     @currentHeader = controller.header
     @prevLocation = location.hash
     @el.data('current',
       model: controller.el.data('current').model
+      models: controller.el.data('current').models
     )
     controller.trigger 'active'
     controller.header.trigger 'active'
@@ -377,6 +381,10 @@ class ShowView extends Spine.Controller
 
   editAlbum: (e) ->
     Spine.trigger('edit:album')
+
+  destroySelected: (e) ->
+    models = @controller.el.data('current').models
+    @['destroy'+models.className]()
 
   destroyGallery: (e) ->
     Spine.trigger('destroy:gallery')
@@ -541,6 +549,11 @@ class ShowView extends Spine.Controller
     list = model.contains()
     @current.select(list)
     
+  selectInv: (e)->
+    @selectAll()
+    e.stopPropagation()
+    e.preventDefault()
+    
   uploadProgress: (e, coll) ->
     
   uploadDone: (e, coll) ->
@@ -635,22 +648,18 @@ class ShowView extends Spine.Controller
       @navigate '/galleries/'
       
   keyup: (e) ->
+    e.preventDefault()
     code = e.charCode or e.keyCode
     
-    console.log 'ShowView:keyupCode: ' + code
-    
     switch code
+      when 8 #Backspace
+        @destroySelected()
       when 32 #Space
         @slideshowView.play()
-        e.preventDefault()
-        e.stopPropagation()
       when 27 #Esc
-        @slideshowView.close()
-        e.stopPropagation()
-        e.preventDefault()
+        @slideshowView.onclosedGallery()
       when 65 #CTRL A
         if e.metaKey or e.ctrlKey
           @selectAll()
-          e.preventDefault()
 
 module?.exports = ShowView

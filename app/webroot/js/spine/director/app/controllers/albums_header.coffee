@@ -33,6 +33,9 @@ class AlbumsHeader extends Spine.Controller
       modelPhoto  : Photo
       modelGas    : GalleriesAlbum
       modelAps    : AlbumsPhoto
+      gallery     : Gallery.record
+      album       : Album.record
+      photo       : Photo.record
       author  : User.first().name
         
     @refreshElements()

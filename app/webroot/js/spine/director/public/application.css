@@ -97,6 +97,9 @@ label {
 .glyphicon-white {
   color: #fff;
 }
+.glyphicon-red {
+  color: #f00;
+}
 button:disabled .icon-white {
   opacity: 0.3;
 }
@@ -1744,6 +1747,24 @@ li.item.active .glyphicon-set {
 }
 .glyphicon-folder-close:hover:before {
   content: "\e118";
+}
+.select:before {
+  content: "Selected";
+}
+.select:hover:before {
+  content: "Select All";
+}
+.select:hover {
+  background-color: #5bc0de;
+  border-color: inherit;
+  color: inherit;
+}
+.error.glyphicon-download-alt:before {
+  content: "\e101";
+  color: #f00;
+}
+.select {
+  width: 75px;
 }
 .loading .glyphicon-loading {
   background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;

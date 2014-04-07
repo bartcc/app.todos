@@ -6,7 +6,7 @@ AlbumsPhoto = require('models/albums_photo')
 
 class PhotoEditView extends Spine.Controller
 
-  @extend KeyEnhancer
+#  @extend KeyEnhancer
   @extend Extender
   
   elements:
@@ -22,9 +22,9 @@ class PhotoEditView extends Spine.Controller
   
   constructor: ->
     super
-    Photo.bind('change:current', @proxy @changeSelection)
-    Album.bind('change:current', @proxy @changeSelection)
-    Gallery.bind('change:current', @proxy @changeSelection)
+    Photo.bind('current', @proxy @changeSelection)
+    Album.bind('current', @proxy @changeSelection)
+    Gallery.bind('current', @proxy @changeSelection)
     Photo.bind('change', @proxy @change)
     AlbumsPhoto.bind('change', @proxy @changeFromAlbumsPhoto)
   

@@ -36,7 +36,7 @@ class Main extends Spine.Controller
   
   @extend Drag
   @extend Extender
-  @extend KeyEnhancer
+#  @extend KeyEnhancer
   
   # Note:
   # this is how to change a toolbar:
@@ -67,10 +67,12 @@ class Main extends Spine.Controller
     '.status-symbol'      : 'statusSymbol'
     
   events:
-#    'keyup'               : 'keyup'
-    'keypress'            : 'keypress'
 #    'dragenter'           : 'dragenter'
     'drop'                : 'drop'
+    
+    'keyup'               : 'key'
+    'keypress'            : 'key'
+    'keydown'             : 'key'
 
   constructor: ->
     super
@@ -279,28 +281,26 @@ class Main extends Spine.Controller
   loadToolbars: ->
     Toolbar.load()
     
-  keypress: (e) ->
+  key: (e) ->
+    e.preventDefault()
     code = e.charCode or e.keyCode
-    
-    console.log 'Main:keypressCode: ' + code
+    type = e.type
+#    console.log 'Main:keycode: ' + code
+    return unless type is 'keydown'
     
     switch code
-      when 13 #RETURN
-        e.preventDefault()
-      when 97 #A
-        e.preventDefault()
-    
-  keyup: (e) ->
-    code = e.charCode or e.keyCode
-    
-    console.log 'Main:keyupCode: ' + code
-    
-    switch code
+      when 8 #Backspace
+        if @showView.isActive()
+          @showView.focus()
       when 9 #Tab
         @sidebar.toggleDraghandle()
-        e.preventDefault()
-        e.stopPropagation()
-      when 13 #Return
-        e.preventDefault()
+      when 32 #Space
+        if @overviewView.isActive()
+          @overviewView.focus(e)
+        if @showView.isActive()
+          @showView.focus(e)
+      when 97 #A
+        if @showView.isActive()
+          @showView.focus(e)
         
 module?.exports = Main

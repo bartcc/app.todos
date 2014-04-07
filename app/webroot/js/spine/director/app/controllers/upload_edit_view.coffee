@@ -34,7 +34,6 @@ class UploadEditView extends Spine.Controller
     @render()
     
   render: ->
-    console.log 'UploadView::render'
     selection = Gallery.selectionList()
     gallery = Gallery.record
     @album = Album.exists(selection[0]) || false
@@ -46,17 +45,19 @@ class UploadEditView extends Spine.Controller
     
   destroyed: ->
     
-  fail: (e, data) ->
+  fail: (xhr, textStatus, errorThrown) ->
+    album = Album.exists(@data.link)
+    Spine.trigger('loading:fail', album, textStatus, errorThrown)
       
   drop: (e, data) ->
 
   add: (e, data) ->
-    @data.fileslist.push data.files for file in data.files
+    @data.fileslist.push file for file in data.files
     @data.link = Album.record.id
     @c = App.hmanager.hasActive()
-    App.hmanager.change @
-    unless App.showView.isQuickUpload()
-      App.showView.openPanel('upload')
+    @trigger('active')
+#    unless App.showView.isQuickUpload()
+#      App.showView.openPanel('upload')
         
   notify: ->
     App.modal2ButtonView.show
@@ -68,7 +69,7 @@ class UploadEditView extends Spine.Controller
         
   send: (e, data) ->
     album = Album.exists(@data.link)
-    Spine.trigger('loading:start', album) if album
+    Spine.trigger('loading:start', album)
     
   alldone: (e, data) ->
     
@@ -95,11 +96,12 @@ class UploadEditView extends Spine.Controller
   progress: (e, data) ->
     
   paste: (e, data) ->
+    console.log 'paste'
     @drop(e, data)
     
   submit: (e, data) ->
     
-  changedSelected: (album, changed) ->
+  changedSelected: (album) ->
     album = Album.exists(album.id)
     if @data.fileslist.length
       $.extend @data, link: Album.record?.id

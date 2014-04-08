@@ -151,13 +151,13 @@ class AlbumsView extends Spine.Controller
   createAlbum: (target=Gallery.record, options={}) ->
     cb = (album, ido) ->
       album.createJoin(target)
+      album.updateSelection()
       album.updateSelectionID()
       if options.photos
         Photo.trigger('create:join', options.photos, album)
         Photo.trigger('destroy:join', options.photos, options.from) if options.from
       
     album = new Album @newAttributes()
-    album.options = options
     album.one('ajaxSuccess', cb)
     album.save()
         

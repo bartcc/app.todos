@@ -26,7 +26,15 @@ class PhotoEditView extends Spine.Controller
     Album.bind('current', @proxy @changeSelection)
     Gallery.bind('current', @proxy @changeSelection)
     Photo.bind('change', @proxy @change)
+    Photo.bind('current', @proxy @show)
     AlbumsPhoto.bind('change', @proxy @changeFromAlbumsPhoto)
+  
+  activated: ->
+    @render()
+  
+  show: (item, changed) ->
+    @trigger('active')
+    @changeSelection item, changed
   
   change: (item, mode) ->
     if item.destroyed
@@ -49,7 +57,7 @@ class PhotoEditView extends Spine.Controller
     console.log 'PhotoEditView::render'
     if item and !item.destroyed 
       @item.html @template item
-#      @focusFirstInput()
+      @focusFirstInput()
     else
       info = ''
       info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()

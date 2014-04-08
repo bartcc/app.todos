@@ -26,12 +26,13 @@ class UploadEditView extends Spine.Controller
     
   constructor: ->
     super
-    Spine.bind('change:selectedAlbum', @proxy @changedSelected)
     @data = fileslist: []
     @queue = []
     
   change: (item) ->
     @render()
+    
+  activated: ->
     
   render: ->
     selection = Gallery.selectionList()

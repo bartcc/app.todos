@@ -23,8 +23,14 @@ class GalleryEditView extends Spine.Controller
 
   constructor: ->
     super
-    Spine.bind('change:selectedGallery', @proxy @render)
+    Gallery.bind('current', @proxy @show)
     Gallery.bind "refresh", @proxy @refresh
+
+  activated: ->
+    @render()
+
+  show: ->
+    @trigger('active')
 
   change: (item, mode) ->
     console.log 'GalleryEditView::change'
@@ -34,7 +40,8 @@ class GalleryEditView extends Spine.Controller
   refresh: ->
     @render()
 
-  render: ->
+  render: (rec) ->
+    console.log 'getting current changed to ' + rec?.name
 #    @el.tooltip('destroy')
     console.log 'GalleryEditView::render'
 #    return unless @isActive()

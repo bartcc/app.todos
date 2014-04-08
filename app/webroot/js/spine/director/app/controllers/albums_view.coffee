@@ -132,6 +132,7 @@ class AlbumsView extends Spine.Controller
     Gallery.updateSelection(list)
     Album.current(id)
     
+    
   newAttributes: ->
     if User.first()
       title   : @albumName()

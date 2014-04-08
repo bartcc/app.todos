@@ -77,17 +77,10 @@ class Main extends Spine.Controller
   constructor: ->
     super
     
-#    @ready = false
     @ALBUM_SINGLE_MOVE = @createImage('/img/cursor_folder_1.png')
     @ALBUM_DOUBLE_MOVE = @createImage('/img/cursor_folder_3.png')
     @IMAGE_SINGLE_MOVE = @createImage('/img/cursor_images_1.png')
     @IMAGE_DOUBLE_MOVE = @createImage('/img/cursor_images_3.png')
-#    @ALBUM_SINGLE_MOVE = @createImage('/img/dragndrop/album_single_move.png')
-#    @ALBUM_SINGLE_COPY = @createImage('/img/dragndrop/album_single_copy.png')
-#    @ALBUM_DOUBLE_MOVE = @createImage('/img/dragndrop/album_double_move.png')
-#    @ALBUM_DOUBLE_COPY = @createImage('/img/dragndrop/album_double_copy.png')
-#
-#    @PHOTO_SINGLE_MOVE = @constructor.createImage
     
     $(window).bind('hashchange', @proxy @storeHash)
     User.bind('pinger', @proxy @validate)
@@ -162,15 +155,18 @@ class Main extends Spine.Controller
 #        @manager.active().el.show()
 #        App.showView.openView()
         
-    @hmanager.change @upload
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
-    @loaderView.trigger('active')
-    
     @contentManager = new Spine.Manager(@overviewView, @missingView, @showView, @flickrView)
+    
+    @hmanager.bind('change', @proxy @changeEditCanvas)
+    @appManager.bind('change', @proxy @changeMainCanvas)
     @contentManager.bind('change', @proxy @changeCanvas)
     @bind('canvas', @proxy @canvas)
 
+    @upload.trigger('active')
+    @loaderView.trigger('active')
+    
     @initializeFileupload()
     
     @routes
@@ -261,6 +257,9 @@ class Main extends Spine.Controller
   canvas: (controller) ->
     controller.trigger 'active'
     
+  changeMainCanvas: (controller) ->
+    controller.activated()
+    
   changeCanvas: (controller) ->
     try
       controller.el.addClass('in')
@@ -268,6 +267,10 @@ class Main extends Spine.Controller
     catch e
       console.log e
       
+  changeEditCanvas: (controller) ->
+    controller.activated()
+    
+  
   initializeFileupload: ->
     @uploader.fileupload
       autoUpload        : true

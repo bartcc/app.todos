@@ -149,10 +149,10 @@ class Main extends Spine.Controller
       sleep: true
       max: => @el.height()/2
       goSleep: ->
-#        @manager.active().el.hide()
+        @manager.active().el.hide()
 #        App.showView.closeView()
       awake: -> 
-#        @manager.active().el.show()
+        @manager.active().el.show()
 #        App.showView.openView()
         
     

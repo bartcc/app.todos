@@ -13,6 +13,8 @@ Controller.Drag =
       dragstart: (e) ->
         el = $(e.target)
         el.addClass('dragged')
+        return unless record = el.item()
+        id = el.item()?.id
         
         Spine.dragItem = {}
         Spine.dragItem.el = el
@@ -20,8 +22,7 @@ Controller.Drag =
         Spine.dragItem.source = el.item()
         parentEl = el.parents('.parent.data')
         Spine.dragItem.origin = parent = parentEl.data('tmplItem')?.data or parentEl.data('current')?.model.record
-        record = el.item()
-        id = el.item().id
+        
         @trigger('drag:start', e, id)
         
         data = []

@@ -57,7 +57,7 @@ class PhotoEditView extends Spine.Controller
     console.log 'PhotoEditView::render'
     if item and !item.destroyed 
       @item.html @template item
-      @focusFirstInput()
+#      @focusFirstInput()
     else
       info = ''
       info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()

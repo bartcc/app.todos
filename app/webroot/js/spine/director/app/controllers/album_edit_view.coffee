@@ -54,7 +54,7 @@ class AlbumEditView extends Spine.Controller
     console.log 'AlbumEditView::render'
     if item and !item.destroyed 
       @item.html @template item
-      @focusFirstInput()
+#      @focusFirstInput()
     else
       @item.html $("#noSelectionTemplate").tmpl({type: '<label><span class="enlightened">Select or create an album</span></label>'})
     

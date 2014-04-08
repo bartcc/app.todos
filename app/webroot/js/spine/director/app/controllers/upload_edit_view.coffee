@@ -57,8 +57,6 @@ class UploadEditView extends Spine.Controller
     @data.link = Album.record.id
     @c = App.hmanager.hasActive()
     @trigger('active')
-#    unless App.showView.isQuickUpload()
-#      App.showView.openPanel('upload')
         
   notify: ->
     App.modal2ButtonView.show

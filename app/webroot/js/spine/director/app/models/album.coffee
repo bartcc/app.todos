@@ -65,7 +65,7 @@ class Album extends Spine.Model
   @inactive: ->
     @findAllByAttribute('active', false)
     
-  @createJoin: (items, target) ->
+  @createJoin: (items=[], target) ->
     unless @isArray items
       items = [items]
 

@@ -149,18 +149,17 @@ class AlbumsView extends Spine.Controller
     return proposal
   
   createAlbum: (target=Gallery.record, options={}) ->
-    cb = ->
-      @createJoin(target) if target
-      @updateSelectionID()
+    cb = (album, ido) ->
+      album.createJoin(target)
+      album.updateSelectionID()
       if options.photos
-        # copy photos to this album if a list argument is available
-        Photo.trigger('create:join', options.photos, @)
-        # optionally remove photos from original album
+        Photo.trigger('create:join', options.photos, album)
         Photo.trigger('destroy:join', options.photos, options.from) if options.from
-      Album.trigger('activate', @id)
       
     album = new Album @newAttributes()
-    album.save(done: cb)
+    album.options = options
+    album.one('ajaxSuccess', cb)
+    album.save()
         
   destroyAlbum: (ids) ->
     console.log 'AlbumsView::destroyAlbum'

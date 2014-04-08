@@ -58,6 +58,7 @@ class GalleriesView extends Spine.Controller
   activateRecord: (idOrRecord) ->
     Gallery.current idOrRecord
     
+    
   newAttributes: ->
     if User.first()
       name   : 'New Name'

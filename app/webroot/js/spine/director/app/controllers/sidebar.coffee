@@ -210,17 +210,22 @@ class Sidebar extends Spine.Controller
   createGallery: ->
     console.log 'Sidebar::createGallery'
     
-    cb = -> @updateSelectionID()
+    cb = (rec, a) ->
+      @updateSelectionID()
+      Gallery.trigger('activate', @id)
       
     gallery = new Gallery @newAttributes()
-    gallery.save(done: cb)
+    gallery.save(done: @proxy @createCallback)
+    
     
   createCallback: ->
-#    @navigate '/gallery', @id
+    gallery = Gallery.last()
+    gallery.updateSelectionID()
+    @navigate '/gallery', gallery.id
     
   createAlbum: ->
     Spine.trigger('create:album')
-    @navigate '/gallery', Gallery.record.id or ''
+#    @navigate '/gallery', Gallery.record.id or ''
     
   destroy: (item=Gallery.record) ->
     console.log 'Sidebar::destroy'

@@ -58,34 +58,6 @@ Controller.Extender =
       findModelElement: (item) ->
         @children().forItem(item, true)
         
-      validateDrop: (target, source, origin) =>
-        return unless target
-        switch source.constructor.className
-          when 'Album'
-            unless target.constructor.className is 'Gallery'
-              return false
-            unless (origin.id != target.id)
-              return false
-
-            items = GalleriesAlbum.filter(target.id, key: 'gallery_id')
-            for item in items
-              if item.album_id is source.id
-                return false
-            return true
-          when 'Photo'
-            unless target.constructor.className is 'Album'
-              return false
-            unless (origin.id != target.id)
-              return false
-
-            items = AlbumsPhoto.filter(target.id, key: 'album_id')
-            for item in items
-              if item.photo_id is source.id
-                return false
-            return true
-
-          else return false
-      
       dragStart: (e, controller) ->
         return unless Spine.dragItem
         el = $(e.currentTarget)
@@ -116,34 +88,29 @@ Controller.Extender =
       dragEnter: (e) ->
         return unless Spine.dragItem
         el = $(e.target).closest('.data')
-        return unless el.length
-        target = el.item() or el.data('current').model.record
+        target = Spine.dragItem.target = el.data('tmplItem')?.data or el.data('current')?.model.record
         source = Spine.dragItem.source
-        origin = Spine.dragItem.origin or Gallery.record
+        origin = Spine.dragItem.origin
         Spine.dragItem.closest?.removeClass('over nodrop')
         Spine.dragItem.closest = el
-        return if target.id is origin.id
-        if res = @validateDrop target, source, origin
+        if @validateDrop target, source, origin
           Spine.dragItem.closest.addClass('over')
-        else
-          Spine.dragItem.closest.addClass('nodrop')
 
       dragOver: (e) =>
 
       dragLeave: (e) =>
 
-      dragEnd: (e) ->
-        Spine.dragItem.closest?.removeClass('over nodrop')
-      
-      dropComplete: (e, record) ->
+      dragEnd: (e) =>
         return unless Spine.dragItem
         Spine.dragItem.closest?.removeClass('over nodrop')
-        target = Spine.dragItem.closest?.data()?.current?.record or Spine.dragItem.closest?.item()
+
+      dropComplete: (e, record) ->
+        return unless Spine.dragItem
+        target = Spine.dragItem.target
         source = Spine.dragItem.source
         origin = Spine.dragItem.origin
-
+        Spine.dragItem.closest?.removeClass('over nodrop')
         return unless @validateDrop target, source, origin
-
         switch source.constructor.className
           when 'Album'
             albums = Album.toRecords(Spine.clonedSelection)
@@ -158,6 +125,34 @@ Controller.Extender =
 
             Photo.trigger('create:join', photos.toID(), target)
             Photo.trigger('destroy:join', photos.toID(), origin) unless @isCtrlClick(e)
+        
+      validateDrop: (target, source, origin) =>
+        return unless target
+        switch source.constructor.className
+          when 'Album'
+            unless target.constructor.className is 'Gallery'
+              return false
+            unless (origin.id != target.id)
+              return false
+
+            items = GalleriesAlbum.filter(target.id, key: 'gallery_id')
+            for item in items
+              if item.album_id is source.id
+                return false
+            return true
+          when 'Photo'
+            unless target.constructor.className is 'Album'
+              return false
+            unless (origin.id != target.id)
+              return false
+
+            items = AlbumsPhoto.filter(target.id, key: 'album_id')
+            for item in items
+              if item.photo_id is source.id
+                return false
+            return true
+
+          else return false
       
     @extend Extend
     @include Include

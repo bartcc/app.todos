@@ -5,26 +5,34 @@ class Info extends Spine.Controller
   
   constructor: ->
     super
-    @el.removeClass('in')
+    @el.addClass('away').removeClass('in')
     
   render: (item) ->
     @html @template item
     @el
   
   up: (e) ->
-    clearTimeout @timer
     bye = => @bye()
+    item = $(e.currentTarget).item()
+    clearTimeout @timer
+    clearTimeout @timer_
     @timer = setTimeout(bye, 2000)
-    unless @current
-      el = $(e.currentTarget)
-      @current = el.item()
-      @render(@current).addClass('in')
+    @el.removeClass('away').addClass('in')
+    unless @current and @current?.id is item.id
+      @current = item
+      @render(@current)
         
     @position(e)
     
   bye: ->
     return unless @current
+    stop = => @stop()
     @el.removeClass('in')
+    clearTimeout @timer_
+    @timer_ = setTimeout(stop, 1000)
+    
+  stop: ->
+    @el.addClass('away')
     @current = null
     
   position: (e) =>
@@ -33,8 +41,8 @@ class Info extends Spine.Controller
     w=$(window).width()
     h=$(window).height()
     t=$(window).scrollTop()
-    x_offset = -10
-    y_offset = 20
+    x_offset = 10
+    y_offset = 10
     posx=e.pageX+x_offset
     posy=e.pageY+y_offset
     maxx=posx+info_w

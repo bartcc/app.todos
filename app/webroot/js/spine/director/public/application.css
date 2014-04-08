@@ -1218,7 +1218,6 @@ textarea {
 #sidebar .item.over,
 #show .content.view.over {
   background-color: rgba(0,200,0,0.17);
-  border: 2px solid #a3ff8b;
 }
 #sidebar .expander {
   width: 23px;
@@ -1863,4 +1862,16 @@ section.addAction {
 .viewheader .btn {
   border: 0 none;
   outline: 1px outset rgba(0,0,0,0.50);
+}
+.away {
+  top: -100000px !important;
+  left: -100000px !important;
+}
+.fadeslow {
+  opacity: 0;
+  -webkit-transition: opacity 0.55s linear;
+  transition: opacity 0.55s linear;
+}
+.fadeslow.in {
+  opacity: 1;
 }

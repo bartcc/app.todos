@@ -73,15 +73,15 @@
             <div class="items fadein">Galleries</div>
           </div>
           <div class="view albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
-            <div class="hoverinfo fade"></div>
+            <div class="hoverinfo fadeslow"></div>
             <div class="items flex fadein">Albums</div>
           </div>
           <div class="view photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
-            <div class="hoverinfo fade"></div>
+            <div class="hoverinfo fadeslow"></div>
             <div class="items flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
           <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
-            <div class="hoverinfo fade"></div>
+            <div class="hoverinfo fadeslow"></div>
             <div class="items flex fadein">Photo</div>
           </div>
           <div id="slideshow" class="view content flex data parent autoflow">

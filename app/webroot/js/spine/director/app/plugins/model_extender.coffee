@@ -150,6 +150,13 @@ Model.Extender =
       selectionList: ->
         @constructor.selectionList()
       
+      selectionParentList: ->
+        modelName = @constructor['parent']
+        try
+          Model[modelName].selectionList()
+        catch e
+          return []
+      
       updateSelectionID: ->
         for item, idx in @constructor.selection
           index = idx if item[@cid]
@@ -282,6 +289,9 @@ Model.Extender =
           return true
         false
         
+      toRecords: (ids) ->
+        @constructor.toRecords ids  
+      
       defaultDetails:
         iCount: 0
         aCount: 0

@@ -106,7 +106,7 @@ class ShowView extends Spine.Controller
     'click .items'                                    : 'deselect'
     'dblclick .draghandle'                            : 'toggleDraghandle'
     'dragstart'                                       : 'dragstart'
-    'dragenter'                                       : 'dragenter'
+    'dragenter .view'                                       : 'dragenter'
     'dragend'                                         : 'dragend'
     'drop'                                            : 'drop'
 
@@ -173,10 +173,10 @@ class ShowView extends Spine.Controller
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('toggle:view', @proxy @toggleView)
-    @bind('drag:start', @proxy @sidebar.dragStart)
-    @bind('drag:enter', @proxy @sidebar.dragEnter)
-    @bind('drag:end', @proxy @sidebar.dragEnd)
-    @bind('drag:drop', @proxy @sidebar.dropComplete)
+    @bind('drag:start', @proxy @dragStart)
+    @bind('drag:enter', @proxy @dragEnter)
+    @bind('drag:end', @proxy @dragEnd)
+    @bind('drag:drop', @proxy @dropComplete)
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
     Gallery.bind('change', @proxy @changeToolbarOne)

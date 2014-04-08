@@ -69,6 +69,7 @@ class Sidebar extends Spine.Controller
     Spine.bind('destroy:gallery', @proxy @destroy)
     
     @bind('drag:timeout', @proxy @expandAfterTimeout)
+    @bind('drag:start', @proxy @dragStartFromSidebar)
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:enter', @proxy @dragEnter)
     @bind('drag:over', @proxy @dragOver)
@@ -113,86 +114,6 @@ class Sidebar extends Spine.Controller
     e.preventDefault()
     e.stopPropagation()
   
-  dragStart: (e, controller) ->
-    return unless Spine.dragItem
-    el = $(e.currentTarget)
-    event = e.originalEvent
-    Spine.dragItem.targetEl = null
-    source = Spine.dragItem.source
-    return unless source
-    # check for drags from sublist and set its origin
-    if el.parents('ul.sublist').length
-      fromSidebar = true
-      selection = [source.id]
-      id = el.parents('li.item')[0].id
-      Spine.dragItem.origin = Gallery.find(id) if (id and Gallery.exists(id))
-    else
-      switch source.constructor.className
-        when 'Album'
-          selection = Gallery.selectionList()
-        when 'Photo'
-          selection = Album.selectionList()
-      
-    # make an unselected item part of selection only if there is nothing selected yet
-    return unless Album.isArray(selection)
-    if !(source.id in selection)# and !(selection.length)
-      list = source.emptySelection().push source.id
-      
-    Spine.clonedSelection = selection.slice(0)
-
-  dragEnter: (e) ->
-    return unless Spine.dragItem
-    el = $(e.target).closest('.data')
-    data = el.tmplItem?.data or el.data()
-    target = el.data()?.current?.record or el.item()
-    source = Spine.dragItem.source
-    origin = Spine.dragItem.origin or Gallery.record
-    Spine.dragItem.closest?.removeClass('over nodrop')
-    Spine.dragItem.closest = el
-    if @validateDrop target, source, origin
-      Spine.dragItem.closest.addClass('over')
-    else
-      if target?.id isnt origin?.id
-        Spine.dragItem.closest.addClass('nodrop')
-        
-
-#    id = el.attr('id')
-#    if id and @_id != id
-#      @_id = id
-#      Spine.dragItem.closest?.removeClass('over nodrop')
-
-  dragOver: (e) =>
-
-  dragLeave: (e) =>
-    
-  dragEnd: (e) =>
-    return unless Spine.dragItem
-    Spine.dragItem.closest?.removeClass('over nodrop')
-
-  dropComplete: (e, record) ->
-    return unless Spine.dragItem
-    Spine.dragItem.closest?.removeClass('over nodrop')
-    target = Spine.dragItem.closest?.data('current')?.model?.record or Spine.dragItem.closest?.item()
-    source = Spine.dragItem.source
-    origin = Spine.dragItem.origin
-    
-    return unless @validateDrop target, source, origin
-    
-    switch source.constructor.className
-      when 'Album'
-        albums = Album.toRecords(Spine.clonedSelection)
-        for album in albums
-          album.createJoin(target) if target
-          album.destroyJoin(origin) if origin  unless @isCtrlClick(e)
-          
-      when 'Photo'
-        photos = []
-        Photo.each (record) =>
-          photos.push record unless Spine.clonedSelection.indexOf(record.id) is -1
-        
-        Photo.trigger('create:join', photos.toID(), target)
-        Photo.trigger('destroy:join', photos.toID(), origin) unless @isCtrlClick(e)
-        
   newAttributes: ->
     if User.first()
       name    : @galleryName()
@@ -267,7 +188,6 @@ class Sidebar extends Spine.Controller
       => @clb()
     
   expandAfterTimeout: (e, timer) ->
-    console.log 'expandAfterTimeout'
     clearTimeout timer
     galleryEl = $(e.target).closest('.gal.item')
     item = galleryEl.item()
@@ -288,5 +208,9 @@ class Sidebar extends Spine.Controller
           
     res.save() for res in result
     Spine.trigger('reorder', gallery)
+    
+  dragStartFromSidebar: (e, id) ->
+    Gallery.updateSelection(id)
+    Album.trigger('activate', id)
     
 module?.exports = Sidebar

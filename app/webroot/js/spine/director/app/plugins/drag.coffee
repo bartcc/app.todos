@@ -10,31 +10,44 @@ Controller.Drag =
       init: ->
         Spine.dragItem = null
         
-      dragstart: (e, data) ->
+      dragstart: (e) ->
         el = $(e.target)
         el.addClass('dragged')
+        
         Spine.dragItem = {}
         Spine.dragItem.el = el
         Spine.dragItem.els = []
         Spine.dragItem.source = el.item()
-        parentDataElement = $(e.target).parents('.parent.data')
-        Spine.dragItem.origin = parentDataElement.data()?.tmplItem?.data or parentDataElement.data('current')?.model.record
+        parentEl = el.parents('.parent.data')
+        Spine.dragItem.origin = parent = parentEl.data('tmplItem')?.data or parentEl.data('current')?.model.record
+        record = el.item()
+        id = el.item().id
+        @trigger('drag:start', e, id)
+        
+        data = []
+        data.push item for item in parent.selectionList()
+        
         event = e.originalEvent
-        event.dataTransfer?.effectAllowed = 'move'
-        event.dataTransfer?.setData('text/html', Spine.dragItem);
-        @trigger('drag:start', e, @)
+        event.dataTransfer.effectAllowed = 'move'
+        event.dataTransfer.setData('text/json', JSON.stringify(data));
+        className = record.constructor.className
+        switch className
+          when 'Album'
+            img = if data.length is 1 then App.ALBUM_SINGLE_MOVE else App.ALBUM_DOUBLE_MOVE
+          when 'Photo'
+            img = if data.length is 1 then App.IMAGE_SINGLE_MOVE else App.IMAGE_DOUBLE_MOVE
+        event.dataTransfer?.setDragImage(img, 45, 60);
 
       dragenter: (e, data) ->
         func =  => @trigger('drag:timeout', e, Spine.timer)
         clearTimeout Spine.timer
         Spine.timer = setTimeout(func, 1000)
-        @trigger('drag:enter', e, @)
+        @trigger('drag:enter', e, data)
         
       dragover: (e, data) ->
         event = e.originalEvent
         event.stopPropagation()
         event.preventDefault()
-        event.dataTransfer?.dropEffect = 'move'
         @trigger('drag:over', e, @)
 
       dragleave: (e, data) ->
@@ -42,12 +55,13 @@ Controller.Drag =
 
       dragend: (e, data) ->
         $(e.target).removeClass('dragged')
-        @trigger('drag:end', e, @)
+        @trigger('drag:end', e, data)
 
       drop: (e, data) ->
         clearTimeout Spine.timer
         event = e.originalEvent
-        Spine.dragItem?.el.removeClass('dragged')
+        data = event.dataTransfer.getData('text/json');
+        data = JSON.parse(data)
         @trigger('drag:drop', e, data)
         
     @include Include

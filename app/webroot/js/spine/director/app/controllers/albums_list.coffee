@@ -53,6 +53,7 @@ class AlbumsList extends Spine.Controller
         @el.empty() if wipe
         @append @template album
         @renderBackgrounds [album]
+        @exposeSelection()
         @el.sortable('destroy').sortable()
         $('.tooltips', @el).tooltip()
         
@@ -214,12 +215,11 @@ class AlbumsList extends Spine.Controller
     
     Spine.trigger('albums:add')
     
-  dragStart: (e, o) ->
-    if Gallery.selectionList().indexOf(Spine.dragItem.source.id) is -1
-      Album.trigger('activateRecord', Spine.dragItem.source.id)
+  dragStart: (e, id) ->
+    if Gallery.selectionList().indexOf(id) is -1
+      Album.trigger('activate', id)
       
   dragDrop: (e) ->
-    @exposeSelection()
     
     
 module?.exports = AlbumsList

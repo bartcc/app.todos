@@ -26,9 +26,10 @@ class AlbumsView extends Spine.Controller
     
   events:
     'click      .item'                : 'click'
-    'dragstart  .items'               : 'dragstart'
+    
     'dragstart .item'                 : 'stopInfo'
     'dragover   .items'               : 'dragover'
+    
     'sortupdate .items'               : 'sortupdate'
     'mousemove .item'                 : 'infoUp'
     'mouseleave .item'                : 'infoBye'
@@ -121,9 +122,13 @@ class AlbumsView extends Spine.Controller
     
     @render()
     
-  activateRecord: (list=[]) ->
-    unless Spine.isArray(list)
-      list = [list]
+  activateRecord: (arr=[]) ->
+    unless Spine.isArray(arr)
+      arr = [arr]
+    list = []
+    for item in arr
+      list.push album.id if album = Album.exists(item)
+        
         
     id = list[0]
     if id
@@ -264,7 +269,7 @@ class AlbumsView extends Spine.Controller
     
     Album.emptySelection() if exclusive
       
-    list = Gallery.selectionList()
+    list = Gallery.selectionList().slice(0)
     for id in items
       list.addRemoveSelection(id)
     

@@ -32,7 +32,7 @@ class Sidebar extends Spine.Controller
     'click .opt-Refresh'         : 'refreshAll'
     'dblclick .draghandle'      : 'toggleDraghandle'
 
-    'sortupdate .sublist'         : 'sortupdate'
+#    'sortupdate .sublist'         : 'sortupdate'
     
     'dragstart  .alb.item'        : 'dragstart'
     'dragover   .gal.item'        : 'dragover' # Chrome only dispatches the drop event if this event is cancelled
@@ -210,7 +210,7 @@ class Sidebar extends Spine.Controller
     Spine.trigger('reorder', gallery)
     
   dragStartFromSidebar: (e, id) ->
-    Gallery.updateSelection(id)
+#    Gallery.updateSelection(id)
     Album.trigger('activate', id)
     
 module?.exports = Sidebar

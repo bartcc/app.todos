@@ -26,10 +26,10 @@ class PhotosList extends Spine.Controller
     
     'mousemove .item'              : 'infoUp'
     'mouseleave  .item'            : 'infoBye'
+    
     'dragstart .item'              : 'stopInfo'
     'dragstart'                    : 'dragstart'
     'dragover .item'               : 'dragover'
-    'drop'                         : 'drop'
     
   selectFirst: true
     
@@ -41,13 +41,12 @@ class PhotosList extends Spine.Controller
       
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:drop', @proxy @dragDrop)
+    
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
-#    Photo.bind("ajaxError", Photo.errorHandler)
     Album.bind("ajaxError", Album.errorHandler)
     Album.bind("change:selection", @proxy @exposeSelection)
-#    AlbumsPhoto.bind('destroy', @proxy @remove)
     AlbumsPhoto.bind('change', @proxy @changeRelated)
     
   change: ->
@@ -87,7 +86,8 @@ class PhotosList extends Spine.Controller
     if items.length
       @wipe()
       @html @template items
-      @uri items, mode
+      @callDeferred items
+      @size(App.showView.sOutValue)
       @exposeSelection()
     else if mode is 'add'
       @html '<h3 class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></h3>'
@@ -106,7 +106,8 @@ class PhotosList extends Spine.Controller
     if items.length
       @html @template items
       @activateRecord()
-      @uri items
+      @callDeferred  items
+      @size(App.showView.sOutValue)
     @el
   
   wipe: ->
@@ -147,27 +148,40 @@ class PhotosList extends Spine.Controller
   # the actual final rendering method
   uri: (items, mode) ->
     console.log 'PhotosList::uri'
-    @size(App.showView.sOutValue)
     
     Photo.uri @thumbSize(),
       (xhr, record) => @callback(xhr, items),
       items
   
-  callback: (json = [], items) =>
+  callDeferred: (items) ->
+    $.when(@uriDeferred(items)).done (xhr, rec) =>
+      @callback xhr, rec
+  
+  uriDeferred: (items) ->
+    console.log 'PhotosList::uri'
+    deferred = $.Deferred()
+    
+    Photo.uri @thumbSize(),
+      (xhr, record) => deferred.resolve(xhr, items)
+      items
+      
+    deferred.promise()
+  
+  callback: (json, items) =>
     console.log 'PhotosList::callback'
-    searchJSON = (id) ->
-      for itm in json
-        return itm[id] if itm[id]
-        
-    for item in items
-      jsn = searchJSON item.id
-      if jsn
-        ele = @children().forItem(item, true)
-        src = jsn.src
-        img = new Image
-        img.element = ele
-        img.onload = @imageLoad
-        img.src = src
+    
+    result = for jsn in json
+      ret = for key, val of jsn
+        src: jsn[key].src
+        id: key
+      ret[0]
+    
+    for res in result
+      el = $('#'+res.id, @el)
+      img = @createImage res.src
+      img.src = res.src
+      img.element = el
+      img.onload = @imageLoad
         
   photos: (mode) ->
     if mode is 'add' or !Album.record
@@ -178,6 +192,7 @@ class PhotosList extends Spine.Controller
       Album.record.photos()
     
   imageLoad: ->
+    console.log 'image loaded'
     css = 'url(' + @src + ')'
     $('.thumbnail', @element).css
       'backgroundImage': css

@@ -21,6 +21,8 @@ class GalleriesList extends Spine.Controller
     'click .glyphicon-set .zoom'    : 'zoom'
     'mousemove .item'               : 'infoUp'
     'mouseleave .item'              : 'infoBye'
+    
+    'dragover'           : 'dragover'
   
   constructor: ->
     super
@@ -32,7 +34,7 @@ class GalleriesList extends Spine.Controller
     AlbumsPhoto.bind('destroy create update', @proxy @renderRelated)
     Photo.bind('destroy', @proxy @renderRelated)
     Album.bind('destroy', @proxy @renderRelated)
-
+    
   renderRelated: (item, mode) ->
     return unless @parent.isActive()
     console.log 'GalleriesList::renderRelated'

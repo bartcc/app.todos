@@ -127,9 +127,12 @@ class PhotosView extends Spine.Controller
     Photo.trigger('activate', list)
   
     
-  activateRecord: (list=[]) ->
-    unless Spine.isArray(list)
-      list = [list]
+  activateRecord: (arr=[]) ->
+    unless Spine.isArray(arr)
+      arr = [arr]
+    list = []
+    for item in arr
+      list.push photo.id if photo = Photo.exists(item)
     
     id = list[0]
     Album.updateSelection(list)
@@ -217,8 +220,7 @@ class PhotosView extends Spine.Controller
   sortupdate: ->
     @list.children().each (index) ->
       item = $(@).item()
-#      console.og AlbumsPhoto.filter(item.id, func: 'selectPhoto').length
-      if item #and Album.record
+      if item
         ap = AlbumsPhoto.filter(item.id, func: 'selectPhoto')[0]
         if ap and ap.order isnt index
           ap.order = index

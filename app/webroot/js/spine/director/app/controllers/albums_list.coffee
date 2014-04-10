@@ -22,15 +22,10 @@ class AlbumsList extends Spine.Controller
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
     
-    'dragstart'                    : 'dragstart'
-    'drop'                         : 'drop'
-    
     
   constructor: ->
     super
     @widows = []
-    @bind('drag:start', @proxy @dragStart)
-    @bind('drag:drop', @proxy @dragDrop)
     
     Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
@@ -39,6 +34,11 @@ class AlbumsList extends Spine.Controller
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     Gallery.bind('change:selection', @proxy @exposeSelection)
+    
+  test: (e) ->
+    console.log 'DOMSubtreeModified'
+    item = $(e.currentTarget).item()
+    @processAlbum item
     
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
@@ -73,7 +73,7 @@ class AlbumsList extends Spine.Controller
     console.log 'AlbumsList::render'
     if items.length
       @html @template items
-      @renderBackgrounds items, mode
+      @renderBackgrounds items
       @el.sortable() if Gallery.record
       @exposeSelection()
     else if mode is 'add'
@@ -112,12 +112,17 @@ class AlbumsList extends Spine.Controller
     @deselect()
     list = selection or Gallery.selectionList()
     for id in list
-      if album = Album.exists(id)
-        el = @children().forItem(album, true)
-        el.addClass("active")
-    if album = Album.exists(list.first())
-      el = @children().forItem(album, true)
-      el.addClass("hot")
+      $('#'+id, @el).addClass("active")
+    if first = list.first()
+      $('#'+first, @el).addClass("hot")
+    
+#    for id in list
+#      if album = Album.exists(id)
+#        el = @children().forItem(album, true)
+#        el.addClass("active")
+#    if album = Album.exists(list.first())
+#      el = @children().forItem(album, true)
+#      el.addClass("hot")
       
   updateBackgrounds: (ap, mode) ->
     console.log 'AlbumsList::updateBackgrounds'
@@ -146,36 +151,45 @@ class AlbumsList extends Spine.Controller
       Model.Uri.Ajax.cache = true
     else if albums.length
       for album in albums
-        @processAlbum album
+#        @processAlbum album
+        $.when(@processAlbumDeferred(album)).done (xhr, rec) =>
+          @callback xhr, rec
   
   processAlbum: (album) ->
     data = album.photos(4)
-    
+  
     Photo.uri
       width: 50
       height: 50,
       (xhr, rec) => @callback(xhr, album)
       data
+  
+  processAlbumDeferred: (album) ->
+    deferred = $.Deferred()
+    data = album.photos(4)
+    
+    Photo.uri
+      width: 50
+      height: 50,
+      (xhr, rec) -> deferred.resolve(xhr, album)#@callback(xhr, album)
+      data
+      
+    deferred.promise()
       
   callback: (json, album) ->
     console.log 'AlbumsList::callback'
-    el = @children().forItem(album)
+    el = $('#'+album.id, @el)
     thumb = $('.thumbnail', el)
-    search = (o) ->
-      for key, val of o
-        return o[key].src
     
-    res = []
-    for jsn in json
-      res.push search(jsn)
-      
-    css = for itm, index in res
+    res = for jsn in json
+      ret = for key, val of jsn
+        val.src
+      ret[0]
+    
+    css = for itm in res
       'url(' + itm + ')'
       
-    check_css =  ->
-      (['url(img/drag_info.png)'] unless css.length) or css
-      
-    thumb.css('backgroundImage', check_css())
+    thumb.css('backgroundImage', if css.length then css else 'url(img/drag_info.png)')
 
   zoom: (e) ->
     item = $(e.currentTarget).item()

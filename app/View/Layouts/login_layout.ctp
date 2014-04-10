@@ -28,9 +28,8 @@
     <?php
     echo $this->Html->meta('icon');
     
-    echo $this->Html->css('spine/director/application_boxmodel');
     echo $this->Html->css('twitter/bootstrap/css/bootstrap');
-
+    echo $this->Html->css('spine/director/application_boxmodel');
     echo $this->Html->script('spine/director/public/application');
 
     echo $this->Html->scriptStart();

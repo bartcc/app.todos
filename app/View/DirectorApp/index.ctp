@@ -393,8 +393,7 @@
 </script>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li class="item container fade in">
-    <div class="ui-symbol ui-symbol-gallery center"></div>
+  <li class="item container data fade in" data-drag-over="thumbnail">
     <div class="thumbnail">
       <div class="inner">
         {{tmpl($item.data.details()) "#galDetailsTemplate"}}
@@ -499,8 +498,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li class="item fade in" draggable="true">
-    <div class="ui-symbol ui-symbol-album center"></div>
+  <li id="${id}" class="item fade in" draggable="true">
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
       <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
@@ -689,7 +687,7 @@
   <span class="author">${flash}</span>
   {{else}}
   <li class="sublist-item alb item data" title="move (Hold Cmd-Key to Copy)">
-    <span class="glyphicon glyphicon-folder-close ui-symbol-album"></span>
+    <span class="glyphicon glyphicon-folder-close"></span>
     <span class="title center">{{if title}}${title}{{else}}...{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
@@ -747,7 +745,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  class="item data fade in" draggable="true">
+  <li  id="${id}" class="item data fade in" draggable="true">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>

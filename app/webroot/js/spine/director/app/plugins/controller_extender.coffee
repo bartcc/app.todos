@@ -61,12 +61,14 @@ Controller.Extender =
         @children().forItem(item, true)
         
       dragStart: (e, controller) ->
-        return unless Spine.dragItem
+        console.log 'dragStart'
         el = $(e.currentTarget)
         event = e.originalEvent
         Spine.dragItem.targetEl = null
         source = Spine.dragItem.source
-        return unless source
+        unless source
+          alert 'no source'
+          return
         # check for drags from sublist and set its origin
         if el.parents('ul.sublist').length
           fromSidebar = true
@@ -88,13 +90,18 @@ Controller.Extender =
         Spine.clonedSelection = selection.slice(0)
 
       dragEnter: (e) ->
-        return unless Spine.dragItem
-        el = $(e.target).closest('.data')
+        console.log 'dragEnter'
+        el = indicator = $(e.target).closest('.data')
+        selector = el.attr('data-drag-over')
+        if selector then indicator = el.children('.'+selector)
+        
         target = Spine.dragItem.target = el.data('tmplItem')?.data or el.data('current')?.model.record
         source = Spine.dragItem.source
         origin = Spine.dragItem.origin
+        
         Spine.dragItem.closest?.removeClass('over nodrop')
-        Spine.dragItem.closest = el
+        Spine.dragItem.closest = indicator
+        
         if @validateDrop target, source, origin
           Spine.dragItem.closest.addClass('over')
 
@@ -103,14 +110,14 @@ Controller.Extender =
       dragLeave: (e) =>
 
       dragEnd: (e) =>
-        return unless Spine.dragItem
         Spine.dragItem.closest?.removeClass('over nodrop')
 
       dropComplete: (e, record) ->
-        return unless Spine.dragItem
+        console.log 'dropComplete'
         target = Spine.dragItem.target
         source = Spine.dragItem.source
         origin = Spine.dragItem.origin
+        
         Spine.dragItem.closest?.removeClass('over nodrop')
         return unless @validateDrop target, source, origin
         switch source.constructor.className

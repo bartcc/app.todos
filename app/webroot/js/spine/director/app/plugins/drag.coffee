@@ -11,26 +11,37 @@ Controller.Drag =
         Spine.dragItem = null
         
       dragstart: (e) ->
+        
+        event = e.originalEvent
         el = $(e.target)
-        el.addClass('dragged')
-        return unless record = el.item()
-        id = el.item()?.id
+        
+        #cancel all drag events for no-data-elements
+        unless record = el.item()
+          e.stopPropagation()
+          e.preventDefault()
+          return
+          
+        parentEl = el.parents('.data')
+        parentModel = parentEl.data('tmplItem')?.data.constructor or parentEl.data('current')?.model
+        parentRecord = parentEl.data('tmplItem')?.data or parentModel.record
         
         Spine.dragItem = {}
         Spine.dragItem.el = el
         Spine.dragItem.els = []
-        Spine.dragItem.source = el.item()
-        parentEl = el.parents('.parent.data')
-        Spine.dragItem.origin = parent = parentEl.data('tmplItem')?.data or parentEl.data('current')?.model.record
+        Spine.dragItem.source = record
+        Spine.dragItem.origin = parentRecord
         
-        @trigger('drag:start', e, id)
+        @trigger('drag:start', e, el.item().id)
+        
+        parentEl.addClass('drag-in-progress')
         
         data = []
-        data.push item for item in parent.selectionList()
+        data.push item for item in parentModel.selectionList()
         
         event = e.originalEvent
         event.dataTransfer.effectAllowed = 'move'
         event.dataTransfer.setData('text/json', JSON.stringify(data));
+        
         className = record.constructor.className
         switch className
           when 'Album'
@@ -55,10 +66,11 @@ Controller.Drag =
         @trigger('drag:leave', e, @)
 
       dragend: (e, data) ->
-        $(e.target).removeClass('dragged')
+        $('.drag-in-progress').removeClass('drag-in-progress')
         @trigger('drag:end', e, data)
 
       drop: (e, data) ->
+        $('.drag-in-progress').removeClass('drag-in-progress')
         clearTimeout Spine.timer
         event = e.originalEvent
         data = event.dataTransfer.getData('text/json');

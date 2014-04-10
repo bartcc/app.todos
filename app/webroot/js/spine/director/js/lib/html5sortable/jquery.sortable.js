@@ -44,7 +44,7 @@
         placeholder.css('width', w);
         placeholder.css('height', h);
         dt.effectAllowed = 'move';
-        dt.setData('Text', 'dummy');
+        dt.setData('Text', 'localhost');
         index = (dragging = $(this)).addClass('sortable-dragging').index();
       }).on('dragend.h5s', function() {
         try {
@@ -59,15 +59,15 @@
         } catch(e) {}
       }).not('a[href], img').on('selectstart.h5s', function() {
         this.dragDrop && this.dragDrop();
-        return false;
+//        return false;
       }).end().add([this, placeholder]).on('dragover.h5s dragenter.h5s drop.h5s', function(e) {
         if (!items.is(dragging) && options.connectWith !== $(dragging).parent().data('connectWith')) {
           return true;
         }
         if (e.type == 'drop') {
-          e.stopPropagation();
+//          e.stopPropagation();
           placeholders.filter(':visible').after(dragging);
-          return false;
+//          return false;
         }
         e.preventDefault();
         e.originalEvent.dataTransfer.dropEffect = 'move';
@@ -82,7 +82,7 @@
           placeholders.detach();
           $(this).append(placeholder);
         }
-        return false;
+//        return false;
       });
     });
   };

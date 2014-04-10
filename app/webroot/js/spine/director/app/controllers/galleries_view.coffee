@@ -23,7 +23,7 @@ class GalleriesView extends Spine.Controller
   constructor: ->
     super
     @el.data('current',
-      model: null
+      model: Gallery
       models: Gallery
     )
     @type = 'Gallery'
@@ -40,7 +40,6 @@ class GalleriesView extends Spine.Controller
 
   render: (items) ->
     return unless @isActive()
-    console.log items
     if Gallery.count()
       items = Gallery.records.sort Gallery.nameSort
       @list.render items

@@ -131,12 +131,11 @@ class Sidebar extends Spine.Controller
   createGallery: ->
     console.log 'Sidebar::createGallery'
     
-    cb = (rec, a) ->
-      @updateSelectionID()
-      Gallery.trigger('activate', @id)
+    cb = (rec, a) -> @updateSelectionID()
       
     gallery = new Gallery @newAttributes()
     gallery.save(done: @proxy @createCallback)
+    @navigate '/gallery', gallery.id
     
     
   createCallback: ->

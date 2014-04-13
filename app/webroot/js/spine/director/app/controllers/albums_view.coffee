@@ -171,6 +171,7 @@ class AlbumsView extends Spine.Controller
     album = new Album @newAttributes()
     album.one('ajaxSuccess', cb)
     album.save()
+    @navigate '/gallery', Gallery.record?.id or '', album.id
         
   destroyAlbum: (ids) ->
     console.log 'AlbumsView::destroyAlbum'

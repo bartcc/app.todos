@@ -130,7 +130,7 @@ class PhotosView extends Spine.Controller
 #    Photo.trigger('activate', list)
   
     
-  activateRecord: (id) ->
+  activateRecord: (arr=[]) ->
     unless Spine.isArray(arr)
       arr = [arr]
       
@@ -139,7 +139,7 @@ class PhotosView extends Spine.Controller
       list.push photo.id if photo = Photo.exists(id)
     
     id = list[0]
-#    Album.updateSelection(list)
+    Album.updateSelection(list)
     Photo.current(id)
   
   clearPhotoCache: ->

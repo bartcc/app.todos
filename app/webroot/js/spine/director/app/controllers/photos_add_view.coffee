@@ -56,6 +56,7 @@ class PhotosAddView extends Spine.Controller
     
     @list = new PhotosList
       template: @subTemplate
+      parent: @parent
       
     Spine.bind('photos:add', @proxy @show)
       

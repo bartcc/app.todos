@@ -22,11 +22,12 @@ class PhotoEditView extends Spine.Controller
   
   constructor: ->
     super
-    Photo.bind('current', @proxy @changeSelection)
-    Album.bind('current', @proxy @changeSelection)
-    Gallery.bind('current', @proxy @changeSelection)
+#    Photo.bind('current', @proxy @changeSelection)
+#    Album.bind('current', @proxy @changeSelection)
+#    Gallery.bind('current', @proxy @changeSelection)
     Photo.bind('change', @proxy @change)
-    Photo.bind('current', @proxy @show)
+#    Photo.bind('current', @proxy @show)
+    Album.bind('change:selection', @proxy @changeSelection)
     AlbumsPhoto.bind('change', @proxy @changeFromAlbumsPhoto)
   
   activated: ->
@@ -48,10 +49,9 @@ class PhotoEditView extends Spine.Controller
         @current = null
         @render()
   
-  changeSelection: (item, changed) ->
-    return unless changed
-    @current = Photo.record
-    @render()
+  changeSelection: (list) ->
+    @current = Photo.exists(list[0])
+    @render @current
   
   render: (item=@current) ->
     console.log 'PhotoEditView::render'

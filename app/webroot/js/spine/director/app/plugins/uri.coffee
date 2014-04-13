@@ -7,7 +7,6 @@ Album   = require('models/album')
 Photo   = require('models/photo')
 AlbumsPhoto    = require('models/albums_photo')
 GalleriesAlbum = require('models/galleries_album')
-#require('spine/lib/ajax')
 
 Ajax =
 

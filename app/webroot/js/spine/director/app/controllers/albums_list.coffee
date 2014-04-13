@@ -29,16 +29,10 @@ class AlbumsList extends Spine.Controller
     
     Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
-    Photo.bind('refresh', @proxy @refreshBackgrounds)
+    
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
-    AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     Gallery.bind('change:selection', @proxy @exposeSelection)
-    
-  test: (e) ->
-    console.log 'DOMSubtreeModified'
-    item = $(e.currentTarget).item()
-    @processAlbum item
     
   changeRelatedAlbum: (item, mode) ->
     console.log 'AlbumsList::changeRelatedAlbum'
@@ -62,6 +56,7 @@ class AlbumsList extends Spine.Controller
         albumEl.detach()
         if gallery = Gallery.record
           @parent.render() unless gallery.count()
+        @exposeSelection()
           
       when 'update'
         @el.sortable('destroy').sortable()
@@ -91,6 +86,7 @@ class AlbumsList extends Spine.Controller
     @el
     
   updateTemplate: (album) ->
+    console.log 'AlbumsList::updateTemplate'
     albumEl = @children().forItem(album)
     contentEl = $('.thumbnail', albumEl)
     active = albumEl.hasClass('active')
@@ -109,6 +105,7 @@ class AlbumsList extends Spine.Controller
     @el.sortable()
   
   exposeSelection: (selection) ->
+    console.log 'AlbumsList::exposeSelection'
     @deselect()
     list = selection or Gallery.selectionList()
     for id in list
@@ -124,19 +121,11 @@ class AlbumsList extends Spine.Controller
 #      el = @children().forItem(album, true)
 #      el.addClass("hot")
       
-  updateBackgrounds: (ap, mode) ->
-    console.log 'AlbumsList::updateBackgrounds'
-    albums = ap.albums()
-    @renderBackgrounds albums
-    
-  refreshBackgrounds: (photos) ->
-    console.log 'AlbumsList::refreshBackgrounds'
-    album = App.upload.album
-    @renderBackgrounds [album] if album
-  
+  # workaround:
   # remember the Album since
-  # after AlbumPhoto is destroyed the Album container cannot be retrieved anymore
+  # after last AlbumPhoto is destroyed the Album container cannot be retrieved anymore
   widowedAlbumsPhoto: (ap) ->
+    console.log 'AlbumsList::widowedAlbumsPhoto'
     list = ap.albums()
     @widows.push item for item in list
     @widows
@@ -145,15 +134,16 @@ class AlbumsList extends Spine.Controller
     console.log 'AlbumsList::renderBackgrounds'
     if @widows.length
       Model.Uri.Ajax.cache = false
-      for album in @widows
-        @processAlbum album
+      for widow in @widows
+#        @processAlbum album
+        $.when(@processAlbumDeferred(widow)).done (xhr, rec) =>
+          @callback xhr, rec
       @widows = []
       Model.Uri.Ajax.cache = true
-    else if albums.length
-      for album in albums
+    for album in albums
 #        @processAlbum album
-        $.when(@processAlbumDeferred(album)).done (xhr, rec) =>
-          @callback xhr, rec
+      $.when(@processAlbumDeferred(album)).done (xhr, rec) =>
+        @callback xhr, rec
   
   processAlbum: (album) ->
     data = album.photos(4)
@@ -165,6 +155,7 @@ class AlbumsList extends Spine.Controller
       data
   
   processAlbumDeferred: (album) ->
+    console.log 'AlbumsList::processAlbumDeferred'
     deferred = $.Deferred()
     data = album.photos(4)
     
@@ -192,6 +183,7 @@ class AlbumsList extends Spine.Controller
     thumb.css('backgroundImage', if css.length then css else 'url(img/drag_info.png)')
 
   zoom: (e) ->
+    console.log 'AlbumsList::zoom'
     item = $(e.currentTarget).item()
     
 #    @parent.select(item, true)
@@ -202,12 +194,14 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
   
   back: (e) ->
+    console.log 'AlbumsList::back'
     @navigate '/galleries/'
 
     e.stopPropagation()
     e.preventDefault()
     
   deleteAlbum: (e) ->
+    console.log 'AlbumsList::deleteAlbum'
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'
     
@@ -224,16 +218,18 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
     
   add: (e) ->
+    console.log 'AlbumsList::add'
     e.stopPropagation()
     e.preventDefault()
     
     Spine.trigger('albums:add')
     
   dragStart: (e, id) ->
+    console.log 'AlbumsList::dragStart'
     if Gallery.selectionList().indexOf(id) is -1
       Album.trigger('activate', id)
       
   dragDrop: (e) ->
-    
+    console.log 'AlbumsList::dragDrop'
     
 module?.exports = AlbumsList

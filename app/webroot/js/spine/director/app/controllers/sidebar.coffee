@@ -32,7 +32,7 @@ class Sidebar extends Spine.Controller
     'click .opt-Refresh'         : 'refreshAll'
     'dblclick .draghandle'      : 'toggleDraghandle'
 
-#    'sortupdate .sublist'         : 'sortupdate'
+    'sortupdate .sublist'         : 'sortupdate'
     
     'dragstart  .alb.item'        : 'dragstart'
     'dragover   .gal.item'        : 'dragover' # Chrome only dispatches the drop event if this event is cancelled
@@ -203,8 +203,10 @@ class Sidebar extends Spine.Controller
       album = $(@).item()
       for ga in gas
         if ga.album_id is album.id and parseInt(ga.order) isnt index
+          console.log ga.order + ' : ' + index
           ga.order = index
           result.push ga
+        
           
     res.save() for res in result
     Spine.trigger('reorder', gallery)

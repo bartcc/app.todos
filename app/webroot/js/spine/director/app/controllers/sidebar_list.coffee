@@ -35,7 +35,8 @@ class SidebarList extends Spine.Controller
     super
     
     AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
-    GalleriesAlbum.bind('create destroy update', @proxy @renderItemFromGalleriesAlbum)
+#    GalleriesAlbum.bind('destroy', @proxy @renderItemFromGalleriesAlbum)
+    Gallery.bind('changed:albums', @proxy @renderGallery)
     Gallery.bind('change', @proxy @change)
     Album.bind('create destroy update', @proxy @renderSublists)
     Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
@@ -152,6 +153,11 @@ class SidebarList extends Spine.Controller
       @updateTemplate gallery
       @renderOneSublist gallery
     
+  renderGallery: (gallery) ->
+    @updateTemplate gallery
+    @renderOneSublist gallery
+    @reorder gallery
+    
   renderItemFromAlbumsPhoto: (ap, mode) ->
     console.log 'SidebarList::renderItemFromAlbumsPhoto'
     gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
@@ -161,8 +167,9 @@ class SidebarList extends Spine.Controller
   exposeSelection: (item) ->
     @children().removeClass('active')
     el = @children().forItem(item).addClass("active")# if item.id is Gallery.record.id
+    @exposeSublistSelection()
     
-  exposeSublistSelection: (selection) ->
+  exposeSublistSelection: (selection=Gallery.selectionList()) ->
     console.log 'SidebarList::exposeSublistSelection'
     removeAlbumSelection = =>
       if item = Gallery.record

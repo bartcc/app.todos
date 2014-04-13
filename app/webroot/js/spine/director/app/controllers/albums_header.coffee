@@ -19,10 +19,10 @@ class AlbumsHeader extends Spine.Controller
     super
     Gallery.bind('change', @proxy @render)
     Gallery.bind('change:selection', @proxy @render)
-    Gallery.bind('current', @proxy @render)
+#    Gallery.bind('current', @proxy @render)
     Album.bind('refresh', @proxy @render)
     Album.bind('change', @proxy @render)
-    GalleriesAlbum.bind('change', @proxy @render)
+#    GalleriesAlbum.bind('change', @proxy @render)
     AlbumsPhoto.bind('change', @proxy @render)
 
   render: ->

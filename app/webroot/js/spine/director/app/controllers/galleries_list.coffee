@@ -77,7 +77,7 @@ class GalleriesList extends Spine.Controller
       if tmplItem
         tmplItem.tmpl = $( "#galleriesTemplate" ).template()
         tmplItem.update?()
-        galleryEl = @children().forItem(gallery).toggleClass('active', active)
+        galleryEl = @children().forItem(gallery).toggleClass('active hot', active)
 
   reorder: (item) ->
     id = item.id

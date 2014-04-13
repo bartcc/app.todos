@@ -70,9 +70,11 @@ class AlbumsView extends Spine.Controller
     Album.bind('beforeDestroy', @proxy @beforeDestroy)
     Album.bind('destroy', @proxy @destroy)
     Album.bind('create:join', @proxy @createJoin)
+    Album.bind('destroy:join', @proxy @destroyJoin)
+    Photo.bind('refresh', @proxy @refreshBackgrounds)
+    AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
-    GalleriesAlbum.bind('destroy:join', @proxy @destroyJoin)
-    GalleriesAlbum.bind('destroy', @proxy @sortupdate)
+#    GalleriesAlbum.bind('destroy:join', @proxy @destroyJoin)
     Spine.bind('reorder', @proxy @reorder)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @createAlbum)
@@ -80,12 +82,13 @@ class AlbumsView extends Spine.Controller
     Spine.bind('loading:done', @proxy @loadingDone)
     Spine.bind('loading:fail', @proxy @loadingFail)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
-    Gallery.bind('current', @proxy @render)
+#    Gallery.bind('current', @proxy @render)
     Album.bind('activate', @proxy @activateRecord)
     
     $(@views).queue('fx')
     
   refresh: (records) ->
+    console.log 'AlbumsView::refresh'
     @render()
     
   updateBuffer: (gallery=Gallery.record) ->
@@ -102,8 +105,8 @@ class AlbumsView extends Spine.Controller
     @buffer = items
     
   render: ->
-    return unless @isActive()
     console.log 'AlbumsView::render'
+    return unless @isActive()
     @list.render @updateBuffer()
 #    $('.tooltips', @el).tooltip(title:'default title')
     @el
@@ -123,12 +126,13 @@ class AlbumsView extends Spine.Controller
     @render()
     
   activateRecord: (arr=[]) ->
+    console.log 'AlbumsView::activateRecord'
     unless Spine.isArray(arr)
       arr = [arr]
+      
     list = []
-    for item in arr
-      list.push album.id if album = Album.exists(item)
-        
+    for id in arr
+      list.push album.id if album = Album.exists(id)
         
     id = list[0]
     if id
@@ -162,6 +166,7 @@ class AlbumsView extends Spine.Controller
       if options.photos
         Photo.trigger('create:join', options.photos, album)
         Photo.trigger('destroy:join', options.photos, options.from) if options.from
+      Gallery.trigger('changed:albums', target)
       
     album = new Album @newAttributes()
     album.one('ajaxSuccess', cb)
@@ -173,6 +178,7 @@ class AlbumsView extends Spine.Controller
     albums = [albums] unless Album.isArray albums
     if Gallery.record
       @destroyJoin albums, Gallery.record
+      
     else
       for id in albums
         galleries = GalleriesAlbum.galleries(id)
@@ -180,7 +186,7 @@ class AlbumsView extends Spine.Controller
           @destroyJoin id, gallery
         if album = Album.exists(id)
           list = Gallery.removeFromSelection album.id
-          Album.trigger('activate', list)
+#          Album.trigger('activate', list)
           album.destroy()
   
   create: (album) ->
@@ -201,10 +207,11 @@ class AlbumsView extends Spine.Controller
   destroy: (album) ->
     @render() unless Album.count()
       
-  createJoin: (albums, target) ->
+  createJoin: (albums, gallery) ->
     for aid in albums
       album = Album.exists aid
-      album.createJoin target if album
+      album.createJoin gallery if album
+    Gallery.trigger('changed:albums', gallery)
       
   destroyJoin: (albums, gallery) ->
     console.log 'AlbumsView::destroyJoin'
@@ -213,8 +220,10 @@ class AlbumsView extends Spine.Controller
     for aid in albums
       if ga = GalleriesAlbum.galleryAlbumExists(aid, gallery.id)
         list = Gallery.removeFromSelection ga.album_id
-        Album.trigger('activate', list)
+#        Album.trigger('activate', list)
         ga.destroy()
+    Gallery.trigger('changed:albums', gallery)
+    @sortupdate()
       
   loadingStart: (album) ->
     return unless @isActive()
@@ -240,13 +249,25 @@ class AlbumsView extends Spine.Controller
     $('.glyphicon-set', el).removeClass('in')
     $('.downloading', el).addClass('error').tooltip('destroy').tooltip(title:err).tooltip('show')
     
+  updateBackgrounds: (ap, mode) ->
+    return unless @isActive()
+    console.log 'AlbumsView::updateBackgrounds'
+    albums = ap.albums()
+    console.log albums.length
+    @list.renderBackgrounds albums
+    
+  refreshBackgrounds: (photos) ->
+    return unless @parent.isActive()
+    console.log 'AlbumsView::refreshBackgrounds'
+    album = App.upload.album
+    @list.renderBackgrounds [album] if album
     
   sortupdate: (e, o) ->
     @list.children().each (index) ->
       item = $(@).item()
       if item and Gallery.record
         ga = GalleriesAlbum.filter(item.id, func: 'selectAlbum')[0]
-        if ga and ga.order isnt index
+        if ga and parseInt(ga.order) isnt index
           ga.order = index
           ga.save()
         
@@ -256,12 +277,14 @@ class AlbumsView extends Spine.Controller
       
   click: (e) ->
     item = $(e.currentTarget).item()
+#    Album.trigger('activate', item.id)
     @select(item, @isCtrlClick(e))
     
     e.stopPropagation()
     e.preventDefault()
     
   select: (items = [], exclusive) ->
+    console.log 'AlbumsView::select'
     unless Spine.isArray items
       items = [items]
       
@@ -274,7 +297,7 @@ class AlbumsView extends Spine.Controller
       list.addRemoveSelection(id)
     
     Gallery.updateSelection(list)
-    Album.trigger('activate', list)
+#    Album.trigger('activate', list)
     
   infoUp: (e) =>
     @info.up(e)

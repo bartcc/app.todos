@@ -122,10 +122,13 @@ Controller.Extender =
         return unless @validateDrop target, source, origin
         switch source.constructor.className
           when 'Album'
-            albums = Album.toRecords(Spine.clonedSelection)
-            for album in albums
-              album.createJoin(target) if target
-              album.destroyJoin(origin) if origin  unless @isCtrlClick(e)
+            albums = Spine.clonedSelection
+#            albums = Album.toRecords(Spine.clonedSelection)
+#            for album in albums
+#              album.createJoin(target) if target
+#              album.destroyJoin(origin) if origin  unless @isCtrlClick(e)
+            Album.trigger('create:join', albums, target)
+            Album.trigger('destroy:join', albums, origin) if origin  unless @isCtrlClick(e)
 
           when 'Photo'
             photos = []

@@ -69,7 +69,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
-    Album.bind('current', @proxy @change)
+#    Album.bind('current', @proxy @change)
     Spine.bind('loading:done', @proxy @updateBuffer)
     
   updateBuffer: (album=Album.record) ->
@@ -104,10 +104,11 @@ class PhotosView extends Spine.Controller
   
   click: (e) ->
     console.log 'PhotosList::click'
-    item = $(e.currentTarget).item()
-    
-    @select item, @isCtrlClick(e)
     App.showView.trigger('change:toolbarOne')
+    
+    item = $(e.currentTarget).item()
+#    Photo.trigger('activate', item.id)
+    @select item, @isCtrlClick(e)
     
     e.stopPropagation()
     e.preventDefault()
@@ -120,22 +121,25 @@ class PhotosView extends Spine.Controller
     
     Album.emptySelection() if exclusive
     
-    list = Album.selectionList()
+    list = Album.selectionList().slice(0)
     for id in items
       list.addRemoveSelection(id)
       
-    Photo.trigger('activate', list)
+      
+    Album.updateSelection(list)
+#    Photo.trigger('activate', list)
   
     
-  activateRecord: (arr=[]) ->
+  activateRecord: (id) ->
     unless Spine.isArray(arr)
       arr = [arr]
+      
     list = []
-    for item in arr
-      list.push photo.id if photo = Photo.exists(item)
+    for id in arr
+      list.push photo.id if photo = Photo.exists(id)
     
     id = list[0]
-    Album.updateSelection(list)
+#    Album.updateSelection(list)
     Photo.current(id)
   
   clearPhotoCache: ->
@@ -216,13 +220,15 @@ class PhotosView extends Spine.Controller
     for pid in photos
       if ap = AlbumsPhoto.albumPhotoExists(pid, album.id)
         ap.destroy()
+    @sortupdate()
 
   sortupdate: ->
+    console.log 'PhotosView::sortupdate'
     @list.children().each (index) ->
       item = $(@).item()
-      if item
+      if item and Album.record
         ap = AlbumsPhoto.filter(item.id, func: 'selectPhoto')[0]
-        if ap and ap.order isnt index
+        if ap and parseInt(ap.order) isnt index
           ap.order = index
           ap.save()
         # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated

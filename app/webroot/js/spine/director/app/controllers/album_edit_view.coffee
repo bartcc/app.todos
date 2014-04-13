@@ -23,8 +23,9 @@ class AlbumEditView extends Spine.Controller
   constructor: ->
     super
     Album.bind('change', @proxy @change)
-    Album.bind('current', @proxy @show)
-    GalleriesAlbum.bind('change', @proxy @changeFromGalleriesAlbum)
+#    Album.bind('current', @proxy @show)
+    Gallery.bind('change:selection', @proxy @changeSelection)
+#    GalleriesAlbum.bind('change', @proxy @changeFromGalleriesAlbum)
 
   activated: ->
     @render()
@@ -45,10 +46,9 @@ class AlbumEditView extends Spine.Controller
         @current = null
         @render()
   
-  changeSelection: (item, changed) ->
-    return unless changed
-    @current = item
-    @render item
+  changeSelection: (list) ->
+    @current = Album.exists(list[0])
+    @render @current
 
   render: (item=@current) ->
     console.log 'AlbumEditView::render'

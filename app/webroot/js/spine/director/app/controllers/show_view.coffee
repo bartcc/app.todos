@@ -117,10 +117,6 @@ class ShowView extends Spine.Controller
   constructor: ->
     super
     @silent = true
-    @albumAddView = new AlbumsAddView
-      el: @modalAddAlbumEl
-    @photoAddView = new PhotosAddView
-      el: @modalAddPhotoEl
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
     @toolbarTwo = new ToolbarView
@@ -170,6 +166,12 @@ class ShowView extends Spine.Controller
       parent: @
       parentModel: 'Photo'
       subview: true
+    @albumAddView = new AlbumsAddView
+      el: @modalAddAlbumEl
+      parent: @albumsView
+    @photoAddView = new PhotosAddView
+      el: @modalAddPhotoEl
+      parent: @photosView
     
     @bind('canvas', @proxy @canvas)
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
@@ -344,6 +346,7 @@ class ShowView extends Spine.Controller
       @navigate '/gallery/', Album.last().id
   
   createAlbumCopy: (albums=Gallery.selectionList(), target=Gallery.record) ->
+    console.log 'ShowView::createAlbumCopy'
     for id in albums
       if Album.exists(id)
         photos = Album.photos(id).toID()
@@ -392,15 +395,15 @@ class ShowView extends Spine.Controller
 
   destroyGallery: (e) ->
     Spine.trigger('destroy:gallery')
-    @deselect()
+#    @deselect()
   
   destroyAlbum: (e) ->
     Spine.trigger('destroy:album')
-    @deselect()
+#    @deselect()
 
   destroyPhoto: (e) ->
     Spine.trigger('destroy:photo')
-    @deselect()
+#    @deselect()
 
   toggleGalleryShow: (e) ->
     @trigger('toggle:view', App.gallery, e.target)
@@ -534,9 +537,9 @@ class ShowView extends Spine.Controller
     if model = @el.data('current').model
       switch model.className
         when 'Gallery'
-          Album.trigger('activate', Gallery.emptySelection())
+          Gallery.updateSelection()
         when 'Album'
-          Photo.trigger('activate', Album.emptySelection())
+          Album.updateSelection()
         when 'Photo'
           ->
         when 'Slideshow'

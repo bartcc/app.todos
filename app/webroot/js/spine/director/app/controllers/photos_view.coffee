@@ -107,7 +107,7 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarOne')
     
     item = $(e.currentTarget).item()
-#    Photo.trigger('activate', item.id)
+    Photo.trigger('activate', item.id)
     @select item, @isCtrlClick(e)
     
     e.stopPropagation()
@@ -139,7 +139,7 @@ class PhotosView extends Spine.Controller
       list.push photo.id if photo = Photo.exists(id)
     
     id = list[0]
-    Album.updateSelection(list)
+#    Album.updateSelection(list)
     Photo.current(id)
   
   clearPhotoCache: ->

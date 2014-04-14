@@ -39,7 +39,6 @@ class SidebarList extends Spine.Controller
     Gallery.bind('changed:albums', @proxy @renderGallery)
     Gallery.bind('change', @proxy @change)
     Album.bind('create destroy update', @proxy @renderSublists)
-    Spine.bind('expose:sublistSelection', @proxy @exposeSublistSelection)
     Gallery.bind('change:selection', @proxy @exposeSublistSelection)
     Gallery.bind('current', @proxy @exposeSelection)
     
@@ -170,25 +169,17 @@ class SidebarList extends Spine.Controller
     @exposeSublistSelection()
     
   exposeSublistSelection: (selection=Gallery.selectionList()) ->
-    console.log 'SidebarList::exposeSublistSelection'
-    removeAlbumSelection = =>
-      if item = Gallery.record
-        galleryEl = @children().forItem(item)
-        albumsEl = galleryEl.find('li')
-        $('.glyphicon', galleryEl).removeClass('glyphicon-folder-open')
         
     if gallery = Gallery.record
-      removeAlbumSelection()
       galleryEl = @children().forItem(gallery)
       albumsEl = galleryEl.find('li')
-      albumsEl.removeClass('selected').removeClass('active')
+      albumsEl.removeClass('selected active')
       
-      for album in selection
-        if alb = Album.exists(album)
-          albumsEl.forItem(alb).addClass('selected') 
-        
+      for id in selection
+        if album = Album.exists(id)
+          albumsEl.forItem(album).addClass('selected') 
+
       if activeAlbum = Album.exists(first = selection.first())
-        Album.current first
         activeEl = albumsEl.forItem(activeAlbum).addClass('active')
         $('.glyphicon', activeEl).addClass('glyphicon-folder-open')
         
@@ -202,9 +193,11 @@ class SidebarList extends Spine.Controller
       when 'Gallery'
         @expand(item, App.showView.controller?.el.data('current').models isnt Album)
         @navigate '/gallery', item.id
+        Gallery.current item.id if Gallery.record and Gallery.record.id is item.id
       when 'Album'
         gallery = $(e.target).closest('li.gal').item()
         @navigate '/gallery', gallery.id, item.id
+        Album.current(item.id) if Album.record and Album.record.id is item.id
     
     e.stopPropagation()
     e.preventDefault()

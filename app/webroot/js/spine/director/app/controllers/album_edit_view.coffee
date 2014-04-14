@@ -23,9 +23,9 @@ class AlbumEditView extends Spine.Controller
   constructor: ->
     super
     Album.bind('change', @proxy @change)
-#    Album.bind('current', @proxy @show)
-    Gallery.bind('change:selection', @proxy @changeSelection)
-#    GalleriesAlbum.bind('change', @proxy @changeFromGalleriesAlbum)
+    Gallery.bind('change:selection', @proxy @fromSelection)
+    Album.bind('current', @proxy @fromAlbum)
+#    Gallery.bind('change:selection', @proxy @changeSelection)
 
   activated: ->
     @render()
@@ -38,6 +38,19 @@ class AlbumEditView extends Spine.Controller
     if item.destroyed
       @current = null
       @render() 
+  
+  fromAlbum: (album, same) ->
+    record = album.exists() if album
+    @current =  record or false
+    @trigger('active')
+    @render()
+  
+  fromSelection: (selection) ->
+    id = selection[0]
+    record = Album.exists(id) #if album
+    @current =  record or false
+    @trigger('active')
+    @render()
   
   changeFromGalleriesAlbum: (ga, mode) ->
     switch mode

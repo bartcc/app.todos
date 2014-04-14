@@ -268,8 +268,7 @@ class Main extends Spine.Controller
       console.log e
       
   changeEditCanvas: (controller) ->
-    controller.activated()
-    
+    controller.activated() if controller
   
   initializeFileupload: ->
     @uploader.fileupload

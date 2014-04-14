@@ -124,6 +124,7 @@ class AlbumsView extends Spine.Controller
         alb.save(ajax:false)
     
     @render()
+      
     
   activateRecord: (arr=[]) ->
     console.log 'AlbumsView::activateRecord'
@@ -278,7 +279,6 @@ class AlbumsView extends Spine.Controller
       
   click: (e) ->
     item = $(e.currentTarget).item()
-#    Album.trigger('activate', item.id)
     @select(item, @isCtrlClick(e))
     
     e.stopPropagation()

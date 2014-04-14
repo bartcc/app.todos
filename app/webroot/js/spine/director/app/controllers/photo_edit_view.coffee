@@ -22,20 +22,16 @@ class PhotoEditView extends Spine.Controller
   
   constructor: ->
     super
-#    Photo.bind('current', @proxy @changeSelection)
-#    Album.bind('current', @proxy @changeSelection)
-#    Gallery.bind('current', @proxy @changeSelection)
     Photo.bind('change', @proxy @change)
-#    Photo.bind('current', @proxy @show)
-    Album.bind('change:selection', @proxy @changeSelection)
+    Album.bind('change:selection', @proxy @fromSelection)
+#    Album.bind('change:selection', @proxy @changeSelection)
     AlbumsPhoto.bind('change', @proxy @changeFromAlbumsPhoto)
   
   activated: ->
     @render()
   
-  show: (item, changed) ->
+  show: (album) ->
     @trigger('active')
-    @changeSelection item, changed
   
   change: (item, mode) ->
     if item.destroyed
@@ -49,12 +45,18 @@ class PhotoEditView extends Spine.Controller
         @current = null
         @render()
   
+  fromSelection: (selection) ->
+    id = selection[0]
+    record = Photo.exists(id) #if photo
+    @current =  record or false
+    @trigger('active')
+    @render()
+  
   changeSelection: (list) ->
     @current = Photo.exists(list[0])
     @render @current
   
   render: (item=@current) ->
-    console.log 'PhotoEditView::render'
     if item and !item.destroyed 
       @item.html @template item
 #      @focusFirstInput()

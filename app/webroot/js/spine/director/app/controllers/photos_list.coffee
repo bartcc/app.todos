@@ -53,11 +53,11 @@ class PhotosList extends Spine.Controller
     console.log 'PhotosList::change'
     
   changeRelated: (item, mode) ->
-    console.log 'PhotosList::changeRelatedAlbum'
     return unless @parent.isActive()
     return unless Album.record
     return unless Album.record.id is item['album_id']
     return unless photo = Photo.exists(item['photo_id'])
+    console.log 'PhotosList::changeRelatedAlbum'
     
     switch mode
       when 'create'
@@ -235,7 +235,7 @@ class PhotosList extends Spine.Controller
   #  ****** END ***** 
   
   exposeSelection: (selection) ->
-    return unless @parent.isActive()
+#    return unless @parent.isActive()
     console.log 'PhotosList::exposeSelection'
     @deselect()
     list = selection or Album.selectionList()

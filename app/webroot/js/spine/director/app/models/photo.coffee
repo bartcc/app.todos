@@ -4,6 +4,7 @@ Model         = Spine.Model
 Filter        = require("plugins/filter")
 Gallery       = require('models/gallery')
 Album         = require('models/album')
+AlbumsPhoto   = require('models/albums_photo')
 Extender      = require("plugins/model_extender")
 AjaxRelations = require("plugins/ajax_relations")
 
@@ -66,6 +67,22 @@ class Photo extends Spine.Model
     
   @inactive: ->
     @findAllByAttribute('active', false)
+    
+  @createJoin: (items=[], target) ->
+    
+    unless @isArray items
+      items = [items]
+
+    return unless items.length
+    
+    ret = for item in items
+      ap = new AlbumsPhoto
+        album_id    : target.id
+        photo_id    : item
+        order       : AlbumsPhoto.photos(target.id).length
+      ap.save()
+
+    ret
     
   @getGallery: ->
     Gallery.record

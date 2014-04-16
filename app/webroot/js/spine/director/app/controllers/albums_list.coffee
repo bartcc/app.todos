@@ -35,11 +35,11 @@ class AlbumsList extends Spine.Controller
     Gallery.bind('change:selection', @proxy @exposeSelection)
     
   changeRelatedAlbum: (item, mode) ->
-    console.log 'AlbumsList::changeRelatedAlbum'
     return unless @parent and @parent.isActive()
     return unless Gallery.record
     return unless Gallery.record.id is item['gallery_id']
     return unless album = Album.exists(item['album_id'])
+    console.log 'AlbumsList::changeRelatedAlbum'
     
     switch mode
       when 'create'
@@ -223,13 +223,5 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
     
     Spine.trigger('albums:add')
-    
-  dragStart: (e, id) ->
-    console.log 'AlbumsList::dragStart'
-    if Gallery.selectionList().indexOf(id) is -1
-      Album.trigger('activate', id)
-      
-  dragDrop: (e) ->
-    console.log 'AlbumsList::dragDrop'
     
 module?.exports = AlbumsList

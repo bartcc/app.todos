@@ -13,10 +13,17 @@ Controller.Extender =
       empty: ->
         console.log 'empty'
         @constructor.apply @, arguments
+        
     
     
     Include = 
     
+      init: ->
+        @el.data('current',
+          model: null
+          models: null
+        )
+        
       createImage: (url) ->
         img = new Image()
         img.src = url

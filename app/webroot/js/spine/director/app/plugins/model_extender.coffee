@@ -95,13 +95,13 @@ Model.Extender =
         originalList[0...originalList.length] = list
         originalList
 
-      removeFromSelection: (idOrList) ->
-        list = @selectionList()
+      removeFromSelection: (idOrList=[]) ->
+        copy = @selectionList().slice(0)
         unless @isArray idOrList
-          ids = [idOrList]
-        for id, index in ids
-          list.splice(index, 1) unless list.indexOf(id) is -1
-        list
+          idOrList = [idOrList]
+        for id in idOrList
+          copy.splice(index, 1) unless (index = copy.indexOf(id)) is -1
+        @updateSelection copy
 
       isArray: (value) ->
         Object::toString.call(value) is "[object Array]"
@@ -148,7 +148,7 @@ Model.Extender =
     Include =
       
       selectionList: ->
-        @constructor.selectionList()
+        @constructor.selectionList(@id)
       
       selectionParentList: ->
         modelName = @constructor['parent']

@@ -27,7 +27,9 @@ class AlbumsView extends Spine.Controller
   events:
     'click      .item'                : 'click'
     
-    'dragstart .item'                 : 'stopInfo'
+#    'dragstart'                       : 'dragStart'
+    'dragstart .item'                 : 'startDrag'
+    'drop .item'                      : 'dropDrag'
     'dragover   .items'               : 'dragover'
     
     'sortupdate .items'               : 'sortupdate'
@@ -71,10 +73,14 @@ class AlbumsView extends Spine.Controller
     Album.bind('destroy', @proxy @destroy)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('destroy:join', @proxy @destroyJoin)
+    Album.bind('activate', @proxy @activateRecord)
+    
     Photo.bind('refresh', @proxy @refreshBackgrounds)
+    
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
-#    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
-#    GalleriesAlbum.bind('destroy:join', @proxy @destroyJoin)
+    
+    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
+    
     Spine.bind('reorder', @proxy @reorder)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @createAlbum)
@@ -82,8 +88,6 @@ class AlbumsView extends Spine.Controller
     Spine.bind('loading:done', @proxy @loadingDone)
     Spine.bind('loading:fail', @proxy @loadingFail)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
-#    Gallery.bind('current', @proxy @render)
-    Album.bind('activate', @proxy @activateRecord)
     
     $(@views).queue('fx')
     
@@ -167,12 +171,12 @@ class AlbumsView extends Spine.Controller
       if options.photos
         Photo.trigger('create:join', options.photos, album)
         Photo.trigger('destroy:join', options.photos, options.from) if options.from
-      Gallery.trigger('changed:albums', target)
+      Spine.trigger('changed:albums', target)
+      @navigate '/gallery', Gallery.record?.id or '', album.id
       
     album = new Album @newAttributes()
-    album.one('ajaxSuccess', cb)
+    album.one('ajaxSuccess', @proxy cb)
     album.save()
-    @navigate '/gallery', Gallery.record?.id or '', album.id
         
   destroyAlbum: (ids) ->
     console.log 'AlbumsView::destroyAlbum'
@@ -210,21 +214,28 @@ class AlbumsView extends Spine.Controller
     @render() unless Album.count()
       
   createJoin: (albums, gallery) ->
-    for aid in albums
-      album = Album.exists aid
-      album.createJoin gallery if album
-    Gallery.trigger('changed:albums', gallery)
+    loc = location.hash
+    @navigate '/wait/'
+    
+    func = ->
+      Album.createJoin albums, gallery
+      Gallery.updateSelection(albums)
+      Spine.trigger('changed:albums', gallery)
+      Spine.trigger('done:wait', loc)
+      
+    setTimeout(func, 1000)
       
   destroyJoin: (albums, gallery) ->
     console.log 'AlbumsView::destroyJoin'
     return unless gallery and gallery.constructor.className is 'Gallery'
+    selection = []
     albums = [albums] unless Album.isArray(albums)
-    for aid in albums
-      if ga = GalleriesAlbum.galleryAlbumExists(aid, gallery.id)
-        list = Gallery.removeFromSelection ga.album_id
-#        Album.trigger('activate', list)
+    for id in albums
+      if ga = GalleriesAlbum.galleryAlbumExists(id, gallery.id)
+        selection.addRemoveSelection id
         ga.destroy()
-    Gallery.trigger('changed:albums', gallery)
+    Gallery.removeFromSelection selection
+    Spine.trigger('changed:albums', gallery)
     @sortupdate()
       
   loadingStart: (album) ->
@@ -272,7 +283,8 @@ class AlbumsView extends Spine.Controller
         if ga and parseInt(ga.order) isnt index
           ga.order = index
           ga.save()
-        
+    Spine.trigger('changed:albums', Gallery.record)
+    
   reorder: (gallery) ->
     if gallery.id is Gallery.record.id
       @render()
@@ -310,5 +322,13 @@ class AlbumsView extends Spine.Controller
     
   stopInfo: (e) =>
     @info.bye(e)
+      
+  startDrag: (e, id) ->
+    console.log 'AlbumsList::dragStart'
+    if Gallery.selectionList().indexOf(id) is -1
+      Album.trigger('activate', id)
+      
+  dropDrag: (e) ->
+    console.log 'AlbumsList::dragDrop'
         
 module?.exports = AlbumsView

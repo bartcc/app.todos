@@ -71,7 +71,7 @@ class Album extends Spine.Model
 
     return unless items.length
     
-    for item in items
+    ret = for item in items
       ga = new GalleriesAlbum
         gallery_id  : target.id
         album_id    : item

@@ -33,12 +33,9 @@ class SlideshowView extends Spine.Controller
     @list = []
     @viewport = @el
     @thumbSize = 240
+    
     @modalSimpleView = new ModalSimpleView
       el: $('#modal-view')
-    
-    @modalSimpleView.el.bind('hidden.bs.modal', @proxy @hiddenmodal)
-    @modalSimpleView.el.bind('hide.bs.modal', @proxy @hidemodal)
-    @modalSimpleView.el.bind('show.bs.modal', @proxy @showmodal)
     
     @links = $('.thumbnail', @items)
     @bind('play', @proxy @play)
@@ -190,6 +187,7 @@ class SlideshowView extends Spine.Controller
     @photos().length
     
   hidemodal: (e) ->
+    console.log 'hidemodal'
     
   hiddenmodal: (e) ->
     @oncloseGallery()
@@ -198,6 +196,10 @@ class SlideshowView extends Spine.Controller
     @items.empty()
     
   notify: ->
+    @modalSimpleView.el.one('hidden.bs.modal', @proxy @hiddenmodal)
+    @modalSimpleView.el.one('hide.bs.modal', @proxy @hidemodal)
+    @modalSimpleView.el.one('show.bs.modal', @proxy @showmodal)
+    
     @modalSimpleView.show
       header: 'Empty Slideshow'
       body: 'Select one or more albums in order to present its content.'

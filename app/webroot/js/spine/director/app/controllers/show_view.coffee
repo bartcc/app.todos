@@ -8,6 +8,7 @@ Photo           = require('models/photo')
 AlbumsPhoto     = require('models/albums_photo')
 GalleriesAlbum  = require('models/galleries_album')
 ToolbarView     = require("controllers/toolbar_view")
+WaitView        = require("controllers/wait_view")
 AlbumsView      = require("controllers/albums_view")
 PhotoHeader     = require('controllers/photo_header')
 PhotosHeader    = require('controllers/photos_header')
@@ -56,6 +57,7 @@ class ShowView extends Spine.Controller
     '.content.albums'         : 'albumsEl'
     '.content.photos'         : 'photosEl'
     '.content.photo'          : 'photoEl'
+    '.content.wait'           : 'waitEl'
     '#slideshow'              : 'slideshowEl'
     '#modal-action'           : 'modalActionEl'
     '#modal-addAlbum'         : 'modalAddAlbumEl'
@@ -172,6 +174,9 @@ class ShowView extends Spine.Controller
     @photoAddView = new PhotosAddView
       el: @modalAddPhotoEl
       parent: @photosView
+    @waitView = new WaitView
+      el: @waitEl
+      parent: @
     
     @bind('canvas', @proxy @canvas)
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
@@ -201,7 +206,7 @@ class ShowView extends Spine.Controller
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
     @current = @galleriesView
     
-    @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView)
+    @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView, @waitView)
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader, @slideshowHeader)
     
     @canvasManager.bind('change', @proxy @changeCanvas)
@@ -260,6 +265,7 @@ class ShowView extends Spine.Controller
     )
     controller.trigger 'active'
     controller.header.trigger 'active'
+    controller
     
   changeToolbarOne: (list) ->
     @toolbarOne.change list
@@ -321,14 +327,14 @@ class ShowView extends Spine.Controller
       @showAlbumMasters()
       
   copyAlbums: (albums, gallery) ->
-    @navigate '/gallery', gallery.id
+#    @navigate '/gallery', gallery.id
     Album.trigger('create:join', albums, gallery)
       
   copyPhotos: (photos, album) ->
     Photo.trigger('create:join', photos, album)
       
   copyPhotosToAlbum: ->
-    @photosToAlbum Album.selectionList().slice(0)
+    @photosToAlbum Album.selectionList()[..]
       
   movePhotosToAlbum: ->
     @photosToAlbum Album.selectionList(), Album.record
@@ -338,12 +344,14 @@ class ShowView extends Spine.Controller
     Spine.trigger('create:album', target,
       photos: photos
       from:album
+      allocate: clb
     )
     
-    if target?.id
-      @navigate '/gallery', target.id, Album.last().id
-    else
-      @navigate '/gallery/', Album.last().id
+    clb = ->
+      if target
+        @navigate '/gallery', target.id, Album.last().id
+      else
+        @navigate '/gallery', '', Album.last().id
   
   createAlbumCopy: (albums=Gallery.selectionList(), target=Gallery.record) ->
     console.log 'ShowView::createAlbumCopy'

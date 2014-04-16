@@ -13,6 +13,8 @@ class MissingView extends Spine.Controller
     super
     Spine.bind('show:missingView', @proxy @render)
 
+  activated: ->
+
   render: (item) ->
     console.log 'GalleryEditorView::render'
     @html @template()

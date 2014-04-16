@@ -34,9 +34,8 @@ class SidebarList extends Spine.Controller
   constructor: ->
     super
     
-    AlbumsPhoto.bind('change', @proxy @renderItemFromAlbumsPhoto)
-#    GalleriesAlbum.bind('destroy', @proxy @renderItemFromGalleriesAlbum)
-    Gallery.bind('changed:albums', @proxy @renderGallery)
+    Spine.bind('changed:photos', @proxy @renderAlbums)
+    Spine.bind('changed:albums', @proxy @renderGallery)
     Gallery.bind('change', @proxy @change)
     Album.bind('create destroy update', @proxy @renderSublists)
     Gallery.bind('change:selection', @proxy @exposeSublistSelection)
@@ -157,7 +156,11 @@ class SidebarList extends Spine.Controller
     @renderOneSublist gallery
     @reorder gallery
     
-  renderItemFromAlbumsPhoto: (ap, mode) ->
+  renderAlbums: (aps) ->
+    for ap in aps
+      @renderItemFromAlbumsPhoto(ap)
+    
+  renderItemFromAlbumsPhoto: (ap) ->
     console.log 'SidebarList::renderItemFromAlbumsPhoto'
     gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
     for ga in gas
@@ -174,10 +177,11 @@ class SidebarList extends Spine.Controller
       galleryEl = @children().forItem(gallery)
       albumsEl = galleryEl.find('li')
       albumsEl.removeClass('selected active')
+      $('.glyphicon', galleryEl).removeClass('glyphicon-folder-open')
       
       for id in selection
         if album = Album.exists(id)
-          albumsEl.forItem(album).addClass('selected') 
+          albumsEl.forItem(album).addClass('selected')
 
       if activeAlbum = Album.exists(first = selection.first())
         activeEl = albumsEl.forItem(activeAlbum).addClass('active')

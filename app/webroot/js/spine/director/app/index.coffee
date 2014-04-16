@@ -197,15 +197,15 @@ class Main extends Spine.Controller
       '/slideshow/*glob': (params) ->
         @showView.trigger('active')
         Spine.trigger('show:slideshow', params.glob)
+      '/wait/*glob': (params) ->
+        @showView.trigger('active')
+        Spine.trigger('show:wait')
       '/flickr/:type/:page': (params) ->
+        @flickrView.trigger('active')
         Spine.trigger('show:flickrView', params.type, params.page)
-#        location.href = location.href + '1' unless params.page
-#        @flickrView.trigger('flickr:'+params.type, params.page)
       '/flickr/': (params) ->
+        @flickrView.trigger('active')
         Spine.trigger('show:flickrView')
-#        @contentManager.change(@flickrView)
-#        location.href = location.href + '1' unless params.page
-#        @flickrView.trigger('flickr:'+params.type, params.page)
       '/*glob': (params) ->
         @missingView.trigger('active')
         Spine.trigger('show:missingView')
@@ -265,7 +265,6 @@ class Main extends Spine.Controller
       controller.el.addClass('in')
       controller.activated()
     catch e
-      console.log e
       
   changeEditCanvas: (controller) ->
     controller.activated() if controller

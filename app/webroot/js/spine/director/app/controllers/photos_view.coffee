@@ -155,7 +155,6 @@ class PhotosView extends Spine.Controller
       @destroyJoin [photo.id], Album.exists aps.album_id
       
   destroyPhoto: (ids) ->
-    console.log 'PhotosView::destroyPhoto'
     photos = ids || Album.selectionList().slice(0)
     photos = [photos] unless Photo.isArray photos
     if Album.record
@@ -198,28 +197,30 @@ class PhotosView extends Spine.Controller
     @render() unless photos.length
       
   createJoin: (photos, album, options={}) ->
-    # photos must be an array of photos
-    console.log 'PhotosView::createJoin'
-    return unless album and album.constructor.className is 'Album'
-    photos = [photos] unless Photo.isArray(photos)
-    for pid in photos
-      unless AlbumsPhoto.albumPhotoExists(pid, album.id)
-        ap = new AlbumsPhoto
-          album_id: album.id
-          photo_id: pid
-          order: AlbumsPhoto.photos(album.id).length
-        ap.save()
+    loc = location.hash
+    @navigate '/wait/'
+    
+    func = ->
+      aps = Photo.createJoin photos, album
+      Album.updateSelection(photos)
+      Spine.trigger('changed:photos', aps)
+      Spine.trigger('done:wait', loc)
       
-    if options.from
-      @destroyJoin photos, options.from
+    setTimeout(func, 1000)
   
   destroyJoin: (photos, album) ->
     console.log 'PhotosView::destroyJoin'
     return unless album and album.constructor.className is 'Album'
+    selection = []
+    aps = []
     photos = [photos] unless Photo.isArray(photos)
-    for pid in photos
-      if ap = AlbumsPhoto.albumPhotoExists(pid, album.id)
+    for id in photos
+      if ap = AlbumsPhoto.albumPhotoExists(id, album.id)
+        selection.addRemoveSelection id
+        aps.push ap.id
         ap.destroy()
+    Album.removeFromSelection selection
+    Spine.trigger('changed:photos', aps)
     @sortupdate()
 
   sortupdate: ->

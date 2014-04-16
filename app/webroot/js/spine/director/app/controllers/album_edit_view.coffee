@@ -45,7 +45,7 @@ class AlbumEditView extends Spine.Controller
     @trigger('active')
     @render()
   
-  fromSelection: (selection) ->
+  fromSelection: (selection=[]) ->
     id = selection[0]
     record = Album.exists(id) #if album
     @current =  record or false

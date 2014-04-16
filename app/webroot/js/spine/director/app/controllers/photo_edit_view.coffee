@@ -24,7 +24,8 @@ class PhotoEditView extends Spine.Controller
     super
     Photo.bind('change', @proxy @change)
     Album.bind('change:selection', @proxy @fromSelection)
-#    Album.bind('change:selection', @proxy @changeSelection)
+    Album.bind('current', @proxy @fromAlbum)
+    Gallery.bind('current', @proxy @fromGallery)
     AlbumsPhoto.bind('change', @proxy @changeFromAlbumsPhoto)
   
   activated: ->
@@ -52,6 +53,15 @@ class PhotoEditView extends Spine.Controller
     @trigger('active')
     @render()
   
+  fromAlbum: (album, same) ->
+    id = album.selectionList().first() if album
+    @current =  Photo.exists(id) or false
+    @render()
+  
+  fromGallery: (gallery, same) ->
+    id = gallery.selectionList().first() if gallery
+    @fromAlbum Album.exists(id) or false
+  
   changeSelection: (list) ->
     @current = Photo.exists(list[0])
     @render @current
@@ -68,7 +78,6 @@ class PhotoEditView extends Spine.Controller
     @el
   
   save: (el) ->
-    console.log 'PhotoEditView::save'
     if @current
       atts = el.serializeForm?() or @editEl.serializeForm()
       @current.updateChangedAttributes(atts)

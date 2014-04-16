@@ -10,7 +10,6 @@ class ModalSimpleView extends Spine.Controller
   
   events:
     'click .btnClose'     : 'close'
-#    'keyup'               : 'keyup'
     'hidden.bs.modal'     : 'hiddenmodal'
     'show.bs.modal'       : 'showmodal'
   
@@ -47,7 +46,6 @@ class ModalSimpleView extends Spine.Controller
       when 27 # ESC
         e.stopPropagation()
       when 13 # RETURN
-        alert code
         @close()
         e.stopPropagation()
     

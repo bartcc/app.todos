@@ -69,6 +69,7 @@
             <div class="photo view"></div>
             <div class="overview view"></div>
           </div>
+          <div class="view wait content vbox flex autoflow" style=""></div>
           <div class="view galleries content vbox flex data parent autoflow" style="">
             <div class="items fadein">Galleries</div>
           </div>
@@ -299,7 +300,7 @@
 </script>
 
 <script id="modalSimpleTemplate" type="text/x-jquery-tmpl">
-  <div class="modal-dialog">
+  <div class="modal-dialog {{if small}}modal-sm{{/if}}">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

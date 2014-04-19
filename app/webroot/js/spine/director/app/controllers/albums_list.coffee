@@ -206,14 +206,7 @@ class AlbumsList extends Spine.Controller
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'
     
-    el = @findModelElement item
-    el.removeClass('in')
-    
-    
-    window.setTimeout( =>
-      Spine.trigger('destroy:album', [item.id])
-      el.detach()
-    , 200)
+    @parent.trigger('destroy:album', [item.id])
     
     e.stopPropagation()
     e.preventDefault()

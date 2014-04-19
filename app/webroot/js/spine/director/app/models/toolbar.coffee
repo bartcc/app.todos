@@ -207,7 +207,7 @@ class Toolbar extends Spine.Model
         ]
     group4:
       name: -> 
-        len=Gallery.activePhotos().length
+        len=Gallery.record.activePhotos().length
         'Slideshow (' + len + ')'
       content:
         [

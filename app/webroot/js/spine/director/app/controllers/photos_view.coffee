@@ -19,11 +19,12 @@ class PhotosView extends Spine.Controller
   
   elements:
     '.hoverinfo'      : 'infoEl'
-    '.items'          : 'items'
+    '.items'          : 'itemsEl'
   
   events:
     'click .item'                  : 'click'
-    'sortupdate .items'            : 'sortupdate'
+    'sortupdate .item'             : 'sortupdate'
+#    'dragstart .item'              : 'dragStart'
     
   template: (items) ->
     $('#photosTemplate').tmpl(items)
@@ -48,16 +49,18 @@ class PhotosView extends Spine.Controller
       el: @infoEl
       template: @infoTemplate
     @list = new PhotosList
-      el: @items
+      el: @itemsEl
       template: @template
       info: @info
       parent: @
     @header.template = @headerTemplate
     @viewport = @list.el
+    
+    @bind('drag:start', @proxy @dragStart)
+    @bind('drag:drop', @proxy @dragDrop)
+    
 #    AlbumsPhoto.bind('destroy', @proxy @remove)
     GalleriesAlbum.bind('destroy', @proxy @backToAlbumView)
-    Gallery.bind('create update destroy', @proxy @renderHeader)
-    Album.bind('change', @proxy @renderHeader)
     Photo.bind('refresh', @proxy @change)
     Photo.bind('created', @proxy @add)
     Photo.bind('destroy', @proxy @destroy)
@@ -66,11 +69,11 @@ class PhotosView extends Spine.Controller
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
     Photo.bind('activate', @proxy @activateRecord)
-    AlbumsPhoto.bind('create update destroy', @proxy @renderHeader)
+    
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
-#    Album.bind('current', @proxy @change)
     Spine.bind('loading:done', @proxy @updateBuffer)
+    Spine.bind('changed:photos', @proxy @changedPhotos)
     
   updateBuffer: (album=Album.record) ->
     filterOptions =
@@ -89,6 +92,9 @@ class PhotosView extends Spine.Controller
     @updateBuffer()
     @render @buffer
   
+  changedPhotos: ->
+    @render()
+  
   render: (items, mode) ->
     # render only if necessary
     return unless @isActive()
@@ -98,17 +104,13 @@ class PhotosView extends Spine.Controller
     list.sortable('photo') if Album.record
     delete @buffer
   
-  renderHeader: ->
-    console.log 'PhotosView::renderHeader'
-    @header.change()
-  
   click: (e) ->
     console.log 'PhotosList::click'
     App.showView.trigger('change:toolbarOne')
     
     item = $(e.currentTarget).item()
-    Photo.trigger('activate', item.id)
-    @select item, @isCtrlClick(e)
+#    Photo.trigger('activate', item.id)
+    @select item.id, @isCtrlClick(e)
     
     e.stopPropagation()
     e.preventDefault()
@@ -117,17 +119,14 @@ class PhotosView extends Spine.Controller
     unless Spine.isArray items
       items = [items]
       
-    items = items.toID()
-    
     Album.emptySelection() if exclusive
     
-    list = Album.selectionList().slice(0)
+    selection = Album.selectionList().slice(0)
     for id in items
-      list.addRemoveSelection(id)
+      selection.addRemoveSelection(id)
       
-      
-    Album.updateSelection(list)
-#    Photo.trigger('activate', list)
+    Photo.trigger('activate', selection[0])
+    Album.updateSelection(selection)
   
     
   activateRecord: (arr=[]) ->
@@ -158,12 +157,16 @@ class PhotosView extends Spine.Controller
     photos = ids || Album.selectionList().slice(0)
     photos = [photos] unless Photo.isArray photos
     if Album.record
-      @destroyJoin photos, Album.record
+      @destroyJoin options =
+        photos: photos
+        album: Album.record
     else
       for id in photos
         albums = AlbumsPhoto.albums(id)
         for album in albums
-          @destroyJoin id, album
+          @destroyJoin options =
+            photos: id
+            album: album
         photo.destroy() if photo = Photo.exists(id)
   
   destroy: ->
@@ -196,21 +199,18 @@ class PhotosView extends Spine.Controller
     photos = AlbumsPhoto.photos  ap.album_id
     @render() unless photos.length
       
-  createJoin: (photos, album, options={}) ->
-    loc = location.hash
-    @navigate '/wait/'
-    
-    func = ->
-      aps = Photo.createJoin photos, album
-      Album.updateSelection(photos)
-      Spine.trigger('changed:photos', aps)
-      Spine.trigger('done:wait', loc)
-      
-    setTimeout(func, 1000)
+  createJoin: (options, relocate) ->
+    console.log options
+    album = options.album
+    Photo.createJoin options.photos, options.album
+    Album.updateSelection(options.photos)
+    Spine.trigger('changed:photos', album.id)
   
-  destroyJoin: (photos, album) ->
+  destroyJoin: (options) ->
     console.log 'PhotosView::destroyJoin'
+    album = options.album
     return unless album and album.constructor.className is 'Album'
+    photos = options.photos
     selection = []
     aps = []
     photos = [photos] unless Photo.isArray(photos)
@@ -220,7 +220,7 @@ class PhotosView extends Spine.Controller
         aps.push ap.id
         ap.destroy()
     Album.removeFromSelection selection
-    Spine.trigger('changed:photos', aps)
+    Spine.trigger('changed:photos', album.id)
     @sortupdate()
 
   sortupdate: ->
@@ -241,5 +241,12 @@ class PhotosView extends Spine.Controller
     return unless @isActive()
     if gallery = Gallery.exists ga.gallery_id
       @navigate '/gallery', gallery.id
+      
+  dragStart: (e, o) ->
+    if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
+      Photo.trigger('activate', Spine.dragItem.source.id)
+      
+  dragDrop: ->
+    @list.exposeSelection()
     
 module?.exports = PhotosView

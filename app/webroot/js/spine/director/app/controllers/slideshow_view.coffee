@@ -27,9 +27,10 @@ class SlideshowView extends Spine.Controller
 
   constructor: ->
     super
-    @el.data
-      current:
-        className: 'Slideshow'
+    @el.data('current',
+      model: Gallery
+      models: Album
+    )
     @list = []
     @viewport = @el
     @thumbSize = 240
@@ -152,7 +153,7 @@ class SlideshowView extends Spine.Controller
     if @list.length
       list = @list
     else
-      list = Gallery.activePhotos()
+      list = Gallery.record.activePhotos()
 
     if list.length
       @render list

@@ -6,7 +6,7 @@ class GalleriesController extends AppController {
   public $name = 'Galleries';
 
   function beforeFilter() {
-    //$this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
+    $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
     parent::beforeFilter();
   }
 
@@ -28,7 +28,7 @@ class GalleriesController extends AppController {
 //    $this->log('GalleriesController::add', LOG_DEBUG);
     if (!empty($this->request->data)) {
       $this->Gallery->create();
-      $this->request->data['id'] = null;
+      $this->request->data['Gallery']['id'] = null;
       if ($this->Gallery->save($this->data)) {
         $this->Session->setFlash(__('The gallery has been saved', true));
         $this->set('_serialize', array('id' => $this->Gallery->id));
@@ -44,8 +44,12 @@ class GalleriesController extends AppController {
       $this->Session->setFlash(__('Invalid gallery', true));
       $this->redirect(array('action' => 'index'));
     }
+    
     if (!empty($this->request->data)) {
-      if ($this->Gallery->saveAll($this->request->data)) {
+      if ($this->Gallery->saveAssociated($this->request->data, array('deep' => true))) {
+        $this->log($this->data, LOG_DEBUG);
+        $this->set('_serialize', array('id' => $this->Gallery->id));
+        $this->render(SIMPLE_JSON);
         $this->Session->setFlash(__('The gallery has been saved', true));
       } else {
         $this->Session->setFlash(__('The gallery could not be saved. Please, try again.', true));
@@ -55,12 +59,16 @@ class GalleriesController extends AppController {
 
   public function delete($id = null) {
 //    $this->log('GalleriesController::delete', LOG_DEBUG);
-//    $this->log($id, LOG_DEBUG);
+    $this->log('GalleriesController::delete', LOG_DEBUG);
+    $this->log($id, LOG_DEBUG);
+    
     if (!$id) {
       $this->Session->setFlash(__('Invalid id for gallery', true));
       $this->redirect(array('action' => 'index'));
     }
     if ($this->Gallery->delete($id)) {
+      $this->set('_serialize', array('id' => $this->Gallery->id));
+      $this->render(SIMPLE_JSON);
       $this->Session->setFlash(__('Gallery deleted', true));
     }
   }

@@ -89,15 +89,17 @@ Controller.Extender =
             when 'Photo'
               selection = Album.selectionList()
 
-        # make an unselected item part of selection only if there is nothing selected yet
         return unless Album.isArray(selection)
+        
+        # make an unselected item part of selection only if there is nothing selected yet
         if !(source.id in selection)# and !(selection.length)
           list = source.emptySelection().push source.id
 
-        Spine.clonedSelection = selection.slice(0)
+        Spine.selection = selection.slice(0)
 
       dragEnter: (e) ->
         console.log 'dragEnter'
+        return unless Spine.dragItem
         el = indicator = $(e.target).closest('.data')
         selector = el.attr('data-drag-over')
         if selector then indicator = el.children('.'+selector)
@@ -127,23 +129,29 @@ Controller.Extender =
         
         Spine.dragItem.closest?.removeClass('over nodrop')
         return unless @validateDrop target, source, origin
+        hash = location.hash
         switch source.constructor.className
           when 'Album'
-            albums = Spine.clonedSelection
-#            albums = Album.toRecords(Spine.clonedSelection)
-#            for album in albums
-#              album.createJoin(target) if target
-#              album.destroyJoin(origin) if origin  unless @isCtrlClick(e)
-            Album.trigger('create:join', albums, target)
-            Album.trigger('destroy:join', albums, origin) if origin  unless @isCtrlClick(e)
+            selection = Spine.selection
+            Album.trigger('create:join', selection, target, -> @navigate hash)
+            unless @isCtrlClick(e)
+              Album.trigger('destroy:join', selection, origin) if origin
 
           when 'Photo'
-            photos = []
-            Photo.each (record) =>
-              photos.push record unless Spine.clonedSelection.indexOf(record.id) is -1
+            selection = Spine.selection
+            photos = Photo.toRecords(selection)
 
-            Photo.trigger('create:join', photos.toID(), target)
-            Photo.trigger('destroy:join', photos.toID(), origin) unless @isCtrlClick(e)
+            Photo.trigger 'create:join',
+              options =
+                photos: selection
+                album: target
+              , -> @navigate hash
+            
+            unless @isCtrlClick(e)
+              Photo.trigger 'destroy:join',
+                options =
+                  photos: selection
+                  album: origin
         
       validateDrop: (target, source, origin) =>
         return unless target

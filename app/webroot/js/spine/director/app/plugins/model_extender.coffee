@@ -118,7 +118,7 @@ Model.Extender =
       toID: (records = @records) ->
         record.id for record in records
       
-      toRecords: (ids) ->
+      toRecords: (ids = []) ->
         @find id for id in ids
       
       successHandler: (data, status, xhr) ->
@@ -144,6 +144,8 @@ Model.Extender =
 
           error.save()
           User.redirect 'users/login'
+          
+      contains: -> []
       
     Include =
       

@@ -131,37 +131,34 @@ class Sidebar extends Spine.Controller
   createGallery: ->
     console.log 'Sidebar::createGallery'
     
-    cb = (rec, a) -> @updateSelectionID()
+    cb = (gallery) ->
+      gallery.updateSelectionID()
+      unless /^#\/galleries\/$/.test(location.hash)
+        @navigate '/gallery', gallery.id
       
     gallery = new Gallery @newAttributes()
-    gallery.save(done: @proxy @createCallback)
-    @navigate '/gallery', gallery.id
-    
-    
-  createCallback: ->
-    gallery = Gallery.last()
-    gallery.updateSelectionID()
-    @navigate '/gallery', gallery.id
+    gallery.one('ajaxSuccess', @proxy cb)
+    gallery.save()
     
   createAlbum: ->
     Spine.trigger('create:album')
-#    @navigate '/gallery', Gallery.record.id or ''
     
   destroy: (item=Gallery.record) ->
     console.log 'Sidebar::destroy'
     return unless item
     
-    gas = GalleriesAlbum.filter(item.id, key: 'gallery_id')
-    
-    for ga in gas
-      Spine.Ajax.disable ->
-        ga.destroy()
+    albums = Gallery.albums(item.id)
+    Album.trigger('destroy:join', albums, item)
         
-    item.destroy()
     item.removeSelectionID()
+    item.destroy()
+    
     unless Gallery.count()
       Spine.trigger('show:galleries')
       Gallery.trigger('refresh:gallery')
+    else
+      unless /^#\/galleries\/$/.test(location.hash)
+        @navigate '/gallery', Gallery.first().id
 
   edit: ->
     App.galleryEditView.render()
@@ -202,16 +199,15 @@ class Sidebar extends Spine.Controller
       album = $(@).item()
       for ga in gas
         if ga.album_id is album.id and parseInt(ga.order) isnt index
-          console.log ga.order + ' : ' + index
           ga.order = index
           result.push ga
         
           
-    res.save() for res in result
+    res.save(ajax:false) for res in result
+    gallery.save()
     Spine.trigger('reorder', gallery)
     
   dragStartFromSidebar: (e, id) ->
-#    Gallery.updateSelection(id)
     Album.trigger('activate', id)
     
 module?.exports = Sidebar

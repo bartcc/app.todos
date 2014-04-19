@@ -28,7 +28,6 @@ class PhotosList extends Spine.Controller
     'mouseleave  .item'            : 'infoBye'
     
     'dragstart .item'              : 'stopInfo'
-    'dragstart'                    : 'dragstart'
     'dragover .item'               : 'dragover'
     
   selectFirst: true
@@ -39,18 +38,41 @@ class PhotosList extends Spine.Controller
     @toolbar = new ToolbarView
       el: @toolbarEl
       
-    @bind('drag:start', @proxy @dragStart)
-    @bind('drag:drop', @proxy @dragDrop)
-    
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
     Album.bind("ajaxError", Album.errorHandler)
     Album.bind("change:selection", @proxy @exposeSelection)
-    AlbumsPhoto.bind('change', @proxy @changeRelated)
+#    AlbumsPhoto.bind('change', @proxy @changeRelated)
+#    AlbumsPhoto.bind('create', @proxy @createRelated)
+#    AlbumsPhoto.bind('destroy', @proxy @destroyRelated)
     
   change: ->
     console.log 'PhotosList::change'
+    
+  createRelated: (item) ->
+    photo = Photo.exists(item['photo_id'])
+    return unless photo
+    wipe = Album.record and Album.record.count() is 1
+    @el.empty() if wipe
+    @append @template photo
+    @uri [photo]
+    @el.sortable('destroy').sortable()
+    
+    @refreshElements()
+    @el
+    
+  destroyRelated: (item) ->
+    photo = Photo.exists(item['photo_id'])
+    return unless photo
+    photoEl = @children().forItem(photo, true)
+    photoEl.detach()
+    Album.removeFromSelection photo.id
+    if album = Album.record
+      @parent.render() unless album.count()
+      
+    @refreshElements()
+    @el
     
   changeRelated: (item, mode) ->
     return unless @parent.isActive()
@@ -316,12 +338,5 @@ class PhotosList extends Spine.Controller
       'height'          : val+'px'
       'width'           : val+'px'
       'backgroundSize'  : bg
-    
-  dragStart: (e, o) ->
-    if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
-      Photo.trigger('activate', Spine.dragItem.source.id)
-      
-  dragDrop: ->
-    @exposeSelection()
     
 module?.exports = PhotosList

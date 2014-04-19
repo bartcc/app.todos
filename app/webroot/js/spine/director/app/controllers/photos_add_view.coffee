@@ -24,7 +24,8 @@ class PhotosAddView extends Spine.Controller
   events:
     'click .item'                            : 'click'
     'click .opt-AddExecute:not(.disabled)'   : 'add'
-    'click .opt-SelectInv:not(.disabled)'    : 'selectInv'
+    'click .opt-SelInv:not(.disabled)'       : 'selectInv'
+    'click .opt-SelAll:not(.disabled)'       : 'selectAll'
     'keyup'                                  : 'keyup'
     
   template: (items) ->
@@ -101,26 +102,33 @@ class PhotosAddView extends Spine.Controller
     unless Spine.isArray items
       items = [items]
       
-    list = []
-    for item in items
-      list = @selectionList.addRemoveSelection(item)
-        
-    @renderFooter list
-    @list.exposeSelection(list)
+    @selectionList = [] if exclusive
     
-  selectAll: ->
+    for item in items
+      @selectionList.addRemoveSelection(item)
+        
+    @renderFooter @selectionList
+    @list.exposeSelection(@selectionList)
+    
+  selectAll: (e) ->
+    list = @select_()
+    @select(list, true)
+    e.stopPropagation()
+    
+  selectInv: (e) ->
+    list = @select_()
+    @select(list)
+    e.stopPropagation()
+    
+  select_: ->
     root = @itemsEl
-    return unless root and root.children('.item').length
+    items = root.children('.item')
+    return unless root and items.length
     list = []
-    root.children('.item').each (index, el) ->
+    items.each (index, el) ->
       item = $(@).item()
       list.unshift item.id
-    @select(list)
-    
-  selectInv: (e)->
-    @selectAll()
-    e.stopPropagation()
-    e.preventDefault()
+    list
     
   add: ->
     Spine.trigger('photos:copy', @selectionList, Album.record)

@@ -6,7 +6,7 @@ class AlbumsPhotosController extends AppController {
   var $name = 'AlbumsPhotos';
 
   function beforeFilter() {
-    //$this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
+//    $this->Auth->allowedActions = array('index', 'view', 'add', 'edit', 'delete');
     parent::beforeFilter();
   }
   
@@ -27,6 +27,7 @@ class AlbumsPhotosController extends AppController {
     if (!empty($this->request->data)) {
       $this->AlbumsPhoto->create();
       $data = $this->request->data;
+      $this->log($data, LOG_DEBUG);
       $data['id'] = null;
       if ($this->AlbumsPhoto->saveAll($data)) {
         $this->Session->setFlash(__('The albums photo has been saved', true));
@@ -56,6 +57,7 @@ class AlbumsPhotosController extends AppController {
   }
 
   function delete($id = null) {
+    $this->log($id, LOG_DEBUG);
     if (!$id) {
       $this->Session->setFlash(__('Invalid id for albums photo', true));
       $this->redirect(array('action' => 'index'));

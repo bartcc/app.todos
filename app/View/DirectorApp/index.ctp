@@ -248,9 +248,14 @@
 
 
 <script id="footerTemplate" type="text/x-jquery-tmpl">
-  <button type="button" class="opt-SelectInv dark left {{if !contains}}disabled{{/if}}">Invert Selection</button>
-  <button type="button" class="opt-AddExecute dark {{if disabled}}disabled{{/if}}">Add</button>
-  <button type="button" class="opt- dark" data-dismiss="modal">Cancel</button>
+  <div class="btn-group left">
+    <button type="button" class="opt-SelInv dark {{if !contains}}disabled{{/if}}">Invert</button>
+    <button type="button" class="opt-SelAll dark {{if !contains}}disabled{{/if}}">All</button>
+  </div>
+  <div class="btn-group right">
+    <button type="button" class="opt-AddExecute dark {{if disabled}}disabled{{/if}}">Add</button>
+    <button type="button" class="opt- dark" data-dismiss="modal">Cancel</button>
+  </div>
 </script>
 
 <script id="modalActionTemplate" type="text/x-jquery-tmpl">
@@ -468,14 +473,14 @@
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
   <div style="">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique; ">Images: ${iCount}</div>
-  {{if pCount}}
+  {{if pCount()}}
   <div class="opt-SlideshowPlay" style="">
     <span class="label label-default">
     <i class="glyphicon glyphicon-picture"></i><i class="glyphicon glyphicon-play"></i>
-    ${pCount}
+    ${pCount()}
     </span>
   </div>
-  <div style="font-size: 0.8em; font-style: oblique; ">(press space to play)</div>
+  <div style="font-size: 0.8em; font-style: oblique; ">hit space to play</div>
   {{/if}}
 </script>
 

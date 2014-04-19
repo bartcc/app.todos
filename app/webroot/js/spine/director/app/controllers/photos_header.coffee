@@ -25,6 +25,9 @@ class PhotosHeader extends Spine.Controller
     Photo.bind('refresh', @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @render)
     Spine.bind('change:selectedAlbum', @proxy @render)
+    Spine.bind('changed:photos', @proxy @render)
+    Spine.bind('changed:albums', @proxy @render)
+    
     
   backToGalleries: (e) ->
     console.log 'PhotosHeader::backToGalleries'
@@ -54,7 +57,7 @@ class PhotosHeader extends Spine.Controller
       modelGas    : GalleriesAlbum
       modelAps    : AlbumsPhoto
       count       : @count()
-      author      : User.first().name
+      author      : 'Test'#User.first().name
     
   count: ->
     if Album.record

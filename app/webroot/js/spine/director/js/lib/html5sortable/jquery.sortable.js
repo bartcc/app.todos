@@ -35,7 +35,7 @@
       }
       items.attr('draggable', 'true').on('dragstart.h5s', function(e) {
         if (options.handle && !isHandle) {
-          return false;
+//          return false;
         }
         isHandle = false;
         var w = $(this).css('width');

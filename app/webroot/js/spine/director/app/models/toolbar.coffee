@@ -33,6 +33,10 @@ class Toolbar extends Spine.Model
           devider: true
         ,
           name: 'Invert Selection'
+          klass: 'opt-SelectInv'
+          shortcut: 'ctrl+I'
+        ,
+          name: 'Select All'
           klass: 'opt-SelectAll'
           shortcut: 'ctrl+A'
         ,

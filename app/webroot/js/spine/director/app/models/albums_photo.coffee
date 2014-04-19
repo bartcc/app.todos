@@ -14,7 +14,7 @@ class AlbumsPhoto extends Spine.Model
   @configure "AlbumsPhoto", 'album_id', 'photo_id', 'order'
 
   @extend Model.Ajax
-  @extend AjaxRelations
+#  @extend AjaxRelations
   @extend Filter
   
   @url: 'albums_photos'

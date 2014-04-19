@@ -28,14 +28,15 @@ class GalleriesList extends Spine.Controller
     super
     Gallery.bind('change', @proxy @renderOne)
     Gallery.bind('change:selection', @proxy @renderRelated)
-    Gallery.bind('change:selected', @proxy @select)
-    GalleriesAlbum.bind('destroy create', @proxy @renderRelated)
+    Spine.bind('changed:albums', @proxy @renderRelated)
+    Spine.bind('changed:photos', @proxy @renderRelated)
+#    GalleriesAlbum.bind('destroy create', @proxy @renderRelated)
     
-    AlbumsPhoto.bind('destroy create update', @proxy @renderRelated)
+#    AlbumsPhoto.bind('destroy create update', @proxy @renderRelated)
     Photo.bind('destroy', @proxy @renderRelated)
     Album.bind('destroy', @proxy @renderRelated)
     
-  renderRelated: (item, mode) ->
+  renderRelated: ->
     return unless @parent.isActive()
     console.log 'GalleriesList::renderRelated'
     @updateTemplates()
@@ -106,8 +107,8 @@ class GalleriesList extends Spine.Controller
     App.showView.trigger('change:toolbarOne')
         
   select: (item) =>
-    @exposeSelection item
     Gallery.trigger('activate', item.id)
+    @exposeSelection item
     
   click: (e) ->
     console.log 'GalleriesList::click'

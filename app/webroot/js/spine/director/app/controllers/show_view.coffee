@@ -327,11 +327,15 @@ class ShowView extends Spine.Controller
       @showAlbumMasters()
       
   copyAlbums: (albums, gallery) ->
-#    @navigate '/gallery', gallery.id
-    Album.trigger('create:join', albums, gallery)
+    hash = location.hash
+    Album.trigger('create:join', albums, gallery, -> @navigate hash)
       
   copyPhotos: (photos, album) ->
-    Photo.trigger('create:join', photos, album)
+    hash = location.hash
+    options =
+      photos: photos
+      album: album
+    Photo.trigger('create:join', options, -> @navigate hash)
       
   copyPhotosToAlbum: ->
     @photosToAlbum Album.selectionList()[..]
@@ -343,16 +347,11 @@ class ShowView extends Spine.Controller
     target = Gallery.record
     Spine.trigger('create:album', target,
       photos: photos
-      from:album
-      allocate: clb
+      album:album
+      deleteFromOrigin: false
+      relocate: true
     )
     
-    clb = ->
-      if target
-        @navigate '/gallery', target.id, Album.last().id
-      else
-        @navigate '/gallery', '', Album.last().id
-  
   createAlbumCopy: (albums=Gallery.selectionList(), target=Gallery.record) ->
     console.log 'ShowView::createAlbumCopy'
     for id in albums
@@ -542,32 +541,35 @@ class ShowView extends Spine.Controller
     target.click()
     
   deselect: (e) =>
-    if model = @el.data('current').model
-      switch model.className
-        when 'Gallery'
-          Gallery.updateSelection()
-        when 'Album'
-          Album.updateSelection()
-        when 'Photo'
-          ->
-        when 'Slideshow'
-          ->
-        else
-          Gallery.trigger('activate')
+    data = @el.data('current')
+    model = data.model
+    models = data.models
+    model.updateSelection()
+    models.current()
         
-    @current.items.deselect()
+    @current.itemsEl.deselect()
     
   selectAll: (e) ->
-    root = @current.items
-    model = @current.el.data('current').model
-    return unless model
-    list = model.contains()
-    @current.select(list)
+    try
+      list = @select_()
+      @current.select(list, true)
+    catch e
     
   selectInv: (e)->
-    @selectAll()
-    e.stopPropagation()
-    e.preventDefault()
+    try
+      list = @select_()
+      @current.select(list)
+    catch e
+    
+  select_: ->
+    list = []
+    root = @current.itemsEl
+    items = $('.item', root)
+    unless root and items.length
+      return list
+    items.each () ->
+      list.unshift @.id
+    list
     
   uploadProgress: (e, coll) ->
     
@@ -669,6 +671,8 @@ class ShowView extends Spine.Controller
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
     
+#    console.log 'ShowView:keyupCode: ' + code
+    
     switch code
       when 8 #Backspace
         unless isFormfield
@@ -682,5 +686,9 @@ class ShowView extends Spine.Controller
         unless isFormfield
           if e.metaKey or e.ctrlKey
             @selectAll()
+      when 73 #CTRL I
+        unless isFormfield
+          if e.metaKey or e.ctrlKey
+            @selectInv()
 
 module?.exports = ShowView

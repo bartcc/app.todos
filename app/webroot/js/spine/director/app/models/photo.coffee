@@ -77,13 +77,25 @@ class Photo extends Spine.Model
     
     ret = for item in items
       ap = new AlbumsPhoto
+        id          : $().uuid()
         album_id    : target.id
         photo_id    : item
         order       : AlbumsPhoto.photos(target.id).length
-      ap.save()
-
+      ap.save(ajax:false)
+      
+    target.save()
     ret
     
+  @destroyJoin: (items=[], target) ->
+    unless @isArray items
+      items = [items]
+      
+    return unless items.length
+    
+    for id in items
+      ap = AlbumsPhoto.albumPhotoExists(id, target.id)
+      ap.destroy() if ap
+      
   @getGallery: ->
     Gallery.record
     

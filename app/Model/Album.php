@@ -8,9 +8,9 @@ class Album extends AppModel {
   public $useDbConfig = 'director_spine';
   
   public $hasMany = array(
-      'AlbumsPhoto' => array('dependent' => true),
-      'GalleriesAlbum' => array('dependent' => true)
-      );
+    'AlbumsPhoto' => array('dependent' => true),
+    'GalleriesAlbum' => array('dependent' => true)
+  );
 }
 
 ?>

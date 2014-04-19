@@ -38,9 +38,10 @@ class WaitView extends Spine.Controller
       body: 'Body'
       small: true
   
-  close: (loc) ->
+  close: (cb) ->
     @modalSimpleView.close()
-    @navigate loc if loc
+    if typeof cb is 'function'
+      cb.call(@)
     
   hidemodal: (e) ->
     

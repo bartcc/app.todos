@@ -9,6 +9,7 @@ Filter            = require("plugins/filter")
 Extender          = require("plugins/model_extender")
 AjaxRelations     = require("plugins/ajax_relations")
 Uri               = require("plugins/uri")
+Utils             = require("plugins/utils")
 require("plugins/cache")
 require("spine/lib/ajax")
 
@@ -20,6 +21,7 @@ class Album extends Spine.Model
   @extend Model.Cache
   @extend Model.Ajax
   @extend Uri
+  @extend Utils
   @extend AjaxRelations
   @extend Filter
   @extend Extender
@@ -65,7 +67,7 @@ class Album extends Spine.Model
   @inactive: ->
     @findAllByAttribute('active', false)
     
-  @createJoin: (items=[], target) ->
+  @createJoin: (items=[], target, cb) ->
     unless @isArray items
       items = [items]
 
@@ -73,10 +75,26 @@ class Album extends Spine.Model
     
     ret = for item in items
       ga = new GalleriesAlbum
+        id          : $().uuid()
         gallery_id  : target.id
         album_id    : item
         order       : GalleriesAlbum.albums(target.id).length
-      ga.save()
+      ga.save(ajax:false)
+      
+    target.save(done: cb)
+    ret
+    
+  @destroyJoin: (items=[], target) ->
+    unless @isArray items
+      items = [items]
+      
+    return unless items.length
+    
+    for id in items
+      ga = GalleriesAlbum.galleryAlbumExists(id, target.id)
+      ga.destroy() if ga
+      
+#    target.save()
       
   @gallerySelectionList: ->
     if Gallery.record and Album.record
@@ -115,6 +133,8 @@ class Album extends Spine.Model
       if ga.album_id is @id
         target.removeSelection(ga.album_id)
         ga.destroy()
+        
+#    target.save()
   
   count: (inc = 0) =>
     @constructor.contains(@id).length + inc

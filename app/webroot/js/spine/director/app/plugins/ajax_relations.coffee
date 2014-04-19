@@ -22,7 +22,7 @@ class Builder
     data
     
   build: ->
-    # for HABTM
+    # for HABTM // hasMany joinModel
     if @foreignModels
       @fModels = for key, value of @foreignModels
         @foreignModels[key]
@@ -32,13 +32,15 @@ class Builder
         records = model.filterRelated @record.id,
           key: key.foreignKey
           joinTable: key.joinTable
-
-        selected = @newWrapper model
-        selected[model.className] = @model.records.toID()
-        @data[model.className] = selected
-
+        foreignRecords = Model[key.joinTable].filter @record.id,
+          key: key.foreignKey
+        
+#        selected = @newWrapper model
+#        selected[model.className] = records#.toID()
+        @data[key.joinTable] = foreignRecords
+    
     @data[@model.className] = @record
-    @data[@model.className]
+    @data
 
 class Request extends Spine.Ajax.Singleton
   constructor: (@record) ->

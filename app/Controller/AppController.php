@@ -39,13 +39,13 @@ class AppController extends Controller {
   function beforeFilter() {
     if ($this->request->is('ajax')) {
       $this->autoRender = FALSE;
-      $this->Auth->autoRedirect = TRUE;
+      $this->Auth->autoRedirect = FALSE;
       $data = $this->request->input('json_decode');
       if(!empty($data)) {
         $data = $this->object2Array($data);
         $this->request->data = $data;
       }
-      $this->_data = $this->data;
+//      $this->_data = $this->data;
     }
   }
   

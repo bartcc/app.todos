@@ -22,14 +22,13 @@ class AlbumsView extends Spine.Controller
   elements:
     '.hoverinfo'                      : 'infoEl'
     '.header .hoverinfo'              : 'headerEl'
-    '.items'                          : 'items'
+    '.items'                          : 'itemsEl'
     
   events:
     'click      .item'                : 'click'
     
-#    'dragstart'                       : 'dragStart'
-    'dragstart .item'                 : 'startDrag'
-    'drop .item'                      : 'dropDrag'
+    'dragstart'                       : 'dragstart'
+    'drop .item'                      : 'drop'
     'dragover   .items'               : 'dragover'
     
     'sortupdate .items'               : 'sortupdate'
@@ -59,13 +58,16 @@ class AlbumsView extends Spine.Controller
       el: @infoEl
       template: @infoTemplate
     @list = new AlbumsList
-      el: @items
+      el: @itemsEl
       template: @albumsTemplate
       info: @info
       parent: @
     @header.template = @headerTemplate
     @viewport = @list.el
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
+
+    Gallery.bind('current', @proxy @render)
+    
     Album.bind('refresh', @proxy @refresh)
     Album.bind('ajaxError', Album.errorHandler)
     Album.bind('create', @proxy @create)
@@ -79,15 +81,19 @@ class AlbumsView extends Spine.Controller
     
     AlbumsPhoto.bind('destroy create', @proxy @updateBackgrounds)
     
-    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
+#    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     
     Spine.bind('reorder', @proxy @reorder)
     Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @createAlbum)
+    Spine.bind('changed:albums', @proxy @render)
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
     Spine.bind('loading:fail', @proxy @loadingFail)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
+    
+    @bind('drag:start', @proxy @startDrag)
+    @bind('drag:drop', @proxy @dropDrag)
     
     $(@views).queue('fx')
     
@@ -168,12 +174,14 @@ class AlbumsView extends Spine.Controller
       album.createJoin(target)
       album.updateSelection()
       album.updateSelectionID()
+      options.album = album
       if options.photos
-        Photo.trigger('create:join', options.photos, album)
-        Photo.trigger('destroy:join', options.photos, options.from) if options.from
+        Photo.trigger('create:join', options, false)
+        Photo.trigger('destroy:join', options.photos, options.deleteFromOrigin) if options.deleteFromOrigin
       Spine.trigger('changed:albums', target)
-      @navigate '/gallery', Gallery.record?.id or '', album.id
-      
+      Album.trigger('activate', album.id)
+      @navigate '/gallery', Gallery.record?.id or ''
+    
     album = new Album @newAttributes()
     album.one('ajaxSuccess', @proxy cb)
     album.save()
@@ -187,11 +195,11 @@ class AlbumsView extends Spine.Controller
       
     else
       for id in albums
-        galleries = GalleriesAlbum.galleries(id)
-        for gallery in galleries
-          @destroyJoin id, gallery
+#        galleries = GalleriesAlbum.galleries(id)
+#        for gallery in galleries
+#          @destroyJoin id, gallery
         if album = Album.exists(id)
-          list = Gallery.removeFromSelection album.id
+#          list = Gallery.removeFromSelection album.id
 #          Album.trigger('activate', list)
           album.destroy()
   
@@ -199,31 +207,27 @@ class AlbumsView extends Spine.Controller
     @render()
    
   beforeDestroy: (album) ->
-    photos = AlbumsPhoto.photos(album.id).toID()
-    Photo.trigger('destroy:join', photos, album)
-    
-    album.removeSelectionID()
-    
-    @list.findModelElement(album).remove()
-    
-    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
-    for ga in gas
-      @destroyJoin [album.id], Gallery.exists gas.gallery_id
+#    
+#    
+#    @list.findModelElement(album).remove()
+#    
+#    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
+#    for ga in gas
+#      @destroyJoin [album.id], Gallery.exists gas.gallery_id
    
   destroy: (album) ->
+    photos = AlbumsPhoto.photos(album.id).toID()
+    Photo.trigger('destroy:join', photos, album)
+    album.removeSelectionID()
     @render() unless Album.count()
       
-  createJoin: (albums, gallery) ->
-    loc = location.hash
-    @navigate '/wait/'
-    
-    func = ->
-      Album.createJoin albums, gallery
+  createJoin: (albums, gallery, relocate) ->
+    callback = ->
       Gallery.updateSelection(albums)
       Spine.trigger('changed:albums', gallery)
-      Spine.trigger('done:wait', loc)
-      
-    setTimeout(func, 1000)
+  
+    deferred = $.Deferred()
+    Album.createJoin albums, gallery, callback
       
   destroyJoin: (albums, gallery) ->
     console.log 'AlbumsView::destroyJoin'
@@ -231,9 +235,9 @@ class AlbumsView extends Spine.Controller
     selection = []
     albums = [albums] unless Album.isArray(albums)
     for id in albums
-      if ga = GalleriesAlbum.galleryAlbumExists(id, gallery.id)
-        selection.addRemoveSelection id
-        ga.destroy()
+      selection.addRemoveSelection id
+
+    Album.destroyJoin albums, gallery
     Gallery.removeFromSelection selection
     Spine.trigger('changed:albums', gallery)
     @sortupdate()
@@ -241,7 +245,7 @@ class AlbumsView extends Spine.Controller
   loadingStart: (album) ->
     return unless @isActive()
     return unless album
-    el = @items.children().forItem(album)
+    el = @itemsEl.children().forItem(album)
     $('.glyphicon-set', el).addClass('in')
     $('.downloading', el).removeClass('hide').addClass('in')
 #    queue = el.data('queue').queue = []
@@ -250,7 +254,7 @@ class AlbumsView extends Spine.Controller
   loadingDone: (album) ->
     return unless @isActive()
     return unless album
-    el = @items.children().forItem(album)
+    el = @itemsEl.children().forItem(album)
     $('.glyphicon-set', el).removeClass('in')
     $('.downloading', el).removeClass('in').addClass('hide')
 #    el.data('queue').queue.splice(0, 1)
@@ -258,7 +262,7 @@ class AlbumsView extends Spine.Controller
   loadingFail: (album, error) ->
     return unless @isActive()
     err = error.errorThrown
-    el = @items.children().forItem(album)
+    el = @itemsEl.children().forItem(album)
     $('.glyphicon-set', el).removeClass('in')
     $('.downloading', el).addClass('error').tooltip('destroy').tooltip(title:err).tooltip('show')
     
@@ -266,7 +270,6 @@ class AlbumsView extends Spine.Controller
     return unless @isActive()
     console.log 'AlbumsView::updateBackgrounds'
     albums = ap.albums()
-    console.log albums.length
     @list.renderBackgrounds albums
     
   refreshBackgrounds: (photos) ->
@@ -276,14 +279,19 @@ class AlbumsView extends Spine.Controller
     @list.renderBackgrounds [album] if album
     
   sortupdate: (e, o) ->
+    return unless Gallery.record
+    
+    cb = ->
+      Spine.trigger('changed:albums', Gallery.record)
+      
     @list.children().each (index) ->
       item = $(@).item()
-      if item and Gallery.record
+      if item
         ga = GalleriesAlbum.filter(item.id, func: 'selectAlbum')[0]
         if ga and parseInt(ga.order) isnt index
           ga.order = index
-          ga.save()
-    Spine.trigger('changed:albums', Gallery.record)
+          ga.save(ajax:false)
+    Gallery.record.save(done: cb)
     
   reorder: (gallery) ->
     if gallery.id is Gallery.record.id
@@ -291,26 +299,23 @@ class AlbumsView extends Spine.Controller
       
   click: (e) ->
     item = $(e.currentTarget).item()
-    @select(item, @isCtrlClick(e))
+    @select(item.id, @isCtrlClick(e))
     
     e.stopPropagation()
     e.preventDefault()
     
   select: (items = [], exclusive) ->
-    console.log 'AlbumsView::select'
     unless Spine.isArray items
       items = [items]
       
-    items = items.toID()
-    
-    Album.emptySelection() if exclusive
+    Gallery.emptySelection() if exclusive
       
-    list = Gallery.selectionList().slice(0)
+    selection = Gallery.selectionList().slice(0)
     for id in items
-      list.addRemoveSelection(id)
+      selection.addRemoveSelection(id)
     
-    Gallery.updateSelection(list)
-#    Album.trigger('activate', list)
+    Album.trigger('activate', selection[0])
+    Gallery.updateSelection(selection)
     
   infoUp: (e) =>
     @info.up(e)
@@ -324,11 +329,11 @@ class AlbumsView extends Spine.Controller
     @info.bye(e)
       
   startDrag: (e, id) ->
-    console.log 'AlbumsList::dragStart'
+    console.log 'AlbumsView::dragStart'
     if Gallery.selectionList().indexOf(id) is -1
       Album.trigger('activate', id)
       
   dropDrag: (e) ->
-    console.log 'AlbumsList::dragDrop'
+    console.log 'AlbumsView::dragDrop'
         
 module?.exports = AlbumsView

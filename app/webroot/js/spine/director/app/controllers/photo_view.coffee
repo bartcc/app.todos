@@ -38,8 +38,8 @@ class PhotoView extends Spine.Controller
   constructor: ->
     super
     @el.data('current',
-      model: Photo
-      models: Album
+      model: Album
+      models: Photo
     )
     @type = 'Photo'
     @info = new Info

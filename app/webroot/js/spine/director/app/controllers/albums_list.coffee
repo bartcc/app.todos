@@ -22,7 +22,6 @@ class AlbumsList extends Spine.Controller
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
     
-    
   constructor: ->
     super
     @widows = []
@@ -31,8 +30,10 @@ class AlbumsList extends Spine.Controller
     Album.bind("ajaxError", Album.errorHandler)
     
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
-    GalleriesAlbum.bind('change', @proxy @changeRelatedAlbum)
     Gallery.bind('change:selection', @proxy @exposeSelection)
+    
+  changedAlbums: (gallery) ->
+    
     
   changeRelatedAlbum: (item, mode) ->
     return unless @parent and @parent.isActive()
@@ -211,7 +212,7 @@ class AlbumsList extends Spine.Controller
     
     window.setTimeout( =>
       Spine.trigger('destroy:album', [item.id])
-#      Gallery.removeFromSelection item.id
+      el.detach()
     , 200)
     
     e.stopPropagation()

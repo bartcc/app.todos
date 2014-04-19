@@ -363,7 +363,7 @@ class ShowView extends Spine.Controller
         )
         
     if target
-      Gallery.updateSelection albums, target.id
+      target.updateSelection albums
       @navigate '/gallery', target.id
     else
       @showAlbumMasters()

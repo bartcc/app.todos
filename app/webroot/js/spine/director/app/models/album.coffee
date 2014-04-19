@@ -131,7 +131,7 @@ class Album extends Spine.Model
     
     for ga in gas
       if ga.album_id is @id
-        target.removeSelection(ga.album_id)
+        target.removeFromSelection(ga.album_id)
         ga.destroy()
         
 #    target.save()

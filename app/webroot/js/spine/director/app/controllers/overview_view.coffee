@@ -117,7 +117,6 @@ class OverviewView extends Spine.Controller
     photo = Photo.exists(item.id)
     
     if photo
-      photo.emptySelection()
       @navigate '/gallery', '/', photo.id
       
     false

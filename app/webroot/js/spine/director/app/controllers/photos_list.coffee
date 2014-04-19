@@ -67,7 +67,7 @@ class PhotosList extends Spine.Controller
     return unless photo
     photoEl = @children().forItem(photo, true)
     photoEl.detach()
-    Album.removeFromSelection photo.id
+    Album.removeFromSelection null, photo.id
     if album = Album.record
       @parent.render() unless album.count()
       
@@ -92,9 +92,11 @@ class PhotosList extends Spine.Controller
       when 'destroy'
         photoEl = @children().forItem(photo, true)
         photoEl.detach()
-        Album.removeFromSelection photo.id
         if album = Album.record
+          album.removeFromSelection photo.id
           @parent.render() unless album.count()
+        else
+          Album.removeFromSelection null, photo.id
           
       when 'update'
         @el.sortable('destroy').sortable()

@@ -85,23 +85,26 @@ Model.Extender =
           return item[id] if item[id]
         return ret
       
-      updateSelection: (list, id) ->
-        ret = @emptySelection list, id
+      updateSelection: (id, list) ->
+        ret = @emptySelection id, list
         @trigger('change:selection', ret)
         ret
 
-      emptySelection: (list = [], id) ->
+      emptySelection: (id, list = []) ->
         originalList = @selectionList(id)
         originalList[0...originalList.length] = list
         originalList
 
-      removeFromSelection: (idOrList=[]) ->
-        copy = @selectionList().slice(0)
+      removeFromSelection: (id, idOrList=[]) ->
+        originalList = @selectionList(id)
         unless @isArray idOrList
           idOrList = [idOrList]
+          
         for id in idOrList
-          copy.splice(index, 1) unless (index = copy.indexOf(id)) is -1
-        @updateSelection copy
+          originalList.splice(index, 1) unless (index = originalList.indexOf(id)) is -1
+          
+        list = @updateSelection id, originalList.slice(0)
+        list
 
       isArray: (value) ->
         Object::toString.call(value) is "[object Array]"
@@ -179,52 +182,51 @@ Model.Extender =
           for __key, __val of __itm
              __val.splice(__x, 1) unless __x = __val.indexOf(@id) is -1 #remove all selection entries
       
-      removeSelection: (idOrList) ->
-        selectionList = @constructor.selectionList(@id)
-        list = [list] unless @constructor.isArray list
-        selectionList.splice(index, 1) for id, index in list
+      # removes items from the selectionList
+      removeFromSelection: (list) ->
+        selectionList = @constructor.removeFromSelection(@id, list)
+#        list = [list] unless @constructor.isArray list
+#        
+#        for id in list
+#          selectionList.splice(index, 1) unless (index = selectionList.indexOf(id)) is -1
+#        
         selectionList
       
-      updateSelection: (list=@id) ->
-        modelName = @constructor['parent']
+      updateSelection: (list) ->
         list = [list] unless @constructor.isArray list
-        list = Model[modelName].updateSelection list
+        list = @constructor.updateSelection @id, list
 
       emptySelection: ->
-        modelName = @constructor['parent']
-        list = Model[modelName].emptySelection()
+        list = @constructor.emptySelection @id
 
       addRemoveSelection: (isMetaKey) ->
-        modelName = @constructor['parent']
-        list = Model[modelName].selectionList()
-        return unless list
+        originalList = @constructor.selectionList @id
+        return unless originalList
         if isMetaKey
-          @addUnique(list)
+          @addUnique(originalList)
         else
-          @toggleSelected(list)
-        list
+          @toggleSelected(originalList)
+        originalList
         
       addToSelection: (isMetaKey) ->
-        modelName = @constructor['parent']
-        list = Model[modelName].selectionList()
-        return unless list
+        originalList = @constructor.selectionList @id
+        return unless originalList
         if isMetaKey
-          @addUnique(list)
+          @addUnique(originalList)
         else
-          unless @id in list
-            list.push @id
-        list
+          unless @id in originalList
+            originalList.push @id
+        originalList
 
       shiftSelection: ->
-        modelName = @constructor['parent']
-        list = Model[modelName].selectionList()
-        return unless list
-        return list if index = list.indexOf(@id) is 0
-        rm = list.splice(0, 1, list[index])
-        list.splice(index, 1)
-        list.push(rm[0])
-        index = list.indexOf(@id)
-        list
+        originalList = @constructor.selectionList @id
+        return unless originalList
+        return originalList if index = originalList.indexOf(@id) is 0
+        rm = originalList.splice(0, 1, originalList[index])
+        originalList.splice(index, 1)
+        originalList.push(rm[0])
+        index = originalList.indexOf(@id)
+        originalList
         
 
       #prevents an update if model hasn't changed

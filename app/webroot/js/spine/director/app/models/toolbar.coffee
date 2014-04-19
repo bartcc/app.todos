@@ -99,7 +99,7 @@ class Toolbar extends Spine.Model
           name: 'New Album from Selection'
           icon: 'certificate'
           klass: 'opt-CopyPhotosToAlbum'
-          disabled: -> !Album.selectionList().length
+          disabled: -> !!!Album.selectionList().length
         ,
           devider: true
         ,
@@ -113,7 +113,7 @@ class Toolbar extends Spine.Model
           name: 'Empty Albums'
           icon: 'fire'
           klass: 'opt-EmptyAlbum'
-          disabled: -> !Gallery.selectionList().length
+          disabled: -> !!!Gallery.selectionList().length
         ,
           name: ->
             len = '('+Gallery.selectionList().length+')'
@@ -159,25 +159,16 @@ class Toolbar extends Spine.Model
           disabled: ->
         ,
           name: ->
-            if Gallery.record
-              len = Album.gallerySelectionList().length
+            if Album.record
               type = 'Remove'
-            else unless Album.record
-              len = Album.selectionList().length
-              type = 'Destroy'
             else
-              len = Album.selectionList().length
-              type = 'Remove'
+              type = 'Destroy'
+            len = Album.selectionList().length
             return type+' ('+len+')'
           shortcut: '<-'
           icon: 'trash'
           klass: 'opt-DestroyPhoto '
-          disabled: ->
-            if Gallery.record
-              len = Album.gallerySelectionList().length
-            else
-              len = Album.selectionList().length
-            return !len
+          disabled: -> !!!Album.selectionList().length
         ,
           devider: true
         ,
@@ -185,13 +176,7 @@ class Toolbar extends Spine.Model
             'Show Selection'
           icon: 'hand-right'
           klass: 'opt-ShowPhotoSelection '
-          disabled: ->
-            len = 0
-            if Gallery.record
-              len = Album.gallerySelectionList().length
-            else
-              len = Album.selectionList().length
-            return !len
+          disabled: -> !!!Album.selectionList().length
         ,
           name: -> 'Photomasters'
           klass: 'opt-ShowAllPhotos'
@@ -207,23 +192,20 @@ class Toolbar extends Spine.Model
         ]
     group4:
       name: -> 
-        len=Gallery.record?.activePhotos().length or 0
+        len = if record = Gallery.record then record.activePhotos().length else 0
         'Slideshow (' + len + ')'
       content:
         [
-          name: ->
-            'Preview'#(if len==1 then " Image" else " Images") 
+          name: -> 'Preview'
           klass: 'opt-SlideshowPreview'
           icon: 'picture'
-          disabled: -> !Gallery.activePhotos().length
+          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
         ,
-          name: ->
-            len=Gallery.activePhotos().length
-            'Start'
-          icon: 'play'
+          name: 'Start'
           klass: 'opt-SlideshowPlay'
+          icon: 'play'
           dataToggle: 'modal-gallery'
-          disabled: -> !Gallery.activePhotos?().length
+          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
         ]
       
   @data:

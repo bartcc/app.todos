@@ -87,7 +87,7 @@ class UploadEditView extends Spine.Controller
       options = $().extend {},
         photos: photos.toID()
         album: album
-      Album.updateSelection(selection)
+      album.updateSelection(selection)
       Photo.trigger('create:join', options)
       Spine.trigger('loading:done', album)
     else

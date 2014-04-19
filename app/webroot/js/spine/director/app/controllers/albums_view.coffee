@@ -149,7 +149,7 @@ class AlbumsView extends Spine.Controller
     if id
       App.sidebar.list.expand(Gallery.record, true)
       
-    Gallery.updateSelection(list)
+    Gallery.updateSelection(null, list)
     Album.current(id)
     
     
@@ -172,7 +172,7 @@ class AlbumsView extends Spine.Controller
   createAlbum: (target=Gallery.record, options={}) ->
     cb = (album, ido) ->
       album.createJoin(target)
-      album.updateSelection()
+      if Gallery.record then target.updateSelection() else Gallery.updateSelection()
       album.updateSelectionID()
       options.album = album
       if options.photos
@@ -228,7 +228,7 @@ class AlbumsView extends Spine.Controller
       
   createJoin: (albums, gallery, relocate) ->
     callback = ->
-      Gallery.updateSelection(albums)
+      gallery.updateSelection(albums)
       Spine.trigger('changed:albums', gallery)
   
     deferred = $.Deferred()
@@ -243,7 +243,7 @@ class AlbumsView extends Spine.Controller
       selection.addRemoveSelection id
 
     Album.destroyJoin albums, gallery
-    Gallery.removeFromSelection selection
+    gallery.removeFromSelection albums
     Spine.trigger('changed:albums', gallery)
     @sortupdate()
       
@@ -312,7 +312,6 @@ class AlbumsView extends Spine.Controller
   select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]
-      
     Gallery.emptySelection() if exclusive
       
     selection = Gallery.selectionList().slice(0)
@@ -320,7 +319,7 @@ class AlbumsView extends Spine.Controller
       selection.addRemoveSelection(id)
     
     Album.trigger('activate', selection[0])
-    Gallery.updateSelection(selection)
+    Gallery.updateSelection(null, selection)
     
   infoUp: (e) =>
     @info.up(e)

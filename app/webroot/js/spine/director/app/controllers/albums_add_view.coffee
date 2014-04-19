@@ -90,7 +90,6 @@ class AlbumsAddView extends Spine.Controller
     unless Spine.isArray items
       items = [items]
     
-    
     @selectionList = [] if exclusive
     
     for item in items

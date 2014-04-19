@@ -126,7 +126,7 @@ class PhotosView extends Spine.Controller
       selection.addRemoveSelection(id)
       
     Photo.trigger('activate', selection[0])
-    Album.updateSelection(selection)
+    Album.updateSelection(null, selection)
   
     
   activateRecord: (arr=[]) ->
@@ -138,16 +138,16 @@ class PhotosView extends Spine.Controller
       list.push photo.id if photo = Photo.exists(id)
     
     id = list[0]
-#    Album.updateSelection(list)
+#    Album.updateSelection(null, list)
     Photo.current(id)
   
   clearPhotoCache: ->
     Photo.clearCache()
   
   beforeDestroy: (photo) ->
-    Album.removeFromSelection photo.id
+    Album.removeFromSelection null, photo.id
     photo.removeSelectionID()
-    @list.findModelElement(photo).remove()
+    @list.findModelElement(photo).detach()
     
     aps = AlbumsPhoto.filter(photo.id, key: 'photo_id')
     for ap in aps
@@ -202,8 +202,8 @@ class PhotosView extends Spine.Controller
   createJoin: (options, relocate) ->
     console.log options
     album = options.album
+    album.updateSelection(options.photos)
     Photo.createJoin options.photos, options.album
-    Album.updateSelection(options.photos)
     Spine.trigger('changed:photos', album.id)
   
   destroyJoin: (options) ->
@@ -219,7 +219,7 @@ class PhotosView extends Spine.Controller
         selection.addRemoveSelection id
         aps.push ap.id
         ap.destroy()
-    Album.removeFromSelection selection
+    album.removeFromSelection selection
     Spine.trigger('changed:photos', album.id)
     @sortupdate()
 

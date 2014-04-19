@@ -189,8 +189,9 @@ class AlbumsView extends Spine.Controller
   destroyAlbum: (ids) ->
     console.log 'AlbumsView::destroyAlbum'
   
-    func = ->
-      el.detach()
+    func = (id) =>
+      ele = @list.findModelElement(Album.exists id)
+      ele.remove()
   
     albums = ids || Gallery.selectionList().slice(0)
     albums = [albums] unless Album.isArray albums
@@ -198,7 +199,7 @@ class AlbumsView extends Spine.Controller
     for id in albums
       el = @list.findModelElement(Album.exists(id))
       el.removeClass('in')
-      setTimeout(func, 200)
+      setTimeout(func.call(@, id), 200)
     
     
     if Gallery.record

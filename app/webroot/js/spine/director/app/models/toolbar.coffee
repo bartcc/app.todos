@@ -95,6 +95,7 @@ class Toolbar extends Spine.Model
           name: 'Add from Masters'
           icon: 'plus'
           klass: 'opt-AddAlbums'
+          disabled: -> !Gallery.record
         ,
           name: 'New Album from Selection'
           icon: 'certificate'
@@ -150,6 +151,7 @@ class Toolbar extends Spine.Model
           name: 'Add from Masters'
           icon: 'plus'
           klass: 'opt-AddPhotos'
+          disabled: -> !Album.record
         ,
           devider: true
         ,

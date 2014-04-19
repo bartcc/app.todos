@@ -28,6 +28,8 @@ class GalleriesList extends Spine.Controller
     super
     Gallery.bind('change', @proxy @renderOne)
     Gallery.bind('change:selection', @proxy @renderRelated)
+    Gallery.bind('current', @proxy @exposeSelection)
+    
     Spine.bind('changed:albums', @proxy @renderRelated)
     Spine.bind('changed:photos', @proxy @renderRelated)
 #    GalleriesAlbum.bind('destroy create', @proxy @renderRelated)

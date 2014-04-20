@@ -271,7 +271,6 @@ class PhotosView extends Spine.Controller
       
   dragStart: (e, o) ->
     console.log Spine.dragItem.source.id
-    console.log e
     if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
       Photo.trigger('activate', Spine.dragItem.source.id)
       

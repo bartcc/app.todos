@@ -966,8 +966,8 @@ textarea {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  margin-top: 1px;
-  padding: 19px 0 15px;
+  margin-bottom: 2px;
+  padding: 17px 0 15px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.50);
 }
 .contents.views {
@@ -1104,9 +1104,9 @@ textarea {
   margin: 0 auto;
 }
 #sidebar ul.sublist li.sublist-item {
-  margin-left: -10px;
+  margin: 0;
   position: relative;
-  padding: 5px 30px;
+  padding: 8px 18px;
 }
 #sidebar .expander {
   width: 23px;
@@ -1118,6 +1118,7 @@ textarea {
 #sidebar li {
   color: #787878;
   text-shadow: 0 -1px 1px rgba(0,0,0,0.70);
+  border: 4px solid transparent;
 }
 #sidebar li.gal.active,
 #sidebar li.active li {
@@ -1826,7 +1827,7 @@ section.addAction {
   font-size: 1.2em;
 }
 #sidebar .alb {
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 #sidebar .gal.item {
   background-color: rgba(80,80,80,0.70);
@@ -1836,11 +1837,21 @@ section.addAction {
   background-color: rgba(200,200,200,0.77);
 }
 .over,
-.over li {
-  background-color: rgba(50,250,50,0.70) !important;
-  color: rgba(40,40,40,0.90) !important;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.33) !important;
+li.over:not(.view) {
+/*  background-color: rgba(50, 250, 50, 0.7) !important;*/
+/*  color: rgba(40, 40, 40, 0.9) !important;*/
+/*  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.33) !important;*/
+  border: 4px solid #ffd700 !important;
 }
 .over li {
-  background-color: inherit !important;
+/*  background-color: inherit !important;*/
+  border-color: transparent !important;
+/*  color: inherit !important;*/
+/*  text-shadow: inherit !important;*/
+}
+.data.items {
+  border: 4px solid transparent;
+}
+.noborder {
+  border: 0 none !important;
 }

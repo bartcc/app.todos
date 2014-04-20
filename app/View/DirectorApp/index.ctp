@@ -30,7 +30,7 @@
         </div>
         <div class="originals hbox">
           <ul class="opt-ions flex">
-            <li id="" class="splitter flickr disabled"></li>
+            <li id="" class="splitter flickr noborder disabled"></li>
           </ul>
         </div>
         <ul class="items vbox flex autoflow"></ul>

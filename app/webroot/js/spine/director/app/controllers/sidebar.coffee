@@ -208,6 +208,6 @@ class Sidebar extends Spine.Controller
     Spine.trigger('reorder', gallery)
     
   dragStartFromSidebar: (e, id) ->
-    Album.trigger('activate', id)
+#    Album.trigger('activate', id)
     
 module?.exports = Sidebar

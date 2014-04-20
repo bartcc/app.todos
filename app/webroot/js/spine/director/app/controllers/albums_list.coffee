@@ -22,10 +22,6 @@ class AlbumsList extends Spine.Controller
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
     
-    'dragstart .item'                 : 'dragstart'
-    'drop .item'                      : 'drop'
-    'dragover   .items'               : 'dragover'
-    
   constructor: ->
     super
     @widows = []

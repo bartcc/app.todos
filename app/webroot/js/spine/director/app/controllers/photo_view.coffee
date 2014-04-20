@@ -21,10 +21,12 @@ class PhotoView extends Spine.Controller
   events:
     'mousemove  .item'                : 'infoUp'
     'mouseleave .item'                : 'infoBye'
+    
     'dragstart  .item'                : 'stopInfo'
-    'dragstart'                       : 'dragstart'
-    'drop       .item'                : 'drop'
-    'click'                           :'click'
+    'dragstart .item'                 : 'dragstart'
+    'drop .item'                      : 'drop'
+    
+    'click'                           : 'click'
     'click .glyphicon-set .back'      : 'back'
     'click .glyphicon-set .delete'    : 'deletePhoto'
     'click .glyphicon-set .resize'    : 'resize'
@@ -47,6 +49,8 @@ class PhotoView extends Spine.Controller
       template: @infoTemplate
     @viewport = @items
     
+    AlbumsPhoto.bind('beforeDestroy', @proxy @back)
+    Photo.bind('beforeDestroy', @proxy @back)
     Photo.one('refresh', @proxy @refresh)
     Spine.bind('show:photo', @proxy @show)
     
@@ -123,22 +127,15 @@ class PhotoView extends Spine.Controller
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
     
-    @items.removeClass('in')
-    
-    window.setTimeout( =>
-      Spine.trigger('destroy:photo', [item.id])
-      @back(e)
-    , 300)
+    Spine.trigger('destroy:photo', [item.id], @proxy @back)
     
     @stopInfo(e)
     
     e.stopPropagation()
     e.preventDefault()
   
-  back: (e) ->
+  back: ->
     @navigate '/gallery', Gallery.record.id, Album.record.id
-    e.stopPropagation()
-    e.preventDefault()
     
   resize: (e) ->
     e.stopPropagation()

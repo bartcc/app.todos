@@ -28,7 +28,6 @@ class PhotosList extends Spine.Controller
     'mouseleave  .item'            : 'infoBye'
     
     'dragstart .item'              : 'stopInfo'
-    'dragover .item'               : 'dragover'
     
   selectFirst: true
     
@@ -43,13 +42,12 @@ class PhotosList extends Spine.Controller
     Photo.bind('update', @proxy @update)
     Album.bind("ajaxError", Album.errorHandler)
     Album.bind("change:selection", @proxy @exposeSelection)
-#    AlbumsPhoto.bind('change', @proxy @changeRelated)
-#    AlbumsPhoto.bind('create', @proxy @createRelated)
-#    AlbumsPhoto.bind('destroy', @proxy @destroyRelated)
     
   change: ->
     console.log 'PhotosList::change'
     
+  # not used in this Join Model
+  # causing too much workload
   createRelated: (item) ->
     photo = Photo.exists(item['photo_id'])
     return unless photo
@@ -276,14 +274,7 @@ class PhotosList extends Spine.Controller
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
     
-#    el = @findModelElement item
-#    el.removeClass('in')
-    
     Spine.trigger('destroy:photo', [item.id])
-    
-#    window.setTimeout( =>
-#      Spine.trigger('destroy:photo', [item.id])
-#    , 300)
     
     @stopInfo(e)
     
@@ -292,7 +283,7 @@ class PhotosList extends Spine.Controller
     
   zoom: (e) ->
     item = $(e?.currentTarget).item() || @current
-    @parent.select item, true
+#    @parent.select item.id, true
     @stopInfo(e)
 #    @navigate '/slideshow', item.id
     @navigate '/gallery', (Gallery.record?.id or ''), (Album.record?.id or ''), item.id

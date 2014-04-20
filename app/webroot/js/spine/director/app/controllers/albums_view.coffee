@@ -27,7 +27,7 @@ class AlbumsView extends Spine.Controller
   events:
     'click      .item'                : 'click'
     
-    'dragstart'                       : 'dragstart'
+    'dragstart .item'                 : 'dragstart'
     'drop .item'                      : 'drop'
     'dragover   .items'               : 'dragover'
     

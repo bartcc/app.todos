@@ -22,7 +22,7 @@ class Builder
     data
     
   build: ->
-    # for HABTM // hasMany joinModel
+    # for HABTM // hasMany Join Model
     if @foreignModels
       @fModels = for key, value of @foreignModels
         @foreignModels[key]
@@ -35,8 +35,6 @@ class Builder
         foreignRecords = Model[key.joinTable].filter @record.id,
           key: key.foreignKey
         
-#        selected = @newWrapper model
-#        selected[model.className] = records#.toID()
         @data[key.joinTable] = foreignRecords
     
     @data[@model.className] = @record

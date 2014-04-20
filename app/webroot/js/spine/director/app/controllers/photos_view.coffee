@@ -25,7 +25,9 @@ class PhotosView extends Spine.Controller
   events:
     'click .item'                  : 'click'
     'sortupdate .item'             : 'sortupdate'
+    
     'dragstart .item'              : 'dragstart'
+    'dragover .item'               : 'dragover'
     
   template: (items) ->
     $('#photosTemplate').tmpl(items)
@@ -180,7 +182,7 @@ class PhotosView extends Spine.Controller
   destroy: ->
     @render() unless Photo.count()
       
-  destroyPhoto: (ids) ->
+  destroyPhoto: (ids, callback) ->
     console.log 'PhotosView::destroyPhoto'
     
     func = (el) ->
@@ -202,7 +204,9 @@ class PhotosView extends Spine.Controller
     else
       for id in photos
         photo.destroy() if photo = Photo.exists(id)
-  
+        
+    if typeof callback is 'function'
+      callback.call()
   
   destroyAlbumsPhoto: (ap) ->
     photos = AlbumsPhoto.photos  ap.album_id

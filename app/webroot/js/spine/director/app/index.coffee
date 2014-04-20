@@ -67,7 +67,6 @@ class Main extends Spine.Controller
     '.status-symbol'      : 'statusSymbol'
     
   events:
-#    'dragenter'           : 'dragenter'
     'drop'                : 'drop'
     
     'keyup'               : 'key'
@@ -148,12 +147,8 @@ class Main extends Spine.Controller
       min: -> 50
       sleep: true
       max: => @el.height()/2
-      goSleep: ->
-        @manager.active().el.hide()
-#        App.showView.closeView()
-      awake: -> 
-        @manager.active().el.show()
-#        App.showView.openView()
+      goSleep: -> @manager.active().el.hide()
+      awake: -> @manager.active().el.show()
         
     
     @appManager = new Spine.Manager(@mainView, @loaderView)

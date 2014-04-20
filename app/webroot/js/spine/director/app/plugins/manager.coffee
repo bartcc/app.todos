@@ -46,6 +46,7 @@ Spine.Manager.include
       handle: options.handle
       start: (e, ui) => @currentDim = $(ui.helper)[dim]()
       drag: (e, ui) =>
+        console.log 'dragging'
         _ori = ui.originalPosition[ori]
         _pos = ui.position[ori]
         _cur = @currentDim

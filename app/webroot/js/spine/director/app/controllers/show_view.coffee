@@ -109,12 +109,12 @@ class ShowView extends Spine.Controller
     'dblclick .draghandle'                            : 'toggleDraghandle'
     
     # you must define dragover yourself in subview !!!!!!important
-    'dragstart'                                       : 'dragstart'
+    'dragstart .item'                                 : 'dragstart'
     'dragenter .view'                                 : 'dragenter'
     'dragend'                                         : 'dragend'
     'drop'                                            : 'drop'
 
-    'keyup'               : 'keyup'
+    'keyup'                                           : 'keyup'
     
   constructor: ->
     super

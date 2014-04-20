@@ -14,6 +14,9 @@ class GalleriesView extends Spine.Controller
   elements:
     '.items'                  : 'items'
     
+  events:
+    'click .item'             : 'click'
+    
   headerTemplate: (items) ->
     $("#headerGalleryTemplate").tmpl(items)
 
@@ -56,7 +59,19 @@ class GalleriesView extends Spine.Controller
     
   activateRecord: (idOrRecord) ->
     Gallery.current idOrRecord
+    Album.trigger('activate', Gallery.selectionList())
+
+  click: (e) ->
+    console.log 'GalleriesVeiw::click'
+    App.showView.trigger('change:toolbarOne', ['Default'])
+    item = $(e.currentTarget).item()
+    @select item
     
+    e.stopPropagation()
+    e.preventDefault()
+
+  select: (item) =>
+    Gallery.trigger('activate', item.id)
     
   newAttributes: ->
     if User.first()

@@ -57,7 +57,7 @@ class PhotosHeader extends Spine.Controller
       modelGas    : GalleriesAlbum
       modelAps    : AlbumsPhoto
       count       : @count()
-      author      : 'Test'#User.first().name
+      author      : User.first().name
     
   count: ->
     if Album.record

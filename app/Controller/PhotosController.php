@@ -73,7 +73,9 @@ class PhotosController extends AppController {
     if ($this->Photo->delete($id)) {
       // remove image from filesystem
       $this->remove($id);
-      $this->flash(__('Image deleted', true), array('action' => 'index'));
+      $this->set('_serialize', array('id' => $this->Photo->id));
+      $this->render(SIMPLE_JSON);
+//      $this->flash(__('Image deleted', true), array('action' => 'index'));
     } else {
       $this->flash(__('Image was not deleted', true), array('action' => 'index'));
       $this->redirect(array('action' => 'index'));

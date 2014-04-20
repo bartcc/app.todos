@@ -259,17 +259,13 @@ class PhotosList extends Spine.Controller
   #  ****** END ***** 
   
   exposeSelection: (selection) ->
-#    return unless @parent.isActive()
     console.log 'PhotosList::exposeSelection'
     @deselect()
     list = selection or Album.selectionList()
     for id in list
-      if photo = Photo.exists(id)
-        el = @children().forItem(photo, true)
-        el.addClass("active")
-    if photo = Photo.exists(list.first())
-      el = @children().forItem(photo, true)
-      el.addClass("hot")
+      $('#'+id, @el).addClass("active")
+    if first = list.first()
+      $('#'+first, @el).addClass("hot")
       
   remove: (ap) ->
     item = Photo.exists ap.photo_id
@@ -280,13 +276,14 @@ class PhotosList extends Spine.Controller
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
     
-    el = @findModelElement item
-    el.removeClass('in')
+#    el = @findModelElement item
+#    el.removeClass('in')
     
+    Spine.trigger('destroy:photo', [item.id])
     
-    window.setTimeout( =>
-      Spine.trigger('destroy:photo', [item.id])
-    , 300)
+#    window.setTimeout( =>
+#      Spine.trigger('destroy:photo', [item.id])
+#    , 300)
     
     @stopInfo(e)
     

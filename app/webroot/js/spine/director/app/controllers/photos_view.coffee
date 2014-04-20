@@ -16,6 +16,7 @@ require("plugins/tmpl")
 class PhotosView extends Spine.Controller
   
   @extend Extender
+  @extend Drag
   
   elements:
     '.hoverinfo'      : 'infoEl'
@@ -24,7 +25,7 @@ class PhotosView extends Spine.Controller
   events:
     'click .item'                  : 'click'
     'sortupdate .item'             : 'sortupdate'
-#    'dragstart .item'              : 'dragStart'
+    'dragstart .item'              : 'dragstart'
     
   template: (items) ->
     $('#photosTemplate').tmpl(items)
@@ -59,12 +60,13 @@ class PhotosView extends Spine.Controller
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:drop', @proxy @dragDrop)
     
-#    AlbumsPhoto.bind('destroy', @proxy @remove)
+    AlbumsPhoto.bind('beforeDestroy', @proxy @beforeDestroyAlbumsPhoto)
+    AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
     GalleriesAlbum.bind('destroy', @proxy @backToAlbumView)
-    Photo.bind('refresh', @proxy @change)
+#    Photo.bind('refresh', @proxy @change)
     Photo.bind('created', @proxy @add)
     Photo.bind('destroy', @proxy @destroy)
-    Photo.bind('beforeDestroy', @proxy @beforeDestroy)
+    Photo.bind('beforeDestroy', @proxy @beforeDestroyPhoto)
     Photo.bind('create:join', @proxy @createJoin)
     Photo.bind('destroy:join', @proxy @destroyJoin)
     Photo.bind('ajaxError', Photo.errorHandler)
@@ -100,9 +102,30 @@ class PhotosView extends Spine.Controller
     return unless @isActive()
     console.log 'PhotosView::render'
     # if view is dirty but inactive we'll use the buffer next time
-    list = @list.render(items || @updateBuffer(), mode)
-    list.sortable('photo') if Album.record
+    @list.render(items || @updateBuffer(), mode)
+    @list.sortable('photo') if Album.record
     delete @buffer
+    
+  show: ->
+    App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
+    App.showView.trigger('change:toolbarTwo', ['Slideshow'])
+    App.showView.trigger('canvas', @)
+  
+  activateRecord: (arr=[]) ->
+    unless Spine.isArray(arr)
+      arr = [arr]
+      
+    list = []
+    for id in arr
+      list.push photo.id if photo = Photo.exists(id)
+    
+    id = list[0]
+    
+    Album.updateSelection(null, list)
+    Photo.current(id)
+  
+  activated: ->
+    @change()
   
   click: (e) ->
     console.log 'PhotosList::click'
@@ -128,58 +151,63 @@ class PhotosView extends Spine.Controller
     Photo.trigger('activate', selection[0])
     Album.updateSelection(null, selection)
   
-    
-  activateRecord: (arr=[]) ->
-    unless Spine.isArray(arr)
-      arr = [arr]
-      
-    list = []
-    for id in arr
-      list.push photo.id if photo = Photo.exists(id)
-    
-    id = list[0]
-#    Album.updateSelection(null, list)
-    Photo.current(id)
-  
   clearPhotoCache: ->
     Photo.clearCache()
   
-  beforeDestroy: (photo) ->
-    Album.removeFromSelection null, photo.id
-    photo.removeSelectionID()
-    @list.findModelElement(photo).detach()
+  beforeDestroyPhoto: (photo) ->
     
-    aps = AlbumsPhoto.filter(photo.id, key: 'photo_id')
-    for ap in aps
-      @destroyJoin [photo.id], Album.exists aps.album_id
+    # remove selection from root
+    Album.removeFromSelection null, photo.id
+    
+    # all involved albums
+    albums = AlbumsPhoto.albums(photo.id)
+    
+    for album in albums
+      album.removeFromSelection photo.id
+      photo.removeSelectionID()
       
-  destroyPhoto: (ids) ->
-    photos = ids || Album.selectionList().slice(0)
-    photos = [photos] unless Photo.isArray photos
-    if Album.record
-      @destroyJoin options =
-        photos: photos
-        album: Album.record
-    else
-      for id in photos
-        albums = AlbumsPhoto.albums(id)
-        for album in albums
-          @destroyJoin options =
-            photos: id
-            album: album
-        photo.destroy() if photo = Photo.exists(id)
+      @list.findModelElement(photo).detach()
+      
+      # remove all associated photos
+      @destroyJoin
+        photos: photo.id
+        album: album
+      
+  beforeDestroyAlbumsPhoto: (ap) ->
+    album = Album.exists ap.album_id
+    album.removeFromSelection ap.photo_id
   
   destroy: ->
     @render() unless Photo.count()
       
-  show: ->
-    App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
-    App.showView.trigger('change:toolbarTwo', ['Slideshow'])
-    App.showView.trigger('canvas', @)
-  
-  activated: ->
-    @change()
+  destroyPhoto: (ids) ->
+    console.log 'PhotosView::destroyPhoto'
     
+    func = (el) ->
+      $(el).detach()
+    
+    photos = ids || Album.selectionList().slice(0)
+    photos = [photos] unless Photo.isArray photos
+    
+    for id in photos
+      el = @list.findModelElement(Photo.exists(id))
+      el.removeClass('in')
+      
+      setTimeout(func, 300, el)
+      
+    if album = Album.record
+      @destroyJoin
+        photos: photos
+        album: album
+    else
+      for id in photos
+        photo.destroy() if photo = Photo.exists(id)
+  
+  
+  destroyAlbumsPhoto: (ap) ->
+    photos = AlbumsPhoto.photos  ap.album_id
+    @render() unless photos.length
+  
   save: (item) ->
 
   # methods after uplopad
@@ -195,32 +223,27 @@ class PhotosView extends Spine.Controller
     @render(photos, 'append')
     @list.el.sortable('destroy').sortable('photos')
       
-  destroyAlbumsPhoto: (ap) ->
-    photos = AlbumsPhoto.photos  ap.album_id
-    @render() unless photos.length
-      
   createJoin: (options, relocate) ->
     console.log options
     album = options.album
     album.updateSelection(options.photos)
     Photo.createJoin options.photos, options.album
-    Spine.trigger('changed:photos', album.id)
+    Spine.trigger('changed:photos', album)
   
   destroyJoin: (options) ->
     console.log 'PhotosView::destroyJoin'
     album = options.album
     return unless album and album.constructor.className is 'Album'
     photos = options.photos
-    selection = []
-    aps = []
     photos = [photos] unless Photo.isArray(photos)
+    
+    selection = []
     for id in photos
-      if ap = AlbumsPhoto.albumPhotoExists(id, album.id)
-        selection.addRemoveSelection id
-        aps.push ap.id
-        ap.destroy()
-    album.removeFromSelection selection
-    Spine.trigger('changed:photos', album.id)
+      selection.addRemoveSelection id
+      
+    Photo.destroyJoin photos, album
+    
+    Spine.trigger('changed:photos', album)
     @sortupdate()
 
   sortupdate: ->
@@ -243,6 +266,8 @@ class PhotosView extends Spine.Controller
       @navigate '/gallery', gallery.id
       
   dragStart: (e, o) ->
+    console.log Spine.dragItem.source.id
+    console.log e
     if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
       Photo.trigger('activate', Spine.dragItem.source.id)
       

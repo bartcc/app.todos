@@ -117,15 +117,8 @@ class AlbumsList extends Spine.Controller
       $('#'+id, @el).addClass("active")
     if first = list.first()
       $('#'+first, @el).addClass("hot")
-    
-#    for id in list
-#      if album = Album.exists(id)
-#        el = @children().forItem(album, true)
-#        el.addClass("active")
-#    if album = Album.exists(list.first())
-#      el = @children().forItem(album, true)
-#      el.addClass("hot")
       
+    
   # workaround:
   # remember the Album since
   # after last AlbumPhoto is destroyed the Album container cannot be retrieved anymore

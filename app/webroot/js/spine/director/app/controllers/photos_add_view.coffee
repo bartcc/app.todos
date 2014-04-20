@@ -24,8 +24,8 @@ class PhotosAddView extends Spine.Controller
   events:
     'click .item'                            : 'click'
     'click .opt-AddExecute:not(.disabled)'   : 'add'
-    'click .opt-SelInv:not(.disabled)'       : 'selectInv'
-    'click .opt-SelAll:not(.disabled)'       : 'selectAll'
+    'click .opt-SelectInv:not(.disabled)'       : 'selectInv'
+    'click .opt-SelectAll:not(.disabled)'       : 'selectAll'
     'keyup'                                  : 'keyup'
     
   template: (items) ->
@@ -142,8 +142,13 @@ class PhotosAddView extends Spine.Controller
     switch code
       when 65 #CTRL A
         if e.metaKey or e.ctrlKey
-          @selectAll()
+          @selectAll(e)
           e.stopPropagation()
           e.preventDefault()
+      when 73 #CTRL I
+        if e.metaKey or e.ctrlKey
+          @selectInv(e)
+          e.preventDefault()
+          e.stopPropagation()
     
 module.exports = PhotosAddView

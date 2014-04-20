@@ -70,7 +70,9 @@ class GalleriesAlbumsController extends AppController {
       $this->redirect(array('action' => 'index'));
     }
     if ($this->GalleriesAlbum->delete($id)) {
-      $this->Session->setFlash(__('Galleries album deleted', true));
+      $this->set('_serialize', array('id' => $this->GalleriesAlbum->id));
+      $this->render(SIMPLE_JSON);
+//      $this->Session->setFlash(__('Galleries album deleted', true));
     }
   }
   

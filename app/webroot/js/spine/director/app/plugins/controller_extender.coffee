@@ -92,8 +92,8 @@ Controller.Extender =
         return unless Album.isArray(selection)
         
         # make an unselected item part of selection only if there is nothing selected yet
-#        if !(source.id in selection)# and !(selection.length)
-#          list = source.emptySelection().push source.id
+        if !(source.id in selection)# and !(selection.length)
+          list = source.emptySelection().push source.id
 
         Spine.selection = selection.slice(0)
 

@@ -15,14 +15,13 @@ class GalleriesList extends Spine.Controller
   
   events:
     'click .opt-SlideshowPlay'      : 'slideshowPlay'
-    'click .item'                   : 'click'
     'click .glyphicon-set .back'    : 'back'
     'click .glyphicon-set .delete'  : 'deleteGallery'
     'click .glyphicon-set .zoom'    : 'zoom'
     'mousemove .item'               : 'infoUp'
     'mouseleave .item'              : 'infoBye'
     
-    'dragover'           : 'dragover'
+    'dragover'                      : 'dragover'
   
   constructor: ->
     super
@@ -108,18 +107,18 @@ class GalleriesList extends Spine.Controller
       
     App.showView.trigger('change:toolbarOne')
         
-  select: (item) =>
-    Gallery.trigger('activate', item.id)
-    @exposeSelection item
-    
-  click: (e) ->
-    console.log 'GalleriesList::click'
-    App.showView.trigger('change:toolbarOne', ['Default'])
-    item = $(e.currentTarget).item()
-    @select item
-    
-    e.stopPropagation()
-    e.preventDefault()
+#  select: (item) =>
+#    Gallery.trigger('activate', item.id)
+#    @exposeSelection item
+#    
+#  click: (e) ->
+#    console.log 'GalleriesList::click'
+#    App.showView.trigger('change:toolbarOne', ['Default'])
+#    item = $(e.currentTarget).item()
+#    @select item
+#    
+#    e.stopPropagation()
+#    e.preventDefault()
 
   zoom: (e) ->
     console.log 'GalleriesList::zoom'

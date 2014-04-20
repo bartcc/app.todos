@@ -68,10 +68,11 @@ class AlbumsView extends Spine.Controller
 
     Gallery.bind('current', @proxy @render)
     
+    GalleriesAlbum.bind('beforeDestroy', @proxy @beforeDestroyGalleriesAlbum)
     Album.bind('refresh', @proxy @refresh)
     Album.bind('ajaxError', Album.errorHandler)
     Album.bind('create', @proxy @create)
-    Album.bind('beforeDestroy', @proxy @beforeDestroy)
+    Album.bind('beforeDestroy', @proxy @beforeDestroyAlbum)
     Album.bind('destroy', @proxy @destroy)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('destroy:join', @proxy @destroyJoin)
@@ -98,7 +99,7 @@ class AlbumsView extends Spine.Controller
     $(@views).queue('fx')
     
   refresh: (records) ->
-    console.log 'AlbumsView::refresh'
+    console.log 'AlbumsView::refresh !!!!!!!'
     @render()
     
   updateBuffer: (gallery=Gallery.record) ->
@@ -132,9 +133,8 @@ class AlbumsView extends Spine.Controller
       if alb.invalid
         alb.invalid = false
         alb.save(ajax:false)
-    
+        
     @render()
-      
     
   activateRecord: (arr=[]) ->
     console.log 'AlbumsView::activateRecord'
@@ -151,6 +151,7 @@ class AlbumsView extends Spine.Controller
       
     Gallery.updateSelection(null, list)
     Album.current(id)
+    Photo.trigger('activate', Album.selectionList())
     
     
   newAttributes: ->
@@ -185,13 +186,16 @@ class AlbumsView extends Spine.Controller
     album = new Album @newAttributes()
     album.one('ajaxSuccess', @proxy cb)
     album.save()
-        
+       
+  beforeDestroyGalleriesAlbum: (ga) ->
+    gallery = Gallery.exists ga.gallery_id
+    gallery.removeFromSelection ga.album_id
+       
   destroyAlbum: (ids) ->
     console.log 'AlbumsView::destroyAlbum'
   
-    func = (id) =>
-      ele = @list.findModelElement(Album.exists id)
-      ele.remove()
+    func = (el) =>
+      $(el).detach()
   
     albums = ids || Gallery.selectionList().slice(0)
     albums = [albums] unless Album.isArray albums
@@ -199,27 +203,36 @@ class AlbumsView extends Spine.Controller
     for id in albums
       el = @list.findModelElement(Album.exists(id))
       el.removeClass('in')
-      setTimeout(func.call(@, id), 200)
+      
+      setTimeout(func, 300, el)
     
-    
-    if Gallery.record
-      @destroyJoin albums, Gallery.record
+    if gallery = Gallery.record
+      @destroyJoin albums, gallery
     else
       for id in albums
-        if album = Album.exists(id)
-          album.destroy()
+        album.destroy() if album = Album.exists(id)
   
   create: (album) ->
     @render()
    
-  beforeDestroy: (album) ->
-#    
-#    
-#    @list.findModelElement(album).remove()
-#    
-#    gas = GalleriesAlbum.filter(album.id, key: 'album_id')
-#    for ga in gas
-#      @destroyJoin [album.id], Gallery.exists gas.gallery_id
+  beforeDestroyAlbum: (album) ->
+  
+    @stopInfo()
+    
+    # remove selection from root
+    Gallery.removeFromSelection null, album.id
+    
+    # all involved galleries
+    galleries = GalleriesAlbum.galleries(album.id)
+    
+    for gallery in galleries
+      gallery.removeFromSelection album.id
+      album.removeSelectionID()
+      
+      @list.findModelElement(album).detach()
+      
+      # remove all associated albums
+      @destroyJoin album.id, gallery
    
   destroy: (album) ->
     photos = AlbumsPhoto.photos(album.id).toID()
@@ -238,13 +251,14 @@ class AlbumsView extends Spine.Controller
   destroyJoin: (albums, gallery) ->
     console.log 'AlbumsView::destroyJoin'
     return unless gallery and gallery.constructor.className is 'Gallery'
-    selection = []
     albums = [albums] unless Album.isArray(albums)
+    
+    selection = []
     for id in albums
       selection.addRemoveSelection id
 
     Album.destroyJoin albums, gallery
-    gallery.removeFromSelection albums
+    
     Spine.trigger('changed:albums', gallery)
     @sortupdate()
       

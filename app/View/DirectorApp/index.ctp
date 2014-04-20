@@ -249,8 +249,8 @@
 
 <script id="footerTemplate" type="text/x-jquery-tmpl">
   <div class="btn-group left">
-    <button type="button" class="opt-SelInv dark {{if !contains}}disabled{{/if}}">Invert</button>
-    <button type="button" class="opt-SelAll dark {{if !contains}}disabled{{/if}}">All</button>
+    <button type="button" class="opt-SelectInv dark {{if !contains}}disabled{{/if}}">Invert</button>
+    <button type="button" class="opt-SelectAll dark {{if !contains}}disabled{{/if}}">All</button>
   </div>
   <div class="btn-group right">
     <button type="button" class="opt-AddExecute dark {{if disabled}}disabled{{/if}}">Add</button>

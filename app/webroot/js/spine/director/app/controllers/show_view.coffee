@@ -686,10 +686,10 @@ class ShowView extends Spine.Controller
       when 65 #CTRL A
         unless isFormfield
           if e.metaKey or e.ctrlKey
-            @selectAll()
+            @selectAll(e)
       when 73 #CTRL I
         unless isFormfield
           if e.metaKey or e.ctrlKey
-            @selectInv()
+            @selectInv(e)
 
 module?.exports = ShowView

@@ -25,8 +25,6 @@ Controller.Drag =
         parentModel = parentEl.data('tmplItem')?.data.constructor or parentEl.data('current')?.model
         parentRecord = parentEl.data('tmplItem')?.data or parentModel?.record
         
-        return unless parentRecord
-        
         Spine.dragItem = {}
         Spine.dragItem.el = el
         Spine.dragItem.els = []

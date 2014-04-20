@@ -96,6 +96,8 @@ class Photo extends Spine.Model
       ap = AlbumsPhoto.albumPhotoExists(id, target.id)
       ap.destroy() if ap
       
+    target.save()
+      
   @getGallery: ->
     Gallery.record
     

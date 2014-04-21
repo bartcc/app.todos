@@ -289,8 +289,8 @@ class PhotosList extends Spine.Controller
     
   back: (e) ->
     @navigate '/gallery', Gallery.record.id
-    e.preventDefault()
     e.stopPropagation()
+    e.preventDefault()
     
   initSelectable: ->
     options =

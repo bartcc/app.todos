@@ -390,6 +390,9 @@ class ShowView extends Spine.Controller
         for ap in aps
           ap.destroy()
     
+    e.preventDefault()
+    e.stopPropagation()
+    
   editGallery: (e) ->
     Spine.trigger('edit:gallery')
 
@@ -402,7 +405,6 @@ class ShowView extends Spine.Controller
 
   destroyGallery: (e) ->
     Spine.trigger('destroy:gallery')
-#    @deselect()
   
   destroyAlbum: (e) ->
     Spine.trigger('destroy:album')

@@ -123,6 +123,7 @@ class PhotoView extends Spine.Controller
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
+    return unless @isActive()
     
     Spine.trigger('destroy:photo', [item.id], @proxy @back)
     
@@ -132,6 +133,7 @@ class PhotoView extends Spine.Controller
     e.preventDefault()
   
   back: ->
+    return unless @isActive()
     @navigate '/gallery', Gallery.record.id, Album.record.id
     
   resize: (e) ->

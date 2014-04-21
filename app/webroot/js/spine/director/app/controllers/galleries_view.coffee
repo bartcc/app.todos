@@ -61,7 +61,10 @@ class GalleriesView extends Spine.Controller
   activateRecord: (idOrRecord, ModelOrRecord) ->
     Gallery.current idOrRecord
     unless ModelOrRecord
-      Album.trigger('activate', Gallery.selectionList())
+      if Gallery.record
+        Album.trigger('activate', Gallery.selectionList())
+      else
+        Album.trigger('activate')
 
   click: (e) ->
     App.showView.trigger('change:toolbarOne', ['Default'])

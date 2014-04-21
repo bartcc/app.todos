@@ -154,7 +154,10 @@ class AlbumsView extends Spine.Controller
       App.sidebar.list.expand(Gallery.record, true) if id
       Gallery.updateSelection(null, list)
       Album.current(id)
-      Photo.trigger('activate', Album.selectionList())
+      if Album.record
+        Photo.trigger('activate', Album.selectionList())
+      else
+        Photo.trigger('activate')
       
   newAttributes: ->
     if User.first()

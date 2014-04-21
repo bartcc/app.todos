@@ -43,8 +43,11 @@ Controller.Drag =
         
         parentEl.addClass('drag-in-progress')
         
-        data = []
-        data.push item for item in parentModel.selectionList()
+        if parentModel
+          data = []
+          data.update parentModel.selectionList() 
+        else
+          return
         
         event = e.originalEvent
         event.dataTransfer.effectAllowed = 'move'

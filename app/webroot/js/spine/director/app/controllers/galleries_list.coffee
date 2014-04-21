@@ -56,8 +56,6 @@ class GalleriesList extends Spine.Controller
         @reorder item
         @exposeSelection item
           
-      when 'destroy'
-        @children().forItem(item, true).remove()
     @el
 
   render: (items, mode) ->

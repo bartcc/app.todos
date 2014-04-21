@@ -2,6 +2,7 @@ Spine         = require("spine")
 $             = Spine.$
 Drag          = require("plugins/drag")
 Gallery       = require('models/gallery')
+GalleriesAlbum  = require('models/galleries_album')
 GalleriesList = require("controllers/galleries_list")
 AlbumsPhoto   = require('models/albums_photo')
 Extender      = require('plugins/controller_extender')
@@ -37,6 +38,7 @@ class GalleriesView extends Spine.Controller
     @header.template = @headerTemplate
     @viewport = @list.el
     Gallery.one('refresh', @proxy @render)
+    Gallery.bind('beforeDestroy', @proxy @beforeDestroy)
     Gallery.bind('destroy', @proxy @destroy)
     Gallery.bind('refresh:gallery', @proxy @render)
     Gallery.bind('activate', @proxy @activateRecord)
@@ -74,12 +76,29 @@ class GalleriesView extends Spine.Controller
   select: (item) ->
     Gallery.trigger('activate', item.id)
     
+  beforeDestroy: (item) ->
+#    albums = Gallery.albums(item.id)
+#    Album.trigger('destroy:join', albums, item)
+
+    @list.findModelElement(item).detach()
+#    item.removeSelectionID()
+#    
+#    # remove all associated albums
+#    albums = GalleriesAlbum.albums(item.id)
+#    Album.trigger('destroy:join', albums.toID(), item)
+    
+
   destroy: (item) ->
-    albums = Gallery.albums(item.id)
-    Album.trigger('destroy:join', albums, item)
-        
     item.removeSelectionID()
     
+    unless Gallery.count()
+      Spine.trigger('show:galleries')
+      Gallery.trigger('refresh:gallery')
+    else
+      unless /^#\/galleries\/$/.test(location.hash)
+        @navigate '/gallery', Gallery.first().id
+  
+  
   newAttributes: ->
     if User.first()
       name   : 'New Name'

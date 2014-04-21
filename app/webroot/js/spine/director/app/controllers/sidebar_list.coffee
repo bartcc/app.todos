@@ -66,7 +66,7 @@ class SidebarList extends Spine.Controller
     @reorder item
   
   destroy: (item) ->
-    @children().forItem(item, true).remove()
+    @children().forItem(item, true).detach()
   
   render: (items, mode) ->
     console.log 'SidebarList::render'

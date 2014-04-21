@@ -151,13 +151,6 @@ class Sidebar extends Spine.Controller
     return unless item = Gallery.exists id
     
     item.destroy()
-    
-    unless Gallery.count()
-      Spine.trigger('show:galleries')
-      Gallery.trigger('refresh:gallery')
-    else
-      unless /^#\/galleries\/$/.test(location.hash)
-        @navigate '/gallery', Gallery.first().id
 
   edit: ->
     App.galleryEditView.render()

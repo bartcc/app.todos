@@ -194,7 +194,7 @@ class AlbumsView extends Spine.Controller
        
   beforeDestroyGalleriesAlbum: (ga) ->
     gallery = Gallery.exists ga.gallery_id
-    gallery.removeFromSelection ga.album_id
+    gallery.removeFromSelection ga.album_id if gallery
        
   destroyAlbum: (ids) ->
     console.log 'AlbumsView::destroyAlbum'

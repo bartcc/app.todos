@@ -402,10 +402,13 @@ class ShowView extends Spine.Controller
   destroySelected: (e) ->
     models = @controller.el.data('current').models
     @['destroy'+models.className]()
+    e.stopPropagation()
 
   destroyGallery: (e) ->
     return unless Gallery.record
     Spine.trigger('destroy:gallery', Gallery.record.id)
+    
+    
   
   destroyAlbum: (e) ->
     Spine.trigger('destroy:album')
@@ -546,7 +549,6 @@ class ShowView extends Spine.Controller
     data = @el.data('current')
     model = data.model
     models = data.models
-    model.updateSelection()
     models.trigger('activate')
     try
       @current.itemsEl.deselect()
@@ -679,7 +681,7 @@ class ShowView extends Spine.Controller
     switch code
       when 8 #Backspace
         unless isFormfield
-          @destroySelected()
+          @destroySelected(e)
       when 32 #Space
         unless isFormfield
           @slideshowView.play()

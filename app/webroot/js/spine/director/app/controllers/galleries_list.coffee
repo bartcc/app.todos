@@ -18,6 +18,7 @@ class GalleriesList extends Spine.Controller
     'click .glyphicon-set .back'    : 'back'
     'click .glyphicon-set .delete'  : 'deleteGallery'
     'click .glyphicon-set .zoom'    : 'zoom'
+    
     'mousemove .item'               : 'infoUp'
     'mouseleave .item'              : 'infoBye'
     
@@ -26,16 +27,13 @@ class GalleriesList extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change', @proxy @renderOne)
-    Gallery.bind('change:selection', @proxy @renderRelated)
+    Gallery.bind('change:selection', @proxy @exposeSelection)
     Gallery.bind('current', @proxy @exposeSelection)
+    Photo.bind('destroy', @proxy @renderRelated)
+    Album.bind('destroy', @proxy @renderRelated)
     
     Spine.bind('changed:albums', @proxy @renderRelated)
     Spine.bind('changed:photos', @proxy @renderRelated)
-#    GalleriesAlbum.bind('destroy create', @proxy @renderRelated)
-    
-#    AlbumsPhoto.bind('destroy create update', @proxy @renderRelated)
-    Photo.bind('destroy', @proxy @renderRelated)
-    Album.bind('destroy', @proxy @renderRelated)
     
   renderRelated: ->
     return unless @parent.isActive()
@@ -107,33 +105,17 @@ class GalleriesList extends Spine.Controller
       
     App.showView.trigger('change:toolbarOne')
         
-#  select: (item) =>
-#    Gallery.trigger('activate', item.id)
-#    @exposeSelection item
-#    
-#  click: (e) ->
-#    console.log 'GalleriesList::click'
-#    App.showView.trigger('change:toolbarOne', ['Default'])
-#    item = $(e.currentTarget).item()
-#    @select item
-#    
-#    e.stopPropagation()
-#    e.preventDefault()
-
   zoom: (e) ->
     console.log 'GalleriesList::zoom'
     item = $(e.currentTarget).item()
     @navigate '/gallery', item.id
-    
-    e.stopPropagation()
     e.preventDefault()
+    e.stopPropagation()
     
   back: (e) ->
     @navigate '/overview/'
-    
-    e.stopPropagation()
     e.preventDefault()
-
+    e.stopPropagation()
     
   deleteGallery: (e) ->
     item = $(e.currentTarget).item()
@@ -144,9 +126,6 @@ class GalleriesList extends Spine.Controller
       Spine.trigger('destroy:gallery', item)
     , 100)
     
-    e.preventDefault()
-    e.stopPropagation()
-    
   infoUp: (e) =>
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
     e.preventDefault()
@@ -156,8 +135,6 @@ class GalleriesList extends Spine.Controller
     e.preventDefault()
     
   slideshowPlay: (e) ->
-    e.preventDefault()
-    e.stopPropagation()
     gallery = $(e.currentTarget).closest('.item').item()
     Gallery.trigger('activate', gallery.id)
     App.slideshowView.trigger('play')

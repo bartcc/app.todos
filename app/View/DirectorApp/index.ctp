@@ -61,7 +61,7 @@
           <li class="splitter disabled flex"></li>
           <ul class="toolbarTwo hbox nav"></ul>
         </ul>
-        <div class="contents views vbox flex" style="height: 0;">
+        <div class="contents views vbox flex deselector" style="height: 0;">
           <div class="header views">
             <div class="galleries view"></div>
             <div class="albums view"></div>
@@ -70,16 +70,16 @@
             <div class="overview view"></div>
           </div>
           <div class="view wait content vbox flex autoflow" style=""></div>
-          <div class="view galleries content vbox flex data parent autoflow" style="">
-            <div class="items fadein">Galleries</div>
+          <div class="view deselector galleries content vbox flex data parent autoflow" style="">
+            <div class="items deselector fadein">Galleries</div>
           </div>
-          <div class="view albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div class="view deselector albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
-            <div class="items flex fadein">Albums</div>
+            <div class="items deselector flex fadein">Albums</div>
           </div>
-          <div class="view photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div class="view deselector photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
-            <div class="items flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
+            <div class="items deselector flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
           <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
@@ -94,19 +94,9 @@
             <div class="hdivide draghandle">
               <span class="opt opt-CloseDraghandle glyphicon glyphicon-remove glyphicon glyphicon-white right" style="cursor: pointer;"></span>
             </div>
-            <div id="ga" class="view flex autoflow" style="">
-              <div class="editGallery">You have no Galleries!</div>
-            </div>
-            <div id="al" class="view flex autoflow" style="">
-              <div class="editAlbum">
-                <div class="content">No Albums found!</div>
-              </div>
-            </div>
-            <div id="ph" class="view flex autoflow" style="">
-              <div class="editPhoto">
-                <div class="content">No Photo found!</div>
-              </div>
-            </div>
+            <div id="ga" class="view flex autoflow" style=""></div>
+            <div id="al" class="view flex autoflow" style=""></div>
+            <div id="ph" class="view flex autoflow" style=""></div>
             <div id="fu" class="view hbox flex bg-dark" style="margin: 0px">
               <!-- The file upload form used as target for the file upload widget -->
               <form id="fileupload" class="vbox flex" action="uploads/image" method="POST" enctype="multipart/form-data">
@@ -352,7 +342,7 @@
 </script>
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
-  <li class="gal item data parent">
+  <li class="gal gal-trigger-edit item data parent">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#sidebarContentTemplate"}}
@@ -365,7 +355,7 @@
 <script id="sidebarContentTemplate" type="text/x-jquery-tmpl">
   <div class="item-content">
     <span class="name">{{if name}}${name}{{else}}${title}{{/if}}</span>
-    <span class="gal cta">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
+    <span class="gal cta gal-trigger-edit">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
   </div>
 </script>
 
@@ -399,7 +389,7 @@
 </script>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li class="item container data fade in" data-drag-over="thumbnail">
+  <li class="item container data fade in gal-trigger-edit" data-drag-over="thumbnail">
     <div class="thumbnail">
       <div class="inner">
         {{tmpl($item.data.details()) "#galDetailsTemplate"}}
@@ -408,9 +398,8 @@
     <div class="glyphicon-set fade out" style="">
       <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
-      <span class="zoom glyphicon glyphicon-folder-close glyphicon-white right"></span>
+      <span class="zoom glyphicon glyphicon-folder-close glyphicon-white right alb-trigger-edit"></span>
     </div>
-    <div class="title">{{if name}}{{html name.substring(0, 15)}}{{else}}...{{/if}}</div>
   </li>
 </script>
 
@@ -471,8 +460,9 @@
 </script>
 
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
-  <div style="">Albums: ${aCount}</div>
-  <div style="font-size: 0.8em; font-style: oblique; ">Images: ${iCount}</div>
+  <div style="">${name}</div>
+  <div style="font-size: 0.8em; font-style: oblique;">Albums: ${aCount}</div>
+  <div style="font-size: 0.8em; font-style: oblique;">Images: ${iCount}</div>
   {{if pCount()}}
   <div class="opt-SlideshowPlay" style="">
     <span class="label label-default">
@@ -485,31 +475,33 @@
 </script>
 
 <script id="editGalleryTemplate" type="text/x-jquery-tmpl">
-  <div class="editGallery">
-    <div class="galleryEditor">
-      <label>
-        <span class="enlightened">Gallery - Name</span>
-      </label>
-      <br>
-      <input class="name" data-toggle="tooltip" placeholder="gallery name" data-placement="right" data-trigger="manual" data-title="Press Enter to save" data-content="${name}" type="text" name="name" value="${name}">
-      <br>
-      <br>
-      <label>
-        <span class="enlightened">Description</span>
-      </label>
-      <br>
-      <textarea name="description">${description}</textarea>
+  <div class="content">
+    <div class="editGallery">
+      <div class="galleryEditor">
+        <label>
+          <span class="enlightened">Gallery - Name</span>
+        </label>
+        <br>
+        <input class="name" data-toggle="tooltip" placeholder="gallery name" data-placement="right" data-trigger="manual" data-title="Press Enter to save" data-content="${name}" type="text" name="name" value="${name}">
+        <br>
+        <br>
+        <label>
+          <span class="enlightened">Description</span>
+        </label>
+        <br>
+        <textarea name="description">${description}</textarea>
+      </div>
     </div>
   </div>
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li id="${id}" class="item fade in" draggable="true">
+  <li id="${id}" class="item fade in alb-trigger-edit" draggable="true">
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
       <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
-      <span class="tooltips zoom glyphicon glyphicon-folder-close glyphicon-white left" data-toggle="tooltip"></span>
-      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left" data-toggle="tooltip" title="test 3"></span>
+      <span class="tooltips zoom glyphicon glyphicon-folder-close glyphicon-white left pho-trigger-edit" data-toggle="tooltip"></span>
+      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left gal-trigger-edit" data-toggle="tooltip" title="test 3"></span>
       <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right" data-toggle="tooltip" title="test 4"></span>
     </div>
     <div class="title center">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
@@ -517,18 +509,37 @@
 </script>
 
 <script id="editAlbumTemplate" type="text/x-jquery-tmpl">
-  <label class="">
-    <span class="enlightened">Album Title</span>
-  </label>
-  <br>
-  <input placeholder="album title" type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
-  <br>
-  <br>
-  <label class="">
-    <span class="enlightened">Description</span>
-  </label>
-  <br>
-  <textarea name="description">${description}</textarea>
+  <div class="content">
+    <label class="">
+      <span class="enlightened">Album Title</span>
+    </label>
+    <br>
+    <input placeholder="album title" type="text" name="title" value="${title}" {{if newRecord}}autofocus{{/if}}>
+    <br>
+    <br>
+    <label class="">
+      <span class="enlightened">Description</span>
+    </label>
+    <br>
+    <textarea name="description">${description}</textarea>
+  </div>
+</script>
+
+<script id="editPhotoTemplate" type="text/x-jquery-tmpl">
+  <div class="content">
+    <label class="">
+      <span class="enlightened">Photo Title</span>
+    </label>
+    <br>
+    <input placeholder="${src}" type="text" name="title" value="{{if title}}${title}{{else}}{{if src}}${src}{{/if}}{{/if}}" >
+    <br>
+    <br>
+    <label class="">
+      <span class="enlightened">Description</span>
+    </label>
+    <br>
+    <textarea name="description">${description}</textarea>
+  </div>
 </script>
 
 <script id="albumSelectTemplate" type="text/x-jquery-tmpl">
@@ -564,10 +575,10 @@
   </section>
   <section class="left">
     <span class="fadeelement breadcrumb">
-      <li class="gal">
+      <li class="gal gal-trigger-edit">
         <a href="#">Galleries</a>
       </li>
-      <li class="alb active">Albums</li>
+      <li class="alb active alb-trigger-edit">Albums</li>
     </span>
   </section>
 </script>
@@ -598,10 +609,10 @@
 <script id="photosBreadcrumbTemplate" type="text/x-jquery-tmpl">
   <section class="left">
     <span class="fadeelement breadcrumb">
-      <li class="gal">
+      <li class="gal gal-trigger-edit">
         <a href="#">Galleries</a>
       </li>
-      <li class="alb">
+      <li class="alb alb-trigger-edit">
         <a href="#">Albums</a>
       </li>
       <li class="pho active">Photos</li>
@@ -612,13 +623,13 @@
 <script id="photoBreadcrumbTemplate" type="text/x-jquery-tmpl">
   <section class="left">
     <span class="fadeelement breadcrumb">
-      <li class="gal">
+      <li class="gal gal-trigger-edit">
         <a href="#">Galleries</a>
       </li>
-      <li class="alb">
+      <li class="alb alb-trigger-edit">
         <a href="#">Albums</a>
       </li>
-      <li class="pho">
+      <li class="pho pho-trigger-edit">
         <a href="#">Photos</a>
       </li>
       <li class="active">{{if photo.src}}${photo.src}{{else}}deleted{{/if}}</li>
@@ -692,7 +703,7 @@
   {{if flash}}
   <span class="author">${flash}</span>
   {{else}}
-  <li class="sublist-item alb item data" title="move (Hold Cmd-Key to Copy)">
+  <li class="sublist-item alb alb-trigger-edit item data" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close"></span>
     <span class="title center">{{if title}}${title}{{else}}...{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
@@ -735,23 +746,8 @@
   </label>
 </script>
 
-<script id="editPhotoTemplate" type="text/x-jquery-tmpl">
-  <label class="">
-    <span class="enlightened">Photo Title</span>
-  </label>
-  <br>
-  <input placeholder="${src}" type="text" name="title" value="{{if title}}${title}{{else}}{{if src}}${src}{{/if}}{{/if}}" >
-  <br>
-  <br>
-  <label class="">
-    <span class="enlightened">Description</span>
-  </label>
-  <br>
-  <textarea name="description">${description}</textarea>
-</script>
-
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  id="${id}" class="item data fade in" draggable="true">
+  <li  id="${id}" class="item data fade in pho-trigger-edit" draggable="true">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>
@@ -764,7 +760,7 @@
 </script>
 
 <script id="photoTemplate" type="text/x-jquery-tmpl">
-  <li class="item">
+  <li class="item pho-trigger-edit">
     {{tmpl "#photoThumbnailTemplate"}}
   </li>
 </script>
@@ -773,8 +769,8 @@
   <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
-    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
-    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right"></span>
+    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right alb-trigger-edit"></span>
+    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right pho-trigger-edit"></span>
   </div>
 </script>
 

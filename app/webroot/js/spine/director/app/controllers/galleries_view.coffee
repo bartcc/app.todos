@@ -58,19 +58,15 @@ class GalleriesView extends Spine.Controller
     @render()
     
   activateRecord: (idOrRecord) ->
-    Gallery.current idOrRecord
     Album.trigger('activate', Gallery.selectionList())
+    Gallery.current idOrRecord
 
   click: (e) ->
-    console.log 'GalleriesVeiw::click'
     App.showView.trigger('change:toolbarOne', ['Default'])
     item = $(e.currentTarget).item()
-    @select item
+    @select(item)
     
-    e.stopPropagation()
-    e.preventDefault()
-
-  select: (item) =>
+  select: (item) ->
     Gallery.trigger('activate', item.id)
     
   newAttributes: ->

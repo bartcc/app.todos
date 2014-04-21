@@ -52,7 +52,6 @@ Controller.Extender =
         ui.click()
 
       isCtrlClick: (e) ->
-        return unless e
         e?.metaKey or e?.ctrlKey or e?.altKey
 
       children: (sel) ->

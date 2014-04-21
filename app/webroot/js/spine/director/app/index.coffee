@@ -67,6 +67,7 @@ class Main extends Spine.Controller
     '.status-symbol'      : 'statusSymbol'
     
   events:
+    'click [class*="-trigger-edit"]' : 'activateEditor'
     'drop'                : 'drop'
     
     'keyup'               : 'key'
@@ -146,7 +147,7 @@ class Main extends Spine.Controller
       axis: 'y'
       min: -> 50
       sleep: true
-      max: => @el.height()/2
+      max: => @el.height()/1.5
       goSleep: -> @manager.active().el.hide()
       awake: -> @manager.active().el.show()
         
@@ -280,6 +281,19 @@ class Main extends Spine.Controller
     
   loadToolbars: ->
     Toolbar.load()
+    
+  activateEditor: (e) ->
+    el = $(e.currentTarget)
+    test = el.prop('class')
+    if /\bgal-*/.test(test)
+      @gallery.trigger('active')
+    else if /\balb-*/.test(test)
+      @album.trigger('active')
+    else if /\bpho-*/.test(test)
+      @photo.trigger('active')
+      
+    e.preventDefault()
+    e.stopPropagation()
     
   key: (e) ->
     code = e.charCode or e.keyCode

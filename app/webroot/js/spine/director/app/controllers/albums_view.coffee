@@ -321,9 +321,6 @@ class AlbumsView extends Spine.Controller
     item = $(e.currentTarget).item()
     @select(item.id, @isCtrlClick(e))
     
-    e.stopPropagation()
-    e.preventDefault()
-    
   select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]

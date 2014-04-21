@@ -153,7 +153,7 @@ class SlideshowView extends Spine.Controller
     if @list.length
       list = @list
     else
-      list = Gallery.record.activePhotos()
+      list = if gallery = Gallery.record then Gallery.record.activePhotos() else []
 
     if list.length
       @render list

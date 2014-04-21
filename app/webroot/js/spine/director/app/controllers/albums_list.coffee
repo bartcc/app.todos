@@ -50,7 +50,7 @@ class AlbumsList extends Spine.Controller
         @renderBackgrounds [album]
         @exposeSelection()
         @el.sortable('destroy').sortable()
-        $('.tooltips', @el).tooltip()
+#        $('.tooltips', @el).tooltip()
         
       when 'destroy'
         albumEl = @children().forItem(album, true)
@@ -180,20 +180,17 @@ class AlbumsList extends Spine.Controller
     console.log 'AlbumsList::zoom'
     item = $(e.currentTarget).item()
     
-#    @parent.select(item, true)
     @parent.stopInfo()
     @navigate '/gallery', (Gallery.record?.id or ''), item.id
-    
-    e.stopPropagation()
     e.preventDefault()
-  
+    e.stopPropagation()
+    
   back: (e) ->
     console.log 'AlbumsList::back'
     @navigate '/galleries/'
-
-    e.stopPropagation()
     e.preventDefault()
-    
+    e.stopPropagation()
+
   deleteAlbum: (e) ->
     console.log 'AlbumsList::deleteAlbum'
     item = $(e.currentTarget).item()

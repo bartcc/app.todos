@@ -198,9 +198,6 @@ class SidebarList extends Spine.Controller
         @navigate '/gallery', gallery.id, item.id
         Album.current(item.id) if Album.record and Album.record.id is item.id
     
-    e.stopPropagation()
-    e.preventDefault()
-
   expand: (item, force, e) ->
     galleryEl = @galleryFromItem(item)
     expander = $('.expander', galleryEl)

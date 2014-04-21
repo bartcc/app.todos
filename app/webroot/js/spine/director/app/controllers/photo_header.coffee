@@ -48,22 +48,16 @@ class PhotoHeader extends Spine.Controller
     
   backToGalleries: (e) ->
     @navigate '/galleries/'
-    
-    e.stopPropagation()
     e.preventDefault()
     
   backToAlbums: (e) ->
-    @navigate '/gallery', Gallery.record?.id or ''
-    
-    e.stopPropagation()
+    @navigate '/gallery', Gallery.record?.id or '', Album.record?.id or ''
     e.preventDefault()
     
   backToPhotos: (e) ->
-    @navigate '/gallery', (Gallery.record.id or '') + '/' + (Album.record?.id or '')
-    
-    e.stopPropagation()
+    @navigate '/gallery', Gallery.record.id or '', Album.record?.id or ''
     e.preventDefault()
-
+    
   drop: (e) ->
     e.stopPropagation()
     e.preventDefault()

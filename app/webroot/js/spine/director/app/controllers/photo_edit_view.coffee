@@ -9,10 +9,6 @@ class PhotoEditView extends Spine.Controller
 #  @extend KeyEnhancer
   @extend Extender
   
-  elements:
-    '.content'        : 'item'
-    '.editPhoto'      : 'editEl'
-    
   events:
     'click'           : 'click'
     'keyup'           : 'saveOnKeyup'
@@ -22,64 +18,29 @@ class PhotoEditView extends Spine.Controller
   
   constructor: ->
     super
-    Photo.bind('change', @proxy @change)
-    Album.bind('change:selection', @proxy @fromSelection)
-    Album.bind('current', @proxy @fromAlbum)
-    Gallery.bind('current', @proxy @fromGallery)
-    AlbumsPhoto.bind('change', @proxy @changeFromAlbumsPhoto)
+    Photo.bind('current', @proxy @change)
   
   activated: ->
     @render()
   
-  show: (album) ->
-    @trigger('active')
-  
-  change: (item, mode) ->
-    if item.destroyed
-      @current = null
-      @render() 
-  
-  changeFromAlbumsPhoto: (ap, mode) ->
-    switch mode
-      when 'destroy'
-        item = Photo.exists ap.photo_id
-        @current = null
-        @render()
-  
-  fromSelection: (selection) ->
-    id = selection[0]
-    record = Photo.exists(id) #if photo
-    @current =  record or false
-    @trigger('active')
-    @render()
-  
-  fromAlbum: (album, same) ->
-    id = album.selectionList().first() if album
-    @current =  Photo.exists(id) or false
-    @render()
-  
-  fromGallery: (gallery, same) ->
-    id = gallery.selectionList().first() if gallery
-    @fromAlbum Album.exists(id) or false
-  
-  changeSelection: (list) ->
-    @current = Photo.exists(list[0])
-    @render @current
+  change: (item) ->
+    @current = item
+    @render() 
   
   render: (item=@current) ->
     if item and !item.destroyed 
-      @item.html @template item
+      @html @template item
 #      @focusFirstInput()
     else
       info = ''
       info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()
       info += '<label class="invite"><span class="enlightened">You should create an album first to catalogue your photos.</span></label>' unless Album.count()
-      @item.html $("#noSelectionTemplate").tmpl({type: info})
+      @html $("#noSelectionTemplate").tmpl({type: info})
     @el
   
   save: (el) ->
     if @current
-      atts = el.serializeForm?() or @editEl.serializeForm()
+      atts = el.serializeForm?() or @el.serializeForm()
       @current.updateChangedAttributes(atts)
  
   saveOnKeyup: (e) =>
@@ -91,10 +52,8 @@ class PhotoEditView extends Spine.Controller
       when 9 # TAB
         e.stopPropagation()
     
-    @save @editEl
+    @save @el
     
   click: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
 
 module?.exports = PhotoEditView

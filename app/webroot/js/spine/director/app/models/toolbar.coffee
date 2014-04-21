@@ -250,7 +250,7 @@ class Toolbar extends Spine.Model
           klass: 'opt-SlideshowPlay'
           innerklass: 'symbol'
           dataToggle: 'modal-gallery'
-          disabled: -> !Gallery.activePhotos().length
+          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
         ]
     package_10:
       name: 'Back'
@@ -278,7 +278,7 @@ class Toolbar extends Spine.Model
           klass: 'opt-SlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> !Gallery.activePhotos().length
+          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
         ]
     package_12:
       name: 'Slider'
@@ -309,7 +309,7 @@ class Toolbar extends Spine.Model
           innerklass: 'symbol'
           icon: 'play'
           iconcolor: ''
-          disabled: -> !Gallery.activePhotos().length
+          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
         ]
     package_14:
       name: 'FlickrRecent'

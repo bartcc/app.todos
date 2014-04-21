@@ -83,6 +83,7 @@ class Gallery extends Spine.Model
     for album in albums
       imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
     $().extend @defaultDetails,
+      name: @name
       iCount: imagesCount
       aCount: albums.length
       pCount: => activePhotos.call(@).length
@@ -100,15 +101,11 @@ class Gallery extends Spine.Model
     
   updateAttributes: (atts, options={}) ->
     @load(atts)
-    Spine.Ajax.enabled = false if options.silent
     @save()
-    Spine.Ajax.enabled = true
   
   updateAttribute: (name, value, options={}) ->
     @[name] = value
-    Spine.Ajax.enabled = false if options.silent
     @save()
-    Spine.Ajax.enabled = true
 
   selectAttributes: ->
     result = {}

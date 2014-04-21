@@ -282,21 +282,16 @@ class PhotosList extends Spine.Controller
     e.preventDefault()
     
   zoom: (e) ->
-    item = $(e?.currentTarget).item() || @current
-#    @parent.select item.id, true
-    @stopInfo(e)
-#    @navigate '/slideshow', item.id
-    @navigate '/gallery', (Gallery.record?.id or ''), (Album.record?.id or ''), item.id
-    
-    e.stopPropagation()
+    item = $(e.currentTarget).item()
+    @navigate '/gallery', Gallery.record?.id or '', Album.record?.id or '', item.id
     e.preventDefault()
-  
+    e.stopPropagation()
+    
   back: (e) ->
     @navigate '/gallery', Gallery.record.id
-    
-    e.stopPropagation()
     e.preventDefault()
-  
+    e.stopPropagation()
+    
   initSelectable: ->
     options =
       helper: 'clone'

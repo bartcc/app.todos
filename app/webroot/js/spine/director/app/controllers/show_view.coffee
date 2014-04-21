@@ -105,7 +105,7 @@ class ShowView extends Spine.Controller
     'click .opt-SelectAll:not(.disabled)'             : 'selectAll'
     'click .opt-SelectInv:not(.disabled)'             : 'selectInv'
     'click .opt-CloseDraghandle'                      : 'toggleDraghandle'
-    'click .items'                                    : 'deselect'
+    'click .deselector'                               : 'deselect'
     'dblclick .draghandle'                            : 'toggleDraghandle'
     
     # you must define dragover yourself in subview !!!!!!important
@@ -541,6 +541,7 @@ class ShowView extends Spine.Controller
     target.click()
     
   deselect: (e) =>
+    return unless $(e.target).hasClass('deselector')
     data = @el.data('current')
     model = data.model
     models = data.models

@@ -31,15 +31,12 @@ class PhotosHeader extends Spine.Controller
     
   backToGalleries: (e) ->
     console.log 'PhotosHeader::backToGalleries'
-#    Spine.trigger('show:galleries')
     @navigate '/galleries/'
-    e.stopPropagation()
     e.preventDefault()
     
   backToAlbums: (e) ->
     console.log 'PhotosHeader::backToAlbums'
     @navigate '/gallery', Gallery.record?.id or ''
-    e.stopPropagation()
     e.preventDefault()
     
   change:  ->

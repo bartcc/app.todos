@@ -10,11 +10,7 @@ class AlbumsHeader extends Spine.Controller
   
   events:
     'click .gal'                     : 'backToGalleries'
-    'click .opt-AlbumActionCopy'      : 'toggleActionWindow'
   
-  elements:
-    '.movefromright'          : 'actionMenu'
-    
   constructor: ->
     super
     Gallery.bind('change', @proxy @render)
@@ -51,17 +47,7 @@ class AlbumsHeader extends Spine.Controller
       
   backToGalleries: (e) ->
     @navigate '/galleries/'
-    e.stopPropagation()
     e.preventDefault()
-    
-  moveMenu: (list = Gallery.selectionList()) ->
-    @actionMenu.toggleClass('move', !!list.length)
-    
-  toggleActionWindow: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
-    list = Gallery.selectionList().slice(0)
-    @parent.actionWindow.open('Gallery', list)
     
   activated: ->
     @render()

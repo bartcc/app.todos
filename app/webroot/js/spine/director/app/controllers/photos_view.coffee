@@ -134,12 +134,9 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarOne')
     
     item = $(e.currentTarget).item()
-#    Photo.trigger('activate', item.id)
-    @select item.id, @isCtrlClick(e)
     
-    e.stopPropagation()
-    e.preventDefault()
-  
+    @select item.id, @isCtrlClick(e) if item
+    
   select: (items = [], exclusive) ->
     unless Spine.isArray items
       items = [items]

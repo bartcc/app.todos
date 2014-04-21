@@ -256,13 +256,18 @@ class PhotosList extends Spine.Controller
     
   #  ****** END ***** 
   
-  exposeSelection: (selection) ->
+  exposeSelection: (item) ->
     console.log 'PhotosList::exposeSelection'
+    if Spine.isArray item
+      selection = item
+    else
+      item = item or Album
+      selection = item.selectionList()
+      
     @deselect()
-    list = selection or Album.selectionList()
-    for id in list
+    for id in selection
       $('#'+id, @el).addClass("active")
-    if first = list.first()
+    if first = selection.first()
       $('#'+first, @el).addClass("hot")
       
   remove: (ap) ->

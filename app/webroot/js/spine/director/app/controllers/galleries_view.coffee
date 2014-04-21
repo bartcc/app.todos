@@ -37,6 +37,7 @@ class GalleriesView extends Spine.Controller
     @header.template = @headerTemplate
     @viewport = @list.el
     Gallery.one('refresh', @proxy @render)
+    Gallery.bind('destroy', @proxy @destroy)
     Gallery.bind('refresh:gallery', @proxy @render)
     Gallery.bind('activate', @proxy @activateRecord)
     Spine.bind('show:galleries', @proxy @show)
@@ -57,8 +58,9 @@ class GalleriesView extends Spine.Controller
   activated: ->
     @render()
     
-  activateRecord: (idOrRecord) ->
-    Album.trigger('activate', Gallery.selectionList())
+  activateRecord: (idOrRecord, ModelOrRecord) ->
+    unless ModelOrRecord
+      Album.trigger('activate', Gallery.selectionList())
     Gallery.current idOrRecord
 
   click: (e) ->
@@ -69,6 +71,12 @@ class GalleriesView extends Spine.Controller
   select: (item) ->
     Gallery.trigger('activate', item.id)
     
+  destroy: (item) ->
+    albums = Gallery.albums(item.id)
+    Album.trigger('destroy:join', albums, item)
+        
+    item.removeSelectionID()
+    
   newAttributes: ->
     if User.first()
       name   : 'New Name'
@@ -77,12 +85,4 @@ class GalleriesView extends Spine.Controller
     else
       User.ping()
   
-  create: (e) ->
-    console.log 'GalleriesView::create'
-    Spine.trigger('create:gallery')
-
-  destroy: (e) ->
-    console.log 'GalleriesView::destroy'
-    Spine.trigger('destroy:gallery')
-    
 module?.exports = GalleriesView

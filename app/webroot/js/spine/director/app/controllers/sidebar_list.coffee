@@ -52,6 +52,7 @@ class SidebarList extends Spine.Controller
       when 'update'
         @current = item
         @update item
+        @exposeSelection item
       when 'destroy'
         @current = false
         @destroy item
@@ -128,7 +129,7 @@ class SidebarList extends Spine.Controller
     gallerySublist = $('ul', galleryEl)
     gallerySublist.html @sublistTemplate(albums)
     gallerySublist.sortable('album')
-    @exposeSublistSelection Gallery.selectionList()
+    @exposeSublistSelection(gallery)
     
   updateTemplate: (item) ->
     console.log 'SidebarList::updateTemplate'
@@ -163,13 +164,16 @@ class SidebarList extends Spine.Controller
       @renderItemFromGalleriesAlbum ga
   
   exposeSelection: (item) ->
+    item = item or Gallery.record
     @children().removeClass('active')
-    el = @children().forItem(item).addClass("active")# if item.id is Gallery.record.id
+    @children().forItem(item).addClass("active") if item
+#    @exposeSublistSelection(item)
     
-  exposeSublistSelection: (selection=Gallery.selectionList()) ->
-        
-    if gallery = Gallery.record
-      galleryEl = @children().forItem(gallery)
+  exposeSublistSelection: (item) ->
+    item = item or Gallery.record
+    if item
+      selection = item.selectionList()
+      galleryEl = @children().forItem(item)
       albumsEl = galleryEl.find('li')
       albumsEl.removeClass('selected active')
       $('.glyphicon', galleryEl).removeClass('glyphicon-folder-open')

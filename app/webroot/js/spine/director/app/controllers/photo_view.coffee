@@ -3,8 +3,8 @@ $             = Spine.$
 Album         = require('models/album')
 AlbumsPhoto   = require('models/albums_photo')
 Info          = require('controllers/info')
-Extender      = require('plugins/controller_extender')
 Drag          = require("plugins/drag")
+Extender      = require('plugins/controller_extender')
 
 require("plugins/tmpl")
 
@@ -123,7 +123,6 @@ class PhotoView extends Spine.Controller
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
-    return unless @isActive()
     
     Spine.trigger('destroy:photo', [item.id], @proxy @back)
     

@@ -29,8 +29,8 @@ require('spine/lib/manager')
 
 class ShowView extends Spine.Controller
 
-  @extend Extender
   @extend Drag
+  @extend Extender
 
   elements:
     '#views .views'           : 'views'
@@ -186,7 +186,7 @@ class ShowView extends Spine.Controller
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:enter', @proxy @dragEnter)
     @bind('drag:end', @proxy @dragEnd)
-    @bind('drag:drop', @proxy @dropComplete)
+    @bind('drag:drop', @proxy @dragDrop)
     
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
     
@@ -404,15 +404,14 @@ class ShowView extends Spine.Controller
     @['destroy'+models.className]()
 
   destroyGallery: (e) ->
-    Spine.trigger('destroy:gallery')
+    return unless Gallery.record
+    Spine.trigger('destroy:gallery', Gallery.record.id)
   
   destroyAlbum: (e) ->
     Spine.trigger('destroy:album')
-#    @deselect()
 
   destroyPhoto: (e) ->
     Spine.trigger('destroy:photo')
-#    @deselect()
 
   toggleGalleryShow: (e) ->
     @trigger('toggle:view', App.gallery, e.target)

@@ -11,6 +11,12 @@ Array.prototype.last = ->
 Array.prototype.first = ->
   @[0]
   
+  
+Array.prototype.update = (value) ->
+  throw new Error('passed value requires an array') unless Object::toString.call(value) is '[object Array]'
+  @[0...@length] = value
+  @
+
 Array.prototype.addRemoveSelection = (id) ->
   @toggleSelected(id)
   @

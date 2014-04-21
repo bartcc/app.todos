@@ -120,11 +120,7 @@ class GalleriesList extends Spine.Controller
   deleteGallery: (e) ->
     item = $(e.currentTarget).item()
     el = $(e.currentTarget).parents('.item')
-    el.removeClass('in')
-    
-    window.setTimeout( ->
-      Spine.trigger('destroy:gallery', item)
-    , 100)
+    Spine.trigger('destroy:gallery', item.id) if item
     
   infoUp: (e) =>
     el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')

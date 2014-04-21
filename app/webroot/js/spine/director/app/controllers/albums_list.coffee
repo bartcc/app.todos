@@ -48,7 +48,7 @@ class AlbumsList extends Spine.Controller
         @el.empty() if wipe
         @append @template album
         @renderBackgrounds [album]
-        @exposeSelection()
+        @exposeSelection(Gallery.record)
         @el.sortable('destroy').sortable()
 #        $('.tooltips', @el).tooltip()
         
@@ -57,7 +57,7 @@ class AlbumsList extends Spine.Controller
         albumEl.detach()
         if gallery = Gallery.record
           @parent.render() unless gallery.count()
-        @exposeSelection()
+        @exposeSelection(Gallery.record)
           
       when 'update'
         @el.sortable('destroy').sortable()
@@ -71,7 +71,7 @@ class AlbumsList extends Spine.Controller
       @html @template items
       @renderBackgrounds items
       @el.sortable() if Gallery.record
-      @exposeSelection()
+      @exposeSelection(Gallery.record)
     else if mode is 'add'
       @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more albums can be added or there is no gallery selected.</span></label></h3>'
@@ -105,13 +105,18 @@ class AlbumsList extends Spine.Controller
       contentEl.attr('style', style)
     @el.sortable()
   
-  exposeSelection: (selection) ->
+  exposeSelection: (item) ->
     console.log 'AlbumsList::exposeSelection'
+    if Spine.isArray item
+      selection = item
+    else
+      item = item or Gallery
+      selection = item.selectionList()
+      
     @deselect()
-    list = selection or Gallery.selectionList()
-    for id in list
+    for id in selection
       $('#'+id, @el).addClass("active")
-    if first = list.first()
+    if first = selection.first()
       $('#'+first, @el).addClass("hot")
       
     

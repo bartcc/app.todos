@@ -8,15 +8,15 @@ Gallery         = require('models/gallery')
 GalleriesAlbum  = require('models/galleries_album')
 Info            = require('controllers/info')
 PhotosList      = require('controllers/photos_list')
-Extender        = require("plugins/controller_extender")
 Drag            = require("plugins/drag")
+Extender        = require("plugins/controller_extender")
 
 require("plugins/tmpl")
 
 class PhotosView extends Spine.Controller
   
-  @extend Extender
   @extend Drag
+  @extend Extender
   
   elements:
     '.hoverinfo'      : 'infoEl'
@@ -59,8 +59,9 @@ class PhotosView extends Spine.Controller
     @header.template = @headerTemplate
     @viewport = @list.el
     
+    @bind('drag:help', @proxy @dragHelp)
     @bind('drag:start', @proxy @dragStart)
-    @bind('drag:drop', @proxy @dragDrop)
+    @bind('drag:drop', @proxy @dragComplete)
     
     AlbumsPhoto.bind('beforeDestroy', @proxy @beforeDestroyAlbumsPhoto)
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
@@ -113,7 +114,7 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     App.showView.trigger('canvas', @)
   
-  activateRecord: (arr=[]) ->
+  activateRecord: (arr=[], ModelOrRecord) ->
     unless Spine.isArray(arr)
       arr = [arr]
       
@@ -123,8 +124,12 @@ class PhotosView extends Spine.Controller
     
     id = list[0]
     
-    Album.updateSelection(null, list)
-    Photo.current(id)
+    if ModelOrRecord and ModelOrRecord.constructor.className
+      ModelOrRecord.updateSelection(list)
+    else
+      Album.updateSelection(null, list)
+      Photo.current(id)
+      
   
   activated: ->
     @change()
@@ -189,8 +194,9 @@ class PhotosView extends Spine.Controller
     photos = [photos] unless Photo.isArray photos
     
     for id in photos
-      el = @list.findModelElement(Photo.exists(id))
-      el.removeClass('in')
+      if item = Photo.exists(id)
+        el = @list.findModelElement(item)
+        el.removeClass('in')
       
       setTimeout(func, 300, el)
       
@@ -225,7 +231,6 @@ class PhotosView extends Spine.Controller
     @list.el.sortable('destroy').sortable('photos')
       
   createJoin: (options, relocate) ->
-    console.log options
     album = options.album
     album.updateSelection(options.photos)
     Photo.createJoin options.photos, options.album
@@ -266,12 +271,7 @@ class PhotosView extends Spine.Controller
     if gallery = Gallery.exists ga.gallery_id
       @navigate '/gallery', gallery.id
       
-  dragStart: (e, o) ->
-    console.log Spine.dragItem.source.id
-    if Album.selectionList().indexOf(Spine.dragItem.source.id) is -1
-      Photo.trigger('activate', Spine.dragItem.source.id)
-      
-  dragDrop: ->
+  dragComplete: ->
     @list.exposeSelection()
     
 module?.exports = PhotosView

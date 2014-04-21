@@ -59,7 +59,6 @@ class GalleriesController extends AppController {
 
   public function delete($id = null) {
 //    $this->log('GalleriesController::delete', LOG_DEBUG);
-    $this->log('GalleriesController::delete', LOG_DEBUG);
     $this->log($id, LOG_DEBUG);
     
     if (!$id) {

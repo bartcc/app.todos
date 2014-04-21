@@ -87,7 +87,7 @@ Model.Extender =
       
       updateSelection: (id, list) ->
         ret = @emptySelection id, list
-        @trigger('change:selection', ret)
+        @trigger('change:selection', @exists(id), ret)
         ret
 
       emptySelection: (id, list = []) ->

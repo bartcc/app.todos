@@ -398,7 +398,7 @@
     <div class="glyphicon-set fade out" style="">
       <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
-      <span class="zoom glyphicon glyphicon-folder-close glyphicon-white right alb-trigger-edit"></span>
+      <span class="zoom glyphicon glyphicon-folder-close glyphicon-white right"></span>
     </div>
   </li>
 </script>
@@ -470,7 +470,7 @@
     ${pCount()}
     </span>
   </div>
-  <div style="font-size: 0.8em; font-style: oblique; ">hit space to play</div>
+  <div class="hide" style="font-size: 0.8em; font-style: oblique; ">hit space to play</div>
   {{/if}}
 </script>
 
@@ -500,8 +500,8 @@
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
       <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
-      <span class="tooltips zoom glyphicon glyphicon-folder-close glyphicon-white left pho-trigger-edit" data-toggle="tooltip"></span>
-      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left gal-trigger-edit" data-toggle="tooltip" title="test 3"></span>
+      <span class="tooltips zoom glyphicon glyphicon-folder-close glyphicon-white left" data-toggle="tooltip"></span>
+      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left" data-toggle="tooltip" title="test 3"></span>
       <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right" data-toggle="tooltip" title="test 4"></span>
     </div>
     <div class="title center">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
@@ -769,8 +769,8 @@
   <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
-    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right alb-trigger-edit"></span>
-    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right pho-trigger-edit"></span>
+    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
+    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right"></span>
   </div>
 </script>
 

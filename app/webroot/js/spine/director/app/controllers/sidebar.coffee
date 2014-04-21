@@ -2,6 +2,7 @@ Spine          = require("spine")
 $              = Spine.$
 Gallery        = require('models/gallery')
 Album          = require('models/album')
+Photo          = require('models/photo')
 GalleriesAlbum = require('models/galleries_album')
 AlbumsPhoto    = require('models/albums_photo')
 User           = require("models/user")
@@ -66,15 +67,15 @@ class Sidebar extends Spine.Controller
     
     Spine.bind('create:gallery', @proxy @createGallery)
     Spine.bind('edit:gallery', @proxy @edit)
-    Spine.bind('destroy:gallery', @proxy @destroy)
+    Spine.bind('destroy:gallery', @proxy @destroyGallery)
     
     @bind('drag:timeout', @proxy @expandAfterTimeout)
-    @bind('drag:start', @proxy @dragStartFromSidebar)
+    @bind('drag:help', @proxy @dragHelp)
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:enter', @proxy @dragEnter)
     @bind('drag:over', @proxy @dragOver)
     @bind('drag:leave', @proxy @dragLeave)
-    @bind('drag:drop', @proxy @dropComplete)
+    @bind('drag:drop', @proxy @dragDrop)
     
     @model = @defaultModel = 'Gallery'
     
@@ -135,6 +136,8 @@ class Sidebar extends Spine.Controller
       gallery.updateSelectionID()
       unless /^#\/galleries\/$/.test(location.hash)
         @navigate '/gallery', gallery.id
+      else
+        Gallery.trigger('activate', gallery.id)
       
     gallery = new Gallery @newAttributes()
     gallery.one('ajaxSuccess', @proxy cb)
@@ -143,14 +146,10 @@ class Sidebar extends Spine.Controller
   createAlbum: ->
     Spine.trigger('create:album')
     
-  destroy: (item=Gallery.record) ->
+  destroyGallery: (id) ->
     console.log 'Sidebar::destroy'
-    return unless item
+    return unless item = Gallery.exists id
     
-    albums = Gallery.albums(item.id)
-    Album.trigger('destroy:join', albums, item)
-        
-    item.removeSelectionID()
     item.destroy()
     
     unless Gallery.count()
@@ -206,8 +205,5 @@ class Sidebar extends Spine.Controller
     res.save(ajax:false) for res in result
     gallery.save()
     Spine.trigger('reorder', gallery)
-    
-  dragStartFromSidebar: (e, id) ->
-#    Album.trigger('activate', id)
     
 module?.exports = Sidebar

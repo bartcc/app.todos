@@ -93,13 +93,14 @@ class AlbumsView extends Spine.Controller
     Spine.bind('loading:fail', @proxy @loadingFail)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
     
-    @bind('drag:start', @proxy @startDrag)
-    @bind('drag:drop', @proxy @dropDrag)
+    @bind('drag:help', @proxy @dragHelp)
+    @bind('drag:start', @proxy @dragStart)
+    @bind('drag:drop', @proxy @dragDrop)
     
     $(@views).queue('fx')
     
   refresh: (records) ->
-    console.log 'AlbumsView::refresh !!!!!!!'
+    console.log 'AlbumsView::refresh'
     @render()
     
   updateBuffer: (gallery=Gallery.record) ->
@@ -136,7 +137,7 @@ class AlbumsView extends Spine.Controller
         
     @render()
     
-  activateRecord: (arr=[]) ->
+  activateRecord: (arr=[], ModelOrRecord) ->
     console.log 'AlbumsView::activateRecord'
     unless Spine.isArray(arr)
       arr = [arr]
@@ -149,11 +150,13 @@ class AlbumsView extends Spine.Controller
     if id
       App.sidebar.list.expand(Gallery.record, true)
       
-    Gallery.updateSelection(null, list)
-    Album.current(id)
-    Photo.trigger('activate', Album.selectionList())
-    
-    
+    if ModelOrRecord and ModelOrRecord.constructor.className
+      ModelOrRecord.updateSelection(list)
+    else
+      Gallery.updateSelection(null, list)
+      Album.current(id)
+      Photo.trigger('activate', Album.selectionList())
+      
   newAttributes: ->
     if User.first()
       title   : @albumName()
@@ -201,8 +204,9 @@ class AlbumsView extends Spine.Controller
     albums = [albums] unless Album.isArray albums
     
     for id in albums
-      el = @list.findModelElement(Album.exists(id))
-      el.removeClass('in')
+      if item = Album.exists(id)
+        el = @list.findModelElement(item)
+        el.removeClass('in')
       
       setTimeout(func, 300, el)
     
@@ -344,12 +348,7 @@ class AlbumsView extends Spine.Controller
   stopInfo: (e) =>
     @info.bye(e)
       
-  startDrag: (e, id) ->
-    console.log 'AlbumsView::dragStart'
-    if Gallery.selectionList().indexOf(id) is -1
-      Album.trigger('activate', id)
-      
-  dropDrag: (e) ->
-    console.log 'AlbumsView::dragDrop'
+  dropComplete: (e) ->
+    console.log 'AlbumsView::dropComplete'
         
 module?.exports = AlbumsView

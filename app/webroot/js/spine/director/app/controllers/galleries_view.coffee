@@ -59,9 +59,9 @@ class GalleriesView extends Spine.Controller
     @render()
     
   activateRecord: (idOrRecord, ModelOrRecord) ->
+    Gallery.current idOrRecord
     unless ModelOrRecord
       Album.trigger('activate', Gallery.selectionList())
-    Gallery.current idOrRecord
 
   click: (e) ->
     App.showView.trigger('change:toolbarOne', ['Default'])

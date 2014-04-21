@@ -147,12 +147,11 @@ class AlbumsView extends Spine.Controller
       list.push album.id if album = Album.exists(id)
         
     id = list[0]
-    if id
-      App.sidebar.list.expand(Gallery.record, true)
       
     if ModelOrRecord and ModelOrRecord.constructor.className
       ModelOrRecord.updateSelection(list)
     else
+      App.sidebar.list.expand(Gallery.record, true) if id
       Gallery.updateSelection(null, list)
       Album.current(id)
       Photo.trigger('activate', Album.selectionList())

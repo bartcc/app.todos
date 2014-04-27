@@ -25,7 +25,7 @@ class AlbumsList extends Spine.Controller
   constructor: ->
     super
     @widows = []
-    
+    @add = @html
     Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
     GalleriesAlbum.bind('change', @proxy @changeRelated)
@@ -47,17 +47,13 @@ class AlbumsList extends Spine.Controller
         @wipe()
         @append @template album
         @renderBackgrounds [album]
-        @exposeSelection(Gallery.record)
         @el.sortable('destroy').sortable()
 #        $('.tooltips', @el).tooltip()
         
       when 'destroy'
-#        albumEl = @children().forItem(album, true)
-#        albumEl.detach()
-        if gallery = Gallery.record
-          @parent.render() unless gallery.count()
-        @exposeSelection(Gallery.record)
-          
+        el = @findModelElement(album)
+        el.detach()
+        
       when 'update'
         @el.sortable('destroy').sortable()
     

@@ -218,7 +218,7 @@ class AlbumsView extends Spine.Controller
         el = @list.findModelElement(item)
         el.removeClass('in')
       
-      setTimeout(func, 300, el)
+#      setTimeout(func, 300, el)
     
     if gallery = Gallery.record
       @destroyJoin albums, Gallery.record
@@ -250,8 +250,10 @@ class AlbumsView extends Spine.Controller
       # remove all associated albums
       @destroyJoin album.id, gallery
    
-  destroy: (album) ->
-    album.removeSelectionID()
+  destroy: (item) ->
+    item.removeSelectionID()
+    el = @list.findModelElement(item)
+    el.detach()
     @render() unless Album.count()
       
   createJoin: (albums, gallery, relocate) ->

@@ -31,7 +31,7 @@ class PhotosList extends Spine.Controller
     
     @toolbar = new ToolbarView
       el: @toolbarEl
-      
+    @add = @html
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
     Photo.bind('update', @proxy @update)
@@ -55,7 +55,8 @@ class PhotosList extends Spine.Controller
         @el.sortable('destroy').sortable()
         
       when 'destroy'
-        ->
+        el = @findModelElement(photo)
+        el.detach()
           
       when 'update'
         @el.sortable('destroy').sortable()

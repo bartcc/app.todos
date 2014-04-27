@@ -178,7 +178,9 @@ class PhotosView extends Spine.Controller
     album = Album.exists ap.album_id
     album.removeFromSelection ap.photo_id
   
-  destroy: ->
+  destroy: (item) ->
+    el = @list.findModelElement(item)
+    el.detach()
     @render() unless Photo.count()
       
   destroyAlbumsPhoto: (ap) ->
@@ -201,7 +203,7 @@ class PhotosView extends Spine.Controller
         el = @list.findModelElement(item)
         el.removeClass('in')
       
-      setTimeout(func, 300, el)
+#      setTimeout(func, 300, el)
       
     if album = Album.record
       @destroyJoin

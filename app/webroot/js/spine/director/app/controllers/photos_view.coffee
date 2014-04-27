@@ -24,7 +24,7 @@ class PhotosView extends Spine.Controller
   
   events:
     'click .item'                  : 'click'
-    'sortupdate .item'             : 'sortupdate'
+    'sortupdate .items'            : 'sortupdate'
     
     'dragstart .item'              : 'dragstart'
     'dragstart'                    : 'stopInfo'
@@ -256,17 +256,20 @@ class PhotosView extends Spine.Controller
     
   sortupdate: ->
     console.log 'PhotosView::sortupdate'
+    
+    cb = ->
+    
     @list.children().each (index) ->
       item = $(@).item()
       if item and Album.record
         ap = AlbumsPhoto.filter(item.id, func: 'selectPhoto')[0]
         if ap and parseInt(ap.order) isnt index
           ap.order = index
-          ap.save()
+          ap.save(ajax:false)
         # set a *invalid flag*, so when we return to albums cover view, thumbnails can get regenerated
         Album.record.invalid = true
         
-    @list.exposeSelection()
+    Album.record.save(done: cb)
     
   backToAlbumView: (ga) ->
     return unless @isActive()

@@ -19,7 +19,7 @@ class PhotosList extends Spine.Controller
     '.toolbar'                : 'toolbarEl'
     
   events:
-    'click .opt-AddPhotos'         : 'add_'
+    'click .opt-AddPhotos'         : 'addPhotos'
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
     'click .glyphicon-set .delete' : 'deletePhoto'
@@ -265,7 +265,7 @@ class PhotosList extends Spine.Controller
       helper: 'clone'
     @el.selectable()
     
-  add_: (e) ->
+  addPhotos: (e) ->
     e.stopPropagation()
     e.preventDefault()
     

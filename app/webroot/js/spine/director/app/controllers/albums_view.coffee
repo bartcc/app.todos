@@ -69,6 +69,7 @@ class AlbumsView extends Spine.Controller
     Gallery.bind('current', @proxy @render)
     
     GalleriesAlbum.bind('beforeDestroy', @proxy @beforeDestroyGalleriesAlbum)
+    GalleriesAlbum.bind('destroy', @proxy @destroyGalleriesAlbum)
     Album.bind('refresh', @proxy @refresh)
     Album.bind('ajaxError', Album.errorHandler)
     Album.bind('create', @proxy @create)
@@ -201,6 +202,10 @@ class AlbumsView extends Spine.Controller
   beforeDestroyGalleriesAlbum: (ga) ->
     gallery = Gallery.exists ga.gallery_id
     gallery.removeFromSelection ga.album_id if gallery
+       
+  destroyGalleriesAlbum: (ga) ->
+    albums = GalleriesAlbum.albums ga.gallery_id
+    @render(null, 'html') unless albums.length
        
   destroyAlbum: (ids) ->
     console.log 'AlbumsView::destroyAlbum'

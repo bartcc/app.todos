@@ -17,7 +17,7 @@ class AlbumsList extends Spine.Controller
   @extend Drag
   
   events:
-    'click .opt-AddAlbums'         : 'add'
+    'click .opt-AddAlbums'         : 'addAlbums'
     'click .glyphicon-set .delete' : 'deleteAlbum'
     'click .glyphicon-set .back'   : 'back'
     'click .glyphicon-set .zoom'   : 'zoom'
@@ -201,7 +201,7 @@ class AlbumsList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     
-  add: (e) ->
+  addAlbums: (e) ->
     console.log 'AlbumsList::add'
     e.stopPropagation()
     e.preventDefault()

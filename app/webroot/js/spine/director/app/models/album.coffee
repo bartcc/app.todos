@@ -148,7 +148,7 @@ class Album extends Spine.Model
   # loops over each record and make sure to set the copy property
   select: (joinTableItems) ->
     for record in joinTableItems
-      return true if record.album_id is @id
+      return true if record.album_id is @id and (@['order'] = record.order)?
       
   select_: (joinTableItems) ->
     return true if @id in joinTableItems

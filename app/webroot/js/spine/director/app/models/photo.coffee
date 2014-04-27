@@ -118,7 +118,7 @@ class Photo extends Spine.Model
 
   select: (joinTableItems) ->
     for item in joinTableItems
-      return true if item.photo_id is @id
+      return true if item.photo_id is @id and (@['order'] = record.order)?
       
   select_: (joinTableItems) ->
     return true if @id in joinTableItems

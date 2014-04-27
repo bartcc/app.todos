@@ -53,7 +53,6 @@ class SidebarList extends Spine.Controller
       when 'update'
         @current = item
         @update item
-#        @exposeSelection item
       when 'destroy'
         @current = false
         @destroy item
@@ -117,7 +116,6 @@ class SidebarList extends Spine.Controller
       
   renderOneSublist: (gallery = Gallery.record) ->
     console.log 'SidebarList::renderOneSublist'
-    @updateTemplate gallery
     filterOptions =
       model: 'Gallery'
       key:'gallery_id'

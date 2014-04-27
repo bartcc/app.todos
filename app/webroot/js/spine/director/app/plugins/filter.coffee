@@ -29,9 +29,9 @@ Filter =
         model = @foreignModels()[options.model]
         joinTableItems = Model[model.joinTable].filter(id, options)
         if options.sorted
-          return @[options.sorted] @filter joinTableItems
+          @sortByOrder @filter joinTableItems
         else
-          return @filter joinTableItems
+          @filter joinTableItems
           
       nameSort: (a, b) ->
         aa = (a or '').name?.toLowerCase()

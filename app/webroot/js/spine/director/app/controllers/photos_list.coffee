@@ -24,11 +24,6 @@ class PhotosList extends Spine.Controller
     'click .glyphicon-set .zoom'   : 'zoom'
     'click .glyphicon-set .delete' : 'deletePhoto'
     
-    'mousemove .item'              : 'infoUp'
-    'mouseleave  .item'            : 'infoBye'
-    
-    'dragstart .item'              : 'stopInfo'
-    
   selectFirst: true
     
   constructor: ->
@@ -42,59 +37,25 @@ class PhotosList extends Spine.Controller
     Photo.bind('update', @proxy @update)
     Album.bind("ajaxError", Album.errorHandler)
     Album.bind("change:selection", @proxy @exposeSelection)
-    
-  change: ->
-    console.log 'PhotosList::change'
-    
-  # not used in this Join Model
-  # causing too much workload
-  createRelated: (item) ->
-    photo = Photo.exists(item['photo_id'])
-    return unless photo
-    wipe = Album.record and Album.record.count() is 1
-    @el.empty() if wipe
-    @append @template photo
-    @uri [photo]
-    @el.sortable('destroy').sortable()
-    
-    @refreshElements()
-    @el
-    
-  destroyRelated: (item) ->
-    photo = Photo.exists(item['photo_id'])
-    return unless photo
-    photoEl = @children().forItem(photo, true)
-    photoEl.detach()
-    Album.removeFromSelection null, photo.id
-    if album = Album.record
-      @parent.render() unless album.count()
-      
-    @refreshElements()
-    @el
+    AlbumsPhoto.bind('change', @proxy @changeRelated)
     
   changeRelated: (item, mode) ->
     return unless @parent.isActive()
     return unless Album.record
     return unless Album.record.id is item['album_id']
     return unless photo = Photo.exists(item['photo_id'])
-    console.log 'PhotosList::changeRelatedAlbum'
+    console.log 'PhotosList::changeRelated'
     
     switch mode
       when 'create'
-        wipe = Album.record and Album.record.count() is 1
-        @el.empty() if wipe
+        @wipe()
         @append @template photo
-        @uri [photo]
+        @callDeferred [photo]
+        @size(App.showView.sOutValue)
         @el.sortable('destroy').sortable()
         
       when 'destroy'
-        photoEl = @children().forItem(photo, true)
-        photoEl.detach()
-        if album = Album.record
-          album.removeFromSelection photo.id
-          @parent.render() unless album.count()
-        else
-          Album.removeFromSelection null, photo.id
+        ->
           
       when 'update'
         @el.sortable('destroy').sortable()
@@ -103,11 +64,11 @@ class PhotosList extends Spine.Controller
     @el
     
   render: (items=[], mode) ->
-    console.log 'PhotosList::render'
+    console.log 'PhotosList::render ' + mode
     
     if items.length
       @wipe()
-      @html @template items
+      @[mode] @template items
       @callDeferred items
       @size(App.showView.sOutValue)
       @exposeSelection()
@@ -133,8 +94,11 @@ class PhotosList extends Spine.Controller
     @el
   
   wipe: ->
-    wipe = Album.record and Album.record.count() is 1
-    @el.empty() if wipe
+    if Album.record
+      first = Album.record.count() is 1
+    else
+      first = Photo.count() is 1
+    @el.empty() if first
     @el
 
   update: (item) ->
@@ -281,8 +245,6 @@ class PhotosList extends Spine.Controller
     
     Spine.trigger('destroy:photo', [item.id])
     
-    @stopInfo(e)
-    
     e.stopPropagation()
     e.preventDefault()
     
@@ -307,17 +269,6 @@ class PhotosList extends Spine.Controller
     e.preventDefault()
     
     Spine.trigger('photos:add')
-    
-  infoUp: (e) ->
-    @info.up(e)
-    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
-    
-  infoBye: (e) ->
-    @info.bye(e)
-    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
-    
-  stopInfo: (e) =>
-    @info.bye(e)
     
   sliderStart: ->
     @refreshElements()

@@ -28,10 +28,6 @@ class Builder
         @foreignModels[key]
 
       for key in @fModels
-        model = Model[key.className]
-        records = model.filterRelated @record.id,
-          key: key.foreignKey
-          joinTable: key.joinTable
         foreignRecords = Model[key.joinTable].filter @record.id,
           key: key.foreignKey
         

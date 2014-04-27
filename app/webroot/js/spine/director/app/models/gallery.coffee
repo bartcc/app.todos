@@ -39,8 +39,8 @@ class Gallery extends Spine.Model
     
   @albums: (id) ->
     filterOptions =
+      model: 'Gallery'
       key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
     Album.filterRelated(id, filterOptions)
 
   @activePhotos: (albums=[]) =>
@@ -90,11 +90,14 @@ class Gallery extends Spine.Model
       sCount: Gallery.selectionList().length
       author: User.first().name
     
-  count: (inc = 0) ->
+  count_: (inc = 0) ->
     filterOptions =
+      model: 'Gallery'
       key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
     Album.filterRelated(@id, filterOptions).length + inc
+    
+  count: (inc = 0) ->
+    @constructor.contains(@id).length + inc
     
   albums: ->
     @constructor.albums @id
@@ -115,5 +118,8 @@ class Gallery extends Spine.Model
   select: (joinTableItems) ->
     for record in joinTableItems
       return true if record.gallery_id is @id
+    
+  select_: (joinTableItems) ->
+    return true if @id in joinTableItems
     
 module?.exports = Model.Gallery = Gallery

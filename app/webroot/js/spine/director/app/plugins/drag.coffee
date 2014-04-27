@@ -85,7 +85,9 @@ Controller.Drag =
         clearTimeout Spine.timer
         event = e.originalEvent
         data = event.dataTransfer.getData('text/json');
-        data = JSON.parse(data)
+        try
+          data = JSON.parse(data)
+        catch e
         @trigger('drag:drop', e, data)
         
       # helper methods
@@ -144,6 +146,7 @@ Controller.Drag =
         Spine.dragItem.closest?.removeClass('over nodrop')
 
       dragDrop: (e, record) ->
+        return unless Spine.dragItem # for image drops  
         console.log 'dragDrop'
         target = Spine.dragItem.target
         source = Spine.dragItem.source
@@ -157,9 +160,9 @@ Controller.Drag =
         switch source.constructor.className
           when 'Album'
             selection = Spine.selection
+            
+            Album.trigger('destroy:join', selection, origin) if !@isCtrlClick(e) and origin
             Album.trigger('create:join', selection, target, -> @navigate hash)
-            unless @isCtrlClick(e)
-              Album.trigger('destroy:join', selection, origin) if origin
 
           when 'Photo'
             selection = Spine.selection

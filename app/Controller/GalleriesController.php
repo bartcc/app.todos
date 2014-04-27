@@ -68,7 +68,7 @@ class GalleriesController extends AppController {
     if ($this->Gallery->delete($id)) {
       $this->set('_serialize', array('id' => $this->Gallery->id));
       $this->render(SIMPLE_JSON);
-//      $this->Session->setFlash(__('Gallery deleted', true));
+      $this->Session->setFlash(__('Gallery deleted', true));
     }
   }
 

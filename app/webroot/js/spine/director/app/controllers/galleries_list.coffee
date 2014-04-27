@@ -32,8 +32,7 @@ class GalleriesList extends Spine.Controller
     Photo.bind('destroy', @proxy @renderRelated)
     Album.bind('destroy', @proxy @renderRelated)
     
-    Spine.bind('changed:albums', @proxy @renderRelated)
-    Spine.bind('changed:photos', @proxy @renderRelated)
+    Album.bind('collection:changed', @proxy @renderRelated)
     
   renderRelated: ->
     return unless @parent.isActive()

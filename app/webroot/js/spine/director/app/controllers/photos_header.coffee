@@ -25,8 +25,7 @@ class PhotosHeader extends Spine.Controller
     Photo.bind('refresh', @proxy @render)
     Spine.bind('change:selectedGallery', @proxy @render)
     Spine.bind('change:selectedAlbum', @proxy @render)
-    Spine.bind('changed:photos', @proxy @render)
-    Spine.bind('changed:albums', @proxy @render)
+    Album.bind('collection:changed', @proxy @render)
     
     
   backToGalleries: (e) ->
@@ -60,7 +59,7 @@ class PhotosHeader extends Spine.Controller
     if Album.record
       AlbumsPhoto.filter(Album.record.id, key: 'album_id').length
     else
-      Photo.count()
+      Photo.filter()
     
   activated: ->
     @render()

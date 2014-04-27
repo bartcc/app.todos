@@ -148,8 +148,8 @@ class Main extends Spine.Controller
       min: -> 50
       sleep: true
       max: => @el.height()/1.5
-      goSleep: -> @manager.active().el.hide()
-      awake: -> @manager.active().el.show()
+      goSleep: -> controller.el.hide() if controller = @manager.active()
+      awake: -> controller.el.show() if controller = @manager.active()
         
     
     @appManager = new Spine.Manager(@mainView, @loaderView)

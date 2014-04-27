@@ -17,8 +17,7 @@ class AlbumsHeader extends Spine.Controller
     Gallery.bind('change:selection', @proxy @render)
     Album.bind('refresh', @proxy @render)
     Album.bind('change', @proxy @render)
-    Spine.bind('changed:photos', @proxy @render)
-    Spine.bind('changed:albums', @proxy @render)
+    Album.bind('collection:changed', @proxy @render)
 
   render: ->
     return unless @isActive()
@@ -39,11 +38,11 @@ class AlbumsHeader extends Spine.Controller
   count: ->
     if Gallery.record
       filterOptions =
+        model: 'Gallery'
         key:'gallery_id'
-        joinTable: 'GalleriesAlbum'
       Album.filterRelated(Gallery.record.id, filterOptions).length
     else
-      Album.count()
+      Album.filter()
       
   backToGalleries: (e) ->
     @navigate '/galleries/'

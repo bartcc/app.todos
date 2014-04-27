@@ -61,6 +61,7 @@ class GalleriesView extends Spine.Controller
     @render()
     
   activateRecord: (idOrRecord, ModelOrRecord) ->
+    alert ModelOrRecord if ModelOrRecord
     Gallery.current idOrRecord
     unless ModelOrRecord
       if Gallery.record

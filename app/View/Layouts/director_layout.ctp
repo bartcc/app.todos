@@ -50,7 +50,7 @@
     
     var exports = this;
     $(function() {
-      var route   = location.hash || localStorage.hash
+      var route   = localStorage.hash
       var galleries = <?php echo $this->Js->object($galleries); ?>;
       var albums = <?php echo $this->Js->object($albums); ?>;
       var photos = <?php echo $this->Js->object($photos); ?>;
@@ -80,6 +80,7 @@
       Gallery.refresh(galleries, {clear: true});
       
       Spine.Route.setup()
+      App.navigate();
       App.navigate(route || '/overview');
       startScript()
       

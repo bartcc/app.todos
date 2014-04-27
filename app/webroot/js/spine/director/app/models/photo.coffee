@@ -84,29 +84,32 @@ class Photo extends Spine.Model
       ap.save(ajax:false)
       
     target.save()
+    Album.trigger('collection:changed', target)
     ret
     
-  @destroyJoin: (items=[], target) ->
+  @destroyJoin: (items=[], target, cb) ->
     unless @isArray items
       items = [items]
       
-    return unless items.length
+    return unless items.length and target
     
     for id in items
+      aps = AlbumsPhoto.filter(id, key: 'photo_id')
       ap = AlbumsPhoto.albumPhotoExists(id, target.id)
-      ap.destroy(ajax:false) if ap
+      ap.destroy(done: cb) if ap
       
-#    target.save()
+    Album.trigger('collection:changed', target)
       
-  @getGallery: ->
-    Gallery.record
-    
-  @getAlbum: ->
-    Album.record
-    
   init: (instance) ->
     return unless instance?.id
     @constructor.initCache instance.id
+  
+  createJoin: (target) ->
+    @constructor.createJoin [@id], target
+  
+  destroyJoin: (target) ->
+    @constructor.destroyJoin [@id], target
+        
   
   selectAttributes: ->
     result = {}
@@ -114,12 +117,14 @@ class Photo extends Spine.Model
     result
 
   select: (joinTableItems) ->
-    for record in joinTableItems
-      return true if record.photo_id is @id and (@['order'] = record.order)?
+    for item in joinTableItems
+      return true if item.photo_id is @id
+      
+  select_: (joinTableItems) ->
+    return true if @id in joinTableItems
       
   selectPhoto: (id) ->
     return true if @id is id
-    return false
       
   details: =>
     gallery : Model.Gallery.record

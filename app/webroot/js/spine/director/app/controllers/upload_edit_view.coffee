@@ -78,23 +78,22 @@ class UploadEditView extends Spine.Controller
     selection = []
     photos = []
     photos.push new Photo(raw['Photo']).save(ajax: false) for raw in raws
+    
+    for photo in photos
+      selection.addRemoveSelection photo.id
+      
     if album
-      for photo in photos
-        selection.addRemoveSelection()
-        
       options = $().extend {},
-        photos: photos.toID()
+        photos: selection
         album: album
-      album.updateSelection(selection)
+        
       Photo.trigger('create:join', options)
-      Spine.trigger('loading:done', album)
     else
       Photo.trigger('created', photos)
-      @navigate '/gallery//'
+      @navigate '/gallery', '', ''
       
-    if data.autoUpload
-      @clearEl.click()
-      
+    Spine.trigger('loading:done', album)
+    
     e.preventDefault()
     
   progress: (e, data) ->

@@ -27,7 +27,11 @@ class PhotosView extends Spine.Controller
     'sortupdate .item'             : 'sortupdate'
     
     'dragstart .item'              : 'dragstart'
+    'dragstart'                    : 'stopInfo'
     'dragover .item'               : 'dragover'
+    
+    'mousemove .item'              : 'infoUp'
+    'mouseleave  .item'            : 'infoBye'
     
   template: (items) ->
     $('#photosTemplate').tmpl(items)
@@ -54,7 +58,6 @@ class PhotosView extends Spine.Controller
     @list = new PhotosList
       el: @itemsEl
       template: @template
-      info: @info
       parent: @
     @header.template = @headerTemplate
     @viewport = @list.el
@@ -63,8 +66,8 @@ class PhotosView extends Spine.Controller
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:drop', @proxy @dragComplete)
     
-    AlbumsPhoto.bind('beforeDestroy', @proxy @beforeDestroyAlbumsPhoto)
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
+    AlbumsPhoto.bind('beforeDestroy', @proxy @beforeDestroyAlbumsPhoto)
     GalleriesAlbum.bind('destroy', @proxy @backToAlbumView)
 #    Photo.bind('refresh', @proxy @change)
     Photo.bind('created', @proxy @add)
@@ -78,13 +81,12 @@ class PhotosView extends Spine.Controller
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('show:photos', @proxy @show)
     Spine.bind('loading:done', @proxy @updateBuffer)
-    Spine.bind('changed:photos', @proxy @changedPhotos)
     
   updateBuffer: (album=Album.record) ->
     filterOptions =
+      model: 'Album'
       key: 'album_id'
-      joinTable: 'AlbumsPhoto'
-      sorted: true
+      sorted: 'sortByOrder'
     
     if album
       items = Photo.filterRelated(album.id, filterOptions)
@@ -95,12 +97,9 @@ class PhotosView extends Spine.Controller
   
   change: (item) ->
     @updateBuffer()
-    @render @buffer
+    @render @buffer, 'html'
   
-  changedPhotos: ->
-    @render()
-  
-  render: (items, mode) ->
+  render: (items, mode='html') ->
     # render only if necessary
     return unless @isActive()
     console.log 'PhotosView::render'
@@ -170,8 +169,6 @@ class PhotosView extends Spine.Controller
       album.removeFromSelection photo.id
       photo.removeSelectionID()
       
-      @list.findModelElement(photo).detach()
-      
       # remove all associated photos
       @destroyJoin
         photos: photo.id
@@ -184,8 +181,14 @@ class PhotosView extends Spine.Controller
   destroy: ->
     @render() unless Photo.count()
       
+  destroyAlbumsPhoto: (ap) ->
+    photos = AlbumsPhoto.photos ap.album_id
+    @render(null, 'html') unless photos.length
+  
   destroyPhoto: (ids, callback) ->
     console.log 'PhotosView::destroyPhoto'
+    
+    @stopInfo()
     
     func = (el) ->
       $(el).detach()
@@ -211,10 +214,6 @@ class PhotosView extends Spine.Controller
     if typeof callback is 'function'
       callback.call()
   
-  destroyAlbumsPhoto: (ap) ->
-    photos = AlbumsPhoto.photos  ap.album_id
-    @render() unless photos.length
-  
   save: (item) ->
 
   # methods after uplopad
@@ -227,19 +226,23 @@ class PhotosView extends Spine.Controller
   add: (photos) ->
     unless Photo.isArray photos
       photos = [photos]
+    Album.updateSelection null, photos.toID()
+    console.log photos
+    console.log Album.selectionList()
     @render(photos, 'append')
     @list.el.sortable('destroy').sortable('photos')
       
   createJoin: (options, relocate) ->
     album = options.album
-    album.updateSelection(options.photos)
-    Photo.createJoin options.photos, options.album
-    Spine.trigger('changed:photos', album)
+    photos = options.photos
+    
+    
+    Photo.createJoin photos, album
+    album.updateSelection photos
   
-  destroyJoin: (options) ->
+  destroyJoin: (options, callback) ->
     console.log 'PhotosView::destroyJoin'
     album = options.album
-    return unless album and album.constructor.className is 'Album'
     photos = options.photos
     photos = [photos] unless Photo.isArray(photos)
     
@@ -247,11 +250,8 @@ class PhotosView extends Spine.Controller
     for id in photos
       selection.addRemoveSelection id
       
-    Photo.destroyJoin photos, album
+    Photo.destroyJoin photos, album, callback
     
-    Spine.trigger('changed:photos', album)
-    @sortupdate()
-
   sortupdate: ->
     console.log 'PhotosView::sortupdate'
     @list.children().each (index) ->
@@ -270,6 +270,17 @@ class PhotosView extends Spine.Controller
     return unless @isActive()
     if gallery = Gallery.exists ga.gallery_id
       @navigate '/gallery', gallery.id
+      
+  infoUp: (e) ->
+    @info.up(e)
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    
+  infoBye: (e) ->
+    @info.bye(e)
+    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
+    
+  stopInfo: (e) =>
+    @info.bye(e)
       
   dragComplete: ->
     @list.exposeSelection()

@@ -1,8 +1,8 @@
 Spine             = require("spine")
 $                 = Spine.$
 Model             = Spine.Model
-Gallery           = require('models/gallery')
-Model.Photo             = require('models/photo')
+Model.Gallery     = require('models/gallery')
+Model.Photo       = require('models/photo')
 GalleriesAlbum    = require('models/galleries_album')
 AlbumsPhoto       = require('models/albums_photo')
 Filter            = require("plugins/filter")
@@ -57,9 +57,9 @@ class Album extends Spine.Model
     
   @photos: (id, max) ->
     filterOptions =
+      model: 'Album'
       key:'album_id'
-      joinTable: 'AlbumsPhoto'
-      sorted: true
+      sorted: 'sortByOrder'
     ret = Photo.filterRelated(id, filterOptions)
     ret[0...max || ret.length]
     ret
@@ -71,7 +71,7 @@ class Album extends Spine.Model
     unless @isArray items
       items = [items]
 
-    return unless items.length
+    return unless items.length or !target
     
     ret = for item in items
       ga = new GalleriesAlbum
@@ -82,20 +82,24 @@ class Album extends Spine.Model
       ga.save(ajax:false)
       
     target.save(done: cb)
+    Gallery.trigger('collection:changed', target)
     ret
     
-  @destroyJoin: (items=[], target) ->
+  @destroyJoin: (items=[], target, cb) ->
     unless @isArray items
       items = [items]
       
-    return unless items.length
+    return unless items.length and target
     
     for id in items
+      gas = GalleriesAlbum.filter(id, key: 'album_id')
       ga = GalleriesAlbum.galleryAlbumExists(id, target.id)
-      ga.destroy() if ga
+      ga.destroy(done: cb) if ga
       
-#    target.save()
+    Gallery.trigger('collection:changed', target)
       
+  @throwWarning: ->
+  
   @gallerySelectionList: ->
     if Gallery.record and Album.record
       albumId = Gallery.selectionList()[0]
@@ -118,24 +122,11 @@ class Album extends Spine.Model
   selChange: (list) ->
   
   createJoin: (target) ->
-    return unless target
     @constructor.createJoin [@id], target
   
   destroyJoin: (target) ->
-    filterOptions =
-      key:'gallery_id'
-      joinTable: 'GalleriesAlbum'
-      sorted: true
-      
-    gas = GalleriesAlbum.filter(target.id, filterOptions)
-    
-    for ga in gas
-      if ga.album_id is @id
-        target.removeFromSelection(ga.album_id)
-        ga.destroy(ajax:false)
+    @constructor.destroyJoin [@id], target
         
-#    target.save()
-  
   count: (inc = 0) =>
     @constructor.contains(@id).length + inc
   
@@ -157,11 +148,13 @@ class Album extends Spine.Model
   # loops over each record and make sure to set the copy property
   select: (joinTableItems) ->
     for record in joinTableItems
-      return true if record.album_id is @id and (@['order'] = record.order)?
+      return true if record.album_id is @id
+      
+  select_: (joinTableItems) ->
+    return true if @id in joinTableItems
       
   selectAlbum: (id) ->
     return true if @id is id
-    false
       
 module?.exports = Model.Album = Album
 

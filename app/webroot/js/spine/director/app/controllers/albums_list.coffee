@@ -28,24 +28,23 @@ class AlbumsList extends Spine.Controller
     
     Album.bind('update', @proxy @updateTemplate)
     Album.bind("ajaxError", Album.errorHandler)
-    
+    GalleriesAlbum.bind('change', @proxy @changeRelated)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     Gallery.bind('change:selection', @proxy @exposeSelection)
     
   changedAlbums: (gallery) ->
     
     
-  changeRelatedAlbum: (item, mode) ->
+  changeRelated: (item, mode) ->
     return unless @parent and @parent.isActive()
     return unless Gallery.record
     return unless Gallery.record.id is item['gallery_id']
     return unless album = Album.exists(item['album_id'])
-    console.log 'AlbumsList::changeRelatedAlbum'
+    console.log 'AlbumsList::changeRelated'
     
     switch mode
       when 'create'
-        wipe = Gallery.record and Gallery.record.count() is 1
-        @el.empty() if wipe
+        @wipe()
         @append @template album
         @renderBackgrounds [album]
         @exposeSelection(Gallery.record)
@@ -53,8 +52,8 @@ class AlbumsList extends Spine.Controller
 #        $('.tooltips', @el).tooltip()
         
       when 'destroy'
-        albumEl = @children().forItem(album, true)
-        albumEl.detach()
+#        albumEl = @children().forItem(album, true)
+#        albumEl.detach()
         if gallery = Gallery.record
           @parent.render() unless gallery.count()
         @exposeSelection(Gallery.record)
@@ -212,5 +211,13 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
     
     Spine.trigger('albums:add')
+    
+  wipe: ->
+    if Gallery.record
+      first = Gallery.record.count() is 1
+    else
+      first = Album.count() is 1
+    @el.empty() if first
+    @el
     
 module?.exports = AlbumsList

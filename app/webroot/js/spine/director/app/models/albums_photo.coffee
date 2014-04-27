@@ -2,7 +2,6 @@ Spine         = require("spine")
 $             = Spine.$
 Model         = Spine.Model
 Filter        = require("plugins/filter")
-AjaxRelations = require("plugins/ajax_relations")
 Gallery         = require('models/gallery')
 Model.Album           = require('models/album')
 Model.Photo           = require('models/photo')
@@ -14,16 +13,16 @@ class AlbumsPhoto extends Spine.Model
   @configure "AlbumsPhoto", 'album_id', 'photo_id', 'order'
 
   @extend Model.Ajax
-#  @extend AjaxRelations
   @extend Filter
   
   @url: 'albums_photos'
   
   @albumPhotoExists: (pid, aid) ->
-    aps = @filter aid, key: 'album_id'
-    for ap in aps
-      return ap if ap.photo_id == pid
-    false
+    aps = @filter 'placeholder',
+      photo_id: pid
+      album_id: aid
+      func: 'selectUnique'
+    aps[0] or false
     
   @albumsPhotos: (aid) ->
     aps = @filter aid, key: 'album_id'
@@ -36,31 +35,33 @@ class AlbumsPhoto extends Spine.Model
     
   @photos: (aid, max) ->
     Photo.filterRelated(aid,
-      joinTable: 'AlbumsPhoto'
+      model: 'Album'
       key: 'album_id'
-      sorted: true
+      sorted: 'sortByOrder'
     ).slice(0, max)
     
   @albums: (pid, max) ->
     Album.filterRelated(pid,
-      joinTable: 'AlbumsPhoto'
+      model: 'Photo'
       key: 'photo_id'
-      sorted: true
+      sorted: 'sortByOrder'
     ).slice(0, max)
 
   @c: 0
 
   albums: ->
-    Album.filterRelated(@album_id,
-      joinTable: 'AlbumsPhoto'
-      key: 'album_id'
-    )
+    @constructor.albums @photo_id
+    
+  photos: ->
+    @constructor.photos @album_id
 
   select: (id, options) ->
-    return true if @[options.key] is id and @constructor.irecords[@id]
-    return false
+    return true if @[options.key] is id
     
   selectPhoto: (id) ->
     return true if @photo_id is id and @album_id is Album.record.id
+    
+  selectUnique: (empty, options) ->
+    return true if @album_id is options.album_id and @photo_id is options.photo_id
 
 module.exports = Model.AlbumsPhoto = AlbumsPhoto

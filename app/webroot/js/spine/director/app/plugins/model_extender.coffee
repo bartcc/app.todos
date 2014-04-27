@@ -184,13 +184,7 @@ Model.Extender =
       
       # removes items from the selectionList
       removeFromSelection: (list) ->
-        selectionList = @constructor.removeFromSelection(@id, list)
-#        list = [list] unless @constructor.isArray list
-#        
-#        for id in list
-#          selectionList.splice(index, 1) unless (index = selectionList.indexOf(id)) is -1
-#        
-        selectionList
+        @constructor.removeFromSelection(@id, list)
       
       updateSelection: (list) ->
         list = [list] unless @constructor.isArray list

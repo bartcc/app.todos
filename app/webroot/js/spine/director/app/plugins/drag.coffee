@@ -45,7 +45,7 @@ Controller.Drag =
         
         if parentModel
           data = []
-          data.update parentModel.selectionList() 
+          data.update parentRecord.selectionList() 
         else
           return
         

@@ -222,11 +222,14 @@ class PhotosList extends Spine.Controller
   
   exposeSelection: (item) ->
     console.log 'PhotosList::exposeSelection'
-    if Spine.isArray item
-      selection = item
+    
+    if Album.record
+      if item then return unless Album.record.id is item.id
     else
-      item = item or Album
-      selection = item.selectionList()
+      return if item
+      
+    item = item or Album
+    selection = item.selectionList()
       
     @deselect()
     for id in selection

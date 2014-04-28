@@ -102,11 +102,14 @@ class AlbumsList extends Spine.Controller
   
   exposeSelection: (item) ->
     console.log 'AlbumsList::exposeSelection'
-    if Spine.isArray item
-      selection = item
+    if Gallery.record
+      if item then return unless Gallery.record.id is item.id
     else
-      item = item or Gallery
-      selection = item.selectionList()
+      return if item
+      
+      
+    item = item or Gallery
+    selection = item.selectionList()
       
     @deselect()
     for id in selection

@@ -145,7 +145,7 @@ class Main extends Spine.Controller
       initSize: => @el.height()/4
       disabled: false
       axis: 'y'
-      min: -> 50
+      min: -> 20
       sleep: true
       max: => @el.height()/1.5
       goSleep: -> controller.el.hide() if controller = @manager.active()

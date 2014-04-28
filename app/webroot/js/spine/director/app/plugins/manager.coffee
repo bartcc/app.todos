@@ -36,17 +36,24 @@ Spine.Manager.include
     @goSleep = =>
       @sleep = true
       options.goSleep()
+      @trigger('sleep')
     @awake = =>
       @sleep = false
       options.awake()
+      @trigger('awake')
     el.draggable
       create: (e, ui) =>
         @el.css({position: 'inherit'})
       axis: options.axis
       handle: options.handle
-      start: (e, ui) => @currentDim = $(ui.helper)[dim]()
+      start: (e, ui) =>
+        @currentDim = $(ui.helper)[dim]()
+#        @dragging = true
+      stop: (e, ui) =>
+        unless @el.draggable("option", "disabled")
+          @currentDim = $(ui.helper)[dim]() unless @sleep 
+#        @dragging = false
       drag: (e, ui) =>
-        console.log 'dragging'
         _ori = ui.originalPosition[ori]
         _pos = ui.position[ori]
         _cur = @currentDim
@@ -65,9 +72,6 @@ Spine.Manager.include
           else if d >= _min
             @awake() unless @el.draggable("option", "disabled")
             return d
-      stop: (e, ui) =>
-        unless @el.draggable("option", "disabled")
-          @currentDim = $(ui.helper)[dim]() unless @sleep
           
   hasActive: ->
     for controller in @controllers
@@ -83,7 +87,7 @@ Spine.Manager.include
   
   externalUI: (controller) ->
     activeController = controller or @lastActive()
-    $(activeController.externalUI, @external.el)
+    $(activeController.externalClass, @external.el)
 
 Spine.Manager.extend
 

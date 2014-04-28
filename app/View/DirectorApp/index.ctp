@@ -92,7 +92,7 @@
         <div id="views" class="settings bg-light hbox autoflow bg-medium">
           <div class="views canvas content vbox flex autoflow hdraggable" style="position: relative">
             <div class="hdivide draghandle">
-              <span class="opt opt-CloseDraghandle glyphicon glyphicon-remove glyphicon glyphicon-white right" style="cursor: pointer;"></span>
+              <span class="opt opt-CloseDraghandle glyphicon glyphicon-resize-vertical glyphicon glyphicon-white right" style="cursor: pointer;"></span>
             </div>
             <div id="ga" class="view flex autoflow" style=""></div>
             <div id="al" class="view flex autoflow" style=""></div>

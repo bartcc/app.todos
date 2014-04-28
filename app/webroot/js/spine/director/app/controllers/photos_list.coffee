@@ -179,7 +179,6 @@ class PhotosList extends Spine.Controller
       Album.record.photos()
     
   imageLoad: ->
-    console.log 'image loaded'
     css = 'url(' + @src + ')'
     $('.thumbnail', @element).css
       'backgroundImage': css

@@ -29,7 +29,7 @@ class Info extends Spine.Controller
     stop = => @stop()
     @el.removeClass('in')
     clearTimeout @timer_
-    @timer_ = setTimeout(stop, 1000)
+    @timer_ = setTimeout(stop, 200)
     
   stop: ->
     @el.addClass('away')

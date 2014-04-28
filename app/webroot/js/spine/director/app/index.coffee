@@ -94,19 +94,19 @@ class Main extends Spine.Controller
       el: @missingEl
     @gallery = new GalleryEditView
       el: @galleryEl
-      externalUI: '.optGallery'
+      externalClass: '.optGallery'
     @album = new AlbumEditView
       el: @albumEl
-      externalUI: '.optAlbum'
+      externalClass: '.optAlbum'
     @photo = new PhotoEditView
       el: @photoEl
-      externalUI: '.optPhoto'
+      externalClass: '.optPhoto'
     @upload = new UploadEditView
       el: @uploadEl
-      externalUI: '.optUpload'
+      externalClass: '.optUpload'
     @sidebar = new Sidebar
       el: @sidebarEl
-      externalUI: '.optSidebar'
+      externalClass: '.optSidebar'
     @sidebarFlickr = new SidebarFlickr
       el: @sidebarFlickrEl
     @showView = new ShowView
@@ -114,6 +114,7 @@ class Main extends Spine.Controller
       activeControl: 'btnGallery'
       uploader: @upload
       sidebar: @sidebar
+      parent: @
     @flickrView = new FlickrView
       el: @flickrEl
     @slideshowView = @showView.slideshowView
@@ -145,19 +146,23 @@ class Main extends Spine.Controller
       initSize: => @el.height()/4
       disabled: false
       axis: 'y'
-      min: -> 20
+      min: -> 50
       sleep: true
       max: => @el.height()/1.5
-      goSleep: -> controller.el.hide() if controller = @manager.active()
-      awake: -> controller.el.show() if controller = @manager.active()
-        
+      goSleep: ->
+#        controller.el.hide() if controller = @manager.active()
+      awake: ->
+#        controller.el.show() if controller = @manager.active()
     
     @appManager = new Spine.Manager(@mainView, @loaderView)
     @contentManager = new Spine.Manager(@overviewView, @missingView, @showView, @flickrView)
     
+    @hmanager.bind('awake', => @showView.trigger('awake'))
+    @hmanager.bind('sleep', => @showView.trigger('sleep'))
     @hmanager.bind('change', @proxy @changeEditCanvas)
     @appManager.bind('change', @proxy @changeMainCanvas)
     @contentManager.bind('change', @proxy @changeCanvas)
+    
     @bind('canvas', @proxy @canvas)
 
     @upload.trigger('active')

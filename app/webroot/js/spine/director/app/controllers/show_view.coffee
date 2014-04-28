@@ -181,7 +181,7 @@ class ShowView extends Spine.Controller
     @bind('canvas', @proxy @canvas)
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
-    @bind('toggle:view', @proxy @toggleView)
+    @bind('activate:editview', @proxy @activateEditView)
     
     @bind('drag:start', @proxy @dragStart)
     @bind('drag:enter', @proxy @dragEnter)
@@ -189,6 +189,9 @@ class ShowView extends Spine.Controller
     @bind('drag:drop', @proxy @dragDrop)
     
     @toolbarOne.bind('refresh', @proxy @refreshToolbar)
+    
+    @bind('awake', @proxy @awake)
+    @bind('sleep', @proxy @sleep)
     
     Gallery.bind('change', @proxy @changeToolbarOne)
     Gallery.bind('change:selection', @proxy @refreshToolbars)
@@ -417,7 +420,7 @@ class ShowView extends Spine.Controller
     Spine.trigger('destroy:photo')
 
   toggleGalleryShow: (e) ->
-    @trigger('toggle:view', App.gallery, e.target)
+    @trigger('activate:editview', 'gallery', e.target)
     e.preventDefault()
     
   toggleGallery: (e) ->
@@ -426,7 +429,7 @@ class ShowView extends Spine.Controller
     e.preventDefault()
 
   toggleAlbumShow: (e) ->
-    @trigger('toggle:view', App.album, e.target)
+    @trigger('activate:editview', 'album', e.target)
     @refreshToolbars()
     e.preventDefault()
 
@@ -436,7 +439,7 @@ class ShowView extends Spine.Controller
     e.preventDefault()
     
   togglePhotoShow: (e) ->
-    @trigger('toggle:view', App.photo, e.target)
+    @trigger('activate:editview', 'photo', e.target)
     @refreshToolbars()
     e.preventDefault()
     
@@ -445,7 +448,7 @@ class ShowView extends Spine.Controller
     @refreshToolbars()
 
   toggleUploadShow: (e) ->
-    @trigger('toggle:view', App.upload, e.target)
+    @trigger('activate:editview', 'upload', e.target)
     e.preventDefault()
     @refreshToolbars()
     
@@ -492,17 +495,9 @@ class ShowView extends Spine.Controller
   isQuickUpload: ->
     $('#fileupload').data('blueimpFileupload').options['autoUpload']
     
-  toggleView: (controller) ->
-    if(controller.isActive())
-      App.hmanager.trigger('change', false)
-      @closeView()
-    else
-      App.hmanager.trigger('change', controller)
-      @openView()
-      @renderViewControl controller
-    
-#    @propsEl.find('.ui-icon').removeClass('ui-icon-carat-1-s')
-#    $(control).toggleClass('ui-icon-carat-1-s', !controller.isActive())
+  activateEditView: (controller) ->
+    App[controller].trigger('active')
+    @openView()
     
   closeView: ->
     return unless App.hmanager.el.hasClass('open')
@@ -513,35 +508,41 @@ class ShowView extends Spine.Controller
     @animateView()
     
   animateView: ->
-    hasActive = ->
-      if App.hmanager.hasActive()
-        return App.hmanager.enableDrag()
-      false
+    min = 20
     
     isOpen = ->
       App.hmanager.el.hasClass('open')
     
     height = ->
       h = unless isOpen()
-        parseInt(App.hmanager.currentDim)+'px'
+        parseInt(App.hmanager.currentDim)
       else
-        '20px'
+        parseInt(min)
       h
     
     @views.animate
-      height: height()
+      height: height()+'px'
       400
-      ->
-        $(@).toggleClass('open')
+      (args...) ->
+        if $(@).height() is min
+          $(@).removeClass('open')
+        else
+          $(@).addClass('open')
+    
+  awake: -> 
+    @views.addClass('open')
+  
+  sleep: ->
+    @animateView()
     
   openPanel: (controller) ->
     return if @views.hasClass('open')
     App[controller].deactivate()
-    ui = App.hmanager.externalUI(App[controller])
+    ui = App.hmanager.externalClass(App[controller])
     ui.click()
     
   closePanel: (controller, target) ->
-    App[controller].activate()
+    App[controller].trigger('active')
     target.click()
     
   deselect: (e) =>

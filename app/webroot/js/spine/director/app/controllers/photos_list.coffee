@@ -220,7 +220,7 @@ class PhotosList extends Spine.Controller
     
   #  ****** END ***** 
   
-  exposeSelection: (item) ->
+  exposeSelection: (item=Album.record, sel) ->
     console.log 'PhotosList::exposeSelection'
     
     if Album.record
@@ -229,7 +229,7 @@ class PhotosList extends Spine.Controller
       return if item
       
     item = item or Album
-    selection = item.selectionList()
+    selection = sel or item.selectionList()
       
     @deselect()
     for id in selection

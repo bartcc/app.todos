@@ -96,6 +96,8 @@ class GalleriesList extends Spine.Controller
   exposeSelection: (item=Gallery.record) ->
     console.log 'GalleriesList::exposeSelection'
     @deselect()
+    return unless Gallery.record
+    
     if item
       el = @children().forItem(item, true)
       el.addClass("active hot")

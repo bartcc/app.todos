@@ -114,6 +114,7 @@ class ShowView extends Spine.Controller
     'dragend'                                         : 'dragend'
     'drop'                                            : 'drop'
 
+    'keydown'                                         : 'keydown'
     'keyup'                                           : 'keyup'
     
   constructor: ->
@@ -268,6 +269,7 @@ class ShowView extends Spine.Controller
     )
     controller.trigger 'active'
     controller.header.trigger 'active'
+    controller.focus()
     controller
     
   changeToolbarOne: (list) ->
@@ -410,8 +412,6 @@ class ShowView extends Spine.Controller
   destroyGallery: (e) ->
     return unless Gallery.record
     Spine.trigger('destroy:gallery', Gallery.record.id)
-    
-    
   
   destroyAlbum: (e) ->
     Spine.trigger('destroy:album')
@@ -423,33 +423,33 @@ class ShowView extends Spine.Controller
     @trigger('activate:editview', 'gallery', e.target)
     e.preventDefault()
     
-  toggleGallery: (e) ->
-    @changeToolbarOne ['Gallery']
-    @refreshToolbars()
-    e.preventDefault()
-
   toggleAlbumShow: (e) ->
     @trigger('activate:editview', 'album', e.target)
     @refreshToolbars()
     e.preventDefault()
 
+  togglePhotoShow: (e) ->
+    @trigger('activate:editview', 'photo', e.target)
+    @refreshToolbars()
+    e.preventDefault()
+
+  toggleUploadShow: (e) ->
+    @trigger('activate:editview', 'upload', e.target)
+    e.preventDefault()
+    @refreshToolbars()
+    
+  toggleGallery: (e) ->
+    @changeToolbarOne ['Gallery']
+    @refreshToolbars()
+    e.preventDefault()
+    
   toggleAlbum: (e) ->
     @changeToolbarOne ['Album']
     @refreshToolbars()
     e.preventDefault()
     
-  togglePhotoShow: (e) ->
-    @trigger('activate:editview', 'photo', e.target)
-    @refreshToolbars()
-    e.preventDefault()
-    
   togglePhoto: (e) ->
     @changeToolbarOne ['Photos', 'Slider']#, App.showView.initSlider
-    @refreshToolbars()
-
-  toggleUploadShow: (e) ->
-    @trigger('activate:editview', 'upload', e.target)
-    e.preventDefault()
     @refreshToolbars()
     
   toggleUpload: (e) ->
@@ -458,7 +458,6 @@ class ShowView extends Spine.Controller
 
   toggleSidebar: () ->
     App.sidebar.toggleDraghandle()
-    
     
   toggleFullScreen: () ->
     App.trigger('chromeless')
@@ -670,6 +669,65 @@ class ShowView extends Spine.Controller
     else
       @navigate '/galleries/'
       
+  moveSelection: (direction, e) ->
+    index = false
+    lastIndex = false
+    controller = @controller
+    elements = if controller.list then $('.item', controller.list.el) else $()
+    model = controller.el.data('current').model
+    models = controller.el.data('current').models
+    record = models.record
+    
+    activeEl = controller.list.findModelElement(record) or $()
+    
+    elements.each (idx, el) =>
+      lastIndex = idx
+      if $(el).is(activeEl)
+        index = idx
+      
+
+    first = elements[0]
+    prev = elements[index-1] or elements[index]
+    active = elements[index]
+    next = elements[index+1]
+    last = elements[lastIndex]
+    
+    scrollTo = (el) ->
+      top = $(el).offset().top
+      height = $(el).height()
+      scroll = controller.el.scrollTop()
+      sum = top+scroll-(300+300/height)
+      controller.el.scrollTop sum
+      
+    switch direction
+      when 'left'
+        if prev
+          models.trigger('activate', prev.id)
+          scrollTo(prev)
+      when 'up'
+        if first
+          models.trigger('activate', first.id)
+          scrollTo(first)
+      when 'right'
+        if next
+          models.trigger('activate', next.id)
+          scrollTo(next)
+      when 'down'
+        if last
+          models.trigger('activate', last.id)
+          scrollTo(last)
+        
+  keydown: (e) ->
+#    e.preventDefault()
+#    code = e.charCode or e.keyCode
+#    
+#    el=$(document.activeElement)
+#    isFormfield = $().isFormElement(el)
+#    
+#    console.log 'ShowView:keydownCode: ' + code
+#    
+#    switch code
+      
   keyup: (e) ->
     e.preventDefault()
     code = e.charCode or e.keyCode
@@ -696,5 +754,17 @@ class ShowView extends Spine.Controller
         unless isFormfield
           if e.metaKey or e.ctrlKey
             @selectInv(e)
+      when 37 #Left
+        unless isFormfield
+          @moveSelection('left', e)
+      when 38 #Up
+        unless isFormfield
+          @moveSelection('up', e)
+      when 39 #Right
+        unless isFormfield
+          @moveSelection('right', e)
+      when 40 #Down
+        unless isFormfield
+          @moveSelection('down', e)
 
 module?.exports = ShowView

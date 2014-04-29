@@ -389,7 +389,7 @@
 </script>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li class="item container data fade in gal-trigger-edit" data-drag-over="thumbnail">
+  <li id="${id}" class="item container data fade in gal-trigger-edit" data-drag-over="thumbnail">
     <div class="thumbnail">
       <div class="inner">
         {{tmpl($item.data.details()) "#galDetailsTemplate"}}

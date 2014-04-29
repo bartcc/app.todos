@@ -28,5 +28,3 @@ Array.prototype.toggleSelected = (id) ->
     index = @indexOf(id)
     @splice(index, 1) unless index is -1
   @
-isFormElement = (value) ->
-  Object::toString.call(value) is '[object Array]'

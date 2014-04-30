@@ -50,18 +50,6 @@ class Toolbar extends Spine.Model
           name: 'Toggle Sidebar'
           klass: 'opt-Sidebar'
           shortcut: '->|'
-        ,
-          devider: true
-        ,
-          name: -> 'Albummasters'
-          klass: 'opt-ShowAllAlbums'
-          icon: 'book'
-          disabled: -> false
-        ,
-          name: -> 'Photomasters'
-          klass: 'opt-ShowAllPhotos'
-          icon: 'book'
-          disabled: -> false
         ]
     group1:
       name: 'Gallery'
@@ -135,7 +123,7 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: -> 'Albummasters'
+          name: -> 'Library'
           klass: 'opt-ShowAllAlbums'
           icon: 'book'
           disabled: -> false
@@ -180,7 +168,7 @@ class Toolbar extends Spine.Model
           klass: 'opt-ShowPhotoSelection '
           disabled: -> !!!Album.selectionList().length
         ,
-          name: -> 'Photomasters'
+          name: -> 'Library'
           klass: 'opt-ShowAllPhotos'
           icon: 'book'
           disabled: -> false

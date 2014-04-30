@@ -18,9 +18,9 @@ class AlbumsList extends Spine.Controller
   
   events:
     'click .opt-AddAlbums'         : 'addAlbums'
-    'click .glyphicon-set .delete' : 'deleteAlbum'
-    'click .glyphicon-set .back'   : 'back'
-    'click .glyphicon-set .zoom'   : 'zoom'
+    'click .delete'                : 'deleteAlbum'
+    'click .back'                  : 'back'
+    'click .zoom'                  : 'zoom'
     
   constructor: ->
     super
@@ -73,11 +73,19 @@ class AlbumsList extends Spine.Controller
     else
       if Gallery.record
         if Album.count()
-          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;<div><span><button class="opt-CreateAlbum dark large">New Album</button></span><span><button class="opt-AddAlbums dark large">Add existing Albums</button></span></div></span></label>'
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><br><br>
+          <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
+          <button class="opt-AddAlbums dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
+          <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Back</span></button>
+          </label>'
         else
-          @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.<div><button class="opt-CreateAlbum dark large">New Album</button></div></span></label>'
+          @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.</span><br><br>
+          <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
+          </label>'
       else
-        @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet<div><button class="opt-CreateAlbum dark large">New Album</button></div></span></label>'
+        @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet</span><br><br>
+        <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
+        </label>'
     
     @el
     

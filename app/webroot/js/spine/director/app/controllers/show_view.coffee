@@ -222,6 +222,7 @@ class ShowView extends Spine.Controller
     
   changeCanvas: (controller) ->
     controller.activated()
+    @scrollToSelection()
     
     $('.items', @el).removeClass('in')
     t = switch controller.type
@@ -669,27 +670,30 @@ class ShowView extends Spine.Controller
     else
       @navigate '/galleries/'
       
-  moveSelection: (direction, e) ->
+  scrollToSelection: (direction='', e) ->
     margin = 55
     index = false
     lastIndex = false
     controller = @controller
-    elements = if controller.list then $('.item', controller.list.el) else $()
+    elements = if controller.list then $('.item', controller.list.el)
     models = controller.el.data('current').models
     record = models.record
     
-    activeEl = controller.list.findModelElement(record) or $()
-    
+    if controller.list
+      activeEl = controller.list.findModelElement(record) or $()
+    else
+      return
+      
     elements.each (idx, el) =>
       lastIndex = idx
       if $(el).is(activeEl)
         index = idx
 
-    first = elements[0]
-    active = elements[index]
-    prev = if !active then first else elements[index-1] or elements[index]
-    next = if !active then first else elements[index+1] or elements[index]
-    last = elements[lastIndex]
+    first   = elements[0] or false
+    active  = elements[index] or first
+    prev    = elements[index-1] or elements[index] or active
+    next    = elements[index+1] or elements[index] or active
+    last    = elements[lastIndex] or active
     
     scrollTo = (el) ->
       parent = controller.el
@@ -721,6 +725,37 @@ class ShowView extends Spine.Controller
           id = el.attr('data-id')
           models.trigger('activate', id)
           scrollTo(el)
+      else
+        return unless active
+        el = $(active) 
+        id = el.attr('data-id')
+        models.trigger('activate', id)
+        scrollTo(el)
+        
+        
+  zoom: ->
+    controller = @controller
+    models = controller.el.data('current').models
+    record = models.record
+    
+    try
+      activeEl = controller.list?.findModelElement(record) or $()
+      $('.zoom', activeEl).click()
+    catch e
+        
+  back: ->
+    controller = @controller
+    models = controller.el.data('current').models
+    record = models.record
+    
+    try
+      activeEl = controller.list.findModelElement(record) or $()
+
+      if record
+        $('.back', activeEl).click()
+      else
+        $('.back', controller.list.el).click()
+    catch e
         
   keydown: (e) ->
     e.preventDefault()
@@ -732,18 +767,24 @@ class ShowView extends Spine.Controller
 #    console.log 'ShowView:keydownCode: ' + code
     
     switch code
+      when 13 #Return
+        unless isFormfield
+          if e.metaKey or e.ctrlKey
+            @back()
+          else
+            @zoom()
       when 37 #Left
         unless isFormfield
-          @moveSelection('left', e)
+          @scrollToSelection('left', e)
       when 38 #Up
         unless isFormfield
-          @moveSelection('up', e)
+          @scrollToSelection('up', e)
       when 39 #Right
         unless isFormfield
-          @moveSelection('right', e)
+          @scrollToSelection('right', e)
       when 40 #Down
         unless isFormfield
-          @moveSelection('down', e)
+          @scrollToSelection('down', e)
       
   keyup: (e) ->
     e.preventDefault()

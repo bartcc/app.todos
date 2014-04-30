@@ -28,7 +28,7 @@ class PhotoView extends Spine.Controller
     
     'click .glyphicon-set .back'      : 'back'
     'click .glyphicon-set .delete'    : 'deletePhoto'
-    'click .glyphicon-set .resize'    : 'resize'
+    'click .glyphicon-set .zoom'      : 'zoom'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -40,7 +40,7 @@ class PhotoView extends Spine.Controller
     super
     @el.data('current',
       model: Album
-      models: Photo
+      models: Album
     )
     @type = 'Photo'
     @info = new Info
@@ -135,7 +135,7 @@ class PhotoView extends Spine.Controller
     return unless @isActive()
     @navigate '/gallery', Gallery.record.id, Album.record.id
     
-  resize: (e) ->
+  zoom: (e) ->
     @parent.slideshowView.trigger('play', {}, [Photo.record])
     
   infoUp: (e) =>

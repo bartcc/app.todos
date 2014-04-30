@@ -700,11 +700,15 @@
 </script>
 
 <script id="albumsSublistTemplate" type="text/x-jquery-tmpl">
+  {{if flash}}
+  <span class="author">${flash}</span>
+  {{else}}
   <li data-id="${id}" class="sublist-item alb alb-trigger-edit item data" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close"></span>
     <span class="title center">{{if title}}${title}{{else}}...{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
+  {{/if}}
 </script>
 
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
@@ -775,7 +779,7 @@
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
-    <span class="resize glyphicon glyphicon-resize-full glyphicon-white"></span>
+    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white"></span>
   </div>
   <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
 </script>

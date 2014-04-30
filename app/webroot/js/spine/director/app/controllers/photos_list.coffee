@@ -20,9 +20,9 @@ class PhotosList extends Spine.Controller
     
   events:
     'click .opt-AddPhotos'         : 'addPhotos'
-    'click .glyphicon-set .back'   : 'back'
-    'click .glyphicon-set .zoom'   : 'zoom'
-    'click .glyphicon-set .delete' : 'deletePhoto'
+    'click .back'   : 'back'
+    'click .zoom'   : 'zoom'
+    'click .delete' : 'deletePhoto'
     
   selectFirst: true
     
@@ -78,7 +78,14 @@ class PhotosList extends Spine.Controller
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more photos can be added or there is no album selected.</span></label></h3>'
     else 
       if Photo.count()
-        @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p><p>Note: You can also drag existing photos to a sidebars folder</p><button class="opt-AddPhotos dark large">Add existing photos</button></span></label>'
+        @html '<label class="invite">
+        <span class="enlightened">No photos here. &nbsp;
+        <p>Simply drop your photos to your browser window</p>
+        <p>Note: You can also drag existing photos to a sidebars folder</p>
+        </span>
+        <button class="opt-AddPhotos dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
+        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Back</span></button>
+        </label>'
       else
         @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p>'
       

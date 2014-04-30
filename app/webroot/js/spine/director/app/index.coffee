@@ -59,9 +59,9 @@ class Main extends Spine.Controller
     '#login'              : 'loginEl'
     '#modal-gallery'      : 'slideshowEl'
     '#modal-view'         : 'modalEl'
+    '#show .content'      : 'content'
     '.vdraggable'         : 'vDrag'
     '.hdraggable'         : 'hDrag'
-    '#show .content'      : 'content'
     '.status-symbol img'  : 'statusIcon'
     '.status-text'        : 'statusText'
     '.status-symbol'      : 'statusSymbol'
@@ -109,15 +109,6 @@ class Main extends Spine.Controller
       externalClass: '.optSidebar'
     @sidebarFlickr = new SidebarFlickr
       el: @sidebarFlickrEl
-    @showView = new ShowView
-      el: @showEl
-      activeControl: 'btnGallery'
-      uploader: @upload
-      sidebar: @sidebar
-      parent: @
-    @flickrView = new FlickrView
-      el: @flickrEl
-    @slideshowView = @showView.slideshowView
     @loginView = new LoginView
       el: @loginEl
     @overviewView = new OverviewView
@@ -126,6 +117,15 @@ class Main extends Spine.Controller
       el: @mainEl
     @loaderView = new LoaderView
       el: @loaderEl
+    @flickrView = new FlickrView
+      el: @flickrEl
+    @showView = new ShowView
+      el: @showEl
+      activeControl: 'btnGallery'
+      uploader: @upload
+      sidebar: @sidebar
+      parent: @
+    @slideshowView = @showView.slideshowView
 
     @vmanager = new Spine.Manager(@sidebar)
     @vmanager.external = @showView.toolbarOne
@@ -303,6 +303,7 @@ class Main extends Spine.Controller
   key: (e) ->
     code = e.charCode or e.keyCode
     type = e.type
+    
 #    console.log 'Main:code: ' + code
     
     el=$(document.activeElement)
@@ -318,7 +319,21 @@ class Main extends Spine.Controller
       when 8 #Backspace
         unless isFormfield
           if @showView.isActive()
-            @showView.focus()
+            @showView.controller.focus()
+      when 9 #Tab
+        unless isFormfield
+          @sidebar.toggleDraghandle()
+      when 13 #Return
+        unless isFormfield
+          if @showView.isActive()
+            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
+            @showView.controller.focus()
+      when 32 #Space
+        unless isFormfield
+          if @overviewView.isActive()
+            @overviewView.focus(e)
+          if @showView.isActive()
+            @showView.controller.focus(e)
       when 37 #Left
         unless isFormfield
           if @showView.isActive()
@@ -339,18 +354,9 @@ class Main extends Spine.Controller
           if @showView.isActive()
             @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
             @showView.controller.focus(e)
-      when 9 #Tab
-        unless isFormfield
-          @sidebar.toggleDraghandle()
-      when 32 #Space
-        unless isFormfield
-          if @overviewView.isActive()
-            @overviewView.focus(e)
-          if @showView.isActive()
-            @showView.focus(e)
       when 65 #ctrl A
         unless isFormfield
           if @showView.isActive()
-            @showView.focus(e)
+            @showView.controller.focus(e)
         
 module?.exports = Main

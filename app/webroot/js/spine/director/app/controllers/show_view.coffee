@@ -218,7 +218,7 @@ class ShowView extends Spine.Controller
     @trigger('change:toolbarOne')
     
   activated: ->
-    @el.focus()
+    @focus()
     
   changeCanvas: (controller) ->
     controller.activated()
@@ -670,25 +670,28 @@ class ShowView extends Spine.Controller
     else
       @navigate '/galleries/'
       
-  scrollToSelection: (direction='', e) ->
+  scrollToSelection: (direction, e) ->
+    console.log 'scrollToSelection ' + direction
     margin = 55
     index = false
     lastIndex = false
     controller = @controller
-    elements = if controller.list then $('.item', controller.list.el)
+    elements = if controller.list then $('.item', controller.list.el) else $()
     models = controller.el.data('current').models
     record = models.record
     
-    if controller.list
+    try
       activeEl = controller.list.findModelElement(record) or $()
-    else
-      return
+    catch e
+      console.log e
       
     elements.each (idx, el) =>
       lastIndex = idx
       if $(el).is(activeEl)
         index = idx
-
+        
+    index = parseInt(index)
+        
     first   = elements[0] or false
     active  = elements[index] or first
     prev    = elements[index-1] or elements[index] or active
@@ -696,14 +699,16 @@ class ShowView extends Spine.Controller
     last    = elements[lastIndex] or active
     
     scrollTo = (el) ->
-      parent = controller.el
-      height = el.height()
-      p = el.offset().top
-      a = parent.scrollTop()
-      o = parent.offset().top
-      r = a+p-(o+margin)
-      parent.scrollTop r
-      
+      try
+        parent = controller.el
+        height = el.height()
+        p = el.offset().top
+        a = parent.scrollTop()
+        o = parent.offset().top
+        r = a+p-(o+margin)
+        parent.scrollTop r
+      catch e
+        
     switch direction
       when 'left'
         if el = $(prev)
@@ -764,7 +769,7 @@ class ShowView extends Spine.Controller
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
     
-#    console.log 'ShowView:keydownCode: ' + code
+    console.log 'ShowView:keydownCode: ' + code
     
     switch code
       when 13 #Return
@@ -773,18 +778,23 @@ class ShowView extends Spine.Controller
             @back()
           else
             @zoom()
+          e.stopPropagation()
       when 37 #Left
         unless isFormfield
           @scrollToSelection('left', e)
+          e.stopPropagation()
       when 38 #Up
         unless isFormfield
           @scrollToSelection('up', e)
+          e.stopPropagation()
       when 39 #Right
         unless isFormfield
           @scrollToSelection('right', e)
+          e.stopPropagation()
       when 40 #Down
         unless isFormfield
           @scrollToSelection('down', e)
+          e.stopPropagation()
       
   keyup: (e) ->
     e.preventDefault()

@@ -31,7 +31,7 @@ class SlideshowView extends Spine.Controller
       model: Gallery
       models: Album
     )
-    @list = []
+    @images = []
     @viewport = @el
     @thumbSize = 240
     
@@ -150,8 +150,8 @@ class SlideshowView extends Spine.Controller
     App.showView.trigger('canvas', @)
     
   activated: ->
-    if @list.length
-      list = @list
+    if @images.length
+      list = @images
     else
       list = if gallery = Gallery.record then Gallery.record.activePhotos() else []
 
@@ -215,7 +215,7 @@ class SlideshowView extends Spine.Controller
     
   play: (options={index:0}, list=[]) ->
     unless @isActive()
-      @list.push item for item in list
+      @images.push item for item in list
       @one('slideshow:ready', @proxy @playSlideshow)
       @previousHash = location.hash
       @navigate '/slideshow/'
@@ -240,7 +240,7 @@ class SlideshowView extends Spine.Controller
       @parent.back()
     
   onclosedGallery: (e) ->
-    @list = []
+    @images = []
     
   galleryIsActive: ->
     $('#blueimp-gallery').hasClass(@defaults.displayClass)

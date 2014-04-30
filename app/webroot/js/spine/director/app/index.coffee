@@ -71,7 +71,6 @@ class Main extends Spine.Controller
     'drop'                : 'drop'
     
     'keyup'               : 'key'
-    'keypress'            : 'key'
     'keydown'             : 'key'
 
   constructor: ->
@@ -326,14 +325,14 @@ class Main extends Spine.Controller
       when 13 #Return
         unless isFormfield
           if @showView.isActive()
-            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
-            @showView.controller.focus()
+            @showView.controller.focus(e)
+#            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
       when 32 #Space
         unless isFormfield
           if @overviewView.isActive()
             @overviewView.focus(e)
           if @showView.isActive()
-            @showView.controller.focus(e)
+            @showView.focus(e)
       when 37 #Left
         unless isFormfield
           if @showView.isActive()

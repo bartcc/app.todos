@@ -80,7 +80,7 @@ class Toolbar extends Spine.Model
           icon: 'asterisk'
           klass: 'opt-CreateAlbum'
         ,
-          name: 'Add from Masters'
+          name: 'Add from Library'
           icon: 'plus'
           klass: 'opt-AddAlbums'
           disabled: -> !Gallery.record
@@ -123,7 +123,7 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: -> 'Library'
+          name: -> 'Show Library'
           klass: 'opt-ShowAllAlbums'
           icon: 'book'
           disabled: -> false
@@ -136,7 +136,7 @@ class Toolbar extends Spine.Model
           icon: 'upload'
           klass: 'opt-Upload'
         ,
-          name: 'Add from Masters'
+          name: 'Add from Library'
           icon: 'plus'
           klass: 'opt-AddPhotos'
           disabled: -> !Album.record
@@ -168,7 +168,7 @@ class Toolbar extends Spine.Model
           klass: 'opt-ShowPhotoSelection '
           disabled: -> !!!Album.selectionList().length
         ,
-          name: -> 'Library'
+          name: -> 'Show Library'
           klass: 'opt-ShowAllPhotos'
           icon: 'book'
           disabled: -> false

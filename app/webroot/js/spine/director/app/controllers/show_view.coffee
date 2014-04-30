@@ -769,7 +769,7 @@ class ShowView extends Spine.Controller
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
     
-    console.log 'ShowView:keydownCode: ' + code
+#    console.log 'ShowView:keydownCode: ' + code
     
     switch code
       when 13 #Return

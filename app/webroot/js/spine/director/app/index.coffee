@@ -322,19 +322,23 @@ class Main extends Spine.Controller
       when 37 #Left
         unless isFormfield
           if @showView.isActive()
-            @showView.focus(e)
+            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
+            @showView.controller.focus()
       when 38 #Up
         unless isFormfield
           if @showView.isActive()
-            @showView.focus(e)
+            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
+            @showView.controller.focus(e)
       when 39 #Right
         unless isFormfield
           if @showView.isActive()
-            @showView.focus(e)
+            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
+            @showView.controller.focus(e)
       when 40 #Down
         unless isFormfield
           if @showView.isActive()
-            @showView.focus(e)
+            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
+            @showView.controller.focus(e)
       when 9 #Tab
         unless isFormfield
           @sidebar.toggleDraghandle()

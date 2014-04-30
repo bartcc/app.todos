@@ -670,11 +670,11 @@ class ShowView extends Spine.Controller
       @navigate '/galleries/'
       
   moveSelection: (direction, e) ->
+    margin = 55
     index = false
     lastIndex = false
     controller = @controller
     elements = if controller.list then $('.item', controller.list.el) else $()
-    model = controller.el.data('current').model
     models = controller.el.data('current').models
     record = models.record
     
@@ -684,49 +684,66 @@ class ShowView extends Spine.Controller
       lastIndex = idx
       if $(el).is(activeEl)
         index = idx
-      
 
     first = elements[0]
-    prev = elements[index-1] or elements[index]
     active = elements[index]
-    next = elements[index+1]
+    prev = if !active then first else elements[index-1] or elements[index]
+    next = if !active then first else elements[index+1] or elements[index]
     last = elements[lastIndex]
     
     scrollTo = (el) ->
-      top = $(el).offset().top
-      height = $(el).height()
-      scroll = controller.el.scrollTop()
-      sum = top+scroll-(300+300/height)
-      controller.el.scrollTop sum
+      parent = controller.el
+      height = el.height()
+      p = el.offset().top
+      a = parent.scrollTop()
+      o = parent.offset().top
+      r = a+p-(o+margin)
+      parent.scrollTop r
       
     switch direction
       when 'left'
-        if prev
-          models.trigger('activate', prev.id)
-          scrollTo(prev)
+        if el = $(prev)
+          id = el.attr('data-id')
+          models.trigger('activate', id)
+          scrollTo(el)
       when 'up'
-        if first
-          models.trigger('activate', first.id)
-          scrollTo(first)
+        if el = $(first)
+          id = el.attr('data-id')
+          models.trigger('activate', id)
+          scrollTo(el)
       when 'right'
-        if next
-          models.trigger('activate', next.id)
-          scrollTo(next)
+        if el = $(next)
+          id = el.attr('data-id')
+          models.trigger('activate', id)
+          scrollTo(el)
       when 'down'
-        if last
-          models.trigger('activate', last.id)
-          scrollTo(last)
+        if el = $(last)
+          id = el.attr('data-id')
+          models.trigger('activate', id)
+          scrollTo(el)
         
   keydown: (e) ->
-#    e.preventDefault()
-#    code = e.charCode or e.keyCode
-#    
-#    el=$(document.activeElement)
-#    isFormfield = $().isFormElement(el)
-#    
+    e.preventDefault()
+    code = e.charCode or e.keyCode
+    
+    el=$(document.activeElement)
+    isFormfield = $().isFormElement(el)
+    
 #    console.log 'ShowView:keydownCode: ' + code
-#    
-#    switch code
+    
+    switch code
+      when 37 #Left
+        unless isFormfield
+          @moveSelection('left', e)
+      when 38 #Up
+        unless isFormfield
+          @moveSelection('up', e)
+      when 39 #Right
+        unless isFormfield
+          @moveSelection('right', e)
+      when 40 #Down
+        unless isFormfield
+          @moveSelection('down', e)
       
   keyup: (e) ->
     e.preventDefault()
@@ -754,17 +771,5 @@ class ShowView extends Spine.Controller
         unless isFormfield
           if e.metaKey or e.ctrlKey
             @selectInv(e)
-      when 37 #Left
-        unless isFormfield
-          @moveSelection('left', e)
-      when 38 #Up
-        unless isFormfield
-          @moveSelection('up', e)
-      when 39 #Right
-        unless isFormfield
-          @moveSelection('right', e)
-      when 40 #Down
-        unless isFormfield
-          @moveSelection('down', e)
 
 module?.exports = ShowView

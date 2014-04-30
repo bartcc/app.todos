@@ -342,7 +342,7 @@
 </script>
 
 <script id="sidebarTemplate" type="text/x-jquery-tmpl">
-  <li class="gal gal-trigger-edit item data parent">
+  <li data-id="${id}" class="gal gal-trigger-edit item data parent">
     <div class="item-header">
       <div class="expander"></div>
       {{tmpl "#sidebarContentTemplate"}}
@@ -389,7 +389,7 @@
 </script>
 
 <script id="galleriesTemplate" type="text/x-jquery-tmpl">
-  <li id="${id}" class="item container data fade in gal-trigger-edit" data-drag-over="thumbnail">
+  <li id="${id}" data-id="${id}" class="item container data fade in gal-trigger-edit" data-drag-over="thumbnail">
     <div class="thumbnail">
       <div class="inner">
         {{tmpl($item.data.details()) "#galDetailsTemplate"}}
@@ -496,7 +496,7 @@
 </script>
 
 <script id="albumsTemplate" type="text/x-jquery-tmpl">
-  <li id="${id}" class="item fade in alb-trigger-edit" draggable="true">
+  <li id="${id}" data-id="${id}" class="item fade in alb-trigger-edit" draggable="true">
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
       <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
@@ -700,15 +700,11 @@
 </script>
 
 <script id="albumsSublistTemplate" type="text/x-jquery-tmpl">
-  {{if flash}}
-  <span class="author">${flash}</span>
-  {{else}}
-  <li class="sublist-item alb alb-trigger-edit item data" title="move (Hold Cmd-Key to Copy)">
+  <li data-id="${id}" class="sublist-item alb alb-trigger-edit item data" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close"></span>
     <span class="title center">{{if title}}${title}{{else}}...{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
-  {{/if}}
 </script>
 
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
@@ -747,7 +743,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  id="${id}" class="item data fade in pho-trigger-edit" draggable="true">
+  <li  id="${id}" data-id="${id}" class="item data fade in pho-trigger-edit" draggable="true">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>

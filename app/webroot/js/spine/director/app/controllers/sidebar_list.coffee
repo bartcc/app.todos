@@ -39,6 +39,8 @@ class SidebarList extends Spine.Controller
     Album.bind('create destroy update', @proxy @renderSublists)
     Gallery.bind('change:selection', @proxy @exposeSublistSelection)
     Gallery.bind('current', @proxy @exposeSelection)
+    Gallery.bind('current', @proxy @scrollTo)
+    Album.bind('current', @proxy @scrollTo)
     
   template: -> arguments[0]
   
@@ -249,5 +251,23 @@ class SidebarList extends Spine.Controller
     App.contentManager.change App.showView
     e.stopPropagation()
     e.preventDefault()
+    
+  scrollTo: (item) ->
+    return unless item and Gallery.record
+    margin = 50
+    el = @children().forItem(Gallery.record)
+    speed = 300
+    if item.constructor.className is 'Album'
+      ul = $('ul', el)
+      el = $('li', ul).forItem(item)
+      speed = 700
+      
+    p = el.offset().top
+    a = @el.scrollTop()
+    o = @el.offset().top
+    r=a+p-(o+margin)
+    @el.animate scrollTop: r,
+      queue: false
+      duration: speed
     
 module?.exports = SidebarList

@@ -56,6 +56,9 @@ Controller.Extender =
 
       children: (sel) ->
         @el.children(sel)
+        
+      find: (sel) ->
+        @el.find(sel)
 
       deselect: (args...) ->
         @el.deselect(args...)

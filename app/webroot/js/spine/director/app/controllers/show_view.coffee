@@ -201,7 +201,7 @@ class ShowView extends Spine.Controller
     Album.bind('change', @proxy @changeToolbarOne)
     Photo.bind('change', @proxy @changeToolbarOne)
     Photo.bind('refresh', @proxy @refreshToolbars)
-    Album.bind('change:current', @proxy @refreshToolbars)
+    Album.bind('current', @proxy @refreshToolbars)
     Spine.bind('albums:copy', @proxy @copyAlbums)
     Spine.bind('photos:copy', @proxy @copyPhotos)
     

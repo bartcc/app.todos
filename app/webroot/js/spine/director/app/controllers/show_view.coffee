@@ -205,10 +205,11 @@ class ShowView extends Spine.Controller
     Spine.bind('albums:copy', @proxy @copyAlbums)
     Spine.bind('photos:copy', @proxy @copyPhotos)
     
+    @current = @controller = @galleriesView
+    
     @sOutValue = 160 # initial thumb size (slider setting)
     @sliderRatio = 50
     @thumbSize = 240 # size thumbs are created serverside (should be as large as slider max for best quality)
-    @current = @galleriesView
     
     @canvasManager = new Spine.Manager(@galleriesView, @albumsView, @photosView, @photoView, @slideshowView, @waitView)
     @headerManager = new Spine.Manager(@galleriesHeader, @albumsHeader, @photosHeader, @photoHeader, @slideshowHeader)
@@ -217,12 +218,16 @@ class ShowView extends Spine.Controller
     @headerManager.bind('change', @proxy @changeHeader)
     @trigger('change:toolbarOne')
     
+    Gallery.bind('change:current', @proxy @scrollTo)
+    Album.bind('change:current', @proxy @scrollTo)
+    Photo.bind('change:current', @proxy @scrollTo)
+    
   activated: ->
     @focus()
     
   changeCanvas: (controller) ->
     controller.activated()
-    @scrollToSelection()
+    @scrollTo()
     
     $('.items', @el).removeClass('in')
     t = switch controller.type
@@ -670,20 +675,16 @@ class ShowView extends Spine.Controller
     else
       @navigate '/galleries/'
       
-  scrollToSelection: (direction, e) ->
-    console.log 'scrollToSelection ' + direction
-    margin = 55
+  selectByKey: (direction) ->
     index = false
     lastIndex = false
-    controller = @controller
-    elements = if controller.list then $('.item', controller.list.el) else $()
-    models = controller.el.data('current').models
+    elements = if @controller.list then $('.item', @controller.list.el) else $()
+    models = @controller.el.data('current').models
     record = models.record
     
     try
-      activeEl = controller.list.findModelElement(record) or $()
+      activeEl = @controller.list.findModelElement(record) or $()
     catch e
-      console.log e
       
     elements.each (idx, el) =>
       lastIndex = idx
@@ -698,45 +699,52 @@ class ShowView extends Spine.Controller
     next    = elements[index+1] or elements[index] or active
     last    = elements[lastIndex] or active
     
-    scrollTo = (el) ->
-      try
-        parent = controller.el
-        height = el.height()
-        p = el.offset().top
-        a = parent.scrollTop()
-        o = parent.offset().top
-        r = a+p-(o+margin)
-        parent.scrollTop r
-      catch e
-        
     switch direction
       when 'left'
-        if el = $(prev)
-          id = el.attr('data-id')
-          models.trigger('activate', id)
-          scrollTo(el)
+        el = $(prev)
       when 'up'
-        if el = $(first)
-          id = el.attr('data-id')
-          models.trigger('activate', id)
-          scrollTo(el)
+        el = $(first)
       when 'right'
-        if el = $(next)
-          id = el.attr('data-id')
-          models.trigger('activate', id)
-          scrollTo(el)
+        el = $(next)
       when 'down'
-        if el = $(last)
-          id = el.attr('data-id')
-          models.trigger('activate', id)
-          scrollTo(el)
+        el = $(last)
       else
+        console.log active
         return unless active
-        el = $(active) 
-        id = el.attr('data-id')
-        models.trigger('activate', id)
-        scrollTo(el)
+        el = $(active)
         
+    id = el.attr('data-id')
+    models.trigger('activate', id)
+        
+  scrollTo: (item) ->
+    return unless @controller.isActive() and item
+    return unless item.constructor.className is @controller.el.data('current').models.className
+    parentEl = @controller.el
+    el = @controller.list.findModelElement(item) or $()
+    marginTop = 55
+    marginBottom = 20
+    ohc = el[0].offsetHeight
+    otc = el.offset().top
+    stp = parentEl[0].scrollTop
+    otp = parentEl.offset().top
+    ohp = parentEl[0].offsetHeight  
+    
+    resMin = stp+otc-(otp+marginTop)
+    resMax = stp+otc-(otp+ohp-ohc-marginBottom)
+    
+    outOfRange = stp > resMin or stp < resMax
+    return unless outOfRange
+    
+    outOfMinRange = stp > resMin
+    outOfMaxRange = stp < resMax
+
+    res = if outOfMinRange then resMin else if outOfMaxRange then resMax
+#    parentEl.scrollTop res
+    
+    parentEl.animate scrollTop: res,
+      queue: false
+      duration: 'slow'
+      complete: =>
         
   zoom: ->
     controller = @controller
@@ -781,19 +789,19 @@ class ShowView extends Spine.Controller
           e.stopPropagation()
       when 37 #Left
         unless isFormfield
-          @scrollToSelection('left', e)
+          @selectByKey('left', e)
           e.stopPropagation()
       when 38 #Up
         unless isFormfield
-          @scrollToSelection('up', e)
+          @selectByKey('up', e)
           e.stopPropagation()
       when 39 #Right
         unless isFormfield
-          @scrollToSelection('right', e)
+          @selectByKey('right', e)
           e.stopPropagation()
       when 40 #Down
         unless isFormfield
-          @scrollToSelection('down', e)
+          @selectByKey('down', e)
           e.stopPropagation()
       
   keyup: (e) ->

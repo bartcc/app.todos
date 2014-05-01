@@ -40,7 +40,7 @@ class SidebarList extends Spine.Controller
     Gallery.bind('change:selection', @proxy @exposeSublistSelection)
     Gallery.bind('current', @proxy @exposeSelection)
     Gallery.bind('change:current', @proxy @scrollTo)
-    Album.bind('current', @proxy @scrollTo)
+    Album.bind('change:current', @proxy @scrollTo)
     
   template: -> arguments[0]
   
@@ -252,14 +252,15 @@ class SidebarList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     
-  scrollTo: (item, changed) ->
+  scrollTo: (item) ->
     return unless item and Gallery.record
-    marginTop = 50
-    marginBot = 50
+    
+    el = @children().forItem(Gallery.record)
+    
     if item.constructor.className is 'Gallery'
-      el = @children().forItem(Gallery.record)
       ul = $('ul', el)
-      ul.hide() # messuring galleryEl w/o sublist
+      # messuring galleryEl w/o sublist
+      ul.hide()
       ohc = el[0].offsetHeight
       speed = 300
     else
@@ -272,19 +273,19 @@ class SidebarList extends Spine.Controller
     otc = el.offset().top
     stp = @el[0].scrollTop
     otp = @el.offset().top
-    shp = @el[0].scrollHeight
     ohp = @el[0].offsetHeight  
     
     resMin = stp+otc-otp
     resMax = stp+otc-(otp+ohp-ohc)
     
     outOfRange = stp > resMin or stp < resMax
+    
+    return unless outOfRange
+    
     outOfMinRange = stp > resMin
     outOfMaxRange = stp < resMax
     
     res = if outOfMinRange then resMin else if outOfMaxRange then resMax
-    
-    return unless outOfRange
     
     @el.animate scrollTop: res,
       queue: false

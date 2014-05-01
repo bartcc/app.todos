@@ -79,6 +79,7 @@ class UploadEditView extends Spine.Controller
     photos = []
     photos.push new Photo(raw['Photo']).save(ajax: false) for raw in raws
     
+    
     for photo in photos
       selection.addRemoveSelection photo.id
       
@@ -93,6 +94,7 @@ class UploadEditView extends Spine.Controller
       @navigate '/gallery', '', ''
       
     Spine.trigger('loading:done', album)
+    Photo.trigger('activate', selection.last())
     
     e.preventDefault()
     

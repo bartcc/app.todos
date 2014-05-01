@@ -69,7 +69,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
     AlbumsPhoto.bind('beforeDestroy', @proxy @beforeDestroyAlbumsPhoto)
     GalleriesAlbum.bind('destroy', @proxy @backToAlbumView)
-#    Photo.bind('refresh', @proxy @change)
+    Photo.bind('refresh', @proxy @change)
     Photo.bind('created', @proxy @add)
     Photo.bind('destroy', @proxy @destroy)
     Photo.bind('beforeDestroy', @proxy @beforeDestroyPhoto)

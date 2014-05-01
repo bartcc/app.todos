@@ -23,9 +23,9 @@ class PhotosHeader extends Spine.Controller
     Album.bind('change:selection', @proxy @render)
     Photo.bind('change', @proxy @render)
     Photo.bind('refresh', @proxy @render)
-    Spine.bind('change:selectedGallery', @proxy @render)
-    Spine.bind('change:selectedAlbum', @proxy @render)
-    Album.bind('collection:changed', @proxy @render)
+    Gallery.bind('change:current', @proxy @render)
+    Album.bind('change:current', @proxy @render)
+    Album.bind('change:collection', @proxy @render)
     
     
   backToGalleries: (e) ->

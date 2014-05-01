@@ -84,7 +84,7 @@ class Photo extends Spine.Model
       ap.save(ajax:false)
       
     target.save()
-    Album.trigger('collection:changed', target)
+    Album.trigger('change:collection', target)
     ret
     
   @destroyJoin: (items=[], target, cb) ->
@@ -98,7 +98,7 @@ class Photo extends Spine.Model
       ap = AlbumsPhoto.albumPhotoExists(id, target.id)
       ap.destroy(done: cb) if ap
       
-    Album.trigger('collection:changed', target)
+    Album.trigger('change:collection', target)
       
   init: (instance) ->
     return unless instance?.id

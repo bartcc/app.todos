@@ -82,7 +82,7 @@ class Album extends Spine.Model
       ga.save(ajax:false)
       
     target.save(done: cb)
-    Gallery.trigger('collection:changed', target)
+    Gallery.trigger('change:collection', target)
     ret
     
   @destroyJoin: (items=[], target, cb) ->
@@ -96,7 +96,7 @@ class Album extends Spine.Model
       ga = GalleriesAlbum.galleryAlbumExists(id, target.id)
       ga.destroy(done: cb) if ga
       
-    Gallery.trigger('collection:changed', target)
+    Gallery.trigger('change:collection', target)
       
   @throwWarning: ->
   

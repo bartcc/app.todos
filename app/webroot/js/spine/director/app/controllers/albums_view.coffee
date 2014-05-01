@@ -191,7 +191,7 @@ class AlbumsView extends Spine.Controller
         Photo.trigger('create:join', options, false)
         Photo.trigger('destroy:join', options.photos, options.deleteFromOrigin) if options.deleteFromOrigin
         
-      Album.trigger('collection:changed', album)
+      Album.trigger('change:collection', album)
       Album.trigger('activate', album.id)
       @navigate '/gallery', target?.id or ''
     
@@ -320,7 +320,7 @@ class AlbumsView extends Spine.Controller
   sortupdate: (e, o) ->
     return unless Gallery.record
     
-    cb = -> Gallery.trigger('collection:changed', Gallery.record)
+    cb = -> Gallery.trigger('change:collection', Gallery.record)
       
     @list.children().each (index) ->
       item = $(@).item()

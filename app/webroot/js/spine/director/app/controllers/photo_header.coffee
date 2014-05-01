@@ -17,7 +17,7 @@ class PhotoHeader extends Spine.Controller
 
   constructor: ->
     super
-    Spine.bind('change:selectedPhoto', @proxy @render)
+    Photo.bind('change:current', @proxy @render)
     Gallery.bind('change', @proxy @render)
     Album.bind('change', @proxy @render)
     Photo.bind('change', @proxy @render)

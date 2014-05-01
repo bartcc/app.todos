@@ -201,7 +201,7 @@ class ShowView extends Spine.Controller
     Album.bind('change', @proxy @changeToolbarOne)
     Photo.bind('change', @proxy @changeToolbarOne)
     Photo.bind('refresh', @proxy @refreshToolbars)
-    Spine.bind('change:selectedAlbum', @proxy @refreshToolbars)
+    Album.bind('change:current', @proxy @refreshToolbars)
     Spine.bind('albums:copy', @proxy @copyAlbums)
     Spine.bind('photos:copy', @proxy @copyPhotos)
     
@@ -763,13 +763,13 @@ class ShowView extends Spine.Controller
     catch e
         
   keydown: (e) ->
-    e.preventDefault()
     code = e.charCode or e.keyCode
     
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
+    e.preventDefault() unless isFormfield
     
-#    console.log 'ShowView:keydownCode: ' + code
+    console.log 'ShowView:keydownCode: ' + code
     
     switch code
       when 13 #Return

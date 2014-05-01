@@ -33,13 +33,13 @@ class SidebarList extends Spine.Controller
     
   constructor: ->
     super
-    Gallery.bind('collection:changed', @proxy @renderGallery)
-    Album.bind('collection:changed', @proxy @renderAlbum)
+    Gallery.bind('change:collection', @proxy @renderGallery)
+    Album.bind('change:collection', @proxy @renderAlbum)
     Gallery.bind('change', @proxy @change)
     Album.bind('create destroy update', @proxy @renderSublists)
     Gallery.bind('change:selection', @proxy @exposeSublistSelection)
     Gallery.bind('current', @proxy @exposeSelection)
-    Gallery.bind('current', @proxy @scrollTo)
+    Gallery.bind('change:current', @proxy @scrollTo)
     Album.bind('current', @proxy @scrollTo)
     
   template: -> arguments[0]
@@ -252,22 +252,43 @@ class SidebarList extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     
-  scrollTo: (item) ->
+  scrollTo: (item, changed) ->
     return unless item and Gallery.record
-    margin = 50
-    el = @children().forItem(Gallery.record)
-    speed = 300
-    if item.constructor.className is 'Album'
+    marginTop = 50
+    marginBot = 50
+    if item.constructor.className is 'Gallery'
+      el = @children().forItem(Gallery.record)
+      ul = $('ul', el)
+      ul.hide() # messuring galleryEl w/o sublist
+      ohc = el[0].offsetHeight
+      speed = 300
+    else
       ul = $('ul', el)
       el = $('li', ul).forItem(item)
+      ohc = el[0].offsetHeight
       speed = 700
       
-    p = el.offset().top
-    a = @el.scrollTop()
-    o = @el.offset().top
-    r=a+p-(o+margin)
-    @el.animate scrollTop: r,
+    ul.show()
+    otc = el.offset().top
+    stp = @el[0].scrollTop
+    otp = @el.offset().top
+    shp = @el[0].scrollHeight
+    ohp = @el[0].offsetHeight  
+    
+    resMin = stp+otc-otp
+    resMax = stp+otc-(otp+ohp-ohc)
+    
+    outOfRange = stp > resMin or stp < resMax
+    outOfMinRange = stp > resMin
+    outOfMaxRange = stp < resMax
+    
+    res = if outOfMinRange then resMin else if outOfMaxRange then resMax
+    
+    return unless outOfRange
+    
+    @el.animate scrollTop: res,
       queue: false
       duration: speed
+      complete: =>
     
 module?.exports = SidebarList

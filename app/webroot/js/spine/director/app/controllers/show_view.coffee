@@ -667,15 +667,8 @@ class ShowView extends Spine.Controller
     
   showAlbumSelection: ->
     @navigate '/gallery', Gallery.record.id or ''
-
-  back: ->
-    if localStorage.previousHash
-      location.hash = localStorage.previousHash
-      delete localStorage.previousHash
-    else
-      @navigate '/galleries/'
       
-  selectByKey: (direction) ->
+  selectByKey: (direction, e) ->
     index = false
     lastIndex = false
     elements = if @controller.list then $('.item', @controller.list.el) else $()
@@ -685,6 +678,7 @@ class ShowView extends Spine.Controller
     try
       activeEl = @controller.list.findModelElement(record) or $()
     catch e
+      return
       
     elements.each (idx, el) =>
       lastIndex = idx
@@ -718,11 +712,13 @@ class ShowView extends Spine.Controller
         
   scrollTo: (item) ->
     return unless @controller.isActive() and item
-    return unless item.constructor.className is @controller.el.data('current').models.className
+    return unless item.constructor.className is @controller.el.data('current').models.className #and !@controller.list
     parentEl = @controller.el
     el = @controller.list.findModelElement(item) or $()
+    
     marginTop = 55
-    marginBottom = 20
+    marginBottom = 10
+    
     ohc = el[0].offsetHeight
     otc = el.offset().top
     stp = parentEl[0].scrollTop
@@ -739,7 +735,7 @@ class ShowView extends Spine.Controller
     outOfMaxRange = stp < resMax
 
     res = if outOfMinRange then resMin else if outOfMaxRange then resMax
-#    parentEl.scrollTop res
+    return if Math.abs(res-stp) <= ohc/2
     
     parentEl.animate scrollTop: res,
       queue: false
@@ -751,58 +747,48 @@ class ShowView extends Spine.Controller
     models = controller.el.data('current').models
     record = models.record
     
-    try
-      activeEl = controller.list?.findModelElement(record) or $()
-      $('.zoom', activeEl).click()
-    catch e
+    return unless controller.list
+    activeEl = controller.list.findModelElement(record)
+    $('.zoom', activeEl).click()
         
-  back: ->
-    controller = @controller
-    models = controller.el.data('current').models
-    record = models.record
-    
-    try
-      activeEl = controller.list.findModelElement(record) or $()
-
-      if record
-        $('.back', activeEl).click()
-      else
-        $('.back', controller.list.el).click()
-    catch e
+  back: (e) ->
+    @controller.list?.back(e) or @controller.back?(e)
         
   keydown: (e) ->
     code = e.charCode or e.keyCode
     
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
-    e.preventDefault() unless isFormfield
+    @controller.focus() unless isFormfield
     
     console.log 'ShowView:keydownCode: ' + code
     
     switch code
       when 13 #Return
         unless isFormfield
-          if e.metaKey or e.ctrlKey
-            @back()
-          else
-            @zoom()
+          @zoom(e)
           e.stopPropagation()
+          e.preventDefault()
+      when 27 #Esc
+        unless isFormfield
+          @back(e)
+          e.preventDefault()
       when 37 #Left
         unless isFormfield
-          @selectByKey('left', e)
-          e.stopPropagation()
+          @selectByKey('left')
+          e.preventDefault()
       when 38 #Up
         unless isFormfield
-          @selectByKey('up', e)
-          e.stopPropagation()
+          @selectByKey('up')
+          e.preventDefault()
       when 39 #Right
         unless isFormfield
-          @selectByKey('right', e)
-          e.stopPropagation()
+          @selectByKey('right')
+          e.preventDefault()
       when 40 #Down
         unless isFormfield
-          @selectByKey('down', e)
-          e.stopPropagation()
+          @selectByKey('down')
+          e.preventDefault()
       
   keyup: (e) ->
     e.preventDefault()

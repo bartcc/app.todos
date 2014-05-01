@@ -198,7 +198,6 @@ class AlbumsList extends Spine.Controller
     e.stopPropagation()
     
   back: (e) ->
-    console.log 'AlbumsList::back'
     @navigate '/galleries/'
     e.preventDefault()
     e.stopPropagation()

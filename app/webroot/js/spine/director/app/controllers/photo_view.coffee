@@ -2,6 +2,7 @@ Spine         = require("spine")
 $             = Spine.$
 Album         = require('models/album')
 AlbumsPhoto   = require('models/albums_photo')
+PhotoList     = require('controllers/photo_list')
 Info          = require('controllers/info')
 Drag          = require("plugins/drag")
 Extender      = require('plugins/controller_extender')
@@ -15,7 +16,7 @@ class PhotoView extends Spine.Controller
   
   elements:
     '.hoverinfo'       : 'infoEl'
-    '.items'           : 'items'
+    '.items'           : 'itemsEl'
     '.item'            : 'item'
   
   events:
@@ -40,13 +41,16 @@ class PhotoView extends Spine.Controller
     super
     @el.data('current',
       model: Album
-      models: Album
+      models: Photo
     )
+    @list = new PhotoList
+      el: @itemsEl
+      parent: @
     @type = 'Photo'
     @info = new Info
       el: @infoEl
       template: @infoTemplate
-    @viewport = @items
+    @viewport = @itemsEl
     
     AlbumsPhoto.bind('beforeDestroy', @proxy @back)
     Photo.bind('beforeDestroy', @proxy @back)
@@ -55,7 +59,7 @@ class PhotoView extends Spine.Controller
     
   render: (item=Photo.record) ->
     return unless @isActive()
-    @items.html @template item
+    @itemsEl.html @template item
     @uri item
     @el
   

@@ -92,7 +92,7 @@
     echo $scripts_for_layout;
     ?>
   </head>
-  <body id="" class="views canvas">
+  <body class="views canvas">
     <?php echo $content_for_layout; ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>

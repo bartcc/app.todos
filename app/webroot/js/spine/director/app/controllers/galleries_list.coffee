@@ -108,13 +108,9 @@ class GalleriesList extends Spine.Controller
     console.log 'GalleriesList::zoom'
     item = $(e.currentTarget).item()
     @navigate '/gallery', item.id
-    e.preventDefault()
-    e.stopPropagation()
     
   back: (e) ->
     @navigate '/overview/'
-    e.preventDefault()
-    e.stopPropagation()
     
   deleteGallery: (e) ->
     item = $(e.currentTarget).item()

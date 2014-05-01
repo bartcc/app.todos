@@ -43,12 +43,13 @@ class Gallery extends Spine.Model
       key:'gallery_id'
     Album.filterRelated(id, filterOptions)
 
-  @activePhotos: (albums=[]) =>
+  @activePhotos: (id) ->
+    albums = @selectionList(id)
     phos = []
     for alb in albums
       if album = Album.exists(alb)
         photos = album.photos() or []
-        phos.push pho for pho in photos
+        phos.update photos
     phos
   
   @details: =>
@@ -66,19 +67,17 @@ class Gallery extends Spine.Model
       author: User.first().name
     
   
-  activePhotos: () ->
-    albums = @constructor.selectionList(@id)
-    @constructor.activePhotos(albums)
-    
   init: (instance) ->
     return unless id = instance.id
     s = new Object()
     s[id] = []
     @constructor.selection.push s
     
+  activePhotos: ->
+    @constructor.activePhotos(@id)
+    
   details: =>
     albums = Gallery.albums(@id)
-    activePhotos = @activePhotos
     imagesCount = 0
     for album in albums
       imagesCount += album.count = AlbumsPhoto.filter(album.id, key: 'album_id').length
@@ -86,7 +85,7 @@ class Gallery extends Spine.Model
       name: @name
       iCount: imagesCount
       aCount: albums.length
-      pCount: => activePhotos.call(@).length
+      pCount: @activePhotos().length
       sCount: Gallery.selectionList().length
       author: User.first().name
     

@@ -15,12 +15,15 @@ class SlideshowView extends Spine.Controller
   @extend Extender
   
   elements:
-    '.items'           : 'items'
+    '.items'           : 'itemsEl'
     '.thumbnail'       : 'thumb'
     
   events:
     'click .item'      : 'click'
     'hidden.bs.modal'  : 'hiddenmodal'
+    'click .back'      : 'back'
+    
+    'keydown'          : 'keydown'
     
   template: (items) ->
     $("#photosSlideshowTemplate").tmpl items
@@ -38,8 +41,7 @@ class SlideshowView extends Spine.Controller
     @modalSimpleView = new ModalSimpleView
       el: $('#modal-view')
     
-    @links = $('.thumbnail', @items)
-    @bind('play', @proxy @play)
+    @links = $('.thumbnail', @el)
     @defaults =
       index             : 0
       startSlideshow    : true
@@ -54,26 +56,40 @@ class SlideshowView extends Spine.Controller
     Spine.bind('chromeless', @proxy @chromeless)
     Spine.bind('loading:done', @proxy @loadingDone)
     
+  show: (params) ->
+    App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
+    App.showView.trigger('change:toolbarTwo', ['Close'])
+    App.showView.trigger('canvas', @)
+    
+  activated: ->
+    list = []
+    if @images.length
+      list.update @images
+    else
+      list.update Gallery.activePhotos()
+
+    @render list
+    
   render: (items) ->
     console.log 'SlideshowView::render'
-    @items.html @template items
-    @uri items
-    @refreshElements()
-    @size(App.showView.sliderOutValue())
+    unless items.length
+      @itemsEl.html '<label class="invite">
+        <span class="enlightened">This slideshow does not have images &nbsp;
+        <p>Note: Select an album that contains images</p>
+        </span>
+        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Back</span></button>
+        </label>'
+    else
+      @itemsEl.html @template items
+      @uri items
+      @refreshElements()
+      @size(App.showView.sliderOutValue())
     
     @el
     
   loadingDone: ->
     return unless @isActive()
     @show()
-       
-  exposeSelection: ->
-    console.log 'SlideshowView::exposeSelection'
-    @deselect()
-    list = Album.selectionList()
-    for id in list
-      if item = Photo.exists(id)
-        @items.children().forItem(item, true).addClass("active")
        
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->
     width: width
@@ -94,7 +110,7 @@ class SlideshowView extends Spine.Controller
     for item, index in items
       jsn = searchJSON item.id
       if jsn
-        ele = @items.children().forItem(item)
+        ele = @itemsEl.children().forItem(item)
         img = new Image
         img.onload = @imageLoad
         img.that = @
@@ -136,29 +152,13 @@ class SlideshowView extends Spine.Controller
     for item in items
       jsn = searchJSON item.id
       if jsn
-        el = @items.children().forItem(item)
+        el = @itemsEl.children().forItem(item)
         thumb = $('.thumbnail', el)
         thumb.attr
           'href'   : jsn.src
           'title'       : item.title or item.src
           'data-gallery': 'gallery'
     @trigger('slideshow:ready')
-        
-  show: (params) ->
-    App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
-    App.showView.trigger('change:toolbarTwo', ['Close'])
-    App.showView.trigger('canvas', @)
-    
-  activated: ->
-    if @images.length
-      list = @images
-    else
-      list = if gallery = Gallery.record then Gallery.record.activePhotos() else []
-
-    if list.length
-      @render list
-    else
-      @notify(@parent.showPrevious)
       
   size: (val=@thumbSize, bg='none') ->
     # 2*10 = border radius
@@ -194,7 +194,7 @@ class SlideshowView extends Spine.Controller
     @oncloseGallery()
     
   showmodal: (e) ->
-    @items.empty()
+    @itemsEl.empty()
     
   notify: ->
     @modalSimpleView.el.one('hidden.bs.modal', @proxy @hiddenmodal)
@@ -206,16 +206,18 @@ class SlideshowView extends Spine.Controller
       body: 'Select one or more albums in order to present its content.'
       
   click: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
     options =
       index         : @thumb.index($(e.target))
       startSlideshow: false
     @play(options)
     
+    e.stopPropagation()
+    e.preventDefault()
+    
   play: (options={index:0}, list=[]) ->
     unless @isActive()
-      @images.push item for item in list
+      @images.update list
+      console.log @images
       @one('slideshow:ready', @proxy @playSlideshow)
       @previousHash = location.hash
       @navigate '/slideshow/'
@@ -244,5 +246,22 @@ class SlideshowView extends Spine.Controller
     
   galleryIsActive: ->
     $('#blueimp-gallery').hasClass(@defaults.displayClass)
+    
+  back: (e) ->
+    if ph = localStorage.previousHash and localStorage.previousHash isnt location.hash
+      location.hash = localStorage.previousHash
+      delete localStorage.previousHash
+    else
+      @navigate '/galleries/'
+    
+  keydown: (e) ->
+    code = e.charCode or e.keyCode
+    
+    console.log 'SlideshowView:keydownCode: ' + code
+    
+    switch code
+      when 27 #Esc
+        @back(e)
+        e.preventDefault()
   
 module?.exports = SlideshowView

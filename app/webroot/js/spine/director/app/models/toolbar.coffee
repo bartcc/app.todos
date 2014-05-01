@@ -182,20 +182,20 @@ class Toolbar extends Spine.Model
         ]
     group4:
       name: -> 
-        len = if record = Gallery.record then record.activePhotos().length else 0
+        len = Gallery.activePhotos().length
         'Slideshow (' + len + ')'
       content:
         [
           name: -> 'Preview'
           klass: 'opt-SlideshowPreview'
           icon: 'picture'
-          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
+          disabled: -> !Gallery.activePhotos().length
         ,
           name: 'Start'
           klass: 'opt-SlideshowPlay'
           icon: 'play'
           dataToggle: 'modal-gallery'
-          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
+          disabled: -> !Gallery.activePhotos().length
         ]
       
   @data:
@@ -238,7 +238,7 @@ class Toolbar extends Spine.Model
           klass: 'opt-SlideshowPlay'
           innerklass: 'symbol'
           dataToggle: 'modal-gallery'
-          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
+          disabled: -> !Gallery.activePhotos().length
         ]
     package_10:
       name: 'Back'
@@ -266,7 +266,7 @@ class Toolbar extends Spine.Model
           klass: 'opt-SlideshowPlay'
           icon: 'play'
           iconcolor: 'white'
-          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
+          disabled: -> !Gallery.activePhotos().length
         ]
     package_12:
       name: 'Slider'
@@ -297,7 +297,7 @@ class Toolbar extends Spine.Model
           innerklass: 'symbol'
           icon: 'play'
           iconcolor: ''
-          disabled: -> if record = Gallery.record then !record.activePhotos().length else true
+          disabled: -> !Gallery.activePhotos().length
         ]
     package_14:
       name: 'FlickrRecent'

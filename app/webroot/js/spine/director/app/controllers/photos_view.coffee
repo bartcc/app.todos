@@ -229,8 +229,6 @@ class PhotosView extends Spine.Controller
     unless Photo.isArray photos
       photos = [photos]
     Album.updateSelection null, photos.toID()
-    console.log photos
-    console.log Album.selectionList()
     @render(photos, 'append')
     @list.el.sortable('destroy').sortable('photos')
       

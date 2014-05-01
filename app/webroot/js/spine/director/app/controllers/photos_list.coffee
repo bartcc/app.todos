@@ -19,10 +19,10 @@ class PhotosList extends Spine.Controller
     '.toolbar'                : 'toolbarEl'
     
   events:
-    'click .opt-AddPhotos'         : 'addPhotos'
-    'click .back'   : 'back'
-    'click .zoom'   : 'zoom'
-    'click .delete' : 'deletePhoto'
+    'click .opt-AddPhotos'    : 'addPhotos'
+    'click .back'             : 'back'
+    'click .zoom'             : 'zoom'
+    'click .delete'           : 'deletePhoto'
     
   selectFirst: true
     
@@ -265,9 +265,9 @@ class PhotosList extends Spine.Controller
     e.stopPropagation()
     
   back: (e) ->
-    @navigate '/gallery', Gallery.record.id
-    e.stopPropagation()
+    @navigate '/gallery', Gallery.record.id or ''
     e.preventDefault()
+    e.stopPropagation()
     
   initSelectable: ->
     options =

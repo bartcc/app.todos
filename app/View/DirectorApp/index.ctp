@@ -52,10 +52,10 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="content" class="views bg-medium vbox flex">
-      <div tabindex="1" id="show" class="view canvas bg-dark vbox flex fade">
+      <div tabindex="2" id="show" class="view canvas bg-dark vbox flex fade">
         <div id="modal-action " class="modal fade"></div>
-        <div  tabindex="2" id="modal-addAlbum" class="modal fade"></div>
-        <div  tabindex="2" id="modal-addPhoto" class="modal fade"></div>
+        <div id="modal-addAlbum" class="modal fade"></div>
+        <div id="modal-addPhoto" class="modal fade"></div>
         <ul class="options hbox">
           <ul class="toolbarOne hbox nav"></ul>
           <li class="splitter disabled flex"></li>
@@ -85,7 +85,7 @@
             <div class="hoverinfo fadeslow"></div>
             <div class="items flex fadein">Photo</div>
           </div>
-          <div id="slideshow" class="view content flex data parent autoflow">
+          <div tabindex="1" id="slideshow" class="view content vbox flex data parent autoflow">
             <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
           </div>
         </div>
@@ -149,7 +149,7 @@
         <div class="carousel-background bg-medium flex">
 <!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
 <!--          We can't use it here, since it must be triggered via the controller-->
-          <div tabindex="1" id="overview-carousel" class="carousel slide" data-ride="">
+          <div tabindex="3" id="overview-carousel" class="carousel slide" data-ride="">
             
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -229,7 +229,7 @@
       <div class="modal-body autoflow">
         <div class="items flex fadein in"></div>
       </div>
-      <div tabindex="1" class="modal-footer">
+      <div class="modal-footer">
         {{tmpl() "#footerTemplate"}}
       </div>
     </div><!-- /.modal-content -->
@@ -463,11 +463,11 @@
   <div style="">${name}</div>
   <div style="font-size: 0.8em; font-style: oblique;">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique;">Images: ${iCount}</div>
-  {{if pCount()}}
+  {{if pCount}}
   <div class="opt-SlideshowPlay" style="">
     <span class="label label-default">
     <i class="glyphicon glyphicon-picture"></i><i class="glyphicon glyphicon-play"></i>
-    ${pCount()}
+    ${pCount}
     </span>
   </div>
   <div class="hide" style="font-size: 0.8em; font-style: oblique; ">hit space to play</div>
@@ -760,7 +760,7 @@
 </script>
 
 <script id="photoTemplate" type="text/x-jquery-tmpl">
-  <li class="item pho-trigger-edit">
+  <li data-id="${id}" class="item pho-trigger-edit">
     {{tmpl "#photoThumbnailTemplate"}}
   </li>
 </script>

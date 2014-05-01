@@ -307,8 +307,6 @@ class Main extends Spine.Controller
     
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
-    unless isFormfield
-      e.preventDefault()
       
     #use this keydown for tabindices to gain focus
     #tabindex elements will then be able to listen for keyup events subscribed in the controller 
@@ -319,43 +317,57 @@ class Main extends Spine.Controller
         unless isFormfield
           if @showView.isActive()
             @showView.controller.focus()
+          e.preventDefault()
       when 9 #Tab
         unless isFormfield
           @sidebar.toggleDraghandle()
+          e.preventDefault()
       when 13 #Return
         unless isFormfield
           if @showView.isActive()
             @showView.controller.focus(e)
-#            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
+          e.preventDefault()
+      when 27 #Esc
+        unless isFormfield
+          if @showView.isActive()
+            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
+            @showView.controller.focus(e)
+          e.preventDefault()
       when 32 #Space
         unless isFormfield
           if @overviewView.isActive()
             @overviewView.focus(e)
           if @showView.isActive()
             @showView.focus(e)
+          e.preventDefault()
       when 37 #Left
         unless isFormfield
           if @showView.isActive()
             @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
-            @showView.controller.focus()
+            @showView.controller.focus(e)
+          e.preventDefault()
       when 38 #Up
         unless isFormfield
           if @showView.isActive()
             @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
             @showView.controller.focus(e)
+          e.preventDefault()
       when 39 #Right
         unless isFormfield
           if @showView.isActive()
             @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
             @showView.controller.focus(e)
+          e.preventDefault()
       when 40 #Down
         unless isFormfield
           if @showView.isActive()
             @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
             @showView.controller.focus(e)
+          e.preventDefault()
       when 65 #ctrl A
         unless isFormfield
           if @showView.isActive()
             @showView.controller.focus(e)
+          e.preventDefault()
         
 module?.exports = Main

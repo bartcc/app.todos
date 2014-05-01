@@ -463,13 +463,13 @@
   <div style="">${name}</div>
   <div style="font-size: 0.8em; font-style: oblique;">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique;">Images: ${iCount}</div>
-  {{if pCount}}
   <div class="opt-SlideshowPlay" style="">
     <span class="label label-default">
     <i class="glyphicon glyphicon-picture"></i><i class="glyphicon glyphicon-play"></i>
     ${pCount}
     </span>
   </div>
+  {{if pCount}}
   <div class="hide" style="font-size: 0.8em; font-style: oblique; ">hit space to play</div>
   {{/if}}
 </script>

@@ -8,6 +8,7 @@ class GalleriesHeader extends Spine.Controller
   constructor: ->
     super
     Gallery.bind('change', @proxy @render)
+    Gallery.bind('refresh', @proxy @render)
     Gallery.bind('change:current', @proxy @render)
 
   render: ->

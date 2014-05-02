@@ -208,7 +208,6 @@ class SlideshowView extends Spine.Controller
       @playSlideshow(options)
       
   playSlideshow: (options=@options) ->
-    console.log options
     return if @galleryIsActive()
     options = $().extend({}, @defaults, options)
     @refreshElements()

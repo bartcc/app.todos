@@ -51,6 +51,7 @@ class SlideshowView extends Spine.Controller
       onclose:  @proxy @oncloseGallery
       onclosed: @proxy @onclosedGallery
     
+    @bind('play', @proxy @play)
     Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('chromeless', @proxy @chromeless)

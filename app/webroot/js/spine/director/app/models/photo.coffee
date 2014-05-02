@@ -75,6 +75,8 @@ class Photo extends Spine.Model
 
     return unless items.length
     
+    cb = -> Album.trigger('change:collection', target)
+    
     ret = for item in items
       ap = new AlbumsPhoto
         id          : $().guid()
@@ -83,8 +85,7 @@ class Photo extends Spine.Model
         order       : AlbumsPhoto.photos(target.id).length
       ap.save(ajax:false)
       
-    target.save()
-    Album.trigger('change:collection', target)
+    target.save(done: cb)
     ret
     
   @destroyJoin: (items=[], target, cb) ->

@@ -4,10 +4,11 @@ Model           = Spine.Model
 Controller      = Spine.Controller
 Photo           = require('models/photo')
 AlbumsPhoto     = require('models/albums_photo')
+Extender        = require("plugins/controller_extender")
 
 require('plugins/uri')
-require("plugins/tmpl")
-Extender = require("plugins/controller_extender")
+require('plugins/tmpl')
+require('plugins/utils')
 
 class SlideshowView extends Spine.Controller
   
@@ -53,6 +54,9 @@ class SlideshowView extends Spine.Controller
     Spine.bind('loading:done', @proxy @loadingDone)
     
   show: (params) ->
+    if params
+      @options = $().unparam(params)
+      
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Close'])
     App.showView.trigger('canvas', @)
@@ -197,16 +201,19 @@ class SlideshowView extends Spine.Controller
       @images.update list # mixin images to override album images
       @one('slideshow:ready', @proxy @playSlideshow)
       @previousHash = location.hash
-      @navigate '/slideshow/'
+      params = $.param(options)
+      @navigate '/slideshow', params
     else
       @previousHash = location.hash
       @playSlideshow(options)
       
-  playSlideshow: (options) ->
+  playSlideshow: (options=@options) ->
+    console.log options
     return if @galleryIsActive()
     options = $().extend({}, @defaults, options)
     @refreshElements()
     @gallery = blueimp.Gallery(@thumb, options)
+    delete @options
     
   onopenedGallery: (e) ->
     

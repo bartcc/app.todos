@@ -195,8 +195,8 @@ class Main extends Spine.Controller
       '/overview/*': ->
         @overviewView.trigger('active')
         Spine.trigger('show:overview')
-      '/slideshow/:id/:autostart': (params) ->
-        Spine.trigger('show:slideshow', params.autostart)
+      '/slideshow/:index': (params) ->
+        Spine.trigger('show:slideshow', params.index)
         @showView.trigger('active')
       '/slideshow/*glob': (params) ->
         @showView.trigger('active')

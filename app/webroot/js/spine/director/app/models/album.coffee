@@ -75,7 +75,7 @@ class Album extends Spine.Model
     
     ret = for item in items
       ga = new GalleriesAlbum
-        id          : $().uuid()
+        id          : $().guid()
         gallery_id  : target.id
         album_id    : item
         order       : GalleriesAlbum.albums(target.id).length

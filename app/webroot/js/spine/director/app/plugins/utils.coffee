@@ -23,3 +23,13 @@ $.fn.uuid = ->
   s4 = -> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
   s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
   
+$.fn.unparam = (value) ->
+  # Object that holds names => values.
+  params = {}
+  # Get query string pieces (separated by &)
+  pieces = value.split('&')
+
+  for piece in pieces
+    pair = piece.split('=', 2)
+    params[decodeURIComponent(pair[0])] = if pair.length is 2 then decodeURIComponent(pair[1].replace(/\+|false/g, '')) else true
+  params

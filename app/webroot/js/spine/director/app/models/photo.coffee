@@ -77,7 +77,7 @@ class Photo extends Spine.Model
     
     ret = for item in items
       ap = new AlbumsPhoto
-        id          : $().uuid()
+        id          : $().guid()
         album_id    : target.id
         photo_id    : item
         order       : AlbumsPhoto.photos(target.id).length

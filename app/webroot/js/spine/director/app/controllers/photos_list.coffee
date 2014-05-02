@@ -261,19 +261,18 @@ class PhotosList extends Spine.Controller
     e.preventDefault()
     
   zoom: (e) ->
-    index = @thumb.index($(e.target).parents('li').find('.thumbnail'))
-    options =
-      index         : index
-      startSlideshow: false
-    @slideshow.trigger('play', options)
+    if Album.record
+      index = @thumb.index($(e.target).parents('li').find('.thumbnail'))
+      options =
+        index         : index
+        startSlideshow: false
+      @slideshow.trigger('play', options)
+    else
+      item = $(e.currentTarget).item()
+      @navigate '/gallery', Gallery.record?.id or '', Album.record?.id or '', item.id
     
     e.stopPropagation()
     e.preventDefault()
-    
-#    item = $(e.currentTarget).item()
-#    @navigate '/gallery', Gallery.record?.id or '', Album.record?.id or '', item.id
-#    e.preventDefault()
-#    e.stopPropagation()
     
   back: (e) ->
     @navigate '/gallery', Gallery.record.id or ''

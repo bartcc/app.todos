@@ -129,15 +129,21 @@ class Sidebar extends Spine.Controller
         return proposal = @galleryName(proposal + '_1')
     return proposal
 
-  createGallery: ->
+  createGallery: (options={}) ->
     console.log 'Sidebar::createGallery'
     
     cb = (gallery) ->
       gallery.updateSelectionID()
+      
+      if options.albums
+        Album.trigger('create:join', options.albums, gallery)
+        Album.trigger('destroy:join', options.albums, options.deleteFromOrigin) if options.deleteFromOrigin
+        
       unless /^#\/galleries\/$/.test(location.hash)
         @navigate '/gallery', gallery.id
       else
         Gallery.trigger('activate', gallery.id)
+        
       
     gallery = new Gallery @newAttributes()
     gallery.one('ajaxSuccess', @proxy cb)

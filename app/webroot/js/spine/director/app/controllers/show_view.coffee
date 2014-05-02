@@ -80,6 +80,7 @@ class ShowView extends Spine.Controller
     'click .opt-CreateGallery:not(.disabled)'         : 'createGallery'
     'click .opt-CreateAlbum:not(.disabled)'           : 'createAlbum'
     'click .opt-CopyPhotosToAlbum:not(.disabled)'     : 'copyPhotosToAlbum'
+    'click .opt-CopyAlbumsToGallery:not(.disabled)'   : 'copyAlbumsToGallery'
     'click .opt-CopyAlbums'                           : 'copyAlbums'
     'click .opt-EmptyAlbum'                           : 'emptyAlbum'
     'click .opt-CreatePhoto:not(.disabled)'           : 'createPhoto'
@@ -349,11 +350,22 @@ class ShowView extends Spine.Controller
       album: album
     Photo.trigger('create:join', options, -> @navigate hash)
       
+  copyAlbumsToGallery: ->
+    @albumsToGallery Gallery.selectionList()[..]
+      
   copyPhotosToAlbum: ->
     @photosToAlbum Album.selectionList()[..]
       
   movePhotosToAlbum: ->
     @photosToAlbum Album.selectionList(), Album.record
+  
+  albumsToGallery: (albums, gallery) ->
+    Spine.trigger('create:gallery',
+      albums: albums
+      gallery: gallery
+      deleteFromOrigin: false
+      relocate: true
+    )
   
   photosToAlbum: (photos, album) ->
     target = Gallery.record

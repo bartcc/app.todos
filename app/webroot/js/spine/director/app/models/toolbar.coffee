@@ -59,6 +59,11 @@ class Toolbar extends Spine.Model
           icon: 'asterisk'
           klass: 'opt-CreateGallery'
         ,
+          name: 'New Gallery from Selection'
+          icon: 'certificate'
+          klass: 'opt-CopyAlbumsToGallery'
+          disabled: -> !!!Gallery.selectionList().length
+        ,
           devider: true
         ,
           name: 'Edit'

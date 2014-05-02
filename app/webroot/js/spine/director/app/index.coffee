@@ -26,7 +26,6 @@ OverviewView            = require('controllers/overview_view')
 MissingView             = require("controllers/missing_view")
 FlickrView              = require("controllers/flickr_view")
 Extender                = require('plugins/controller_extender')
-KeyEnhancer = require("plugins/key_enhancer")
 
 require("plugins/manager")
 require('spine/lib/route')
@@ -36,7 +35,6 @@ class Main extends Spine.Controller
   
   @extend Drag
   @extend Extender
-#  @extend KeyEnhancer
   
   # Note:
   # this is how to change a toolbar:
@@ -70,6 +68,8 @@ class Main extends Spine.Controller
     'click [class*="-trigger-edit"]' : 'activateEditor'
     'drop'                : 'drop'
     
+    'focus'               : 'focus'
+    
     'keyup'               : 'key'
     'keydown'             : 'key'
 
@@ -82,6 +82,8 @@ class Main extends Spine.Controller
     @IMAGE_DOUBLE_MOVE = @createImage('/img/cursor_images_3.png')
     
     $(window).bind('hashchange', @proxy @storeHash)
+    $(window).bind('focus', @proxy @focus)
+    
     User.bind('pinger', @proxy @validate)
     $('#modal-gallery').bind('hidden', @proxy @hideSlideshow)
     
@@ -168,6 +170,8 @@ class Main extends Spine.Controller
     @loaderView.trigger('active')
     
     @initializeFileupload()
+    
+    $(window).trigger('focus')
     
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
@@ -315,8 +319,6 @@ class Main extends Spine.Controller
     switch code
       when 8 #Backspace
         unless isFormfield
-          if @showView.isActive()
-            @showView.controller.focus()
           e.preventDefault()
       when 9 #Tab
         unless isFormfield
@@ -324,50 +326,36 @@ class Main extends Spine.Controller
           e.preventDefault()
       when 13 #Return
         unless isFormfield
-          if @showView.isActive()
-            @showView.controller.focus(e)
           e.preventDefault()
       when 27 #Esc
         unless isFormfield
-          if @showView.isActive()
-            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
-            @showView.controller.focus(e)
           e.preventDefault()
       when 32 #Space
         unless isFormfield
           if @overviewView.isActive()
             @overviewView.focus(e)
-          if @showView.isActive()
-            @showView.focus(e)
           e.preventDefault()
       when 37 #Left
         unless isFormfield
-          if @showView.isActive()
-            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
-            @showView.controller.focus(e)
           e.preventDefault()
       when 38 #Up
         unless isFormfield
-          if @showView.isActive()
-            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
-            @showView.controller.focus(e)
           e.preventDefault()
       when 39 #Right
         unless isFormfield
-          if @showView.isActive()
-            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
-            @showView.controller.focus(e)
           e.preventDefault()
       when 40 #Down
         unless isFormfield
-          if @showView.isActive()
-            @showView.keydown(e) unless @showView.controller.el.is($(document.activeElement))
-            @showView.controller.focus(e)
           e.preventDefault()
       when 65 #ctrl A
         unless isFormfield
-          if @showView.isActive()
-            @showView.controller.focus(e)
           e.preventDefault()
         
+  focus: (e) ->
+    el=$(document.activeElement)
+    isFormfield = $().isFormElement(el)
+    
+    unless isFormfield
+      @showView.controller.focus()
+
 module?.exports = Main

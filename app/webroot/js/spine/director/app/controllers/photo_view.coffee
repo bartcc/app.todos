@@ -43,10 +43,9 @@ class PhotoView extends Spine.Controller
       model: Album
       models: Photo
     )
-    @list = @parent.photosView.list
-#    @list = new PhotoList
-#      el: @itemsEl
-#      parent: @
+    @list = new PhotoList
+      el: @itemsEl
+      parent: @
     @type = 'Photo'
     @info = new Info
       el: @infoEl

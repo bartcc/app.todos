@@ -67,22 +67,23 @@ class Album extends Spine.Model
   @inactive: ->
     @findAllByAttribute('active', false)
     
-  @createJoin: (items=[], target, cb) ->
+  @createJoin: (items=[], target) ->
     unless @isArray items
       items = [items]
 
-    return unless items.length or !target
+    cb = -> Gallery.trigger('change:collection', target)
+    
+    return unless items.length and target
     
     ret = for item in items
       ga = new GalleriesAlbum
-        id          : $().guid()
+        id          : $().uuid()
         gallery_id  : target.id
         album_id    : item
         order       : GalleriesAlbum.albums(target.id).length
       ga.save(ajax:false)
       
     target.save(done: cb)
-    Gallery.trigger('change:collection', target)
     ret
     
   @destroyJoin: (items=[], target, cb) ->

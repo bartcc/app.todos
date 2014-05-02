@@ -123,10 +123,13 @@ class Sidebar extends Spine.Controller
     else
       User.ping()
       
-  galleryName: (proposal = 'Gallery ' + (Number)(Gallery.count()+1)) ->
+  galleryName: (proposal = 'Gallery ' + (->
+    s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    index = if (i = Gallery.count()+1) < s.length then i else (i % s.length)
+    s.split('')[index])()) ->
     Gallery.each (record) =>
       if record.name is proposal
-        return proposal = @galleryName(proposal + '_1')
+        return proposal = @galleryName(proposal + proposal.split(' ')[1][0])
     return proposal
 
   createGallery: (options={}) ->

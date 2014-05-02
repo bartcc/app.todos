@@ -176,10 +176,13 @@ class AlbumsView extends Spine.Controller
     else
       User.ping()
   
-  albumName: (proposal = 'Album ' + (Number)(Gallery.record.count?(1) or Album.count()+1)) ->
+  albumName: (proposal = 'Album ' + (->
+    s = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    index = if (i = Album.count()+1) < s.length then i else (i % s.length)
+    s.split('')[index])()) ->
     Album.each (record) =>
       if record.title is proposal
-        return proposal = @albumName(proposal + '_1')
+        return proposal = @albumName(proposal + proposal.split(' ')[1][0])
     return proposal
   
   createAlbum: (target=Gallery.record, options={}) ->

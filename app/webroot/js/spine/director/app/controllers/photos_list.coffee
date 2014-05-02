@@ -84,10 +84,12 @@ class PhotosList extends Spine.Controller
         <p>Note: You can also drag existing photos to a sidebars folder</p>
         </span>
         <button class="opt-AddPhotos dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
-        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Back</span></button>
+        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
         </label>'
       else
-        @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p>'
+        @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p>
+        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
+        </label>'
       
     @el
   
@@ -260,7 +262,8 @@ class PhotosList extends Spine.Controller
     
   zoom: (e) ->
     item = $(e.currentTarget).item()
-    @navigate '/gallery', Gallery.record?.id or '', Album.record?.id or '', item.id
+    @slideshow.trigger('play', {}, [item])
+#    @navigate '/gallery', Gallery.record?.id or '', Album.record?.id or '', item.id
     e.preventDefault()
     e.stopPropagation()
     

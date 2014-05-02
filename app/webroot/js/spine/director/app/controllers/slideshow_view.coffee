@@ -4,7 +4,6 @@ Model           = Spine.Model
 Controller      = Spine.Controller
 Photo           = require('models/photo')
 AlbumsPhoto     = require('models/albums_photo')
-ModalSimpleView = require("controllers/modal_simple_view")
 
 require('plugins/uri')
 require("plugins/tmpl")
@@ -20,7 +19,6 @@ class SlideshowView extends Spine.Controller
     
   events:
     'click .item'      : 'click'
-    'hidden.bs.modal'  : 'hiddenmodal'
     'click .back'      : 'back'
     
     'keydown'          : 'keydown'
@@ -38,14 +36,11 @@ class SlideshowView extends Spine.Controller
     @viewport = @el
     @thumbSize = 240
     
-    @modalSimpleView = new ModalSimpleView
-      el: $('#modal-view')
-    
-    @links = $('.thumbnail', @el)
     @defaults =
       index             : 0
       startSlideshow    : true
       slideshowInterval : 2000
+      clearSlides: true
       displayClass: 'blueimp-gallery-display'
       onopened: @proxy @onopenedGallery
       onclose:  @proxy @oncloseGallery
@@ -188,24 +183,6 @@ class SlideshowView extends Spine.Controller
   slideshowable: ->
     @photos().length
     
-  hidemodal: (e) ->
-    console.log 'hidemodal'
-    
-  hiddenmodal: (e) ->
-    @oncloseGallery()
-    
-  showmodal: (e) ->
-    @itemsEl.empty()
-    
-  notify: ->
-    @modalSimpleView.el.one('hidden.bs.modal', @proxy @hiddenmodal)
-    @modalSimpleView.el.one('hide.bs.modal', @proxy @hidemodal)
-    @modalSimpleView.el.one('show.bs.modal', @proxy @showmodal)
-    
-    @modalSimpleView.show
-      header: 'Empty Slideshow'
-      body: 'Select one or more albums in order to present its content.'
-      
   click: (e) ->
     options =
       index         : @thumb.index($(e.target))
@@ -217,8 +194,7 @@ class SlideshowView extends Spine.Controller
     
   play: (options={index:0}, list=[]) ->
     unless @isActive()
-      @images.update list
-      console.log @images
+      @images.update list # mixin images to override album images
       @one('slideshow:ready', @proxy @playSlideshow)
       @previousHash = location.hash
       @navigate '/slideshow/'
@@ -229,6 +205,7 @@ class SlideshowView extends Spine.Controller
   playSlideshow: (options) ->
     return if @galleryIsActive()
     options = $().extend({}, @defaults, options)
+    @refreshElements()
     @gallery = blueimp.Gallery(@thumb, options)
     
   onopenedGallery: (e) ->

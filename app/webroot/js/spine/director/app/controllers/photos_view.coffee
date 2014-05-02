@@ -59,6 +59,7 @@ class PhotosView extends Spine.Controller
       el: @itemsEl
       template: @template
       parent: @
+      slideshow: @slideshow
     @header.template = @headerTemplate
     @viewport = @list.el
     
@@ -69,6 +70,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('destroy', @proxy @destroyAlbumsPhoto)
     AlbumsPhoto.bind('beforeDestroy', @proxy @beforeDestroyAlbumsPhoto)
     GalleriesAlbum.bind('destroy', @proxy @backToAlbumView)
+    
     Photo.bind('refresh', @proxy @change)
     Photo.bind('created', @proxy @add)
     Photo.bind('destroy', @proxy @destroy)
@@ -107,6 +109,7 @@ class PhotosView extends Spine.Controller
     @list.render(items || @updateBuffer(), mode)
     @list.sortable('photo') if Album.record
     delete @buffer
+    @el
     
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])

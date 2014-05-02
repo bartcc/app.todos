@@ -63,9 +63,10 @@ class AlbumsList extends Spine.Controller
   render: (items=[], mode) ->
     console.log 'AlbumsList::render'
     if items.length
-      @html @template items
+      @wipe()
+      @[mode] @template items
       @renderBackgrounds items
-      @el.sortable() if Gallery.record
+#      @el.sortable() if Gallery.record
       @exposeSelection(Gallery.record)
     else if mode is 'add'
       @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
@@ -76,15 +77,17 @@ class AlbumsList extends Spine.Controller
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><br><br>
           <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
           <button class="opt-AddAlbums dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
-          <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Back</span></button>
+          <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
           </label>'
         else
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.</span><br><br>
           <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
+          <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
           </label>'
       else
         @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet</span><br><br>
         <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
+        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
         </label>'
     
     @el

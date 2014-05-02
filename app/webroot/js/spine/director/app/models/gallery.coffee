@@ -49,7 +49,7 @@ class Gallery extends Spine.Model
     for alb in albums
       if album = Album.exists(alb)
         photos = album.photos() or []
-        phos.update photos
+        phos.push pho for pho in photos
     phos
   
   @details: =>

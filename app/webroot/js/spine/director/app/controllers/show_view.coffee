@@ -137,6 +137,13 @@ class ShowView extends Spine.Controller
       parent: @
     @slideshowHeader = new SlideshowHeader
       header: @slideshowHeaderEl
+    @slideshowView = new SlideshowView
+      el: @slideshowEl
+      className: 'items'
+      header: @slideshowHeader
+      parent: @
+      parentModel: 'Photo'
+      subview: true
     @galleriesView = new GalleriesView
       el: @galleriesEl
       className: 'items'
@@ -155,6 +162,7 @@ class ShowView extends Spine.Controller
       header: @photosHeader
       parentModel: Album
       parent: @
+      slideshow: @slideshowView
     @photoView = new PhotoView
       el: @photoEl
       className: 'items'
@@ -162,13 +170,6 @@ class ShowView extends Spine.Controller
       photosView: @photosView
       parent: @
       parentModel: Photo
-    @slideshowView = new SlideshowView
-      el: @slideshowEl
-      className: 'items'
-      header: @slideshowHeader
-      parent: @
-      parentModel: 'Photo'
-      subview: true
     @albumAddView = new AlbumsAddView
       el: @modalAddAlbumEl
       parent: @albumsView
@@ -712,10 +713,16 @@ class ShowView extends Spine.Controller
         
   scrollTo: (item) ->
     return unless @controller.isActive() and item
-    return unless item.constructor.className is @controller.el.data('current').models.className #and !@controller.list
+    return unless item.constructor.className is @controller.el.data('current').models.className
     parentEl = @controller.el
-    el = @controller.list.findModelElement(item) or $()
     
+    try
+      el = @controller.list.findModelElement(item) or $()
+      return unless el.length
+    catch e
+      # some controller don't have a list
+      return
+      
     marginTop = 55
     marginBottom = 10
     

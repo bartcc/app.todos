@@ -66,11 +66,12 @@ class AlbumsView extends Spine.Controller
     @viewport = @list.el
 #      joinTableItems: (query, options) -> Spine.Model['GalleriesAlbum'].filter(query, options)
 
-    Gallery.bind('current', @proxy @render)
-    
     GalleriesAlbum.bind('beforeDestroy', @proxy @beforeDestroyGalleriesAlbum)
     GalleriesAlbum.bind('destroy', @proxy @destroyGalleriesAlbum)
-    Album.bind('refresh', @proxy @refresh)
+    
+    Gallery.bind('change:collection', @proxy @collectionChanged)
+    
+    Album.bind('refresh', @proxy @change)
     Album.bind('ajaxError', Album.errorHandler)
     Album.bind('create', @proxy @create)
     Album.bind('beforeDestroy', @proxy @beforeDestroyAlbum)
@@ -99,9 +100,9 @@ class AlbumsView extends Spine.Controller
     
     $(@views).queue('fx')
     
-  refresh: (records) ->
-    console.log 'AlbumsView::refresh'
-    @render()
+  change: (item) ->
+    @updateBuffer()
+    @render @buffer, 'html'
     
   updateBuffer: (gallery=Gallery.record) ->
     filterOptions =
@@ -116,12 +117,18 @@ class AlbumsView extends Spine.Controller
     
     @buffer = items
     
-  render: ->
+  render: (items, mode='html') ->
     console.log 'AlbumsView::render'
     return unless @isActive()
-    @list.render @updateBuffer()
+    @list.render(items || @updateBuffer(), mode)
+    @list.sortable('album') if Gallery.record
 #    $('.tooltips', @el).tooltip(title:'default title')
+    delete @buffer
     @el
+      
+  collectionChanged: ->
+    unless @isActive()
+      @navigate '/gallery', Gallery.record?.id or ''
       
   show: ->
     App.showView.trigger('change:toolbarOne', ['Default'])
@@ -135,7 +142,7 @@ class AlbumsView extends Spine.Controller
         alb.invalid = false
         alb.save(ajax:false)
         
-    @render()
+    @change()
     
   activateRecord: (arr=[], ModelOrRecord) ->
     console.log 'AlbumsView::activateRecord'

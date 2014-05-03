@@ -7,6 +7,7 @@ Album           = require('models/album')
 Photo           = require('models/photo')
 AlbumsPhoto     = require('models/albums_photo')
 GalleriesAlbum  = require('models/galleries_album')
+Clipboard       = require("models/clipboard")
 ToolbarView     = require("controllers/toolbar_view")
 WaitView        = require("controllers/wait_view")
 AlbumsView      = require("controllers/albums_view")
@@ -81,7 +82,12 @@ class ShowView extends Spine.Controller
     'click .opt-CreateAlbum:not(.disabled)'           : 'createAlbum'
     'click .opt-CopyPhotosToAlbum:not(.disabled)'     : 'copyPhotosToAlbum'
     'click .opt-CopyAlbumsToGallery:not(.disabled)'   : 'copyAlbumsToGallery'
-    'click .opt-CopyAlbums'                           : 'copyAlbums'
+    'click .opt-CopyPhoto'                            : 'copyPhoto'
+    'click .opt-CutPhoto'                             : 'cutPhoto'
+    'click .opt-PastePhoto'                           : 'pastePhoto'
+    'click .opt-CopyAlbum'                            : 'copyAlbum'
+    'click .opt-CutAlbum'                             : 'cutAlbum'
+    'click .opt-PasteAlbum'                           : 'pasteAlbum'
     'click .opt-EmptyAlbum'                           : 'emptyAlbum'
     'click .opt-CreatePhoto:not(.disabled)'           : 'createPhoto'
     'click .opt-DestroyGallery:not(.disabled)'        : 'destroyGallery'
@@ -199,6 +205,8 @@ class ShowView extends Spine.Controller
     Gallery.bind('change', @proxy @changeToolbarOne)
     Gallery.bind('change:selection', @proxy @refreshToolbars)
     Album.bind('change:selection', @proxy @refreshToolbars)
+    GalleriesAlbum.bind('error', @proxy @error)
+    AlbumsPhoto.bind('error', @proxy @error)
     AlbumsPhoto.bind('create destroy', @proxy @refreshToolbars)
     Album.bind('change', @proxy @changeToolbarOne)
     Photo.bind('change', @proxy @changeToolbarOne)
@@ -341,14 +349,14 @@ class ShowView extends Spine.Controller
       
   copyAlbums: (albums, gallery) ->
     hash = location.hash
-    Album.trigger('create:join', albums, gallery, -> @navigate hash)
+    Album.trigger('create:join', albums, gallery, => @navigate hash)
       
   copyPhotos: (photos, album) ->
     hash = location.hash
     options =
       photos: photos
       album: album
-    Photo.trigger('create:join', options, -> @navigate hash)
+    Photo.trigger('create:join', options, => @navigate hash)
       
   copyAlbumsToGallery: ->
     @albumsToGallery Gallery.selectionList()[..]
@@ -680,6 +688,89 @@ class ShowView extends Spine.Controller
     
   showAlbumSelection: ->
     @navigate '/gallery', Gallery.record.id or ''
+      
+  copyPhoto: ->
+    Clipboard.deleteAll()
+    for item in Album.selectionList()
+      Clipboard.create
+        item: Photo.exists item
+        type: 'copy'
+        
+    @refreshToolbars()
+    
+  cutPhoto: ->
+    Clipboard.deleteAll()
+    for item in Album.selectionList()
+      Clipboard.create
+        item: Photo.exists item
+        type: 'copy'
+        cut: Album.record
+        
+    @refreshToolbars()
+    
+    
+  pastePhoto: ->
+    return unless album = Album.record
+    clipboard = Clipboard.findAllByAttribute('type', 'copy')
+    items = []
+    for clb in clipboard
+      items.push clb.item
+      
+    callback = =>
+      cut = Clipboard.last().cut
+      origin = Clipboard.last().origin
+      if cut
+        Clipboard.deleteAll()
+        options =
+          photos: items
+          album: cut
+        Photo.trigger('destroy:join', options)
+      @refreshToolbars()
+      
+    options = 
+      photos: items
+      album: album
+    Photo.trigger('create:join', options, callback)
+      
+  copyAlbum: ->
+    Clipboard.deleteAll()
+    for item in Gallery.selectionList()
+      Clipboard.create
+        item: Album.exists item
+        type: 'copy'
+        
+    @refreshToolbars()
+    
+  cutAlbum: ->
+    Clipboard.deleteAll()
+    for item in Gallery.selectionList()
+      Clipboard.create
+        item: Album.exists item
+        type: 'copy'
+        cut: Gallery.record
+        
+    @refreshToolbars()
+    
+  error: (record, err) ->
+    alert err
+    
+  pasteAlbum: ->
+    return unless gallery = Gallery.record
+    clipboard = Clipboard.findAllByAttribute('type', 'copy')
+    
+    callback = =>
+      cut = Clipboard.last().cut
+      origin = Clipboard.last().origin
+      if cut
+        Clipboard.deleteAll()
+        Album.trigger('destroy:join', items, cut)
+      @refreshToolbars()
+    
+    items = []
+    for clb in clipboard
+      items.push clb.item
+      
+    Album.trigger('create:join', items, gallery, callback)
       
   selectByKey: (direction, e) ->
     index = false

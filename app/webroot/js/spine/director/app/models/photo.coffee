@@ -4,6 +4,7 @@ Model         = Spine.Model
 Filter        = require("plugins/filter")
 Gallery       = require('models/gallery')
 Album         = require('models/album')
+Clipboard     = require('models/clipboard')
 AlbumsPhoto   = require('models/albums_photo')
 Extender      = require("plugins/model_extender")
 AjaxRelations = require("plugins/ajax_relations")
@@ -68,24 +69,30 @@ class Photo extends Spine.Model
   @inactive: ->
     @findAllByAttribute('active', false)
     
-  @createJoin: (items=[], target) ->
-    
+  @createJoin: (items=[], target, callback) ->
     unless @isArray items
       items = [items]
 
     return unless items.length
+    valid = true
+    cb = ->
+      Album.trigger('change:collection', target)
+      if typeof callback is 'function'
+        callback.call(@)
     
-    cb = -> Album.trigger('change:collection', target)
-    
+    items = items.toID()
     ret = for item in items
       ap = new AlbumsPhoto
         id          : $().guid()
         album_id    : target.id
-        photo_id    : item
+        photo_id    : item.id or item
         order       : AlbumsPhoto.photos(target.id).length
-      ap.save(ajax:false)
+      val = ap.save
+        validate: true
+        ajax:false
+      valid = !!val unless val
       
-    target.save(done: cb)
+    target.save(done: cb) if valid
     ret
     
   @destroyJoin: (items=[], target, cb) ->
@@ -94,6 +101,7 @@ class Photo extends Spine.Model
       
     return unless items.length and target
     
+    items = items.toID()
     for id in items
       aps = AlbumsPhoto.filter(id, key: 'photo_id')
       ap = AlbumsPhoto.albumPhotoExists(id, target.id)

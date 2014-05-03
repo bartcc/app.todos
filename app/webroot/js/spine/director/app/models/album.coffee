@@ -5,6 +5,7 @@ Model.Gallery     = require('models/gallery')
 Model.Photo       = require('models/photo')
 GalleriesAlbum    = require('models/galleries_album')
 AlbumsPhoto       = require('models/albums_photo')
+Clipboard         = require('models/clipboard')
 Filter            = require("plugins/filter")
 Extender          = require("plugins/model_extender")
 AjaxRelations     = require("plugins/ajax_relations")
@@ -67,31 +68,39 @@ class Album extends Spine.Model
   @inactive: ->
     @findAllByAttribute('active', false)
     
-  @createJoin: (items=[], target) ->
+  @createJoin: (items=[], target, callback) ->
     unless @isArray items
       items = [items]
-
-    cb = -> Gallery.trigger('change:collection', target)
     
     return unless items.length and target
+    valid = true
+    cb = ->
+      Gallery.trigger('change:collection', target)
+      if typeof callback is 'function'
+        callback.call(@)
     
+    items = items.toID()
     ret = for item in items
       ga = new GalleriesAlbum
         id          : $().uuid()
         gallery_id  : target.id
         album_id    : item
         order       : GalleriesAlbum.albums(target.id).length
-      ga.save(ajax:false)
+      val = ga.save
+        validate: true
+        ajax: false
+      valid = !!val unless val
       
-    target.save(done: cb)
+    target.save(done: cb) if valid
     ret
     
   @destroyJoin: (items=[], target, cb) ->
     unless @isArray items
       items = [items]
-      
+    
     return unless items.length and target
     
+    items = items.toID()
     for id in items
       gas = GalleriesAlbum.filter(id, key: 'album_id')
       ga = GalleriesAlbum.galleryAlbumExists(id, target.id)

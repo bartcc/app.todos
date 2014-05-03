@@ -3,13 +3,12 @@
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Array.prototype.toID = function() {
-    var item, res, _i, _len;
+    var id, item, res, _i, _len;
     res = [];
     for (_i = 0, _len = this.length; _i < _len; _i++) {
       item = this[_i];
-      if (typeof item.id === 'string') {
-        res.push(item.id);
-      }
+      id = typeof item === 'object' ? item.id : typeof item === 'string' ? item : void 0;
+      res.push(id);
     }
     return res;
   };

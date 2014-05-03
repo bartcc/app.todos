@@ -235,12 +235,11 @@ class PhotosView extends Spine.Controller
     @render(photos, 'append')
     @list.el.sortable('destroy').sortable('photos')
       
-  createJoin: (options, relocate) ->
+  createJoin: (options, cb) ->
     album = options.album
-    photos = options.photos
+    photos = options.photos.toID()
     
-    
-    Photo.createJoin photos, album
+    Photo.createJoin photos, album, cb
     album.updateSelection photos
   
   destroyJoin: (options, callback) ->
@@ -248,6 +247,7 @@ class PhotosView extends Spine.Controller
     album = options.album
     photos = options.photos
     photos = [photos] unless Photo.isArray(photos)
+    photos = photos.toID()
     
     selection = []
     for id in photos

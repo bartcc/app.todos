@@ -3,6 +3,7 @@ $         = Spine.$
 Model     = Spine.Model
 Gallery   = require('models/gallery')
 Album     = require('models/album')
+Clipboard = require('models/clipboard')
 Filter    = require("plugins/filter")
 
 class Toolbar extends Spine.Model
@@ -102,13 +103,6 @@ class Toolbar extends Spine.Model
           klass: 'opt-Album'
           disabled: ->
         ,
-          devider: true
-        ,
-          name: 'Empty Albums'
-          icon: 'fire'
-          klass: 'opt-EmptyAlbum'
-          disabled: -> !!!Gallery.selectionList().length
-        ,
           name: ->
             len = '('+Gallery.selectionList().length+')'
             type = if Gallery.record then 'Remove' else 'Destroy'
@@ -117,6 +111,28 @@ class Toolbar extends Spine.Model
           klass: 'opt-DestroyAlbum'
           disabled: -> !Gallery.selectionList().length
           shortcut: '<-'
+        ,
+          name: 'Empty Albums'
+          icon: 'fire'
+          klass: 'opt-EmptyAlbum'
+          disabled: -> !Gallery.selectionList().length or !Gallery.activePhotos().length
+        ,
+          devider: true
+        ,
+          name: 'Copy'
+          icon: ''
+          klass: 'opt-CopyAlbum'
+          disabled: -> !Gallery.selectionList().length
+        ,
+          name: 'Cut'
+          icon: ''
+          klass: 'opt-CutAlbum'
+          disabled: -> !Gallery.selectionList().length
+        ,
+          name: 'Paste'
+          icon: ''
+          klass: 'opt-PasteAlbum'
+          disabled: -> !Clipboard.findAllByAttribute('type', 'copy').length or !Gallery.record
         ,
           devider: true
         ,
@@ -164,6 +180,23 @@ class Toolbar extends Spine.Model
           icon: 'trash'
           klass: 'opt-DestroyPhoto '
           disabled: -> !!!Album.selectionList().length
+        ,
+          devider: true
+        ,
+          name: 'Copy'
+          icon: ''
+          klass: 'opt-CopyPhoto'
+          disabled: -> !Album.selectionList().length
+        ,
+          name: 'Cut'
+          icon: ''
+          klass: 'opt-CutPhoto'
+          disabled: -> !Album.selectionList().length
+        ,
+          name: 'Paste'
+          icon: ''
+          klass: 'opt-PastePhoto'
+          disabled: -> !Clipboard.findAllByAttribute('type', 'copy').length or !Album.record
         ,
           devider: true
         ,

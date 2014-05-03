@@ -271,13 +271,12 @@ class AlbumsView extends Spine.Controller
     el.detach()
     @render() unless Album.count()
       
-  createJoin: (albums, gallery, relocate) ->
+  createJoin: (albums, gallery, callback) ->
     console.log 'AlbumsView::createJoin'
-    callback = -> gallery.updateSelection(albums)
-  
-    deferred = $.Deferred()
     
+    albums = albums.toID()
     Album.createJoin albums, gallery, callback
+    gallery.updateSelection(albums)
     
   destroyJoin: (albums, gallery) ->
     console.log 'AlbumsView::destroyJoin'
@@ -286,6 +285,7 @@ class AlbumsView extends Spine.Controller
     callback = ->
       
     albums = [albums] unless Album.isArray(albums)
+    albums = albums.toID()
     
     selection = []
     for id in albums

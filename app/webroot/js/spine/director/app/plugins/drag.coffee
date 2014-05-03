@@ -162,7 +162,7 @@ Controller.Drag =
             selection = Spine.selection
             
             Album.trigger('destroy:join', selection, origin) if !@isCtrlClick(e) and origin
-            Album.trigger('create:join', selection, target, -> @navigate hash)
+            Album.trigger('create:join', selection, target, => @navigate hash)
 
           when 'Photo'
             selection = Spine.selection

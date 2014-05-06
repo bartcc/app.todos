@@ -2,10 +2,13 @@ Spine   = require("spine")
 $       = Spine.$
 Recent  = require('models/recent')
 Photo   = require('models/photo')
+Extender= require("plugins/controller_extender")
 
 require("plugins/tmpl")
 
 class OverviewView extends Spine.Controller
+
+  @extend Extender
 
   elements:
     '#overview-carousel'         : 'carousel'

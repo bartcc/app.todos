@@ -51,7 +51,7 @@
     var exports = this;
     $(function() {
       
-      var isProduction = false
+      var isProduction = true
       
       var route   = localStorage.previousHash
       var galleries = <?php echo $this->Js->object($galleries); ?>;

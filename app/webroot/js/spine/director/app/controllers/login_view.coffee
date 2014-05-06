@@ -25,7 +25,7 @@ class LoginView extends Spine.Controller
   toggleTrace: ->
     Spine.isProduction = localStorage.isProduction = localStorage.isProduction is 'false'
     alert 'Trace: ' + (if Spine.isProduction then 'Off' else 'On') + '\nApplication will now restart'
-    User.redirect()
+    User.redirect('director_app')
     
   render: ->
     @html @template()

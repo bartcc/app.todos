@@ -91,7 +91,8 @@ label {
 .the-icons i {
   display: block;
 }
-.dropdown-menu i:after {
+[class^="dropdown-"] i:after {
+  content: "";
   margin-right: 5px;
 }
 .glyphicon-white {
@@ -1642,9 +1643,6 @@ button.chromeless:hover {
   font: 9px/12px sans-serif;
   padding: 1px 5px;
   position: relative;
-}
-.dropdown-menu .glyphicon {
-  margin: 0 10px 0 0;
 }
 li.item.active .glyphicon-set {
   opacity: 1;

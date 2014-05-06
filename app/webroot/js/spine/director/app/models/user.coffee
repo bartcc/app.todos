@@ -25,7 +25,7 @@ class User extends Spine.Model
     @destroyAll()
     @redirect 'logout'
   
-  @redirect: (url='director_app', hash='') ->
+  @redirect: (url='', hash='') ->
     location.href = base_url + url + hash
 
   init: (instance) ->

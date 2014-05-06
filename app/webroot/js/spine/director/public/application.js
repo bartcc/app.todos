@@ -29020,7 +29020,7 @@ Released under the MIT License
     LoginView.prototype.toggleTrace = function() {
       Spine.isProduction = localStorage.isProduction = localStorage.isProduction === 'false';
       alert('Trace: ' + (Spine.isProduction ? 'Off' : 'On') + '\nApplication will now restart');
-      return User.redirect();
+      return User.redirect('director_app');
     };
 
     LoginView.prototype.render = function() {
@@ -36566,7 +36566,7 @@ Released under the MIT License
 
     User.redirect = function(url, hash) {
       if (url == null) {
-        url = 'director_app';
+        url = '';
       }
       if (hash == null) {
         hash = '';

@@ -861,7 +861,7 @@
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">
   <div class="btn-group">
-    <button type="button" class="dropdown-toggle dark clear" data-toggle="dropdown">
+    <button type="button" class="dropdown-toggle dark clear" style="min-width: 180px;" data-toggle="dropdown">
       <i class="glyphicon glyphicon-user"></i>
       <span>${user.name}</span>
       <span class="caret"></span>

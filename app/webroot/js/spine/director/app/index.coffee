@@ -314,7 +314,7 @@ class Main extends Spine.Controller
     code = e.charCode or e.keyCode
     type = e.type
     
-#    @log 'Main:code: ' + code
+    @log 'key', code
     
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)

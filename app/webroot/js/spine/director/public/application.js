@@ -34486,6 +34486,7 @@ Released under the MIT License
       var code, el, isFormfield, type;
       code = e.charCode || e.keyCode;
       type = e.type;
+      this.log('key', code);
       el = $(document.activeElement);
       isFormfield = $().isFormElement(el);
       if (type !== 'keydown') {

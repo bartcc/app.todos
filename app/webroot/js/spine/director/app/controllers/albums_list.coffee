@@ -13,8 +13,8 @@ require("plugins/tmpl")
 
 class AlbumsList extends Spine.Controller
   
-  @extend Extender
   @extend Drag
+  @extend Extender
   
   events:
     'click .opt-AddAlbums'         : 'addAlbums'
@@ -34,13 +34,12 @@ class AlbumsList extends Spine.Controller
     
   changedAlbums: (gallery) ->
     
-    
   changeRelated: (item, mode) ->
     return unless @parent and @parent.isActive()
     return unless Gallery.record
     return unless Gallery.record.id is item['gallery_id']
     return unless album = Album.exists(item['album_id'])
-    console.log 'AlbumsList::changeRelated'
+    @log 'changeRelated'
     
     switch mode
       when 'create'
@@ -61,12 +60,11 @@ class AlbumsList extends Spine.Controller
     @el
   
   render: (items=[], mode) ->
-    console.log 'AlbumsList::render'
+    @log 'render'
     if items.length
       @wipe()
       @[mode] @template items
       @renderBackgrounds items
-#      @el.sortable() if Gallery.record
       @exposeSelection(Gallery.record)
     else if mode is 'add'
       @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
@@ -93,7 +91,7 @@ class AlbumsList extends Spine.Controller
     @el
     
   updateTemplate: (album) ->
-    console.log 'AlbumsList::updateTemplate'
+    @log 'updateTemplate'
     albumEl = @children().forItem(album)
     contentEl = $('.thumbnail', albumEl)
     active = albumEl.hasClass('active')
@@ -112,7 +110,7 @@ class AlbumsList extends Spine.Controller
     @el.sortable()
   
   exposeSelection: (item=Gallery.record, sel) ->
-    console.log 'AlbumsList::exposeSelection'
+    @log 'exposeSelection'
     
     if Gallery.record
       if item then return unless Gallery.record.id is item.id
@@ -134,13 +132,13 @@ class AlbumsList extends Spine.Controller
   # remember the Album since
   # after last AlbumPhoto is destroyed the Album container cannot be retrieved anymore
   widowedAlbumsPhoto: (ap) ->
-    console.log 'AlbumsList::widowedAlbumsPhoto'
+    @log 'widowedAlbumsPhoto'
     list = ap.albums()
     @widows.push item for item in list
     @widows
   
   renderBackgrounds: (albums) ->
-    console.log 'AlbumsList::renderBackgrounds'
+    @log 'renderBackgrounds'
     if @widows.length
       Model.Uri.Ajax.cache = false
       for widow in @widows
@@ -164,7 +162,7 @@ class AlbumsList extends Spine.Controller
       data
   
   processAlbumDeferred: (album) ->
-    console.log 'AlbumsList::processAlbumDeferred'
+    @log 'processAlbumDeferred'
     deferred = $.Deferred()
     data = album.photos(4)
     
@@ -177,7 +175,7 @@ class AlbumsList extends Spine.Controller
     deferred.promise()
       
   callback: (json, album) ->
-    console.log 'AlbumsList::callback'
+    @log 'callback'
     el = $('#'+album.id, @el)
     thumb = $('.thumbnail', el)
     
@@ -192,7 +190,7 @@ class AlbumsList extends Spine.Controller
     thumb.css('backgroundImage', if css.length then css else 'url(img/drag_info.png)')
 
   zoom: (e) ->
-    console.log 'AlbumsList::zoom'
+    @log 'zoom'
     item = $(e.currentTarget).item()
     
     @parent.stopInfo()
@@ -206,7 +204,7 @@ class AlbumsList extends Spine.Controller
     e.stopPropagation()
 
   deleteAlbum: (e) ->
-    console.log 'AlbumsList::deleteAlbum'
+    @log 'deleteAlbum'
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Album'
     
@@ -216,7 +214,7 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
     
   addAlbums: (e) ->
-    console.log 'AlbumsList::add'
+    @log 'add'
     e.stopPropagation()
     e.preventDefault()
     

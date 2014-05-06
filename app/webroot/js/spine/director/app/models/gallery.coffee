@@ -1,5 +1,4 @@
 Spine                 = require("spine")
-Spine                 = require("spine")
 $                     = Spine.$
 Model                 = Spine.Model
 User                  = require('models/user')
@@ -10,6 +9,7 @@ Filter                = require("plugins/filter")
 AjaxRelations         = require("plugins/ajax_relations")
 Uri                   = require("plugins/uri")
 Extender              = require("plugins/model_extender")
+
 require("spine/lib/ajax")
 
 class Gallery extends Spine.Model
@@ -19,8 +19,8 @@ class Gallery extends Spine.Model
   @extend Filter
   @extend Model.Ajax
   @extend AjaxRelations
-  @extend Extender
   @extend Uri
+  @extend Extender
 
   @selectAttributes: ['name']
   

@@ -1,13 +1,18 @@
-Spine   = require("spine")
-$       = Spine.$
-Model   = Spine.Model
+Spine     = require("spine")
+$         = Spine.$
+Log       = Spine.Log
+Model     = Spine.Model
+
 require('spine/lib/local')
 
 class User extends Spine.Model
 
   @configure 'User', 'id', 'username', 'name', 'groupname', 'sessionid', 'hash'
-  
+
   @extend Model.Local
+  @include Log
+  
+  @trace: true
   
   @ping: ->
     @fetch()
@@ -20,7 +25,7 @@ class User extends Spine.Model
     @destroyAll()
     @redirect 'logout'
   
-  @redirect: (url='', hash='') ->
+  @redirect: (url='director_app', hash='') ->
     location.href = base_url + url + hash
 
   init: (instance) ->
@@ -35,11 +40,10 @@ class User extends Spine.Model
       error: @error
   
   success: (json) =>
-    console.log 'Ajax::success'
     @constructor.trigger('pinger', @, $.parseJSON(json))
 
   error: (xhr) =>
-    console.log 'Ajax::error'
+    @log 'error'
     @constructor.logout()
     @constructor.redirect 'users/login'
       

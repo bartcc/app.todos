@@ -1,6 +1,7 @@
 Spine                 = require("spine")
 $                     = Spine.$
 Model                 = Spine.Model
+Log                   = Spine.Log
 Model.Gallery         = require('models/gallery')
 Model.Album           = require('models/album')
 Model.Photo           = require('models/photo')
@@ -13,6 +14,9 @@ Model.Extender =
   extended: ->
 
     Extend =
+      
+      trace: !Spine.isProduction
+      logPrefix: @className + '::'
       
       selectAttributes: []
       
@@ -151,6 +155,9 @@ Model.Extender =
       contains: -> []
       
     Include =
+      
+      trace: !Spine.isProduction
+      logPrefix: @className + '::'
       
       selectionList: ->
         @constructor.selectionList(@id)
@@ -296,6 +303,8 @@ Model.Extender =
         author: ''
         
         
+    @include Log
+    @extend Log
     @extend Extend
     @include Include
 

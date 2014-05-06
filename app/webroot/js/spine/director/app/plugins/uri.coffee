@@ -1,7 +1,6 @@
 Spine   = require("spine")
 $       = Spine.$
 Model   = Spine.Model
-
 Gallery = require('models/gallery')
 Album   = require('models/album')
 Photo   = require('models/photo')

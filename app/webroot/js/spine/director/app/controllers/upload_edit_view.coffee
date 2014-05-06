@@ -101,7 +101,7 @@ class UploadEditView extends Spine.Controller
   progress: (e, data) ->
     
   paste: (e, data) ->
-    console.log 'paste'
+    @log 'paste'
     @drop(e, data)
     
   submit: (e, data) ->

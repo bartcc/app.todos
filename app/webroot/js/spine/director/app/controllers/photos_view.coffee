@@ -104,7 +104,7 @@ class PhotosView extends Spine.Controller
   render: (items, mode='html') ->
     # render only if necessary
     return unless @isActive()
-    console.log 'PhotosView::render'
+    @log 'render'
     # if view is dirty but inactive we'll use the buffer next time
     @list.render(items || @updateBuffer(), mode)
     @list.sortable('photo') if Album.record
@@ -137,7 +137,7 @@ class PhotosView extends Spine.Controller
     @change()
   
   click: (e) ->
-    console.log 'PhotosList::click'
+    @log 'click'
     App.showView.trigger('change:toolbarOne')
     
     item = $(e.currentTarget).item()
@@ -191,7 +191,7 @@ class PhotosView extends Spine.Controller
     @render(null, 'html') unless photos.length
   
   destroyPhoto: (ids, callback) ->
-    console.log 'PhotosView::destroyPhoto'
+    @log 'destroyPhoto'
     
     @stopInfo()
     
@@ -243,7 +243,7 @@ class PhotosView extends Spine.Controller
     album.updateSelection photos
   
   destroyJoin: (options, callback) ->
-    console.log 'PhotosView::destroyJoin'
+    @log 'destroyJoin'
     album = options.album
     photos = options.photos
     photos = [photos] unless Photo.isArray(photos)
@@ -256,7 +256,7 @@ class PhotosView extends Spine.Controller
     Photo.destroyJoin photos, album, callback
     
   sortupdate: ->
-    console.log 'PhotosView::sortupdate'
+    @log 'sortupdate'
     
     cb = ->
     

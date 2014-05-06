@@ -6,8 +6,11 @@ Photo           = require('models/photo')
 User            = require('models/user')
 GalleriesAlbum  = require('models/galleries_album')
 AlbumsPhoto     = require('models/albums_photo')
+Extender        = require("plugins/controller_extender")
 
 class PhotosHeader extends Spine.Controller
+  
+  @extend Extender
   
   events:
     'click .gal'                      : 'backToGalleries'
@@ -29,12 +32,12 @@ class PhotosHeader extends Spine.Controller
     
     
   backToGalleries: (e) ->
-    console.log 'PhotosHeader::backToGalleries'
+    @log 'backToGalleries'
     @navigate '/galleries/'
     e.preventDefault()
     
   backToAlbums: (e) ->
-    console.log 'PhotosHeader::backToAlbums'
+    @log 'backToAlbums'
     @navigate '/gallery', Gallery.record?.id or ''
     e.preventDefault()
     

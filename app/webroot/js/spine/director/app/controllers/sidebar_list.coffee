@@ -6,6 +6,7 @@ AlbumsPhoto     = require('models/albums_photo')
 GalleriesAlbum  = require('models/galleries_album')
 Drag            = require("plugins/drag")
 Extender        = require('plugins/controller_extender')
+
 require("plugins/tmpl")
 
 class SidebarList extends Spine.Controller
@@ -33,6 +34,8 @@ class SidebarList extends Spine.Controller
     
   constructor: ->
     super
+    
+    @trace = false
     Gallery.bind('change:collection', @proxy @renderGallery)
     Album.bind('change:collection', @proxy @renderAlbum)
     Gallery.bind('change', @proxy @change)
@@ -45,7 +48,7 @@ class SidebarList extends Spine.Controller
   template: -> arguments[0]
   
   change: (item, mode, e) =>
-    console.log 'SidebarList::change'
+    @log 'change'
     
     switch mode
       when 'create'
@@ -71,7 +74,7 @@ class SidebarList extends Spine.Controller
     @children().forItem(item, true).detach()
   
   render: (items, mode) ->
-    console.log 'SidebarList::render'
+    @log 'render'
     @children().addClass('invalid')
     for item in items
       galleryEl = @children().forItem(item)
@@ -84,7 +87,7 @@ class SidebarList extends Spine.Controller
     @children('.invalid').remove()
     
   reorder: (item) ->
-    console.log 'SidebarList::reorder'
+    @log 'reorder'
     id = item.id
     index = (id, list) ->
       for itm, i in list
@@ -106,18 +109,18 @@ class SidebarList extends Spine.Controller
     @renderOneSublist gallery
     
   renderAllSublist: ->
-    console.log 'SidebarList::renderAllSublist'
+    @log 'renderAllSublist'
     for gal, index in Gallery.records
       @renderOneSublist gal
       
   renderSublists: (album) ->
-    console.log 'SidebarList::renderSublists'
+    @log 'renderSublists'
     gas = GalleriesAlbum.filter(album.id, key: 'album_id')
     for ga in gas
       @renderOneSublist gallery if gallery = Gallery.exists ga.gallery_id
       
   renderOneSublist: (gallery = Gallery.record) ->
-    console.log 'SidebarList::renderOneSublist'
+    @log 'renderOneSublist'
     filterOptions =
       model: 'Gallery'
       key:'gallery_id'
@@ -135,7 +138,7 @@ class SidebarList extends Spine.Controller
     @exposeSublistSelection(gallery)
     
   updateTemplate: (item) ->
-    console.log 'SidebarList::updateTemplate'
+    @log 'updateTemplate'
     galleryEl = @children().forItem(item)
     galleryContentEl = $('.item-content', galleryEl)
     tmplItem = galleryContentEl.tmplItem()
@@ -162,7 +165,7 @@ class SidebarList extends Spine.Controller
         @renderGallery gallery
     
   renderItemFromAlbumsPhoto: (ap) ->
-    console.log 'SidebarList::renderItemFromAlbumsPhoto'
+    @log 'renderItemFromAlbumsPhoto'
     gas = GalleriesAlbum.filter(ap.album_id, key: 'album_id')
     for ga in gas
       @renderItemFromGalleriesAlbum ga

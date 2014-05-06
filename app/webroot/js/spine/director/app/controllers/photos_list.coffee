@@ -44,7 +44,7 @@ class PhotosList extends Spine.Controller
     return unless Album.record
     return unless Album.record.id is item['album_id']
     return unless photo = Photo.exists(item['photo_id'])
-    console.log 'PhotosList::changeRelated'
+    @log 'changeRelated'
     
     switch mode
       when 'create'
@@ -65,7 +65,7 @@ class PhotosList extends Spine.Controller
     @el
     
   render: (items=[], mode) ->
-    console.log 'PhotosList::render ' + mode
+    @log 'PhotosList::render ' + mode
     
     if items.length
       @wipe()
@@ -94,7 +94,7 @@ class PhotosList extends Spine.Controller
     @el
   
   renderAll: ->
-    console.log 'PhotosList::renderAll'
+    @log 'renderAll'
     items = Photo.all()
     if items.length
       @html @template items
@@ -112,7 +112,7 @@ class PhotosList extends Spine.Controller
     @el
 
   update: (item) ->
-    console.log 'PhotosList::update'
+    @log 'update'
     
     helper =
       refresh: =>
@@ -143,7 +143,7 @@ class PhotosList extends Spine.Controller
   
   # the actual final rendering method
   uri: (items, mode) ->
-    console.log 'PhotosList::uri'
+    @log 'uri'
     
     Photo.uri @thumbSize(),
       (xhr, record) => @callback(xhr, items),
@@ -154,7 +154,7 @@ class PhotosList extends Spine.Controller
       @callback xhr, rec
   
   uriDeferred: (items) ->
-    console.log 'PhotosList::uri'
+    @log 'uri'
     deferred = $.Deferred()
     
     Photo.uri @thumbSize(),
@@ -164,11 +164,11 @@ class PhotosList extends Spine.Controller
     deferred.promise()
   
   callback: (json, items) =>
-    console.log 'PhotosList::callback'
+    @log 'callback'
     
     result = for jsn in json
       ret = for key, val of jsn
-        src: jsn[key].src
+        src: val.src
         id: key
       ret[0]
     
@@ -207,7 +207,7 @@ class PhotosList extends Spine.Controller
       @photos()
   
   callbackModal: (json, items) ->
-    console.log 'Slideshow::callbackModal'
+    @log 'callbackModal'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -230,7 +230,7 @@ class PhotosList extends Spine.Controller
   #  ****** END ***** 
   
   exposeSelection: (item=Album.record, sel) ->
-    console.log 'PhotosList::exposeSelection'
+    @log 'exposeSelection'
     
     if Album.record
       if item then return unless Album.record.id is item.id
@@ -251,7 +251,7 @@ class PhotosList extends Spine.Controller
     @findModelElement(item).detach() if item
     
   deletePhoto: (e) ->
-    console.log 'PhotosList::deletePhoto'
+    @log 'deletePhoto'
     item = $(e.currentTarget).item()
     return unless item?.constructor?.className is 'Photo' 
     

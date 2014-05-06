@@ -22,13 +22,13 @@ class GalleryEditView extends Spine.Controller
     @render()
 
   change: (item) ->
-    console.log 'GalleryEditView::change'
+    @log 'change'
     @current = item
     @render()
 
   render: (item=@current) ->
 #    @el.tooltip('destroy')
-    console.log 'GalleryEditView::render'
+    @log 'render'
 #    return unless @isActive()
     if item and !item.destroyed 
       @html @template item
@@ -41,13 +41,13 @@ class GalleryEditView extends Spine.Controller
     @el
 
   save: (el) ->
-    console.log 'GalleryEditView::save'
+    @log 'save'
     if gallery = Gallery.record
       atts = el.serializeForm?() or @el.serializeForm()
       gallery.updateChangedAttributes(atts)
 
   saveOnKeyup: (e) ->
-    console.log 'GalleryEditView::saveOnEnter'
+    @log 'saveOnEnter'
     
     code = e.charCode or e.keyCode
         

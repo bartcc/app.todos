@@ -50,7 +50,10 @@
     
     var exports = this;
     $(function() {
-      var route   = localStorage.hash
+      
+      var isProduction = false
+      
+      var route   = localStorage.previousHash
       var galleries = <?php echo $this->Js->object($galleries); ?>;
       var albums = <?php echo $this->Js->object($albums); ?>;
       var photos = <?php echo $this->Js->object($photos); ?>;
@@ -65,6 +68,7 @@
       
       Spine = require('spine');
       Model = Spine.Model
+      Spine.isProduction = (localStorage.isProduction != null) ? !(localStorage.isProduction === 'false') : isProduction
       User    = require("models/user");
       Main    = require("index");
       Spine.Route = require('spine/lib/route');
@@ -74,6 +78,7 @@
       
       User.ping();
       exports.App = new Main({el: $("body")});
+      
       
       Photo.refresh(photos, {clear: true});
       Album.refresh(albums, {clear: true});

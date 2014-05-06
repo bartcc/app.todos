@@ -12,7 +12,7 @@ class Toolbar extends Spine.Model
   @configure 'Toolbar', 'id', 'name', 'content'
   
   @extend Filter
-  
+
   @load: ->
     @refresh(@tools(), clear:true)
   

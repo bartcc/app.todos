@@ -16,7 +16,7 @@ class MissingView extends Spine.Controller
   activated: ->
 
   render: (item) ->
-    console.log 'GalleryEditorView::render'
+    @log 'render'
     @html @template()
     
   relocate: (e) ->

@@ -28,9 +28,9 @@ class Sidebar extends Spine.Controller
 
   events:
     'keyup input'               : 'filter'
-    'click .opt-CreateAlbum'     : 'createAlbum'
-    'click .opt-CreateGallery'   : 'createGallery'
-    'click .opt-Refresh'         : 'refreshAll'
+    'click .opt-CreateAlbum'    : 'createAlbum'
+    'click .opt-CreateGallery'  : 'createGallery'
+    'click .opt-Refresh'        : 'fetchAll'
     'dblclick .draghandle'      : 'toggleDraghandle'
 
     'sortupdate .sublist'         : 'sortupdate'
@@ -99,21 +99,22 @@ class Sidebar extends Spine.Controller
   refresh: (items) ->
     @render()
     
+  fetchAll: (e) ->
+    @refreshAll()
+    e.preventDefault()
+    e.stopPropagation()
+    
+  refreshAll: ->
+    @refreshElements()
+    Gallery.one('refresh', @proxy @refresh)
+    App.fetchAll()
+    
   render: (selectType='searchSelect') ->
     model = Model[@model] or Model[@defaultModel]
     items = model.filter(@query, func: selectType)
     items = items.sort model.nameSort
     Gallery.trigger('refresh:gallery') #rerenders GalleryView
     @list.render items
-      
-  refreshAll: (e) ->
-    App.showView.refreshElements()
-    Gallery.one('refresh', @proxy @refresh)
-    Photo.fetch(null, clear:true)
-    Album.fetch(null, clear:true)
-    Gallery.fetch(null, clear:true)
-    e.preventDefault()
-    e.stopPropagation()
   
   newAttributes: ->
     if User.first()
@@ -133,7 +134,7 @@ class Sidebar extends Spine.Controller
     return proposal
 
   createGallery: (options={}) ->
-    console.log 'Sidebar::createGallery'
+    @log 'createGallery'
     
     cb = (gallery) ->
       gallery.updateSelectionID()
@@ -156,7 +157,7 @@ class Sidebar extends Spine.Controller
     Spine.trigger('create:album')
     
   destroyGallery: (id) ->
-    console.log 'Sidebar::destroy'
+    @log 'destroy'
     return unless item = Gallery.exists id
     
     item.destroy()

@@ -21,8 +21,8 @@ Controller.KeyEnhancer =
         e.stopPropagation()
         
       keyup: (e) ->
-        console.log e
-        console.log @
+        @log e
+        @log @
         e.stopPropagation()
         
     @include Include

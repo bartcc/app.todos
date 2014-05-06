@@ -71,7 +71,7 @@ class SlideshowView extends Spine.Controller
     @render list
     
   render: (items) ->
-    console.log 'SlideshowView::render'
+    @log 'render'
     unless items.length
       @itemsEl.html '<label class="invite">
         <span class="enlightened">This slideshow does not have images &nbsp;
@@ -96,14 +96,14 @@ class SlideshowView extends Spine.Controller
     height: height
   
   uri: (items) ->
-    console.log 'SlideshowView::uri'
+    @log 'uri'
     Photo.uri @params(),
       (xhr, record) => @callback(items, xhr),
       items
     
   # we have the image-sources, now we can load the thumbnail-images
   callback: (items, json) ->
-    console.log 'SlideshowView::callback'
+    @log 'callback'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -143,7 +143,7 @@ class SlideshowView extends Spine.Controller
       items
   
   callbackModal: (json, items) ->
-    console.log 'Slideshow::callbackModal'
+    @log 'callbackModal'
     
     searchJSON = (id) ->
       for itm in json
@@ -241,7 +241,7 @@ class SlideshowView extends Spine.Controller
   keydown: (e) ->
     code = e.charCode or e.keyCode
     
-    console.log 'SlideshowView:keydownCode: ' + code
+    @log 'SlideshowView:keydownCode: ' + code
     
     switch code
       when 27 #Esc

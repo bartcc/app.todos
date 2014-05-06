@@ -274,7 +274,7 @@ class ShowView extends Spine.Controller
     controller.activated()
     
   canvas: (controller) ->
-    console.log 'ShowView::canvas'
+    @log 'canvas'
     @previous = @current unless @current.subview
     @current = @controller = controller
     @currentHeader = controller.header
@@ -300,7 +300,7 @@ class ShowView extends Spine.Controller
   refreshToolbar: (toolbar, lastControl) ->
     
   refreshToolbars: ->
-    console.log 'ShowView::refreshToolbars'
+    @log 'refreshToolbars'
     @toolbarOne.refresh()
     @toolbarTwo.refresh()
     
@@ -385,7 +385,7 @@ class ShowView extends Spine.Controller
     )
     
   createAlbumCopy: (albums=Gallery.selectionList(), target=Gallery.record) ->
-    console.log 'ShowView::createAlbumCopy'
+    @log 'createAlbumCopy'
     for id in albums
       if Album.exists(id)
         photos = Album.photos(id).toID()
@@ -515,7 +515,7 @@ class ShowView extends Spine.Controller
     @refreshToolbars()
   
   quickUpload: (active) ->
-#    console.log $('#fileupload').data()
+#    @log $('#fileupload').data()
     $('#fileupload').data('blueimpFileupload').options['autoUpload'] = active
     
   isQuickUpload: ->
@@ -606,7 +606,7 @@ class ShowView extends Spine.Controller
   uploadProgress: (e, coll) ->
     
   uploadDone: (e, coll) ->
-#    console.log coll
+#    @log coll
     
   sliderInValue: (val) ->
     val = val or @sOutValue
@@ -807,7 +807,7 @@ class ShowView extends Spine.Controller
       when 'down'
         el = $(last)
       else
-        console.log active
+        @log active
         return unless active
         el = $(active)
         
@@ -871,7 +871,7 @@ class ShowView extends Spine.Controller
     isFormfield = $().isFormElement(el)
     @controller.focus() unless isFormfield
     
-    console.log 'ShowView:keydownCode: ' + code
+    @log 'ShowView:keydownCode: ' + code
     
     switch code
       when 13 #Return
@@ -907,7 +907,7 @@ class ShowView extends Spine.Controller
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
     
-#    console.log 'ShowView:keyupCode: ' + code
+#    @log 'ShowView:keyupCode: ' + code
     
     switch code
       when 8 #Backspace

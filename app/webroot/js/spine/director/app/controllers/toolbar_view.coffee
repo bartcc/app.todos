@@ -12,7 +12,7 @@ class ToolbarView extends Spine.Controller
   template: (items) ->
     $('#toolsTemplate').tmpl items
   
-  constructor: (instance) ->
+  constructor: ->
     super
     @current = []
     

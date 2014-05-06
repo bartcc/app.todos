@@ -2,7 +2,6 @@ Spine   = require("spine")
 $       = Spine.$
 Recent  = require('models/recent')
 Photo   = require('models/photo')
-KeyEnhancer = require("plugins/key_enhancer")
 
 require("plugins/tmpl")
 
@@ -72,12 +71,12 @@ class OverviewView extends Spine.Controller
         (xhr, records) => @callback(xhr, items),
         items
     catch e
-      console.log e
+      @log e
       alert "New photos found. \n\nRestarting Application!"
       User.redirect 'director_app'
   
   callback: (json, items) =>
-    console.log 'PhotoList::callback'
+    @log 'callback'
     searchJSON = (id) ->
       for itm in json
         return itm[id] if itm[id]
@@ -86,7 +85,7 @@ class OverviewView extends Spine.Controller
       photo = item
       jsn = searchJSON photo.id
       photoEl = @items.children().forItem(photo)
-      console.log 
+      @log 
       img = new Image
       img.element = photoEl
       if jsn
@@ -122,14 +121,14 @@ class OverviewView extends Spine.Controller
     false
   
   error: (xhr, statusText, error) ->
-    console.log xhr
+    @log xhr
     @record.trigger('ajaxError', xhr, statusText, error)
     
   keyup: (e) ->
     e.preventDefault()
     code = e.charCode or e.keyCode
     
-#    console.log 'OverviewView:keyupCode: ' + code
+#    @log 'OverviewView:keyupCode: ' + code
     
     switch code
       when 32 #Space

@@ -1,8 +1,6 @@
 Spine       = require("spine")
 $           = Spine.$
 Controller  = Spine.Controller
-#GalleriesAlbum = require('models/galleries_album')
-#AlbumsPhoto    = require('models/albums_photo')
 
 Controller.Extender =
   
@@ -11,14 +9,16 @@ Controller.Extender =
     Extend = 
     
       empty: ->
-        console.log 'empty'
+        @log 'empty'
         @constructor.apply @, arguments
         
-    
-    
     Include = 
     
       init: ->
+      
+        @trace = !Spine.isProduction
+        @logPrefix = @constructor.name + '::'
+        
         @el.data('current',
           model: null
           models: null
@@ -69,8 +69,6 @@ Controller.Extender =
       findModelElement: (item) ->
         @children().forItem(item, true)
         
-    
-      
     @extend Extend
     @include Include
 

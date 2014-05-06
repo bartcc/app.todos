@@ -55,11 +55,11 @@ $.fn.Html5Sortable = (opts) ->
         $('._dragging').removeClass('_dragging')
         el.addClass('_dragging out')
         alert 'clear'
-        console.log $('._dragging')
+        @log $('._dragging')
         
         
       .bind 'dragend', (e) ->
-        console.log 'Sort::dragend'
+        @log 'dragend'
         $('._dragging').removeClass('_dragging')
 #        try
 #          unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)
@@ -92,7 +92,7 @@ $.fn.Html5Sortable = (opts) ->
 
       .bind 'drop', (e) ->
         try
-          console.log 'Sort::drop'
+          @log 'drop'
           cond = Spine.sortItem.cond
         
           unless (JSON.parse(e.originalEvent.dataTransfer.getData('Text')).type is options.type)

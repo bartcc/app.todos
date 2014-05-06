@@ -126,7 +126,7 @@ class AlbumsAddView extends Spine.Controller
   keyup: (e) ->
     code = e.charCode or e.keyCode
     
-    console.log 'PhotosAddView:keyupCode: ' + code
+    @log 'PhotosAddView:keyupCode: ' + code
     
     switch code
       when 65 #CTRL A

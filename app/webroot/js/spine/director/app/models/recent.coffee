@@ -1,8 +1,8 @@
-Spine   = require("spine")
-Model   = Spine.Model
-$       = Spine.$
-Photo   = require("models/photo")
-User    = require("models/user")
+Spine     = require("spine")
+$         = Spine.$
+Model     = Spine.Model
+Photo     = require("models/photo")
+User      = require("models/user")
 
 require('spine/lib/local')
 

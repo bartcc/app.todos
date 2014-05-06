@@ -48,7 +48,7 @@ class FlickrView extends Spine.Controller
     @bind('flickr:inter', @proxy @interestingness)
       
   render: (items) ->
-    console.log 'FlickrView::render'
+    @log 'render'
     if items
       @content.html @template items
     else
@@ -75,7 +75,7 @@ class FlickrView extends Spine.Controller
     api_key : '7617adae70159d09ba78cfec73c13be3'
     
   setup: (mode, page) ->
-    console.log 'FlickrView::setup'
+    @log 'setup'
     @type = mode
     switch mode
       when 'recent'
@@ -95,7 +95,7 @@ class FlickrView extends Spine.Controller
     @ajax(options)
     
   ajax: (options) ->
-    console.log 'FlickrView::ajax'
+    @log 'ajax'
     data = $().extend @data, options
     $.ajax(
       url: @url()
@@ -112,7 +112,7 @@ class FlickrView extends Spine.Controller
     @render result.photos.photo
     
   failResponse: (args...) ->
-    console.log args
+    @log args
     
   changeToolbar: (list) ->
     @toolbar.change list

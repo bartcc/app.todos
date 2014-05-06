@@ -8,7 +8,6 @@ Clipboard     = require('models/clipboard')
 AlbumsPhoto   = require('models/albums_photo')
 Extender      = require("plugins/model_extender")
 AjaxRelations = require("plugins/ajax_relations")
-
 Uri           = require("plugins/uri")
 Cache         = require("plugins/cache")
 require("spine/lib/ajax")
@@ -48,7 +47,7 @@ class Photo extends Spine.Model
     quality: 70
   
   @success: (uri) =>
-    console.log 'Ajax::success'
+    @log 'success'
     Photo.trigger('uri', uri)
     
   @error: (json) =>
@@ -74,7 +73,7 @@ class Photo extends Spine.Model
       items = [items]
 
     return unless items.length
-    valid = true
+    isValid = true
     cb = ->
       Album.trigger('change:collection', target)
       if typeof callback is 'function'
@@ -87,12 +86,15 @@ class Photo extends Spine.Model
         album_id    : target.id
         photo_id    : item.id or item
         order       : AlbumsPhoto.photos(target.id).length
-      val = ap.save
+      valid = ap.save
         validate: true
-        ajax:false
-      valid = !!val unless val
+        ajax: false
+      isValid = valid unless valid
       
-    target.save(done: cb) if valid
+    if isValid
+      target.save(done: cb)
+    else
+      App.refreshAll()
     ret
     
   @destroyJoin: (items=[], target, cb) ->

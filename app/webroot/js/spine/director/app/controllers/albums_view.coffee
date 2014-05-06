@@ -50,6 +50,7 @@ class AlbumsView extends Spine.Controller
  
   constructor: ->
     super
+    @trace = false
     @el.data('current',
       model: Gallery
       models: Album
@@ -118,7 +119,7 @@ class AlbumsView extends Spine.Controller
     @buffer = items
     
   render: (items, mode='html') ->
-    console.log 'AlbumsView::render'
+    @log 'render'
     return unless @isActive()
     @list.render(items || @updateBuffer(), mode)
     @list.sortable('album') if Gallery.record
@@ -145,7 +146,7 @@ class AlbumsView extends Spine.Controller
     @change()
     
   activateRecord: (arr=[], ModelOrRecord) ->
-    console.log 'AlbumsView::activateRecord'
+    @log 'activateRecord'
     unless Spine.isArray(arr)
       arr = [arr]
       
@@ -218,7 +219,7 @@ class AlbumsView extends Spine.Controller
     @render(null, 'html') unless albums.length
        
   destroyAlbum: (ids) ->
-    console.log 'AlbumsView::destroyAlbum'
+    @log 'destroyAlbum'
   
     @stopInfo()
   
@@ -259,7 +260,7 @@ class AlbumsView extends Spine.Controller
 #      @list.findModelElement(album).detach()
       
       # remove all associated albums
-      console.log album
+      @log album
       photos = AlbumsPhoto.photos(album.id).toID()
       Photo.trigger('destroy:join', photos, album)
       # remove all associated albums
@@ -272,14 +273,14 @@ class AlbumsView extends Spine.Controller
     @render() unless Album.count()
       
   createJoin: (albums, gallery, callback) ->
-    console.log 'AlbumsView::createJoin'
+    @log 'createJoin'
     
     albums = albums.toID()
     Album.createJoin albums, gallery, callback
     gallery.updateSelection(albums)
     
   destroyJoin: (albums, gallery) ->
-    console.log 'AlbumsView::destroyJoin'
+    @log 'destroyJoin'
     return unless gallery and gallery.constructor.className is 'Gallery'
     
     callback = ->
@@ -317,13 +318,13 @@ class AlbumsView extends Spine.Controller
     
   updateBackgrounds: (ap, mode) ->
     return unless @isActive()
-    console.log 'AlbumsView::updateBackgrounds'
+    @log 'updateBackgrounds'
     albums = ap.albums()
     @list.renderBackgrounds albums
     
   refreshBackgrounds: (photos) ->
     return unless @parent.isActive()
-    console.log 'AlbumsView::refreshBackgrounds'
+    @log 'refreshBackgrounds'
     album = App.upload.album
     @list.renderBackgrounds [album] if album
     
@@ -374,6 +375,6 @@ class AlbumsView extends Spine.Controller
     @info.bye(e)
       
   dropComplete: (e) ->
-    console.log 'AlbumsView::dropComplete'
+    @log 'dropComplete'
         
 module?.exports = AlbumsView

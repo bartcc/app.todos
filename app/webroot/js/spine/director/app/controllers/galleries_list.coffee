@@ -36,11 +36,11 @@ class GalleriesList extends Spine.Controller
     
   renderRelated: ->
     return unless @parent.isActive()
-    console.log 'GalleriesList::renderRelated'
+    @log 'renderRelated'
     @updateTemplates()
     
   renderOne: (item, mode) ->
-    console.log 'GalleriesList::renderOne'
+    @log 'renderOne'
     switch mode
       when 'create'
         if Gallery.count() is 1
@@ -58,13 +58,13 @@ class GalleriesList extends Spine.Controller
     @el
 
   render: (items, mode) ->
-    console.log 'GalleriesList::render'
+    @log 'render'
     @html @template items
     @exposeSelection()
     @el
 
   updateTemplates: ->
-    console.log 'GalleriesList::updateTemplates'
+    @log 'updateTemplates'
     for gallery in Gallery.records
       galleryEl = @children().forItem(gallery)
       active = galleryEl.hasClass('active')
@@ -94,7 +94,7 @@ class GalleriesList extends Spine.Controller
       newEl.before oldEl
 
   exposeSelection: (item=Gallery.record) ->
-    console.log 'GalleriesList::exposeSelection'
+    @log 'exposeSelection'
     @deselect()
     return unless Gallery.record
     
@@ -105,7 +105,7 @@ class GalleriesList extends Spine.Controller
     App.showView.trigger('change:toolbarOne')
         
   zoom: (e) ->
-    console.log 'GalleriesList::zoom'
+    @log 'zoom'
     item = $(e.currentTarget).item()
     @navigate '/gallery', item.id
     

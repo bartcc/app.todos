@@ -8,18 +8,26 @@ class LoginView extends Spine.Controller
     'button'              : 'logoutEl'
 
   events:
-    'click button'        : 'logout'
+    'click .opt-logout'        : 'logout'
+    'click .opt-trace'         : 'toggleTrace'
     
   constructor: ->
     super
     
-  template: (item) ->
-    $('#loginTemplate').tmpl item
+  template: ->
+    $('#loginTemplate').tmpl
+      user: User.first()
+      trace: !Spine.isProduction
     
   logout: ->
     User.redirect 'logout'
     
-  render: (item) ->
-    @html @template item
+  toggleTrace: ->
+    Spine.isProduction = localStorage.isProduction = localStorage.isProduction is 'false'
+    alert 'Trace: ' + (if Spine.isProduction then 'Off' else 'On') + '\nApplication will now restart'
+    User.redirect()
+    
+  render: ->
+    @html @template()
 
 module?.exports = LoginView

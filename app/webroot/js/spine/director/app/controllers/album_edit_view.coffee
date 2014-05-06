@@ -6,7 +6,6 @@ GalleriesAlbum  = require('models/galleries_album')
 
 class AlbumEditView extends Spine.Controller
   
-#  @extend KeyEnhancer
   @extend Extender
   
   events:
@@ -27,7 +26,7 @@ class AlbumEditView extends Spine.Controller
     @render() 
   
   render: (item=@current) ->
-    console.log 'AlbumEditView::render'
+    @log 'render'
     if item and !item.destroyed 
       @html @template item
 #      @focusFirstInput()
@@ -37,7 +36,7 @@ class AlbumEditView extends Spine.Controller
     @el
 
   save: (el) ->
-    console.log 'AlbumEditView::save'
+    @log 'save'
     if @current
       atts = el.serializeForm?() or @el.serializeForm()
       @current.updateChangedAttributes(atts)

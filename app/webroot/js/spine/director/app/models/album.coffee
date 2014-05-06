@@ -11,6 +11,7 @@ Extender          = require("plugins/model_extender")
 AjaxRelations     = require("plugins/ajax_relations")
 Uri               = require("plugins/uri")
 Utils             = require("plugins/utils")
+
 require("plugins/cache")
 require("spine/lib/ajax")
 
@@ -69,11 +70,12 @@ class Album extends Spine.Model
     @findAllByAttribute('active', false)
     
   @createJoin: (items=[], target, callback) ->
+    @log 'createJoin'
     unless @isArray items
       items = [items]
     
     return unless items.length and target
-    valid = true
+    isValid = true
     cb = ->
       Gallery.trigger('change:collection', target)
       if typeof callback is 'function'
@@ -86,12 +88,16 @@ class Album extends Spine.Model
         gallery_id  : target.id
         album_id    : item
         order       : GalleriesAlbum.albums(target.id).length
-      val = ga.save
+      
+      valid = ga.save
         validate: true
         ajax: false
-      valid = !!val unless val
+      isValid = valid unless valid
       
-    target.save(done: cb) if valid
+    if isValid
+      target.save(done: cb)
+    else
+      App.refreshAll()
     ret
     
   @destroyJoin: (items=[], target, cb) ->

@@ -27,9 +27,9 @@ MissingView             = require("controllers/missing_view")
 FlickrView              = require("controllers/flickr_view")
 Extender                = require('plugins/controller_extender')
 
-require("plugins/manager")
 require('spine/lib/route')
 require('spine/lib/manager')
+require("plugins/manager")
 
 class Main extends Spine.Controller
   
@@ -229,7 +229,7 @@ class Main extends Spine.Controller
     Spine.trigger('chromeless', true)
     
   validate: (user, json) ->
-    console.log 'Pinger done'
+    @log 'Pinger done'
     valid = user.sessionid is json.sessionid
     valid = user.id is json.id and valid
     unless valid
@@ -238,7 +238,7 @@ class Main extends Spine.Controller
       @delay @setupView, 1000
       
   drop: (e) ->
-    console.log 'App::drop'
+    @log 'drop'
     
     # prevent ui drops
     unless e.originalEvent.dataTransfer.files.length
@@ -255,7 +255,7 @@ class Main extends Spine.Controller
     @statusSymbol.fadeOut('slow', @proxy @finalizeView)
       
   finalizeView: ->
-    @loginView.render User.first()
+    @loginView.render()
     @mainView.el.fadeIn(1500)
       
   canvas: (controller) ->
@@ -289,6 +289,13 @@ class Main extends Spine.Controller
     
   loadToolbars: ->
     Toolbar.load()
+
+  refreshAll: -> @sidebar.refreshAll()
+
+  fetchAll: ->
+    Photo.fetch(null, clear:true)
+    Album.fetch(null, clear:true)
+    Gallery.fetch(null, clear:true)
     
   activateEditor: (e) ->
     el = $(e.currentTarget)
@@ -307,7 +314,7 @@ class Main extends Spine.Controller
     code = e.charCode or e.keyCode
     type = e.type
     
-#    console.log 'Main:code: ' + code
+#    @log 'Main:code: ' + code
     
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)

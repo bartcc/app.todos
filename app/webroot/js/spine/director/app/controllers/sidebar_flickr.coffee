@@ -1,9 +1,12 @@
-Spine = require("spine")
-$     = Spine.$
+Spine    = require("spine")
+$        = Spine.$
+Extender = require("plugins/controller_extender")
 
 require("plugins/tmpl")
 
 class SidebarFlickr extends Spine.Controller
+
+  @extend Extender
 
   elements:
     '.items'                : 'items'
@@ -24,7 +27,7 @@ class SidebarFlickr extends Spine.Controller
     @render()
 
   render: ->
-    console.log 'SidebarFlickr::render'
+    @log 'render'
     items = 
       name: 'flickr'
       sub: [
@@ -48,14 +51,14 @@ class SidebarFlickr extends Spine.Controller
     e.preventDefault()
 
   navRecent: (e) ->
-    console.log 'flickr recent clicked'
+    @log 'flickr recent clicked'
     @navigate '/flickr', 'recent/1'
     
     e.stopPropagation()
     e.preventDefault()
 
   navInter: (e) ->
-    console.log 'flickr interesting clicked'
+    @log 'flickr interesting clicked'
     @navigate '/flickr', 'inter/1'
     
     e.stopPropagation()

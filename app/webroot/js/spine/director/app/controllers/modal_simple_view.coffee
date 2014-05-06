@@ -33,10 +33,10 @@ class ModalSimpleView extends Spine.Controller
   showmodal: ->
       
   keyup: (e) ->
-    console.log 'ModalSimpleView:keyup'
+    @log 'ModalSimpleView:keyup'
     
     code = e.charCode or e.keyCode
-    console.log code
+    @log code
         
     switch code
       when 32 # SPACE
@@ -50,7 +50,7 @@ class ModalSimpleView extends Spine.Controller
         e.stopPropagation()
     
   render: (options) ->
-    console.log 'ModalView::render'
+    @log 'render'
     
     @html @template options
     @el

@@ -5,8 +5,11 @@ Album           = require('models/album')
 Photo           = require('models/photo')
 GalleriesAlbum  = require('models/galleries_album')
 AlbumsPhoto     = require('models/albums_photo')
+Extender        = require("plugins/controller_extender")
 
 class AlbumsHeader extends Spine.Controller
+  
+  @extend Extender
   
   events:
     'click .gal'                     : 'backToGalleries'
@@ -21,7 +24,7 @@ class AlbumsHeader extends Spine.Controller
 
   render: ->
     return unless @isActive()
-    console.log 'AlbumsHeader::render'
+    @log 'render'
     @html @template
       model       : Gallery
       modelAlbum  : Album
@@ -31,7 +34,7 @@ class AlbumsHeader extends Spine.Controller
       gallery     : Gallery.record
       album       : Album.record
       photo       : Photo.record
-      author  : User.first().name
+      author      : User.first().name
         
     @refreshElements()
     

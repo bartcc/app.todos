@@ -1,14 +1,26 @@
 Spine = require("spine")
-$      = Spine.$
+$     = Spine.$
+Log   = Spine.Log
 Spine.Manager = require('spine/lib/manager')
 
+Spine.Manager.extend.Log
+
+Spine.Manager.extend
+
+  deactivate: ->
+    @log 'deactivate'
+    @constructor.apply @, arguments
+    
 Spine.Manager.include
+
   disableDrag: ->
     @el.draggable('disable')
     not @el.draggable("option", "disabled")
+    
   enableDrag: ->
     @el.draggable('enable')
     not @el.draggable("option", "disabled")
+    
   initDrag: (el, opts) ->
     return unless el
     @el = el
@@ -76,7 +88,7 @@ Spine.Manager.include
   hasActive: ->
     for controller in @controllers
       if controller.isActive()
-          return @last = controller
+          return @controller = @last = controller
     false
   
   active: ->
@@ -88,9 +100,4 @@ Spine.Manager.include
   externalUI: (controller) ->
     activeController = controller or @lastActive()
     $(activeController.externalClass, @external.el)
-
-Spine.Manager.extend
-
-  deactivate: ->
-    console.log 'deactivate'
-    @constructor.apply @, arguments
+    

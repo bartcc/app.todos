@@ -1,6 +1,6 @@
 Spine = require("spine")
-$      = Spine.$
-Model  = Spine.Model
+$     = Spine.$
+Model = Spine.Model
 
 Filter =
 

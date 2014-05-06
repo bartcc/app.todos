@@ -860,10 +860,20 @@
 </script>
 
 <script id="loginTemplate" type="text/x-jquery-tmpl">
-  <button data-active="active..." data-loading="loading..." data-complete="completed..." class="dark clear logout" title="Group ${groupname}">
-    <i class="glyphicon glyphicon-log-out"></i>
-    <span>Logout ${name}</span>
-  </button>
+  <div class="btn-group">
+    <button type="button" class="dropdown-toggle dark clear" data-toggle="dropdown">
+      <i class="glyphicon glyphicon-user"></i>
+      <span>${user.name}</span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li class="opt-logout"><a href="#">Logout</a></li>
+      <li class="divider"></li>
+      <li class="opt-trace"><a href="#">
+        <i class="glyphicon {{if trace}}glyphicon-ok{{/if}}"></i>Trace</a>
+      </li>
+    </ul>
+  </div>
 </script>
 
 <script id="overviewTemplate" type="text/x-jquery-tmpl">

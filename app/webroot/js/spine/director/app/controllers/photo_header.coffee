@@ -4,8 +4,11 @@ Album           = require('models/album')
 Gallery         = require('models/gallery')
 AlbumsPhoto     = require('models/albums_photo')
 GalleriesAlbum  = require('models/galleries_album')
+Extender        = require("plugins/controller_extender")
 
 class PhotoHeader extends Spine.Controller
+  
+  @extend Extender
   
   events:
     'click .gal'    : 'backToGalleries'

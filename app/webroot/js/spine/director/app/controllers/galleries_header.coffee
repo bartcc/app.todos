@@ -1,9 +1,13 @@
 Spine                 = require("spine")
 $                     = Spine.$
+
 GalleriesAlbum        = require('models/galleries_album')
 AlbumsPhoto           = require('models/albums_photo')
+Extender              = require("plugins/controller_extender")
 
 class GalleriesHeader extends Spine.Controller
+  
+  @extend Extender
   
   constructor: ->
     super
@@ -13,7 +17,7 @@ class GalleriesHeader extends Spine.Controller
 
   render: ->
     return unless @isActive()
-    console.log 'GalleryHeader::render'
+    @log 'render'
     @html @template
       model       : Gallery
       modelAlbum  : Album

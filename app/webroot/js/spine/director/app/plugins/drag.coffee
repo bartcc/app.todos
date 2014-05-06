@@ -1,6 +1,6 @@
 Spine = require("spine")
-$      = Spine.$
-
+$     = Spine.$
+Log   = Spine.Log
 Gallery         = require('models/gallery')
 Album           = require('models/album')
 Photo           = require('models/photo')
@@ -97,7 +97,7 @@ Controller.Drag =
           item.constructor.trigger('activate', item.id, origin)
         
       dragStart: (e, controller, record) ->
-        console.log 'dragStart'
+        @log 'dragStart'
         el = $(e.currentTarget)
         event = e.originalEvent
         source = Spine.dragItem.source
@@ -122,7 +122,7 @@ Controller.Drag =
         Spine.selection.update selection
 
       dragEnter: (e) ->
-        console.log 'dragEnter'
+        @log 'dragEnter'
         return unless Spine.dragItem
         el = indicator = $(e.target).closest('.data')
         selector = el.attr('data-drag-over')
@@ -147,7 +147,7 @@ Controller.Drag =
 
       dragDrop: (e, record) ->
         return unless Spine.dragItem # for image drops  
-        console.log 'dragDrop'
+        @log 'dragDrop'
         target = Spine.dragItem.target
         source = Spine.dragItem.source
         origin = Spine.dragItem.origin
@@ -171,7 +171,7 @@ Controller.Drag =
             Photo.trigger 'create:join',
               photos: selection
               album: target
-            , -> @navigate hash
+            , => @navigate hash
             
             unless @isCtrlClick(e)
               Photo.trigger 'destroy:join',
@@ -207,5 +207,6 @@ Controller.Drag =
           else return false
           
     @include Include
+#    @extend Log
 
 module?.exports = Drag = Controller.Drag

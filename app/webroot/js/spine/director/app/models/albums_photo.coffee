@@ -1,11 +1,12 @@
-Spine         = require("spine")
-$             = Spine.$
-Model         = Spine.Model
-Filter        = require("plugins/filter")
+Spine           = require("spine")
+$               = Spine.$
+Model           = Spine.Model
+Filter          = require("plugins/filter")
 Gallery         = require('models/gallery')
-Model.Album           = require('models/album')
-Model.Photo           = require('models/photo')
+Model.Album     = require('models/album')
+Model.Photo     = require('models/photo')
 GalleriesAlbum  = require('models/galleries_album')
+Extender        = require("plugins/model_extender")
 require("spine/lib/ajax")
 
 class AlbumsPhoto extends Spine.Model

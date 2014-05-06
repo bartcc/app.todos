@@ -81,13 +81,13 @@ class PhotoView extends Spine.Controller
     force: false
     
   uri: (item, mode = 'html') ->
-    console.log 'PhotoView::uri'
+    @log 'uri'
     Photo.uri @params(),
       (xhr, record) => @callback(xhr, item),
       [item]
   
   callback: (json, item) =>
-    console.log 'PhotoView::callback'
+    @log 'callback'
     img = new Image
     img.onload = @imageLoad
     

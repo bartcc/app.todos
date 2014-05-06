@@ -31361,8 +31361,8 @@ Released under the MIT License
       'click .opt-FullScreen:not(.disabled)': 'toggleFullScreen',
       'click .opt-CreateGallery:not(.disabled)': 'createGallery',
       'click .opt-CreateAlbum:not(.disabled)': 'createAlbum',
-      'click .opt-CopyPhotosToAlbum:not(.disabled)': 'copyPhotosToAlbum',
-      'click .opt-CopyAlbumsToGallery:not(.disabled)': 'copyAlbumsToGallery',
+      'click .opt-DuplicateAlbum:not(.disabled)': 'duplicateAlbum',
+      'click .opt-CopyAlbumsToNewGallery:not(.disabled)': 'copyAlbumsToNewGallery',
       'click .opt-CopyPhoto': 'copyPhoto',
       'click .opt-CutPhoto': 'cutPhoto',
       'click .opt-PastePhoto': 'pastePhoto',
@@ -31638,40 +31638,6 @@ Released under the MIT License
       }
     };
 
-    ShowView.prototype.createPhotoFromSel = function(e) {
-      this.copyPhotosToAlbum();
-      return e.preventDefault();
-    };
-
-    ShowView.prototype.createPhotoFromSelCut = function(e) {
-      this.movePhotosToAlbum();
-      return e.preventDefault();
-    };
-
-    ShowView.prototype.createAlbumFromSel = function(e) {
-      this.copyPhotosToNewAlbum();
-      return e.preventDefault();
-    };
-
-    ShowView.prototype.createAlbumFromSelCut = function(e) {
-      this.createAlbumMove();
-      return e.preventDefault();
-    };
-
-    ShowView.prototype.copyPhotosToNewAlbum = function(photos, gallery) {
-      if (gallery == null) {
-        gallery = Gallery.record;
-      }
-      Spine.trigger('create:album', gallery, {
-        photos: photos
-      });
-      if (gallery != null ? gallery.id : void 0) {
-        return this.navigate('/gallery', gallery.id);
-      } else {
-        return this.showAlbumMasters();
-      }
-    };
-
     ShowView.prototype.copyAlbums = function(albums, gallery) {
       var hash,
         _this = this;
@@ -31694,16 +31660,17 @@ Released under the MIT License
       });
     };
 
-    ShowView.prototype.copyAlbumsToGallery = function() {
+    ShowView.prototype.copyAlbumsToNewGallery = function() {
       return this.albumsToGallery(Gallery.selectionList().slice(0));
     };
 
-    ShowView.prototype.copyPhotosToAlbum = function() {
-      return this.photosToAlbum(Album.selectionList().slice(0));
-    };
-
-    ShowView.prototype.movePhotosToAlbum = function() {
-      return this.photosToAlbum(Album.selectionList(), Album.record);
+    ShowView.prototype.duplicateAlbum = function() {
+      var album, photos;
+      if (!(album = Album.record)) {
+        return;
+      }
+      photos = album.photos().toID();
+      return this.photosToAlbum(photos);
     };
 
     ShowView.prototype.albumsToGallery = function(albums, gallery) {
@@ -36106,13 +36073,6 @@ Released under the MIT License
             icon: 'asterisk',
             klass: 'opt-CreateGallery'
           }, {
-            name: 'New Gallery from Selection',
-            icon: 'certificate',
-            klass: 'opt-CopyAlbumsToGallery',
-            disabled: function() {
-              return !!!Gallery.selectionList().length;
-            }
-          }, {
             devider: true
           }, {
             name: 'Edit',
@@ -36145,11 +36105,18 @@ Released under the MIT License
               return !Gallery.record;
             }
           }, {
-            name: 'New Album from Selection',
+            name: 'Duplicate',
             icon: 'certificate',
-            klass: 'opt-CopyPhotosToAlbum',
+            klass: 'opt-DuplicateAlbum',
             disabled: function() {
-              return !!!Album.selectionList().length;
+              return !Album.record;
+            }
+          }, {
+            name: 'Duplicate (New Gallery)',
+            icon: 'certificate',
+            klass: 'opt-CopyAlbumsToNewGallery',
+            disabled: function() {
+              return !Gallery.selectionList().length;
             }
           }, {
             devider: true
@@ -36200,17 +36167,6 @@ Released under the MIT License
             klass: 'opt-PasteAlbum',
             disabled: function() {
               return !Clipboard.findAllByAttribute('type', 'copy').length || !Gallery.record;
-            }
-          }, {
-            devider: true
-          }, {
-            name: function() {
-              return 'Show Selection';
-            },
-            icon: 'hand-right',
-            klass: 'opt-ShowAlbumSelection ',
-            disabled: function() {
-              return !Gallery.selectionList().length;
             }
           }, {
             devider: true
@@ -36289,15 +36245,6 @@ Released under the MIT License
             }
           }, {
             devider: true
-          }, {
-            name: function() {
-              return 'Show Selection';
-            },
-            icon: 'hand-right',
-            klass: 'opt-ShowPhotoSelection ',
-            disabled: function() {
-              return !!!Album.selectionList().length;
-            }
           }, {
             name: function() {
               return 'Show Library';

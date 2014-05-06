@@ -80,8 +80,8 @@ class ShowView extends Spine.Controller
     'click .opt-FullScreen:not(.disabled)'            : 'toggleFullScreen'
     'click .opt-CreateGallery:not(.disabled)'         : 'createGallery'
     'click .opt-CreateAlbum:not(.disabled)'           : 'createAlbum'
-    'click .opt-CopyPhotosToAlbum:not(.disabled)'     : 'copyPhotosToAlbum'
-    'click .opt-CopyAlbumsToGallery:not(.disabled)'   : 'copyAlbumsToGallery'
+    'click .opt-DuplicateAlbum:not(.disabled)'        : 'duplicateAlbum'
+    'click .opt-CopyAlbumsToNewGallery:not(.disabled)'   : 'copyAlbumsToNewGallery'
     'click .opt-CopyPhoto'                            : 'copyPhoto'
     'click .opt-CutPhoto'                             : 'cutPhoto'
     'click .opt-PastePhoto'                           : 'pastePhoto'
@@ -323,30 +323,6 @@ class ShowView extends Spine.Controller
     else
       @showAlbumMasters()
   
-  createPhotoFromSel: (e) ->
-    @copyPhotosToAlbum()
-    e.preventDefault()
-    
-  createPhotoFromSelCut: (e) ->
-    @movePhotosToAlbum()
-    e.preventDefault()
-  
-  createAlbumFromSel: (e) ->
-    @copyPhotosToNewAlbum()
-    e.preventDefault()
-    
-  createAlbumFromSelCut: (e) ->
-    @createAlbumMove()
-    e.preventDefault()
-  
-  copyPhotosToNewAlbum: (photos, gallery=Gallery.record) ->
-    Spine.trigger('create:album', gallery, photos: photos)
-    
-    if gallery?.id
-      @navigate '/gallery', gallery.id#, Album.last().id
-    else
-      @showAlbumMasters()
-      
   copyAlbums: (albums, gallery) ->
     hash = location.hash
     Album.trigger('create:join', albums, gallery, => @navigate hash)
@@ -358,15 +334,14 @@ class ShowView extends Spine.Controller
       album: album
     Photo.trigger('create:join', options, => @navigate hash)
       
-  copyAlbumsToGallery: ->
+  copyAlbumsToNewGallery: ->
     @albumsToGallery Gallery.selectionList()[..]
       
-  copyPhotosToAlbum: ->
-    @photosToAlbum Album.selectionList()[..]
+  duplicateAlbum: ->
+    return unless album = Album.record
+    photos = album.photos().toID()
+    @photosToAlbum photos
       
-  movePhotosToAlbum: ->
-    @photosToAlbum Album.selectionList(), Album.record
-  
   albumsToGallery: (albums, gallery) ->
     Spine.trigger('create:gallery',
       albums: albums

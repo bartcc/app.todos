@@ -60,11 +60,6 @@ class Toolbar extends Spine.Model
           icon: 'asterisk'
           klass: 'opt-CreateGallery'
         ,
-          name: 'New Gallery from Selection'
-          icon: 'certificate'
-          klass: 'opt-CopyAlbumsToGallery'
-          disabled: -> !!!Gallery.selectionList().length
-        ,
           devider: true
         ,
           name: 'Edit'
@@ -91,10 +86,15 @@ class Toolbar extends Spine.Model
           klass: 'opt-AddAlbums'
           disabled: -> !Gallery.record
         ,
-          name: 'New Album from Selection'
+          name: 'Duplicate'
           icon: 'certificate'
-          klass: 'opt-CopyPhotosToAlbum'
-          disabled: -> !!!Album.selectionList().length
+          klass: 'opt-DuplicateAlbum'
+          disabled: -> !Album.record
+        ,
+          name: 'Duplicate (New Gallery)'
+          icon: 'certificate'
+          klass: 'opt-CopyAlbumsToNewGallery'
+          disabled: -> !Gallery.selectionList().length
         ,
           devider: true
         ,
@@ -133,14 +133,6 @@ class Toolbar extends Spine.Model
           icon: ''
           klass: 'opt-PasteAlbum'
           disabled: -> !Clipboard.findAllByAttribute('type', 'copy').length or !Gallery.record
-        ,
-          devider: true
-        ,
-          name: ->
-            'Show Selection'
-          icon: 'hand-right'
-          klass: 'opt-ShowAlbumSelection '
-          disabled: -> !Gallery.selectionList().length
         ,
           devider: true
         ,
@@ -199,12 +191,6 @@ class Toolbar extends Spine.Model
           disabled: -> !Clipboard.findAllByAttribute('type', 'copy').length or !Album.record
         ,
           devider: true
-        ,
-          name: ->
-            'Show Selection'
-          icon: 'hand-right'
-          klass: 'opt-ShowPhotoSelection '
-          disabled: -> !!!Album.selectionList().length
         ,
           name: -> 'Show Library'
           klass: 'opt-ShowAllPhotos'

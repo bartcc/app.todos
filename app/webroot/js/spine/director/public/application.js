@@ -36988,7 +36988,7 @@ Released under the MIT License
       Include = {
         init: function() {
           this.trace = !Spine.isProduction;
-          this.logPrefix = this.constructor.name + '::';
+          this.logPrefix = '(' + this.constructor.name + ')';
           return this.el.data('current', {
             model: null,
             models: null
@@ -37698,7 +37698,7 @@ Released under the MIT License
         _this = this;
       Extend = {
         trace: !Spine.isProduction,
-        logPrefix: this.className + '::',
+        logPrefix: '(' + this.className + ')',
         selectAttributes: [],
         record: false,
         selection: [

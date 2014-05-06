@@ -16,7 +16,7 @@ Model.Extender =
     Extend =
       
       trace: !Spine.isProduction
-      logPrefix: @className + '::'
+      logPrefix: '(' + @className + ')'
       
       selectAttributes: []
       

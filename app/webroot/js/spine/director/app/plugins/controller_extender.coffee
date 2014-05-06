@@ -15,9 +15,9 @@ Controller.Extender =
     Include = 
     
       init: ->
-      
+        
         @trace = !Spine.isProduction
-        @logPrefix = @constructor.name + '::'
+        @logPrefix = '(' + @constructor.name + ')'
         
         @el.data('current',
           model: null

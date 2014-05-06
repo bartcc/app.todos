@@ -32389,7 +32389,7 @@ Released under the MIT License
       if (!isFormfield) {
         this.controller.focus();
       }
-      this.log('ShowView:keydownCode: ' + code);
+      this.log('keydownCode: ' + code);
       switch (code) {
         case 13:
           if (!isFormfield) {
@@ -32436,6 +32436,7 @@ Released under the MIT License
       code = e.charCode || e.keyCode;
       el = $(document.activeElement);
       isFormfield = $().isFormElement(el);
+      this.log('keyup', code);
       switch (code) {
         case 8:
           if (!isFormfield) {

@@ -48,7 +48,6 @@ class FlickrView extends Spine.Controller
       el: @toolbarEl
       template: @toolsTemplate
       
-    Spine.bind('show:flickrView', @proxy @show)
     @bind('flickr:recent', @proxy @recent)
     @bind('flickr:inter', @proxy @interestingness)
       
@@ -60,9 +59,6 @@ class FlickrView extends Spine.Controller
       @content.html @introTemplate()
     
   active: ->
-    
-  show: () ->
-    App.trigger('canvas', @)
     if arguments.length
       @setup(arguments[0], arguments[1])
     else @render()

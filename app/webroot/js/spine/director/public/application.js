@@ -28067,7 +28067,6 @@ Released under the MIT License
         el: this.toolbarEl,
         template: this.toolsTemplate
       });
-      Spine.bind('show:flickrView', this.proxy(this.show));
       this.bind('flickr:recent', this.proxy(this.recent));
       this.bind('flickr:inter', this.proxy(this.interestingness));
     }
@@ -28081,10 +28080,7 @@ Released under the MIT License
       }
     };
 
-    FlickrView.prototype.active = function() {};
-
-    FlickrView.prototype.show = function() {
-      App.trigger('canvas', this);
+    FlickrView.prototype.active = function() {
       if (arguments.length) {
         return this.setup(arguments[0], arguments[1]);
       } else {

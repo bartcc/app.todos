@@ -33199,16 +33199,10 @@ Released under the MIT License
     SidebarList.prototype.scrollTo = function(item) {
       var el, ohc, ohp, otc, otp, outOfMaxRange, outOfMinRange, outOfRange, res, resMax, resMin, speed, stp, ul,
         _this = this;
-      this.log('scrollTo');
-      console.log(arguments);
-      console.log(item);
       if (!(item && Gallery.record)) {
         return;
       }
       el = this.children().forItem(Gallery.record);
-      this.log('list: ', el);
-      console.log('list');
-      console.log(el);
       if (item.constructor.className === 'Gallery') {
         ul = $('ul', el);
         ul.hide();
@@ -33218,8 +33212,6 @@ Released under the MIT License
         ul = $('ul', el);
         el = $('li', ul).forItem(item);
         this.log('sublist: ', el);
-        console.log('sublist');
-        console.log(el);
         ohc = el[0].offsetHeight;
         speed = 700;
       }

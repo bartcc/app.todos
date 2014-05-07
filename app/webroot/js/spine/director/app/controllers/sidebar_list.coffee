@@ -256,15 +256,9 @@ class SidebarList extends Spine.Controller
     e.preventDefault()
     
   scrollTo: (item) ->
-    @log 'scrollTo'
-    console.log arguments
-    console.log item
     return unless item and Gallery.record
     
     el = @children().forItem(Gallery.record)
-    @log 'list: ', el
-    console.log 'list'
-    console.log el
     if item.constructor.className is 'Gallery'
       ul = $('ul', el)
       # messuring galleryEl w/o sublist
@@ -275,8 +269,6 @@ class SidebarList extends Spine.Controller
       ul = $('ul', el)
       el = $('li', ul).forItem(item)
       @log 'sublist: ', el
-      console.log 'sublist'
-      console.log el
       ohc = el[0].offsetHeight
       speed = 700
       

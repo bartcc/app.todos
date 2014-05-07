@@ -43,7 +43,7 @@ class PhotosList extends Spine.Controller
     return unless @parent.isActive()
     return unless Album.record
     return unless Album.record.id is item['album_id']
-    return unless photo = Photo.exists(item['photo_id'])
+    return unless photo = Photo.find(item['photo_id'])
     @log 'changeRelated'
     
     switch mode
@@ -182,7 +182,7 @@ class PhotosList extends Spine.Controller
   photos: (mode) ->
     if mode is 'add' or !Album.record
       Photo.all()
-    else if album = Album.exists mode
+    else if album = Album.find mode
       album.photos()
     else if Album.record
       Album.record.photos()
@@ -247,7 +247,7 @@ class PhotosList extends Spine.Controller
       $('#'+first, @el).addClass("hot")
       
   remove: (ap) ->
-    item = Photo.exists ap.photo_id
+    item = Photo.find ap.photo_id
     @findModelElement(item).detach() if item
     
   deletePhoto: (e) ->

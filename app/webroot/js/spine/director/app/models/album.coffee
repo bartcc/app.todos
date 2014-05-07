@@ -36,6 +36,13 @@ class Album extends Spine.Model
 
   @url: '' + base_url + @className.toLowerCase() + 's'
 
+  @fromJSON: (objects) ->
+    super
+    @createJoinTables objects
+    key = @className
+    json = @fromArray(objects, key) if @isArray(objects)# and objects[key]#test for READ or PUT !
+    json
+
   @nameSort: (a, b) ->
     aa = (a or '').title?.toLowerCase()
     bb = (b or '').title?.toLowerCase()
@@ -84,7 +91,6 @@ class Album extends Spine.Model
     items = items.toID()
     ret = for item in items
       ga = new GalleriesAlbum
-        id          : $().uuid()
         gallery_id  : target.id
         album_id    : item
         order       : GalleriesAlbum.albums(target.id).length

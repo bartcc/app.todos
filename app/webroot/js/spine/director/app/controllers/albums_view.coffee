@@ -152,7 +152,7 @@ class AlbumsView extends Spine.Controller
       
     list = []
     for id in arr
-      list.push album.id if album = Album.exists(id)
+      list.push album.id if album = Album.find(id)
         
     id = list[0]
       
@@ -211,7 +211,7 @@ class AlbumsView extends Spine.Controller
     album.save()
        
   beforeDestroyGalleriesAlbum: (ga) ->
-    gallery = Gallery.exists ga.gallery_id
+    gallery = Gallery.find ga.gallery_id
     gallery.removeFromSelection ga.album_id if gallery
        
   destroyGalleriesAlbum: (ga) ->
@@ -230,7 +230,7 @@ class AlbumsView extends Spine.Controller
     albums = [albums] unless Album.isArray albums
     
     for id in albums
-      if item = Album.exists(id)
+      if item = Album.find(id)
         el = @list.findModelElement(item)
         el.removeClass('in')
       
@@ -240,7 +240,7 @@ class AlbumsView extends Spine.Controller
       @destroyJoin albums, Gallery.record
     else
       for id in albums
-        album.destroy() if album = Album.exists(id)
+        album.destroy() if album = Album.find(id)
   
   create: (album) ->
     @render()

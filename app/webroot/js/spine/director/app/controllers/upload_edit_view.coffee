@@ -37,7 +37,7 @@ class UploadEditView extends Spine.Controller
   render: ->
     selection = Gallery.selectionList()
     gallery = Gallery.record
-    @album = Album.exists(selection[0]) || false
+    @album = Album.find(selection[0]) || false
     @uploadinfoEl.html @template
       gallery: gallery
       album: @album
@@ -47,7 +47,7 @@ class UploadEditView extends Spine.Controller
   destroyed: ->
     
   fail: (xhr, textStatus, errorThrown) ->
-    album = Album.exists(@data.link)
+    album = Album.find(@data.link)
     Spine.trigger('loading:fail', album, textStatus, errorThrown)
       
   drop: (e, data) ->
@@ -67,13 +67,13 @@ class UploadEditView extends Spine.Controller
       button_2_text: 'Bye'
         
   send: (e, data) ->
-    album = Album.exists(@data.link)
+    album = Album.find(@data.link)
     Spine.trigger('loading:start', album)
     
   alldone: (e, data) ->
     
   done: (e, data) ->
-    album = Album.exists(@data.link)
+    album = Album.find(@data.link)
     raws = $.parseJSON(data.jqXHR.responseText)
     selection = []
     photos = []
@@ -107,7 +107,7 @@ class UploadEditView extends Spine.Controller
   submit: (e, data) ->
     
   changedSelected: (album) ->
-    album = Album.exists(album.id)
+    album = Album.find(album.id)
     if @data.fileslist.length
       $.extend @data, link: Album.record?.id
         

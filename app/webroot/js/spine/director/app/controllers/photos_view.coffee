@@ -122,7 +122,7 @@ class PhotosView extends Spine.Controller
       
     list = []
     for id in arr
-      list.push photo.id if photo = Photo.exists(id)
+      list.push photo.id if photo = Photo.find(id)
     
     id = list[0]
     
@@ -178,7 +178,7 @@ class PhotosView extends Spine.Controller
         album: album
       
   beforeDestroyAlbumsPhoto: (ap) ->
-    album = Album.exists ap.album_id
+    album = Album.find ap.album_id
     album.removeFromSelection ap.photo_id
   
   destroy: (item) ->
@@ -202,7 +202,7 @@ class PhotosView extends Spine.Controller
     photos = [photos] unless Photo.isArray photos
     
     for id in photos
-      if item = Photo.exists(id)
+      if item = Photo.find(id)
         el = @list.findModelElement(item)
         el.removeClass('in')
       
@@ -214,7 +214,7 @@ class PhotosView extends Spine.Controller
         album: album
     else
       for id in photos
-        photo.destroy() if photo = Photo.exists(id)
+        photo.destroy() if photo = Photo.find(id)
         
     if typeof callback is 'function'
       callback.call()
@@ -224,7 +224,7 @@ class PhotosView extends Spine.Controller
   # methods after uplopad
   
   addAlbumsPhoto: (ap) ->
-    el = @list.findModelElement photo if photo = Photo.exists(ap.photo_id)
+    el = @list.findModelElement photo if photo = Photo.find(ap.photo_id)
     return if el.length
     @add photo
   
@@ -274,7 +274,7 @@ class PhotosView extends Spine.Controller
     
   backToAlbumView: (ga) ->
     return unless @isActive()
-    if gallery = Gallery.exists ga.gallery_id
+    if gallery = Gallery.find ga.gallery_id
       @navigate '/gallery', gallery.id
       
   infoUp: (e) ->

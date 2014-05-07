@@ -362,7 +362,7 @@ class ShowView extends Spine.Controller
   createAlbumCopy: (albums=Gallery.selectionList(), target=Gallery.record) ->
     @log 'createAlbumCopy'
     for id in albums
-      if Album.exists(id)
+      if Album.find(id)
         photos = Album.photos(id).toID()
         
         Spine.trigger('create:album', target
@@ -377,7 +377,7 @@ class ShowView extends Spine.Controller
       
   createAlbumMove: (albums=Gallery.selectionList(), target=Gallery.record) ->
     for id in albums
-      if Album.exists(id)
+      if Album.find(id)
         photos = Album.photos(id).toID()
         Spine.trigger('create:album', target
           photos: photos
@@ -392,7 +392,7 @@ class ShowView extends Spine.Controller
   emptyAlbum: (e) ->
     albums = Gallery.selectionList()
     for aid in albums
-      if album = Album.exists aid
+      if album = Album.find aid
         aps = AlbumsPhoto.filter(album.id, key: 'album_id')
         for ap in aps
           ap.destroy()
@@ -666,18 +666,18 @@ class ShowView extends Spine.Controller
       
   copyPhoto: ->
     Clipboard.deleteAll()
-    for item in Album.selectionList()
+    for id in Album.selectionList()
       Clipboard.create
-        item: Photo.exists item
+        item: Photo.find id
         type: 'copy'
         
     @refreshToolbars()
     
   cutPhoto: ->
     Clipboard.deleteAll()
-    for item in Album.selectionList()
+    for id in Album.selectionList()
       Clipboard.create
-        item: Photo.exists item
+        item: Photo.find id
         type: 'copy'
         cut: Album.record
         
@@ -711,16 +711,16 @@ class ShowView extends Spine.Controller
     Clipboard.deleteAll()
     for item in Gallery.selectionList()
       Clipboard.create
-        item: Album.exists item
+        item: Album.find item
         type: 'copy'
         
     @refreshToolbars()
     
   cutAlbum: ->
     Clipboard.deleteAll()
-    for item in Gallery.selectionList()
+    for id in Gallery.selectionList()
       Clipboard.create
-        item: Album.exists item
+        item: Album.find id
         type: 'copy'
         cut: Gallery.record
         

@@ -1,8 +1,12 @@
-Spine = require('spine')
-ToolbarView = require("controllers/toolbar_view")
+Spine           = require('spine')
+$               = Spine.$
+ToolbarView     = require("controllers/toolbar_view")
+Extender        = require("plugins/controller_extender")
 
 class FlickrView extends Spine.Controller
 
+  @extend Extender
+  
   elements:
     '.links'      : 'links'
     '.content'    : 'content'
@@ -71,8 +75,8 @@ class FlickrView extends Spine.Controller
                 
   data:
     format  : 'json',
-    method  : 'flickr.photos.getRecent',
-    api_key : '7617adae70159d09ba78cfec73c13be3'
+    method  : 'flickr.activity.userPhotos',
+    api_key : '1cb992dd2b14ba97327aea602e3922e6'
     
   setup: (mode, page) ->
     @log 'setup'

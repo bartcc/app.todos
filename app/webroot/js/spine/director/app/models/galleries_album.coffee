@@ -43,10 +43,10 @@ class GalleriesAlbum extends Spine.Model
   @c: 0
   
   validate: ->
-    valid_1 = (Album.exists @album_id) and (Gallery.exists @gallery_id)
+    valid_1 = (Album.find @album_id) and (Gallery.find @gallery_id)
     valid_2 = !(@constructor.galleryAlbumExists(@album_id, @gallery_id) and @isNew())
     return 'No valid action!' unless valid_1
-    return 'Album already exists in Gallery' unless valid_2
+    return 'Album already find in Gallery' unless valid_2
     false
     
   galleries: ->

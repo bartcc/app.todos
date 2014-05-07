@@ -18,6 +18,29 @@ Model.Extender =
       trace: !Spine.isProduction
       logPrefix: '(' + @className + ')'
       
+      
+      guid: ->
+        mask = [8, 4, 4, 4, 12]
+
+        ret = []
+        ret = for sub in mask
+          res = null
+          milli = new Date().getTime();
+          back = new Date().setTime(milli*(-200))
+          diff = milli - back
+          re1 = diff.toString(16).split('')
+          re2 = re1.slice(sub*(-1))
+          re3 = re2.join('')
+          re3
+
+        re4 = ret.join('-')
+        re4
+
+      uuid: ->
+        s4 = -> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
+        s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
+
+      
       selectAttributes: []
       
       record: false
@@ -26,7 +49,7 @@ Model.Extender =
 
       current: (recordOrID) ->
         id = recordOrID?.id or recordOrID
-        rec = @exists(id) or false
+        rec = @find(id) or false
         prev = @record
         @record = rec
         same = !!(@record?.eql?(prev) and !!prev)
@@ -35,52 +58,6 @@ Model.Extender =
           Model[@className].trigger('change:current', @record, @className) 
         @record
 
-      fromJSON: (objects) ->
-        @createJoinTables objects
-        key = @className
-        json = @fromArray(objects, key) if @isArray(objects)# and objects[key]#test for READ or PUT !
-        json || @__super__.constructor.fromJSON.call @, objects
-
-      createJoinTables: (arr) ->
-        return unless @isArray arr
-        joinTables = @joinTables()
-        for key in joinTables
-          Model[key].refresh(@createJoins(arr, key), clear: true)
-        
-      joinTables: ->
-        fModels = @foreignModels()
-        joinTables = for key, value of fModels
-          fModels[key]['joinTable']
-        joinTables
-
-      fromArray: (arr, key) ->
-        res = []
-        extract = (obj) =>
-          unless @isArray obj[key]
-            item = =>
-              res.push new @(obj[key])
-            itm = item()
-        
-        extract(obj) for obj in arr
-        res
-        
-      createJoins: (json, tableName) ->
-        res = []
-        introspect = (obj) =>
-          if @isObject(obj)
-            for key, val of obj
-              if key is tableName
-                res.push item for item in val
-              else introspect obj[key]
-          
-          if @isArray(obj)
-            for val in obj
-              introspect val
-
-        for obj in json
-          introspect(obj)
-        res
-        
       selectionList: (recordID) ->
         ret = []
         id = recordID or @record?.id or @record?.cid
@@ -91,7 +68,7 @@ Model.Extender =
       
       updateSelection: (id, list) ->
         ret = @emptySelection id, list
-        @trigger('change:selection', @exists(id), ret)
+        @trigger('change:selection', @find(id), ret)
         ret
 
       emptySelection: (id, list = []) ->
@@ -154,6 +131,47 @@ Model.Extender =
           
       contains: -> []
       
+      # private
+      createJoinTables: (arr) ->
+        return unless @isArray arr
+        joinTables = @joinTables()
+        for key in joinTables
+          Model[key].refresh(@createJoins(arr, key), clear: true)
+        
+      joinTables: ->
+        fModels = @foreignModels()
+        joinTables = for key, value of fModels
+          fModels[key]['joinTable']
+        joinTables
+
+      fromArray: (arr, key) ->
+        res = []
+        extract = (obj) =>
+          unless @isArray obj[key]
+            item = =>
+              res.push new @(obj[key])
+            itm = item()
+        
+        extract(obj) for obj in arr
+        res
+        
+      createJoins: (json, tableName) ->
+        res = []
+        introspect = (obj) =>
+          if @isObject(obj)
+            for key, val of obj
+              if key is tableName
+                res.push item for item in val
+              else introspect obj[key]
+          
+          if @isArray(obj)
+            for val in obj
+              introspect val
+
+        for obj in json
+          introspect(obj)
+        res
+        
     Include =
       
       trace: !Spine.isProduction

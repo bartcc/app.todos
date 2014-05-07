@@ -35,6 +35,15 @@ class Photo extends Spine.Model
 
   @url: '' + base_url + @className.toLowerCase() + 's'
 
+  @fromJSON: (objects) ->
+    @log 'fromJSON'
+    @log @className
+    super
+    @createJoinTables objects
+    key = @className
+    json = @fromArray(objects, key) if @isArray(objects)# and objects[key]#test for READ or PUT !
+    json
+
   @nameSort: (a, b) ->
     aa = (a or '').name?.toLowerCase()
     bb = (b or '').name?.toLowerCase()
@@ -62,7 +71,7 @@ class Photo extends Spine.Model
   @trashed: ->
     res = []
     for item of @irecords
-      res.push item unless AlbumsPhoto.exists(item.id)
+      res.push item unless AlbumsPhoto.find(item.id)
     res
     
   @inactive: ->
@@ -82,7 +91,6 @@ class Photo extends Spine.Model
     items = items.toID()
     ret = for item in items
       ap = new AlbumsPhoto
-        id          : $().guid()
         album_id    : target.id
         photo_id    : item.id or item
         order       : AlbumsPhoto.photos(target.id).length

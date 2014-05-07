@@ -56,7 +56,7 @@ class OverviewView extends Spine.Controller
     #validate fresh records against existing model collection
     items = []
     for test in tests
-      items.push photo if photo = Photo.exists(test.id)
+      items.push photo if photo = Photo.find(test.id)
       
     @content.html @template items
     @refreshElements()
@@ -116,7 +116,7 @@ class OverviewView extends Spine.Controller
   showPhoto: (e) ->
     item = $(e.currentTarget).item()
     return unless item
-    photo = Photo.exists(item.id)
+    photo = Photo.find(item.id)
     
     if photo
       @navigate '/gallery', '/', photo.id

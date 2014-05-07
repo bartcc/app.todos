@@ -105,7 +105,7 @@ class SidebarList extends Spine.Controller
       newEl.before oldEl
     
   updateSublist: (ga) ->
-    gallery = Gallery.exists ga.gallery_id
+    gallery = Gallery.find ga.gallery_id
     @renderOneSublist gallery
     
   renderAllSublist: ->
@@ -117,7 +117,7 @@ class SidebarList extends Spine.Controller
     @log 'renderSublists'
     gas = GalleriesAlbum.filter(album.id, key: 'album_id')
     for ga in gas
-      @renderOneSublist gallery if gallery = Gallery.exists ga.gallery_id
+      @renderOneSublist gallery if gallery = Gallery.find ga.gallery_id
       
   renderOneSublist: (gallery = Gallery.record) ->
     @log 'renderOneSublist'
@@ -149,7 +149,7 @@ class SidebarList extends Spine.Controller
     galleryEl
     
   renderItemFromGalleriesAlbum: (ga, mode) ->
-    gallery = Gallery.exists(ga.gallery_id)
+    gallery = Gallery.find(ga.gallery_id)
     if gallery
       @updateTemplate gallery
       @renderOneSublist gallery
@@ -161,7 +161,7 @@ class SidebarList extends Spine.Controller
   renderAlbum: (item) ->
     gas = GalleriesAlbum.filter(item.id, key: 'album_id')
     for ga in gas
-      if gallery = Gallery.exists ga.gallery_id
+      if gallery = Gallery.find ga.gallery_id
         @renderGallery gallery
     
   renderItemFromAlbumsPhoto: (ap) ->
@@ -186,10 +186,10 @@ class SidebarList extends Spine.Controller
       $('.glyphicon', galleryEl).removeClass('glyphicon-folder-open')
       
       for id in selection
-        if album = Album.exists(id)
+        if album = Album.find(id)
           albumsEl.forItem(album).addClass('selected')
 
-      if activeAlbum = Album.exists(first = selection.first())
+      if activeAlbum = Album.find(first = selection.first())
         activeEl = albumsEl.forItem(activeAlbum).addClass('active')
         $('.glyphicon', activeEl).addClass('glyphicon-folder-open')
         
@@ -256,10 +256,15 @@ class SidebarList extends Spine.Controller
     e.preventDefault()
     
   scrollTo: (item) ->
+    @log 'scrollTo'
+    console.log arguments
+    console.log item
     return unless item and Gallery.record
     
     el = @children().forItem(Gallery.record)
-    
+    @log 'list: ', el
+    console.log 'list'
+    console.log el
     if item.constructor.className is 'Gallery'
       ul = $('ul', el)
       # messuring galleryEl w/o sublist
@@ -269,6 +274,9 @@ class SidebarList extends Spine.Controller
     else
       ul = $('ul', el)
       el = $('li', ul).forItem(item)
+      @log 'sublist: ', el
+      console.log 'sublist'
+      console.log el
       ohc = el[0].offsetHeight
       speed = 700
       

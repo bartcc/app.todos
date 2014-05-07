@@ -26,6 +26,15 @@ class Gallery extends Spine.Model
   
   @url: '' + base_url + 'galleries'
 
+  @fromJSON: (objects) ->
+    @log 'fromJSON'
+    @log @className
+    super
+    @createJoinTables objects
+    key = @className
+    json = @fromArray(objects, key) if @isArray(objects)# and objects[key]#test for READ or PUT !
+    json
+
   @foreignModels: ->
     'Album':
       className             : 'Album'
@@ -47,7 +56,7 @@ class Gallery extends Spine.Model
     albums = @selectionList(id)
     phos = []
     for alb in albums
-      if album = Album.exists(alb)
+      if album = Album.find(alb)
         photos = album.photos() or []
         phos.push pho for pho in photos
     phos

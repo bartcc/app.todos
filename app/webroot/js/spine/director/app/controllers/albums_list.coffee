@@ -38,7 +38,7 @@ class AlbumsList extends Spine.Controller
     return unless @parent and @parent.isActive()
     return unless Gallery.record
     return unless Gallery.record.id is item['gallery_id']
-    return unless album = Album.exists(item['album_id'])
+    return unless album = Album.find(item['album_id'])
     @log 'changeRelated'
     
     switch mode

@@ -31,7 +31,7 @@ class AlbumsPhoto extends Spine.Model
   @albumPhotos: (aid) ->
     ret = []
     @each (item) ->
-      ret.push photo if item['album_id'] is aid and photo = Photo.exists(item['photo_id'])
+      ret.push photo if item['album_id'] is aid and photo = Photo.find(item['photo_id'])
     ret
     
   @photos: (aid, max) ->
@@ -51,10 +51,10 @@ class AlbumsPhoto extends Spine.Model
   @c: 0
 
   validate: ->
-    valid_1 = (Album.exists @album_id) and (Photo.exists @photo_id)
+    valid_1 = (Album.find @album_id) and (Photo.find @photo_id)
     valid_2 = !(@constructor.albumPhotoExists(@photo_id, @album_id) and @isNew())
     return 'No valid action!' unless valid_1
-    return 'Photo already exists in Album' unless valid_2
+    return 'Photo already find in Album' unless valid_2
     false
 
   albums: ->

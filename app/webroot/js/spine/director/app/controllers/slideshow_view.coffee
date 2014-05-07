@@ -29,6 +29,7 @@ class SlideshowView extends Spine.Controller
 
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @el.data('current',
       model: Gallery
       models: Album
@@ -48,18 +49,27 @@ class SlideshowView extends Spine.Controller
       onclosed: @proxy @onclosedGallery
     
     @bind('play', @proxy @play)
-    Spine.bind('show:slideshow', @proxy @show)
+#    Spine.bind('show:slideshow', @proxy @show)
     Spine.bind('slider:change', @proxy @size)
     Spine.bind('chromeless', @proxy @chromeless)
     Spine.bind('loading:done', @proxy @loadingDone)
     
-  show: (params) ->
+  show_: (params) ->
     if params
       @options = $().unparam(params)
       
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Close'])
     App.showView.trigger('canvas', @)
+    
+  active: (params) ->
+    if params
+      @options = $().unparam(params)
+      
+    App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
+    App.showView.trigger('change:toolbarTwo', ['Close'])
+#    App.showView.trigger('canvas', @)
+    @activated()
     
   activated: ->
     list = []

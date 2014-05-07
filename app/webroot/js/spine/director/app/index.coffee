@@ -8,8 +8,8 @@ Gallery                 = require('models/gallery')
 Toolbar                 = require("models/toolbar")
 SpineError              = require("models/spine_error")
 MainView                = require("controllers/main_view")
-LoginView               = require("controllers/login")
-LoaderView              = require("controllers/loader")
+LoginView               = require("controllers/login_view")
+LoaderView              = require("controllers/loader_view")
 Sidebar                 = require("controllers/sidebar")
 ShowView                = require("controllers/show_view")
 ModalSimpleView         = require("controllers/modal_simple_view")
@@ -162,7 +162,7 @@ class Main extends Spine.Controller
     @hmanager.bind('sleep', => @showView.trigger('sleep'))
     @hmanager.bind('change', @proxy @changeEditCanvas)
     @appManager.bind('change', @proxy @changeMainCanvas)
-    @contentManager.bind('change', @proxy @changeCanvas)
+    @contentManager.bind('change', @proxy @changeContentCanvas)
     
     @bind('canvas', @proxy @canvas)
 
@@ -175,44 +175,33 @@ class Main extends Spine.Controller
     
     @routes
       '/gallery/:gid/:aid/:pid': (params) ->
-        @showView.trigger('active')
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)
         Photo.trigger('activate', params.pid)
-        Spine.trigger('show:photo')
+        @showView.trigger('active', @showView.photoView)
       '/gallery/:gid/:aid': (params) ->
-        @showView.trigger('active')
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)
-        Spine.trigger('show:photos')
+        @showView.trigger('active', @showView.photosView)
       '/gallery/:gid': (params) ->
-        @showView.trigger('active')
         Gallery.trigger('activate', params.gid)
-        Spine.trigger('show:albums')
+        @showView.trigger('active', @showView.albumsView)
       '/galleries/*': ->
-        @showView.trigger('active')
-        Spine.trigger('show:galleries')
+        @showView.trigger('active', @showView.galleriesView)
       '/overview/*': ->
         @overviewView.trigger('active')
-        Spine.trigger('show:overview')
       '/slideshow/:index': (params) ->
-        Spine.trigger('show:slideshow', params.index)
-        @showView.trigger('active')
+        @showView.trigger('active', @showView.slideshowView, params.index)
       '/slideshow/*glob': (params) ->
-        @showView.trigger('active')
-        Spine.trigger('show:slideshow', params.glob)
+        @showView.trigger('active', @showView.slideshowView, params.glob)
       '/wait/*glob': (params) ->
-        @showView.trigger('active')
-        Spine.trigger('show:wait')
+        @showView.trigger('active', @showView.waitView)
       '/flickr/:type/:page': (params) ->
-        @flickrView.trigger('active')
-        Spine.trigger('show:flickrView', params.type, params.page)
+        @flickrView.trigger('active', params.type, params.page)
       '/flickr/': (params) ->
-        @flickrView.trigger('active')
-        Spine.trigger('show:flickrView')
+        @flickrView.trigger('active', @showView.flickrView)
       '/*glob': (params) ->
         @missingView.trigger('active')
-        Spine.trigger('show:missingView')
 
     @defaultSettings =
       welcomeScreen: false,
@@ -250,7 +239,7 @@ class Main extends Spine.Controller
       
   setupView: ->
     Spine.unbind('uri:alldone')
-    @appManager.change @mainView
+    @mainView.trigger('active')
     @mainView.el.hide()
     @statusSymbol.fadeOut('slow', @proxy @finalizeView)
       
@@ -259,19 +248,15 @@ class Main extends Spine.Controller
     @mainView.el.fadeIn(1500)
       
   canvas: (controller) ->
+    @log 'main canvas', controller
     controller.trigger 'active'
     
   changeMainCanvas: (controller) ->
-    controller.activated()
     
-  changeCanvas: (controller) ->
-    try
-      controller.el.addClass('in')
-      controller.activated()
-    catch e
+  changeContentCanvas: (controller) ->
+    controller.el.addClass('in')
       
   changeEditCanvas: (controller) ->
-    controller.activated() if controller
   
   initializeFileupload: ->
     @uploader.fileupload

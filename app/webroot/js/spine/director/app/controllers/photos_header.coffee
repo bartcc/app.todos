@@ -21,6 +21,7 @@ class PhotosHeader extends Spine.Controller
 
   constructor: ->
     super
+    @bind('active', @proxy @active)
     Gallery.bind('create update destroy', @proxy @render)
     Album.bind('change', @proxy @render)
     Album.bind('change:selection', @proxy @render)
@@ -64,7 +65,7 @@ class PhotosHeader extends Spine.Controller
     else
       Photo.filter()
     
-  activated: ->
+  active: ->
     @render()
 
 module?.exports = PhotosHeader

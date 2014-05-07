@@ -47,6 +47,7 @@ class PhotosView extends Spine.Controller
     
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @el.data('current',
       model: Album
       models: Photo
@@ -81,7 +82,6 @@ class PhotosView extends Spine.Controller
     Photo.bind('activate', @proxy @activateRecord)
     
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
-    Spine.bind('show:photos', @proxy @show)
     Spine.bind('loading:done', @proxy @updateBuffer)
     
   updateBuffer: (album=Album.record) ->
@@ -104,18 +104,18 @@ class PhotosView extends Spine.Controller
   render: (items, mode='html') ->
     # render only if necessary
     return unless @isActive()
-    @log 'render'
     # if view is dirty but inactive we'll use the buffer next time
     @list.render(items || @updateBuffer(), mode)
     @list.sortable('photo') if Album.record
     delete @buffer
     @el
-    
-  show: ->
+  
+  active: ->
+    return unless @isActive()
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
-    App.showView.trigger('canvas', @)
-  
+    @change()
+    
   activateRecord: (arr=[], ModelOrRecord) ->
     unless Spine.isArray(arr)
       arr = [arr]
@@ -132,9 +132,6 @@ class PhotosView extends Spine.Controller
       Album.updateSelection(null, list)
       Photo.current(id)
       
-  
-  activated: ->
-    @change()
   
   click: (e) ->
     @log 'click'

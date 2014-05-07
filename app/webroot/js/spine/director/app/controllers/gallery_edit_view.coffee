@@ -16,9 +16,10 @@ class GalleryEditView extends Spine.Controller
 
   constructor: ->
     super
+    @bind('active', @proxy @active)
     Gallery.bind('current', @proxy @change)
 
-  activated: ->
+  active: ->
     @render()
 
   change: (item) ->

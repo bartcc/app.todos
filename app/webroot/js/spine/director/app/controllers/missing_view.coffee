@@ -11,9 +11,11 @@ class MissingView extends Spine.Controller
     
   constructor: ->
     super
-    Spine.bind('show:missingView', @proxy @render)
+    @bind('active', @proxy @active)
+#    Spine.bind('show:missingView', @proxy @render)
 
-  activated: ->
+  active: ->
+    @render()
 
   render: (item) ->
     @log 'render'

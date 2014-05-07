@@ -12,12 +12,13 @@ class WaitView extends Spine.Controller
   
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @modalSimpleView = new ModalSimpleView
       el: $('#modal-view')
     
     @header = new Spine.Controller
     
-    Spine.bind('show:wait', @proxy @show)
+#    Spine.bind('show:wait', @proxy @show)
     Spine.bind('done:wait', @proxy @close)
     
   render: (items) ->
@@ -25,7 +26,7 @@ class WaitView extends Spine.Controller
   show: (params) ->
     App.showView.trigger('canvas', @)
     
-  activated: ->
+  active: ->
     @notify()
     
   notify: ->

@@ -16,6 +16,7 @@ class AlbumsHeader extends Spine.Controller
   
   constructor: ->
     super
+    @bind('active', @proxy @active)
     Gallery.bind('change', @proxy @render)
     Gallery.bind('change:selection', @proxy @render)
     Album.bind('refresh', @proxy @render)
@@ -24,7 +25,6 @@ class AlbumsHeader extends Spine.Controller
 
   render: ->
     return unless @isActive()
-    @log 'render'
     @html @template
       model       : Gallery
       modelAlbum  : Album
@@ -51,7 +51,7 @@ class AlbumsHeader extends Spine.Controller
     @navigate '/galleries/'
     e.preventDefault()
     
-  activated: ->
+  active: ->
     @render()
     
 module?.exports = AlbumsHeader

@@ -20,6 +20,7 @@ class PhotoHeader extends Spine.Controller
 
   constructor: ->
     super
+    @bind('active', @proxy @active)
     Photo.bind('change:current', @proxy @render)
     Gallery.bind('change', @proxy @render)
     Album.bind('change', @proxy @render)
@@ -46,7 +47,7 @@ class PhotoHeader extends Spine.Controller
     else
       Photo.count()
     
-  activated: ->
+  active: ->
     @render()
     
   backToGalleries: (e) ->

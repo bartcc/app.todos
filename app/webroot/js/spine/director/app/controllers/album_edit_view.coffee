@@ -16,9 +16,10 @@ class AlbumEditView extends Spine.Controller
 
   constructor: ->
     super
+    @bind('active', @proxy @active)
     Album.bind('current', @proxy @change)
 
-  activated: ->
+  active: ->
     @render()
   
   change: (item) ->

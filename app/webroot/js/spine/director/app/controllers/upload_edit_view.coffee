@@ -26,13 +26,14 @@ class UploadEditView extends Spine.Controller
     
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @data = fileslist: []
     @queue = []
     
   change: (item) ->
     @render()
     
-  activated: ->
+  active: ->
     
   render: ->
     selection = Gallery.selectionList()

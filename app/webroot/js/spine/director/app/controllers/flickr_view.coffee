@@ -30,6 +30,7 @@ class FlickrView extends Spine.Controller
     
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @type = 'recent'
     @perpage = 100
     @spec = 
@@ -58,7 +59,7 @@ class FlickrView extends Spine.Controller
     else
       @content.html @introTemplate()
     
-  activated: ->
+  active: ->
     
   show: () ->
     App.trigger('canvas', @)

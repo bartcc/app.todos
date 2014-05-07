@@ -26,6 +26,7 @@ class GalleriesView extends Spine.Controller
 
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @el.data('current',
       model: Gallery
       models: Gallery
@@ -42,7 +43,6 @@ class GalleriesView extends Spine.Controller
     Gallery.bind('destroy', @proxy @destroy)
     Gallery.bind('refresh:gallery', @proxy @render)
     Gallery.bind('activate', @proxy @activateRecord)
-    Spine.bind('show:galleries', @proxy @show)
 
   render: (items) ->
     return unless @isActive()
@@ -52,12 +52,10 @@ class GalleriesView extends Spine.Controller
     else  
       @list.el.html '<label class="invite"><span class="enlightened">This Application has no galleries. &nbsp;<button class="opt-CreateGallery dark large">New Gallery</button>'
           
-  show: ->
+  active: ->
+    return unless @isActive()
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
-    App.showView.trigger('canvas', @)
-    
-  activated: ->
     @render()
     
   activateRecord: (idOrRecord, ModelOrRecord) ->

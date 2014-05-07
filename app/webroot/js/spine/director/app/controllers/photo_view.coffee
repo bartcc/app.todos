@@ -39,6 +39,7 @@ class PhotoView extends Spine.Controller
     
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @el.data('current',
       model: Album
       models: Photo
@@ -55,7 +56,6 @@ class PhotoView extends Spine.Controller
     AlbumsPhoto.bind('beforeDestroy', @proxy @back)
     Photo.bind('beforeDestroy', @proxy @back)
     Photo.one('refresh', @proxy @refresh)
-    Spine.bind('show:photo', @proxy @show)
     
   render: (item=Photo.record) ->
     return unless @isActive()
@@ -63,15 +63,13 @@ class PhotoView extends Spine.Controller
     @uri item
     @el
   
-  refresh: ->
-    @render()
-    
-  show: ->
+  active: ->
+    return unless @isActive()
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Test'])
-    App.showView.trigger('canvas', @)
+    @render()
     
-  activated: ->
+  refresh: ->
     @render()
     
   params: ->

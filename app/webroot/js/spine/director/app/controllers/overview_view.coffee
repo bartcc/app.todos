@@ -33,6 +33,7 @@ class OverviewView extends Spine.Controller
     
   constructor: ->
     super
+    @bind('active', @proxy @active)
     # carousel options
     @options =
       interval: 2000
@@ -40,7 +41,6 @@ class OverviewView extends Spine.Controller
     @el.data current: Recent
     @max = 18
     @bind('render:toolbar', @proxy @renderToolbar)
-    Spine.bind('show:overview', @proxy @show)
     
   focus: (e) ->
     @carousel.focus()
@@ -106,12 +106,9 @@ class OverviewView extends Spine.Controller
   loadRecent: ->
     Recent.loadRecent(@max, @proxy @parse)
     
-  activated: ->
+  active: ->
     @loadRecent()
     @el.focus()
-    
-  show: ->
-    App.trigger('canvas', @)
     
   showPhoto: (e) ->
     item = $(e.currentTarget).item()

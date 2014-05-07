@@ -126,6 +126,7 @@ class ShowView extends Spine.Controller
     
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @silent = true
     @toolbarOne = new ToolbarView
       el: @toolbarOneEl
@@ -187,7 +188,7 @@ class ShowView extends Spine.Controller
       el: @waitEl
       parent: @
     
-    @bind('canvas', @proxy @canvas)
+#    @bind('canvas', @proxy @canvas)
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
     @bind('change:toolbarTwo', @proxy @changeToolbarTwo)
     @bind('activate:editview', @proxy @activateEditView)
@@ -232,11 +233,14 @@ class ShowView extends Spine.Controller
     Album.bind('change:current', @proxy @scrollTo)
     Photo.bind('change:current', @proxy @scrollTo)
     
-  activated: ->
+  active: (controller, params) ->
+    # preactivate controller
+    controller.trigger('active', params)
+    controller.header?.trigger('active')
+    @activated(controller)
     @focus()
     
   changeCanvas: (controller) ->
-    controller.activated()
     @scrollTo()
     
     $('.items', @el).removeClass('in')
@@ -271,10 +275,9 @@ class ShowView extends Spine.Controller
     , 200)
     
   changeHeader: (controller) ->
-    controller.activated()
+#    controller.trigger('active')
     
-  canvas: (controller) ->
-    @log 'canvas'
+  activated: (controller) ->
     @previous = @current unless @current.subview
     @current = @controller = controller
     @currentHeader = controller.header
@@ -283,6 +286,7 @@ class ShowView extends Spine.Controller
       model: controller.el.data('current').model
       models: controller.el.data('current').models
     )
+    # the controller should already be active, however rendering hasn't taken place yet
     controller.trigger 'active'
     controller.header.trigger 'active'
     controller.focus()

@@ -7,10 +7,11 @@ class SlideshowHeader extends Spine.Controller
 
   constructor: ->
     super
+    @bind('active', @proxy @active)
 
   render: ->
     
-  activated: ->
+  active: ->
     @render()
     
 module?.exports = SlideshowHeader

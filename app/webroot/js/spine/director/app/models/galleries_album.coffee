@@ -6,6 +6,7 @@ Model.Gallery = require('models/gallery')
 Model.Album   = require('models/album')
 Photo         = require('models/photo')
 AlbumsPhoto   = require('models/albums_photo')
+Extender      = require("plugins/model_extender")
 
 require("spine/lib/ajax")
 
@@ -16,6 +17,7 @@ class GalleriesAlbum extends Spine.Model
 
   @extend Model.Ajax
   @extend Filter
+  @extend Extender
 
   @url: 'galleries_albums'
   

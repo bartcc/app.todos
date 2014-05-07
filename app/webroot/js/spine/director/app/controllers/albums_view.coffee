@@ -50,6 +50,7 @@ class AlbumsView extends Spine.Controller
  
   constructor: ->
     super
+    @bind('active', @proxy @active)
     @trace = false
     @el.data('current',
       model: Gallery
@@ -88,7 +89,6 @@ class AlbumsView extends Spine.Controller
 #    GalleriesAlbum.bind('ajaxError', Album.errorHandler)
     
     Spine.bind('reorder', @proxy @reorder)
-    Spine.bind('show:albums', @proxy @show)
     Spine.bind('create:album', @proxy @createAlbum)
     Spine.bind('loading:start', @proxy @loadingStart)
     Spine.bind('loading:done', @proxy @loadingDone)
@@ -119,7 +119,6 @@ class AlbumsView extends Spine.Controller
     @buffer = items
     
   render: (items, mode='html') ->
-    @log 'render'
     return unless @isActive()
     @list.render(items || @updateBuffer(), mode)
     @list.sortable('album') if Gallery.record
@@ -127,16 +126,11 @@ class AlbumsView extends Spine.Controller
     delete @buffer
     @el
       
-  collectionChanged: ->
-    unless @isActive()
-      @navigate '/gallery', Gallery.record?.id or ''
-      
-  show: ->
+  active: ->
+    return unless @isActive()
     App.showView.trigger('change:toolbarOne', ['Default'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
-    App.showView.trigger('canvas', @)
     
-  activated: ->
     albums = GalleriesAlbum.albums(Gallery.record.id)
     for alb in albums
       if alb.invalid
@@ -145,6 +139,10 @@ class AlbumsView extends Spine.Controller
         
     @change()
     
+  collectionChanged: ->
+    unless @isActive()
+      @navigate '/gallery', Gallery.record?.id or ''
+      
   activateRecord: (arr=[], ModelOrRecord) ->
     @log 'activateRecord'
     unless Spine.isArray(arr)

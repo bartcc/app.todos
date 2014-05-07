@@ -11,6 +11,7 @@ class GalleriesHeader extends Spine.Controller
   
   constructor: ->
     super
+    @bind('active', @proxy @active)
     Gallery.bind('change', @proxy @render)
     Gallery.bind('refresh', @proxy @render)
     Gallery.bind('change:current', @proxy @render)
@@ -29,7 +30,7 @@ class GalleriesHeader extends Spine.Controller
   count: ->
     Gallery.count()
     
-  activated: ->
+  active: ->
     @render()
   
     

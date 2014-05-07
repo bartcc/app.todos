@@ -4,6 +4,7 @@ $     = Spine.$
 class OverviewHeader extends Spine.Controller
   constructor: ->
     super
+    @bind('active', @proxy @active)
     
   template: () ->
     $('#overviewHeaderTemplate').tmpl()
@@ -11,7 +12,7 @@ class OverviewHeader extends Spine.Controller
   render: () ->
     @html @template()
     
-  activated: ->
+  active: ->
     @render()
     
 module.exports = OverviewHeader

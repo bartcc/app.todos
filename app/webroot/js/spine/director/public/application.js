@@ -35040,7 +35040,7 @@ Released under the MIT License
         return 'No valid action!';
       }
       if (!valid_2) {
-        return 'Photo already find in Album';
+        return 'Photo already exists in Album';
       }
       return false;
     };
@@ -35244,7 +35244,7 @@ Released under the MIT License
         return 'No valid action!';
       }
       if (!valid_2) {
-        return 'Album already find in Gallery';
+        return 'Album already exists in Gallery';
       }
       return false;
     };

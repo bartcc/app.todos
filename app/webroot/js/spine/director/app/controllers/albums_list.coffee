@@ -142,13 +142,11 @@ class AlbumsList extends Spine.Controller
     if @widows.length
       Model.Uri.Ajax.cache = false
       for widow in @widows
-#        @processAlbum album
         $.when(@processAlbumDeferred(widow)).done (xhr, rec) =>
           @callback xhr, rec
       @widows = []
       Model.Uri.Ajax.cache = true
     for album in albums
-#        @processAlbum album
       $.when(@processAlbumDeferred(album)).done (xhr, rec) =>
         @callback xhr, rec
   

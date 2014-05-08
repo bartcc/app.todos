@@ -401,6 +401,8 @@ class ShowView extends Spine.Controller
         for ap in aps
           ap.destroy()
     
+      Album.trigger('change:collection', album)
+    
     e.preventDefault()
     e.stopPropagation()
     

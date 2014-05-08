@@ -31675,6 +31675,7 @@ Released under the MIT License
             ap.destroy();
           }
         }
+        Album.trigger('change:collection', album);
       }
       e.preventDefault();
       return e.stopPropagation();

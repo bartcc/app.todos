@@ -30394,7 +30394,7 @@ Released under the MIT License
     PhotosList.extend(Extender);
 
     PhotosList.prototype.elements = {
-      '.thumbnail': 'thumb',
+      '.thumbnail': 'thumbEl',
       '.toolbar': 'toolbarEl'
     };
 
@@ -30639,7 +30639,7 @@ Released under the MIT License
         'backgroundImage': css,
         'backgroundSize': '100% auto'
       });
-      return this.element.addClass('in');
+      return this.thumb.addClass('in');
     };
 
     PhotosList.prototype.onError = function(e) {
@@ -30762,7 +30762,7 @@ Released under the MIT License
     PhotosList.prototype.zoom = function(e) {
       var index, item, options, _ref, _ref1;
       if (Album.record) {
-        index = this.thumb.index($(e.target).parents('li').find('.thumbnail'));
+        index = this.thumbEl.index($(e.target).parents('li').find('.thumbnail'));
         options = {
           index: index,
           startSlideshow: false
@@ -30804,7 +30804,7 @@ Released under the MIT License
       if (bg == null) {
         bg = 'none';
       }
-      return this.thumb.css({
+      return this.thumbEl.css({
         'height': val + 'px',
         'width': val + 'px',
         'backgroundSize': bg
@@ -30849,7 +30849,7 @@ Released under the MIT License
       };
       for (_i = 0, _len = items.length; _i < _len; _i++) {
         item = items[_i];
-        $('#' + item.id, this.el).removeClass('in');
+        $('#' + item.id + '>.thumbnail', this.el).removeClass('in');
       }
       Photo.dev('rotate', options, callback, items);
       return false;

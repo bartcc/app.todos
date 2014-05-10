@@ -15,7 +15,7 @@ class PhotosList extends Spine.Controller
   @extend Extender
   
   elements:
-    '.thumbnail'              : 'thumb'
+    '.thumbnail'              : 'thumbEl'
     '.toolbar'                : 'toolbarEl'
     
   events:
@@ -193,7 +193,7 @@ class PhotosList extends Spine.Controller
     @thumb.css
       'backgroundImage': css
       'backgroundSize': '100% auto'
-    @element.addClass('in')
+    @thumb.addClass('in')
     
   onError: (e) ->
     @this.snap @res
@@ -274,7 +274,7 @@ class PhotosList extends Spine.Controller
     
   zoom: (e) ->
     if Album.record
-      index = @thumb.index($(e.target).parents('li').find('.thumbnail'))
+      index = @thumbEl.index($(e.target).parents('li').find('.thumbnail'))
       options =
         index         : index
         startSlideshow: false
@@ -307,7 +307,7 @@ class PhotosList extends Spine.Controller
     
   size: (val, bg='none') ->
     # 2*10 = border radius
-    @thumb.css
+    @thumbEl.css
       'height'          : val+'px'
       'width'           : val+'px'
       'backgroundSize'  : bg
@@ -336,7 +336,7 @@ class PhotosList extends Spine.Controller
       Album.trigger('change:collection', albums)
       
     
-    $('#'+item.id, @el).removeClass('in') for item in items
+    $('#'+item.id+'>.thumbnail', @el).removeClass('in') for item in items
     Photo.dev('rotate', options, callback, items)
     false
     

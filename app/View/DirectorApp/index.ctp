@@ -766,7 +766,7 @@
 </script>
 
 <script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left fadeslow in"></div>
+  <div class="thumbnail image left fadeslow"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="delete glyphicon glyphicon-trash glyphicon-white right" title="Delete"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right" title="Up"></span>

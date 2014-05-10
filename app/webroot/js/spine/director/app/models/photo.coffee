@@ -79,6 +79,8 @@ class Photo extends Spine.Model
   @inactive: ->
     @findAllByAttribute('active', false)
     
+  
+    
   @createJoin: (items=[], target, callback) ->
     unless @isArray items
       items = [items]
@@ -121,6 +123,13 @@ class Photo extends Spine.Model
       
     Album.trigger('change:collection', target)
       
+  @albums: (id) ->
+    filterOptions =
+      model: 'Photo'
+      key:'photo_id'
+      sorted: 'sortByOrder'
+    Album.filterRelated(id, filterOptions)
+  
   init: (instance) ->
     return unless instance?.id
     @constructor.initCache instance.id
@@ -131,7 +140,9 @@ class Photo extends Spine.Model
   destroyJoin: (target) ->
     @constructor.destroyJoin [@id], target
         
-  
+  albums: ->
+    @constructor.albums @id
+        
   selectAttributes: ->
     result = {}
     result[attr] = @[attr] for attr in @constructor.selectAttributes

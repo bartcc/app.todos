@@ -27177,7 +27177,6 @@ Released under the MIT License
       GalleriesAlbum.bind('change', this.proxy(this.changeRelated));
       AlbumsPhoto.bind('beforeDestroy', this.proxy(this.widowedAlbumsPhoto));
       Gallery.bind('change:selection', this.proxy(this.exposeSelection));
-      Album.bind('change:collection', this.proxy(this.renderBackgrounds));
     }
 
     AlbumsList.prototype.changedAlbums = function(gallery) {};
@@ -27584,11 +27583,13 @@ Released under the MIT License
       Gallery.bind('change:collection', this.proxy(this.collectionChanged));
       Album.bind('refresh:one', this.proxy(this.refreshOne));
       Album.bind('ajaxError', Album.errorHandler);
+      Album.bind('create', this.proxy(this.create));
       Album.bind('beforeDestroy', this.proxy(this.beforeDestroyAlbum));
       Album.bind('destroy', this.proxy(this.destroy));
       Album.bind('create:join', this.proxy(this.createJoin));
       Album.bind('destroy:join', this.proxy(this.destroyJoin));
       Album.bind('activate', this.proxy(this.activateRecord));
+      Album.bind('change:collection', this.proxy(this.renderBackgrounds));
       Photo.bind('refresh', this.proxy(this.refreshBackgrounds));
       AlbumsPhoto.bind('destroy create', this.proxy(this.updateBackgrounds));
       Spine.bind('reorder', this.proxy(this.reorder));
@@ -27822,7 +27823,11 @@ Released under the MIT License
       }
     };
 
-    AlbumsView.prototype.create = function(album) {};
+    AlbumsView.prototype.create = function(album) {
+      if (!Gallery.record) {
+        return this.render([album], 'append');
+      }
+    };
 
     AlbumsView.prototype.beforeDestroyAlbum = function(album) {
       var galleries, gallery, photos, _i, _len, _results;
@@ -27916,6 +27921,13 @@ Released under the MIT License
       }).tooltip('show');
     };
 
+    AlbumsView.prototype.renderBackgrounds = function(albums) {
+      if (!this.isActive()) {
+        return;
+      }
+      return this.list.renderBackgrounds(albums);
+    };
+
     AlbumsView.prototype.updateBackgrounds = function(ap, mode) {
       var albums;
       if (!this.isActive()) {
@@ -27928,7 +27940,7 @@ Released under the MIT License
 
     AlbumsView.prototype.refreshBackgrounds = function(photos) {
       var album;
-      if (!this.parent.isActive()) {
+      if (!this.isActive()) {
         return;
       }
       this.log('refreshBackgrounds');
@@ -30806,20 +30818,27 @@ Released under the MIT License
         val: -90
       };
       callback = function(items) {
-        var photo, res;
+        var alb, albs, albums, photo, res;
+        albums = [];
         res = (function() {
-          var _i, _len, _results;
+          var _i, _j, _len, _len1, _results;
           _results = [];
           for (_i = 0, _len = items.length; _i < _len; _i++) {
             item = items[_i];
             photo = Photo.find(item['Photo']['id']);
             photo.clearCache();
+            albs = photo.albums();
+            for (_j = 0, _len1 = albs.length; _j < _len1; _j++) {
+              alb = albs[_j];
+              albums.and(alb.id);
+            }
             _results.push(photo);
           }
           return _results;
         })();
+        albums = Album.toRecords(albums);
         _this.callDeferred(res);
-        return Album.trigger('change:collection', album);
+        return Album.trigger('change:collection', albums);
       };
       Photo.dev('rotate', options, callback, items);
       return false;
@@ -35850,6 +35869,16 @@ Released under the MIT License
       return Album.trigger('change:collection', target);
     };
 
+    Photo.albums = function(id) {
+      var filterOptions;
+      filterOptions = {
+        model: 'Photo',
+        key: 'photo_id',
+        sorted: 'sortByOrder'
+      };
+      return Album.filterRelated(id, filterOptions);
+    };
+
     Photo.prototype.init = function(instance) {
       if (!(instance != null ? instance.id : void 0)) {
         return;
@@ -35863,6 +35892,10 @@ Released under the MIT License
 
     Photo.prototype.destroyJoin = function(target) {
       return this.constructor.destroyJoin([this.id], target);
+    };
+
+    Photo.prototype.albums = function() {
+      return this.constructor.albums(this.id);
     };
 
     Photo.prototype.selectAttributes = function() {

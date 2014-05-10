@@ -75,12 +75,13 @@ class AlbumsView extends Spine.Controller
     
     Album.bind('refresh:one', @proxy @refreshOne)
     Album.bind('ajaxError', Album.errorHandler)
-#    Album.bind('create', @proxy @create)
+    Album.bind('create', @proxy @create)
     Album.bind('beforeDestroy', @proxy @beforeDestroyAlbum)
     Album.bind('destroy', @proxy @destroy)
     Album.bind('create:join', @proxy @createJoin)
     Album.bind('destroy:join', @proxy @destroyJoin)
     Album.bind('activate', @proxy @activateRecord)
+    Album.bind('change:collection', @proxy @renderBackgrounds)
     
     Photo.bind('refresh', @proxy @refreshBackgrounds)
     
@@ -244,7 +245,7 @@ class AlbumsView extends Spine.Controller
         album.destroy() if album = Album.find(id)
   
   create: (album) ->
-#    @render()
+    @render([album], 'append') unless Gallery.record 
    
   beforeDestroyAlbum: (album) ->
     
@@ -317,6 +318,10 @@ class AlbumsView extends Spine.Controller
     $('.glyphicon-set', el).removeClass('in')
     $('.downloading', el).addClass('error').tooltip('destroy').tooltip(title:err).tooltip('show')
     
+  renderBackgrounds: (albums) ->
+    return unless @isActive()
+    @list.renderBackgrounds albums
+    
   updateBackgrounds: (ap, mode) ->
     return unless @isActive()
     @log 'updateBackgrounds'
@@ -324,7 +329,7 @@ class AlbumsView extends Spine.Controller
     @list.renderBackgrounds albums
     
   refreshBackgrounds: (photos) ->
-    return unless @parent.isActive()
+    return unless @isActive()
     @log 'refreshBackgrounds'
     album = App.upload.album
     @list.renderBackgrounds [album] if album

@@ -324,12 +324,18 @@ class PhotosList extends Spine.Controller
     options = val: -90
     
     callback = (items) =>
+      albums = []
       res = for item in items
         photo = Photo.find item['Photo']['id']
         photo.clearCache()
+        albs = photo.albums()
+        albums.and alb.id for alb in albs
         photo
+      
+      albums = Album.toRecords(albums)
       @callDeferred res
-      Album.trigger('change:collection', album)
+      Album.trigger('change:collection', albums)
+      
       
     Photo.dev('rotate', options, callback, items)
     false

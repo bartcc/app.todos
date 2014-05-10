@@ -31,7 +31,6 @@ class AlbumsList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @changeRelated)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     Gallery.bind('change:selection', @proxy @exposeSelection)
-    Album.bind('change:collection', @proxy @renderBackgrounds)
     
   changedAlbums: (gallery) ->
     

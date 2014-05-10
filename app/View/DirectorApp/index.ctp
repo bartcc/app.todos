@@ -747,7 +747,7 @@
 </script>
 
 <script id="photosTemplate" type="text/x-jquery-tmpl">
-  <li  id="${id}" data-id="${id}" class="item data fade in pho-trigger-edit" draggable="true">
+  <li  id="${id}" data-id="${id}" class="item data fadeslow in pho-trigger-edit" draggable="true">
     {{tmpl "#photosThumbnailTemplate"}}
     <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
   </li>
@@ -766,7 +766,7 @@
 </script>
 
 <script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
-  <div class="thumbnail image left fadeslow in"></div>
+  <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
     <span class="delete glyphicon glyphicon-trash glyphicon-white right" title="Delete"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right" title="Up"></span>

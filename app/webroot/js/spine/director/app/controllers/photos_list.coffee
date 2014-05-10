@@ -140,8 +140,8 @@ class PhotosList extends Spine.Controller
     @refreshElements()
   
   thumbSize: (width, height) ->
-    width: width || App.showView.thumbSize
-    height: height || App.showView.thumbSize
+    width: width or App.showView.thumbSize
+    height: height or App.showView.thumbSize
   
   # the actual final rendering method
   uri: (items, mode) ->
@@ -178,7 +178,7 @@ class PhotosList extends Spine.Controller
         
   snap: (res) ->
     el = $('#'+res.id, @el)
-    thumb = $('.thumbnail', el).removeClass('in')
+    thumb = $('.thumbnail', el)
     img = @createImage()
     img.element = el
     img.thumb = thumb
@@ -193,7 +193,7 @@ class PhotosList extends Spine.Controller
     @thumb.css
       'backgroundImage': css
       'backgroundSize': '100% auto'
-    @thumb.addClass('in')
+    @element.addClass('in')
     
   onError: (e) ->
     @this.snap @res
@@ -335,7 +335,8 @@ class PhotosList extends Spine.Controller
       albums = Album.toRecords(albums)
       Album.trigger('change:collection', albums)
       
-      
+    
+    $('#'+item.id, @el).removeClass('in') for item in items
     Photo.dev('rotate', options, callback, items)
     false
     

@@ -30555,7 +30555,7 @@ Released under the MIT License
 
     PhotosList.prototype.thumbSize = function(width, height) {
       return {
-        width: width ||  App.showView.thumbSize,
+        width: width || App.showView.thumbSize,
         height: height || App.showView.thumbSize
       };
     };
@@ -30621,7 +30621,7 @@ Released under the MIT License
     PhotosList.prototype.snap = function(res) {
       var el, img, thumb;
       el = $('#' + res.id, this.el);
-      thumb = $('.thumbnail', el).removeClass('in');
+      thumb = $('.thumbnail', el);
       img = this.createImage();
       img.element = el;
       img.thumb = thumb;
@@ -30639,7 +30639,7 @@ Released under the MIT License
         'backgroundImage': css,
         'backgroundSize': '100% auto'
       });
-      return this.thumb.addClass('in');
+      return this.element.addClass('in');
     };
 
     PhotosList.prototype.onError = function(e) {
@@ -30812,7 +30812,7 @@ Released under the MIT License
     };
 
     PhotosList.prototype.rotate = function(e) {
-      var callback, ids, item, items, options,
+      var callback, ids, item, items, options, _i, _len,
         _this = this;
       if (e) {
         item = $(e.currentTarget).item();
@@ -30847,6 +30847,10 @@ Released under the MIT License
         albums = Album.toRecords(albums);
         return Album.trigger('change:collection', albums);
       };
+      for (_i = 0, _len = items.length; _i < _len; _i++) {
+        item = items[_i];
+        $('#' + item.id, this.el).removeClass('in');
+      }
       Photo.dev('rotate', options, callback, items);
       return false;
     };

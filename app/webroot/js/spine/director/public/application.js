@@ -31020,7 +31020,7 @@ Released under the MIT License
       if (!this.isActive()) {
         return;
       }
-      App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider, 'Help']);
+      App.showView.trigger('change:toolbarOne', ['Default', 'Help', 'Slider', App.showView.initSlider]);
       App.showView.trigger('change:toolbarTwo', ['Slideshow']);
       return this.refresh();
     };

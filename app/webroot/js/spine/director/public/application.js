@@ -27404,6 +27404,8 @@ Released under the MIT License
       }
       if (!css.length) {
         return thumb.css('backgroundImage', 'url(img/drag_info.png)');
+      } else {
+        return thumb.css('backgroundImage', 'url(img/photo-loader.gif)');
       }
     };
 

@@ -295,25 +295,30 @@
 </script>
 
 <script id="modalSimpleTemplate" type="text/x-jquery-tmpl">
-  <div class="modal-dialog {{if small}}modal-sm{{/if}}">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-dialog {{if small}}modal-sm{{else}}modal-lg{{/if}}">
+    <div class="modal-content bg-dark">
+      <div class="modal-header dark">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>${header}</h3>
       </div>
-      <div class="modal-body">
-        <p>${body}</p>
+      <div class="modal-body dark" style="text-align: center;">
+        <img src="img/keyboard.png">
       </div>
       {{if info}}
-      <div class="modal-header label-info">
+      <div class="modal-header label-info dark">
         <div class="label label-info">${info}</div>
       </div>
       {{/if}}
-      <div class="modal-footer">
-        <button class="btn btnClose">Ok</button>
+      <div class="modal-footer dark">
+        <div class="left" style="text-align: left;"> {{html footer}}</div>
+        <button class="btn btnClose dark">Ok</button>
       </div>
     </div>
   </div>
+</script>
+
+<script id="modalSimpleTemplateBody" type="text/x-jquery-tmpl">
+  <div>test</div>
 </script>
 
 <script id="modal2ButtonTemplate" type="text/x-jquery-tmpl">
@@ -554,7 +559,7 @@
     {{tmpl() "#gallerySpecsTemplate"}}
     <br><br>
     <h2>Galleries Overview</h2>
-    <span class="first right"><h3 class=""><i>Infos</i></h3></span>
+    <span class="first right"><h3 class=""><i>Info</i></h3></span>
   </section>
 </script>
 
@@ -571,7 +576,7 @@
     <br><br>
     <h2>{{if model.record}}Albums in:&nbsp;{{else}}Master Albums{{/if}}</h2>
     {{if model.record}}<label class="h2 chopin">{{if model.record.name}}${model.record.name.slice(0, 12)}{{else}}...{{/if}}</label>{{/if}}
-    <span class="right"><h3 class=""><i>Infos</i></h3></span>
+    <span class="right"><h3 class=""><i>Info</i></h3></span>
   </section>
   <section class="left">
     <span class="fadeelement breadcrumb">
@@ -597,7 +602,7 @@
     <br><br>
     <h2>{{if album}}Photos in:&nbsp;{{else}}Master Photos{{/if}}</h2>
     {{if album}}<label class="h2 chopin">{{if album.title}}${album.title.slice(0, 12)}{{else}}...{{/if}}</label>{{/if}}
-    <span class="right"><h3 class=""><i>Infos</i></h3></span>
+    <span class="right"><h3 class=""><i>Info</i></h3></span>
   </section>
   {{if zoomed}}
   {{tmpl() "#photoBreadcrumbTemplate"}}
@@ -651,7 +656,7 @@
     <br><br>
     <h2>{{if album}}Photos in:&nbsp;{{else}}Master Photos{{/if}}</h2>
     {{if album}}<label class="h2 chopin">{{if album.title}}${album.title}{{else}}...{{/if}}</label>{{/if}}
-    <span class="right"><h3 class=""><i>Infos</i></h3></span>
+    <span class="right"><h3 class=""><i>Info</i></h3></span>
   </section>
   {{tmpl() "#photoBreadcrumbTemplate"}}
 </script>

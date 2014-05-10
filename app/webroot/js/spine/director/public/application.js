@@ -27651,7 +27651,7 @@ Released under the MIT License
       if (!this.isActive()) {
         return;
       }
-      App.showView.trigger('change:toolbarOne', ['Default']);
+      App.showView.trigger('change:toolbarOne', ['Default', 'Help']);
       App.showView.trigger('change:toolbarTwo', ['Slideshow']);
       albums = GalleriesAlbum.albums(Gallery.record.id);
       for (_i = 0, _len = albums.length; _i < _len; _i++) {
@@ -28625,7 +28625,7 @@ Released under the MIT License
       if (!this.isActive()) {
         return;
       }
-      App.showView.trigger('change:toolbarOne', ['Default']);
+      App.showView.trigger('change:toolbarOne', ['Default', 'Help']);
       App.showView.trigger('change:toolbarTwo', ['Slideshow']);
       return this.render();
     };
@@ -28646,7 +28646,7 @@ Released under the MIT License
 
     GalleriesView.prototype.click = function(e) {
       var item;
-      App.showView.trigger('change:toolbarOne', ['Default']);
+      App.showView.trigger('change:toolbarOne', ['Default', 'Help']);
       item = $(e.currentTarget).item();
       return this.select(item);
     };
@@ -29903,7 +29903,7 @@ Released under the MIT License
       if (!this.isActive()) {
         return;
       }
-      App.showView.trigger('change:toolbarOne', ['Default']);
+      App.showView.trigger('change:toolbarOne', ['Default', 'Help']);
       App.showView.trigger('change:toolbarTwo', ['Test']);
       return this.render();
     };
@@ -31020,7 +31020,7 @@ Released under the MIT License
       if (!this.isActive()) {
         return;
       }
-      App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider]);
+      App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider, 'Help']);
       App.showView.trigger('change:toolbarTwo', ['Slideshow']);
       return this.refresh();
     };
@@ -31271,7 +31271,7 @@ Released under the MIT License
 
 }).call(this);
 }, "controllers/show_view": function(exports, require, module) {(function() {
-  var $, Album, AlbumsAddView, AlbumsHeader, AlbumsPhoto, AlbumsView, Clipboard, Controller, Drag, Extender, GalleriesAlbum, GalleriesHeader, GalleriesView, Gallery, Model, OverviewHeader, OverviewView, Photo, PhotoHeader, PhotoView, PhotosAddView, PhotosHeader, PhotosView, ShowView, SlideshowHeader, SlideshowView, Spine, ToolbarView, WaitView,
+  var $, Album, AlbumsAddView, AlbumsHeader, AlbumsPhoto, AlbumsView, Clipboard, Controller, Drag, Extender, GalleriesAlbum, GalleriesHeader, GalleriesView, Gallery, ModalSimpleView, Model, OverviewHeader, OverviewView, Photo, PhotoHeader, PhotoView, PhotosAddView, PhotosHeader, PhotosView, ShowView, SlideshowHeader, SlideshowView, Spine, ToolbarView, WaitView,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
@@ -31328,6 +31328,8 @@ Released under the MIT License
   OverviewHeader = require('controllers/overview_header');
 
   OverviewView = require('controllers/overview_view');
+
+  ModalSimpleView = require("controllers/modal_simple_view");
 
   Extender = require('plugins/controller_extender');
 
@@ -31424,7 +31426,9 @@ Released under the MIT License
       'click .opt-SelectInv:not(.disabled)': 'selectInv',
       'click .opt-CloseDraghandle': 'toggleDraghandle',
       'click .deselector': 'deselect',
+      'click .opt-Help': 'help',
       'dblclick .draghandle': 'toggleDraghandle',
+      'hidden.bs.modal': 'hiddenmodal',
       'dragstart .item': 'dragstart',
       'dragenter .view': 'dragenter',
       'dragend': 'dragend',
@@ -31517,6 +31521,9 @@ Released under the MIT License
       this.waitView = new WaitView({
         el: this.waitEl,
         parent: this
+      });
+      this.modalSimpleView = new ModalSimpleView({
+        el: $('#modal-view')
       });
       this.bind('change:toolbarOne', this.proxy(this.changeToolbarOne));
       this.bind('change:toolbarTwo', this.proxy(this.changeToolbarTwo));
@@ -32273,6 +32280,44 @@ Released under the MIT License
         items.push(clb.item);
       }
       return Album.trigger('create:join', items, gallery, callback);
+    };
+
+    ShowView.prototype.help = function(e) {
+      return this.notify();
+    };
+
+    ShowView.prototype.notify = function() {
+      var template;
+      this.modalSimpleView.el.one('hidden.bs.modal', this.proxy(this.hiddenmodal));
+      this.modalSimpleView.el.one('hide.bs.modal', this.proxy(this.hidemodal));
+      this.modalSimpleView.el.one('show.bs.modal', this.proxy(this.showmodal));
+      template = function(el) {
+        return $('#modalSimpleTemplateBody').tmpl(el);
+      };
+      return this.modalSimpleView.show({
+        header: 'Keyboard Shortcuts',
+        body: template('<label class="invite">\
+        <span class="enlightened">No photos here. &nbsp;\
+        <p>Simply drop your photos to your browser window</p>\
+        <p>Note: You can also drag existing photos to a sidebars folder</p>\
+        </span>\
+        <button class="opt-AddPhotos dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>\
+        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>\
+        </label>'),
+        footer: 'Elements are draggable.<br>Make Images part of your Albums simply by dragging them inside your browser window.'
+      });
+    };
+
+    ShowView.prototype.hidemodal = function(e) {
+      return this.log('hidemodal');
+    };
+
+    ShowView.prototype.hiddenmodal = function(e) {
+      return this.log('hiddenmodal');
+    };
+
+    ShowView.prototype.showmodal = function(e) {
+      return this.log('showmodal');
     };
 
     ShowView.prototype.selectByKey = function(direction, e) {
@@ -36387,6 +36432,7 @@ Released under the MIT License
           }, {
             name: 'Start',
             klass: 'opt-SlideshowPlay',
+            shortcut: 'Space',
             icon: 'play',
             dataToggle: 'modal-gallery',
             disabled: function() {
@@ -36398,6 +36444,17 @@ Released under the MIT License
     };
 
     Toolbar.data = {
+      package__0: {
+        name: 'Help',
+        content: [
+          {
+            name: '&nbsp;',
+            klass: 'opt-Help',
+            icon: 'question-sign',
+            innerklass: ''
+          }
+        ]
+      },
       package_00: {
         name: 'Empty',
         content: []
@@ -36443,7 +36500,7 @@ Released under the MIT License
             },
             icon: 'play',
             klass: 'opt-SlideshowPlay',
-            innerklass: 'symbol',
+            innerklass: '',
             dataToggle: 'modal-gallery',
             disabled: function() {
               return !Gallery.activePhotos().length;

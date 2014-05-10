@@ -222,12 +222,22 @@ class Toolbar extends Spine.Model
         ,
           name: 'Start'
           klass: 'opt-SlideshowPlay'
+          shortcut: 'Space'
           icon: 'play'
           dataToggle: 'modal-gallery'
           disabled: -> !Gallery.activePhotos().length
         ]
       
   @data:
+    package__0:
+      name: 'Help'
+      content:
+        [
+          name: '&nbsp;'
+          klass: 'opt-Help'
+          icon: 'question-sign'
+          innerklass: ''
+        ]
     package_00:
       name: 'Empty'
       content: []
@@ -266,7 +276,7 @@ class Toolbar extends Spine.Model
           name: -> 'Start'
           icon: 'play'
           klass: 'opt-SlideshowPlay'
-          innerklass: 'symbol'
+          innerklass: ''
           dataToggle: 'modal-gallery'
           disabled: -> !Gallery.activePhotos().length
         ]

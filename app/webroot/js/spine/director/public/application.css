@@ -1217,7 +1217,8 @@ label.btn.active {
   color: rgba(0,0,0,0.80);
   text-shadow: 0 1px 0 rgba(255,255,255,0.70);
 }
-.options li button:hover:not(:disabled) {
+.options li button:hover:not(:disabled),
+.options a.dropdown-toggle:hover:not(:disabled) {
   color: #fff;
 }
 .options li button:active:not(:disabled) {

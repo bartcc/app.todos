@@ -24,6 +24,7 @@ SlideshowView   = require('controllers/slideshow_view')
 SlideshowHeader = require('controllers/slideshow_header')
 OverviewHeader  = require('controllers/overview_header')
 OverviewView    = require('controllers/overview_view')
+ModalSimpleView = require("controllers/modal_simple_view")
 Extender        = require('plugins/controller_extender')
 Drag            = require("plugins/drag")
 require('spine/lib/manager')
@@ -114,7 +115,11 @@ class ShowView extends Spine.Controller
     'click .opt-SelectInv:not(.disabled)'             : 'selectInv'
     'click .opt-CloseDraghandle'                      : 'toggleDraghandle'
     'click .deselector'                               : 'deselect'
+    'click .opt-Help'                                 : 'help'
+    
     'dblclick .draghandle'                            : 'toggleDraghandle'
+    
+    'hidden.bs.modal'                                 : 'hiddenmodal'
     
     # you must define dragover yourself in subview !!!!!!important
     'dragstart .item'                                 : 'dragstart'
@@ -188,6 +193,9 @@ class ShowView extends Spine.Controller
     @waitView = new WaitView
       el: @waitEl
       parent: @
+    
+    @modalSimpleView = new ModalSimpleView
+      el: $('#modal-view')
     
 #    @bind('canvas', @proxy @canvas)
     @bind('change:toolbarOne', @proxy @changeToolbarOne)
@@ -758,6 +766,36 @@ class ShowView extends Spine.Controller
       items.push clb.item
       
     Album.trigger('create:join', items, gallery, callback)
+      
+  help: (e) ->
+    @notify()
+    
+  notify: ->
+    @modalSimpleView.el.one('hidden.bs.modal', @proxy @hiddenmodal)
+    @modalSimpleView.el.one('hide.bs.modal', @proxy @hidemodal)
+    @modalSimpleView.el.one('show.bs.modal', @proxy @showmodal)
+    
+    template = (el) -> $('#modalSimpleTemplateBody').tmpl(el)
+    @modalSimpleView.show
+      header: 'Keyboard Shortcuts'
+      body: template '<label class="invite">
+        <span class="enlightened">No photos here. &nbsp;
+        <p>Simply drop your photos to your browser window</p>
+        <p>Note: You can also drag existing photos to a sidebars folder</p>
+        </span>
+        <button class="opt-AddPhotos dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
+        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
+        </label>'
+      footer: 'Elements are draggable.<br>Make Images part of your Albums simply by dragging them inside your browser window.'
+      
+  hidemodal: (e) ->
+    @log 'hidemodal'
+    
+  hiddenmodal: (e) ->
+    @log 'hiddenmodal'
+    
+  showmodal: (e) ->
+    @log 'showmodal'
       
   selectByKey: (direction, e) ->
     index = false

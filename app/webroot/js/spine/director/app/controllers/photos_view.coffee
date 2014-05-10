@@ -115,7 +115,7 @@ class PhotosView extends Spine.Controller
   
   active: ->
     return unless @isActive()
-    App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
+    App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider, 'Help'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     @refresh()
     

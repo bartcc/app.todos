@@ -132,7 +132,7 @@ class AlbumsView extends Spine.Controller
       
   active: ->
     return unless @isActive()
-    App.showView.trigger('change:toolbarOne', ['Default'])
+    App.showView.trigger('change:toolbarOne', ['Default', 'Help'])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     
     albums = GalleriesAlbum.albums(Gallery.record.id)

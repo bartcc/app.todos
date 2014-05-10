@@ -1567,7 +1567,6 @@ li .thumbnail.image {
 .all .view .thumbnail {
   outline: 1px solid rgba(192,152,83,0.80);
   background-color: rgba(250,250,250,0.10);
-  transition: outline 0.5s linear 0s;
 }
 .galleries .thumbnail {
   background-position: 0 -160px;

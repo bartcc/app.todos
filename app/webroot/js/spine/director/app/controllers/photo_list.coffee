@@ -12,6 +12,8 @@ class PhotoList extends Spine.Controller
   constructor: ->
     super
     
+  rotate: ->
+    
   back: (e) ->
     @navigate '/gallery', Gallery.record.id or '', Album.record?.id or ''
     

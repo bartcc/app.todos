@@ -178,15 +178,26 @@ class PhotosList extends Spine.Controller
         
   snap: (res) ->
     el = $('#'+res.id, @el)
+    thumb = $('.thumbnail', el).removeClass('in')
     img = @createImage()
     img.element = el
+    img.thumb = thumb
     img.this = @
     img.res = res
     img.onload = @onLoad
     img.onerror = @onError
     img.src = res.src
     
-        
+  onLoad: ->
+    css = 'url(' + @src + ')'
+    @thumb.css
+      'backgroundImage': css
+      'backgroundSize': '100% auto'
+    @thumb.addClass('in')
+    
+  onError: (e) ->
+    @this.snap @res
+    
   photos: (mode) ->
     if mode is 'add' or !Album.record
       Photo.all()
@@ -194,17 +205,6 @@ class PhotosList extends Spine.Controller
       album.photos()
     else if Album.record
       Album.record.photos()
-    
-  onLoad: ->
-    el = $('.thumbnail', @element)
-    css = 'url(' + @src + ')'
-    el.css
-      'backgroundImage': css
-      'backgroundSize': '100% auto'
-    
-  onError: (e) ->
-    @this.snap @res
-    
     
   #  ****** START SLIDESHOW SPECIFICS *****
   
@@ -318,8 +318,7 @@ class PhotosList extends Spine.Controller
       e.stopPropagation()
       e.preventDefault()
       
-    album = Album.record
-    ids = album.selectionList()[..]
+    ids = Album.selectionList()[..]
     items = if ids.length then Photo.toRecords(ids.and(item?.id)) else [item]
     options = val: -90
     
@@ -332,8 +331,8 @@ class PhotosList extends Spine.Controller
         albums.and alb.id for alb in albs
         photo
       
-      albums = Album.toRecords(albums)
       @callDeferred res
+      albums = Album.toRecords(albums)
       Album.trigger('change:collection', albums)
       
       

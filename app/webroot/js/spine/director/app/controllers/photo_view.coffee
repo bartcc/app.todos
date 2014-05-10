@@ -30,6 +30,7 @@ class PhotoView extends Spine.Controller
     'click .glyphicon-set .back'      : 'back'
     'click .glyphicon-set .delete'    : 'deletePhoto'
     'click .glyphicon-set .zoom'      : 'zoom'
+    'click .glyphicon-set .rotate'    : 'rotate'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)
@@ -56,6 +57,7 @@ class PhotoView extends Spine.Controller
     AlbumsPhoto.bind('beforeDestroy', @proxy @back)
     Photo.bind('beforeDestroy', @proxy @back)
     Photo.one('refresh', @proxy @refresh)
+    Album.bind('change:collection', @proxy @refresh)
     
   render: (item=Photo.record) ->
     return unless @isActive()
@@ -112,15 +114,13 @@ class PhotoView extends Spine.Controller
     parentEl.animate
       'width'             : w+'px'
       'height'            : h+'px'
-    , complete: => img
-      .css
+    , complete: =>
+      img.css
         'opacity'         : 1
       .fadeIn()
       parentEl.css
         'borderStyle'       : 'solid'
         'backgroundColor'   : 'rgb(117, 117, 117)'
-  
-  click: (e) ->
   
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()
@@ -132,6 +132,9 @@ class PhotoView extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
+  
+  rotate: (e) ->
+    @photosView.list.rotate(e)
   
   back: ->
     return unless @isActive()

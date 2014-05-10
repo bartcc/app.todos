@@ -29783,6 +29783,8 @@ Released under the MIT License
       PhotoList.__super__.constructor.apply(this, arguments);
     }
 
+    PhotoList.prototype.rotate = function() {};
+
     PhotoList.prototype.back = function(e) {
       var _ref;
       return this.navigate('/gallery', Gallery.record.id || '', ((_ref = Album.record) != null ? _ref.id : void 0) || '');
@@ -29843,7 +29845,8 @@ Released under the MIT License
       'drop .item': 'drop',
       'click .glyphicon-set .back': 'back',
       'click .glyphicon-set .delete': 'deletePhoto',
-      'click .glyphicon-set .zoom': 'zoom'
+      'click .glyphicon-set .zoom': 'zoom',
+      'click .glyphicon-set .rotate': 'rotate'
     };
 
     PhotoView.prototype.template = function(item) {
@@ -29881,6 +29884,7 @@ Released under the MIT License
       AlbumsPhoto.bind('beforeDestroy', this.proxy(this.back));
       Photo.bind('beforeDestroy', this.proxy(this.back));
       Photo.one('refresh', this.proxy(this.refresh));
+      Album.bind('change:collection', this.proxy(this.refresh));
     }
 
     PhotoView.prototype.render = function(item) {
@@ -29959,23 +29963,21 @@ Released under the MIT License
       parentEl.html(img.hide().css({
         'opacity': 0.01
       }));
-      parentEl.animate({
+      return parentEl.animate({
         'width': w + 'px',
         'height': h + 'px'
       }, {
         complete: function() {
-          return img.css({
+          img.css({
             'opacity': 1
           }).fadeIn();
+          return parentEl.css({
+            'borderStyle': 'solid',
+            'backgroundColor': 'rgb(117, 117, 117)'
+          });
         }
       });
-      return parentEl.css({
-        'borderStyle': 'solid',
-        'backgroundColor': 'rgb(117, 117, 117)'
-      });
     };
-
-    PhotoView.prototype.click = function(e) {};
 
     PhotoView.prototype.deletePhoto = function(e) {
       var item, _ref;
@@ -29987,6 +29989,10 @@ Released under the MIT License
       this.stopInfo(e);
       e.stopPropagation();
       return e.preventDefault();
+    };
+
+    PhotoView.prototype.rotate = function(e) {
+      return this.photosView.list.rotate(e);
     };
 
     PhotoView.prototype.back = function() {
@@ -30613,15 +30619,31 @@ Released under the MIT License
     };
 
     PhotosList.prototype.snap = function(res) {
-      var el, img;
+      var el, img, thumb;
       el = $('#' + res.id, this.el);
+      thumb = $('.thumbnail', el).removeClass('in');
       img = this.createImage();
       img.element = el;
+      img.thumb = thumb;
       img["this"] = this;
       img.res = res;
       img.onload = this.onLoad;
       img.onerror = this.onError;
       return img.src = res.src;
+    };
+
+    PhotosList.prototype.onLoad = function() {
+      var css;
+      css = 'url(' + this.src + ')';
+      this.thumb.css({
+        'backgroundImage': css,
+        'backgroundSize': '100% auto'
+      });
+      return this.thumb.addClass('in');
+    };
+
+    PhotosList.prototype.onError = function(e) {
+      return this["this"].snap(this.res);
     };
 
     PhotosList.prototype.photos = function(mode) {
@@ -30633,20 +30655,6 @@ Released under the MIT License
       } else if (Album.record) {
         return Album.record.photos();
       }
-    };
-
-    PhotosList.prototype.onLoad = function() {
-      var css, el;
-      el = $('.thumbnail', this.element);
-      css = 'url(' + this.src + ')';
-      return el.css({
-        'backgroundImage': css,
-        'backgroundSize': '100% auto'
-      });
-    };
-
-    PhotosList.prototype.onError = function(e) {
-      return this["this"].snap(this.res);
     };
 
     PhotosList.prototype.modalParams = function() {
@@ -30804,15 +30812,14 @@ Released under the MIT License
     };
 
     PhotosList.prototype.rotate = function(e) {
-      var album, callback, ids, item, items, options,
+      var callback, ids, item, items, options,
         _this = this;
       if (e) {
         item = $(e.currentTarget).item();
         e.stopPropagation();
         e.preventDefault();
       }
-      album = Album.record;
-      ids = album.selectionList().slice(0);
+      ids = Album.selectionList().slice(0);
       items = ids.length ? Photo.toRecords(ids.and(item != null ? item.id : void 0)) : [item];
       options = {
         val: -90
@@ -30836,8 +30843,8 @@ Released under the MIT License
           }
           return _results;
         })();
-        albums = Album.toRecords(albums);
         _this.callDeferred(res);
+        albums = Album.toRecords(albums);
         return Album.trigger('change:collection', albums);
       };
       Photo.dev('rotate', options, callback, items);

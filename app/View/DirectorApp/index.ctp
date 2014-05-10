@@ -460,7 +460,7 @@
 </script>
 
 <script id="galDetailsTemplate" type="text/x-jquery-tmpl">
-  <div style="">${name}</div>
+  <div style="">{{if name}}${name.slice(0, 15)}{{else}}...{{/if}}</div>
   <div style="font-size: 0.8em; font-style: oblique;">Albums: ${aCount}</div>
   <div style="font-size: 0.8em; font-style: oblique;">Images: ${iCount}</div>
   <div class="opt-SlideshowPlay" style="">
@@ -504,7 +504,7 @@
       <span class="back glyphicon glyphicon-chevron-up glyphicon-white left" data-toggle="tooltip" title="Up"></span>
       <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right" data-toggle="tooltip" title="Delete"></span>
     </div>
-    <div class="title center">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
+    <div class="title center">{{if title}}{{html title.slice(0, 15)}}{{else}}...{{/if}}</div>
   </li>
 </script>
 

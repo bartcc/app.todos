@@ -94,7 +94,6 @@ class Album extends Spine.Model
         gallery_id  : target.id
         album_id    : item
         order       : GalleriesAlbum.albums(target.id).length
-      @log ga
       valid = ga.save
         validate: true
         ajax: false

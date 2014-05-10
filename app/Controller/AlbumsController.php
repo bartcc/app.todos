@@ -30,7 +30,7 @@ class AlbumsController extends AppController {
       $this->request->data['Album']['id'] = null;
       if ($this->Album->save($this->request->data)) {
         $this->Session->setFlash(__('The album has been saved', true));
-        $this->log($this->Album->id, LOG_DEBUG);
+//        $this->log($this->Album->id, LOG_DEBUG);
         $this->set('_serialize', array('id' => $this->Album->id));
         $this->render(SIMPLE_JSON);
       } else {
@@ -47,7 +47,7 @@ class AlbumsController extends AppController {
     
     if (!empty($this->data)) {
       if ($this->Album->saveAssociated($this->data, array('deep' => true))) {
-        $this->log($this->data, LOG_DEBUG);
+//        $this->log($this->data, LOG_DEBUG);
         $this->set('_serialize', array('id' => $this->Album->id));
         $this->render(SIMPLE_JSON);
         $this->Session->setFlash(__('The album has been saved', true));

@@ -24,9 +24,10 @@ Controller.Extender =
           models: null
         )
         
-      createImage: (url) ->
+      createImage: (url, onload) ->
         img = new Image()
-        img.src = url
+        img.onload = onload if onload
+        img.src = url if url
         img
   
       activated: ->

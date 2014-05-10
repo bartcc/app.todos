@@ -9,6 +9,7 @@ AlbumsPhoto   = require('models/albums_photo')
 Extender      = require("plugins/model_extender")
 AjaxRelations = require("plugins/ajax_relations")
 Uri           = require("plugins/uri")
+Dev           = require("plugins/dev")
 Cache         = require("plugins/cache")
 require("spine/lib/ajax")
 
@@ -18,6 +19,7 @@ class Photo extends Spine.Model
   @extend Cache
   @extend Model.Ajax
   @extend Uri
+  @extend Dev
   @extend AjaxRelations
   @extend Filter
   @extend Extender

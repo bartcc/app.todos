@@ -180,24 +180,6 @@ class DarkroomComponent extends Object {
   ////
   private function gdVersion() {
     return $this->_gd();
-//		if (function_exists('exec') && (DS == '/' || (DS == '\\' && MAGICK_PATH_FINAL != 'convert'))) {
-//			//error_log("MAGICK_PATH_FINAL: " . MAGICK_PATH_FINAL, 3, ROOT . DS . 'app' . DS . 'tmp' . DS . 'logs' . DS . 'debug.log');
-//			exec(MAGICK_PATH_FINAL . ' -version', $out);
-//			$test = $out[0];
-//			if (!empty($test) && strpos($test, ' not ') === false) {
-//				$bits = explode(' ', $test);
-//				$version = $bits[2];
-//				if (version_compare($version, '6.0.0', '>')) {
-//					return 4;
-//				} else {
-//					return 3;
-//				}
-//			} else {
-//				return $this->_gd();
-//			}
-//		} else {
-//			return $this->_gd();
-//		}
   }
 
   private function _gd() {
@@ -210,6 +192,91 @@ class DarkroomComponent extends Object {
       return $version;
     } else {
       return 0;
+    }
+  }
+
+  ////
+  // Rotate image
+  ////
+  function rotate($name, $r) {
+    $dest = $name;
+    $old_mask = umask(0);
+    $gd = $this->gdVersion();
+
+    if ($gd >= 3) {
+      $r = -$r;
+      $cmd = MAGICK_PATH_FINAL . " \"$name\" -rotate $r \"$dest\"";
+      exec($cmd);
+    } else {
+      $ext = $this->returnExt($name);
+      // Find out what we are dealing with
+      switch (true) {
+        case preg_match("/jpg|jpeg|JPG|JPEG/", $ext):
+          if (imagetypes() & IMG_JPG) {
+            $src_img = imagecreatefromjpeg($name);
+            $type = 'jpg';
+          } else {
+            return;
+          }
+          break;
+        case preg_match("/png/", $ext):
+          if (imagetypes() & IMG_PNG) {
+            $src_img = imagecreatefrompng($name);
+            $type = 'png';
+          } else {
+            return;
+          }
+          break;
+        case preg_match("/gif|GIF/", $ext):
+          if (imagetypes() & IMG_GIF) {
+            $src_img = imagecreatefromgif($name);
+            $type = 'gif';
+          } else {
+            return;
+          }
+          break;
+      }
+
+      if (!isset($src_img)) {
+        return;
+      };
+
+      $new = imagerotate($src_img, $r, 0);
+
+      if ($type == 'png') {
+        imagepng($new, $dest);
+      } elseif ($type == 'gif') {
+        imagegif($new, $dest);
+      } else {
+        imagejpeg($new, $dest, 95);
+      }
+
+      imagedestroy($src_img);
+      imagedestroy($new);
+    }
+    umask($old_mask);
+  }
+
+  ////
+  // Check GD
+  ////
+  function gdVersion_() {
+    if (function_exists('exec') && (DS == '/' || (DS == '\\' && MAGICK_PATH_FINAL != 'convert')) && !FORCE_GD) {
+      exec(MAGICK_PATH_FINAL . ' -version', $out);
+      @$test = $out[0];
+      if (!empty($test) && strpos($test, ' not ') === false) {
+        $bits = explode(' ', $test);
+        $version = $bits[2];
+        if (version_compare($version, '6.0.0', '>')) {
+          return 4;
+        } else {
+          return 3;
+        }
+      } else {
+        return $this->_gd();
+      }
+    } else {
+      return $this->_gd();
     }
   }
 

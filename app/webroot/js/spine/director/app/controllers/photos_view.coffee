@@ -72,7 +72,7 @@ class PhotosView extends Spine.Controller
     AlbumsPhoto.bind('beforeDestroy', @proxy @beforeDestroyAlbumsPhoto)
     GalleriesAlbum.bind('destroy', @proxy @backToAlbumView)
     
-    Photo.bind('refresh', @proxy @change)
+    Photo.bind('refresh:one', @proxy @refreshOne)
     Photo.bind('created', @proxy @add)
     Photo.bind('destroy', @proxy @destroy)
     Photo.bind('beforeDestroy', @proxy @beforeDestroyPhoto)
@@ -83,6 +83,9 @@ class PhotosView extends Spine.Controller
     
     Spine.bind('destroy:photo', @proxy @destroyPhoto)
     Spine.bind('loading:done', @proxy @updateBuffer)
+    
+  refreshOne: ->
+    Photo.one('refresh', @proxy @refresh)
     
   updateBuffer: (album=Album.record) ->
     filterOptions =
@@ -97,7 +100,7 @@ class PhotosView extends Spine.Controller
       
     @buffer = items
   
-  change: (item) ->
+  refresh: ->
     @updateBuffer()
     @render @buffer, 'html'
   
@@ -114,7 +117,7 @@ class PhotosView extends Spine.Controller
     return unless @isActive()
     App.showView.trigger('change:toolbarOne', ['Default', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
-    @change()
+    @refresh()
     
   activateRecord: (arr=[], ModelOrRecord) ->
     unless Spine.isArray(arr)

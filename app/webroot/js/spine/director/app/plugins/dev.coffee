@@ -1,11 +1,6 @@
 Spine   = require("spine")
 $       = Spine.$
 Model   = Spine.Model
-Gallery = require('models/gallery')
-Album   = require('models/album')
-Photo   = require('models/photo')
-AlbumsPhoto    = require('models/albums_photo')
-GalleriesAlbum = require('models/galleries_album')
 
 Ajax =
 
@@ -43,7 +38,7 @@ class Base
   
   ajax: (params, defaults) ->
     $.ajax($.extend({}, @defaults, defaults, params))
-#    
+
   ajaxQueue: (callback) ->
     Ajax.queue(callback)
     
@@ -51,51 +46,35 @@ class Base
     @ajaxQueue =>
       @ajax(
         type: "POST"
-        url: base_url + 'photos/uri/' + @url
+        url: base_url + 'photos/dev/' + @url
         data: JSON.stringify(@data)
       ).done(@recordResponse)
        .fail(@failResponse)
        
   uri: (options) ->
-    options.width + '/' + options.height + '/' + options.square + '/' + options.quality
-    
-class URI extends Base
+    ret = for o, val of options
+      val
+    ret.join('/')
+       
+class Develop extends Base
 
-  constructor: (@model,  params, @callback, @data = []) ->
+  constructor: (@model,  method, params, @callback, @data = []) ->
     super
-    options = $.extend({}, @settings, params)
+    options = $.extend(method: method, @settings, params)
     @url = @uri options
+    return
     
     return unless @data.length
     
-  settings:
-    square: 1
-    quality: 70
+  settings: {}
     
-  init: ->
-    @get() unless @cache()
-    
-  cache: ->
-    return unless Ajax.cache #force ajax call for empty data
-    res = []
-    for data, idx in @data
-      raw = (@model.cache @url, data.id)
-      if raw
-        res.push raw
-      else
-        return
-      
+  recordResponse: (res) =>
     @callback res
-    return true
-      
-  recordResponse: (uris) =>
-    @model.addToCache @url, uris
-    @callback uris
     
   failResponse: (xhr, statusText, error) =>
     @model.trigger('ajaxError', xhr, statusText, error)
 
-class URICollection extends Base
+class DevelopCollection extends Base
 
   constructor: (@record, params, mode, @callback, max) ->
     super
@@ -136,24 +115,23 @@ class URICollection extends Base
        .fail(@failResponse)
 
   recordResponse: (uris) =>
-    @record.addToCache @url, uris, @mode
     @callback uris, @record
     
   failResponse: (xhr, statusText, error) =>
     @record.trigger('ajaxError', xhr, statusText, error)
   
-Uri =
+Dev =
   
   extended: ->
     
     Include =
-      uri: (params, mode, callback, max) -> new URICollection(@, params, mode, callback, max).init()
+      dev: (params, mode, callback, max) -> new DevelopCollection(@, params, mode, callback, max).get()
       
     Extend =
-      uri: (params, callback, data) -> new URI(@, params, callback, data).init()
+      dev: (method, params, callback, data) -> new Develop(@, method, params, callback, data).get()
       
     @include Include
     @extend Extend
 
-Uri.Ajax = Ajax
-module?.exports = Model.Uri = Uri
+Dev.Ajax = Ajax
+module?.exports = Model.Dev = Dev

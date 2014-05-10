@@ -73,9 +73,9 @@ class AlbumsView extends Spine.Controller
     
     Gallery.bind('change:collection', @proxy @collectionChanged)
     
-    Album.bind('refresh', @proxy @change)
+    Album.bind('refresh:one', @proxy @refreshOne)
     Album.bind('ajaxError', Album.errorHandler)
-    Album.bind('create', @proxy @create)
+#    Album.bind('create', @proxy @create)
     Album.bind('beforeDestroy', @proxy @beforeDestroyAlbum)
     Album.bind('destroy', @proxy @destroy)
     Album.bind('create:join', @proxy @createJoin)
@@ -101,7 +101,10 @@ class AlbumsView extends Spine.Controller
     
     $(@views).queue('fx')
     
-  change: (item) ->
+  refreshOne: ->
+    Album.one('refresh', @proxy @refresh)
+    
+  refresh: ->
     @updateBuffer()
     @render @buffer, 'html'
     
@@ -137,7 +140,7 @@ class AlbumsView extends Spine.Controller
         alb.invalid = false
         alb.save(ajax:false)
         
-    @change()
+    @refresh()
     
   collectionChanged: ->
     unless @isActive()
@@ -225,7 +228,7 @@ class AlbumsView extends Spine.Controller
       $(el).detach()
   
     albums = ids || Gallery.selectionList().slice(0)
-    albums = [albums] unless Album.isArray albums
+    albums = [albums] unless Album.isArray(albums)
     
     for id in albums
       if item = Album.find(id)
@@ -241,7 +244,7 @@ class AlbumsView extends Spine.Controller
         album.destroy() if album = Album.find(id)
   
   create: (album) ->
-    @render()
+#    @render()
    
   beforeDestroyAlbum: (album) ->
     

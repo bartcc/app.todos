@@ -54,10 +54,9 @@ class AlbumsPhoto extends Spine.Model
 
   validate: ->
     valid_1 = (Album.find @album_id) and (Photo.find @photo_id)
-    valid_2 = !(@constructor.albumPhotoExists(@photo_id, @album_id) and @isNew())
+    valid_2 = !(ap = @constructor.albumPhotoExists(@photo_id, @album_id) and @isNew())
     return 'No valid action!' unless valid_1
     return 'Photo already exists in Album' unless valid_2
-    false
 
   albums: ->
     @constructor.albums @photo_id

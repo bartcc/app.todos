@@ -7,7 +7,7 @@ class PhotosController extends AppController {
   public $name = 'Photos';
 
   public function beforeFilter() {
-    $this->Auth->allowedActions = array('uri');
+    $this->Auth->allowedActions = array('uri', 'dev');
     parent::beforeFilter();
   }
 
@@ -141,11 +141,10 @@ class PhotosController extends AppController {
     $json = array();
     if ($this->Auth->user('id')) {
       $user_id = $uid = $this->Auth->user('id');
-
+      
       if (!empty($this->data)) {
         foreach ($this->data as $data) {
           $id = $data['id'];
-//          $this->log($id, LOG_DEBUG);
           $path = PHOTOS . DS . $uid . DS . $id . DS . 'lg' . DS . '*.*';
           $files = glob($path);
           if (!empty($files[0])) {
@@ -169,6 +168,63 @@ class PhotosController extends AppController {
     $this->render(SIMPLE_JSON);
   }
 
+  
+  function dev($method, $args) {
+    if (!empty($this->data)) {
+      $this->$method($args);
+    }
+  }
+  
+  ////
+  // Rotate image
+  ////
+  public function rotate($degree) {
+    $this->Photo->recursive = 0;
+
+    App::import('Component', 'Darkroom');
+    $darkroom = new DarkroomComponent();
+    
+    $uid = $this->Auth->user('id');
+    foreach ($this->data as $data) {
+      $id = $data['id'];
+      $image = $this->Photo->read(null, $id);
+      $images[] = $image;
+      $path = PHOTOS . DS . $uid . DS . $id;
+      $lg_local = $path . DS . 'lg' . DS . $image['Photo']['src'];
+      $darkroom->rotate($lg_local, $degree);
+      $this->clearCaches($image['Photo']['src'], $path);
+    }
+    $this->set('_serialize', $images);		
+    $this->render(SIMPLE_JSON);
+  }
+  
+  ////
+  // Rotate image
+  ////
+  public function rotate_() {
+    $ids = explode(',', $this->data['rotate']['id']);
+    $degree = $this->data['rotate']['deg'];
+    $images = $this->Image->findAll(aa('Image.id', $ids));
+    foreach($images as $image) {
+      // Paths
+      $path = ALBUMS . DS . 'album-' . $image['Album']['id'];
+      $lg_local = $path . DS . 'lg' . DS . $image['Image']['src'];
+      $lg_original = ensureOriginal($lg_local, $image['Album']['id']);
+      $this->Kodak->rotate($lg_original, $lg_local, $degree);
+      $this->Image->clearCaches($image['Image']['src'], $path);
+    }
+    $this->set('images', $images);		
+  }
+  
+  private function clearCaches($str, $path) {
+    $caches = glob($path . DS . 'cache' . DS . $str . '*');
+    if (!empty($caches)) {
+      foreach($caches as $cache) {
+        @unlink($cache);
+      }
+    }
+  }
+  
   private function _previewOptions($w = 300, $h = 300) {
     return array('width' => $w, 'height' => $h, 'square' => 3);
   }
@@ -215,5 +271,4 @@ class PhotosController extends AppController {
       unlink($o);
     }
   }
-
 }

@@ -107,6 +107,8 @@ class Sidebar extends Spine.Controller
   refreshAll: ->
     @refreshElements()
     Gallery.one('refresh', @proxy @refresh)
+    Album.trigger('refresh:one')
+    Photo.trigger('refresh:one')
     App.fetchAll()
     
   render: (selectType='searchSelect') ->

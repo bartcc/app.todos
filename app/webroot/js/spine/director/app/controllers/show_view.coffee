@@ -81,7 +81,7 @@ class ShowView extends Spine.Controller
     'click .opt-CreateGallery:not(.disabled)'         : 'createGallery'
     'click .opt-CreateAlbum:not(.disabled)'           : 'createAlbum'
     'click .opt-DuplicateAlbum:not(.disabled)'        : 'duplicateAlbum'
-    'click .opt-CopyAlbumsToNewGallery:not(.disabled)'   : 'copyAlbumsToNewGallery'
+    'click .opt-CopyAlbumsToNewGallery:not(.disabled)': 'copyAlbumsToNewGallery'
     'click .opt-CopyPhoto'                            : 'copyPhoto'
     'click .opt-CutPhoto'                             : 'cutPhoto'
     'click .opt-PastePhoto'                           : 'pastePhoto'
@@ -852,7 +852,7 @@ class ShowView extends Spine.Controller
     isFormfield = $().isFormElement(el)
     @controller.focus() unless isFormfield
     
-    @log 'keydownCode: ' + code
+#    @log 'keydownCode: ' + code
     
     switch code
       when 13 #Return
@@ -888,7 +888,7 @@ class ShowView extends Spine.Controller
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
     
-    @log 'keyup', code
+#    @log 'keyup', code
     
     switch code
       when 8 #Backspace

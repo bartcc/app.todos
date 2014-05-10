@@ -257,22 +257,25 @@ class SidebarList extends Spine.Controller
     
   scrollTo: (item) ->
     return unless item and Gallery.record
-    
+    @log 'scrollTo', item
     el = @children().forItem(Gallery.record)
     if item.constructor.className is 'Gallery'
       ul = $('ul', el)
       # messuring galleryEl w/o sublist
       ul.hide()
-      ohc = el[0].offsetHeight
+      el_ = el[0]
+      ohc = el_.offsetHeight if el_
+      ul.show()
       speed = 300
     else
       ul = $('ul', el)
       el = $('li', ul).forItem(item)
-      @log 'sublist: ', el
-      ohc = el[0].offsetHeight
+      el_ = el[0]
+      ohc = el_.offsetHeight if el_
       speed = 700
       
-    ul.show()
+    return unless el.length
+      
     otc = el.offset().top
     stp = @el[0].scrollTop
     otp = @el.offset().top

@@ -23,6 +23,7 @@ class PhotosList extends Spine.Controller
     'click .back'             : 'back'
     'click .zoom'             : 'zoom'
     'click .delete'           : 'deletePhoto'
+    'click .rotate'           : 'rotate'
     
   selectFirst: true
     
@@ -150,11 +151,12 @@ class PhotosList extends Spine.Controller
       items
   
   callDeferred: (items) ->
+    @log 'callDeferred'
     $.when(@uriDeferred(items)).done (xhr, rec) =>
       @callback xhr, rec
   
   uriDeferred: (items) ->
-    @log 'uri'
+    @log 'uriDeferred'
     deferred = $.Deferred()
     
     Photo.uri @thumbSize(),
@@ -164,8 +166,6 @@ class PhotosList extends Spine.Controller
     deferred.promise()
   
   callback: (json, items) =>
-    @log 'callback'
-    
     result = for jsn in json
       ret = for key, val of jsn
         src: val.src
@@ -173,11 +173,18 @@ class PhotosList extends Spine.Controller
       ret[0]
     
     for res in result
-      el = $('#'+res.id, @el)
-      img = @createImage res.src
-      img.src = res.src
-      img.element = el
-      img.onload = @imageLoad
+      @snap(res)
+        
+  snap: (res) ->
+    el = $('#'+res.id, @el)
+    img = @createImage()
+    img.element = el
+    img.this = @
+    img.res = res
+    img.onload = @onLoad
+    img.onerror = @onError
+    img.src = res.src
+    
         
   photos: (mode) ->
     if mode is 'add' or !Album.record
@@ -187,11 +194,15 @@ class PhotosList extends Spine.Controller
     else if Album.record
       Album.record.photos()
     
-  imageLoad: ->
+  onLoad: ->
+    el = $('.thumbnail', @element)
     css = 'url(' + @src + ')'
-    $('.thumbnail', @element).css
+    el.css
       'backgroundImage': css
       'backgroundSize': '100% auto'
+    
+  onError: (e) ->
+    @this.snap @res
     
     
   #  ****** START SLIDESHOW SPECIFICS *****
@@ -299,5 +310,23 @@ class PhotosList extends Spine.Controller
       'height'          : val+'px'
       'width'           : val+'px'
       'backgroundSize'  : bg
+      
+  rotate: (e) ->
+    item = $(e.currentTarget).item()
+    ids = Album.selectionList()
+    items = if ids.length then Photo.toRecords(ids.and(item.id)) else [item]
+    options = val: -90
+    
+    callback = (items) =>
+      res = for item in items
+        photo = Photo.find item['Photo']['id']
+        photo.clearCache()
+        photo
+      @callDeferred res
+      
+    Photo.dev('rotate', options, callback, items)
+    
+    e.stopPropagation()
+    e.preventDefault()
     
 module?.exports = PhotosList

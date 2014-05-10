@@ -22,10 +22,14 @@ Array.prototype.addRemoveSelection = (id) ->
   @toggleSelected(id)
   @
   
-Array.prototype.toggleSelected = (id) ->
+Array.prototype.and = (id) ->
+  @toggleSelected(id, true)
+  @
+  
+Array.prototype.toggleSelected = (id, addonly) ->
   unless id in @
     @unshift id
-  else
+  else unless addonly
     index = @indexOf(id)
     @splice(index, 1) unless index is -1
   @

@@ -64,7 +64,7 @@ Model.Extender =
         return @selection[0].global unless id
         for item in @selection
           return item[id] if item[id]
-        return ret
+        ret
       
       updateSelection: (id, list) ->
         ret = @emptySelection id, list

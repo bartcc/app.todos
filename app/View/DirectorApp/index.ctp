@@ -771,6 +771,7 @@
     <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
     <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right"></span>
+    <span class="rotate glyphicon glyphicon-repeat glyphicon-white right"></span>
   </div>
 </script>
 

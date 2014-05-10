@@ -31,6 +31,7 @@ class AlbumsList extends Spine.Controller
     GalleriesAlbum.bind('change', @proxy @changeRelated)
     AlbumsPhoto.bind('beforeDestroy', @proxy @widowedAlbumsPhoto)
     Gallery.bind('change:selection', @proxy @exposeSelection)
+    Album.bind('change:collection', @proxy @renderBackgrounds)
     
   changedAlbums: (gallery) ->
     
@@ -60,7 +61,7 @@ class AlbumsList extends Spine.Controller
     @el
   
   render: (items=[], mode) ->
-    @log 'render'
+    @log 'render', mode
     if items.length
       @wipe()
       @[mode] @template items
@@ -139,6 +140,7 @@ class AlbumsList extends Spine.Controller
   
   renderBackgrounds: (albums) ->
     @log 'renderBackgrounds'
+    albums = [albums] unless Album.isArray(albums)
     if @widows.length
       Model.Uri.Ajax.cache = false
       for widow in @widows
@@ -167,7 +169,7 @@ class AlbumsList extends Spine.Controller
     Photo.uri
       width: 50
       height: 50,
-      (xhr, rec) -> deferred.resolve(xhr, album)#@callback(xhr, album)
+      (xhr, rec) -> deferred.resolve(xhr, album)
       data
       
     deferred.promise()
@@ -182,11 +184,29 @@ class AlbumsList extends Spine.Controller
         val.src
       ret[0]
     
-    css = for itm in res
-      'url(' + itm + ')'
+    
+    css = []
+    for url in res
+      css.push 'url(' + url + ')'
+      @snap url, thumb, css
       
-    thumb.css('backgroundImage', if css.length then css else 'url(img/drag_info.png)')
-
+    thumb.css('backgroundImage', 'url(img/drag_info.png)') unless css.length
+      
+  snap: (src, el, css) ->
+    img = @createImage()
+    img.element = el
+    img.this = @
+    img.css = css
+    img.onload = @onLoad
+    img.onerror = @onError
+    img.src = src
+      
+  onLoad: ->
+    @element.css('backgroundImage', @css)
+    
+  onError: ->
+    @this.snap @src, @element, @css
+      
   zoom: (e) ->
     @log 'zoom'
     item = $(e.currentTarget).item()

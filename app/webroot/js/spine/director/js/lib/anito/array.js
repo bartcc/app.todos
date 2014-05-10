@@ -43,6 +43,9 @@
 
   Array.prototype.toggleSelected = function(id, addonly) {
     var index;
+    if (!id) {
+      return this;
+    }
     if (__indexOf.call(this, id) < 0) {
       this.unshift(id);
     } else if (!addonly) {

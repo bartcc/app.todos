@@ -27,6 +27,7 @@ Array.prototype.and = (id) ->
   @
   
 Array.prototype.toggleSelected = (id, addonly) ->
+  return @ unless id
   unless id in @
     @unshift id
   else unless addonly

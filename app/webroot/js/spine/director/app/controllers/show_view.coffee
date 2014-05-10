@@ -95,6 +95,7 @@ class ShowView extends Spine.Controller
     'click .opt-DestroyPhoto:not(.disabled)'          : 'destroyPhoto'
     'click .opt-EditGallery:not(.disabled)'           : 'editGallery' # for the large edit view
     'click .opt-Gallery:not(.disabled)'               : 'toggleGalleryShow'
+    'click .opt-Rotate:not(.disabled)'                : 'rotatePhoto'
     'click .opt-Album:not(.disabled)'                 : 'toggleAlbumShow'
     'click .opt-Photo:not(.disabled)'                 : 'togglePhotoShow'
     'click .opt-Upload:not(.disabled)'                : 'toggleUploadShow'
@@ -712,6 +713,11 @@ class ShowView extends Spine.Controller
       photos: items
       album: album
     Photo.trigger('create:join', options, callback)
+      
+  rotatePhoto: (e) ->
+    Spine.trigger('rotate')
+    @refreshToolbars()
+    false
       
   copyAlbum: ->
     Clipboard.deleteAll()

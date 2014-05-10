@@ -35,6 +35,7 @@ class PhotosList extends Spine.Controller
     @add = @html
     Spine.bind('slider:start', @proxy @sliderStart)
     Spine.bind('slider:change', @proxy @size)
+    Spine.bind('rotate', @proxy @rotate)
     Photo.bind('update', @proxy @update)
     Album.bind("ajaxError", Album.errorHandler)
     Album.bind("change:selection", @proxy @exposeSelection)
@@ -312,9 +313,13 @@ class PhotosList extends Spine.Controller
       'backgroundSize'  : bg
       
   rotate: (e) ->
-    item = $(e.currentTarget).item()
+    if e
+      item = $(e.currentTarget).item()
+      e.stopPropagation()
+      e.preventDefault()
+      
     ids = Album.selectionList()
-    items = if ids.length then Photo.toRecords(ids.and(item.id)) else [item]
+    items = if ids.length then Photo.toRecords(ids.and(item?.id)) else [item]
     options = val: -90
     
     callback = (items) =>
@@ -325,8 +330,6 @@ class PhotosList extends Spine.Controller
       @callDeferred res
       
     Photo.dev('rotate', options, callback, items)
-    
-    e.stopPropagation()
-    e.preventDefault()
+    false
     
 module?.exports = PhotosList

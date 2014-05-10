@@ -156,6 +156,11 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
+          name: 'Rotate'
+          icon: 'repeat'
+          klass: 'opt-Rotate'
+          disabled: -> !Album.selectionList().length
+        ,
           name: 'Edit'
           icon: 'pencil'
           klass: 'opt-Photo'
@@ -171,7 +176,7 @@ class Toolbar extends Spine.Model
           shortcut: '<-'
           icon: 'trash'
           klass: 'opt-DestroyPhoto '
-          disabled: -> !!!Album.selectionList().length
+          disabled: -> !Album.selectionList().length
         ,
           devider: true
         ,

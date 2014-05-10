@@ -23204,6 +23204,9 @@ window.locale = {
 
   Array.prototype.toggleSelected = function(id, addonly) {
     var index;
+    if (!id) {
+      return this;
+    }
     if (__indexOf.call(this, id) < 0) {
       this.unshift(id);
     } else if (!addonly) {
@@ -30396,6 +30399,7 @@ Released under the MIT License
       this.add = this.html;
       Spine.bind('slider:start', this.proxy(this.sliderStart));
       Spine.bind('slider:change', this.proxy(this.size));
+      Spine.bind('rotate', this.proxy(this.rotate));
       Photo.bind('update', this.proxy(this.update));
       Album.bind("ajaxError", Album.errorHandler);
       Album.bind("change:selection", this.proxy(this.exposeSelection));
@@ -30790,9 +30794,13 @@ Released under the MIT License
     PhotosList.prototype.rotate = function(e) {
       var callback, ids, item, items, options,
         _this = this;
-      item = $(e.currentTarget).item();
+      if (e) {
+        item = $(e.currentTarget).item();
+        e.stopPropagation();
+        e.preventDefault();
+      }
       ids = Album.selectionList();
-      items = ids.length ? Photo.toRecords(ids.and(item.id)) : [item];
+      items = ids.length ? Photo.toRecords(ids.and(item != null ? item.id : void 0)) : [item];
       options = {
         val: -90
       };
@@ -30812,8 +30820,7 @@ Released under the MIT License
         return _this.callDeferred(res);
       };
       Photo.dev('rotate', options, callback, items);
-      e.stopPropagation();
-      return e.preventDefault();
+      return false;
     };
 
     return PhotosList;
@@ -31366,6 +31373,7 @@ Released under the MIT License
       'click .opt-DestroyPhoto:not(.disabled)': 'destroyPhoto',
       'click .opt-EditGallery:not(.disabled)': 'editGallery',
       'click .opt-Gallery:not(.disabled)': 'toggleGalleryShow',
+      'click .opt-Rotate:not(.disabled)': 'rotatePhoto',
       'click .opt-Album:not(.disabled)': 'toggleAlbumShow',
       'click .opt-Photo:not(.disabled)': 'togglePhotoShow',
       'click .opt-Upload:not(.disabled)': 'toggleUploadShow',
@@ -32169,6 +32177,12 @@ Released under the MIT License
         album: album
       };
       return Photo.trigger('create:join', options, callback);
+    };
+
+    ShowView.prototype.rotatePhoto = function(e) {
+      Spine.trigger('rotate');
+      this.refreshToolbars();
+      return false;
     };
 
     ShowView.prototype.copyAlbum = function() {
@@ -36237,6 +36251,13 @@ Released under the MIT License
           }, {
             devider: true
           }, {
+            name: 'Rotate',
+            icon: 'repeat',
+            klass: 'opt-Rotate',
+            disabled: function() {
+              return !Album.selectionList().length;
+            }
+          }, {
             name: 'Edit',
             icon: 'pencil',
             klass: 'opt-Photo',
@@ -36256,7 +36277,7 @@ Released under the MIT License
             icon: 'trash',
             klass: 'opt-DestroyPhoto ',
             disabled: function() {
-              return !!!Album.selectionList().length;
+              return !Album.selectionList().length;
             }
           }, {
             devider: true

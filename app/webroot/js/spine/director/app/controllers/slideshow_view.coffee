@@ -54,21 +54,12 @@ class SlideshowView extends Spine.Controller
     Spine.bind('chromeless', @proxy @chromeless)
     Spine.bind('loading:done', @proxy @loadingDone)
     
-  show_: (params) ->
-    if params
-      @options = $().unparam(params)
-      
-    App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
-    App.showView.trigger('change:toolbarTwo', ['Close'])
-    App.showView.trigger('canvas', @)
-    
   active: (params) ->
     if params
       @options = $().unparam(params)
       
     App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Close'])
-#    App.showView.trigger('canvas', @)
     @activated()
     
   activated: ->

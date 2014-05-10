@@ -33439,15 +33439,6 @@ Released under the MIT License
       Spine.bind('loading:done', this.proxy(this.loadingDone));
     }
 
-    SlideshowView.prototype.show_ = function(params) {
-      if (params) {
-        this.options = $().unparam(params);
-      }
-      App.showView.trigger('change:toolbarOne', ['SlideshowPackage', App.showView.initSlider]);
-      App.showView.trigger('change:toolbarTwo', ['Close']);
-      return App.showView.trigger('canvas', this);
-    };
-
     SlideshowView.prototype.active = function(params) {
       if (params) {
         this.options = $().unparam(params);

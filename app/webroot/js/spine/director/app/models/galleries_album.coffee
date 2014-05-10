@@ -48,7 +48,7 @@ class GalleriesAlbum extends Spine.Model
     valid_1 = (Album.find @album_id) and (Gallery.find @gallery_id)
     valid_2 = !(ga = @constructor.galleryAlbumExists(@album_id, @gallery_id) and @isNew())
     return 'No valid action!' unless valid_1
-    return 'Album "' + Album.find(ga.album_id).title + '" already exists in Gallery' unless valid_2
+    return 'Album already exists in Gallery' unless valid_2
     false
     
   galleries: ->

@@ -35360,7 +35360,7 @@ Released under the MIT License
         return 'No valid action!';
       }
       if (!valid_2) {
-        return 'Album "' + Album.find(ga.album_id).title + '" already exists in Gallery';
+        return 'Album already exists in Gallery';
       }
       return false;
     };

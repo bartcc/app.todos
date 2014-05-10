@@ -190,10 +190,7 @@ class AlbumsList extends Spine.Controller
       css.push 'url(' + url + ')'
       @snap url, thumb, css
       
-    unless css.length
-      thumb.css('backgroundImage', 'url(img/drag_info.png)')
-    else
-      thumb.css('backgroundImage', 'url(img/photo-loader.gif)')
+    thumb.css('backgroundImage', 'url(img/drag_info.png)') unless css.length
       
   snap: (src, el, css) ->
     img = @createImage()

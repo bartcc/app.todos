@@ -318,7 +318,8 @@ class PhotosList extends Spine.Controller
       e.stopPropagation()
       e.preventDefault()
       
-    ids = Album.selectionList()[..]
+    album = Album.record
+    ids = album.selectionList()[..]
     items = if ids.length then Photo.toRecords(ids.and(item?.id)) else [item]
     options = val: -90
     
@@ -328,6 +329,7 @@ class PhotosList extends Spine.Controller
         photo.clearCache()
         photo
       @callDeferred res
+      Album.trigger('change:collection', album)
       
     Photo.dev('rotate', options, callback, items)
     false

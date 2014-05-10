@@ -27404,8 +27404,6 @@ Released under the MIT License
       }
       if (!css.length) {
         return thumb.css('backgroundImage', 'url(img/drag_info.png)');
-      } else {
-        return thumb.css('backgroundImage', 'url(img/photo-loader.gif)');
       }
     };
 
@@ -30794,14 +30792,15 @@ Released under the MIT License
     };
 
     PhotosList.prototype.rotate = function(e) {
-      var callback, ids, item, items, options,
+      var album, callback, ids, item, items, options,
         _this = this;
       if (e) {
         item = $(e.currentTarget).item();
         e.stopPropagation();
         e.preventDefault();
       }
-      ids = Album.selectionList().slice(0);
+      album = Album.record;
+      ids = album.selectionList().slice(0);
       items = ids.length ? Photo.toRecords(ids.and(item != null ? item.id : void 0)) : [item];
       options = {
         val: -90
@@ -30819,7 +30818,8 @@ Released under the MIT License
           }
           return _results;
         })();
-        return _this.callDeferred(res);
+        _this.callDeferred(res);
+        return Album.trigger('change:collection', album);
       };
       Photo.dev('rotate', options, callback, items);
       return false;

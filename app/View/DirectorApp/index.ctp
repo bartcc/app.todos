@@ -500,9 +500,9 @@
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
       <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
-      <span class="tooltips zoom glyphicon glyphicon-folder-close glyphicon-white left" data-toggle="tooltip"></span>
-      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left" data-toggle="tooltip" title="test 3"></span>
-      <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right" data-toggle="tooltip" title="test 4"></span>
+      <span class="tooltips zoom glyphicon glyphicon-folder-close glyphicon-white left" data-toggle="tooltip" title="Open"></span>
+      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left" data-toggle="tooltip" title="Up"></span>
+      <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right" data-toggle="tooltip" title="Delete"></span>
     </div>
     <div class="title center">{{if title}}{{html title.substring(0, 15)}}{{else}}...{{/if}}</div>
   </li>
@@ -768,10 +768,10 @@
 <script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
-    <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
-    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
-    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right"></span>
-    <span class="rotate glyphicon glyphicon-repeat glyphicon-white right"></span>
+    <span class="delete glyphicon glyphicon-trash glyphicon-white right" title="Delete"></span>
+    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right" title="Up"></span>
+    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right" title="Full Size"></span>
+    <span class="rotate glyphicon glyphicon-repeat glyphicon-white right" title="Rotate clockwise"></span>
   </div>
 </script>
 

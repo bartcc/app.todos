@@ -137,6 +137,7 @@ class PhotosView extends Spine.Controller
       
   
   click: (e) ->
+    
     @log 'click'
     App.showView.trigger('change:toolbarOne')
     

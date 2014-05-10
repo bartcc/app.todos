@@ -30801,7 +30801,7 @@ Released under the MIT License
         e.stopPropagation();
         e.preventDefault();
       }
-      ids = Album.selectionList();
+      ids = Album.selectionList().slice(0);
       items = ids.length ? Photo.toRecords(ids.and(item != null ? item.id : void 0)) : [item];
       options = {
         val: -90

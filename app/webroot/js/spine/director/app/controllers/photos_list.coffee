@@ -318,7 +318,7 @@ class PhotosList extends Spine.Controller
       e.stopPropagation()
       e.preventDefault()
       
-    ids = Album.selectionList()
+    ids = Album.selectionList()[..]
     items = if ids.length then Photo.toRecords(ids.and(item?.id)) else [item]
     options = val: -90
     

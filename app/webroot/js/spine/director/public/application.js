@@ -36424,12 +36424,13 @@ Released under the MIT License
         ]
       },
       package_02: {
-        name: 'Test',
+        name: 'Close',
         content: [
           {
-            name: '',
-            icon: 'resize-full',
-            klass: 'opt-SlideshowPhoto'
+            name: 'Back',
+            icon: 'arrow-left',
+            klass: 'opt opt-Previous',
+            type: 'span'
           }
         ]
       },
@@ -36451,7 +36452,7 @@ Released under the MIT License
         ]
       },
       package_10: {
-        name: 'Back',
+        name: 'Back_',
         locked: true,
         content: [
           {
@@ -36579,7 +36580,7 @@ Released under the MIT License
         ]
       },
       package_16: {
-        name: 'Close',
+        name: 'Close_',
         content: [
           {
             icon: 'arrow-left',

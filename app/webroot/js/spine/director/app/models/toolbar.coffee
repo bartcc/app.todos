@@ -251,12 +251,13 @@ class Toolbar extends Spine.Model
           itemGroup: @dropdownGroups.group4
         ]
     package_02:
-      name: 'Test'
+      name: 'Close'
       content:
         [
-          name: ''
-          icon: 'resize-full'
-          klass: 'opt-SlideshowPhoto'
+          name: 'Back'
+          icon: 'arrow-left'
+          klass: 'opt opt-Previous'
+          type: 'span'
         ]
     package_09:
       name: 'Slideshow'
@@ -270,7 +271,7 @@ class Toolbar extends Spine.Model
           disabled: -> !Gallery.activePhotos().length
         ]
     package_10:
-      name: 'Back'
+      name: 'Back_'
       locked: true
       content:
         [
@@ -372,7 +373,7 @@ class Toolbar extends Spine.Model
           disabled: -> 
         ]
     package_16:
-      name: 'Close'
+      name: 'Close_'
       content:
         [
           icon: 'arrow-left'

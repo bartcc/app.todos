@@ -133,8 +133,8 @@ class PhotosList extends Spine.Controller
       photoEl.update()
     catch e
     elements = helper.refresh()
-    elements.tb.attr('style', css)
-    elements.el.toggleClass('active in', active)
+    elements.tb.attr('style', css).addClass('in')
+    elements.el.toggleClass('active', active)
     elements.el.toggleClass('hot', hot)
     @el.sortable('destroy').sortable('photos') if Album.record
     @refreshElements()

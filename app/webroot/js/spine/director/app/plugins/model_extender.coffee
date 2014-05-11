@@ -66,12 +66,12 @@ Model.Extender =
           return item[id] if item[id]
         ret
       
-      updateSelection: (id, list, options) ->
+      updateSelection: (id=@record?.id, list, options) ->
         defaults = {trigger: true}
         option = $().extend defaults, options
         ret = @emptySelection id, list
-        record = @find(id)
-        @trigger('change:selection', record, ret) if option.trigger
+#        record = @find(id)
+        @trigger('change:selection', @record, ret) if option.trigger
         ret
 
       emptySelection: (id, list = []) ->

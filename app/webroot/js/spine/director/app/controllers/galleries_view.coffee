@@ -58,14 +58,9 @@ class GalleriesView extends Spine.Controller
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     @render()
     
-  activateRecord: (idOrRecord, ModelOrRecord) ->
-    alert ModelOrRecord if ModelOrRecord
+  activateRecord: (idOrRecord) ->
     Gallery.current idOrRecord
-    unless ModelOrRecord
-      if Gallery.record
-        Album.trigger('activate', Gallery.selectionList())
-      else
-        Album.trigger('activate')
+    Album.trigger('activate', Gallery.selectionList())
 
   click: (e) ->
     App.showView.trigger('change:toolbarOne', ['Default', 'Help'])

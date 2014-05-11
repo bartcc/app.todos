@@ -142,6 +142,7 @@ class AlbumsView extends Spine.Controller
         alb.save(ajax:false)
         
     @refresh()
+    @parent.scrollTo(@el.data('current').models.record)
     
   collectionChanged: ->
     unless @isActive()

@@ -118,6 +118,7 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarOne', ['Default', 'Help', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     @refresh()
+    @parent.scrollTo(@el.data('current').models.record)
     
   activateRecord: (records) ->
     unless records

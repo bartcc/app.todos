@@ -250,8 +250,6 @@ class ShowView extends Spine.Controller
     @focus()
     
   changeCanvas: (controller) ->
-    @scrollTo()
-    
     $('.items', @el).removeClass('in')
     t = switch controller.type
       when "Gallery"
@@ -298,6 +296,7 @@ class ShowView extends Spine.Controller
     # the controller should already be active, however rendering hasn't taken place yet
     controller.trigger 'active'
     controller.header.trigger 'active'
+    @scrollTo(@el.data('current').models.record)
     controller.focus()
     controller
     

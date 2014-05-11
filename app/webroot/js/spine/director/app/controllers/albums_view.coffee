@@ -164,7 +164,6 @@ class AlbumsView extends Spine.Controller
 
     App.sidebar.list.expand(Gallery.record, true) if id
     Gallery.updateSelection(Gallery.record?.id, list)
-    console.log id
     Album.current(id) unless noid
     if Album.record
       Photo.trigger('activate', Album.selectionList())

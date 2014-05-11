@@ -566,7 +566,7 @@ class ShowView extends Spine.Controller
     data = @el.data('current')
     model = data.model
     models = data.models
-    models.trigger('activate')
+    models.trigger('activate', [])
     try
       @current.itemsEl.deselect()
     catch e

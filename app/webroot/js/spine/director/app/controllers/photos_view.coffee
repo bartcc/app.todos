@@ -119,24 +119,21 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     @refresh()
     
-  activateRecord: (arr, ModelOrRecord) ->
-    unless arr
-      arr = Album.selectionList()
+  activateRecord: (records) ->
+    unless records
+      records = Album.selectionList()
 
-    unless Spine.isArray(arr)
-      arr = [arr]
+    unless Spine.isArray(records)
+      records = [records]
       
     list = []
-    for id in arr
+    for id in records
       list.push photo.id if photo = Photo.find(id)
     
     id = list[0]
     
-    if ModelOrRecord and ModelOrRecord.constructor.className
-      ModelOrRecord.updateSelection(list)
-    else
-      Album.updateSelection(Album.record?.id, list)
-      Photo.current(id)
+    Album.updateSelection(Album.record?.id, list)
+    Photo.current(id)
       
   
   click: (e) ->

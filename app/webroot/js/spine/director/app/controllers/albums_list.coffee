@@ -109,14 +109,14 @@ class AlbumsList extends Spine.Controller
       contentEl.attr('style', style)
     @el.sortable()
   
-  exposeSelection: (item, selection) ->
+  exposeSelection: (item, sel) ->
     @log 'exposeSelection'
 #    console.log item
     
     return unless item?.id is Gallery.record?.id
     item = item or Gallery
 
-    selection = item.selectionList()
+    selection = sel or item.selectionList()
       
     @deselect()
     for id in selection

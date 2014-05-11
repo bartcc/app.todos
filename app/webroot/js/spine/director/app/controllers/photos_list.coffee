@@ -74,7 +74,7 @@ class PhotosList extends Spine.Controller
       @[mode] @template items
       @callDeferred items
       @size(App.showView.sOutValue)
-      @exposeSelection()
+      @exposeSelection(Album.record)
     else if mode is 'add'
       @html '<h3 class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></h3>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more photos can be added or there is no album selected.</span></label></h3>'
@@ -241,14 +241,9 @@ class PhotosList extends Spine.Controller
     
   #  ****** END ***** 
   
-  exposeSelection: (item=Album.record, sel) ->
+  exposeSelection: (item, sel) ->
     @log 'exposeSelection'
-    
-    if Album.record
-      if item then return unless Album.record.id is item.id
-    else
-      return if item
-      
+    return unless item?.id is Album.record?.id
     item = item or Album
     selection = sel or item.selectionList()
       
@@ -319,7 +314,7 @@ class PhotosList extends Spine.Controller
       e.preventDefault()
       
     ids = Album.selectionList()[..]
-    items = if ids.length then Photo.toRecords(ids.and(item?.id)) else [item]
+    items = if ids.length then Photo.toRecords(ids.add(item?.id)) else [item]
     options = val: -90
     
     callback = (items) =>
@@ -328,7 +323,7 @@ class PhotosList extends Spine.Controller
         photo = Photo.find item['Photo']['id']
         photo.clearCache()
         albs = photo.albums()
-        albums.and alb.id for alb in albs
+        albums.add alb.id for alb in albs
         photo
       
       @callDeferred res

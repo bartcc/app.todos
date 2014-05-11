@@ -36,7 +36,7 @@
     return this;
   };
 
-  Array.prototype.and = function(id) {
+  Array.prototype.add = function(id) {
     this.toggleSelected(id, true);
     return this;
   };

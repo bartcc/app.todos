@@ -18,7 +18,7 @@ require("spine/lib/ajax")
 
 class Album extends Spine.Model
 
-  @configure "Album", 'id', 'title', 'description', 'count', 'user_id', 'invalid', 'active'
+  @configure "Album", 'id', 'title', 'description', 'count', 'user_id', 'invalid', 'active', 'selected'
 
   @extend Model.Cache
   @extend Model.Ajax

@@ -14,7 +14,7 @@ Cache         = require("plugins/cache")
 require("spine/lib/ajax")
 
 class Photo extends Spine.Model
-  @configure "Photo", 'id', 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'software', 'model', 'user_id', 'active', 'src'
+  @configure "Photo", 'id', 'title', "description", 'filesize', 'captured', 'exposure', "iso", 'longitude', 'aperture', 'software', 'model', 'user_id', 'active', 'src', 'selected'
 
   @extend Cache
   @extend Model.Ajax

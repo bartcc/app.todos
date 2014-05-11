@@ -22,7 +22,7 @@ Array.prototype.addRemoveSelection = (id) ->
   @toggleSelected(id)
   @
   
-Array.prototype.and = (id) ->
+Array.prototype.add = (id) ->
   @toggleSelected(id, true)
   @
   

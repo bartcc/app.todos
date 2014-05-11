@@ -6,6 +6,7 @@ Album           = require('models/album')
 Photo           = require('models/photo')
 AlbumsPhoto     = require('models/albums_photo')
 GalleriesAlbum  = require('models/galleries_album')
+SpineDragItem   = require('models/drag_item')
 
 Controller = Spine.Controller
 
@@ -14,11 +15,8 @@ Controller.Drag =
   extended: ->
     
     Include =
-      init: ->
-        Spine.dragItem = null
         
       dragstart: (e) ->
-        
         event = e.originalEvent
         el = $(e.target)
         
@@ -30,22 +28,27 @@ Controller.Drag =
           
         parentEl = el.parents('.data')
         parentModel = parentEl.data('tmplItem')?.data.constructor or parentEl.data('current')?.model
-        parentRecord = parentEl.data('tmplItem')?.data or parentModel?.record or parentModel
+        parentRecord = parentEl.data('tmplItem')?.data or parentModel?.record# or parentModel
         
-        Spine.dragItem = {}
-        Spine.dragItem.el = el
-        Spine.dragItem.els = []
-        Spine.dragItem.source = record
-        Spine.dragItem.origin = parentRecord
         
-        @trigger('drag:help', e, record, parentRecord)
+        Spine.DragItem = SpineDragItem.first()
+        Spine.DragItem.updateAttributes
+          el: el
+          els: []
+          source: record
+          originModel: parentModel.className
+          originRecord: parentRecord
+          selection: []
+        
+        @trigger('drag:help', e)
         @trigger('drag:start', e, @, record)
         
         parentEl.addClass('drag-in-progress')
         
-        if parentModel
+        modelOrRecord = if rec = Spine.DragItem.originRecord then rec else Model[Spine.DragItem.originModel]
+        if modelOrRecord
           data = []
-          data.update parentRecord.selectionList() 
+          data.update modelOrRecord.selectionList() 
         else
           return
         
@@ -81,6 +84,7 @@ Controller.Drag =
         @trigger('drag:end', e, data)
 
       drop: (e, data) ->
+        @log 'drop'
         $('.drag-in-progress').removeClass('drag-in-progress')
         clearTimeout Spine.timer
         event = e.originalEvent
@@ -93,79 +97,87 @@ Controller.Drag =
       # helper methods
         
       dragHelp: (e, item, origin) ->
-        if origin.selectionList().indexOf(item.id) is -1
-          item.constructor.trigger('activate', item.id, origin)
+        Spine.DragItem = SpineDragItem.first()
+        selection = []
+        modelOrRecord = if rec = Spine.DragItem.originRecord then rec else Model[Spine.DragItem.originModel]
+        selection.update modelOrRecord.selectionList()[..]
+        if modelOrRecord.selectionList().indexOf(Spine.DragItem.source.id) is -1
+          Spine.DragItem.selected = true
+          Spine.DragItem.save()
+          selection.add Spine.DragItem.source.id
+          Model[Spine.DragItem.originModel].updateSelection Spine.DragItem.originRecord?.id, selection, trigger: false
         
       dragStart: (e, controller, record) ->
         @log 'dragStart'
+        Spine.DragItem = SpineDragItem.first()
         el = $(e.currentTarget)
         event = e.originalEvent
-        source = Spine.dragItem.source
-        Spine.dragItem.targetEl = null
-        Spine.selection = new Array
+        source = Spine.DragItem.source
+        selection = []
         unless source
           alert 'no source'
           return
         # check for drags from sublist and set its origin
         if el.parents('#sidebar').length
           originEl = el.parents('.gal.data')
-          origin = originEl.item()
-          selection = origin.selectionList().slice(0)
-#          Spine.dragItem.origin = origin
+          selection.update Spine.DragItem.originRecord.selectionList()[..]
         else
           switch source.constructor.className
             when 'Album'
-              selection = Gallery.selectionList().slice(0)
+              selection.update Gallery.selectionList()[..]
             when 'Photo'
-              selection = Album.selectionList().slice(0)
-
-        Spine.selection.update selection
-
+              selection.update Album.selectionList()[..]
+        
+        Spine.DragItem.selection = selection[..]
+        Spine.DragItem.save()
+        
       dragEnter: (e) ->
-        @log 'dragEnter'
-        return unless Spine.dragItem
+        Spine.DragItem = SpineDragItem.first()
+        return unless Spine.DragItem
         el = indicator = $(e.target).closest('.data')
         selector = el.attr('data-drag-over')
         if selector then indicator = el.children('.'+selector)
         
-        target = Spine.dragItem.target = el.data('tmplItem')?.data or el.data('current')?.model.record
-        source = Spine.dragItem.source
-        origin = Spine.dragItem.origin
+        target = Spine.DragItem.target = el.data('tmplItem')?.data or el.data('current')?.model.record
+        source = Spine.DragItem.source
+        origin = Spine.DragItem.originRecord
         
-        Spine.dragItem.closest?.removeClass('over nodrop')
-        Spine.dragItem.closest = indicator
+        Spine.DragItem.closest?.removeClass('over nodrop')
+        Spine.DragItem.closest = indicator
+        
+        Spine.DragItem.save()
         
         if @validateDrop target, source, origin
-          Spine.dragItem.closest.addClass('over')
+          Spine.DragItem.closest.addClass('over')
 
       dragOver: (e) =>
 
       dragLeave: (e) =>
 
       dragEnd: (e) =>
-        Spine.dragItem.closest?.removeClass('over nodrop')
+        Spine.DragItem = SpineDragItem.first()
+        Spine.DragItem.closest?.removeClass('over nodrop')
 
       dragDrop: (e, record) ->
-        return unless Spine.dragItem # for image drops  
-        @log 'dragDrop'
-        target = Spine.dragItem.target
-        source = Spine.dragItem.source
-        origin = Spine.dragItem.origin
+        Spine.DragItem = SpineDragItem.first()
+        target = Spine.DragItem.target
+        source = Spine.DragItem.source
+        origin = Spine.DragItem.originRecord
         
-        Spine.dragItem.closest?.removeClass('over nodrop')
+        Spine.DragItem.closest?.removeClass('over nodrop')
         
-        return unless @validateDrop target, source, origin
-        
+        unless @validateDrop target, source, origin
+          @clearHelper()
+          return
         hash = location.hash
         switch source.constructor.className
           when 'Album'
-            selection = Spine.selection
-            
-            Album.trigger('destroy:join', selection, origin) if !@isCtrlClick(e) and origin
-            Album.trigger('create:join', selection, target, => @navigate hash)
+            selection = Spine.DragItem.selection
+            Album.trigger('destroy:join', selection, origin) unless @isCtrlClick(e)# and origin
+            Album.trigger('create:join', selection, target, => )#@navigate hash)
 
           when 'Photo'
-            selection = Spine.selection
+            selection = Spine.DragItem.selection
             photos = Photo.toRecords(selection)
 
             Photo.trigger 'create:join',
@@ -176,7 +188,16 @@ Controller.Drag =
             unless @isCtrlClick(e)
               Photo.trigger 'destroy:join',
                 photos: selection
-                album: origin
+                album: origin.record
+                
+        @clearHelper()
+                
+      clearHelper: ->
+        modelOrRecord = if rec = Spine.DragItem.originRecord then rec else Model[Spine.DragItem.originModel]
+        if Spine.DragItem.source and Spine.DragItem.selected
+          list = Model[Spine.DragItem.originModel].removeFromSelection(Spine.DragItem.originRecord?.id, Spine.DragItem.source.id, trigger: false)
+          Spine.DragItem.selected = false
+          Spine.DragItem.save()
         
       validateDrop: (target, source, origin) =>
         return unless target
@@ -207,6 +228,5 @@ Controller.Drag =
           else return false
           
     @include Include
-#    @extend Log
 
 module?.exports = Drag = Controller.Drag

@@ -66,9 +66,12 @@ Model.Extender =
           return item[id] if item[id]
         ret
       
-      updateSelection: (id, list) ->
+      updateSelection: (id, list, options) ->
+        defaults = {trigger: true}
+        option = $().extend defaults, options
         ret = @emptySelection id, list
-        @trigger('change:selection', @find(id), ret)
+        record = @find(id)
+        @trigger('change:selection', record, ret) if option.trigger
         ret
 
       emptySelection: (id, list = []) ->
@@ -76,15 +79,16 @@ Model.Extender =
         originalList[0...originalList.length] = list
         originalList
 
-      removeFromSelection: (id, idOrList=[]) ->
+      removeFromSelection: (id, idOrList=[], options) ->
         originalList = @selectionList(id)
         unless @isArray idOrList
           idOrList = [idOrList]
           
         for id in idOrList
-          originalList.splice(index, 1) unless (index = originalList.indexOf(id)) is -1
+          unless (index = originalList.indexOf(id)) is -1
+            originalList.splice(index, 1) 
           
-        list = @updateSelection id, originalList.slice(0)
+        list = @updateSelection id, originalList.slice(0), options
         list
 
       isArray: (value) ->
@@ -208,12 +212,12 @@ Model.Extender =
              __val.splice(__x, 1) unless __x = __val.indexOf(@id) is -1 #remove all selection entries
       
       # removes items from the selectionList
-      removeFromSelection: (list) ->
-        @constructor.removeFromSelection(@id, list)
+      removeFromSelection: (list, options) ->
+        @constructor.removeFromSelection(@id, list, options)
       
-      updateSelection: (list) ->
+      updateSelection: (list, options) ->
         list = [list] unless @constructor.isArray list
-        list = @constructor.updateSelection @id, list
+        list = @constructor.updateSelection @id, list, options
 
       emptySelection: ->
         list = @constructor.emptySelection @id

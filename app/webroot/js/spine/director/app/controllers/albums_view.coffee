@@ -30,7 +30,7 @@ class AlbumsView extends Spine.Controller
     'dragstart .item'                 : 'dragstart'
     'dragstart'                       : 'stopInfo'
     'drop .item'                      : 'drop'
-    'dragover   .items'               : 'dragover'
+    'dragover   .item'                : 'dragover'
     
     'sortupdate .items'               : 'sortupdate'
     'mousemove .item'                 : 'infoUp'
@@ -71,7 +71,7 @@ class AlbumsView extends Spine.Controller
     GalleriesAlbum.bind('beforeDestroy', @proxy @beforeDestroyGalleriesAlbum)
     GalleriesAlbum.bind('destroy', @proxy @destroyGalleriesAlbum)
     
-    Gallery.bind('change:collection', @proxy @collectionChanged)
+#    Gallery.bind('change:collection', @proxy @collectionChanged)
     
     Album.bind('refresh:one', @proxy @refreshOne)
     Album.bind('ajaxError', Album.errorHandler)
@@ -96,8 +96,8 @@ class AlbumsView extends Spine.Controller
     Spine.bind('loading:fail', @proxy @loadingFail)
     Spine.bind('destroy:album', @proxy @destroyAlbum)
     
-    @bind('drag:help', @proxy @dragHelp)
     @bind('drag:start', @proxy @dragStart)
+    @bind('drag:help', @proxy @dragHelp)
     @bind('drag:drop', @proxy @dragDrop)
     
     $(@views).queue('fx')
@@ -147,8 +147,13 @@ class AlbumsView extends Spine.Controller
     unless @isActive()
       @navigate '/gallery', Gallery.record?.id or ''
       
-  activateRecord: (arr=[], ModelOrRecord) ->
+  activateRecord: (arr, ModelOrRecord) ->
     @log 'activateRecord'
+    unless arr
+      arr = Gallery.selectionList()
+      Album.current()
+      idForce = true
+      
     unless Spine.isArray(arr)
       arr = [arr]
       
@@ -162,8 +167,8 @@ class AlbumsView extends Spine.Controller
       ModelOrRecord.updateSelection(list)
     else
       App.sidebar.list.expand(Gallery.record, true) if id
-      Gallery.updateSelection(null, list)
-      Album.current(id)
+      Gallery.updateSelection(Gallery.record?.id, list)
+      Album.current(id) unless idForce
       if Album.record
         Photo.trigger('activate', Album.selectionList())
       else
@@ -192,9 +197,9 @@ class AlbumsView extends Spine.Controller
     cb = (album, ido) ->
       if target
         album.createJoin(target)
-        target.updateSelection()
+        target.updateSelection(album.id)
       else
-        Gallery.updateSelection()
+        Gallery.updateSelection(Gallery.record?.id, album.id)
         
       album.updateSelectionID()
       
@@ -276,7 +281,6 @@ class AlbumsView extends Spine.Controller
       
   createJoin: (albums, gallery, callback) ->
     @log 'createJoin'
-    
     albums = albums.toID()
     Album.createJoin albums, gallery, callback
     gallery.updateSelection(albums)
@@ -362,12 +366,12 @@ class AlbumsView extends Spine.Controller
       items = [items]
     Gallery.emptySelection() if exclusive
       
-    selection = Gallery.selectionList().slice(0)
+    selection = Gallery.selectionList()[..]
     for id in items
       selection.addRemoveSelection(id)
     
     Album.trigger('activate', selection[0])
-    Gallery.updateSelection(null, selection)
+    Gallery.updateSelection(Gallery.record?.id, selection)
     
   infoUp: (e) =>
     @info.up(e)

@@ -126,7 +126,7 @@ class ShowView extends Spine.Controller
     'dragenter .view'                                 : 'dragenter'
     'dragend'                                         : 'dragend'
     'drop'                                            : 'drop'
-
+    
     'keydown'                                         : 'keydown'
     'keyup'                                           : 'keyup'
     

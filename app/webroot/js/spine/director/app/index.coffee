@@ -26,6 +26,7 @@ OverviewView            = require('controllers/overview_view')
 MissingView             = require("controllers/missing_view")
 FlickrView              = require("controllers/flickr_view")
 Extender                = require('plugins/controller_extender')
+SpineDragItem           = require('models/drag_item')
 
 require('spine/lib/route')
 require('spine/lib/manager')
@@ -75,6 +76,8 @@ class Main extends Spine.Controller
 
   constructor: ->
     super
+    
+    Spine.DragItem = SpineDragItem.create()
     
     @ALBUM_SINGLE_MOVE = @createImage('/img/cursor_folder_1.png')
     @ALBUM_DOUBLE_MOVE = @createImage('/img/cursor_folder_3.png')

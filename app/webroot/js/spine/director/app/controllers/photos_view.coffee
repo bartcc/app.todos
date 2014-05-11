@@ -119,7 +119,10 @@ class PhotosView extends Spine.Controller
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     @refresh()
     
-  activateRecord: (arr=[], ModelOrRecord) ->
+  activateRecord: (arr, ModelOrRecord) ->
+    unless arr
+      arr = Album.selectionList()
+
     unless Spine.isArray(arr)
       arr = [arr]
       
@@ -132,7 +135,7 @@ class PhotosView extends Spine.Controller
     if ModelOrRecord and ModelOrRecord.constructor.className
       ModelOrRecord.updateSelection(list)
     else
-      Album.updateSelection(null, list)
+      Album.updateSelection(Album.record?.id, list)
       Photo.current(id)
       
   
@@ -151,12 +154,12 @@ class PhotosView extends Spine.Controller
       
     Album.emptySelection() if exclusive
     
-    selection = Album.selectionList().slice(0)
+    selection = Album.selectionList()[..]
     for id in items
       selection.addRemoveSelection(id)
       
     Photo.trigger('activate', selection[0])
-    Album.updateSelection(null, selection)
+    Album.updateSelection(Album.record?.id, selection)
   
   clearPhotoCache: ->
     Photo.clearCache()
@@ -232,7 +235,7 @@ class PhotosView extends Spine.Controller
   add: (photos) ->
     unless Photo.isArray photos
       photos = [photos]
-    Album.updateSelection null, photos.toID()
+    Album.updateSelection(Album.record?.id, photos.toID())
     @render(photos, 'append')
     @list.el.sortable('destroy').sortable('photos')
       

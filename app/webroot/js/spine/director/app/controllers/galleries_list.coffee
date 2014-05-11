@@ -98,7 +98,7 @@ class GalleriesList extends Spine.Controller
     @deselect()
     return unless Gallery.record
     
-    if item
+    if item is Gallery.record or item?.id is Gallery.record?.id
       el = @children().forItem(item, true)
       el.addClass("active hot")
       

@@ -9,6 +9,7 @@ User           = require("models/user")
 Drag           = require("plugins/drag")
 SidebarList    = require('controllers/sidebar_list')
 Extender       = require("plugins/controller_extender")
+SpineDragItem  = require('models/drag_item')
 
 class Sidebar extends Spine.Controller
 
@@ -191,7 +192,7 @@ class Sidebar extends Spine.Controller
     clearTimeout timer
     galleryEl = $(e.target).closest('.gal.item')
     item = galleryEl.item()
-    return unless item and item.id isnt Spine.dragItem.origin.id
+    return unless item and item.id isnt Spine.DragItem.originRecord.id
     @list.expand(item, true)
     
   sortupdate: (e, o) ->

@@ -188,7 +188,7 @@ Controller.Drag =
             unless @isCtrlClick(e)
               Photo.trigger 'destroy:join',
                 photos: selection
-                album: origin.record
+                album: origin
                 
         @clearHelper()
                 

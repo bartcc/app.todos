@@ -11,10 +11,11 @@ class OverviewView extends Spine.Controller
   @extend Extender
 
   elements:
-    '#overview-carousel'         : 'carousel'
-    '.carousel-inner'            : 'content'
-    '.carousel-inner .recents'   : 'items'
-    '.carousel-inner .summary'   : 'summary'
+    '#overview-carousel'            : 'carousel'
+    '.carousel-inner'               : 'content'
+    '.carousel-inner .recents'      : 'items'
+    '.carousel-inner .recents .item': 'item'
+    '.carousel-inner .summary'      : 'summary'
     
   events:
     'click .item'         : 'showPhoto'
@@ -111,7 +112,9 @@ class OverviewView extends Spine.Controller
     @el.focus()
     
   showPhoto: (e) ->
-    item = $(e.currentTarget).item()
+#    item = $(e.currentTarget).item()
+    index = @item.index($(e.currentTarget))
+    console.log index
 #    return unless item
 #    photo = Photo.find(item.id)
     
@@ -119,9 +122,9 @@ class OverviewView extends Spine.Controller
 #      @navigate '/gallery', '/', photo.id
 #      
 #    false
-    @slideshow.trigger('play', {}, [item])
-    
-    false
+    @slideshow.trigger('play', {index:index}, Recent.all())
+    e.preventDefault()
+    e.stopPropagation()
   
   error: (xhr, statusText, error) ->
     @log xhr

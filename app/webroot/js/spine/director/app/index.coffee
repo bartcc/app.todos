@@ -115,8 +115,6 @@ class Main extends Spine.Controller
       el: @sidebarFlickrEl
     @loginView = new LoginView
       el: @loginEl
-    @overviewView = new OverviewView
-      el: @overviewEl
     @mainView = new MainView
       el: @mainEl
     @loaderView = new LoaderView
@@ -129,6 +127,9 @@ class Main extends Spine.Controller
       uploader: @upload
       sidebar: @sidebar
       parent: @
+    @overviewView = new OverviewView
+      el: @overviewEl
+      slideshow: @showView.slideshowView
     @slideshowView = @showView.slideshowView
 
     @vmanager = new Spine.Manager(@sidebar)
@@ -195,8 +196,8 @@ class Main extends Spine.Controller
         @overviewView.trigger('active')
       '/slideshow/:index': (params) ->
         @showView.trigger('active', @showView.slideshowView, params.index)
-      '/slideshow/*glob': (params) ->
-        @showView.trigger('active', @showView.slideshowView, params.glob)
+#      '/slideshow/*glob': (params) ->
+#        @showView.trigger('active', @showView.slideshowView, params.glob)
       '/wait/*glob': (params) ->
         @showView.trigger('active', @showView.waitView)
       '/flickr/:type/:page': (params) ->

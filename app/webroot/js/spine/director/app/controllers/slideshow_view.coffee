@@ -197,15 +197,15 @@ class SlideshowView extends Spine.Controller
     e.preventDefault()
     
   play: (options={index:0}, list=[]) ->
-    unless @isActive()
-      @images.update list # mixin images to override album images
-      @one('slideshow:ready', @proxy @playSlideshow)
-      @previousHash = location.hash
-      params = $.param(options)
-      @navigate '/slideshow', params
-    else
-      @previousHash = location.hash
-      @playSlideshow(options)
+#    unless @isActive() and @parent.isActive()
+    @images.update list # mixin images to override album images
+    @one('slideshow:ready', @proxy @playSlideshow)
+    @previousHash = location.hash unless /^#\/slideshow\/$/.test(location.hash)
+    params = $.param(options)
+    @navigate '/slideshow', params
+#    else
+#      @previousHash = location.hash
+#      @playSlideshow(options)
       
   playSlideshow: (options=@options) ->
     return if @galleryIsActive()
@@ -232,7 +232,7 @@ class SlideshowView extends Spine.Controller
     $('#blueimp-gallery').hasClass(@defaults.displayClass)
     
   back: (e) ->
-    if ph = localStorage.previousHash and localStorage.previousHash isnt location.hash
+    if localStorage.previousHash and localStorage.previousHash isnt location.hash
       location.hash = localStorage.previousHash
       delete localStorage.previousHash
     else

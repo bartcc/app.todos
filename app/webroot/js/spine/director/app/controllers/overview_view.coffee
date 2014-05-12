@@ -112,12 +112,15 @@ class OverviewView extends Spine.Controller
     
   showPhoto: (e) ->
     item = $(e.currentTarget).item()
-    return unless item
-    photo = Photo.find(item.id)
+#    return unless item
+#    photo = Photo.find(item.id)
     
-    if photo
-      @navigate '/gallery', '/', photo.id
-      
+#    if photo
+#      @navigate '/gallery', '/', photo.id
+#      
+#    false
+    @slideshow.trigger('play', {}, [item])
+    
     false
   
   error: (xhr, statusText, error) ->

@@ -112,16 +112,7 @@ class OverviewView extends Spine.Controller
     @el.focus()
     
   showPhoto: (e) ->
-#    item = $(e.currentTarget).item()
     index = @item.index($(e.currentTarget))
-    console.log index
-#    return unless item
-#    photo = Photo.find(item.id)
-    
-#    if photo
-#      @navigate '/gallery', '/', photo.id
-#      
-#    false
     @slideshow.trigger('play', {index:index}, Recent.all())
     e.preventDefault()
     e.stopPropagation()

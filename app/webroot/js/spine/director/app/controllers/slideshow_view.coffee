@@ -74,8 +74,8 @@ class SlideshowView extends Spine.Controller
     @log 'render'
     unless items.length
       @itemsEl.html '<label class="invite">
-        <span class="enlightened">This slideshow does not have images &nbsp;
-        <p>Note: Select an album that contains images</p>
+        <span class="enlightened">This slideshow does not have any images &nbsp;
+        <p>Note: Select one or more albums with images.</p>
         </span>
         <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Back</span></button>
         </label>'

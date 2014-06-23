@@ -85,6 +85,7 @@ class PhotosList extends Spine.Controller
         <p>Simply drop your photos to your browser window</p>
         <p>Note: You can also drag existing photos to a sidebars folder</p>
         </span>
+        <button class="opt-Upload dark large"><i class="glyphicon glyphicon-upload"></i><span>&nbsp;Upload</span></button>
         <button class="opt-AddPhotos dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
         <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
         </label>'

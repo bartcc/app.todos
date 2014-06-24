@@ -805,7 +805,6 @@
 
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class=""><span class="">${id}</span></li>
     <li class=""><span class="">{{if title}}{{html title}}{{else}}${src}{{/if}}</span></li>
     <li class="tr">{{if model}}<span class="td">Model</span><span class="td">:</span><span class="td">${model}</span>{{/if}}</li>
     <li class="tr">{{if software}}<span class="td">Software</span><span class="td">:</span><span class="td">${software}</span>{{/if}}</li>

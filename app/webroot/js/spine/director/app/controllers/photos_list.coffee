@@ -90,7 +90,9 @@ class PhotosList extends Spine.Controller
         <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
         </label>'
       else
-        @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;<p>Simply drop your photos to your browser window</p>
+        @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;
+        <p>Simply drop your photos to your browser window</p>
+        <button class="opt-Upload dark large"><i class="glyphicon glyphicon-upload"></i><span>&nbsp;Upload</span></button>
         <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
         </label>'
       

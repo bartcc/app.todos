@@ -68,6 +68,7 @@ class FlickrView extends Spine.Controller
       'https://secure'
     else
       'http://api'
+    protocol = 'https://secure'
     protocol + '.flickr.com/services/rest/'
                 
   data:

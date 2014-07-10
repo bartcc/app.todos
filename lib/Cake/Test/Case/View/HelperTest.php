@@ -2,19 +2,18 @@
 /**
  * HelperTest file
  *
- * PHP 5
- *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('View', 'View');
@@ -32,7 +31,7 @@ class HelperTestPost extends Model {
 /**
  * useTable property
  *
- * @var bool false
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -72,7 +71,7 @@ class HelperTestComment extends Model {
 /**
  * useTable property
  *
- * @var bool false
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -106,7 +105,7 @@ class HelperTestTag extends Model {
 /**
  * useTable property
  *
- * @var bool false
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -137,7 +136,7 @@ class HelperTestPostsTag extends Model {
 /**
  * useTable property
  *
- * @var bool false
+ * @var boolean
  */
 	public $useTable = false;
 
@@ -159,9 +158,19 @@ class HelperTestPostsTag extends Model {
 class TestHelper extends Helper {
 
 /**
+ * Settings for this helper.
+ *
+ * @var array
+ */
+	public $settings = array(
+		'key1' => 'val1',
+		'key2' => array('key2.1' => 'val2.1', 'key2.2' => 'val2.2')
+	);
+
+/**
  * Helpers for this helper.
  *
- * @var string
+ * @var array
  */
 	public $helpers = array('Html', 'TestPlugin.OtherHelper');
 
@@ -193,6 +202,8 @@ class HelperTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
+
 		ClassRegistry::flush();
 		Router::reload();
 		$null = null;
@@ -215,9 +226,11 @@ class HelperTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+		Configure::delete('Asset');
+
 		CakePlugin::unload();
 		unset($this->Helper, $this->View);
-		ClassRegistry::flush();
 	}
 
 /**
@@ -261,6 +274,24 @@ class HelperTest extends CakeTestCase {
 	}
 
 /**
+ * Test settings merging
+ *
+ * @return void
+ */
+	public function testSettingsMerging() {
+		$Helper = new TestHelper($this->View, array(
+			'key3' => 'val3',
+			'key2' => array('key2.2' => 'newval')
+		));
+		$expected = array(
+			'key1' => 'val1',
+			'key2' => array('key2.1' => 'val2.1', 'key2.2' => 'newval'),
+			'key3' => 'val3'
+		);
+		$this->assertEquals($expected, $Helper->settings);
+	}
+
+/**
  * Test setting an entity and retrieving the entity, model and field.
  *
  * @dataProvider entityProvider
@@ -276,7 +307,7 @@ class HelperTest extends CakeTestCase {
 /**
  * test setEntity with setting a scope.
  *
- * @return
+ * @return void
  */
 	public function testSetEntityScoped() {
 		$this->Helper->setEntity('HelperTestPost', true);
@@ -524,7 +555,7 @@ class HelperTest extends CakeTestCase {
 	}
 
 /**
- * Ensure HTML escaping of url params.  So link addresses are valid and not exploited
+ * Ensure HTML escaping of URL params. So link addresses are valid and not exploited
  *
  * @return void
  */
@@ -565,37 +596,36 @@ class HelperTest extends CakeTestCase {
  * @return void
  */
 	public function testAssetTimestamp() {
-		$_timestamp = Configure::read('Asset.timestamp');
-		$_debug = Configure::read('debug');
-
+		Configure::write('Foo.bar', 'test');
 		Configure::write('Asset.timestamp', false);
-		$result = $this->Helper->assetTimestamp(CSS_URL . 'cake.generic.css');
-		$this->assertEquals(CSS_URL . 'cake.generic.css', $result);
+		$result = $this->Helper->assetTimestamp(Configure::read('App.cssBaseUrl') . 'cake.generic.css');
+		$this->assertEquals(Configure::read('App.cssBaseUrl') . 'cake.generic.css', $result);
 
 		Configure::write('Asset.timestamp', true);
 		Configure::write('debug', 0);
-		$result = $this->Helper->assetTimestamp(CSS_URL . 'cake.generic.css');
-		$this->assertEquals(CSS_URL . 'cake.generic.css', $result);
+
+		$result = $this->Helper->assetTimestamp('/%3Cb%3E/cake.generic.css');
+		$this->assertEquals('/%3Cb%3E/cake.generic.css', $result);
+
+		$result = $this->Helper->assetTimestamp(Configure::read('App.cssBaseUrl') . 'cake.generic.css');
+		$this->assertEquals(Configure::read('App.cssBaseUrl') . 'cake.generic.css', $result);
 
 		Configure::write('Asset.timestamp', true);
 		Configure::write('debug', 2);
-		$result = $this->Helper->assetTimestamp(CSS_URL . 'cake.generic.css');
-		$this->assertRegExp('/' . preg_quote(CSS_URL . 'cake.generic.css?', '/') . '[0-9]+/', $result);
+		$result = $this->Helper->assetTimestamp(Configure::read('App.cssBaseUrl') . 'cake.generic.css');
+		$this->assertRegExp('/' . preg_quote(Configure::read('App.cssBaseUrl') . 'cake.generic.css?', '/') . '[0-9]+/', $result);
 
 		Configure::write('Asset.timestamp', 'force');
 		Configure::write('debug', 0);
-		$result = $this->Helper->assetTimestamp(CSS_URL . 'cake.generic.css');
-		$this->assertRegExp('/' . preg_quote(CSS_URL . 'cake.generic.css?', '/') . '[0-9]+/', $result);
+		$result = $this->Helper->assetTimestamp(Configure::read('App.cssBaseUrl') . 'cake.generic.css');
+		$this->assertRegExp('/' . preg_quote(Configure::read('App.cssBaseUrl') . 'cake.generic.css?', '/') . '[0-9]+/', $result);
 
-		$result = $this->Helper->assetTimestamp(CSS_URL . 'cake.generic.css?someparam');
-		$this->assertEquals(CSS_URL . 'cake.generic.css?someparam', $result);
+		$result = $this->Helper->assetTimestamp(Configure::read('App.cssBaseUrl') . 'cake.generic.css?someparam');
+		$this->assertEquals(Configure::read('App.cssBaseUrl') . 'cake.generic.css?someparam', $result);
 
 		$this->Helper->request->webroot = '/some/dir/';
-		$result = $this->Helper->assetTimestamp('/some/dir/' . CSS_URL . 'cake.generic.css');
-		$this->assertRegExp('/' . preg_quote(CSS_URL . 'cake.generic.css?', '/') . '[0-9]+/', $result);
-
-		Configure::write('debug', $_debug);
-		Configure::write('Asset.timestamp', $_timestamp);
+		$result = $this->Helper->assetTimestamp('/some/dir/' . Configure::read('App.cssBaseUrl') . 'cake.generic.css');
+		$this->assertRegExp('/' . preg_quote(Configure::read('App.cssBaseUrl') . 'cake.generic.css?', '/') . '[0-9]+/', $result);
 	}
 
 /**
@@ -605,8 +635,6 @@ class HelperTest extends CakeTestCase {
  */
 	public function testAssetUrl() {
 		$this->Helper->webroot = '';
-		$_timestamp = Configure::read('Asset.timestamp');
-
 		$result = $this->Helper->assetUrl(array(
 				'controller' => 'js',
 				'action' => 'post',
@@ -614,33 +642,72 @@ class HelperTest extends CakeTestCase {
 			),
 			array('fullBase' => true)
 		);
-		$this->assertEquals(FULL_BASE_URL . '/js/post.js', $result);
+		$this->assertEquals(Router::fullBaseUrl() . '/js/post.js', $result);
 
 		$result = $this->Helper->assetUrl('foo.jpg', array('pathPrefix' => 'img/'));
 		$this->assertEquals('img/foo.jpg', $result);
 
 		$result = $this->Helper->assetUrl('foo.jpg', array('fullBase' => true));
-		$this->assertEquals(FULL_BASE_URL . '/foo.jpg', $result);
+		$this->assertEquals(Router::fullBaseUrl() . '/foo.jpg', $result);
 
 		$result = $this->Helper->assetUrl('style', array('ext' => '.css'));
-		$this->assertEqual('style.css', $result);
+		$this->assertEquals('style.css', $result);
 
+		$result = $this->Helper->assetUrl('dir/sub dir/my image', array('ext' => '.jpg'));
+		$this->assertEquals('dir/sub%20dir/my%20image.jpg', $result);
+
+		$result = $this->Helper->assetUrl('foo.jpg?one=two&three=four');
+		$this->assertEquals('foo.jpg?one=two&amp;three=four', $result);
+
+		$result = $this->Helper->assetUrl('dir/big+tall/image', array('ext' => '.jpg'));
+		$this->assertEquals('dir/big%2Btall/image.jpg', $result);
+	}
+
+/**
+ * Test assetUrl with no rewriting.
+ *
+ * @return void
+ */
+	public function testAssetUrlNoRewrite() {
+		$this->Helper->request->addPaths(array(
+			'base' => '/cake_dev/index.php',
+			'webroot' => '/cake_dev/app/webroot/',
+			'here' => '/cake_dev/index.php/tasks',
+		));
+		$result = $this->Helper->assetUrl('img/cake.icon.png', array('fullBase' => true));
+		$expected = FULL_BASE_URL . '/cake_dev/app/webroot/img/cake.icon.png';
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test assetUrl with plugins.
+ *
+ * @return void
+ */
+	public function testAssetUrlPlugin() {
+		$this->Helper->webroot = '';
 		CakePlugin::load('TestPlugin');
 
 		$result = $this->Helper->assetUrl('TestPlugin.style', array('ext' => '.css'));
-		$this->assertEqual('test_plugin/style.css', $result);
+		$this->assertEquals('test_plugin/style.css', $result);
 
 		$result = $this->Helper->assetUrl('TestPlugin.style', array('ext' => '.css', 'plugin' => false));
-		$this->assertEqual('TestPlugin.style.css', $result);
+		$this->assertEquals('TestPlugin.style.css', $result);
 
 		CakePlugin::unload('TestPlugin');
+	}
 
+/**
+ * test assetUrl and Asset.timestamp = force
+ *
+ * @return void
+ */
+	public function testAssetUrlTimestampForce() {
+		$this->Helper->webroot = '';
 		Configure::write('Asset.timestamp', 'force');
 
-		$result = $this->Helper->assetUrl('cake.generic.css', array('pathPrefix' => CSS_URL));
-		$this->assertRegExp('/' . preg_quote(CSS_URL . 'cake.generic.css?', '/') . '[0-9]+/', $result);
-
-		Configure::write('Asset.timestamp', $_timestamp);
+		$result = $this->Helper->assetUrl('cake.generic.css', array('pathPrefix' => Configure::read('App.cssBaseUrl')));
+		$this->assertRegExp('/' . preg_quote(Configure::read('App.cssBaseUrl') . 'cake.generic.css?', '/') . '[0-9]+/', $result);
 	}
 
 /**
@@ -649,7 +716,6 @@ class HelperTest extends CakeTestCase {
  * @return void
  */
 	public function testAssetTimestampPluginsAndThemes() {
-		$timestamp = Configure::read('Asset.timestamp');
 		Configure::write('Asset.timestamp', 'force');
 		App::build(array(
 			'View' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'View' . DS),
@@ -667,9 +733,6 @@ class HelperTest extends CakeTestCase {
 
 		$result = $this->Helper->assetTimestamp('/theme/test_theme/js/non_existant.js');
 		$this->assertRegExp('#/theme/test_theme/js/non_existant.js\?$#', $result, 'No error on missing file');
-
-		App::build();
-		Configure::write('Asset.timestamp', $timestamp);
 	}
 
 /**
@@ -786,6 +849,16 @@ class HelperTest extends CakeTestCase {
 
 		$result = $this->Helper->clean('&lt;script&gt;alert(document.cookie)&lt;/script&gt;');
 		$this->assertEquals('&amp;lt;script&amp;gt;alert(document.cookie)&amp;lt;/script&amp;gt;', $result);
+	}
+
+/**
+ * testDomId method
+ *
+ * @return void
+ */
+	public function testDomId() {
+		$result = $this->Helper->domId('Foo.bar');
+		$this->assertEquals('FooBar', $result);
 	}
 
 /**
@@ -910,8 +983,7 @@ class HelperTest extends CakeTestCase {
 		$Helper->OtherHelper;
 
 		$result = $this->View->Helpers->enabled();
-		$expected = array();
-		$this->assertEquals($expected, $result, 'Helper helpers were attached to the collection.');
+		$this->assertEquals(array(), $result, 'Helper helpers were attached to the collection.');
 	}
 
 /**

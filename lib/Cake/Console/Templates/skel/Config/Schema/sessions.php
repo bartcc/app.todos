@@ -1,27 +1,15 @@
 <?php
-/*Sessions schema generated on: 2007-11-25 07:11:54 : 1196004714*/
-
 /**
  * This is Sessions Schema file
  *
  * Use it to configure database for Sessions
  *
- * PHP 5
- *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       app.Config.Schema
  * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-/*
+/**
  *
  * Using the Schema command line utility
  * cake schema run create Sessions
@@ -29,15 +17,37 @@
  */
 class SessionsSchema extends CakeSchema {
 
+/**
+ * Name property
+ *
+ * @var string
+ */
 	public $name = 'Sessions';
 
+/**
+ * Before event.
+ *
+ * @param array $event The event data.
+ * @return bool Success
+ */
 	public function before($event = array()) {
 		return true;
 	}
 
+/**
+ * After event.
+ *
+ * @param array $event The event data.
+ * @return void
+ */
 	public function after($event = array()) {
 	}
 
+/**
+ * cake_sessions table definition
+ *
+ * @var array
+ */
 	public $cake_sessions = array(
 		'id' => array('type' => 'string', 'null' => false, 'key' => 'primary'),
 		'data' => array('type' => 'text', 'null' => true, 'default' => null),

@@ -2,19 +2,19 @@
 /**
  * CakeHtmlReporter
  *
- * PHP 5
- *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.4433
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('CakeBaseReporter', 'TestSuite/Reporter');
 
 /**
@@ -33,10 +33,22 @@ class CakeHtmlReporter extends CakeBaseReporter {
  */
 	public function paintHeader() {
 		$this->_headerSent = true;
+		$this->sendContentType();
 		$this->sendNoCacheHeaders();
 		$this->paintDocumentStart();
 		$this->paintTestMenu();
 		echo "<ul class='tests'>\n";
+	}
+
+/**
+ * Set the content-type header so it is in the correct encoding.
+ *
+ * @return void
+ */
+	public function sendContentType() {
+		if (!headers_sent()) {
+			header('Content-Type: text/html; charset=' . Configure::read('App.encoding'));
+		}
 	}
 
 /**
@@ -83,11 +95,11 @@ class CakeHtmlReporter extends CakeBaseReporter {
 			$urlExtra = '&plugin=' . $plugin;
 		}
 
-		if (1 > count($testCases)) {
+		if (count($testCases) < 1) {
 			$buffer .= "<strong>EMPTY</strong>";
 		}
 
-		foreach ($testCases as $testCaseFile => $testCase) {
+		foreach ($testCases as $testCase) {
 			$title = explode(DS, str_replace('.test.php', '', $testCase));
 			$title[count($title) - 1] = Inflector::camelize($title[count($title) - 1]);
 			$title = implode(' / ', $title);
@@ -157,6 +169,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * Paints a code coverage report.
  *
+ * @param array $coverage The coverage data
  * @return void
  */
 	public function paintCoverage(array $coverage) {
@@ -189,8 +202,9 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		$show = $this->_queryString($show);
 		$query = $this->_queryString($query);
 
-		echo "<p><a href='" . $this->baseUrl() . $show . "'>Run more tests</a> | <a href='" . $this->baseUrl() . $query . "&show_passes=1'>Show Passes</a> | \n";
-		echo " <a href='" . $this->baseUrl() . $query . "&amp;code_coverage=true'>Analyze Code Coverage</a></p>\n";
+		echo "<p><a href='" . $this->baseUrl() . $show . "'>Run more tests</a> | <a href='" . $this->baseUrl() . $query . "&amp;show_passes=1'>Show Passes</a> | \n";
+		echo "<a href='" . $this->baseUrl() . $query . "&amp;debug=1'>Enable Debug Output</a> | \n";
+		echo "<a href='" . $this->baseUrl() . $query . "&amp;code_coverage=true'>Analyze Code Coverage</a></p>\n";
 	}
 
 /**
@@ -229,15 +243,31 @@ class CakeHtmlReporter extends CakeBaseReporter {
  *
  * @param PHPUnit_Framework_AssertionFailedError $message Failure object displayed in
  *   the context of the other tests.
+ * @param mixed $test The test case to paint a failure for.
  * @return void
  */
 	public function paintFail($message, $test) {
 		$trace = $this->_getStackTrace($message);
 		$testName = get_class($test) . '(' . $test->getName() . ')';
 
+		$actualMsg = $expectedMsg = null;
+		if (method_exists($message, 'getComparisonFailure')) {
+			$failure = $message->getComparisonFailure();
+			if (is_object($failure)) {
+				$actualMsg = $failure->getActualAsString();
+				$expectedMsg = $failure->getExpectedAsString();
+			}
+		}
+
 		echo "<li class='fail'>\n";
 		echo "<span>Failed</span>";
-		echo "<div class='msg'><pre>" . $this->_htmlEntities($message->toString()) . "</pre></div>\n";
+		echo "<div class='msg'><pre>" . $this->_htmlEntities($message->toString());
+
+		if ((is_string($actualMsg) && is_string($expectedMsg)) || (is_array($actualMsg) && is_array($expectedMsg))) {
+			echo "<br />" . $this->_htmlEntities(PHPUnit_Util_Diff::diff($expectedMsg, $actualMsg));
+		}
+
+		echo "</pre></div>\n";
 		echo "<div class='msg'>" . __d('cake_dev', 'Test case: %s', $testName) . "</div>\n";
 		echo "<div class='msg'>" . __d('cake_dev', 'Stack trace:') . '<br />' . $trace . "</div>\n";
 		echo "</li>\n";
@@ -248,7 +278,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  * trail of the nesting test suites below the
  * top level test.
  *
- * @param PHPUnit_Framework_Test test method that just passed
+ * @param PHPUnit_Framework_Test $test Test method that just passed
  * @param float $time time spent to run the test method
  * @return void
  */
@@ -265,7 +295,8 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * Paints a PHP exception.
  *
- * @param Exception $exception Exception to display.
+ * @param Exception $message Exception to display.
+ * @param mixed $test The test that failed.
  * @return void
  */
 	public function paintException($message, $test) {
@@ -339,7 +370,8 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * A test suite started.
  *
- * @param  PHPUnit_Framework_TestSuite $suite
+ * @param PHPUnit_Framework_TestSuite $suite The test suite to start.
+ * @return void
  */
 	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
 		if (!$this->_headerSent) {

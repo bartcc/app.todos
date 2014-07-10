@@ -173,7 +173,7 @@
  *
  */
 	Configure::write('Session', array(
-		'defaults' => 'php',
+		'defaults' => 'cake',
   'timeout' => 43200, // 30 days
   'cookieTimeout' => 43200 // 30 days
 	));

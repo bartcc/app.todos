@@ -4,19 +4,18 @@
  *
  * Test Case for test generation shell task
  *
- * PHP 5
- *
  * CakePHP : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc.
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.Case.Console.Command.Task
  * @since         CakePHP v 1.2.6
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('ShellDispatcher', 'Console');
@@ -31,6 +30,7 @@ App::uses('ModelTask', 'Console/Command/Task');
  * ModelTaskTest class
  *
  * @package	   Cake.Test.Case.Console.Command.Task
+ * @property   ModelTask $Task
  */
 class ModelTaskTest extends CakeTestCase {
 
@@ -41,7 +41,7 @@ class ModelTaskTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'core.bake_article', 'core.bake_comment', 'core.bake_articles_bake_tag',
-		'core.bake_tag', 'core.category_thread'
+		'core.bake_tag', 'core.category_thread', 'core.number_tree'
 	);
 
 /**
@@ -62,7 +62,7 @@ class ModelTaskTest extends CakeTestCase {
 	}
 
 /**
- * Setup a mock that has out mocked.  Normally this is not used as it makes $this->at() really tricky.
+ * Setup a mock that has out mocked. Normally this is not used as it makes $this->at() really tricky.
  *
  * @return void
  */
@@ -173,7 +173,7 @@ class ModelTaskTest extends CakeTestCase {
 		$this->Task->expects($this->any())->method('in')->will($this->onConsecutiveCalls(99, 1));
 		$this->Task->expects($this->once())->method('err');
 
-		$result = $this->Task->getName('test');
+		$this->Task->getName('test');
 	}
 
 /**
@@ -189,7 +189,7 @@ class ModelTaskTest extends CakeTestCase {
 	}
 
 /**
- * test gettting a custom table name.
+ * test getting a custom table name.
  *
  * @return void
  */
@@ -268,7 +268,7 @@ class ModelTaskTest extends CakeTestCase {
  */
 	public function testInitValidations() {
 		$result = $this->Task->initValidations();
-		$this->assertTrue(in_array('notempty', $result));
+		$this->assertTrue(in_array('notEmpty', $result));
 	}
 
 /**
@@ -282,7 +282,7 @@ class ModelTaskTest extends CakeTestCase {
 		$this->Task->initValidations();
 
 		$result = $this->Task->fieldValidation('text', array('type' => 'string', 'length' => 10, 'null' => false));
-		$expected = array('notempty' => 'notempty');
+		$expected = array('notEmpty' => 'notEmpty');
 		$this->assertEquals($expected, $result);
 
 		$result = $this->Task->fieldValidation('text', array('type' => 'date', 'length' => 10, 'null' => false));
@@ -315,10 +315,10 @@ class ModelTaskTest extends CakeTestCase {
 		$this->Task->initValidations();
 		$this->Task->interactive = true;
 		$this->Task->expects($this->any())->method('in')
-			->will($this->onConsecutiveCalls('21', 'y', '17', 'n'));
+			->will($this->onConsecutiveCalls('24', 'y', '18', 'n'));
 
 		$result = $this->Task->fieldValidation('text', array('type' => 'string', 'length' => 10, 'null' => false));
-		$expected = array('notempty' => 'notempty', 'maxlength' => 'maxlength');
+		$expected = array('notEmpty' => 'notEmpty', 'maxLength' => 'maxLength');
 		$this->assertEquals($expected, $result);
 	}
 
@@ -333,13 +333,13 @@ class ModelTaskTest extends CakeTestCase {
 		$this->Task->interactive = true;
 
 		$this->Task->expects($this->any())->method('in')
-			->will($this->onConsecutiveCalls('999999', '21', 'n'));
+			->will($this->onConsecutiveCalls('999999', '24', 'n'));
 
-		$this->Task->expects($this->at(7))->method('out')
+		$this->Task->expects($this->at(10))->method('out')
 			->with($this->stringContains('make a valid'));
 
 		$result = $this->Task->fieldValidation('text', array('type' => 'string', 'length' => 10, 'null' => false));
-		$expected = array('notempty' => 'notempty');
+		$expected = array('notEmpty' => 'notEmpty');
 		$this->assertEquals($expected, $result);
 	}
 
@@ -360,6 +360,100 @@ class ModelTaskTest extends CakeTestCase {
 	}
 
 /**
+ * Test that skipping fields during rule choice works when doing interactive field validation.
+ *
+ * @return void
+ */
+	public function testSkippingChoiceInteractiveFieldValidation() {
+		$this->Task->initValidations();
+		$this->Task->interactive = true;
+		$this->Task->expects($this->any())->method('in')
+			->will($this->onConsecutiveCalls('24', 'y', 's'));
+
+		$result = $this->Task->fieldValidation('text', array('type' => 'string', 'length' => 10, 'null' => false));
+		$expected = array('notEmpty' => 'notEmpty', '_skipFields' => true);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test that skipping fields after rule choice works when doing interactive field validation.
+ *
+ * @return void
+ */
+	public function testSkippingAnotherInteractiveFieldValidation() {
+		$this->Task->initValidations();
+		$this->Task->interactive = true;
+		$this->Task->expects($this->any())->method('in')
+			->will($this->onConsecutiveCalls('24', 's'));
+
+		$result = $this->Task->fieldValidation('text', array('type' => 'string', 'length' => 10, 'null' => false));
+		$expected = array('notEmpty' => 'notEmpty', '_skipFields' => true);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test the validation generation routine with skipping the rest of the fields
+ * when doing interactive field validation.
+ *
+ * @return void
+ */
+	public function testInteractiveDoValidationWithSkipping() {
+		$this->Task->expects($this->any())
+			->method('in')
+			->will($this->onConsecutiveCalls('35', '24', 'n', '11', 's'));
+		$this->Task->interactive = true;
+		$Model = $this->getMock('Model');
+		$Model->primaryKey = 'id';
+		$Model->expects($this->any())
+			->method('schema')
+			->will($this->returnValue(array(
+					'id' => array(
+						'type' => 'integer',
+						'length' => 11,
+						'null' => false,
+						'key' => 'primary',
+					),
+					'name' => array(
+						'type' => 'string',
+						'length' => 20,
+						'null' => false,
+					),
+					'email' => array(
+						'type' => 'string',
+						'length' => 255,
+						'null' => false,
+					),
+					'some_date' => array(
+						'type' => 'date',
+						'length' => '',
+						'null' => false,
+					),
+					'some_time' => array(
+						'type' => 'time',
+						'length' => '',
+						'null' => false,
+					),
+					'created' => array(
+						'type' => 'datetime',
+						'length' => '',
+						'null' => false,
+					)
+				)
+			));
+
+		$result = $this->Task->doValidation($Model);
+		$expected = array(
+			'name' => array(
+				'notEmpty' => 'notEmpty'
+			),
+			'email' => array(
+				'email' => 'email',
+			),
+		);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
  * test the validation Generation routine
  *
  * @return void
@@ -367,45 +461,48 @@ class ModelTaskTest extends CakeTestCase {
 	public function testNonInteractiveDoValidation() {
 		$Model = $this->getMock('Model');
 		$Model->primaryKey = 'id';
-		$Model->expects($this->any())->method('schema')->will($this->returnValue(array(
-			'id' => array(
-				'type' => 'integer',
-				'length' => 11,
-				'null' => false,
-				'key' => 'primary',
-			),
-			'name' => array(
-				'type' => 'string',
-				'length' => 20,
-				'null' => false,
-			),
-			'email' => array(
-				'type' => 'string',
-				'length' => 255,
-				'null' => false,
-			),
-			'some_date' => array(
-				'type' => 'date',
-				'length' => '',
-				'null' => false,
-			),
-			'some_time' => array(
-				'type' => 'time',
-				'length' => '',
-				'null' => false,
-			),
-			'created' => array(
-				'type' => 'datetime',
-				'length' => '',
-				'null' => false,
+		$Model->expects($this->any())
+			->method('schema')
+			->will($this->returnValue(array(
+				'id' => array(
+					'type' => 'integer',
+					'length' => 11,
+					'null' => false,
+					'key' => 'primary',
+				),
+				'name' => array(
+					'type' => 'string',
+					'length' => 20,
+					'null' => false,
+				),
+				'email' => array(
+					'type' => 'string',
+					'length' => 255,
+					'null' => false,
+				),
+				'some_date' => array(
+					'type' => 'date',
+					'length' => '',
+					'null' => false,
+				),
+				'some_time' => array(
+					'type' => 'time',
+					'length' => '',
+					'null' => false,
+				),
+				'created' => array(
+					'type' => 'datetime',
+					'length' => '',
+					'null' => false,
+				)
 			)
-		)));
+		));
 		$this->Task->interactive = false;
 
 		$result = $this->Task->doValidation($Model);
 		$expected = array(
 			'name' => array(
-				'notempty' => 'notempty'
+				'notEmpty' => 'notEmpty'
 			),
 			'email' => array(
 				'email' => 'email',
@@ -623,6 +720,20 @@ class ModelTaskTest extends CakeTestCase {
 	}
 
 /**
+ * test non interactive doActsAs
+ *
+ * @return void
+ */
+	public function testDoActsAs() {
+		$this->Task->connection = 'test';
+		$this->Task->interactive = false;
+		$model = new Model(array('ds' => 'test', 'name' => 'NumberTree'));
+		$result = $this->Task->doActsAs($model);
+
+		$this->assertEquals(array('Tree'), $result);
+	}
+
+/**
  * Ensure that the fixture object is correctly called.
  *
  * @return void
@@ -727,7 +838,7 @@ class ModelTaskTest extends CakeTestCase {
 	public function testBakeValidation() {
 		$validate = array(
 			'name' => array(
-				'notempty' => 'notempty'
+				'notempty' => 'notEmpty'
 			),
 			'email' => array(
 				'email' => 'email',
@@ -745,7 +856,7 @@ class ModelTaskTest extends CakeTestCase {
 		$expected = <<< STRINGEND
 array(
 			'notempty' => array(
-				'rule' => array('notempty'),
+				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -836,6 +947,27 @@ STRINGEND;
 	}
 
 /**
+ * test bake() for models with behaviors
+ *
+ * @return void
+ */
+	public function testBakeWithBehaviors() {
+		$result = $this->Task->bake('NumberTree', array('actsAs' => array('Tree', 'PluginName.Sluggable')));
+		$expected = <<<TEXT
+/**
+ * Behaviors
+ *
+ * @var array
+ */
+	public \$actsAs = array(
+		'Tree',
+		'PluginName.Sluggable',
+	);
+TEXT;
+		$this->assertTextContains($expected, $result);
+	}
+
+/**
  * test that execute passes runs bake depending with named model.
  *
  * @return void
@@ -920,8 +1052,8 @@ STRINGEND;
 		$this->Task->args = array('all');
 		$this->Task->expects($this->once())->method('_checkUnitTest')->will($this->returnValue(true));
 
-		$this->Task->Fixture->expects($this->exactly(5))->method('bake');
-		$this->Task->Test->expects($this->exactly(5))->method('bake');
+		$this->Task->Fixture->expects($this->exactly(6))->method('bake');
+		$this->Task->Test->expects($this->exactly(6))->method('bake');
 
 		$filename = '/my/path/BakeArticle.php';
 		$this->Task->expects($this->at(1))->method('createFile')
@@ -951,6 +1083,10 @@ STRINGEND;
 		$this->Task->expects($this->at(5))->method('createFile')
 			->with($filename, $this->stringContains('class CategoryThread'));
 
+		$filename = '/my/path/NumberTree.php';
+		$this->Task->expects($this->at(6))->method('createFile')
+			->with($filename, $this->stringContains('class NumberTree'));
+
 		$this->Task->execute();
 
 		$this->assertEquals(count(ClassRegistry::keys()), 0);
@@ -958,7 +1094,7 @@ STRINGEND;
 	}
 
 /**
- * test that odd tablenames arent inflected back from modelname
+ * test that odd tablenames aren't inflected back from modelname
  *
  * @return void
  */
@@ -986,7 +1122,7 @@ STRINGEND;
 		$out = $this->getMock('ConsoleOutput', array(), array(), '', false);
 		$in = $this->getMock('ConsoleInput', array(), array(), '', false);
 		$this->Task = $this->getMock('ModelTask',
-			array('in', 'err', '_stop', '_checkUnitTest', 'getAllTables', '_getModelObject', 'doAssociations', 'doValidation', 'createFile'),
+			array('in', 'err', '_stop', '_checkUnitTest', 'getAllTables', '_getModelObject', 'doAssociations', 'doValidation', 'doActsAs', 'createFile'),
 			array($out, $out, $in)
 		);
 		$this->_setupOtherMocks();
@@ -1000,6 +1136,7 @@ STRINGEND;
 		$this->Task->expects($this->once())->method('_getModelObject')->will($this->returnValue($object));
 		$this->Task->expects($this->once())->method('doAssociations')->will($this->returnValue(array()));
 		$this->Task->expects($this->once())->method('doValidation')->will($this->returnValue(array()));
+		$this->Task->expects($this->once())->method('doActsAs')->will($this->returnValue(array()));
 
 		$filename = '/my/path/BakeOdd.php';
 		$this->Task->expects($this->once())->method('createFile')
@@ -1013,7 +1150,7 @@ STRINGEND;
 	}
 
 /**
- * test that odd tablenames arent inflected back from modelname
+ * test that odd tablenames aren't inflected back from modelname
  *
  * @return void
  */
@@ -1041,7 +1178,7 @@ STRINGEND;
 		$out = $this->getMock('ConsoleOutput', array(), array(), '', false);
 		$in = $this->getMock('ConsoleInput', array(), array(), '', false);
 		$this->Task = $this->getMock('ModelTask',
-			array('in', 'err', '_stop', '_checkUnitTest', 'getAllTables', '_getModelObject', 'doAssociations', 'doValidation', 'createFile'),
+			array('in', 'err', '_stop', '_checkUnitTest', 'getAllTables', '_getModelObject', 'doAssociations', 'doValidation', 'doActsAs', 'createFile'),
 			array($out, $out, $in)
 		);
 		$this->_setupOtherMocks();
@@ -1055,6 +1192,7 @@ STRINGEND;
 		$this->Task->expects($this->once())->method('_getModelObject')->will($this->returnValue($object));
 		$this->Task->expects($this->once())->method('doAssociations')->will($this->returnValue(array()));
 		$this->Task->expects($this->once())->method('doValidation')->will($this->returnValue(array()));
+		$this->Task->expects($this->once())->method('doActsAs')->will($this->returnValue(array()));
 
 		$filename = '/my/path/BakeOdd.php';
 		$this->Task->expects($this->once())->method('createFile')
@@ -1082,7 +1220,7 @@ STRINGEND;
 		$this->Task->path = '/my/path/';
 		$this->Task->args = array('all');
 		$this->Task->expects($this->once())->method('_checkUnitTest')->will($this->returnValue(true));
-		$this->Task->skipTables = array('bake_tags');
+		$this->Task->skipTables = array('bake_tags', 'number_trees');
 
 		$this->Task->Fixture->expects($this->exactly(4))->method('bake');
 		$this->Task->Test->expects($this->exactly(4))->method('bake');

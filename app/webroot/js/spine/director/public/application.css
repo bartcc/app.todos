@@ -1262,7 +1262,7 @@ label.btn.active {
   margin: 25px 0;
 }
 .all .item {
-  padding: 10px;
+  padding: 0;
   width: auto;
 }
 #main #content .content .container fieldset {
@@ -1658,8 +1658,8 @@ li.item.active .glyphicon-set {
   background-color: #9fdeff;
 }
 .all .glyphicon-set {
-  right: 10px;
-  top: 10;
+  right: 0;
+  top: 0;
 }
 .glyphicon-set {
   background-color: #39f;

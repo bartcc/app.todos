@@ -110,7 +110,7 @@ class GalleriesList extends Spine.Controller
     @navigate '/gallery', item.id
     
   back: (e) ->
-    @navigate '/overview'
+    @navigate '/overview', ''
     
   deleteGallery: (e) ->
     item = $(e.currentTarget).item()

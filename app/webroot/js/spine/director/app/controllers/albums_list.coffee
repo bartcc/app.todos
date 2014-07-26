@@ -213,7 +213,7 @@ class AlbumsList extends Spine.Controller
     e.stopPropagation()
     
   back: (e) ->
-    @navigate '/galleries/'
+    @navigate '/galleries', ''
     e.preventDefault()
     e.stopPropagation()
 

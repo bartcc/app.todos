@@ -681,6 +681,7 @@ button.white {
 }
 button.close.white:hover {
   opacity: 1;
+  color: #fff;
 }
 button,
 .btn {

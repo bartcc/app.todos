@@ -169,7 +169,7 @@
             Overview
           </div>
         </div>
-        <div style="z-index: 1000; position: absolute; right: 0px; top: 0px; margin: 10px;">
+        <div style="z-index: 1000; position: absolute; right: 0px; top: 0px; margin: 0;">
           <button type="button" class="close white" data-dismiss="modal" aria-hidden="true" style="padding: 10px;">&times;</button>
         </div>
       </div>

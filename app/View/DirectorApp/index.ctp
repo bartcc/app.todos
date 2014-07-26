@@ -170,7 +170,7 @@
           </div>
         </div>
         <div style="z-index: 1000; position: absolute; right: 0px; top: 0px; margin: 0;">
-          <button type="button" class="close white" data-dismiss="modal" aria-hidden="true" style="padding: 10px;">&times;</button>
+          <button type="button" class="close white" data-dismiss="modal" aria-hidden="true" style="padding: 8px;">&times;</button>
         </div>
       </div>
       <div id="missing" class="canvas view vbox flex fade">
@@ -179,13 +179,16 @@
         </ul>
         <div class="content vbox flex autoflow"></div>
       </div>
-      <div id="flickr" class="canvas view vbox flex fade">
+      <div id="flickr" class="canvas view vbox flex fade" style="position: relative;">
         <ul class="options hbox">
           <li class="splitter flex"></li>
           <ul class="toolbar hbox nav"></ul>
           <li class="splitter flex"></li>
         </ul>
         <div class="content links vbox flex autoflow"></div>
+        <div style="z-index: 1000; position: absolute; right: 0px; top: 0px; margin: 0;">
+          <button type="button" class="close white" data-dismiss="modal" aria-hidden="true" style="padding: 8px;">&times;</button>
+        </div>
       </div>
       
     </div>

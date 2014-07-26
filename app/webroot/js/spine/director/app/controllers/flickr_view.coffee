@@ -13,11 +13,12 @@ class FlickrView extends Spine.Controller
     '.toolbar'    : 'toolbarEl'
     
   events:
-    'click .recent'   : 'navRecent'
-    'click .inter'    : 'navInter'
-    'click .links'    : 'click'
-    'click .opt-Prev'  : 'prevPage'
-    'click .opt-Next'  : 'nextPage'
+    'click button.close'  : 'close'
+    'click .recent'       : 'navRecent'
+    'click .inter'        : 'navInter'
+    'click .links'        : 'click'
+    'click .opt-Prev'     : 'prevPage'
+    'click .opt-Next'     : 'nextPage'
     
   template: (items) ->
     $('#flickrTemplate').tmpl items
@@ -170,5 +171,18 @@ class FlickrView extends Spine.Controller
     e.stopPropagation()
     e.preventDefault()
     @navigate '/flickr', 'inter/1'
+    
+  close: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    
+    if localStorage.previousHash and localStorage.previousHash isnt location.hash
+      unless /^#\/slideshow\//.test(localStorage.previousHash)
+        location.hash = localStorage.previousHash
+        delete localStorage.previousHash
+      else
+        @navigate '/galleries/'
+    else
+      @navigate '/galleries/'
     
 module.exports = FlickrView

@@ -677,11 +677,10 @@ div.content label.label span {
 }
 button.white {
   color: #fff;
-  opacity: 1;
+  opacity: 0.5;
 }
 button.close.white:hover {
   opacity: 1;
-  color: #fff;
 }
 button,
 .btn {

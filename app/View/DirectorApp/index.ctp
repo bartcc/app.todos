@@ -308,7 +308,7 @@
         <h3>${header}</h3>
       </div>
       <div class="modal-body dark" style="text-align: center;">
-        <img src="img/keyboard.png">
+        <img src="/img/keyboard.png">
       </div>
       {{if info}}
       <div class="modal-header label-info dark">
@@ -896,7 +896,7 @@
 
 <script id="overviewTemplate" type="text/x-jquery-tmpl">
   <div class="item active">
-    <img src="img/overview-background.png" style="width: 800px; height: 370px;">
+    <img src="/img/overview-background.png" style="width: 800px; height: 370px;">
     <div class="recents carousel-item">
       {{tmpl($item.data.photos) "#overviewPhotosTemplate"}}
     </div>
@@ -906,7 +906,7 @@
     </div>  
   </div>
   <div class="item summary">
-    <img src="img/overview-background.png" style="width: 800px; height: 370px;">
+    <img src="/img/overview-background.png" style="width: 800px; height: 370px;">
     <div class="carousel-item">
       {{tmpl($item.data.summary) "#overviewSummaryTemplate"}}
     </div>

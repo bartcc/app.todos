@@ -125,15 +125,16 @@ class OverviewView extends Spine.Controller
   close: (e) ->
     e.preventDefault()
     e.stopPropagation()
-    
+    console.log localStorage.previousHash
+    console.log localStorage.hash
     if localStorage.previousHash and localStorage.previousHash isnt location.hash
       unless /^#\/slideshow\//.test(localStorage.previousHash)
         location.hash = localStorage.previousHash
         delete localStorage.previousHash
       else
-        @navigate '/galleries/'
+        @navigate '/galleries', ''
     else
-      @navigate '/galleries/'
+      @navigate '/galleries', ''
       
   keyup: (e) ->
     e.preventDefault()

@@ -622,14 +622,14 @@ class ShowView extends Spine.Controller
     @slideshowView.trigger('play')
     
   slideshowPreview: (e) ->
-    @navigate '/slideshow/'
+    @navigate '/slideshow', ''
     
   slideshowPhoto: (e) ->
     if Photo.record
       @slideshowView.trigger('play', {}, [Photo.record])
     
   showOverview: (e) ->
-    @navigate '/overview/'
+    @navigate '/overview', ''
 
   showModal: (options) ->
     opts =
@@ -647,10 +647,10 @@ class ShowView extends Spine.Controller
     Album.inactive()
 
   showAlbumMasters: ->
-    @navigate '/gallery/'
+    @navigate '/gallery', ''
     
   showPhotoMasters: ->
-    @navigate '/gallery//'
+    @navigate '/gallery', '/'
     
   showAlbumMastersAdd: (e) ->
     e.preventDefault()

@@ -23,6 +23,6 @@ class MissingView extends Spine.Controller
     
   relocate: (e) ->
     e.preventDefault()
-    @navigate '/overview'
+    @navigate '/overview', ''
     
 module?.exports = MissingView

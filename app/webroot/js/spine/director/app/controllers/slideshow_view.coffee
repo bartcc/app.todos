@@ -200,7 +200,7 @@ class SlideshowView extends Spine.Controller
 #    unless @isActive() and @parent.isActive()
     @images.update list # mixin images to override album images
     @one('slideshow:ready', @proxy @playSlideshow)
-    @previousHash = location.hash unless /^#\/slideshow\/$/.test(location.hash)
+    @previousHash = location.hash unless /^#\/slideshow\//.test(location.hash)
     params = $.param(options)
     @navigate '/slideshow', params
 #    else

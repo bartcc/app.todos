@@ -146,7 +146,7 @@ class Sidebar extends Spine.Controller
         Album.trigger('create:join', options.albums, gallery)
         Album.trigger('destroy:join', options.albums, options.deleteFromOrigin) if options.deleteFromOrigin
         
-      unless /^#\/galleries\/$/.test(location.hash)
+      unless /^#\/galleries\//.test(location.hash)
         @navigate '/gallery', gallery.id
       else
         Gallery.trigger('activate', gallery.id)

@@ -18,6 +18,7 @@ class OverviewView extends Spine.Controller
     '.carousel-inner .summary'      : 'summary'
     
   events:
+    'click button.close'  : 'close'
     'click .item'         : 'showPhoto'
     'keyup'               : 'keyup'
 
@@ -121,6 +122,19 @@ class OverviewView extends Spine.Controller
     @log xhr
     @record.trigger('ajaxError', xhr, statusText, error)
     
+  close: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+    
+    if localStorage.previousHash and localStorage.previousHash isnt location.hash
+      unless /^#\/slideshow\//.test(localStorage.previousHash)
+        location.hash = localStorage.previousHash
+        delete localStorage.previousHash
+      else
+        @navigate '/galleries/'
+    else
+      @navigate '/galleries/'
+      
   keyup: (e) ->
     e.preventDefault()
     code = e.charCode or e.keyCode

@@ -145,7 +145,10 @@
           </div>
         </div>
       </div>
-      <div id="overview" class="view content vbox flex data parent fade">
+      <div id="overview" class="view content vbox flex data parent fade" style="position: relative;">
+        <div style="z-index: 1000;">
+          <button type="button" class="close white" data-dismiss="modal" aria-hidden="true" style="position: absolute; right: 0; top: 0;">&times;</button>
+        </div>
         <div class="carousel-background bg-medium flex">
 <!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
 <!--          We can't use it here, since it must be triggered via the controller-->
@@ -777,16 +780,22 @@
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right" title="Up"></span>
     <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right" title="Full Size"></span>
     <span class="rotate glyphicon glyphicon-repeat glyphicon-white right" title="Rotate clockwise"></span>
+    </div>
   </div>
 </script>
 
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left"></div>
   <div class="glyphicon glyphicon-set fade out" style="">
-    <span class="delete glyphicon glyphicon-trash glyphicon-white right" title="Delete"></span>
     <span class="back glyphicon glyphicon-chevron-up glyphicon-white right" title="Up"></span>
     <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right" title="Full Size"></span>
     <span class="rotate glyphicon glyphicon-repeat glyphicon-white right" title="Rotate clockwise"></span>
+    <ul class="dropdown-menu" role="menu">
+      <li class="opt-">
+        <a href="#"><i class="delete glyphicon glyphicon-trash glyphicon-white" title="Delete"></i>Delete</a>
+        <a href="#"><i class="glyphicon glyphicon-ok"></i>Trace</a>
+      </li>
+    </ul>
   </div>
   <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
 </script>

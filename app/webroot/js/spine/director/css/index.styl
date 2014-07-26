@@ -215,6 +215,14 @@ div.content label.label span {
 #show .galleries .item:not(.active) .inner > div:nth-child(4) {
   visibility: hidden;
 }
+button.white {
+    color: rgb(255, 255, 255);
+    opacity: 1;
+}
+button.close.white:hover {
+  opacity: 1;
+  color: rgb(255, 255, 255);
+}
 button, .btn {
   border: 1px solid;
   border-radius: 3px;
@@ -826,6 +834,9 @@ textarea {
   padding: 0;
   width: 420px;
 }
+.carousel-control.right, .carousel-control.left {
+  background: none;
+}
 .carousel .carousel-item {
   left: 0%;
   right: 0%;
@@ -946,7 +957,7 @@ li .thumbnail.image {
 #content .content .item ul {
   float: left;
 }
-#content .content .item ul {
+#content .content .item ulxxxx {
   display: none;
 }
 .in {
@@ -984,7 +995,6 @@ li .thumbnail.image {
   transition: opacity 0.8s linear;
 }
 #content .content .item.active ul {
-  display: inherit;
   float: right;
   padding: 15px;
   margin: 0 15px 15px 0;

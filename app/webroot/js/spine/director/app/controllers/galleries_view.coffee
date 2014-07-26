@@ -89,7 +89,7 @@ class GalleriesView extends Spine.Controller
       Spine.trigger('show:galleries')
       Gallery.trigger('refresh:gallery')
     else
-      unless /^#\/galleries\/$/.test(location.hash)
+      unless /^#\/galleries\//.test(location.hash)
         @navigate '/gallery', Gallery.first().id
   
   

@@ -146,10 +146,7 @@
         </div>
       </div>
       <div id="overview" class="view content vbox flex data parent fade" style="position: relative;">
-        <div style="z-index: 1000;">
-          <button type="button" class="close white" data-dismiss="modal" aria-hidden="true" style="position: absolute; right: 0; top: 0;">&times;</button>
-        </div>
-        <div class="carousel-background bg-medium flex">
+        <div class="carousel-background bg-medium flex" style="z-index: 0;">
 <!--          The data-ride="carousel" attribute is used to mark a carousel as animating starting at page load.-->
 <!--          We can't use it here, since it must be triggered via the controller-->
           <div tabindex="3" id="overview-carousel" class="carousel slide" data-ride="">
@@ -171,6 +168,9 @@
           <div class="xxl" style="color: rgba(156, 156, 156, 0.99);">
             Overview
           </div>
+        </div>
+        <div style="z-index: 1000; position: absolute; right: 0px; top: 0px; margin: 10px;">
+          <button type="button" class="close white" data-dismiss="modal" aria-hidden="true" style="padding: 10px;">&times;</button>
         </div>
       </div>
       <div id="missing" class="canvas view vbox flex fade">

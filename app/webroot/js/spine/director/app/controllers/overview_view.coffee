@@ -63,7 +63,7 @@ class OverviewView extends Spine.Controller
     @content.html @template items
     @refreshElements()
     @carousel.carousel @options
-    @carousel.carousel 0
+#    @carousel.carousel 0
     @uri items
     
   thumbSize: (width = 70, height = 70) ->

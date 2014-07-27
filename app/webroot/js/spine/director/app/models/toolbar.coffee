@@ -81,6 +81,10 @@ class Toolbar extends Spine.Model
           icon: 'asterisk'
           klass: 'opt-CreateAlbum'
         ,
+          name: 'New from Photo Selection'
+          icon: 'asterisk'
+          klass: 'opt-CopyPhotosToNewAlbum'
+        ,
           name: 'Add from Library'
           icon: 'plus'
           klass: 'opt-AddAlbums'

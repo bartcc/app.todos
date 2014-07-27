@@ -83,6 +83,7 @@ class ShowView extends Spine.Controller
     'click .opt-CreateAlbum:not(.disabled)'           : 'createAlbum'
     'click .opt-DuplicateAlbum:not(.disabled)'        : 'duplicateAlbum'
     'click .opt-CopyAlbumsToNewGallery:not(.disabled)': 'copyAlbumsToNewGallery'
+    'click .opt-CopyPhotosToNewAlbum:not(.disabled)'  : 'copyPhotosToNewAlbum'
     'click .opt-CopyPhoto'                            : 'copyPhoto'
     'click .opt-CutPhoto'                             : 'cutPhoto'
     'click .opt-PastePhoto'                           : 'pastePhoto'
@@ -347,6 +348,9 @@ class ShowView extends Spine.Controller
       
   copyAlbumsToNewGallery: ->
     @albumsToGallery Gallery.selectionList()[..]
+      
+  copyPhotosToNewAlbum: ->
+    @photosToAlbum Album.selectionList()[..]
       
   duplicateAlbum: ->
     return unless album = Album.record

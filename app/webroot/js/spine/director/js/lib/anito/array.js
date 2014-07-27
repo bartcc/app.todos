@@ -63,7 +63,6 @@
       value = this[_i];
       Regex = new RegExp(value);
       if (Regex.test(string)) {
-        alert(value + ' found');
         return true;
       }
     }

@@ -38,7 +38,4 @@ Array.prototype.toggleSelected = (id, addonly) ->
 Array.prototype.contains = (string) ->
   for value in @
     Regex = new RegExp(value)
-    if Regex.test(string)
-      alert value + ' found'
-      return true
-  
+    return true if Regex.test(string)

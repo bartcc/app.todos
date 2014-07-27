@@ -90,6 +90,8 @@ class Main extends Spine.Controller
     User.bind('pinger', @proxy @validate)
     $('#modal-gallery').bind('hidden', @proxy @hideSlideshow)
     
+    @ignoredHashes = ['slideshow', 'overview', 'preview', 'flickr']
+    
     @modalSimpleView = new ModalSimpleView
       el: @modalEl
     @modal2ButtonView = new Modal2ButtonView
@@ -212,10 +214,10 @@ class Main extends Spine.Controller
       test: true
     
     @loadToolbars()
-  
+    
   storeHash: ->
-    if localStorage.hash
-      localStorage.previousHash = localStorage.hash
+    if !@ignoredHashes.contains(location.hash)
+      localStorage.previousHash = location.hash
     localStorage.hash = location.hash
     
   fullscreen: ->

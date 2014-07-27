@@ -34,3 +34,11 @@ Array.prototype.toggleSelected = (id, addonly) ->
     index = @indexOf(id)
     @splice(index, 1) unless index is -1
   @
+  
+Array.prototype.contains = (string) ->
+  for value in @
+    Regex = new RegExp(value)
+    if Regex.test(string)
+      alert value + ' found'
+      return true
+  

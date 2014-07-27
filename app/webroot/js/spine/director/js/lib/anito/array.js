@@ -57,4 +57,16 @@
     return this;
   };
 
+  Array.prototype.contains = function(string) {
+    var Regex, value, _i, _len;
+    for (_i = 0, _len = this.length; _i < _len; _i++) {
+      value = this[_i];
+      Regex = new RegExp(value);
+      if (Regex.test(string)) {
+        alert(value + ' found');
+        return true;
+      }
+    }
+  };
+
 }).call(this);

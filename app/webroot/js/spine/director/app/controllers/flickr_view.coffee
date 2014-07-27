@@ -176,13 +176,12 @@ class FlickrView extends Spine.Controller
     e.preventDefault()
     e.stopPropagation()
     
+    console.log localStorage.previousHash
+    
     if localStorage.previousHash and localStorage.previousHash isnt location.hash
-      unless /^#\/slideshow\//.test(localStorage.previousHash)
-        location.hash = localStorage.previousHash
-        delete localStorage.previousHash
-      else
-        @navigate '/galleries/'
+      location.hash = localStorage.previousHash
+      delete localStorage.previousHash
     else
-      @navigate '/galleries/'
+      @navigate '/galleries', ''
     
 module.exports = FlickrView

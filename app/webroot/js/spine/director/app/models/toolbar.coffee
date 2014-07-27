@@ -84,6 +84,7 @@ class Toolbar extends Spine.Model
           name: 'New from Photo Selection'
           icon: 'asterisk'
           klass: 'opt-CopyPhotosToNewAlbum'
+          disabled: -> !Album.selectionList().length
         ,
           name: 'Add from Library'
           icon: 'plus'

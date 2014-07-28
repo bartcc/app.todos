@@ -366,7 +366,7 @@
 
 <script id="sidebarContentTemplate" type="text/x-jquery-tmpl">
   <div class="item-content">
-    <span class="name">{{if name}}${name.slice(0, 15)}{{else}}${title.slice(0, 15)}{{/if}}</span>
+    <span class="name">{{if name}}${name.slice(0, 20)}{{else}}${title.slice(0, 20)}{{/if}}</span>
     <span class="gal cta gal-trigger-edit">{{tmpl($item.data.details()) "#galleryDetailsTemplate"}}</span>
   </div>
 </script>
@@ -717,7 +717,7 @@
   {{else}}
   <li data-id="${id}" class="sublist-item alb alb-trigger-edit item data" title="move (Hold Cmd-Key to Copy)">
     <span class="glyphicon glyphicon-folder-close"></span>
-    <span class="title center">{{if title}}${title.slice(0, 15)}{{else}}...{{/if}}</span>
+    <span class="title center">{{if title}}${title.slice(0, 20)}{{else}}...{{/if}}</span>
     <span class="cta">{{if count}}${count}{{else}}0{{/if}}</span>
   </li>
   {{/if}}

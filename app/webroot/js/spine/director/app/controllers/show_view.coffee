@@ -925,7 +925,7 @@ class ShowView extends Spine.Controller
     isFormfield = $().isFormElement(el)
     @controller.focus() unless isFormfield
     
-    @log 'keydownCode: ' + code
+    @log 'keydown' + code
     
     switch code
       when 13 #Return

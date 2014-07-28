@@ -872,7 +872,11 @@ class ShowView extends Spine.Controller
     if isMeta
       if parent
         selection = parent.selectionList()
-        selection.addRemoveSelection(id)
+        unless id in selection
+          selection.addRemoveSelection(id)
+        else
+          selection.addRemoveSelection(selection.first())
+          
         models.trigger('activate', selection)
     else
       models.trigger('activate', id)

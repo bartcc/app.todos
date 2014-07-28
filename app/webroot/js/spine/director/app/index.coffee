@@ -354,6 +354,6 @@ class Main extends Spine.Controller
     isFormfield = $().isFormElement(el)
     
     unless isFormfield
-      @showView.controller.focus()
+      @showView.focus()
 
 module?.exports = Main

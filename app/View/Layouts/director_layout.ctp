@@ -97,7 +97,7 @@
     echo $scripts_for_layout;
     ?>
   </head>
-  <body tabindex="1" class="views canvas">
+  <body tabindex="10" class="views canvas">
     <?php echo $content_for_layout; ?>
     <?php echo $this->element('sql_dump'); ?>
   </body>

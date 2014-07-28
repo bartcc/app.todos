@@ -61,7 +61,7 @@
           <li class="splitter disabled flex"></li>
           <ul class="toolbarTwo hbox nav"></ul>
         </ul>
-        <div class="contents views vbox flex deselector" style="height: 0;">
+        <div tabindex="1" class="contents views vbox flex deselector" style="height: 0;">
           <div class="header views">
             <div class="galleries view"></div>
             <div class="albums view"></div>
@@ -73,19 +73,19 @@
           <div class="view deselector galleries content vbox flex data parent autoflow" style="">
             <div class="items deselector fadein">Galleries</div>
           </div>
-          <div tabindex="2" class="view deselector albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div class="view deselector albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items deselector flex fadein">Albums</div>
           </div>
-          <div tabindex="2" class="view deselector photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div class="view deselector photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items deselector flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
-          <div tabindex="2" class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items flex fadein">Photo</div>
           </div>
-          <div tabindex="1" id="slideshow" class="view content vbox flex data parent autoflow">
+          <div tabindex="2" id="slideshow" class="view content vbox flex data parent autoflow">
             <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
           </div>
         </div>

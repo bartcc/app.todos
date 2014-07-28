@@ -820,13 +820,31 @@
 
 <script id="photoInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class=""><span class="">{{if title}}{{html title}}{{else}}${src}{{/if}}</span></li>
-    <li class="tr">{{if model}}<span class="td">Model</span><span class="td">:</span><span class="td">${model}</span>{{/if}}</li>
-    <li class="tr">{{if software}}<span class="td">Software</span><span class="td">:</span><span class="td">${software}</span>{{/if}}</li>
-    <li class="tr">{{if exposure}}<span class="td">Exposure</span><span class="td">:</span><span class="td">${exposure}</span>{{/if}}</li>
-    <li class="tr">{{if iso}}<span class="td">Iso</span><span class="td">:</span><span class="td">${iso}</span>{{/if}}</li>
-    <li class="tr">{{if aperture}}<span class="td">Aperture</span><span class="td">:</span><span class="td">${aperture}</span>{{/if}}</li>
-    <li class="tr">{{if captured}}<span class="td">Captured</span><span class="td">:</span><span class="td">${captured}</span>{{/if}}</li>
+    <li class="">
+      <span class="">{{if title}}{{html title}}{{else}}${src}{{/if}}</span>
+    </li>
+    <li class="tr">{{if model}}
+      <span class="td">Model</span><span class="td">:</span><span class="td">${model}</span>{{/if}}
+    </li>
+    <li class="tr">{{if software}}
+      <span class="td">Software</span><span class="td">:</span><span class="td">${software}</span>{{/if}}
+    </li>
+    <li class="tr">{{if exposure}}
+      <span class="td">Exposure</span><span class="td">:</span><span class="td">${exposure}</span>{{/if}}
+    </li>
+    <li class="tr">{{if iso}}
+      <span class="td">Iso</span><span class="td">:</span><span class="td">${iso}</span>{{/if}}
+    </li>
+    <li class="tr">{{if aperture}}
+      <span class="td">Aperture</span><span class="td">:</span><span class="td">${aperture}</span>{{/if}}
+    </li>
+    <li class="tr">{{if captured}}
+      <span class="td">Captured</span><span class="td">:</span><span class="td">${captured}</span>{{/if}}
+    </li>
+    <li class="tr italic">{{if description}}
+      <span class="td">Description</span><span class="td">:</span>
+      <span class="">${description}</span>{{/if}}
+    </li>
   </ul>
 </script>
 

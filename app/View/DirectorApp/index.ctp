@@ -70,22 +70,22 @@
             <div class="overview view"></div>
           </div>
           <div class="view wait content vbox flex autoflow" style=""></div>
-          <div class="view deselector galleries content vbox flex data parent autoflow" style="">
+          <div tabindex="1" class="view deselector galleries content vbox flex data parent autoflow" style="">
             <div class="items deselector fadein">Galleries</div>
           </div>
-          <div class="view deselector albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="1" class="view deselector albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items deselector flex fadein">Albums</div>
           </div>
-          <div class="view deselector photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="1" class="view deselector photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items deselector flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
-          <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="1" class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items flex fadein">Photo</div>
           </div>
-          <div tabindex="2" id="slideshow" class="view content vbox flex data parent autoflow">
+          <div tabindex="1" id="slideshow" class="view content vbox flex data parent autoflow">
             <div class="items flex" data-toggle="blueimp-gallery" data-target="#blueimp-gallery" data-selector="a.thumbnail"></div>
           </div>
         </div>

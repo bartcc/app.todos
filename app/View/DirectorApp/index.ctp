@@ -167,6 +167,7 @@
           </div>
           <div class="xxl" style="color: rgba(156, 156, 156, 0.99);">
             Overview
+            <div style="font-size: 0.3em;">hit space (play/pause) or arrow keys (navigate)</div>
           </div>
         </div>
         <div style="z-index: 1000; position: absolute; right: 0px; top: 0px; margin: 0;">

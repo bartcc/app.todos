@@ -316,9 +316,9 @@
         <div class="label label-info">${info}</div>
       </div>
       {{/if}}
-      <div class="modal-footer dark">
-        <div class="left" style="text-align: left;"> {{html footer}}</div>
-        <button class="btn btnClose dark">Ok</button>
+      <div class="modal-footer dark" style="position: relative">
+        <div class="left" style="text-align: left; max-width: 90%"> {{html footer}}</div>
+        <button class="btn btnClose dark" style="position: absolute; bottom: 20px; right: 20px;">Ok</button>
       </div>
     </div>
   </div>

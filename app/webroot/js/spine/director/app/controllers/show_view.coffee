@@ -803,18 +803,10 @@ class ShowView extends Spine.Controller
     @modalSimpleView.el.one('hide.bs.modal', @proxy @hidemodal)
     @modalSimpleView.el.one('show.bs.modal', @proxy @showmodal)
     
-    template = (el) -> $('#modalSimpleTemplateBody').tmpl(el)
+#    template = (el) -> $('#modalSimpleTemplateBody').tmpl(el)
     @modalSimpleView.show
       header: 'Keyboard Shortcuts'
-      body: template '<label class="invite">
-        <span class="enlightened">No photos here. &nbsp;
-        <p>Simply drop your photos to your browser window</p>
-        <p>Note: You can also drag existing photos to a sidebars folder</p>
-        </span>
-        <button class="opt-AddPhotos dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
-        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
-        </label>'
-      footer: 'Most elements are draggable and sortable. Navigate through objects by using arrow keys (also in combination with ctrl-key).
+      footer: 'Most elements are draggable and sortable. Navigate through objects by using arrow keys.<br>For selecting multiple objects use arrow keys in combination with ctrl-key.
         <br>To make images part of your albums, simply drag and drop photos from your desktop to your browser or interact between sidebar and main window.'
       
   hidemodal: (e) ->

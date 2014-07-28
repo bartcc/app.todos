@@ -103,6 +103,7 @@ class GalleriesList extends Spine.Controller
       el.addClass("active hot")
       
     App.showView.trigger('change:toolbarOne')
+    @parent.focus()
         
   zoom: (e) ->
     @log 'zoom'

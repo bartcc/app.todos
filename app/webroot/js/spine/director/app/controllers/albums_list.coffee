@@ -124,6 +124,8 @@ class AlbumsList extends Spine.Controller
     if first = selection.first()
       $('#'+first, @el).addClass("hot")
       
+    @parent.focus()
+      
     
   # workaround:
   # remember the Album since

@@ -828,10 +828,12 @@ class ShowView extends Spine.Controller
     @log 'showmodal'
       
   selectByKey: (direction, e) ->
+    isMeta = e.metaKey or e.ctrlKey
     index = false
     lastIndex = false
     elements = if @controller.list then $('.item', @controller.list.el) else $()
     models = @controller.el.data('current').models
+    parent = @controller.el.data('current').model
     record = models.record
     
     try
@@ -867,7 +869,13 @@ class ShowView extends Spine.Controller
         el = $(active)
         
     id = el.attr('data-id')
-    models.trigger('activate', id)
+    if isMeta
+      if parent
+        selection = parent.selectionList()
+        selection.addRemoveSelection(id)
+        models.trigger('activate', selection)
+    else
+      models.trigger('activate', id)
         
   scrollTo: (item) ->
     return unless @controller.isActive() and item
@@ -940,19 +948,19 @@ class ShowView extends Spine.Controller
           e.preventDefault()
       when 37 #Left
         unless isFormfield
-          @selectByKey('left')
+          @selectByKey('left', e)
           e.preventDefault()
       when 38 #Up
         unless isFormfield
-          @selectByKey('up')
+          @selectByKey('up', e)
           e.preventDefault()
       when 39 #Right
         unless isFormfield
-          @selectByKey('right')
+          @selectByKey('right', e)
           e.preventDefault()
       when 40 #Down
         unless isFormfield
-          @selectByKey('down')
+          @selectByKey('down', e)
           e.preventDefault()
       
   keyup: (e) ->
@@ -968,6 +976,7 @@ class ShowView extends Spine.Controller
       when 8 #Backspace
         unless isFormfield
           @destroySelected(e)
+          e.preventDefault()
       when 32 #Space
         unless isFormfield
           @slideshowView.play()
@@ -993,5 +1002,9 @@ class ShowView extends Spine.Controller
         unless isFormfield
           if e.metaKey or e.ctrlKey
             @cut(e)
+      when 82 #CTRL R
+        unless isFormfield
+          if e.metaKey or e.ctrlKey
+            Spine.trigger('rotate')
 
 module?.exports = ShowView

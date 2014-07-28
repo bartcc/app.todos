@@ -18,6 +18,7 @@ class PhotoEditView extends Spine.Controller
   constructor: ->
     super
     @bind('active', @proxy @active)
+#    Album.bind('change:selection', @proxy @change)
     Photo.bind('current', @proxy @change)
   
   active: ->
@@ -27,10 +28,16 @@ class PhotoEditView extends Spine.Controller
     @current = item
     @render() 
   
+  changeRelated: (item) ->
+    photo = Photo.find(item['photo_id'])
+    @current = photo
+    @log @current
+    @log @current
+    @render()
+  
   render: (item=@current) ->
     if item and !item.destroyed 
       @html @template item
-#      @focusFirstInput()
     else
       info = ''
       info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()

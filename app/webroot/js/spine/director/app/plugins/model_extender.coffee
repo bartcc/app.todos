@@ -238,7 +238,7 @@ Model.Extender =
           @addUnique(originalList)
         else
           unless @id in originalList
-            originalList.push @id
+            originalList.unshift @id
         originalList
 
       shiftSelection: ->

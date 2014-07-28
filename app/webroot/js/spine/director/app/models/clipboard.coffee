@@ -12,4 +12,4 @@ class Clipboard extends Spine.Model
   init: (instance) ->
     return unless instance
     
-module?.exports = Clipboard
+module?.exports = Model.Clipboard = Clipboard

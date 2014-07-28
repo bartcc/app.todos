@@ -35,11 +35,11 @@ class Toolbar extends Spine.Model
         ,
           name: 'Invert Selection'
           klass: 'opt-SelectInv'
-          shortcut: 'ctrl+I'
+          shortcut: 'Ctrl+I'
         ,
           name: 'Select All'
           klass: 'opt-SelectAll'
-          shortcut: 'ctrl+A'
+          shortcut: 'Ctrl+A'
         ,
           devider: true
         ,
@@ -128,16 +128,19 @@ class Toolbar extends Spine.Model
           icon: ''
           klass: 'opt-CopyAlbum'
           disabled: -> !Gallery.selectionList().length
+          shortcut: 'Ctrl+C'
         ,
           name: 'Cut'
           icon: ''
           klass: 'opt-CutAlbum'
           disabled: -> !Gallery.selectionList().length
+          shortcut: 'Ctrl+X'
         ,
           name: 'Paste'
           icon: ''
           klass: 'opt-PasteAlbum'
           disabled: -> !Clipboard.findAllByAttribute('type', 'copy').length or !Gallery.record
+          shortcut: 'Ctrl+V'
         ,
           devider: true
         ,
@@ -189,16 +192,19 @@ class Toolbar extends Spine.Model
           icon: ''
           klass: 'opt-CopyPhoto'
           disabled: -> !Album.selectionList().length
+          shortcut: 'Ctrl+C'
         ,
           name: 'Cut'
           icon: ''
           klass: 'opt-CutPhoto'
           disabled: -> !Album.selectionList().length
+          shortcut: 'Ctrl+X'
         ,
           name: 'Paste'
           icon: ''
           klass: 'opt-PastePhoto'
           disabled: -> !Clipboard.findAllByAttribute('type', 'copy').length or !Album.record
+          shortcut: 'Ctrl+V'
         ,
           devider: true
         ,

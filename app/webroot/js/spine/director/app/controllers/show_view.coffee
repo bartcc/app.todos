@@ -681,6 +681,34 @@ class ShowView extends Spine.Controller
   showAlbumSelection: ->
     @navigate '/gallery', Gallery.record.id or ''
       
+  copy: (e) ->
+    #type of copied objects depends on view
+    model = @current.el.data('current').models.className
+    switch model
+      when 'Photo'
+        @copyPhoto()
+      when 'Album'
+        @copyAlbum()
+  
+  cut: (e) ->
+    #type of copied objects depends on view
+    model = @current.el.data('current').models.className
+    switch model
+      when 'Photo'
+        @cutPhoto()
+      when 'Album'
+        @cutAlbum()
+  
+  paste: (e) ->
+    #type of pasted objects depends on clipboard items
+    return unless first = Clipboard.first()
+    model = first.item.constructor.className
+    switch model
+      when 'Photo'
+        @pastePhoto()
+      when 'Album'
+        @pasteAlbum()
+      
   copyPhoto: ->
     Clipboard.deleteAll()
     for id in Album.selectionList()
@@ -699,7 +727,6 @@ class ShowView extends Spine.Controller
         cut: Album.record
         
     @refreshToolbars()
-    
     
   pastePhoto: ->
     return unless album = Album.record
@@ -898,7 +925,7 @@ class ShowView extends Spine.Controller
     isFormfield = $().isFormElement(el)
     @controller.focus() unless isFormfield
     
-#    @log 'keydownCode: ' + code
+    @log 'keydownCode: ' + code
     
     switch code
       when 13 #Return
@@ -934,7 +961,7 @@ class ShowView extends Spine.Controller
     el=$(document.activeElement)
     isFormfield = $().isFormElement(el)
     
-#    @log 'keyup', code
+    @log 'keyup', code
     
     switch code
       when 8 #Backspace
@@ -953,5 +980,17 @@ class ShowView extends Spine.Controller
         unless isFormfield
           if e.metaKey or e.ctrlKey
             @selectInv(e)
+      when 67 #CTRL C
+        unless isFormfield
+          if e.metaKey or e.ctrlKey
+            @copy(e)
+      when 86 #CTRL V
+        unless isFormfield
+          if e.metaKey or e.ctrlKey
+            @paste(e)
+      when 88 #CTRL X
+        unless isFormfield
+          if e.metaKey or e.ctrlKey
+            @cut(e)
 
 module?.exports = ShowView

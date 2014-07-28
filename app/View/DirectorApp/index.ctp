@@ -52,7 +52,7 @@
       <div class="vdivide draghandle"></div>
     </div>
     <div id="content" class="views bg-medium vbox flex">
-      <div tabindex="2" id="show" class="view canvas bg-dark vbox flex fade">
+      <div id="show" class="view canvas bg-dark vbox flex fade">
         <div id="modal-action " class="modal fade"></div>
         <div id="modal-addAlbum" class="modal fade"></div>
         <div id="modal-addPhoto" class="modal fade"></div>
@@ -73,15 +73,15 @@
           <div class="view deselector galleries content vbox flex data parent autoflow" style="">
             <div class="items deselector fadein">Galleries</div>
           </div>
-          <div class="view deselector albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="2" class="view deselector albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items deselector flex fadein">Albums</div>
           </div>
-          <div class="view deselector photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="2" class="view deselector photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items deselector flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
-          <div class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="2" class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
             <div class="hoverinfo fadeslow"></div>
             <div class="items flex fadein">Photo</div>
           </div>

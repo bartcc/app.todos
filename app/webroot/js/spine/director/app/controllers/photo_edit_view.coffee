@@ -18,26 +18,18 @@ class PhotoEditView extends Spine.Controller
   constructor: ->
     super
     @bind('active', @proxy @active)
-#    Album.bind('change:selection', @proxy @change)
-    Photo.bind('current', @proxy @change)
+    Album.bind('change:selection', @proxy @change)
   
   active: ->
     @render()
   
-  change: (item) ->
-    @current = item
-    @render() 
-  
-  changeRelated: (item) ->
-    photo = Photo.find(item['photo_id'])
-    @current = photo
-    @log @current
-    @log @current
+  change: (parent, selection) ->
+    @current = Photo.find(selection.first())
     @render()
   
-  render: (item=@current) ->
-    if item and !item.destroyed 
-      @html @template item
+  render: () ->
+    if @current #and !item.destroyed 
+      @html @template @current
     else
       info = ''
       info += '<label class="invite"><span class="enlightened">No photo selected.</span></label>' unless Album.selectionList().length and !Album.count()

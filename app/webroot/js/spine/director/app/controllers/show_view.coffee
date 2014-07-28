@@ -565,9 +565,8 @@ class ShowView extends Spine.Controller
     
   deselect: (e) =>
     return unless $(e.target).hasClass('deselector')
-    data = @el.data('current')
-    model = data.model
-    models = data.models
+    model = @el.data('current').model
+    models = @el.data('current').models
     models.trigger('activate', [])
     try
       @current.itemsEl.deselect()
@@ -870,6 +869,7 @@ class ShowView extends Spine.Controller
         
     id = el.attr('data-id')
     if isMeta
+      #support for multiple selection
       if parent
         selection = parent.selectionList()
         unless id in selection

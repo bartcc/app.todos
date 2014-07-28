@@ -2,6 +2,7 @@ Spine       = require("spine")
 KeyEnhancer = require("plugins/key_enhancer")
 Extender    = require('plugins/controller_extender')
 Gallery     = require("models/gallery")
+Root        = require("models/root")
 $           = Spine.$
 
 class GalleryEditView extends Spine.Controller
@@ -17,26 +18,25 @@ class GalleryEditView extends Spine.Controller
   constructor: ->
     super
     @bind('active', @proxy @active)
-    Gallery.bind('current', @proxy @change)
+    Root.bind('change:selection', @proxy @change)
 
   active: ->
     @render()
 
-  change: (item) ->
-    @log 'change'
+  change: (parent, selection=[]) ->
+    @current = Gallery.find(selection.first())
+    @render()
+    
+  change_: (item) ->
     @current = item
     @render()
 
-  render: (item=@current) ->
-#    @el.tooltip('destroy')
-    @log 'render'
-#    return unless @isActive()
-    if item and !item.destroyed 
-      @html @template item
-#      @focusFirstInput()
+  render: () ->
+    if @current 
+      @html @template @current
     else
       unless Gallery.count()
-        @html $("#noSelectionTemplate").tmpl({type: '<label class="invite"><span class="enlightened">Director has no gallery yet &nbsp;<button class="opt-Create dark large">New Gallery</button></span></label>'})
+        @html $("#noSelectionTemplate").tmpl({type: '<label class="invite"><span class="enlightened">Director has no gallery yet &nbsp;<button class="opt-CreateGallery dark large">New Gallery</button></span></label>'})
       else
         @html $("#noSelectionTemplate").tmpl({type: '<label class="invite"><span class="enlightened">Select a gallery!</span></label>'})
     @el

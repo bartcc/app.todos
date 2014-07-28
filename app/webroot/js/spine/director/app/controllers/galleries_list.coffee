@@ -1,5 +1,6 @@
 Spine           = require("spine")
 $               = Spine.$
+Root            = require("models/root")
 Gallery         = require('models/gallery')
 GalleriesAlbum  = require('models/galleries_album')
 AlbumsPhoto     = require('models/albums_photo')
@@ -26,9 +27,8 @@ class GalleriesList extends Spine.Controller
   
   constructor: ->
     super
+    Root.bind('change:selection', @proxy @exposeSelection)
     Gallery.bind('change', @proxy @renderOne)
-    Gallery.bind('change:selection', @proxy @exposeSelection)
-    Gallery.bind('current', @proxy @exposeSelection)
     Photo.bind('destroy', @proxy @renderRelated)
     Album.bind('destroy', @proxy @renderRelated)
     
@@ -93,14 +93,14 @@ class GalleriesList extends Spine.Controller
     else if idxBeforeSort > idxAfterSort
       newEl.before oldEl
 
-  exposeSelection: (item=Gallery.record) ->
+  exposeSelection: (item, sel) ->
     @log 'exposeSelection'
-    @deselect()
-    return unless Gallery.record
     
-    if item is Gallery.record or item?.id is Gallery.record?.id
-      el = @children().forItem(item, true)
-      el.addClass("active hot")
+    selection = sel || Root.selectionList()
+    @deselect()
+    
+    for id in selection
+      $('#'+id, @el).addClass("active hot")
       
     App.showView.trigger('change:toolbarOne')
     @parent.focus()

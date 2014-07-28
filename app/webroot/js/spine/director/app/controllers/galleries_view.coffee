@@ -1,6 +1,7 @@
 Spine         = require("spine")
 $             = Spine.$
 Drag          = require("plugins/drag")
+Root          = require('models/root')
 Gallery       = require('models/gallery')
 GalleriesAlbum  = require('models/galleries_album')
 GalleriesList = require("controllers/galleries_list")
@@ -28,7 +29,7 @@ class GalleriesView extends Spine.Controller
     super
     @bind('active', @proxy @active)
     @el.data('current',
-      model: Gallery
+      model: Root
       models: Gallery
     )
     @type = 'Gallery'
@@ -58,32 +59,47 @@ class GalleriesView extends Spine.Controller
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     @render()
     
-  activateRecord: (idOrRecord) ->
-    Gallery.current idOrRecord
+  activateRecord: (ids=[]) ->
+    unless Spine.isArray(ids)
+      ids = [ids]
+    
+    list = []
+    for id_ in ids
+      list.push gallery.id if gallery = Gallery.find(id_)
+
+    id = list[0]
+    
+    Root.updateSelection(null, list)
+    Gallery.current id
     Album.trigger('activate', Gallery.selectionList())
 
   click: (e) ->
     App.showView.trigger('change:toolbarOne', ['Default', 'Help'])
     item = $(e.currentTarget).item()
-    @select(item)
+    @select(item.id, true) #one gallery selected at a time
     
-  select: (item) ->
+  select_: (item) ->
     Gallery.trigger('activate', item.id)
     
-  beforeDestroy: (item) ->
-#    albums = Gallery.albums(item.id)
-#    Album.trigger('destroy:join', albums, item)
-
-    @list.findModelElement(item).detach()
-#    item.removeSelectionID()
-#    
-#    # remove all associated albums
-#    albums = GalleriesAlbum.albums(item.id)
-#    Album.trigger('destroy:join', albums.toID(), item)
+  select: (items = [], exclusive) ->
+    unless Spine.isArray items
+      items = [items]
+    Root.emptySelection() if exclusive
+      
+    selection = Root.selectionList()[..]
+    for id in items
+      selection.addRemoveSelection(id)
     
+    Gallery.trigger('activate', selection[0])
+    Root.updateSelection(null, selection)
+    
+  beforeDestroy: (item) ->
+    @list.findModelElement(item).detach()
 
   destroy: (item) ->
-    item.removeSelectionID()
+    if item
+      item.removeSelectionID()
+      Root.removeFromSelection item.id
     
     unless Gallery.count()
       Spine.trigger('show:galleries')

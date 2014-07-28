@@ -17,23 +17,20 @@ class AlbumEditView extends Spine.Controller
   constructor: ->
     super
     @bind('active', @proxy @active)
-    Album.bind('current', @proxy @change)
+    Gallery.bind('change:selection', @proxy @change)
 
   active: ->
     @render()
   
-  change: (item) ->
-    @current = item
+  change: (parent, selection) ->
+    @current = Album.find(selection.first())
     @render() 
   
-  render: (item=@current) ->
-    @log 'render'
-    if item and !item.destroyed 
-      @html @template item
-#      @focusFirstInput()
+  render: () ->
+    if @current #and !item.destroyed 
+      @html @template @current
     else
       @html $("#noSelectionTemplate").tmpl({type: '<label class="invite"><span class="enlightened">Select or create an album</span></label>'})
-    
     @el
 
   save: (el) ->

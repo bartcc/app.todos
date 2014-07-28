@@ -815,7 +815,8 @@ class ShowView extends Spine.Controller
         <button class="opt-AddPhotos dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
         <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
         </label>'
-      footer: 'Most elements are draggable. Navigate through objects by using arrow keys<br>Make Images part of your Albums simply by dragging them inside your browser window.'
+      footer: 'Most elements are draggable and sortable. Navigate through objects by using arrow keys.
+        <br>To make images part of your albums, simply drag and drop photos from your desktop to your browser or interact between sidebar and main window.'
       
   hidemodal: (e) ->
     @log 'hidemodal'

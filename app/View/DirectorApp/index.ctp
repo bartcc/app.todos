@@ -573,7 +573,7 @@
   <section class="top viewheader fadeelement">
     <span>
       {{if model.record}}
-      Gallery:&nbsp;<span class="label label-{{if model.record}}default{{else}}warning{{/if}}">${model.record.name.slice(0, 12)}</span>
+      Gallery:&nbsp;<span class="label label-{{if model.record}}default{{else}}warning{{/if}}">${model.record.name.slice(0, 25)}</span>
       {{else}}
       Author:&nbsp;<span class="label label-default">${author}</span>
       {{/if}}
@@ -581,7 +581,7 @@
     {{tmpl() "#albumSpecsTemplate"}}
     <br><br>
     <h2>{{if model.record}}Albums in:&nbsp;{{else}}Master Albums{{/if}}</h2>
-    {{if model.record}}<label class="h2 chopin">{{if model.record.name}}${model.record.name.slice(0, 12)}{{else}}...{{/if}}</label>{{/if}}
+    {{if model.record}}<label class="h2 chopin">{{if model.record.name}}${model.record.name.slice(0, 25)}{{else}}...{{/if}}</label>{{/if}}
     <span class="right"><h3 class=""><i>Info</i></h3></span>
   </section>
   <section class="left">
@@ -598,8 +598,8 @@
   <section class="top viewheader fadeelement">
     <span>
       {{if model.record}}
-      Gallery:&nbsp;<span class="label label-{{if gallery.name}}default{{else}}warning{{/if}}">{{if gallery.name}}${gallery.name.slice(0, 12)}{{else}}none{{/if}}</span>
-      Album:&nbsp;<span class="label label-{{if model.record}}default{{else}}warning{{/if}}">{{if modelAlbum.record}}{{if album.title}}${album.title.slice(0, 12)}{{else}}...{{/if}}{{else}}none{{/if}}</span>
+      Gallery:&nbsp;<span class="label label-{{if gallery.name}}default{{else}}warning{{/if}}">{{if gallery.name}}${gallery.name.slice(0, 25)}{{else}}none{{/if}}</span>
+      Album:&nbsp;<span class="label label-{{if model.record}}default{{else}}warning{{/if}}">{{if modelAlbum.record}}{{if album.title}}${album.title.slice(0, 25)}{{else}}...{{/if}}{{else}}none{{/if}}</span>
       {{else}}
       Author:&nbsp;<span class="label label-default">${author}</span>
       {{/if}}
@@ -607,7 +607,7 @@
     {{tmpl() "#photoSpecsTemplate"}}
     <br><br>
     <h2>{{if album}}Photos in:&nbsp;{{else}}Master Photos{{/if}}</h2>
-    {{if album}}<label class="h2 chopin">{{if album.title}}${album.title.slice(0, 12)}{{else}}...{{/if}}</label>{{/if}}
+    {{if album}}<label class="h2 chopin">{{if album.title}}${album.title.slice(0, 25)}{{else}}...{{/if}}</label>{{/if}}
     <span class="right"><h3 class=""><i>Info</i></h3></span>
   </section>
   {{if zoomed}}

@@ -275,8 +275,7 @@ class Toolbar extends Spine.Model
       name: 'Close'
       content:
         [
-          name: 'Back'
-          icon: 'arrow-left'
+          name: 'x'
           klass: 'opt opt-Previous'
           type: 'span'
         ]

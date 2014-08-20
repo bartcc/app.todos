@@ -16,8 +16,9 @@ class GalleriesList extends Spine.Controller
   
   events:
     'click .opt-SlideshowPlay'      : 'slideshowPlay'
-    'click .glyphicon-set .back'    : 'back'
+    'click .dropdown-toggle'        : 'dropdownToggle'
     'click .glyphicon-set .delete'  : 'deleteGallery'
+    'click .glyphicon-set .back'    : 'back'
     'click .glyphicon-set .zoom'    : 'zoom'
     
     'mousemove .item'               : 'infoUp'
@@ -47,10 +48,10 @@ class GalleriesList extends Spine.Controller
           @el.empty()
         @append @template item
         @exposeSelection item
-
       when 'update'
         try
           @updateTemplates()
+          $('.dropdown-toggle', @el).dropdown()
         catch e
         @reorder item
         @exposeSelection item
@@ -61,6 +62,7 @@ class GalleriesList extends Spine.Controller
     @log 'render'
     @html @template items
     @exposeSelection()
+    $('.dropdown-toggle', @el).dropdown()
     @el
 
   updateTemplates: ->
@@ -104,6 +106,12 @@ class GalleriesList extends Spine.Controller
       
     App.showView.trigger('change:toolbarOne')
     @parent.focus()
+        
+  dropdownToggle: (e) ->
+    el = $(e.currentTarget)
+    el.dropdown()
+    e.preventDefault()
+    e.stopPropagation()
         
   zoom: (e) ->
     @log 'zoom'

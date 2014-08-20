@@ -408,9 +408,15 @@
       </div>
     </div>
     <div class="glyphicon-set fade out" style="">
-      <span class="delete glyphicon glyphicon-trash glyphicon-white right"></span>
-      <span class="back glyphicon glyphicon-chevron-up glyphicon-white right"></span>
-      <span class="zoom glyphicon glyphicon-folder-close glyphicon-white right"></span>
+      <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
+      <span class="left">
+        <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Open" href="#"><i class="tooltips glyphicon glyphicon-folder-close"></i>Open</a></li>
+          <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Up</a></li>
+          <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Delete</a></li>
+        </ul>
+      </span>
     </div>
   </li>
 </script>
@@ -512,9 +518,14 @@
     <div class="thumbnail"></div>
     <div class="glyphicon-set fade out" style="">
       <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
-      <span class="tooltips zoom glyphicon glyphicon-folder-close glyphicon-white left" data-toggle="tooltip" title="Open"></span>
-      <span class="back glyphicon glyphicon-chevron-up glyphicon-white left" data-toggle="tooltip" title="Up"></span>
-      <span class="glyphicon delete glyphicon glyphicon-trash glyphicon-white right" data-toggle="tooltip" title="Delete"></span>
+      <span class="left">
+        <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Open" href="#"><i class="tooltips glyphicon glyphicon-folder-close"></i>Open</a></li>
+          <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Up</a></li>
+          <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Delete</a></li>
+        </ul>
+      </span>
     </div>
     <div class="title center">{{if title}}{{html title.slice(0, 15)}}{{else}}...{{/if}}</div>
   </li>
@@ -782,27 +793,33 @@
 
 <script id="photosThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left fadeslow"></div>
-  <div class="glyphicon glyphicon-set fade out" style="">
-    <span class="delete glyphicon glyphicon-trash glyphicon-white right" title="Delete"></span>
-    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right" title="Up"></span>
-    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right" title="Full Size"></span>
-    <span class="rotate glyphicon glyphicon-repeat glyphicon-white right" title="Rotate clockwise"></span>
-    </div>
+  <div class="glyphicon-set fade out" style="">
+    <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
+    <span class="left">
+      <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="title="Rotate clockwise"" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
+        <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>Open</a></li>
+        <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Up</a></li>
+        <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Delete</a></li>
+      </ul>
+    </span>
   </div>
 </script>
 
 <script id="photoThumbnailTemplate" type="text/x-jquery-tmpl">
   <div class="thumbnail image left"></div>
-  <div class="glyphicon glyphicon-set fade out" style="">
-    <span class="back glyphicon glyphicon-chevron-up glyphicon-white right" title="Up"></span>
-    <span class="zoom glyphicon glyphicon-resize-full glyphicon-white right" title="Full Size"></span>
-    <span class="rotate glyphicon glyphicon-repeat glyphicon-white right" title="Rotate clockwise"></span>
-    <ul class="dropdown-menu" role="menu">
-      <li class="opt-">
-        <a href="#"><i class="delete glyphicon glyphicon-trash glyphicon-white" title="Delete"></i>Delete</a>
-        <a href="#"><i class="glyphicon glyphicon-ok"></i>Trace</a>
-      </li>
-    </ul>
+  <div class="glyphicon-set fade out" style="">
+    <span class="tooltips downloading glyphicon glyphicon-download-alt glyphicon-white hide left fade" data-toggle="tooltip"></span>
+    <span class="left">
+      <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="title="Rotate clockwise"" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
+        <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>Open</a></li>
+        <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Up</a></li>
+        <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Delete</a></li>
+      </ul>
+    </span>
   </div>
   <div class="title center hide">{{if title}}${title.substring(0, 15)}{{else}}{{if src}}${src.substring(0, 15)}{{else}}no title{{/if}}{{/if}}</div>
 </script>

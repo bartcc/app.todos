@@ -18,6 +18,7 @@ class AlbumsList extends Spine.Controller
   
   events:
     'click .opt-AddAlbums'         : 'addAlbums'
+    'click .dropdown-toggle'       : 'dropdownToggle'
     'click .delete'                : 'deleteAlbum'
     'click .back'                  : 'back'
     'click .zoom'                  : 'zoom'
@@ -48,7 +49,7 @@ class AlbumsList extends Spine.Controller
         @renderBackgrounds [album]
         @el.sortable('destroy').sortable()
 #        $('.tooltips', @el).tooltip()
-        
+        $('.dropdown-toggle', @el).dropdown()
       when 'destroy'
         el = @findModelElement(album)
         el.detach()
@@ -66,6 +67,7 @@ class AlbumsList extends Spine.Controller
       @[mode] @template items
       @renderBackgrounds items
       @exposeSelection(Gallery.record)
+      $('.dropdown-toggle', @el).dropdown()
     else if mode is 'add'
       @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more albums can be added or there is no gallery selected.</span></label></h3>'
@@ -214,7 +216,14 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
     e.stopPropagation()
     
+  dropdownToggle: (e) ->
+    el = $(e.currentTarget)
+    el.dropdown()
+    e.preventDefault()
+    e.stopPropagation()
+    
   back: (e) ->
+    @log 'back'
     @navigate '/galleries', ''
     e.preventDefault()
     e.stopPropagation()
@@ -231,8 +240,8 @@ class AlbumsList extends Spine.Controller
     
   addAlbums: (e) ->
     @log 'add'
-    e.stopPropagation()
-    e.preventDefault()
+#    e.stopPropagation()
+#    e.preventDefault()
     
     Spine.trigger('albums:add')
     

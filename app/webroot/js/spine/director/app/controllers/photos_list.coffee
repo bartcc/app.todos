@@ -20,9 +20,10 @@ class PhotosList extends Spine.Controller
     
   events:
     'click .opt-AddPhotos'    : 'addPhotos'
+    'click .dropdown-toggle'  : 'dropdownToggle'
+    'click .delete'           : 'deletePhoto'
     'click .back'             : 'back'
     'click .zoom'             : 'zoom'
-    'click .delete'           : 'deletePhoto'
     'click .rotate'           : 'rotate'
     
   selectFirst: true
@@ -55,7 +56,7 @@ class PhotosList extends Spine.Controller
         @callDeferred [photo]
         @size(App.showView.sOutValue)
         @el.sortable('destroy').sortable()
-        
+        $('.dropdown-toggle', @el).dropdown()
       when 'destroy'
         el = @findModelElement(photo)
         el.detach()
@@ -75,6 +76,7 @@ class PhotosList extends Spine.Controller
       @callDeferred items
       @size(App.showView.sOutValue)
       @exposeSelection(Album.record)
+      $('.dropdown-toggle', @el).dropdown()
     else if mode is 'add'
       @html '<h3 class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></h3>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more photos can be added or there is no album selected.</span></label></h3>'
@@ -259,6 +261,12 @@ class PhotosList extends Spine.Controller
   remove: (ap) ->
     item = Photo.find ap.photo_id
     @findModelElement(item).detach() if item
+    
+  dropdownToggle: (e) ->
+    el = $(e.currentTarget)
+    el.dropdown()
+    e.preventDefault()
+    e.stopPropagation()   
     
   deletePhoto: (e) ->
     @log 'deletePhoto'

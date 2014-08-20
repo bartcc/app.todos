@@ -37,8 +37,8 @@ class AlbumsView extends Spine.Controller
     'mouseleave .item'                : 'infoBye'
     
   albumsTemplate: (items, options) ->
-    $("#albumsTemplate").tmpl items, options
-
+    templ = $("#albumsTemplate").tmpl items, options
+    
 #  toolsTemplate: (items) ->
 #    $("#toolsTemplate").tmpl items
 #
@@ -372,11 +372,14 @@ class AlbumsView extends Spine.Controller
     
   infoUp: (e) =>
     @info.up(e)
-    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('in').removeClass('out')
+    el = $(e.currentTarget)
+    $('.glyphicon-set' , el).addClass('in').removeClass('out')
     
   infoBye: (e) =>
     @info.bye(e)
-    el = $('.glyphicon-set' , $(e.currentTarget)).addClass('out').removeClass('in')
+    el = $(e.currentTarget)
+    set = $('.glyphicon-set' , el).addClass('out').removeClass('in')
+    set.children('.open').removeClass('open')
     
   stopInfo: (e) =>
     @info.bye(e)

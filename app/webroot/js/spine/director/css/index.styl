@@ -792,7 +792,7 @@ textarea {
 }
 #content .content .items .item:not(.thumbnail) li {
   color: rgba(0, 0, 0, 0.8);
-  padding-top: 5px;
+  padding: 5px 0;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 #content .content .items .item:not(.thumbnail) {
@@ -994,9 +994,9 @@ li .thumbnail.image {
   -o-transition: opacity 0.8s linear;
   transition: opacity 0.8s linear;
 }
-#content .content .item.active ul {
+#content .content .item ul {
   float: right;
-  padding: 15px;
+  padding: 0;
   margin: 0 15px 15px 0;
   -webkit-transform: scale(1);
   -webkit-transform-origin: 0% 0%;
@@ -1241,8 +1241,9 @@ li.item.active .glyphicon-set {
   cursor: pointer;
 }
 .glyphicon-set [class^="glyphicon-"], .glyphicon-set  [class*=" glyphicon-"] {
-  cursor: pointer;
-  margin: 2px 0 4px 10px;
+}
+.glyphicon-set a {
+  padding: 8px 1px 5px 9px;
 }
 .glyphicon-folder-close:hover:before {
   content: "\e118";
@@ -1345,8 +1346,8 @@ section.addAction {
 [class^="bg-"] {
   color: #ddd;
 }
-.dropdown-menu li a {
-    padding-right: 70px;
+.dropdown-menu li a:after {
+    padding-right: 15px;
     position: relative;
 }
 .dropdown-menu span.label.label {

@@ -24,7 +24,8 @@ class PhotosList extends Spine.Controller
     'click .delete'           : 'deletePhoto'
     'click .back'             : 'back'
     'click .zoom'             : 'zoom'
-    'click .rotate'           : 'rotate'
+    'click .rotate-cw'        : 'rotateCW'
+    'click .rotate-ccw'       : 'rotateCCW'
     'click .original'         : 'original'
     
   selectFirst: true
@@ -327,15 +328,27 @@ class PhotosList extends Spine.Controller
       'width'           : val+'px'
       'backgroundSize'  : bg
       
-  rotate: (e) ->
-    if e
-      item = $(e.currentTarget).item()
-      e.stopPropagation()
-      e.preventDefault()
-      
-    ids = Album.selectionList()[..]
-    items = if ids.length then Photo.toRecords(ids.add(item?.id)) else [item]
-    options = val: -90
+  rotateCW: (e) ->
+    item = $(e.currentTarget).item()
+    @log item
+    Spine.trigger('rotate', item, -90)
+    e.stopPropagation()
+    e.preventDefault()
+    
+  rotateCCW: (e) ->
+    item = $(e.currentTarget).item()
+    @log item
+    Spine.trigger('rotate', item, 90)
+    e.stopPropagation()
+    e.preventDefault()
+    
+  rotate: (item, val=90) ->
+    if item
+     items = [item]
+    else
+      ids = Album.selectionList()[..]
+      items = if ids.length then Photo.toRecords(ids.add(item?.id))
+    options = val: val
     
     callback = (items) =>
       albums = []

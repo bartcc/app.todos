@@ -164,10 +164,22 @@ class Toolbar extends Spine.Model
         ,
           devider: true
         ,
-          name: 'Rotate'
-          icon: 'repeat'
-          klass: 'opt-Rotate'
+          name: ->
+            'Rotate ('+ Album.selectionList().length + ')'
+          icon: 'refresh'
+          header: true
+          disabled: true
+        ,
+          name: 'cw'
+          klass: 'opt-Rotate-cw'
+          shortcut: 'Ctrl+R'
           disabled: -> !Album.selectionList().length
+        ,
+          name: 'ccw'
+          klass: 'opt-Rotate-ccw'
+          disabled: -> !Album.selectionList().length
+        ,
+          devider: true
         ,
           name: 'Edit'
           icon: 'pencil'

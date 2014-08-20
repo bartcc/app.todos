@@ -97,7 +97,8 @@ class ShowView extends Spine.Controller
     'click .opt-DestroyPhoto:not(.disabled)'          : 'destroyPhoto'
     'click .opt-EditGallery:not(.disabled)'           : 'editGallery' # for the large edit view
     'click .opt-Gallery:not(.disabled)'               : 'toggleGalleryShow'
-    'click .opt-Rotate:not(.disabled)'                : 'rotatePhoto'
+    'click .opt-Rotate-cw:not(.disabled)'              : 'rotatePhotoCW'
+    'click .opt-Rotate-ccw:not(.disabled)'             : 'rotatePhotoCCW'
     'click .opt-Album:not(.disabled)'                 : 'toggleAlbumShow'
     'click .opt-Photo:not(.disabled)'                 : 'togglePhotoShow'
     'click .opt-Upload:not(.disabled)'                : 'toggleUploadShow'
@@ -757,8 +758,13 @@ class ShowView extends Spine.Controller
       album: album
     Photo.trigger('create:join', options, callback)
       
-  rotatePhoto: (e) ->
-    Spine.trigger('rotate')
+  rotatePhotoCW: (e) ->
+    Spine.trigger('rotate', false, -90)
+    @refreshToolbars()
+    false
+      
+  rotatePhotoCCW: (e) ->
+    Spine.trigger('rotate', false, 90)
     @refreshToolbars()
     false
       
@@ -1008,6 +1014,6 @@ class ShowView extends Spine.Controller
       when 82 #CTRL R
         unless isFormfield
           if e.metaKey or e.ctrlKey
-            Spine.trigger('rotate')
+            Spine.trigger('rotate', false, -90)
 
 module?.exports = ShowView

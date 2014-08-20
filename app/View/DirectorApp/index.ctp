@@ -798,9 +798,13 @@
     <span class="left">
       <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate clockwise" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
         <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>{{if Album.record}}Full size{{else}}Open{{/if}}</a></li>
         <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
+        <li class="divider"></li>
+        <li role="presentation" class="dropdown-header disabled"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate" href="#"><i class="tooltips glyphicon glyphicon-refresh"></i>Rotate:</a></li>
+        <li role="presentation" class="rotate-cw"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate cw" href="#"><i class="tooltips"></i>cw</a></li>
+        <li role="presentation" class="rotate-ccw"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate ccw" href="#"><i class="tooltips"></i>ccw</a></li>
+        <li class="divider"></li>
         {{if Album.record}}<li role="presentation" class="original"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Show in Masters" href="#"><i class="glyphicon glyphicon glyphicon-file"></i>Show Master</a></li>{{/if}}
         <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="{{if Album.record}}Remove{{else}}Destroy{{/if}}" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Album.record}}Remove{{else}}Destroy{{/if}}</a></li>
       </ul>
@@ -815,9 +819,13 @@
     <span class="left">
       <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate clockwise" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
         <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>Full size</a></li>
         <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
+        <li class="divider"></li>
+        <li role="presentation" class="dropdown-header disabled"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate" href="#"><i class="tooltips glyphicon glyphicon-refresh"></i>Rotate:</a></li>
+        <li role="presentation" class="rotate-cw"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate cw" href="#"><i class="tooltips"></i>cw</a></li>
+        <li role="presentation" class="rotate-ccw"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate ccw" href="#"><i class="tooltips"></i>ccw</a></li>
+        <li class="divider"></li>
         <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="{{if Album.record}}Remove{{else}}Destroy{{/if}}" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Album.record}}Remove{{else}}Destroy{{/if}}</a></li>
       </ul>
     </span>
@@ -882,7 +890,7 @@
 
 <script id="dropdownTemplate" type="text/x-jquery-tmpl">
   <li class="dropdown" {{if id}} id="${id}"{{/if}} >
-    <a class="dropdown-toggle" data-toggle="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown">
       {{html name}}
       <b class="caret"></b>
     </a>
@@ -897,7 +905,7 @@
   <li class="divider"></li>
   {{else}}
   <li>
-    <a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}}">
+    <a {{if dataToggle}} data-toggle="${dataToggle}"{{/if}} class="${klass} {{if disabled}}disabled{{/if}} {{if header}}dropdown-header{{/if}}">
       <i class="glyphicon glyphicon-{{if icon}}${icon} {{if iconcolor}}glyphicon glyphicon-${iconcolor}{{/if}}{{/if}}"></i>
       {{html name}}
       {{if shortcut}}

@@ -203,11 +203,11 @@ class SidebarList extends Spine.Controller
       when 'Gallery'
         @expand(item, App.showView.controller?.el.data('current').models isnt Album)
         @navigate '/gallery', item.id
-        Gallery.current item.id if Gallery.record and Gallery.record.id is item.id
+#        Gallery.current item.id if Gallery.record and Gallery.record.id is item.id
       when 'Album'
         gallery = $(e.target).closest('li.gal').item()
         @navigate '/gallery', gallery.id, item.id
-        Album.current(item.id) if Album.record and Album.record.id is item.id
+#        Album.current(item.id) if Album.record and Album.record.id is item.id
     
   expand: (item, force, e) ->
     galleryEl = @galleryFromItem(item)

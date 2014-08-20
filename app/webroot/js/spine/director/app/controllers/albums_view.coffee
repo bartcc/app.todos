@@ -379,7 +379,7 @@ class AlbumsView extends Spine.Controller
     @info.bye(e)
     el = $(e.currentTarget)
     set = $('.glyphicon-set' , el).addClass('out').removeClass('in')
-    set.children('.open').removeClass('open')
+#    set.children('.open').removeClass('open')
     
   stopInfo: (e) =>
     @info.bye(e)

@@ -737,12 +737,11 @@
 
 <script id="albumInfoTemplate" type="text/x-jquery-tmpl">
   <ul>
-    <li class="name">
-      <span class="left">{{if title}}${title}{{else}}no title{{/if}} </span>
-      <span class="right"> {{tmpl($item.data.details()) "#albumCountTemplate"}}</span>
+    <li class="tr name">
+      <span class="td left">{{if title}}${title}{{else}}no title{{/if}} </span><span class="td"></span><span class="td right"> {{tmpl($item.data.details()) "#albumCountTemplate"}}</span>
     </li>
-    <li class="italic">
-      <span class="">{{if description}}${description}{{/if}}</span>
+    <li class="tr italic">{{if description}}
+      <span class="td">Description</span><span class="td">:</span><span class="td">${description}</span>{{/if}}
     </li>
   </ul>
 </script>
@@ -862,8 +861,7 @@
       <span class="td">Captured</span><span class="td">:</span><span class="td">${captured}</span>{{/if}}
     </li>
     <li class="tr italic">{{if description}}
-      <span class="td">Description</span><span class="td">:</span>
-      <span class="">${description}</span>{{/if}}
+      <span class="td">Description</span><span class="td">:</span><span class="td">${description}</span>{{/if}}
     </li>
   </ul>
 </script>

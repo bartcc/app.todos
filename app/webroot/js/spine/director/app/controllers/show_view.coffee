@@ -113,6 +113,7 @@ class ShowView extends Spine.Controller
     'click .opt-ShowPhotoSelection:not(.disabled)'    : 'showPhotoSelection'
     'click .opt-ShowAlbumSelection:not(.disabled)'    : 'showAlbumSelection'
     'click .opt-SelectAll:not(.disabled)'             : 'selectAll'
+    'click .opt-SelectNone:not(.disabled)'            : 'selectNone'
     'click .opt-SelectInv:not(.disabled)'             : 'selectInv'
     'click .opt-CloseDraghandle'                      : 'toggleDraghandle'
     'click .deselector'                               : 'deselect'
@@ -576,6 +577,12 @@ class ShowView extends Spine.Controller
     try
       list = @select_()
       @current.select(list, true)
+    catch e
+    
+  selectNone: (e) ->
+    try
+#      list = @select_()
+      @current.select([], true)
     catch e
     
   selectInv: (e)->

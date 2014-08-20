@@ -697,7 +697,7 @@
 <script id="albumSpecsTemplate" type="text/x-jquery-tmpl">
   <div class="right">
     <span class="">
-      <div class="opt-SelectAll select btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b class=""><h5>${model.details().sCount}</h5></b></div>
+      <div class="opt-Select{{if model.details().sCount>0}}None deselect{{else}}All select{{/if}} btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b class=""><h5>${model.details().sCount}</h5></b></div>
     </span> 
     <span class="">
     <div class="btn btn-sm">Albums<b><h5>${model.details().aCount} (${modelAlbum.count()} Masters)</h5></b></div>
@@ -711,7 +711,7 @@
 <script id="photoSpecsTemplate" type="text/x-jquery-tmpl">
   <div class="right">
     <span class="">
-    <div class="opt-SelectAll select btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b><h5>${model.details().sCount}</h5></b></div>
+    <div class="opt-Select{{if model.details().sCount>0}}None deselect{{else}}All select{{/if}} btn btn-sm {{if model.details().sCount>0}}btn-info{{/if}}"><b class=""><h5>${model.details().sCount}</h5></b></div>
     </span> 
     <span class="">
     <div class="btn btn-sm">Images<b><h5>${model.details().iCount} (${modelPhoto.count()} Masters)</h5></b></div>

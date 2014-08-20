@@ -1695,13 +1695,21 @@ li.item.active .glyphicon-set {
 .glyphicon-folder-close:hover:before {
   content: "\e118";
 }
-.select:before {
+.select:before,
+.deselect:before {
   content: "Selected";
 }
 .select:hover:before {
   content: "Select All";
 }
-.select:hover {
+.deselect:hover:before {
+  content: "Deselect";
+}
+[class^="opt-Select"] {
+  min-width: 100px;
+}
+.select:hover,
+.deselect:hover {
   background-color: #5bc0de;
   border-color: inherit;
   color: inherit;
@@ -1709,9 +1717,6 @@ li.item.active .glyphicon-set {
 .error.glyphicon-download-alt:before {
   content: "\e101";
   color: #f00;
-}
-.select {
-  width: 75px;
 }
 .loading .glyphicon-loading {
   background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;

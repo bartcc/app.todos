@@ -27,8 +27,9 @@ class PhotoView extends Spine.Controller
     'dragstart .item'                 : 'dragstart'
     'drop .item'                      : 'drop'
     
-    'click .glyphicon-set .back'      : 'back'
+    'click .dropdown-toggle'          : 'dropdownToggle'
     'click .glyphicon-set .delete'    : 'deletePhoto'
+    'click .glyphicon-set .back'      : 'back'
     'click .glyphicon-set .zoom'      : 'zoom'
     'click .glyphicon-set .rotate'    : 'rotate'
     
@@ -62,6 +63,7 @@ class PhotoView extends Spine.Controller
   render: (item=Photo.record) ->
     return unless @isActive()
     @itemsEl.html @template item
+    $('.dropdown-toggle', @el).dropdown()
     @uri item
     @el
   
@@ -121,6 +123,12 @@ class PhotoView extends Spine.Controller
       parentEl.css
         'borderStyle'       : 'solid'
         'backgroundColor'   : 'rgb(117, 117, 117)'
+  
+  dropdownToggle: (e) ->
+    el = $(e.currentTarget)
+    el.dropdown()
+    e.preventDefault()
+    e.stopPropagation()
   
   deletePhoto: (e) ->
     item = $(e.currentTarget).item()

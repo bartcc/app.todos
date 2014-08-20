@@ -60,6 +60,11 @@ class Toolbar extends Spine.Model
           icon: 'asterisk'
           klass: 'opt-CreateGallery'
         ,
+          name: 'New from Album Selection'
+          icon: 'certificate'
+          klass: 'opt-CopyAlbumsToNewGallery'
+          disabled: -> !Gallery.selectionList().length
+        ,
           devider: true
         ,
           name: 'Edit'
@@ -95,11 +100,6 @@ class Toolbar extends Spine.Model
           icon: 'certificate'
           klass: 'opt-DuplicateAlbum'
           disabled: -> !Album.record
-        ,
-          name: 'Duplicate (New Gallery)'
-          icon: 'certificate'
-          klass: 'opt-CopyAlbumsToNewGallery'
-          disabled: -> !Gallery.selectionList().length
         ,
           devider: true
         ,

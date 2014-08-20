@@ -25,6 +25,7 @@ class PhotosList extends Spine.Controller
     'click .back'             : 'back'
     'click .zoom'             : 'zoom'
     'click .rotate'           : 'rotate'
+    'click .original'         : 'original'
     
   selectFirst: true
     
@@ -267,6 +268,14 @@ class PhotosList extends Spine.Controller
     el.dropdown()
     e.preventDefault()
     e.stopPropagation()   
+    
+  original: (e) ->
+    id = $(e.currentTarget).item().id
+    Album.selection[0].global.update [id]
+    @navigate '/gallery', '/'
+    
+    e.preventDefault()
+    e.stopPropagation()
     
   deletePhoto: (e) ->
     @log 'deletePhoto'

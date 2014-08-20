@@ -22,6 +22,7 @@ class AlbumsList extends Spine.Controller
     'click .delete'                : 'deleteAlbum'
     'click .back'                  : 'back'
     'click .zoom'                  : 'zoom'
+    'click .original'              : 'original'
     
   constructor: ->
     super
@@ -206,6 +207,14 @@ class AlbumsList extends Spine.Controller
     
   onError: ->
     @this.snap @src, @element, @css
+      
+  original: (e) ->
+    id = $(e.currentTarget).item().id
+    Gallery.selection[0].global.update [id]
+    @navigate '/gallery', ''
+    
+    e.preventDefault()
+    e.stopPropagation()
       
   zoom: (e) ->
     @log 'zoom'

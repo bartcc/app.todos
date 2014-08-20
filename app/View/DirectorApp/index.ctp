@@ -798,7 +798,7 @@
     <span class="left">
       <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="title="Rotate clockwise"" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
+        <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate clockwise" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
         <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>{{if Album.record}}Full size{{else}}Open{{/if}}</a></li>
         <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
         <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Delete</a></li>
@@ -814,7 +814,7 @@
     <span class="left">
       <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-        <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="title="Rotate clockwise"" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
+        <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate clockwise" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
         <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>Full size</a></li>
         <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
         <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Delete</a></li>

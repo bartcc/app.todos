@@ -414,7 +414,7 @@
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
           <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Open" href="#"><i class="tooltips glyphicon glyphicon-folder-close"></i>Open</a></li>
           <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
-          <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Delete</a></li>
+          <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Destroy" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Destroy</a></li>
         </ul>
       </span>
     </div>
@@ -524,7 +524,7 @@
           <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Open" href="#"><i class="tooltips glyphicon glyphicon-folder-close"></i>Open</a></li>
           <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
           {{if Gallery.record}}<li role="presentation" class="original"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Show in Masters" href="#"><i class="glyphicon glyphicon glyphicon-file"></i>Show Master</a></li>{{/if}}
-          <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Gallery.record}}Remove{{else}}Destroy{{/if}}</a></li>
+          <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="{{if Gallery.record}}Remove{{else}}Destroy{{/if}} " href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Gallery.record}}Remove{{else}}Destroy{{/if}}</a></li>
         </ul>
       </span>
     </div>
@@ -802,7 +802,7 @@
         <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>{{if Album.record}}Full size{{else}}Open{{/if}}</a></li>
         <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
         {{if Album.record}}<li role="presentation" class="original"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Show in Masters" href="#"><i class="glyphicon glyphicon glyphicon-file"></i>Show Master</a></li>{{/if}}
-        <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Album.record}}Remove{{else}}Destroy{{/if}}</a></li>
+        <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="{{if Album.record}}Remove{{else}}Destroy{{/if}}" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Album.record}}Remove{{else}}Destroy{{/if}}</a></li>
       </ul>
     </span>
   </div>
@@ -818,7 +818,7 @@
         <li role="presentation" class="rotate"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate clockwise" href="#"><i class="tooltips glyphicon glyphicon-repeat"></i>Rotate</a></li>
         <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>Full size</a></li>
         <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
-        <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Delete" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Delete</a></li>
+        <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="{{if Album.record}}Remove{{else}}Destroy{{/if}}" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Album.record}}Remove{{else}}Destroy{{/if}}</a></li>
       </ul>
     </span>
   </div>

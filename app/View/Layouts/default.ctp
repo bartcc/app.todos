@@ -33,7 +33,6 @@
   echo $this->Html->meta("description", "Web App");
   echo $this->Html->meta("description", "Photo Director");
   echo $this->Html->meta("description", "Photo Library");
-  echo $this->Html->meta(array('name' => 'robots', 'content' => 'index, follow'));
   
   echo $this->Html->css('twitter/bootstrap/css/bootstrap');
   echo $this->Html->css('app');

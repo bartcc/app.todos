@@ -43,10 +43,15 @@ class SlideshowView extends Spine.Controller
       startSlideshow    : true
       slideshowInterval : 2000
       clearSlides: true
+      container: '#blueimp-gallery'
       displayClass: 'blueimp-gallery-display'
+      fullScreen: false
+      carousel: false
+      useBootstrapModal: true
       onopened: @proxy @onopenedGallery
       onclose:  @proxy @oncloseGallery
       onclosed: @proxy @onclosedGallery
+      onslide: @onslide
     
     @bind('play', @proxy @play)
     Spine.bind('slider:change', @proxy @size)
@@ -89,7 +94,8 @@ class SlideshowView extends Spine.Controller
     
   loadingDone: ->
     return unless @isActive()
-    @show()
+    @images.update []
+    @trigger('active')
        
   params: (width = @parent.thumbSize, height = @parent.thumbSize) ->
     width: width
@@ -158,6 +164,7 @@ class SlideshowView extends Spine.Controller
           'href'   : jsn.src
           'title'       : item.title or item.src
           'data-gallery': 'gallery'
+          'data-description': item.description
     @trigger('slideshow:ready')
       
   size: (val=@thumbSize, bg='none') ->
@@ -179,6 +186,7 @@ class SlideshowView extends Spine.Controller
         root.mozRequestFullScreen()
     else
       (document.webkitCancelFullScreen || document.mozCancelFullScreen || $.noop).apply(document)
+      
     @fullScreenEnabled()
       
   fullScreenEnabled: ->
@@ -203,9 +211,6 @@ class SlideshowView extends Spine.Controller
     @previousHash = location.hash unless /^#\/slideshow\//.test(location.hash)
     params = $.param(options)
     @navigate '/slideshow', params
-#    else
-#      @previousHash = location.hash
-#      @playSlideshow(options)
       
   playSlideshow: (options=@options) ->
     return if @galleryIsActive()
@@ -227,6 +232,13 @@ class SlideshowView extends Spine.Controller
     
   onclosedGallery: (e) ->
     @images = []
+    
+  onslide: (index, slide) ->
+    text = @list[index].getAttribute('data-description')
+    node = @container.find('.description')
+    node.empty()
+    if (text)
+      node[0].appendChild(document.createTextNode(text));
     
   galleryIsActive: ->
     $('#blueimp-gallery').hasClass(@defaults.displayClass)

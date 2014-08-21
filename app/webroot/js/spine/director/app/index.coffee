@@ -355,5 +355,5 @@ class Main extends Spine.Controller
     
     unless isFormfield
       @showView.focus()
-
+      
 module?.exports = Main

@@ -1285,8 +1285,8 @@ label.btn.active {
   background-position: 13px 13px, 77px 13px, 13px 77px, 77px 77px;
 }
 #content .content .items {
-  padding: 25px 10px;
-  margin: 25px 0;
+  padding: 25px 0 0;
+  margin: 20px 10px 11px 7px;
 }
 .all .item {
   padding: 0;

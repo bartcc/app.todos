@@ -39,5 +39,14 @@
 <body>
 	<?php echo $content_for_layout; ?>
 	<?php echo $this->element('sql_dump'); ?>
+<meta itemprop="screenshot" content="https://lh4.googleusercontent.com/fSJzWPiTcYQ6qLgxlqEfJuVD4hfnaGQJatRzWXn8kj96=w483-h367-no">
+<span itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+<meta itemprop="name" content="Axel Nitzschner"></span>
+<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+<meta itemprop="name" content="Axel Nitzschner"></span>
+<meta itemprop="url" content="http://gap.webpremiere.de/director_app, http://gap.webpremiere.de/users/login">
+<meta itemprop="operatingSystem" content="Mac OS X, Windows">
+<meta itemprop="applicationCategory" content="Photo Manager, Photo Library">
+<meta itemprop="image" content="https://lh4.googleusercontent.com/fSJzWPiTcYQ6qLgxlqEfJuVD4hfnaGQJatRzWXn8kj96=w483-h367-no">
 </body>
 </html>

@@ -585,7 +585,7 @@
   </section>
   <section class="">
     <span class="fadeelement breadcrumb">
-      <li style="padding: 0px 19px;" class="previous">
+      <li style="padding: 0px 19px;" class="opt-Prev">
         <div style="" class="go-up"></div>
       </li>
     </span>
@@ -609,7 +609,7 @@
   </section>
   <section class="">
     <span class="fadeelement breadcrumb">
-      <li style="padding: 0px 19px;" class="previous">
+      <li style="padding: 0px 19px;" class="opt-Prev">
         <div style="" class="go-up"></div>
       </li>
       <li class="gal gal-trigger-edit">
@@ -646,7 +646,7 @@
 <script id="photosBreadcrumbTemplate" type="text/x-jquery-tmpl">
   <section class="">
     <span class="fadeelement breadcrumb">
-      <li style="padding: 0px 19px;" class="previous">
+      <li style="padding: 0px 19px;" class="opt-Prev">
         <div style="" class="go-up"></div>
       </li>
       <li class="gal gal-trigger-edit">
@@ -663,7 +663,7 @@
 <script id="photoBreadcrumbTemplate" type="text/x-jquery-tmpl">
   <section class="">
     <span class="fadeelement breadcrumb">
-      <li style="padding: 0px 19px;" class="previous">
+      <li style="padding: 0px 19px;" class="opt-Prev">
         <div style="" class="go-up"></div>
       </li>
       <li class="gal gal-trigger-edit">

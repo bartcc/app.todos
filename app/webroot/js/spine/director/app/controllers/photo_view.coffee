@@ -28,9 +28,9 @@ class PhotoView extends Spine.Controller
     'drop .item'                      : 'drop'
     
     'click .dropdown-toggle'          : 'dropdownToggle'
-    'click .glyphicon-set .delete'    : 'deletePhoto'
-    'click .glyphicon-set .zoom'      : 'zoom'
-    'click .glyphicon-set .rotate'    : 'rotate'
+    'click .delete'                   : 'deletePhoto'
+    'click .zoom'                     : 'zoom'
+    'click .rotate'                   : 'rotate'
     
   template: (item) ->
     $('#photoTemplate').tmpl(item)

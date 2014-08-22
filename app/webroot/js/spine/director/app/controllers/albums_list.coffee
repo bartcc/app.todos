@@ -221,6 +221,12 @@ class AlbumsList extends Spine.Controller
     e.preventDefault()
     e.stopPropagation()
     
+  back: (e) ->
+    @log 'back'
+    @navigate '/galleries', ''
+    e.preventDefault()
+    e.stopPropagation()
+    
   dropdownToggle: (e) ->
     el = $(e.currentTarget)
     el.dropdown()

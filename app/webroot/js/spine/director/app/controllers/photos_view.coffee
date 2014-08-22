@@ -113,8 +113,13 @@ class PhotosView extends Spine.Controller
     delete @buffer
     @el
   
-  active: ->
+  active: (params) ->
     return unless @isActive()
+    if params
+      @options = $().unparam(params)
+      if @options.slideshow
+        @parent.slideshowView.play()
+    
     App.showView.trigger('change:toolbarOne', ['Default', 'Help', 'Slider', App.showView.initSlider])
     App.showView.trigger('change:toolbarTwo', ['Slideshow'])
     @refresh()

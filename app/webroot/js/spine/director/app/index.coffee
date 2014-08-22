@@ -184,7 +184,10 @@ class Main extends Spine.Controller
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)
         Photo.trigger('activate', params.pid)
-        @showView.trigger('active', @showView.photoView)
+        if params.pid is 'slideshow'
+          @showView.trigger('active', @showView.photosView, params.pid)
+        else
+          @showView.trigger('active', @showView.photoView)
       '/gallery/:gid/:aid': (params) ->
         Gallery.trigger('activate', params.gid)
         Album.trigger('activate', params.aid)

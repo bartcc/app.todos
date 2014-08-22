@@ -997,6 +997,10 @@ textarea {
 .header .btn:hover {
   border-radius: 0;
 }
+.header section:nth-child(2) {
+  background: url("/img/1.png") repeat-x scroll 0 -6px rgba(0,0,0,0.00);
+  margin: 2px 0 -27px;
+}
 #sidebar {
   width: 300px;
 }

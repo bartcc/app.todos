@@ -200,7 +200,7 @@ Controller.Drag =
           Spine.DragItem.save()
         
       validateDrop: (target, source, origin) =>
-        return unless target
+        return unless target and source
         switch source.constructor.className
           when 'Album'
             unless target.constructor.className is 'Gallery'

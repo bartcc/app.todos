@@ -11,9 +11,9 @@ class PhotoHeader extends Spine.Controller
   @extend Extender
   
   events:
-    'click .gal'    : 'backToGalleries'
-    'click .alb'    : 'backToAlbums'
-    'click .pho'    : 'backToPhotos'
+    'click .gal'   : 'backToGalleries'
+    'click .alb'   : 'backToAlbums'
+    'click .pho'   : 'backToPhotos'
 
   template: (item) ->
     $("#headerPhotoTemplate").tmpl item
@@ -61,6 +61,9 @@ class PhotoHeader extends Spine.Controller
   backToPhotos: (e) ->
     @navigate '/gallery', Gallery.record.id or '', Album.record?.id or ''
     e.preventDefault()
+    
+  goUp: (e) ->
+    @navigate '/gallery', Gallery.record.id or '', Album.record?.id or ''
     
   drop: (e) ->
     e.stopPropagation()

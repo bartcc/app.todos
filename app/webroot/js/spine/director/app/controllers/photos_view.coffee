@@ -163,7 +163,6 @@ class PhotosView extends Spine.Controller
     Photo.clearCache()
   
   beforeDestroyPhoto: (photo) ->
-    
     # remove selection from root
     Album.removeFromSelection null, photo.id
     
@@ -197,9 +196,6 @@ class PhotosView extends Spine.Controller
     
     @stopInfo()
     
-    func = (el) ->
-      $(el).detach()
-    
     photos = ids || Album.selectionList().slice(0)
     photos = [photos] unless Photo.isArray photos
     
@@ -207,8 +203,6 @@ class PhotosView extends Spine.Controller
       if item = Photo.find(id)
         el = @list.findModelElement(item)
         el.removeClass('in')
-      
-#      setTimeout(func, 300, el)
       
     if album = Album.record
       @destroyJoin

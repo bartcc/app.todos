@@ -60,11 +60,25 @@ textarea {
   margin: 2px 0;
   padding: 0;
 }
+.breadcrumb li {
+  cursor: pointer;
+}
 .breadcrumb li,
 .breadcrumb > li + li:before,
 .header {
   text-shadow: 0 1px 0 rgba(221,221,221,0.50);
   color: inherit;
+}
+.breadcrumb {
+  border-radius: 0 0 0 0;
+  padding: 10px 5px;
+  position: relative;
+  top: 11px;
+  z-index: 1;
+}
+.breadcrumb hr {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 .header .label {
   font-size: 110%;
@@ -521,7 +535,7 @@ body {
 body {
   font-size: 14px;
   color: #414141;
-  background-image: url("img/pattern.png");
+  background-image: url("/img/pattern.png");
   background-color: #666;
 }
 *[draggable=true] {
@@ -555,6 +569,15 @@ table.table tbody > tr > td {
   background: #3f3f3f;
   box-shadow: 0 0 0 rgba(0,0,0,0.00);
   color: inherit;
+}
+button > i {
+  padding-right: 9px;
+}
+button > div:first-child {
+  color: inherit;
+  font-size: 0.6em;
+  font-weight: normal;
+  line-height: 0;
 }
 .td {
   display: table-cell;
@@ -676,9 +699,6 @@ li hr {
   margin: 19px 2px -41px;
   border-width: 1px;
   border-color: rgba(0,0,0,0.50);
-}
-.content label div {
-  color: rgba(0,0,0,0.60);
 }
 .symbol i {
   margin: 0 10px;
@@ -907,10 +927,10 @@ textarea {
   border-width: 0 1px 0 1px;
   border-right-color: rgba(0,0,0,0.30);
   background: #494949;
-  background: url("img/draghandle.png"), -webkit-gradient(linear, left top, right top, from(#494949), to(#333));
-  background: url("img/draghandle.png"), -webkit-linear-gradient(left, #494949, #333);
-  background: url("img/draghandle.png"), -moz-linear-gradient(left, #494949, #333);
-  background: url("img/draghandle.png"), linear-gradient(left, #494949, #333);
+  background: url("/img/draghandle.png"), -webkit-gradient(linear, left top, right top, from(#494949), to(#333));
+  background: url("/img/draghandle.png"), -webkit-linear-gradient(left, #494949, #333);
+  background: url("/img/draghandle.png"), -moz-linear-gradient(left, #494949, #333);
+  background: url("/img/draghandle.png"), linear-gradient(left, #494949, #333);
   background-repeat: no-repeat;
   background-position: center;
   box-sizing: border-box;
@@ -922,10 +942,10 @@ textarea {
   border-width: 1px 0 1px 0;
   border-bottom-color: rgba(0,0,0,0.70);
   background: #494949;
-  background: url("img/draghandle.png"), -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333));
-  background: url("img/draghandle.png"), -webkit-linear-gradient(top #494949, #333);
-  background: url("img/draghandle.png"), -moz-linear-gradient(top, #494949, #333);
-  background: url("img/draghandle.png"), linear-gradient(top, #494949, #333);
+  background: url("/img/draghandle.png"), -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333));
+  background: url("/img/draghandle.png"), -webkit-linear-gradient(top #494949, #333);
+  background: url("/img/draghandle.png"), -moz-linear-gradient(top, #494949, #333);
+  background: url("/img/draghandle.png"), linear-gradient(top, #494949, #333);
   background-repeat: no-repeat;
   background-position: center;
   box-sizing: border-box;
@@ -957,7 +977,7 @@ textarea {
   font-weight: bold;
 }
 .canvas {
-  background: url("img/pattern.png") repeat 0 0;
+  background: url("/img/pattern.png") repeat 0 0;
 }
 .bg-light {
   background-color: #efefef;
@@ -969,13 +989,13 @@ textarea {
   background-color: #333;
 }
 .header .view .top {
-  padding: 15px;
+  padding-top: 15px;
 }
 .header .h2.chopin {
   line-height: 0;
 }
-.header .view section:nth-child(1) {
-  min-height: 115px;
+.header .btn:hover {
+  border-radius: 0;
 }
 #sidebar {
   width: 300px;
@@ -998,7 +1018,7 @@ textarea {
   box-shadow: 0 1px 4px rgba(0,0,0,0.50);
 }
 .contents.views {
-  background: url("img/gradient-normal-xxl.png") repeat scroll 0 0 rgba(75,75,75,0.15);
+  background: url("/img/gradient-normal-xxl.png") repeat scroll 0 0 rgba(75,75,75,0.15);
 }
 .cta {
   padding: 0 5px;
@@ -1022,23 +1042,8 @@ textarea {
 #content .header section.breadcrumb ul {
   float: left;
 }
-.breadcrumb {
-  border-radius: 0 0 0 0;
-  padding: 10px 5px;
-  position: relative;
-  top: 7px;
-  z-index: 1;
-}
-.breadcrumb hr {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
 .disabled {
   cursor: not-allowed;
-}
-#content .header section {
-  border-radius: 0;
-  margin: 3px 0 0 0;
 }
 .header section.top {
   position: relative;
@@ -1183,16 +1188,16 @@ textarea {
   top: 14px;
 }
 #sidebar .expander {
-  background: url("img/arrow.png") no-repeat -22px 0;
+  background: url("/img/arrow.png") no-repeat -22px 0;
 }
 #sidebar .open .expander {
-  background: url("img/arrow.png") no-repeat -22px -23px;
+  background: url("/img/arrow.png") no-repeat -22px -23px;
 }
 #sidebar .active .expander {
-  background: url("img/arrow.png") no-repeat 0 0;
+  background: url("/img/arrow.png") no-repeat 0 0;
 }
 #sidebar .active.open .expander {
-  background: url("img/arrow.png") no-repeat 0 -23px;
+  background: url("/img/arrow.png") no-repeat 0 -23px;
 }
 .toolbar .tb-name > tb-options {
   margin: 0;
@@ -1285,8 +1290,7 @@ label.btn.active {
   background-position: 13px 13px, 77px 13px, 13px 77px, 77px 77px;
 }
 #content .content .items {
-  padding: 25px 0 0;
-  margin: 20px 10px 11px 7px;
+  padding: 37px 10px 0;
 }
 .all .item {
   padding: 0;
@@ -1394,7 +1398,7 @@ li .thumbnail.image {
   border: 9px solid #575757;
 }
 .photos .thumbnail {
-  background-image: url("img/photo-loader.gif");
+  background-image: url("/img/photo-loader.gif");
   background-repeat: no-repeat;
 }
 .photo .thumbnail.image {
@@ -1498,10 +1502,10 @@ li .thumbnail.image {
   box-shadow: 0px -1px 3px 5px rgba(0,0,0,0.80);
 }
 .copycursor {
-  cursor: url("img/cursor-copy.png"), auto;
+  cursor: url("/img/cursor-copy.png"), auto;
 }
 .movecursor {
-  cursor: url("img/cursor-move.png"), auto;
+  cursor: url("/img/cursor-move.png"), auto;
 }
 .preloader {
   position: absolute;
@@ -1509,7 +1513,7 @@ li .thumbnail.image {
   top: 200px;
 }
 .preloader .content div:nth-child(1) {
-  background: url("img/35.png") no-repeat scroll 0 0 transparent;
+  background: url("/img/35.png") no-repeat scroll 0 0 transparent;
   height: 40px;
   width: 40px;
 }
@@ -1526,11 +1530,17 @@ li .thumbnail.image {
 #content ul {
   margin: 0;
 }
+.breadcrumb > li.glyphicon:first-child {
+  min-width: 75px;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+}
 .breadcrumb li a {
   color: rgba(0,0,0,0.70);
   text-decoration: underline;
 }
-.breadcrumb li {
+.breadcrumb li:not(.glyphicon) {
   text-shadow: 0 1px 0 rgba(255,255,255,0.30);
   font-style: initial;
   font-family: sans-serif;
@@ -1731,7 +1741,7 @@ li.item.active .glyphicon-set {
   color: #f00;
 }
 .loading .glyphicon-loading {
-  background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;
+  background: url("/img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;
 }
 .loading .out {
   opacity: 1;
@@ -1882,4 +1892,9 @@ li.over:not(.view) {
 }
 .noborder {
   border: 0 none !important;
+}
+.go-up {
+  background: url("/img/sprite_black2.png") 0 -42px;
+  height: 15px;
+  width: 22px;
 }

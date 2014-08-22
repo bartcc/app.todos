@@ -34,9 +34,23 @@ label, input, button, select, textarea {
   margin: 2px 0;
   padding: 0;
 }
+.breadcrumb li {
+  cursor: pointer;
+}
 .breadcrumb li, .breadcrumb > li + li:before, .header {
   text-shadow: 0 1px 0 rgba(221, 221, 221, .5);
   color: inherit;
+}
+.breadcrumb {
+    border-radius: 0 0 0 0;
+    padding: 10px 5px;
+    position: relative;
+    top: 11px;
+    z-index: 1;
+}
+.breadcrumb hr {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 .header .label {
   font-size: 110%

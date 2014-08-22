@@ -12,7 +12,7 @@ class AlbumsHeader extends Spine.Controller
   @extend Extender
   
   events:
-    'click .gal'                     : 'backToGalleries'
+    'click .gal'      : 'backToGalleries'
   
   constructor: ->
     super
@@ -50,6 +50,11 @@ class AlbumsHeader extends Spine.Controller
   backToGalleries: (e) ->
     @navigate '/galleries/'
     e.preventDefault()
+    
+  goUp: (e) ->
+    @navigate '/galleries', ''
+    e.preventDefault()
+    e.stopPropagation()
     
   active: ->
     @render()

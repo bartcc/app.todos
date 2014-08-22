@@ -62,26 +62,26 @@
           <ul class="toolbarTwo hbox nav"></ul>
         </ul>
         <div tabindex="1" class="contents views vbox flex deselector" style="height: 0;">
-          <div class="header views">
-            <div class="galleries view"></div>
-            <div class="albums view"></div>
-            <div class="photos view"></div>
-            <div class="photo view"></div>
+          <div class="header views vbox">
+            <div class="galleries view vbox"></div>
+            <div class="albums view vbox"></div>
+            <div class="photos view vbox"></div>
+            <div class="photo view vbox"></div>
             <div class="overview view"></div>
           </div>
           <div class="view wait content vbox flex autoflow" style=""></div>
           <div tabindex="1" class="view deselector galleries content vbox flex data parent autoflow" style="">
             <div class="items deselector fadein">Galleries</div>
           </div>
-          <div tabindex="1" class="view deselector albums content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="1" class="view deselector albums content vbox flex data parent autoflow fadeelement" style="">
             <div class="hoverinfo fadeslow"></div>
             <div class="items deselector flex fadein">Albums</div>
           </div>
-          <div tabindex="1" class="view deselector photos content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="1" class="view deselector photos content vbox flex data parent autoflow fadeelement" style="">
             <div class="hoverinfo fadeslow"></div>
             <div class="items deselector flex fadein" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a">Photos</div>
           </div>
-          <div tabindex="1" class="view photo content vbox flex data parent autoflow fadeelement" style="margin-top: -27px;">
+          <div tabindex="1" class="view photo content vbox flex data parent autoflow fadeelement" style="">
             <div class="hoverinfo fadeslow"></div>
             <div class="items flex fadein">Photo</div>
           </div>
@@ -414,7 +414,7 @@
         <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
           <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Open" href="#"><i class="tooltips glyphicon glyphicon-folder-close"></i>Open</a></li>
-          <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
+          <li class="divider"></li>
           <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Destroy" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>Destroy</a></li>
         </ul>
       </span>
@@ -523,8 +523,10 @@
         <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
           <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Open" href="#"><i class="tooltips glyphicon glyphicon-folder-close"></i>Open</a></li>
-          <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
-          {{if Gallery.record}}<li role="presentation" class="original"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Show in Masters" href="#"><i class="glyphicon glyphicon glyphicon-file"></i>Show Master</a></li>{{/if}}
+          {{if Gallery.record}}
+          <li role="presentation" class="original"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Show in Masters" href="#"><i class="glyphicon glyphicon glyphicon-file"></i>Show in Masters</a></li>
+          {{/if}}
+          <li class="divider"></li>
           <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="{{if Gallery.record}}Remove{{else}}Destroy{{/if}} " href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Gallery.record}}Remove{{else}}Destroy{{/if}}</a></li>
         </ul>
       </span>
@@ -581,6 +583,13 @@
     <h2>Galleries Overview</h2>
     <span class="first right"><h3 class=""><i>Info</i></h3></span>
   </section>
+  <section class="">
+    <span class="fadeelement breadcrumb">
+      <li style="padding: 0px 19px;" class="previous">
+        <div style="" class="go-up"></div>
+      </li>
+    </span>
+  </section>
 </script>
 
 <script id="headerAlbumTemplate" type="text/x-jquery-tmpl">
@@ -598,8 +607,11 @@
     {{if model.record}}<label class="h2 chopin">{{if model.record.name}}${model.record.name.slice(0, 25)}{{else}}...{{/if}}</label>{{/if}}
     <span class="right"><h3 class=""><i>Info</i></h3></span>
   </section>
-  <section class="left">
+  <section class="">
     <span class="fadeelement breadcrumb">
+      <li style="padding: 0px 19px;" class="previous">
+        <div style="" class="go-up"></div>
+      </li>
       <li class="gal gal-trigger-edit">
         <a href="#">Galleries</a>
       </li>
@@ -632,8 +644,11 @@
 </script>
 
 <script id="photosBreadcrumbTemplate" type="text/x-jquery-tmpl">
-  <section class="left">
+  <section class="">
     <span class="fadeelement breadcrumb">
+      <li style="padding: 0px 19px;" class="previous">
+        <div style="" class="go-up"></div>
+      </li>
       <li class="gal gal-trigger-edit">
         <a href="#">Galleries</a>
       </li>
@@ -646,8 +661,11 @@
 </script>
 
 <script id="photoBreadcrumbTemplate" type="text/x-jquery-tmpl">
-  <section class="left">
+  <section class="">
     <span class="fadeelement breadcrumb">
+      <li style="padding: 0px 19px;" class="previous">
+        <div style="" class="go-up"></div>
+      </li>
       <li class="gal gal-trigger-edit">
         <a href="#">Galleries</a>
       </li>
@@ -800,13 +818,15 @@
       <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>{{if Album.record}}Full size{{else}}Open{{/if}}</a></li>
-        <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
         <li class="divider"></li>
         <li role="presentation" class="dropdown-header disabled"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate" href="#"><i class="tooltips"></i>Rotate:</a></li>
         <li role="presentation" class="rotate-cw"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate cw" href="#"><i class="tooltips glyphicon glyphicon glyphicon-circle-arrow-right"></i>cw</a></li>
         <li role="presentation" class="rotate-ccw"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate ccw" href="#"><i class="tooltips glyphicon glyphicon glyphicon-circle-arrow-left"></i>ccw</a></li>
         <li class="divider"></li>
-        {{if Album.record}}<li role="presentation" class="original"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Show in Masters" href="#"><i class="glyphicon glyphicon glyphicon-file"></i>Show Master</a></li>{{/if}}
+        {{if Album.record}}
+        <li role="presentation" class="original"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Show in Masters" href="#"><i class="glyphicon glyphicon glyphicon-file"></i>Show in Masters</a></li>
+        <li class="divider"></li>
+        {{/if}}
         <li role="presentation" class="delete"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="{{if Album.record}}Remove{{else}}Destroy{{/if}}" href="#"><i class="glyphicon glyphicon glyphicon-trash"></i>{{if Album.record}}Remove{{else}}Destroy{{/if}}</a></li>
       </ul>
     </span>
@@ -821,7 +841,6 @@
       <a href="#" class="dropdown-toggle glyphicon glyphicon-chevron-down glyphicon-white" data-toggle="dropdown"></a>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
         <li role="presentation" class="zoom"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Full Size" href="#"><i class="tooltips glyphicon glyphicon-resize-full"></i>Full size</a></li>
-        <li role="presentation" class="back"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Up" href="#"><i class="tooltips glyphicon glyphicon-chevron-up"></i>Go up</a></li>
         <li class="divider"></li>
         <li role="presentation" class="dropdown-header disabled"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate" href="#"><i class="tooltips"></i>Rotate:</a></li>
         <li role="presentation" class="rotate-cw"><a role="menuitem" tabindex="-1" data-toggle="tooltip" title="Rotate cw" href="#"><i class="tooltips glyphicon glyphicon-circle-arrow-right"></i>cw</a></li>

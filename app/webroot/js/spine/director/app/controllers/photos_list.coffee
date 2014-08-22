@@ -19,14 +19,13 @@ class PhotosList extends Spine.Controller
     '.toolbar'                : 'toolbarEl'
     
   events:
-    'click .opt-AddPhotos'    : 'addPhotos'
-    'click .dropdown-toggle'  : 'dropdownToggle'
-    'click .delete'           : 'deletePhoto'
-    'click .back'             : 'back'
-    'click .zoom'             : 'zoom'
-    'click .rotate-cw'        : 'rotateCW'
-    'click .rotate-ccw'       : 'rotateCCW'
-    'click .original'         : 'original'
+    'click .opt-AddPhotos'        : 'addPhotos'
+    'click .dropdown-toggle'      : 'dropdownToggle'
+    'click .delete'               : 'deletePhoto'
+    'click .zoom'                 : 'zoom'
+    'click .rotate-cw'            : 'rotateCW'
+    'click .rotate-ccw'           : 'rotateCCW'
+    'click .original'             : 'original'
     
   selectFirst: true
     
@@ -62,7 +61,6 @@ class PhotosList extends Spine.Controller
       when 'destroy'
         el = @findModelElement(photo)
         el.detach()
-          
       when 'update'
         @el.sortable('destroy').sortable()
     
@@ -80,7 +78,7 @@ class PhotosList extends Spine.Controller
       @exposeSelection(Album.record)
       $('.dropdown-toggle', @el).dropdown()
     else if mode is 'add'
-      @html '<h3 class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></h3>'
+      @html '<h3 class="invite"><span class="enlightened">Nothing to add.  &nbsp;</span></h3>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more photos can be added or there is no album selected.</span></label></h3>'
     else 
       if Photo.count()
@@ -89,15 +87,13 @@ class PhotosList extends Spine.Controller
         <p>Simply drop your photos to your browser window</p>
         <p>Note: You can also drag existing photos to a sidebars folder</p>
         </span>
-        <button class="opt-Upload dark large"><i class="glyphicon glyphicon-upload"></i><span>&nbsp;Upload</span></button>
-        <button class="opt-AddPhotos dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
-        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
+        <button class="opt-Upload dark large"><i class="glyphicon glyphicon-upload"></i><span>Upload</span></button>
+        <button class="opt-AddPhotos dark large"><div>import from</div><i class="glyphicon glyphicon-book"></i><span>Library</span></button>
         </label>'
       else
         @html '<label class="invite"><span class="enlightened">No photos here. &nbsp;
         <p>Simply drop your photos to your browser window</p>
-        <button class="opt-Upload dark large"><i class="glyphicon glyphicon-upload"></i><span>&nbsp;Upload</span></button>
-        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
+        <button class="opt-Upload dark large"><i class="glyphicon glyphicon-upload"></i><span>Upload</span></button>
         </label>'
       
     @el
@@ -301,11 +297,6 @@ class PhotosList extends Spine.Controller
     
     e.stopPropagation()
     e.preventDefault()
-    
-  back: (e) ->
-    @navigate '/gallery', Gallery.record.id or ''
-    e.preventDefault()
-    e.stopPropagation()
     
   initSelectable: ->
     options =

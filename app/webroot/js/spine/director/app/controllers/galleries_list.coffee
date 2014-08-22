@@ -18,8 +18,8 @@ class GalleriesList extends Spine.Controller
     'click .opt-SlideshowPlay'      : 'slideshowPlay'
     'click .dropdown-toggle'        : 'dropdownToggle'
     'click .glyphicon-set .delete'  : 'deleteGallery'
-    'click .glyphicon-set .back'    : 'back'
     'click .glyphicon-set .zoom'    : 'zoom'
+    'click .glyphicon-set .go-up'   : 'goUp'
     
     'mousemove .item'               : 'infoUp'
     'mouseleave .item'              : 'infoBye'
@@ -118,7 +118,7 @@ class GalleriesList extends Spine.Controller
     item = $(e.currentTarget).item()
     @navigate '/gallery', item.id
     
-  back: (e) ->
+  goUp: (e) ->
     @navigate '/overview', ''
     
   deleteGallery: (e) ->

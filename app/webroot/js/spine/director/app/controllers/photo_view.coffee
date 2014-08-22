@@ -29,7 +29,6 @@ class PhotoView extends Spine.Controller
     
     'click .dropdown-toggle'          : 'dropdownToggle'
     'click .glyphicon-set .delete'    : 'deletePhoto'
-    'click .glyphicon-set .back'      : 'back'
     'click .glyphicon-set .zoom'      : 'zoom'
     'click .glyphicon-set .rotate'    : 'rotate'
     
@@ -147,7 +146,7 @@ class PhotoView extends Spine.Controller
   back: ->
     return unless @isActive()
     @navigate '/gallery', Gallery.record.id, Album.record.id
-    
+  
   zoom: (e) ->
     @parent.slideshowView.trigger('play', {}, [Photo.record])
     

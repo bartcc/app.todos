@@ -20,7 +20,6 @@ class AlbumsList extends Spine.Controller
     'click .opt-AddAlbums'         : 'addAlbums'
     'click .dropdown-toggle'       : 'dropdownToggle'
     'click .delete'                : 'deleteAlbum'
-    'click .back'                  : 'back'
     'click .zoom'                  : 'zoom'
     'click .original'              : 'original'
     
@@ -70,25 +69,22 @@ class AlbumsList extends Spine.Controller
       @exposeSelection(Gallery.record)
       $('.dropdown-toggle', @el).dropdown()
     else if mode is 'add'
-      @html '<label class="invite"><span class="enlightened">Nothing to add. &nbsp;</span></label>'
+      @html '<label class="invite"><span class="enlightened">Nothing to add.  &nbsp;</span></label>'
       @append '<h3><label class="invite label label-default"><span class="enlightened">Either no more albums can be added or there is no gallery selected.</span></label></h3>'
     else
       if Gallery.record
         if Album.count()
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums. &nbsp;</span><br><br>
-          <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
-          <button class="opt-AddAlbums dark large"><i class="glyphicon glyphicon-book"></i><span>&nbsp;Library</span></button>
-          <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
+          <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>New Album</span></button>
+          <button class="opt-AddAlbums dark large"><div>import from</div><i class="glyphicon glyphicon-book"></i><span>Library</span></button>
           </label>'
         else
           @html '<label class="invite"><span class="enlightened">This Gallery has no albums.<br>It\'s time to create one.</span><br><br>
-          <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
-          <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
+          <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>New Album</span></button>
           </label>'
       else
         @html '<label class="invite"><span class="enlightened">You don\'t have any albums yet</span><br><br>
-        <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>&nbsp;New Album</span></button>
-        <button class="back dark large"><i class="glyphicon glyphicon-chevron-up"></i><span>&nbsp;Up</span></button>
+        <button class="opt-CreateAlbum dark large"><i class="glyphicon glyphicon-asterisk"></i><span>New Album</span></button>
         </label>'
     
     @el
@@ -191,7 +187,7 @@ class AlbumsList extends Spine.Controller
       css.push 'url(' + url + ')'
       @snap url, thumb, css
       
-    thumb.css('backgroundImage', 'url(img/drag_info.png)') unless css.length
+    thumb.css('backgroundImage', 'url(/img/drag_info.png)') unless css.length
       
   snap: (src, el, css) ->
     img = @createImage()
@@ -228,12 +224,6 @@ class AlbumsList extends Spine.Controller
   dropdownToggle: (e) ->
     el = $(e.currentTarget)
     el.dropdown()
-    e.preventDefault()
-    e.stopPropagation()
-    
-  back: (e) ->
-    @log 'back'
-    @navigate '/galleries', ''
     e.preventDefault()
     e.stopPropagation()
 

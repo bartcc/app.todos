@@ -33,5 +33,9 @@ class GalleriesHeader extends Spine.Controller
   active: ->
     @render()
   
+  goUp: (e) ->
+    @navigate '/overview', ''
+    e.preventDefault()
+    e.stopPropagation()
     
 module?.exports = GalleriesHeader

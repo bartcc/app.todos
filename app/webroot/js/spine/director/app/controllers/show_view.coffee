@@ -119,6 +119,7 @@ class ShowView extends Spine.Controller
     'click .opt-CloseDraghandle'                      : 'toggleDraghandle'
     'click .deselector'                               : 'deselect'
     'click .opt-Help'                                 : 'help'
+    'click [class*="-arrow-left previous"]'           : 'prev'
     
     'dblclick .draghandle'                            : 'toggleDraghandle'
     
@@ -935,7 +936,10 @@ class ShowView extends Spine.Controller
         
   back: (e) ->
     @controller.list?.back(e) or @controller.back?(e)
-        
+  
+  prev: (e) ->
+    history.back()
+  
   keydown: (e) ->
     code = e.charCode or e.keyCode
     

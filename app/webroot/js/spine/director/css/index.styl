@@ -45,7 +45,7 @@ html, body {
 body {
   font-size: 14px;
   color: #414141;
-  background-image: url(img/pattern.png);
+  background-image: url(/img/pattern.png);
   background-color: #666;
 }
 *[draggable=true] {
@@ -79,6 +79,15 @@ table.table > th, table.table tbody > tr > td {
   background: rgb(63, 63, 63);
   box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   color: inherit;
+}
+button > i {
+  padding-right: 9px;
+}
+button > div:first-child {
+  color: inherit;
+  font-size: 0.6em;
+  font-weight: normal;
+  line-height: 0;
 }
 .td {
   display: table-cell;
@@ -195,9 +204,6 @@ li hr {
   margin: 19px 2px -41px;
   border-width: 1px;
   border-color: rgba(0, 0, 0, 0.5);
-}
-.content label div {
-  color: rgba(0, 0, 0, 0.6);
 }
 .content, #views .views .view {
 }
@@ -428,10 +434,10 @@ textarea {
   border-width: 0 1px 0 1px;
   border-right-color: rgba(0, 0, 0, 0.3);
   background: #494949;
-  background: url(img/draghandle.png), -webkit-gradient(linear, left top, right top, from(#494949), to(#333333));
-  background: url(img/draghandle.png), -webkit-linear-gradient(left, #494949, #333333);
-  background: url(img/draghandle.png), -moz-linear-gradient(left, #494949, #333333);
-  background: url(img/draghandle.png), linear-gradient(left, #494949, #333333);
+  background: url(/img/draghandle.png), -webkit-gradient(linear, left top, right top, from(#494949), to(#333333));
+  background: url(/img/draghandle.png), -webkit-linear-gradient(left, #494949, #333333);
+  background: url(/img/draghandle.png), -moz-linear-gradient(left, #494949, #333333);
+  background: url(/img/draghandle.png), linear-gradient(left, #494949, #333333);
   background-repeat: no-repeat;
   background-position: center;
   box-sizing:border-box;
@@ -443,10 +449,10 @@ textarea {
   border-width: 1px 0 1px 0;
   border-bottom-color: rgba(0, 0, 0, 0.7);
   background: #494949;
-  background: url(img/draghandle.png), -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333333));
-  background: url(img/draghandle.png), -webkit-linear-gradient(top #494949, #333333);
-  background: url(img/draghandle.png), -moz-linear-gradient(top, #494949, #333333);
-  background: url(img/draghandle.png), linear-gradient(top, #494949, #333333);
+  background: url(/img/draghandle.png), -webkit-gradient(linear, left top, left bottom, from(#494949), to(#333333));
+  background: url(/img/draghandle.png), -webkit-linear-gradient(top #494949, #333333);
+  background: url(/img/draghandle.png), -moz-linear-gradient(top, #494949, #333333);
+  background: url(/img/draghandle.png), linear-gradient(top, #494949, #333333);
   background-repeat: no-repeat;
   background-position: center;
   box-sizing:border-box;
@@ -478,7 +484,7 @@ textarea {
   font-weight: bold;
 }
 .canvas {
-  background: url(img/pattern.png) repeat  0 0;
+  background: url(/img/pattern.png) repeat  0 0;
 }
 .bg-light {
   background-color: #EFEFEF;
@@ -490,13 +496,15 @@ textarea {
   background-color: rgb(51, 51, 51);
 }
 .header .view .top {
-  padding: 15px;
+  padding-top: 15px;
 }
 .header .h2.chopin {
   line-height: 0;
 }
 .header .view section:nth-child(1) {
-  min-height: 115px;
+}
+.header .btn:hover {
+  border-radius: 0;
 }
 #sidebar {
   width: 300px;
@@ -519,7 +527,7 @@ textarea {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 .contents.views {
-  background: url("img/gradient-normal-xxl.png") repeat scroll 0 0 rgba(75, 75, 75, 0.15);
+  background: url("/img/gradient-normal-xxl.png") repeat scroll 0 0 rgba(75, 75, 75, 0.15);
 }
 .cta {
   padding: 0 5px;
@@ -543,23 +551,11 @@ textarea {
 #content .header section.breadcrumb ul {
   float: left;
 }
-.breadcrumb {
-    border-radius: 0 0 0 0;
-    padding: 10px 5px;
-    position: relative;
-    top: 7px;
-    z-index: 1;
-}
-.breadcrumb hr {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
 .disabled {
   cursor: not-allowed;
 }
 #content .header section {
-  border-radius: 0;
-  margin: 3px 0 0 0;
+
 }
 #content .header section + section {
 
@@ -567,6 +563,7 @@ textarea {
 .header section.top {
   position: relative;
 }
+
 .header section div:nth-child(2) {
   border-left: 1px solid rgba(0, 0, 0, 0.3);
   display: inline-block;
@@ -706,16 +703,16 @@ textarea {
   top: 14px;
 }
 #sidebar .expander {
-  background: url('img/arrow.png') no-repeat -22px 0;
+  background: url('/img/arrow.png') no-repeat -22px 0;
 }
 #sidebar .open .expander {
-  background: url('img/arrow.png') no-repeat -22px -23px;
+  background: url('/img/arrow.png') no-repeat -22px -23px;
 }
 #sidebar .active .expander {
-  background: url('img/arrow.png') no-repeat 0 0;
+  background: url('/img/arrow.png') no-repeat 0 0;
 }
 #sidebar .active.open .expander {
-  background: url('img/arrow.png') no-repeat 0 -23px;
+  background: url('/img/arrow.png') no-repeat 0 -23px;
 }
 .toolbar .tb-name > tb-options {
   margin: 0;
@@ -808,8 +805,7 @@ textarea {
 	 background-position: 13px 13px, 77px 13px, 13px 77px, 77px 77px;
 }
 #content .content .items {
-  padding: 25px 0 0;
-  margin: 20px 10px 11px 7px;
+  padding: 37px 10px 0;
 }
 #content .content .item:hover {
 }
@@ -920,7 +916,7 @@ li .thumbnail.image {
   border: 9px solid rgb(87, 87, 87);
 }
 .photos .thumbnail {
-  background-image: url("img/photo-loader.gif");
+  background-image: url("/img/photo-loader.gif");
   background-repeat: no-repeat;
 }
 .photo .thumbnail.image {
@@ -1034,10 +1030,10 @@ li .thumbnail.image {
 #sidebar .item-header {
 }
 .copycursor {
-  cursor: url("img/cursor-copy.png"), auto;
+  cursor: url("/img/cursor-copy.png"), auto;
 }
 .movecursor {
-  cursor: url("img/cursor-move.png"), auto;
+  cursor: url("/img/cursor-move.png"), auto;
 }
 .preloader {
   position: absolute;
@@ -1048,7 +1044,7 @@ li .thumbnail.image {
  
 }
 .preloader .content div:nth-child(1) {
-  background: url("img/35.png") no-repeat scroll 0 0 transparent;
+  background: url("/img/35.png") no-repeat scroll 0 0 transparent;
   height: 40px;
   width: 40px;
 }
@@ -1065,12 +1061,17 @@ li .thumbnail.image {
 #content ul {
   margin: 0;
 }
-
+.breadcrumb > li.glyphicon:first-child {
+  min-width: 75px;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+}
 .breadcrumb li a {
   color: rgba(0, 0, 0, 0.7);
   text-decoration: underline;
 }
-.breadcrumb li {
+.breadcrumb li:not(.glyphicon) {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
   font-style: initial;
   font-family: sans-serif;
@@ -1270,7 +1271,7 @@ li.item.active .glyphicon-set {
   color: red;
 }
 .loading .glyphicon-loading {
-  background: url("img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;
+  background: url("/img/ajax-loader-spinner.gif") repeat scroll 0 0 transparent;
 }
 .loading .out {
   opacity: 1;
@@ -1420,4 +1421,9 @@ section.addAction {
 }
 .noborder {
   border: 0 none !important;
+}
+.go-up {
+  background: url(/img/sprite_black2.png) 0 -42px;
+  height: 15px;
+  width: 22px;
 }

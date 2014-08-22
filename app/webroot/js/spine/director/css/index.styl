@@ -9,6 +9,7 @@ $medium-blue-semi = rgba(51, 153, 255, .5)
 $medium-blue-semi-80 = rgba(51, 153, 255, .8)
 $light-blue = rgba(159, 222, 255, 1)
 $light-blue-semi = rgba(159, 222, 255, .5)
+$azur-blue = rgb(0, 238, 255)
 $btn-info = rgb(91, 192, 222)
 $btn-warning = rgb(240, 173, 78)
 $btn-default = rgb(255, 255, 255)
@@ -475,12 +476,12 @@ textarea {
   text-align: center;
   margin: 0;
   padding: 11px 40px 0;
-  color: #555;
+  color: rgba(0, 238, 255, .7);
   border-right: 1px solid #181818;
   -moz-box-shadow: 1px 0px 1px #525252;
   -webkit-box-shadow: 1px 0px 1px #525252;
   box-shadow: 1px 0px 1px #525252;
-  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.31);
+  text-shadow: 0 0 16px rgb(0, 238, 255);
   font-weight: bold;
 }
 .canvas {
@@ -763,7 +764,7 @@ textarea {
 .options li button:not(:disabled) {
 }
 .options li.active button:not(:disabled), .options li button:active:not(:disabled), label.btn.active {
-  background: #00EEFF;
+  background: $azur-blue;
   box-shadow: 0 0 10px #6C6C6C inset;
   -moz-box-shadow: inset 0 0 10px #6C6C6C;
   -webkit-box-shadow: inset 0 0 10px #6C6C6C;

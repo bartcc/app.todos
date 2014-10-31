@@ -38,6 +38,7 @@ class UploadsController extends AppController {
         $formfiles = $this->request->params['form']['files'];
         $the_files = $this->request->params['form']['files']['name'];
         $photos = array();
+        $this->log($the_files, LOG_DEBUG);
         foreach ($the_files as $key => $value) {
 
           $the_file = str_replace(" ", "_", $the_files[$key]);
@@ -58,13 +59,14 @@ class UploadsController extends AppController {
                 $lg_path = $path . DS . 'lg' . DS . $the_file;
                 $lg_temp = $lg_path . '.tmp';
 
+                $this->log($lg_temp, LOG_DEBUG);
                 if($file->makeDir($path) && $file->setFolderPerms($user_id, $id) && move_uploaded_file($the_temp, $lg_temp)) {
 
                   copy($lg_temp, $lg_path);
                   unlink($lg_temp);
 
                   list($meta, $captured) = $file->imageMetadata($lg_path);
-//                  $this->log($meta, LOG_DEBUG);
+                  $this->log($meta, LOG_DEBUG);
                   $exposure = $file->parseMetaTags('exif:exposure', $meta);
                   $iso = $file->parseMetaTags('exif:iso', $meta);
                   $longitude = $file->parseMetaTags('exif:longitude', $meta);

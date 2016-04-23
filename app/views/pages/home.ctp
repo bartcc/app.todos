@@ -29,7 +29,6 @@ endif;
       </p>
       <p class="download-info">
         <a href="/todos_app" class="btn btn-primary btn-large" type="submit">Backbone's Todos</a>
-        <?php echo MYSQLUPLOAD; ?>
         <a href="/tasks_app" class="btn btn-info btn-large" type="submit">Spine's Todos</a>
         <a href="http://gap.webpremiere.<?php echo TOPLEVEL; ?>" class="btn btn-large" type="submit">More...</a>
       </p>

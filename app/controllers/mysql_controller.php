@@ -42,7 +42,8 @@ class MysqlController extends AppController {
     }
     //$path = '/var/www/vhosts/webpremiere.de/mysql_backup/';
 //    $cmd = sprintf('%1s -uaxel_1 -pkakadax -h localhost todos_backbone %2s E:/Sites/php/mysql_backup/file.sql 2>&1', $postfix, $io);
-    $cmd = sprintf('%1s -uaxel -pkakadax -h localhost todos_backbone %2s ' . MYSQLUPLOAD . '/file.sql 2>&1', $postfix, $io);
+//    $cmd = sprintf('%1s -uaxel -pkakadax -h localhost todos_backbone %2s ' . MYSQLUPLOAD . '/file.sql 2>&1', $postfix, $io);
+    $cmd = sprintf('%1s -uaxel -pkakadax -h localhost todos_backbone %2s /var/www/vhosts/webpremiere.de/mysql_backup/file.sql 2>&1', $postfix, $io);
     $op = `$cmd`;
     return $op;
   }

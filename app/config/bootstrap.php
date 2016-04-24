@@ -59,6 +59,11 @@ define('BASE_URL', Configure::read('App.baseUrl'));
 define('WEB_URL', '/' . APP_DIR . '/' . WEBROOT_DIR);
 define('UPLOADS', ROOT . DS . 'uploads');
 define('PHOTOS', UPLOADS . DS . 'photos');
+if (!defined('TOPLEVEL')) {
+  $a = explode('.', DIR_HOST);
+  $last = count($a)-1;
+  define('TOPLEVEL', $a[$last]);
+}
 if (!defined('SIMPLE_JSON')) {
 	define('SIMPLE_JSON', '/elements/simple_json');
 }

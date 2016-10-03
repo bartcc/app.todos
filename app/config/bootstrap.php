@@ -59,6 +59,16 @@ define('BASE_URL', Configure::read('App.baseUrl'));
 define('WEB_URL', '/' . APP_DIR . '/' . WEBROOT_DIR);
 define('UPLOADS', ROOT . DS . 'uploads');
 define('MYSQLUPLOAD', ROOT . DS . 'mysql');
+if (!defined('MYSQL_CMD_PATH')) {
+  $a = explode('.', DIR_HOST);
+  $last = count($a)-1;
+  $path = '';
+  $tl = $a[$last];
+  if ($tl == 'dev') {
+    $path = '/usr/local/mysql/bin/';
+  }
+  define('MYSQL_CMD_PATH', $path);
+}
 define('PHOTOS', UPLOADS . DS . 'photos');
 if (!defined('TOPLEVEL')) {
   $a = explode('.', DIR_HOST);

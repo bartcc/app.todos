@@ -30,10 +30,10 @@ class MysqlController extends AppController {
   
   function mysql($action, $args = '') {
     if($action == 'dump') {
-      $postfix = 'mysqldump';
+      $postfix = MYSQL_CMD_PATH . 'mysqldump';
       $io = '>';
     } elseif ($action == 'restore') {
-      $postfix = 'mysql';
+      $postfix = MYSQL_CMD_PATH . 'mysql';
       $io = '<';
     } elseif (isempty($action)) {
       $cmd = 'mysql connect localhost 2>&1';

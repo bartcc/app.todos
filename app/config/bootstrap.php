@@ -58,6 +58,7 @@ define('DIR_HOST', $protocol . preg_replace('/:80$/', '', env('HTTP_HOST')) . DI
 define('BASE_URL', Configure::read('App.baseUrl'));
 define('WEB_URL', '/' . APP_DIR . '/' . WEBROOT_DIR);
 define('UPLOADS', ROOT . DS . 'uploads');
+define('MYSQLCONFIG', ROOT . DS . 'mysqlconf');
 define('MYSQLUPLOAD', ROOT . DS . 'mysql');
 if (!defined('MYSQL_CMD_PATH')) {
   $a = explode('.', DIR_HOST);

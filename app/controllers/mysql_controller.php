@@ -40,9 +40,9 @@ class MysqlController extends AppController {
       $op = `$cmd`;
       return $op;
     }
-    //$path = '/var/www/vhosts/webpremiere.de/mysql_backup/';
-//    $cmd = sprintf('%1s -uaxel -pkakadax -h localhost todos_backbone %2s /var/www/vhosts/webpremiere.de/mysqlÇ/file.sql 2>&1', $postfix, $io);
-    $cmd = sprintf('%1s -uaxel -pkakadax -h localhost todos_backbone %2s ' . MYSQLUPLOAD . '/file.sql 2>&1', $postfix, $io);
+    $this->log(ROOT, LOG_DEBUG);
+    $cmd = sprintf('%1s --defaults-extra-file='.MYSQLCONFIG.'/my.cnf todos_backbone %2s ' . MYSQLUPLOAD . '/file.sql 2>&1', $postfix, $io);
+//    $cmd = sprintf('%1s --login-path=local todos_backbone %2s ' . MYSQLUPLOAD . '/file.sql 2>&1', $postfix, $io);
     $op = `$cmd`;
     return $op;
   }

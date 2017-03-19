@@ -53,6 +53,13 @@ hr.soften {
   border: 0;
 }
 
+.button-wrap td {
+		padding: 5px 10px;
+}
+i.info {
+    display: block;
+    color: #999999;
+}
 
 /* Jumbotrons
 -------------------------------------------------- */
@@ -74,9 +81,14 @@ hr.soften {
   font-weight: normal;
   padding: 14px 24px;
   margin-right: 10px;
+	width: 250px;
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;
+}
+.jumbotron table {
+  margin: 0 auto;
+  text-align: center;
 }
 
 /* Masthead (docs home) */

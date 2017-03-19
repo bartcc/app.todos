@@ -25,13 +25,35 @@ endif;
     <div class="inner">
       <h1>Sweet...</h1>
       <p>
-        Choose your App
+        Pick your App
       </p>
-      <p class="download-info">
-        <a href="/todos_app" class="btn btn-primary btn-large" type="submit">Backbone's Todos</a>
-        <a href="/tasks_app" class="btn btn-info btn-large" type="submit">Spine's Todos</a>
-        <a href="http://gap.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-large" type="submit">More...</a>
-      </p>
+			<table class="download-info button-wrap">
+						<tr style="text-align: center">
+								<td>
+										<a href="/todos_app" class="btn btn-primary btn-large" type="submit">Backbone's Todos</a>
+										<i class="info">Todos App (Backbone.js)</i>
+								</td>
+								<td>
+										<a href="/tasks_app" class="btn btn-info btn-large" type="submit">Spine's Todos</a>
+										<i class="info">Todos App (Spine.js)</i>
+								</td>
+								<td>
+										<a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="submit"><span itemprop="name">Datastore</span></a>
+										<i class="info">Store Data</i>
+								</td>
+						</tr>
+						<tr style="text-align: center">
+								<td>
+
+								</td>
+								<td>
+
+								</td>
+								<td>
+										<a href="http://gap.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-large" type="submit">More...</a>
+								</td>
+						</tr>
+				</table>
     </div>
   </header>
 </div>

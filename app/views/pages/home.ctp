@@ -30,15 +30,15 @@ endif;
 			<table class="download-info button-wrap">
 						<tr style="text-align: center">
 								<td>
-										<a href="/todos_app" class="btn btn-primary btn-large" type="submit">Backbone's Todos</a>
+										<a href="/todos_app" class="btn btn-primary btn-large" type="submit" target="_blank">Backbone's Todos</a>
 										<i class="info">Todos App (Backbone.js)</i>
 								</td>
 								<td>
-										<a href="/tasks_app" class="btn btn-info btn-large" type="submit">Spine's Todos</a>
+										<a href="/tasks_app" class="btn btn-info btn-large" type="submit" target="_blank">Spine's Todos</a>
 										<i class="info">Todos App (Spine.js)</i>
 								</td>
 								<td>
-										<a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="submit"><span itemprop="name">Datastore</span></a>
+										<a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="submit" target="_blank"><span itemprop="name">Datastore</span></a>
 										<i class="info">Store Data</i>
 								</td>
 						</tr>

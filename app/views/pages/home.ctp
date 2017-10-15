@@ -45,7 +45,7 @@ endif;
 										<i class="info">Store Data</i>
 								</td>
 								<td>
-										<a href="http://ssv.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-alert btn-large" type="submit" target="_blank"><span itemprop="name">Sportverein</span></a>
+										<a href="http://ssv.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="submit" target="_blank"><span itemprop="name">Sportverein</span></a>
 										<i class="info">Webpräsenz Sportverein</i>
 								</td>
 						</tr>

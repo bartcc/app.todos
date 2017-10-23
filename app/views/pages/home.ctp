@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * PHP 5
@@ -21,43 +22,43 @@ endif;
 //App::uses('Debugger', 'Utility');
 ?>
 <div class="container">
-  <header class="jumbotron masthead">
-    <div class="inner">
-      <h1>Sweet...</h1>
-      <p>
-        Pick your App
-      </p>
-			<table class="download-info button-wrap">
-						<tr style="text-align: center">
-								<td>
-										<a href="/todos_app" class="btn btn-primary btn-large" type="submit" target="_blank">Backbone's Todos</a>
-										<i class="info">Todos App (Backbone.js)</i>
-								</td>
-								<td>
-										<a href="/tasks_app" class="btn btn-info btn-large" type="submit" target="_blank">Spine's Todos</a>
-										<i class="info">Todos App (Spine.js)</i>
-								</td>
-								
-						</tr>
-						<tr style="text-align: center">
-								<td>
-										<a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="submit" target="_blank"><span itemprop="name">Datastore</span></a>
-										<i class="info">Store Data</i>
-								</td>
-								<td>
-										<a href="http://ssv.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="submit" target="_blank"><span itemprop="name">Sportverein</span></a>
-										<i class="info">Webpräsenz Sportverein</i>
-								</td>
-						</tr>
-						<tr style="text-align: center">
-								<td>
-										
-								</td>
-								<td>
-										<a href="http://gap.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-large" type="submit">More...</a>
-								</td>
-						</tr>
-				</table>
-    </div>
-  </header>
+    <header class="jumbotron masthead">
+        <div class="inner">
+            <h1>Sweet...</h1>
+            <p>
+                Pick your App
+            </p>
+            <table class="download-info button-wrap">
+                <tr style="text-align: center">
+                    <td>
+                        <a href="/todos_app" class="btn btn-primary btn-large" type="submit" target="_blank">Backbone's Todos</a>
+                        <i class="info">Todos App (Backbone.js)</i>
+                    </td>
+                    <td>
+                        <a href="/tasks_app" class="btn btn-info btn-large" type="submit" target="_blank">Spine's Todos</a>
+                        <i class="info">Todos App (Spine.js)</i>
+                    </td>
+
+                </tr>
+                <tr style="text-align: center">
+                    <td>
+                        <a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="submit" target="_blank"><span itemprop="name">Datastore</span></a>
+                        <i class="info">Store Data</i>
+                    </td>
+                    <td>
+                        <a href="http://ssv.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="submit" target="_blank"><span itemprop="name">Sportverein</span></a>
+                        <i class="info">Webpräsenz Sportverein</i>
+                    </td>
+                </tr>
+                <tr style="text-align: center">
+                    <td>
+
+                    </td>
+                    <td>
+                        <a href="http://gap.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-large" type="submit">More...</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </header>
 </div>

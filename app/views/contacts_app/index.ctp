@@ -1,5 +1,5 @@
 <header id="title">
-  <h1>Spine Contacts</h1>
+    <a href="/"><h1>Spine Contacts</h1></a>
 </header>
 
 <div id="wrapper" class="hbox flex">

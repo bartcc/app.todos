@@ -42,7 +42,7 @@
     echo $this->Html->script('lib/jquery/ui/effects/jquery.effects.slide');
     echo $this->Html->script('lib/underscore');
 
-    echo $this->Html->script('spine/lib/spine');
+    echo $this->Html->script('spine/lib/spine_1.0.5');
     echo $this->Html->script('spine/lib/local');
     echo $this->Html->script('spine/lib/ajax');
     echo $this->Html->script('spine/lib/filter');

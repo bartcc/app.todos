@@ -3,11 +3,11 @@
 class DirectorAppController extends AppController {
 
   var $name = 'DirectorApp';
-  var $uses = array('Gallery', 'Album', 'Photo');
+  var $uses = array('User');
 
   function beforeFilter() {
     $this->autoRender = true;
-    $this->layout = 'director_layout';
+    $this->layout = 'default';
   }
   
   function beforeRender() {

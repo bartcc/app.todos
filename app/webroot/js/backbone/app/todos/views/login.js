@@ -15,13 +15,13 @@ jQuery(function() {
         this.bind('flash', this.renderFlash);
         Todos.bind('update:auth', this.updateAuth);
         
-        this.username     = this.$('.username');
-        this.password     = this.$('.password');
-        this.closeButton  = this.$('._close');
-        this.cancelButton = this.$('._cancel');
-        this.localButton  = this.$('._local');
-        this.loginButton  = this.$('._login');
-        this.flash        = this.$('._flash span');
+        this.username     = this.$('#username');
+        this.password     = this.$('#password');
+        this.closeButton  = this.$('#close');
+        this.cancelButton = this.$('#cancel');
+        this.localButton  = this.$('#local');
+        this.loginButton  = this.$('#login');
+        this.flash        = this.$('#flash span');
         
         this.model = Todos.Models.User;
         this.isValid = false;
@@ -32,12 +32,13 @@ jQuery(function() {
 
       events: {
         
-        'click footer ._cancel'   : 'cancel',
-        'click footer ._login'    : 'login',
-        'keypress #login input'   : 'login',
-        'keyup #login input'      : 'validateLogin',
-        'click footer ._local'    : 'close',
-        'click header ._close'    : 'close'
+        'click footer #cancel'      : 'cancel',
+        'click footer #login'       : 'login',
+        'click footer #guestLogin'  : 'guestLogin',
+        'keypress #login input'     : 'login',
+        'keyup #login input'        : 'validateLogin',
+        'click footer #local'       : 'close',
+        'click header #close'       : 'close'
 
       },
       
@@ -69,6 +70,12 @@ jQuery(function() {
           sw ? $(this).attr('disabled') : $(this).removeAttr('disabled');
           return 'disabled';
         }, funcValidate())
+      },
+      
+      guestLogin: function() {
+        this.username.val('guest');
+        this.password.val('guest');
+        this.loginButton.click();
       },
       
       login: function(e) {

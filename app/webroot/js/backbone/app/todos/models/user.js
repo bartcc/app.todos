@@ -2,10 +2,9 @@ jQuery(function() {
 
   exports.NS('Todos.Models').User = (function() {
 
-    // Todo Model
+    // User Model
     // ----------
 
-    // Our basic **Todo** model has `content`, `order`, and `done` attributes.
     var User = Backbone.Model.extend({
 
       defaults: {
@@ -24,7 +23,6 @@ jQuery(function() {
       
       defaultAction: 'login',
       
-      // Ensure that each todo created has `content`.
       initialize: function() {
         _.bindAll(this, 'action', 'url');
       },

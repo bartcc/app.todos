@@ -41,33 +41,45 @@ jQuery(function () {
             // To avoid XSS (not that it would be harmful in this particular app),
             // we use `jQuery.text` to set the contents of the todo item.
             setContent: function () {
-                var patt = /(^.*\s+)((?:http|https):\/\/)?([www]?[a-z0-9\/\?=_#&%~-]+(\.[a-z0-9\/\?=_#&%~-]+)+)(.*)/,
-                        test, anchorEl, content, res, href, anchorContent;
-
+                var patt = /(^.*\s+)((?:http|https):\/\/)?([www]?[a-z0-9\/\?=_#&%~-]+(\.[a-z0-9\/\?=_#&%~-]+)+)(.*)/g;
+                var patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/g;
+                var anchorEl, content, regex_content, res, href, anchorContent, matches = [], i=0, part, ret = [], protocol = "http://";
+                
                 content = this.model.get('content');
-                test = patt.test(content);
+                
                 res = content.match(patt);
-
+                regex_content = content;
+                
                 if (res) {
-                    href = res[2] ? res[2] + res[3] : "http://" + res[3];
-
-                    anchorEl = $('<a></a>').attr({
-                        'href': href,
-                        'target': '_blank'
-                    }).addClass('editor');
+                    while ((matches = patt.exec(regex_content)) !== null && i < 1000) {
+                        i++;
+                        
+                        href = matches[0].indexOf(protocol) !== -1 ? matches[0] :  protocol + matches[0];
+                        
+                        anchorEl = $('<a></a>').attr({
+                            'href': href,
+                            'target': '_blank'
+                        })
+                        
+                        part=content.split(matches[0]);
+                        
+                        content=part.slice(1).join(matches[0]); // handle rest of content by readding matches on multiple occurences
+                        
+                        anchorContent = anchorEl.html(matches[0]);
+                                
+                        this.$('.todo-content').append(part[0]).append(anchorContent);
+                        
+                    }
                     
-                    content = anchorEl.html(res[3]);
-                    anchorContent = res[1] + res[3] + res[5];
-
-                    this.$('.todo-content').append(res[1]).append(content).append(res[5]);
-
+                    this.$('.todo-content').append(content); // add rest of the content
+                    
                 } else {
 
                     this.$('.todo-content').text(content);
 
                 }
-
-                this.$('.todo-input').val(anchorContent || content);
+                
+                this.$('.todo-input').val(regex_content);
             },
 
             // Toggle the `"done"` state of the model.

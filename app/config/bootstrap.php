@@ -53,6 +53,10 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
 } else {
   $protocol = 'http://';
 }
+// for MySQL Controller
+define("DEFAULT_DB", 'todos_backbone');
+define("DEFAULT_CONTROLLER", 'todos_app');
+
 define('DIR_REL_HOST', str_replace('/index.php?', '', Configure::read('App.baseUrl')));
 define('DIR_HOST', $protocol . preg_replace('/:80$/', '', env('HTTP_HOST')) . DIR_REL_HOST);
 define('BASE_URL', Configure::read('App.baseUrl'));

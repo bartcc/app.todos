@@ -75,13 +75,13 @@ jQuery(function () {
             guestLogin: function () {
                 this.username.val('guest');
                 this.password.val('guest');
+                this.validateLogin();
                 this.loginButton.click();
             },
 
             login: function (e) {
                 if ((e.keyCode != 13 && e.type != 'click'))
                     return;
-
 
                 var that = this;
                 this.model.action('login');

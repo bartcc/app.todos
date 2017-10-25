@@ -31,28 +31,28 @@ endif;
             <table class="download-info button-wrap">
                 <tr style="text-align: center">
                     <td>
-                        <a href="/todos_app" class="btn btn-primary btn-large" type="" target="_blank">Backbone's Todos</a>
+                        <a href="/todos_app" class="btn btn-primary btn-large" type="" target="_top">Backbone's Todos</a>
                         <i class="info">Todos App (Backbone.js)</i>
                     </td>
                     <td>
-                        <a href="/tasks_app" class="btn btn-info btn-large" type="" target="_blank">Spine's Todos</a>
+                        <a href="/tasks_app" class="btn btn-info btn-large" type="" target="_top">Spine's Todos</a>
                         <i class="info">Todos App (Spine.js)</i>
                     </td>
 
                 </tr>
                 <tr style="text-align: center">
                     <td>
-                        <a href="/contacts_app" class="btn btn-success btn-large" type="" target="_blank"><span itemprop="name">Contacts App</span></a>
+                        <a href="/contacts_app" class="btn btn-success btn-large" type="" target="_top"><span itemprop="name">Contacts App</span></a>
                         <i class="info">Contacts App (Spine.js)</i>
                     </td>
                     <td>
-                        <a href="http://ssv.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="" target="_blank"><span itemprop="name">Sportverein</span></a>
+                        <a href="http://ssv.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="" target="_top"><span itemprop="name">Sportverein</span></a>
                         <i class="info">Webpräsenz Sportverein</i>
                     </td>
                 </tr>
                 <tr style="text-align: center">
                     <td>
-                        <a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="" target="_blank"><span itemprop="name">Datastore</span></a>
+                        <a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="" target="_top"><span itemprop="name">Datastore</span></a>
                         <i class="info">Store Data</i>
                     </td>
                     <td>

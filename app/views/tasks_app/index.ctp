@@ -2,11 +2,11 @@
     <div class="item {{if done}}done{{/if}}">
     <div class="view" title="Double click to edit...">
     <input type="checkbox" {{if done}}checked="checked"{{/if}}> 
-    <span>${name}</span> <a class="destroy"></a>
+    <span class="todo-content">{{html html}}</span> <a class="destroy"></a>
     </div>
 
     <div class="edit">
-    <input type="text" value="${name}">
+    <input class="todo-input" type="text" value="${name}">
     </div>
     </div>
 </script>
@@ -44,8 +44,9 @@
             </div>
             <div class="hbox">
                 <footer class="vbox flex">
-                    <div style="height: 33px;">
+                    <div>
                         <button id="refresh-db" class="light" style="width: 100%" onclick="window.location.href = base_url + 'mysql/restore/todos_spine/'">Restore</button>
+                        <button id="refresh-db" class="light hide" style="width: 100%" onclick="window.location.href = base_url + 'mysql/dump/todos_spine/'">Backup</button>
                     </div>
                 </footer>
             </div>

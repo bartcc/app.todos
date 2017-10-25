@@ -12,6 +12,7 @@ jQuery(function () {
 
             // The DOM events specific to an item.
             events: {
+                "click .item" : "blur",
                 "click .check": "toggleDone",
                 "dblclick .display": "edit",
                 "click a.destroy": "clear",
@@ -41,9 +42,8 @@ jQuery(function () {
             // To avoid XSS (not that it would be harmful in this particular app),
             // we use `jQuery.text` to set the contents of the todo item.
             setContent: function () {
-                var patt = /(^.*\s+)((?:http|https):\/\/)?([www]?[a-z0-9\/\?=_#&%~-]+(\.[a-z0-9\/\?=_#&%~-]+)+)(.*)/g;
                 var patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/g;
-                var anchorEl, content, regex_content, res, href, anchorContent, matches = [], i=0, part, ret = [], protocol = "http://";
+                var anchorEl, content, regex_content, res, href, anchorContent, matches = [], part, protocol = "http://";
                 
                 content = this.model.get('content');
                 
@@ -51,8 +51,7 @@ jQuery(function () {
                 regex_content = content;
                 
                 if (res) {
-                    while ((matches = patt.exec(regex_content)) !== null && i < 1000) {
-                        i++;
+                    while ((matches = patt.exec(regex_content)) !== null) {
                         
                         href = matches[0].indexOf(protocol) !== -1 ? matches[0] :  protocol + matches[0];
                         
@@ -115,6 +114,10 @@ jQuery(function () {
             // Remove the item, destroy the model.
             clear: function () {
                 this.model.clear();
+            },
+            
+            blur: function (e) {
+                $(e.target).attr('tabindex', 0).focus();
             }
         })
 

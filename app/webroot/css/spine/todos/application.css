@@ -47,6 +47,10 @@ header, footer {
   display: block;
 }
 
+.hide {
+    display: none !important;
+}
+
 .autoflow {
   overflow: auto;
 }
@@ -167,24 +171,21 @@ header .info {
   font-style: italic;
 }
 #tasks .items {
-  /*  padding: 20px;
-    margin: 10px 0;*/
   list-style: none;
 }
 #tasks .item {
-  padding: 15px 40px 15px 15px;
+  padding: 10px 40px 8px 15px;
   position: relative;
-  font-size: 24px;
+  font-size: 1em;
   border-bottom: 1px solid #cccccc;
 }
 #tasks input[type="text"] {
   border: 1px solid #999999;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2) inset;
   font-family: inherit;
-  font-size: 24px;
-  line-height: 1.4em;
+  font-size: 1em;
   outline: medium none;
-  padding-left: 25px;
+  padding: 3px 25px;
   width: 100%
 }
 #tasks .item.done span {
@@ -222,7 +223,6 @@ footer {
   -webkit-box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.1);
   text-align: right;
-  height: 45px;
 }
 .right {
   float: right;
@@ -509,4 +509,13 @@ li.hover {
 }
 li.unsaved {
   background-color: #DEF7DA
+}
+footer button {
+    margin: 5px 0;
+}
+:focus {
+    outline: none;
+}
+.todo-content a {
+    text-decoration: underline;
 }

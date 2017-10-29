@@ -41,15 +41,17 @@ class Tasks extends Spine.Controller
                 anchorEl = $('<a></a>').attr(
                     'href': href
                     'target': '_blank'
+                    'title' : 'Open ' + matches[0] + ' in new Tab'
                 )
       
                 part=content.split(matches[0])
                 content=part.slice(1).join(matches[0]); # handle rest of content by readding matches on multiple occurences
-                anchorContent = anchorEl.html(matches[0])
+                anchorText = (matches[2]+'.'+matches[3]) # we don't wanna see the protocol in our anchor html
+                anchorContent = anchorEl.html(anchorText)
         
                 container.append(part[0]).append(anchorContent)
       
-            container.append(content) # add rest of the content  
+            container.append(content) # add rest of the content
         
         else container.text(content)
         

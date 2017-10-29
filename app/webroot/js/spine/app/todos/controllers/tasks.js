@@ -33,7 +33,7 @@ Tasks = (function(_super) {
   };
 
   Tasks.prototype.display = function(item) {
-    var anchorContent, anchorEl, container, content, href, matches, part, patt, protocol, regex_content, res;
+    var anchorContent, anchorEl, anchorText, container, content, href, matches, part, patt, protocol, regex_content, res;
     patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/g;
     content = item.name;
     res = content.match(patt);
@@ -45,11 +45,13 @@ Tasks = (function(_super) {
         href = matches[0].indexOf(protocol) !== -1 ? matches[0] : protocol + matches[0];
         anchorEl = $('<a></a>').attr({
           'href': href,
-          'target': '_blank'
+          'target': '_blank',
+          'title': 'Open ' + matches[0] + ' in new Tab'
         });
         part = content.split(matches[0]);
         content = part.slice(1).join(matches[0]);
-        anchorContent = anchorEl.html(matches[0]);
+        anchorText = matches[2] + '.' + matches[3];
+        anchorContent = anchorEl.html(anchorText);
         container.append(part[0]).append(anchorContent);
       }
       container.append(content);

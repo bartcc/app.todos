@@ -34,7 +34,7 @@ Tasks = (function(_super) {
 
   Tasks.prototype.display = function(item) {
     var anchorContent, anchorEl, anchorText, container, content, href, matches, part, patt, protocol, regex_content, res;
-    patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/g;
+    patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})\/?/g;
     content = item.name;
     res = content.match(patt);
     regex_content = content;

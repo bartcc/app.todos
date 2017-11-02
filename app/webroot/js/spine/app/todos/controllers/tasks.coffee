@@ -24,7 +24,7 @@ class Tasks extends Spine.Controller
         $("#taskTemplate").tmpl item
     
     display: (item) ->
-        patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/g
+        patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})\/?/g
         content = item.name
     
         res = content.match(patt)

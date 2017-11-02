@@ -42,7 +42,7 @@ jQuery(function () {
             // To avoid XSS (not that it would be harmful in this particular app),
             // we use `jQuery.text` to set the contents of the todo item.
             setContent: function () {
-                var patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?/g;
+                var patt = /(https?:\/\/)?([\da-z\.-]+)\.([a-z]{2,6})\/?/g;
                 var anchorEl, content, regex_content, res, href, anchorContent, matches = [], part, protocol = "http://", anchorText;
                 
                 content = this.model.get('content');

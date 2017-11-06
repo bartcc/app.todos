@@ -88,6 +88,9 @@ if (!defined('HOST')) {
 if (!defined('SIMPLE_JSON')) {
 	define('SIMPLE_JSON', '/elements/simple_json');
 }
+if (!defined('FLASH_JSON')) {
+	define('FLASH_JSON', '/elements/flash_json');
+}
 if (!defined('BLANK_RESPONSE')) {
 	define('BLANK_RESPONSE', '/elements/blank_json');
 }

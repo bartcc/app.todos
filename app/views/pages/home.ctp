@@ -24,7 +24,7 @@ endif;
 <div class="container">
     <header class="jumbotron masthead">
         <div class="inner">
-            <h1>Sweet....</h1>
+            <h1>Sweet...</h1>
             <p>
                 Pick your App
             </p>

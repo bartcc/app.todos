@@ -19,53 +19,53 @@
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <?php echo $this->Html->charset(); ?>
-    <title>
-      <?php __('CakePHP: Evaluating Spine.Js:'); ?>
-      <?php echo $title_for_layout; ?>
-    </title>
-    <?php
-    echo $this->Html->meta('icon');
+    <head>
+        <?php echo $this->Html->charset(); ?>
+        <title>
+            <?php __('WebPremiere: '); ?>
+            <?php echo $title_for_layout; ?>
+        </title>
+        <?php
+        echo $this->Html->meta('icon');
 
-    //echo $this->Html->css('cake.generic');
+        //echo $this->Html->css('cake.generic');
 
-    echo $this->Html->css('base');
-    echo $this->Html->css('spine/todos/application');
+        echo $this->Html->css('base');
+        echo $this->Html->css('spine/todos/application');
 
-    echo $this->Html->script('lib/json2');
+        echo $this->Html->script('lib/json2');
 
-    echo $this->Html->script('lib/underscore');
+        echo $this->Html->script('lib/underscore');
 
-    echo $this->Html->script('lib/jquery/jquery-1.7.1');
-    echo $this->Html->script('lib/jquery/jquery.tmpl');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.widget');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.mouse');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.dialog');
-    echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
+        echo $this->Html->script('lib/jquery/jquery-1.7.1');
+        echo $this->Html->script('lib/jquery/jquery.tmpl');
+        echo $this->Html->script('lib/jquery/ui/jquery.ui.core');
+        echo $this->Html->script('lib/jquery/ui/jquery.ui.widget');
+        echo $this->Html->script('lib/jquery/ui/jquery.ui.mouse');
+        echo $this->Html->script('lib/jquery/ui/jquery.ui.dialog');
+        echo $this->Html->script('lib/jquery/ui/jquery.ui.sortable');
 
-    echo $this->Html->script('spine/lib/spine_1.0.5');
-    echo $this->Html->script('spine/lib/local');
-    echo $this->Html->script('spine/lib/ajax');
-    
-    echo $this->Html->script('spine/app/todos/controllers/sidebar');
-    echo $this->Html->script('spine/app/todos/controllers/main');
-    echo $this->Html->script('spine/app/todos/controllers/tasks');
-    echo $this->Html->script('spine/app/todos/models/task');
-    echo $this->Html->script('spine/app/todos/application');
+        echo $this->Html->script('spine/lib/spine_1.0.5');
+        echo $this->Html->script('spine/lib/local');
+        echo $this->Html->script('spine/lib/ajax');
 
-    echo $html->scriptStart();
-    ?>
-    var base_url = '<?php echo $html->url('/'); ?>';
-    <?php
-    echo $html->scriptEnd();
+        echo $this->Html->script('spine/app/todos/controllers/sidebar');
+        echo $this->Html->script('spine/app/todos/controllers/main');
+        echo $this->Html->script('spine/app/todos/controllers/tasks');
+        echo $this->Html->script('spine/app/todos/models/task');
+        echo $this->Html->script('spine/app/todos/application');
 
-    echo $scripts_for_layout;
-    ?>
-  </head>
-  <body>
-    <?php echo $content_for_layout; ?>
-    <?php echo $this->element('sql_dump'); ?>
-  </body>
+        echo $html->scriptStart();
+        ?>
+        var base_url = '<?php echo $html->url('/'); ?>';
+        <?php
+        echo $html->scriptEnd();
+
+        echo $scripts_for_layout;
+        ?>
+    </head>
+    <body>
+        <?php echo $content_for_layout; ?>
+        <?php echo $this->element('sql_dump'); ?>
+    </body>
 </html>

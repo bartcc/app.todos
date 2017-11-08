@@ -22,7 +22,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php __('CakePHP: Welcome to CakePHP: '); ?>
+		<?php __('WebPremiere: '); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php

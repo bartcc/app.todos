@@ -28,6 +28,7 @@ endif;
             <p>
                 Pick your App
             </p>
+            <hr>
             <div class="download-info button-wrapper flex flex-wrap">
                     <div>
                         <a href="/todos_app" class="btn btn-primary btn-large" type="" target="_top">Backbone's Todos</a>
@@ -56,3 +57,8 @@ endif;
         </div>
     </header>
 </div>
+<footer class="footer">
+    <div class="footer__content">
+        <?php echo 'powered'; ?> <a href="/" target="_self"><img class="logo" src="/img/webpremiere-logo-1.svg" alt="webPremiere"></a>
+    </div>
+</footer>

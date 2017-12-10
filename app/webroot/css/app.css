@@ -14,8 +14,20 @@ body {
     background-color: #fff;
     background-repeat: repeat-x;
     background-position: 0 0;
+    color: #c7c7c7;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 
+html, body {
+    height: 100%;
+}
 
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
@@ -58,13 +70,16 @@ hr.soften {
 }
 i.info {
     display: block;
-    color: #999999;
+    color: #ffffff;
+    font-style: normal;
+    font-size: .8em;
 }
 
 /* Jumbotrons
 -------------------------------------------------- */
 .jumbotron {
     position: relative;
+    background-color: rgba(0,0,0,.5);
 }
 .jumbotron h1 {
     margin-bottom: 9px;
@@ -270,22 +285,6 @@ i.info {
     float: left;
     margin: 4px 5px 0 0;
 }
-
-
-
-/* Footer
--------------------------------------------------- */
-.footer {
-    margin-top: 45px;
-    padding: 35px 0 36px;
-    border-top: 1px solid #e5e5e5;
-}
-.footer p {
-    margin-bottom: 0;
-    color: #555;
-}
-
-
 
 /* Special grid styles
 -------------------------------------------------- */
@@ -794,4 +793,46 @@ form.well {
 .button-wrapper > div {
     flex: 1 0 250px;
     margin-bottom: 20px;
+}
+.background {
+    background: url(/img/bg.jpg) no-repeat center top fixed;
+    background-size: cover;
+}
+.background::after {
+    content: "";
+    background: rgba(0,0,0,0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+.footer {
+    width: 100%;
+    background: rgba(0,0,0,.5);
+}
+.footer__content {
+    margin: auto;
+    padding: 0 40px;
+    max-width: 1200px;
+    text-align: right;
+    color: rgba(255,255,255,.5);
+}
+.footer .logo {
+    height: 50px;
+    vertical-align: middle;
+    margin: 0 0 0 10px;
+}
+.container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: column;
+    flex-flow: column;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    max-width: 640px;
+    padding: 0 20px;
 }

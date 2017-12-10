@@ -28,38 +28,31 @@ endif;
             <p>
                 Pick your App
             </p>
-            <table class="download-info button-wrap">
-                <tr style="text-align: center">
-                    <td>
+            <div class="download-info button-wrapper flex flex-wrap">
+                    <div>
                         <a href="/todos_app" class="btn btn-primary btn-large" type="" target="_top">Backbone's Todos</a>
                         <i class="info">Todos App (Backbone.js)</i>
-                    </td>
-                    <td>
+                    </div>
+                    <div>
                         <a href="/tasks_app" class="btn btn-info btn-large" type="" target="_top">Spine's Todos</a>
                         <i class="info">Todos App (Spine.js)</i>
-                    </td>
-
-                </tr>
-                <tr style="text-align: center">
-                    <td>
+                    </div>
+                    <div>
                         <a href="/contacts_app" class="btn btn-success btn-large" type="" target="_top"><span itemprop="name">Contacts App</span></a>
                         <i class="info">Contacts App (Spine.js)</i>
-                    </td>
-                    <td>
+                    </div>
+                    <div>
                         <a href="http://ssv.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="" target="_top"><span itemprop="name">Sportverein</span></a>
                         <i class="info">Webpräsenz Sportverein</i>
-                    </td>
-                </tr>
-                <tr style="text-align: center">
-                    <td>
+                    </div>
+                    <div>
                         <a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="" target="_top"><span itemprop="name">Datastore</span></a>
                         <i class="info">Store Data</i>
-                    </td>
-                    <td>
+                    </div>
+                    <div>
                         <a href="http://gap.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-large" type="">More...</a>
-                    </td>
-                </tr>
-            </table>
+                    </div>
+            </div>
         </div>
     </header>
 </div>

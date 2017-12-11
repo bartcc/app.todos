@@ -31,5 +31,6 @@
 		<text transform="matrix(1.0008 0 0 1 71.4648 35.0864)" fill="#FFFFFF" font-family="'OpenSans-Light'" font-size="30.3177">premiere</text>
 	</g>
 </g>
-<rect x="141.042" y="12.792" fill="#22AEFF" width="8.25" height="3.167"/>
+<rect x="147.022" y="12.958" fill="#22AEFF" width="2.5" height="3.069"/>
+<circle display="none" fill="#22AEFF" cx="148.262" cy="13.969" r="2.163"/>
 </svg>

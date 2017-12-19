@@ -47,7 +47,7 @@ endif;
                         <i class="info">Webpräsenz Sportverein</i>
                     </div>
                     <div>
-                        <a href="http://data.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="" target="_top"><span itemprop="name">Datastore</span></a>
+                        <a href="http://serials.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="" target="_top"><span itemprop="name">Datastore</span></a>
                         <i class="info">Store Data</i>
                     </div>
                     <div>

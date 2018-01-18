@@ -24,9 +24,9 @@ endif;
 <div class="container">
     <header class="jumbotron masthead">
         <div class="inner">
-            <h1>Sweet...</h1>
+            <h1>WePremiere</h1>
             <p>
-                Pick your App
+                Pick an App
             </p>
             <hr>
             <div class="download-info button-wrapper flex flex-wrap">
@@ -51,6 +51,10 @@ endif;
                         <i class="info">Store Data</i>
                     </div>
                     <div>
+                        <a href="" class="" type="" target="_top"><span itemprop="name"></span></a>
+                        <i class="info"></i>
+                    </div>
+                    <div>
                         <a href="http://gap.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-large" type="">More...</a>
                     </div>
             </div>
@@ -59,6 +63,6 @@ endif;
 </div>
 <footer class="footer">
     <div class="footer__content">
-        <?php echo 'powered'; ?> <a href="/" target="_self"><img class="logo" src="/img/webpremiere-logo-1.svg" alt="webPremiere"></a>
+        <?php echo 'powered'; ?> <a href="/" target="_self"><img class="logo" src="https://webpremiere.de/files/public-docs/logos/webpremiere-logo-1.svg" alt="webPremiere"></a>
     </div>
 </footer>

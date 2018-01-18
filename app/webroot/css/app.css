@@ -821,6 +821,7 @@ form.well {
 }
 .footer .logo {
     height: 50px;
+    padding: 6px;
     vertical-align: middle;
     margin: 0 0 0 10px;
 }

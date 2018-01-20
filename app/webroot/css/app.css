@@ -28,7 +28,12 @@ body {
 html, body {
     height: 100%;
 }
-
+.logo > img {
+    width: 68%;
+}
+.logo {
+    text-align: center;
+}
 /* Tweak navbar brand link to be super sleek
 -------------------------------------------------- */
 .navbar-fixed-top .brand {

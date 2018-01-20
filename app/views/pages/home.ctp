@@ -24,7 +24,9 @@ endif;
 <div class="container">
     <header class="jumbotron masthead">
         <div class="inner">
-            <h1>WebPremiere</h1>
+            <div class="logo">
+                <img src="https://webpremiere.de/files/public-docs/logos/webpremiere-logo-1.svg">
+            </div>
             <p>
                 Pick an App
             </p>

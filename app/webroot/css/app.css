@@ -816,6 +816,27 @@ form.well {
 .footer {
     width: 100%;
     background: rgba(0,0,0,.5);
+    position: relative;
+}
+.footer .h2, .footer .h3 {
+    font-size: 0.9em;
+}
+.footer .h2 {
+    font-weight: 100;
+}
+.footer .h3 {
+    font-weight: 400;
+}
+.footer .title {
+    margin-right: 10px;
+}
+.footer a, .footer a:visited, .footer a:active, .footer a:hover {
+    color: #fff;
+}
+.footer__bg_copyright {
+    position: absolute;
+    top: -2em;
+    left: 1em;
 }
 .footer__content {
     margin: auto;

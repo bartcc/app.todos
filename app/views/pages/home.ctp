@@ -64,6 +64,7 @@ endif;
     </header>
 </div>
 <footer class="footer">
+    <div class="footer__bg_copyright"><a href="https://www.flickr.com/photos/95403249@N06/35456881653" target="_blank"><span class="title h3">Vestrahorn Islande</span><span class="author h2">von RUFF Etienne</span></a></div>
     <div class="footer__content">
         <?php echo 'powered'; ?> <a href="/" target="_self"><img class="logo" src="https://webpremiere.de/files/public-docs/logos/webpremiere-logo-1.svg" alt="webPremiere"></a>
     </div>

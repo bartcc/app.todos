@@ -814,6 +814,7 @@ form.well {
     z-index: -1;
 }
 .footer {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
     width: 100%;
     background: rgba(0,0,0,.5);
     position: relative;

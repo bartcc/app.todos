@@ -33,27 +33,27 @@ endif;
             <hr>
             <div class="download-info button-wrapper flex flex-wrap">
                     <div>
-                        <a href="/todos_app" class="btn btn-primary btn-large" type="" target="_top">Backbone's Todos</a>
+                        <a href="/todos_app" class="btn btn-primary btn-large" type="" target="_blank">Backbone's Todos</a>
                         <i class="info">Todos App (Backbone.js)</i>
                     </div>
                     <div>
-                        <a href="/tasks_app" class="btn btn-info btn-large" type="" target="_top">Spine's Todos</a>
+                        <a href="/tasks_app" class="btn btn-info btn-large" type="" target="_blank">Spine's Todos</a>
                         <i class="info">Todos App (Spine.js)</i>
                     </div>
                     <div>
-                        <a href="/contacts_app" class="btn btn-success btn-large" type="" target="_top"><span itemprop="name">Contacts App</span></a>
+                        <a href="/contacts_app" class="btn btn-success btn-large" type="" target="_blank"><span itemprop="name">Contacts App</span></a>
                         <i class="info">Contacts App (Spine.js)</i>
                     </div>
                     <div>
-                        <a href="http://ssv-altenberg.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="" target="_top"><span itemprop="name">Sportverein</span></a>
+                        <a href="https://ssv-altenberg.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="" target="_blank"><span itemprop="name">Sportverein</span></a>
                         <i class="info">Webpräsenz Sportverein</i>
                     </div>
                     <div>
-                        <a href="http://serials.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="" target="_top"><span itemprop="name">Datastore</span></a>
+                        <a href="https://serials.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-warning btn-large" type="" target="_blank"><span itemprop="name">Datastore</span></a>
                         <i class="info">Store Data</i>
                     </div>
                     <div>
-                        <a href="" class="" type="" target="_top"><span itemprop="name"></span></a>
+                        <a href="" class="" type="" target="_blank"><span itemprop="name"></span></a>
                         <i class="info"></i>
                     </div>
                     <div>
@@ -66,6 +66,6 @@ endif;
 <footer class="footer">
     <div class="footer__bg_copyright"><a href="https://www.flickr.com/photos/95403249@N06/35456881653" target="_blank"><span class="title h3">Vestrahorn Islande</span><span class="author h2">von RUFF Etienne</span></a></div>
     <div class="footer__content">
-        <?php echo 'powered'; ?> <a href="/" target="_self"><img class="logo" src="https://webpremiere.de/files/public-docs/logos/webpremiere-logo-1.svg" alt="webPremiere"></a>
+        <?php echo 'powered'; ?> <a href="https://webpremiere.<?php echo TOPLEVEL; ?>" target="_self"><img class="logo" src="https://webpremiere.de/files/public-docs/logos/webpremiere-logo-1.svg" alt="webPremiere"></a>
     </div>
 </footer>

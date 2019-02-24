@@ -45,7 +45,7 @@ endif;
                         <i class="info">Contacts App (Spine.js)</i>
                     </div>
                     <div>
-                        <a href="https://ssv-altenberg.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="" target="_blank"><span itemprop="name">Sportverein</span></a>
+                        <a href="https://staging-ssv.<?php echo HOST; ?>.<?php echo TOPLEVEL; ?>" class="btn btn-danger btn-large" type="" target="_blank"><span itemprop="name">Sportverein</span></a>
                         <i class="info">Webpräsenz Sportverein</i>
                     </div>
                     <div>
